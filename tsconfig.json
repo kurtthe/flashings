@@ -1,3 +1,23 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json"
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true ,
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@assets/*": ["src/assets/*"],
+      "@theme/*": ["src/theme/*"],
+      "@features/*": ["src/features/*"],
+      "@navigators/*": ["src/navigators/*"],
+      "@routes/*": ["src/routes/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@components/*": ["src/components/*"],
+      "@services/*": ["src/core/services/*"],
+      "@hooks/*": ["src/core/hooks/*"],
+      "@shared/*": ["src/shared/*"],
+      "@types/*": ["src/core/services/@types/*"],
+    }
+  }
 }
