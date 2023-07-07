@@ -1,24 +1,27 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {ThemeProvider, Theme} from '@contexts/Theme';
 
 import {QueryClientProvider} from '@tanstack/react-query';
 import {queryClient} from '@shared/queryClient';
 import {RootNavigator} from '@routes/RootNavigator';
 import {NavigationContainer} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {
+  initialWindowMetrics,
+  SafeAreaProvider,
+} from 'react-native-safe-area-context';
+import ThemeProvider from '@theme/ThemeProvider';
 
-export const Application = ({theme}: {theme?: Theme}) => {
+export const Application = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>
-        <SafeAreaView style={styles.safeAreaView}>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+      <ThemeProvider>
+        <QueryClientProvider client={queryClient}>
           <NavigationContainer>
             <RootNavigator />
           </NavigationContainer>
-        </SafeAreaView>
-      </QueryClientProvider>
-    </ThemeProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 };
 

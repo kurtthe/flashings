@@ -23,6 +23,7 @@ module.exports = function (api) {
             '@module': './src/core/module',
             '@core': './src/core',
             '@theme': './src/theme',
+            '@ui': './src/ui',
           },
         },
       ],
