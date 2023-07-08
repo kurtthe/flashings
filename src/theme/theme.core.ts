@@ -1,7 +1,12 @@
 import {createTheme} from '@shopify/restyle';
 
 import {palette} from '@theme/constants';
-import {inputVariants, textVariants, buttonVariants} from '@theme/variants';
+import {
+  inputVariants,
+  textVariants,
+  buttonVariants,
+  cardVariants,
+} from '@theme/variants';
 
 const theme = createTheme({
   colors: {
@@ -68,6 +73,7 @@ const theme = createTheme({
   inputVariants: inputVariants,
   textVariants: textVariants,
   buttonVariants: buttonVariants,
+  cardVariants: cardVariants,
 });
 
 export type ThemeCore = typeof theme;
