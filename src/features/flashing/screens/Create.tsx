@@ -1,7 +1,11 @@
 import React from 'react';
-import {Text} from 'react-native';
+import {Box, Text} from '@ui/components';
 
 const CreateFlashingScreen = () => {
-  return <Text>create screen</Text>;
+  return (
+    <Box mt="2xl" p="m">
+      <Text variant="headerBold">create screen</Text>
+    </Box>
+  );
 };
 export default CreateFlashingScreen;
