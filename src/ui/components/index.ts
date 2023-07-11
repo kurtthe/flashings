@@ -1,3 +1,5 @@
+export type {AnimatePressableProps} from './AnimatedPressable';
+export {default as AnimatedPressable} from './AnimatedPressable';
 export type {ButtonProps} from './Button';
 export {default as Button} from './Button';
 export type {TextProps} from './Text';
