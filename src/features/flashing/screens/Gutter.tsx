@@ -24,9 +24,7 @@ const CreateFlashingScreen = () => {
         }
       />
 
-      <Box mt="2xl" p="m">
-        <Text variant="headerExtraBold">create screen</Text>
-      </Box>
+      <Box mt="2xl" p="m"></Box>
     </>
   );
 };
