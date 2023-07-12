@@ -10,6 +10,7 @@ import {
   TextInputFocusEventData,
   TextInputProps,
   TextStyle,
+  useColorScheme
 } from 'react-native';
 import {
   backgroundColor,
@@ -129,7 +130,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     ref,
   ) => {
     const BaseInputComponent = useAsProp(TextInput, as);
-    const isDarkMode = useIsDarkMode();
+    const isDarkMode = useColorScheme() === 'dark';
     const internalRef = useRef<TextInput>(null);
     const [isFocused, setIsFocused] = useState(false);
     const labelAnimationRef = useRef(

@@ -8,24 +8,25 @@ import {
   Text,
   Button,
 } from '@ui/components';
+import Input from '@ui/components/Input';
 
 const CreateFlashingScreen = () => {
   return (
     <>
-      <AppStatusBar />
+      <AppStatusBar backgroundColor={'white'}/>
       <HeaderBox
         mb="s"
-        justifyContent="flex-start"
         leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-        rightIcon={
+        centerText={
           <Text as={Animated.Text} variant="subheadBold" ml="m">
-            My flashing
+            New Flashing
           </Text>
         }
       />
-
       <Box mt="2xl" p="m">
-        <Text variant="headerExtraBold">create screen</Text>
+        <Input label="Name" style={{marginBottom: 20}} />
+        <Input label="Colour/material" style={{marginBottom: 20}} />
+        <Input label="Qty" style={{marginBottom: 20}}  />
       </Box>
     </>
   );
