@@ -1,40 +1,41 @@
 import * as React from 'react';
-import {Platform} from 'react-native';
+import {Platform, Text} from 'react-native';
 import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
 
 import {Box, BoxProps} from '@ui/components';
 
 type Props = BoxProps & {
   leftIcon?: React.ReactElement;
+  centerText?: React.ReactElement;
   rightIcon?: React.ReactElement;
 };
 
-const ScreenHeaderBox = ({leftIcon, rightIcon, style, ...rest}: Props) => (
+const ScreenHeaderBox = ({leftIcon, rightIcon, centerText, style, ...rest}: Props) => (
   <SafeAreaInsetsContext.Consumer>
     {insets => (
       <Box
         accessibilityRole="toolbar"
         flexDirection="row"
         alignItems="center"
-        justifyContent={
-          leftIcon && rightIcon
-            ? 'space-between'
-            : !leftIcon && rightIcon
-            ? 'flex-end'
-            : undefined
-        }
+        justifyContent="space-between"
+        height={60}
         px="l"
         mb="xl"
         {...rest}
         style={[
           {
-            marginTop:
-              (insets?.top || 0) + Platform.select({default: 16, android: 24}),
+            backgroundColor: 'white',
+            shadowColor: 'gray',
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
+            elevation: 2,
           },
           style,
         ]}>
-        {leftIcon}
-        {rightIcon}
+        {centerText && !leftIcon ? <Box px="m" /> : leftIcon}
+        {centerText}
+        {centerText && !rightIcon ? <Box px="m" /> : rightIcon}
       </Box>
     )}
   </SafeAreaInsetsContext.Consumer>
