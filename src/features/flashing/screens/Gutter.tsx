@@ -1,19 +1,12 @@
 import React from 'react';
-import {Animated} from 'react-native';
-import {
-  AppStatusBar,
-  Box,
-  HeaderBackButton,
-  HeaderBox,
-  Text,
-  Button,
-} from '@ui/components';
+import {AppStatusBar} from '@ui/components';
+import {BoardContainer} from '@features/flashing/containers';
 
 const CreateFlashingScreen = () => {
   return (
     <>
       <AppStatusBar />
-      <Box mt="2xl" p="m"></Box>
+      <BoardContainer />
     </>
   );
 };
