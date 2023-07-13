@@ -2,14 +2,21 @@ import * as React from 'react';
 import {Platform} from 'react-native';
 import {SafeAreaInsetsContext} from 'react-native-safe-area-context';
 
-import {Box, BoxProps} from '@ui/components';
+import {Box, BoxProps, Text} from '@ui/components';
 
 type Props = BoxProps & {
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
+  title?: string;
 };
 
-const ScreenHeaderBox = ({leftIcon, rightIcon, style, ...rest}: Props) => (
+const ScreenHeaderBox = ({
+  leftIcon,
+  rightIcon,
+  title,
+  style,
+  ...rest
+}: Props) => (
   <SafeAreaInsetsContext.Consumer>
     {insets => (
       <Box
@@ -23,7 +30,7 @@ const ScreenHeaderBox = ({leftIcon, rightIcon, style, ...rest}: Props) => (
             ? 'flex-end'
             : undefined
         }
-        px="l"
+        p="m"
         mb="xl"
         {...rest}
         style={[
@@ -34,6 +41,7 @@ const ScreenHeaderBox = ({leftIcon, rightIcon, style, ...rest}: Props) => (
           style,
         ]}>
         {leftIcon}
+        {title && <Text variant="subheadLargeBold">{title}</Text>}
         {rightIcon}
       </Box>
     )}
