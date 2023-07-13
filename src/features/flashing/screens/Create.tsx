@@ -8,24 +8,23 @@ import {
   Text,
   Button,
 } from '@ui/components';
+import {useNavigation} from '@react-navigation/native';
+import {Routes} from '@features/flashing/navigation/routes';
+import {FLASHINGStackProps} from '@features/flashing/navigation/Stack.types';
 
 const CreateFlashingScreen = () => {
+  const navigation = useNavigation<FLASHINGStackProps>();
   return (
     <>
       <AppStatusBar />
-      <HeaderBox
-        mb="s"
-        justifyContent="flex-start"
-        leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-        rightIcon={
-          <Text as={Animated.Text} variant="subheadBold" ml="m">
-            My flashing
-          </Text>
-        }
-      />
 
       <Box mt="2xl" p="m">
         <Text variant="headerExtraBold">create screen</Text>
+        <Button
+          mt="l"
+          onPress={() => navigation.navigate(Routes.GUTTER_FLASHING)}>
+          Go to board
+        </Button>
       </Box>
     </>
   );

@@ -13,17 +13,6 @@ const CreateFlashingScreen = () => {
   return (
     <>
       <AppStatusBar />
-      <HeaderBox
-        mb="s"
-        justifyContent="flex-start"
-        leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-        rightIcon={
-          <Text as={Animated.Text} variant="subheadBold" ml="m">
-            My flashing
-          </Text>
-        }
-      />
-
       <Box mt="2xl" p="m"></Box>
     </>
   );
