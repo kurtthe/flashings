@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Pressable} from 'react-native';
-import {EraserIcon, ArrowRight} from '@assets/icons';
+import {ClearIcon, NextIcon} from '@assets/icons';
 type Props = {
   onEraser?: () => void;
   onNext?: () => void;
@@ -10,11 +10,11 @@ const MenuEditor: React.FC<Props> = ({onEraser, onNext}) => {
     <View style={styles.container}>
       <View style={styles.content}>
         <Pressable onPress={() => onEraser && onEraser()}>
-          <EraserIcon />
+          <ClearIcon />
         </Pressable>
 
         <Pressable onPress={() => onNext && onNext()}>
-          <ArrowRight />
+          <NextIcon />
         </Pressable>
       </View>
     </View>

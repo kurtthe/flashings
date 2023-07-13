@@ -1,7 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Routes} from './routes';
-import {CreateFlashingScreen} from '../screens';
+import {CreateFlashingScreen, GutterFlashingScreen} from '../screens';
+import {HeaderBackButton, HeaderBox, Text} from '@ui/components';
+import {Animated} from 'react-native';
 
 const Stack = () => {
   const {Navigator, Screen} = createStackNavigator();
@@ -13,7 +15,37 @@ const Stack = () => {
         component={CreateFlashingScreen}
         options={{
           title: '',
-          header: () => null,
+          header: () => (
+            <HeaderBox
+              mb="s"
+              justifyContent="flex-start"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              rightIcon={
+                <Text as={Animated.Text} variant="subheadBold" ml="m">
+                  My flashing
+                </Text>
+              }
+            />
+          ),
+        }}
+      />
+      <Screen
+        name={Routes.GUTTER_FLASHING}
+        component={GutterFlashingScreen}
+        options={{
+          title: '',
+          header: () => (
+            <HeaderBox
+              mb="s"
+              justifyContent="flex-start"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              rightIcon={
+                <Text as={Animated.Text} variant="subheadBold" ml="m">
+                  GutterFlashing
+                </Text>
+              }
+            />
+          ),
         }}
       />
     </Navigator>
