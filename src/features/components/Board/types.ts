@@ -1,5 +1,5 @@
 import {Dimensions} from 'react-native';
-import {ScaleLinear, scaleLinear} from 'd3-scale';
+import {scaleLinear} from 'd3-scale';
 
 export type CoordsType = {
   x: number;

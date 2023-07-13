@@ -1,21 +1,24 @@
 import React from 'react';
-import {View, StyleSheet, Pressable} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import {ClearIcon, NextIcon} from '@assets/icons';
+import {Icon, IconButton} from '@ui/components';
 type Props = {
   onEraser?: () => void;
   onNext?: () => void;
 };
-const MenuEditor: React.FC<Props> = ({onEraser, onNext}) => {
+const MenuEditorComponent: React.FC<Props> = ({onEraser, onNext}) => {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Pressable onPress={() => onEraser && onEraser()}>
-          <ClearIcon />
-        </Pressable>
+        <IconButton
+          onPress={() => onEraser && onEraser()}
+          icon={<Icon as={ClearIcon} />}
+        />
 
-        <Pressable onPress={() => onNext && onNext()}>
-          <NextIcon />
-        </Pressable>
+        <IconButton
+          onPress={() => onNext && onNext()}
+          icon={<Icon as={NextIcon} />}
+        />
       </View>
     </View>
   );
@@ -36,4 +39,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MenuEditor;
+export default MenuEditorComponent;
