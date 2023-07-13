@@ -3,6 +3,7 @@ import React from 'react';
 import IconButton, {IconButtonProps} from '@ui/components/IconButton';
 import {useNavigation} from '@react-navigation/native';
 import {BackIcon} from '@assets/icons';
+import {Icon} from '@ui/components/index';
 type Props = Omit<IconButtonProps, 'icon'> & {
   popToTop?: boolean;
   variant?: 'light';
@@ -19,7 +20,7 @@ const HeaderBackButton = ({
   return (
     <IconButton
       onPress={() => navigation.goBack()}
-      icon={<BackIcon />}
+      icon={<Icon as={BackIcon} />}
       {...props}
     />
   );
