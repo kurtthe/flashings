@@ -1,9 +1,15 @@
 import React from 'react';
-import {TouchableOpacity, GestureResponderEvent} from 'react-native';
-import Svg, {Circle, Path, G, Text} from 'react-native-svg';
+import {
+  TouchableOpacity,
+  GestureResponderEvent,
+  StyleSheet,
+} from 'react-native';
+import Svg, {Circle, Path, G} from 'react-native-svg';
 import {CoordsType, heightScreen, widthScreen} from './types';
 import {makeLine} from './utils';
 import {serialize, Path as PathType} from 'react-native-redash';
+import {Box} from '@ui/components';
+import {BackgroundGridResponsive} from '@assets/images';
 
 type Props = {
   width?: number;
@@ -64,38 +70,44 @@ const BoardComponent: React.FC<Props> = ({
   };
 
   return (
-    <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
-      <Svg width={widthScreen} height="93%">
-        {pointers.map((pointRender, index) => (
-          <Circle
-            onPress={() => {
-              setLineNumberSelected(index);
-              setModalSizeLine(true);
-            }}
-            key={index}
-            cx={pointRender.x}
-            cy={pointRender.y}
-            r={sizePointer}
-            fill={colorPointer}
-            strokeWidth={borderWidth}
-            stroke={colorBorderPointer}
-          />
-        ))}
-        {graphs.map(
-          (linePoint, index) =>
-            !!linePoint && (
-              <G key={`group${index}`}>
-                <Path
-                  key={index}
-                  d={serialize(linePoint)}
-                  strokeWidth={1}
-                  stroke="#000"
-                />
-              </G>
-            ),
-        )}
-      </Svg>
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity
+        activeOpacity={1}
+        onPress={handlePointer}
+        style={{backgroundColor: 'white'}}>
+        <BackgroundGridResponsive style={StyleSheet.absoluteFill} />
+        <Svg width={widthScreen} height="93%">
+          {pointers.map((pointRender, index) => (
+            <Circle
+              onPress={() => {
+                setLineNumberSelected(index);
+                setModalSizeLine(true);
+              }}
+              key={index}
+              cx={pointRender.x}
+              cy={pointRender.y}
+              r={sizePointer}
+              fill={colorPointer}
+              strokeWidth={borderWidth}
+              stroke={colorBorderPointer}
+            />
+          ))}
+          {graphs.map(
+            (linePoint, index) =>
+              !!linePoint && (
+                <G key={`group${index}`}>
+                  <Path
+                    key={index}
+                    d={serialize(linePoint)}
+                    strokeWidth={1}
+                    stroke="#000"
+                  />
+                </G>
+              ),
+          )}
+        </Svg>
+      </TouchableOpacity>
+    </>
   );
 };
 
