@@ -65,7 +65,7 @@ const BoardComponent: React.FC<Props> = ({
 
   return (
     <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
-      <Svg width={widthScreen} height="90%">
+      <Svg width={widthScreen} height="93%">
         {pointers.map((pointRender, index) => (
           <Circle
             onPress={() => {

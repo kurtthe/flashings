@@ -23,7 +23,13 @@ const MenuEditorComponent: React.FC<Props> = ({
   onEraser,
 }) => {
   return (
-    <Box py="l" mb="xl" backgroundColor="white">
+    <Box
+      py="l"
+      mb="xl"
+      backgroundColor="white"
+      position="absolute"
+      width="100%"
+      bottom="-4%">
       <Box px="m" style={styles.content}>
         <IconButton
           onPress={() => onUndo && onUndo()}
