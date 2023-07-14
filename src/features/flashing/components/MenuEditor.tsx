@@ -29,7 +29,8 @@ const MenuEditorComponent: React.FC<Props> = ({
       backgroundColor="white"
       position="absolute"
       width="100%"
-      bottom="-4%">
+      bottom="-4%"
+      style={styles.shadow}>
       <Box px="m" style={styles.content}>
         <IconButton
           onPress={() => onUndo && onUndo()}
@@ -61,6 +62,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  shadow: {
+    shadowOffset: {
+      width: 0,
+      height: -4,
+    },
+    elevation: 16,
+    shadowRadius: 10,
+    shadowColor: 'rgba(47, 51, 80, 0.12)',
+    shadowOpacity: 1,
   },
 });
 

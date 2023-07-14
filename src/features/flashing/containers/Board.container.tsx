@@ -1,5 +1,8 @@
 import React from 'react';
-import {BoardComponent, MenuEditorComponent} from '@features/components';
+import {
+  BoardComponent,
+  MenuEditorComponent,
+} from '@features/flashing/components';
 
 const BoardContainer = () => {
   return (
