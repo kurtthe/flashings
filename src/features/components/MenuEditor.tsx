@@ -1,38 +1,57 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {ClearIcon, NextIcon} from '@assets/icons';
-import {Icon, IconButton} from '@ui/components';
+import {
+  ClearIcon,
+  EditIcon,
+  LibraryIcon,
+  NextIcon,
+  UndoIcon,
+} from '@assets/icons';
+import {Box, Icon, IconButton} from '@ui/components';
 type Props = {
+  onUndo?: () => void;
+  onEdit?: () => void;
+  onLibrary?: () => void;
   onEraser?: () => void;
   onNext?: () => void;
 };
-const MenuEditorComponent: React.FC<Props> = ({onEraser, onNext}) => {
+const MenuEditorComponent: React.FC<Props> = ({
+  onNext,
+  onLibrary,
+  onEdit,
+  onUndo,
+  onEraser,
+}) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.content}>
+    <Box py="l" mb="xl" backgroundColor="white">
+      <Box px="m" style={styles.content}>
+        <IconButton
+          onPress={() => onUndo && onUndo()}
+          icon={<Icon as={UndoIcon} />}
+        />
         <IconButton
           onPress={() => onEraser && onEraser()}
           icon={<Icon as={ClearIcon} />}
         />
-
+        <IconButton
+          onPress={() => onEdit && onEdit()}
+          icon={<Icon as={EditIcon} />}
+        />
+        <IconButton
+          onPress={() => onLibrary && onLibrary()}
+          icon={<Icon as={LibraryIcon} />}
+        />
         <IconButton
           onPress={() => onNext && onNext()}
           icon={<Icon as={NextIcon} />}
         />
-      </View>
-    </View>
+      </Box>
+    </Box>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-    backgroundColor: '#CCCCCC',
-    height: '10%',
-    justifyContent: 'center',
-  },
   content: {
-    padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
