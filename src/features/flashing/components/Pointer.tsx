@@ -32,17 +32,23 @@ const PointerComponent: React.FC<Props> = ({x = 0, y = 0}) => {
     ContextType
   >({
     onStart: (event, context) => {
+      console.log('start');
       context.translateX = translateX.value;
       context.translateY = translateY.value;
     },
     onActive: (event, context) => {
+      console.log('onActive', event);
       translateX.value = event.translationX;
       translateY.value = event.translationY;
     },
-    onEnd: () => {},
+    onEnd: () => {
+      console.log('onEnd');
+    },
   });
 
   const rStyle = useAnimatedStyle(() => {
+    console.log('transform', translateX.value);
+    console.log('transform', translateY.value);
     return {
       transform: [
         {
@@ -57,8 +63,13 @@ const PointerComponent: React.FC<Props> = ({x = 0, y = 0}) => {
 
   return (
     <>
-      <PanGestureHandler onGestureEvent={panGestureEvent}>
-        <Animated.View style={[styles.pointer, rStyle]} />
+      <PanGestureHandler
+        key={`gesture${Math.random()}`}
+        onGestureEvent={panGestureEvent}>
+        <Animated.View
+          key={`indicator${Math.random()}`}
+          style={[styles.pointer, rStyle]}
+        />
       </PanGestureHandler>
     </>
   );
