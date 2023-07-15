@@ -43,6 +43,8 @@ const rankScale = (value: number) => {
       : getLogCoord(abs) + LINEAR_LOG_AMEND;
   return Math.sign(value) * absCoord;
 };
+
+export const CIRCLE_RADIUS = 15;
 export const scalerX = ({
   minDomain,
   maxDomain,

@@ -94,14 +94,14 @@ const BoardComponent: React.FC<Props> = ({
         style={{backgroundColor: 'white'}}>
         <BackgroundGridResponsive style={StyleSheet.absoluteFill} />
         <GestureHandlerRootView style={{flex: 1}}>
+          {pointers.map((pointRender, index) => (
+            <PointerComponent
+              key={`pointer${Math.random()}`}
+              x={pointRender.x}
+              y={pointRender.y}
+            />
+          ))}
           <Svg width={widthScreen} height="93%">
-            {pointers.map((pointRender, index) => (
-              <PointerComponent
-                key={`pointer${Math.random()}`}
-                x={pointRender.x}
-                y={pointRender.y}
-              />
-            ))}
             {graphs.map(
               (linePoint, index) =>
                 !!linePoint && (

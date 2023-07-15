@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
 } from 'react-native-reanimated';
 import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {
@@ -13,6 +14,7 @@ import {
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
 import {useVector} from 'react-native-redash';
+import {CIRCLE_RADIUS} from '@features/flashing/components/Board';
 
 type Props = {
   x: number;
@@ -32,23 +34,24 @@ const PointerComponent: React.FC<Props> = ({x = 0, y = 0}) => {
     ContextType
   >({
     onStart: (event, context) => {
-      console.log('start');
       context.translateX = translateX.value;
       context.translateY = translateY.value;
     },
     onActive: (event, context) => {
-      console.log('onActive', event);
-      translateX.value = event.translationX;
-      translateY.value = event.translationY;
+      translateX.value = event.translationX + context.translateX;
+      translateY.value = event.translationY + context.translateY;
     },
     onEnd: () => {
-      console.log('onEnd');
+      const distance = Math.sqrt(translateX.value ** 2 + translateY.value ** 2);
+
+      if (distance < CIRCLE_RADIUS / 2) {
+        translateX.value = withSpring(0);
+        translateY.value = withSpring(0);
+      }
     },
   });
 
   const rStyle = useAnimatedStyle(() => {
-    console.log('transform', translateX.value);
-    console.log('transform', translateY.value);
     return {
       transform: [
         {
@@ -77,9 +80,11 @@ const PointerComponent: React.FC<Props> = ({x = 0, y = 0}) => {
 
 const styles = StyleSheet.create({
   pointer: {
-    width: 15,
-    height: 15,
-    backgroundColor: 'red',
+    width: CIRCLE_RADIUS,
+    height: CIRCLE_RADIUS,
+    backgroundColor: '#8F94AE',
+    borderColor: '#000000',
+    borderWidth: 1,
     borderRadius: 20,
   },
 });
