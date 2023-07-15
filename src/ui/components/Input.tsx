@@ -1,292 +1,91 @@
-import {ReactElement, useCallback, useRef, useState} from 'react';
-import {
-  Animated,
-  Easing,
-  NativeSyntheticEvent,
-  Pressable,
+import React, {FC, useRef} from 'react';
+import { 
   StyleSheet,
+  View,
+  Text,
   TextInput,
-  TextInputEndEditingEventData,
-  TextInputFocusEventData,
-  TextInputProps,
+  TouchableWithoutFeedback,
   TextStyle,
-  useColorScheme
+  TextInputProps as PropInput
 } from 'react-native';
-import {
-  backgroundColor,
-  backgroundColorShorthand,
-  border,
-  color,
-  composeRestyleFunctions,
-  createRestyleFunction,
-  createVariant,
-  layout,
-  opacity,
-  spacing,
-  spacingShorthand,
-  typography,
-} from '@shopify/restyle';
-import {useAppRestyle} from '@theme';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {isAndroid} from '@shared/platform';
-import {useCombinedRefs} from '@hooks/useCombinedRefs';
-import {Box, Text} from '@ui/components';
-import {useAsProp, useFontStyle} from '@ui/hooks';
-import {forwardRef, getKeys} from '@ui/utils';
-
-import type {
-  BackgroundColorProps,
-  BackgroundColorShorthandProps,
-  BorderProps,
-  ColorProps,
-  LayoutProps,
-  OpacityProps,
-  SpacingProps,
-  SpacingShorthandProps,
-  TypographyProps,
-  VariantProps,
-} from '@shopify/restyle';
-import type {Theme} from '@theme';
-type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
-  VariantProps<Theme, 'colors', 'placeholderTextColor'> &
-  TypographyProps<Theme> &
-  ColorProps<Theme> &
-  BackgroundColorProps<Theme> &
-  BackgroundColorShorthandProps<Theme> &
-  SpacingProps<Theme> &
-  SpacingShorthandProps<Theme> &
-  LayoutProps<Theme> &
-  BorderProps<Theme> &
-  OpacityProps<Theme> &
-  TextInputProps & {
-    isDisabled?: boolean;
-    isInvalid?: boolean;
-    rightIcon?: ReactElement;
-    name?: string;
-    onChangeValue?: (() => Promise<any> | void) | Function | null;
-    autoCompleteType?:
-      | 'password'
-      | 'email'
-      | 'street-address'
-      | 'name'
-      | 'cc-csc';
-    label?: string | null;
-  };
-export type InputProps = RestyleInputProps & {
-  _dark?: RestyleInputProps;
-  _light?: RestyleInputProps;
-};
-const variant = createVariant({
-  themeKey: 'inputVariants',
-});
-const inputPlaceholderTextColor = createRestyleFunction({
-  themeKey: 'colors',
-  property: 'placeholderTextColor',
-});
-const inputSelectionColor = createRestyleFunction({
-  themeKey: 'colors',
-  property: 'selectionColor',
-});
-const restyleFunctions = composeRestyleFunctions([
-  color,
-  opacity,
-  backgroundColor,
-  backgroundColorShorthand,
-  spacing,
-  spacingShorthand,
-  layout,
-  border,
-  typography,
-  //@ts-ignore temporaly fix ignore bad type issue
-  inputSelectionColor,
-  //@ts-ignore temporaly fix ignore bad type issue
-  inputPlaceholderTextColor,
-  //@ts-ignore temporaly fix ignore bad type issue
-  variant,
-]);
-const inputStyleProperties = [...typography, color].map(
-  ({property}) => property as string,
-);
-const Input = forwardRef<InputProps, typeof TextInput>(
-  (
-    {
-      value,
-      label,
-      isDisabled,
-      isInvalid,
-      editable,
-      rightIcon,
-      style,
-      variant: inputVariant = undefined,
-      as,
-      _dark,
-      _light,
-      onBlur,
-      onFocus,
-      placeholder,
-      onEndEditing,
-      ...rest
-    },
-    ref,
-  ) => {
-    const BaseInputComponent = useAsProp(TextInput, as);
-    const isDarkMode = useColorScheme() === 'dark';
-    const internalRef = useRef<TextInput>(null);
-    const [isFocused, setIsFocused] = useState(false);
-    const labelAnimationRef = useRef(
-      new Animated.Value(
-        value !== undefined || value !== '' || isFocused ? 1 : 0,
-      ),
-    ).current;
-    let _inputVariant = inputVariant;
-    if (isFocused) {
-      _inputVariant = 'focused';
-    }
-    if (isDisabled) {
-      _inputVariant = 'disabled';
-    }
-    if (isInvalid) {
-      _inputVariant = 'error';
-    }
-    const refs = useCombinedRefs(internalRef, ref);
-    const {
-      style: [{selectionColor, ...containerStyle}],
-      ...props
-    } = useAppRestyle<
-      InputProps,
-      Pick<TextInputProps, 'placeholderTextColor' | 'selectionColor'>
-    >(restyleFunctions, {
-      variant: _inputVariant,
-      ...rest,
-      ...(isDarkMode ? _dark : _light),
-    });
-    const fontStyle = useFontStyle(containerStyle as TextStyle);
-    const isFocusable = !!editable || !isDisabled;
-    const inputStyle = getKeys(containerStyle).reduce(
-      (styleAcc, styleProperty) => {
-        if (inputStyleProperties.indexOf(styleProperty) !== -1) {
-          styleAcc[styleProperty] = containerStyle[styleProperty];
-          delete containerStyle[styleProperty];
-        }
-        return styleAcc;
-      },
-      {} as Record<string, any>,
-    );
-    const handleExternalFocus = useCallback(() => {
-      if (isFocusable) {
-        //@ts-ignore ignore bad type related to input mask
-        if (as === TextInputMask) internalRef.current?.getElement()?.focus();
-        else {
-          internalRef.current?.focus();
-        }
-      }
-    }, [isFocusable]);
-    const handleBlur = useCallback(
-      (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        onBlur?.(ev);
-        setIsFocused(false);
-      },
-      [],
-    );
-    const handleFocus = useCallback(
-      (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        onFocus?.(ev);
-        setIsFocused(true);
-        Animated.timing(labelAnimationRef, {
-          toValue: 1,
-          duration: 200,
-          easing: Easing.linear,
-          useNativeDriver: false,
-        }).start();
-      },
-      [labelAnimationRef],
-    );
-    const handleEndEditing = useCallback(
-      (ev: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
-        onEndEditing?.(ev);
-        if (ev.nativeEvent.text) return;
-        Animated.timing(labelAnimationRef, {
-          toValue: 0,
-          duration: 200,
-          easing: Easing.linear,
-          useNativeDriver: false,
-        }).start();
-      },
-      [],
-    );
-    return (
-      <Pressable
-        style={[styles.inputContainer, containerStyle, style]}
-        onPress={handleExternalFocus}
-        accessible={false}>
-        <Box flexDirection="row" alignItems="center">
-          <Box flex={1}>
-            <Text
-              as={Animated.Text}
-              position="absolute"
-              color="grey400"
-              style={{
-                top: labelAnimationRef.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [18, 7],
-                }),
-                fontSize: labelAnimationRef.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [16, 14],
-                }),
-              }}>
-              {label ?? placeholder}
-            </Text>
-            <BaseInputComponent
-              ref={refs}
-              style={[
-                styles.text,
-                inputStyle,
-                fontStyle,
-                {
-                  paddingTop: value || isFocused ? (isAndroid ? 25 : 17) : 0,
-                  fontWeight: isFocused ? '700' : '500',
-                  paddingHorizontal: 0,
-                },
-              ]}
-              selectionColor={selectionColor}
-              editable={!isDisabled}
-              clearButtonMode="never"
-              selectTextOnFocus={true}
-              textAlignVertical="center" // make align consistent across platforms
-              {...props}
-              value={value}
-              placeholder={''}
-              onBlur={handleBlur}
-              onFocus={handleFocus}
-              onEndEditing={handleEndEditing}
-            />
-          </Box>
-          {rightIcon}
-        </Box>
-      </Pressable>
-    );
-  },
-);
-Input.defaultProps = {
-  placeholderTextColor: 'textPlaceholder',
-  caretHidden: false,
-  maxFontSizeMultiplier: 1.3,
-};
-export default Input;
 const styles = StyleSheet.create({
-  inputContainer: {
-    width: '100%',
+  container: {
+    paddingVertical: 16,
   },
-  text: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 'auto',
-    height: '100%',
+  input: {
     fontSize: 16,
-    lineHeight: 20,
+    textAlign: 'left',
+    width: '100%',
+    height: 40,
+    paddingHorizontal: 8
   },
-  inputLabel: {
-    marginTop: 8,
+  contentInput: {
+    flexDirection: 'row',
+    borderColor: '#8F94AE',
+    borderWidth: 0.2,
+    borderRadius: 8,
+    padding: 6,
+    backgroundColor: 'white',
+  },
+  labelInput: {
+    fontSize: 16,
+    textAlign: 'left',
+    marginBottom: 8,
+    color: '#8F94AE'
+  },
+  icon: {
+    marginRight: 4
   },
 });
+
+type TextInputProps = PropInput & {
+  label?: string;
+  placeholder?: string;
+  onChangeText: (text?: string) => void;
+  labelStyles?: TextStyle;
+  inputStyles?: TextStyle;
+  secureTextEntry?: boolean;
+  nameIcon?: keyof typeof Ionicons;
+};
+
+const Input: FC<TextInputProps> = ({
+  label,
+  onChangeText,
+  inputStyles,
+  labelStyles,
+  placeholder,
+  secureTextEntry = false,
+  nameIcon,
+  ...props
+}) => {
+  const inputRef = useRef<TextInput>();
+
+  return (
+    <TouchableWithoutFeedback onPress={() => inputRef?.current?.focus()}>
+      <View style={styles.container}>
+        {label && <Text style={[styles.labelInput, labelStyles]}>{label}</Text>}
+        <View style={styles.contentInput}>
+          {nameIcon && (
+            <Ionicons
+              name={nameIcon}
+              size={24}
+              color={'blue'}
+              style={styles.icon}
+            />
+          )}
+          <TextInput
+            ref={inputRef}
+            style={[styles.input, inputStyles]}
+            onChangeText={text => onChangeText(text)}
+            placeholder={placeholder}
+            {...props}
+          />
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
+
+export default Input;
