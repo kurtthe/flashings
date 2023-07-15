@@ -1,15 +1,24 @@
 import React from 'react';
 import {
-  TouchableOpacity,
+  View,
   GestureResponderEvent,
   StyleSheet,
+  TouchableOpacity,
 } from 'react-native';
-import Svg, {Circle, Path, G} from 'react-native-svg';
+import Svg, {Path, G} from 'react-native-svg';
 import {CoordsType, heightScreen, widthScreen} from './types';
 import {makeLine} from './utils';
 import {serialize, Path as PathType} from 'react-native-redash';
-import {Box} from '@ui/components';
 import {BackgroundGridResponsive} from '@assets/images';
+import PointerComponent from '../Pointer';
+import {
+  GestureHandlerRootView,
+  PanGestureHandler,
+} from 'react-native-gesture-handler';
+import {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
 type Props = {
   width?: number;
@@ -69,45 +78,47 @@ const BoardComponent: React.FC<Props> = ({
     setPointers(newPointCoordinates);
   };
 
+  const handleChangePosition = (
+    dataPoint: CoordsType,
+    numberPointer: number,
+  ) => {
+    console.log('dataPoint: ' + dataPoint);
+    console.log('numberPointer: ' + numberPointer);
+  };
+
+  const stylePointerTransform = useAnimatedStyle(() => {
+    return {};
+  });
+
   return (
-    <>
+    <View style={StyleSheet.absoluteFill}>
       <TouchableOpacity
         activeOpacity={1}
         onPress={handlePointer}
         style={{backgroundColor: 'white'}}>
         <BackgroundGridResponsive style={StyleSheet.absoluteFill} />
-        <Svg width={widthScreen} height="93%">
-          {pointers.map((pointRender, index) => (
-            <Circle
-              onPress={() => {
-                setLineNumberSelected(index);
-                setModalSizeLine(true);
-              }}
-              key={index}
-              cx={pointRender.x}
-              cy={pointRender.y}
-              r={sizePointer}
-              fill={colorPointer}
-              strokeWidth={borderWidth}
-              stroke={colorBorderPointer}
-            />
-          ))}
-          {graphs.map(
-            (linePoint, index) =>
-              !!linePoint && (
-                <G key={`group${index}`}>
-                  <Path
-                    key={index}
-                    d={serialize(linePoint)}
-                    strokeWidth={1}
-                    stroke="#000"
-                  />
-                </G>
-              ),
-          )}
-        </Svg>
+        <GestureHandlerRootView style={{width: widthScreen, height: '93%'}}>
+          <Svg width={widthScreen} height="93%">
+            {pointers.map((pointRender, index) => (
+              <PointerComponent x={pointRender.x} y={pointRender.y} />
+            ))}
+            {graphs.map(
+              (linePoint, index) =>
+                !!linePoint && (
+                  <G key={`group${index}`}>
+                    <Path
+                      key={index}
+                      d={serialize(linePoint)}
+                      strokeWidth={1}
+                      stroke="#000"
+                    />
+                  </G>
+                ),
+            )}
+          </Svg>
+        </GestureHandlerRootView>
       </TouchableOpacity>
-    </>
+    </View>
   );
 };
 

@@ -1,9 +1,12 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Routes} from './routes';
-import {CreateFlashingScreen, GutterFlashingScreen} from '../screens';
-import {HeaderBackButton, HeaderBox, Icon, Text} from '@ui/components';
-import {Animated} from 'react-native';
+import {
+  CreateFlashingScreen,
+  GutterFlashingScreen,
+  DemoFlashingScreen,
+} from '../screens';
+import {HeaderBackButton, HeaderBox, Icon} from '@ui/components';
 import {CartIcon} from '@assets/icons';
 
 const Stack = () => {
@@ -30,6 +33,13 @@ const Stack = () => {
               title="Gutter Flashing"
             />
           ),
+        }}
+      />
+      <Screen
+        name={Routes.DEMO}
+        component={DemoFlashingScreen}
+        options={{
+          header: () => null,
         }}
       />
     </Navigator>
