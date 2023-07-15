@@ -10,6 +10,7 @@ import {
   SafeAreaProvider,
 } from 'react-native-safe-area-context';
 import ThemeProvider from '@theme/ThemeProvider';
+import { Host as PortalProvider } from 'react-native-paper-portal';
 
 export const Application = () => {
   return (
@@ -17,7 +18,9 @@ export const Application = () => {
       <ThemeProvider>
         <QueryClientProvider client={queryClient}>
           <NavigationContainer>
-            <RootNavigator />
+            <PortalProvider>
+              <RootNavigator />
+            </PortalProvider>
           </NavigationContainer>
         </QueryClientProvider>
       </ThemeProvider>
