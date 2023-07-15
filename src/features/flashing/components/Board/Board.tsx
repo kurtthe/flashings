@@ -86,10 +86,6 @@ const BoardComponent: React.FC<Props> = ({
     console.log('numberPointer: ' + numberPointer);
   };
 
-  const stylePointerTransform = useAnimatedStyle(() => {
-    return {};
-  });
-
   return (
     <View style={StyleSheet.absoluteFill}>
       <TouchableOpacity
@@ -97,10 +93,14 @@ const BoardComponent: React.FC<Props> = ({
         onPress={handlePointer}
         style={{backgroundColor: 'white'}}>
         <BackgroundGridResponsive style={StyleSheet.absoluteFill} />
-        <GestureHandlerRootView style={{width: widthScreen, height: '93%'}}>
+        <GestureHandlerRootView style={{flex: 1}}>
           <Svg width={widthScreen} height="93%">
             {pointers.map((pointRender, index) => (
-              <PointerComponent x={pointRender.x} y={pointRender.y} />
+              <PointerComponent
+                key={`pointer${Math.random()}`}
+                x={pointRender.x}
+                y={pointRender.y}
+              />
             ))}
             {graphs.map(
               (linePoint, index) =>
