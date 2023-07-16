@@ -60,8 +60,8 @@ const textVariants = {
     color: 'primary',
   },
   subheadBold: {
-    fontWeight: 'bold',
-    fontSize: 16,
+    fontWeight: '800',
+    fontSize: 20,
     lineHeight: 20,
   },
   bodyRegular: {

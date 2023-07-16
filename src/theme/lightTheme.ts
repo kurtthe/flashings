@@ -29,6 +29,7 @@ const lightTheme = {
     peach: palette.peach,
     peachOrange: palette.peachOrange,
     primary: palette.primary500,
+    primaryBlue: palette.primaryBlue,
     secondary: palette.primary900,
     shadow: palette.martinique,
     skeletonBackground: palette.base100,

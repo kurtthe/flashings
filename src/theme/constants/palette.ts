@@ -44,6 +44,8 @@ const palette = {
   polar: '#F2F8FC',
   transparent: 'rgba(255,255,255,0)',
   white: '#fff',
+
+  primaryBlue: '#0E3A90',
 } as const;
 
 export default palette;
