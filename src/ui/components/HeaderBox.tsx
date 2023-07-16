@@ -16,29 +16,23 @@ type Props = BoxProps & {
 const ScreenHeaderBox = ({leftIcon, rightIcon, style, title, ...rest}: Props) => (
   <SafeAreaInsetsContext.Consumer>
     {insets => (
-      <Box
-        accessibilityRole="toolbar"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-        height={60}
-        px="l"
-        mb="xl"
-        {...rest}
-        style={[
-          {
-            backgroundColor: 'white',
-            shadowColor: 'gray',
-            shadowOffset: { width: 0, height: 5 },
-            shadowOpacity: 0.15,
-            elevation: 1,
-          },
-          style,
-        ]}>
-        {title && !leftIcon ? <Box px="m" /> : leftIcon}
-        {title && <Text variant="subheadLargeBold">{title}</Text>}
-        {title && !rightIcon ? <Box px="m" /> : rightIcon}
-      </Box>
+      <SafeAreaView
+        style={[{flex: 0, backgroundColor: 'white'}, styles.shadow]}>
+        <Box
+          accessibilityRole="toolbar"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
+          px="m"
+          mt="m"
+          backgroundColor="white"
+          {...rest}
+          style={[style]}>
+          {title && !leftIcon ? <Box px="m" /> : leftIcon}
+          {title && <Text variant="subheadLargeBold">{title}</Text>}
+          {title && !rightIcon ? <Box px="m" /> : rightIcon}
+        </Box>
+      </SafeAreaView>
     )}
   </SafeAreaInsetsContext.Consumer>
 );

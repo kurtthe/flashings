@@ -8,7 +8,7 @@ import {
   AllJobsScreen,
 } from '../screens';
 import {HeaderBackButton, HeaderBox, Icon} from '@ui/components';
-import {CartIcon} from '@assets/icons';
+import {SearchIcon, CartIcon} from '@assets/icons';
 
 const Stack = () => {
   const {Navigator, Screen} = createStackNavigator();
@@ -19,15 +19,25 @@ const Stack = () => {
         name={Routes.ALL_JOBS}
         component={AllJobsScreen}
         options={{
-          title: '',
-          header: () => null,
+          header: () => (
+            <HeaderBox
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              rightIcon={<Icon as={SearchIcon} />}
+              title="All Jobs"
+            />
+          ),
         }}
       />
       <Screen
         name={Routes.CREATE_FLASHING}
         component={CreateFlashingScreen}
         options={{
-          header: () => null,
+          header: () => (
+            <HeaderBox
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              title="New Flashing"
+            />
+          ),
         }}
       />
       <Screen
@@ -36,7 +46,6 @@ const Stack = () => {
         options={{
           header: () => (
             <HeaderBox
-              mb="s"
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
               rightIcon={<Icon as={CartIcon} />}
               title="Gutter Flashing"

@@ -71,37 +71,27 @@ const Item = ({item}: ItemProps) => (
 );
 
   return (
-    <View style={styles.container}>
-    <AppStatusBar backgroundColor={'white'}/>
-      <HeaderBox
-        leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
-        centerText={
-          <Text as={Animated.Text} variant="subheadBold" ml="m">
-            All Jobs
-          </Text>
-        }
-      />
+    <Box style={styles.container}>
       <FlatList
         data={data}
         renderItem={({item}) => <Item item={item} />}
         keyExtractor={item => item.id}
         ListFooterComponent=
         {() => 
-          <Pressable
-            onPress={() => navigation.navigate(Routes.CREATE_FLASHING)}
-            style={[styles.button, {padding: 12}]}
-          >
-            <Text style={styles.white}>Create New Flashing</Text>
-          </Pressable>
+        <Button 
+          mt="l" 
+          onPress={() => navigation.navigate(Routes.CREATE_FLASHING)}
+          style={[styles.button, {padding: 12}]}>
+          Create New Flashing
+        </Button>
         }
         ListFooterComponentStyle=
         {{
           paddingHorizontal: 16, 
-          marginBottom:60, 
-          marginTop: 20
+          marginBottom:60
         }}
       />
-    </View>
+    </Box>
   );
 };
 export default AllJobsScreens;
@@ -109,11 +99,12 @@ export default AllJobsScreens;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: 20,
     backgroundColor: 'white'
   },
   item: {
     padding: 20,
-    marginVertical: 12,
+    marginBottom: 12,
     marginHorizontal: 16,
     backgroundColor: 'white',
     borderRadius: 4,

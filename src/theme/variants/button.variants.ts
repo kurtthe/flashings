@@ -16,31 +16,31 @@ const buttonVariants = {
     letterSpacing: 0.049, // 0.049 => 0.0035em (fontSize 14)
   },
   solid: {
-    backgroundColor: 'primary',
+    backgroundColor: 'primaryBlue',
     color: 'white',
   },
   outline: {
-    color: 'primary',
+    color: 'primaryBlue',
     borderWidth: 1,
     borderColor: 'buttonBorder',
   },
   ghost: {},
   link: {
     textDecorationLine: 'underline',
-    color: 'primary',
+    color: 'primaryBlue',
   },
   solidWhite: {
     backgroundColor: 'white',
-    color: 'primary',
+    color: 'primaryBlue',
   },
   outlineWhite: {
     backgroundColor: 'input',
-    color: 'primary',
+    color: 'primaryBlue',
     borderWidth: 1,
     borderColor: 'buttonBorder',
   },
   small: {
-    backgroundColor: 'primaryBlue',
+    backgroundColor: 'primaryBlueBlue',
     color: 'white',
   }
 };

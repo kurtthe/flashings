@@ -5,3 +5,6 @@ export {default as NextIcon} from './next.svg';
 export {default as UndoIcon} from './undo.svg';
 export {default as BackIcon} from './back.svg';
 export {default as CartIcon} from './cart.svg';
+export {default as SearchIcon} from './search.svg';
+export {default as DownIcon} from './up.svg';
+export {default as UpIcon} from './down.svg';
