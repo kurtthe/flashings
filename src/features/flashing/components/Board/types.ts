@@ -1,5 +1,5 @@
 import {Dimensions} from 'react-native';
-import {ScaleLinear, scaleLinear} from 'd3-scale';
+import {scaleLinear} from 'd3-scale';
 
 export type CoordsType = {
   x: number;
@@ -43,6 +43,8 @@ const rankScale = (value: number) => {
       : getLogCoord(abs) + LINEAR_LOG_AMEND;
   return Math.sign(value) * absCoord;
 };
+
+export const CIRCLE_RADIUS = 15;
 export const scalerX = ({
   minDomain,
   maxDomain,

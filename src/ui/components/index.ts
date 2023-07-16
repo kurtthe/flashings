@@ -13,3 +13,7 @@ export {default as AppStatusBar} from './AppStatusBar';
 export type {KeyboardAvoidingBoxProps} from './KeyboardAvoidingBox';
 export {default as KeyboardAvoidingBox} from './KeyboardAvoidingBox';
 export {default as HeaderBackButton} from './HeaderBackButton';
+export type {IconProps} from './Icon';
+export {default as Icon} from './Icon';
+export type {IconButtonProps} from './IconButton';
+export {default as IconButton} from './IconButton';

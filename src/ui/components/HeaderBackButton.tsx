@@ -1,8 +1,9 @@
 import React from 'react';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import IconButton, {IconButtonProps} from '@ui/components/IconButton';
 import {useNavigation} from '@react-navigation/native';
+import {BackIcon} from '@assets/icons';
+import {Icon} from '@ui/components/index';
 type Props = Omit<IconButtonProps, 'icon'> & {
   popToTop?: boolean;
   variant?: 'light';
@@ -15,10 +16,11 @@ const HeaderBackButton = ({
   customPressEvent = () => {},
   ...props
 }: Props) => {
+  const navigation = useNavigation();
   return (
     <IconButton
-      onPress={() => customPressEvent()}
-      icon={<Ionicons name="arrow-back" size={20} color="black" />}
+      onPress={() => navigation.goBack()}
+      icon={<Icon as={BackIcon} />}
       {...props}
     />
   );
