@@ -25,6 +25,8 @@ import {
 import {Portal} from 'react-native-paper-portal';
 import { Image } from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {Icon} from '@ui/components';
+import {DownIcon, UpIcon} from '@assets/icons';
 
 const defaultProps = {
   placeholder: 'Select item',
@@ -439,10 +441,8 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
               editable={search}
               onPressIn={() => showOrClose()}
             />
-            <Ionicons 
-              name={visible ? 'arrow-up' : 'arrow-down'} 
-              size={24} 
-              color="black" 
+            <Icon
+              as={visible ? DownIcon : UpIcon}
               style={{alignSelf: 'center', position: 'absolute', right: 10}}
             />
         </Pressable>
@@ -479,7 +479,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   flexShrink: {
-    height: 400
+    height: 300,
+    backgroundColor: 'white',
+    paddingHorizontal: 6
   },
   wrapTop: {
     justifyContent: 'flex-end',
@@ -488,7 +490,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 500,
   },
   title: {
     marginVertical: 5,
@@ -515,11 +516,14 @@ const styles = StyleSheet.create({
     height: 52,
     paddingHorizontal: 8,
     borderWidth: 0.2,
-    borderRadius: 8
+    borderRadius: 8,
+    borderColor: '#8F94AE',
+    backgroundColor: 'white',
   },
   dropdownTextStyles: {
     fontSize: 20,
     textAlign: 'left',
+    paddingLeft: 20
   },
   dropdownItem: {
     justifyContent: 'center',

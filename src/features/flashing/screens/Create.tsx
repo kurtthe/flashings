@@ -67,58 +67,52 @@ const CreateFlashingScreen = ({ navigation }) => {
   const [qty, setQty] = useState('')
   const [length, setLength] = useState('')
   return (
-    <>
-      <AppStatusBar backgroundColor={'white'}/>
-      <HeaderBox
-        mb="s"
-        leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()}  />}
-        centerText={
-          <Text as={Animated.Text} variant="subheadBold" ml="m">
-            New Flashing
-          </Text>
-        }
-      />
-      <Box mt="s" p="m">
-        <Input 
-          label="Name"
-          onChangeText={(text) => setName(text)} 
-          value={name} 
-        />
-        <SelectInput 
-          value='' 
-          label='Colour/Material'
-          options={data}
-          onChange={option => console.log(option)}
-        />
-        <Box flexDirection={'row'} justifyContent={'space-between'}>
+      <Box 
+        p="m"
+        justifyContent={'space-between'}
+        backgroundColor={'white'}
+        flex={1}
+      >
+        <Box>
           <Input 
-            label="Qty"
-            onChangeText={(text) => setQty(text)} 
-            value={qty} 
-            inputStyles={{ width: '35%'}}
+            label="Name"
+            onChangeText={(text) => setName(text)} 
+            value={name} 
           />
-          <Input 
-            label="Length"
-            onChangeText={(text) => setLength(text)} 
-            value={length} 
-            inputStyles={{ width: '35%'}}
+          <SelectInput 
+            value='' 
+            label='Colour/Material'
+            options={data}
+            onChange={option => console.log(option)}
           />
-            <Text style={{position: 'absolute', bottom: 36, right: 20, color: 'gray'}}>| mm</Text>
+          <Box flexDirection={'row'} justifyContent={'space-between'}>
+            <Input 
+              label="Qty"
+              onChangeText={(text) => setQty(text)} 
+              value={qty} 
+              inputStyles={{ width: '35%'}}
+            />
+            <Input 
+              label="Length"
+              onChangeText={(text) => setLength(text)} 
+              value={length} 
+              inputStyles={{ width: '35%'}}
+            />
+              <Text style={{position: 'absolute', bottom: 36, right: 20, color: 'gray'}}>| mm</Text>
+          </Box>
         </Box>
 
-      <Box mt="2xl" p="m">
-        <Text variant="headerExtraBold">create screen</Text>
-        <Button
-          mt="l"
-          onPress={() => navigation.navigate(Routes.GUTTER_FLASHING)}>
-          Go to board
-        </Button>
-        <Button mt="l" onPress={() => navigation.navigate(Routes.DEMO)}>
-          Demo event
-        </Button>
+        <Box>
+          <Button
+            mt="l"
+            onPress={() => navigation.navigate(Routes.GUTTER_FLASHING)}>
+            Go to board
+          </Button>
+          <Button mt="l" mb='xl' onPress={() => navigation.navigate(Routes.DEMO)}>
+            Demo event
+          </Button>
+        </Box>
       </Box>
-      </Box>
-    </>
   );
 };
 export default CreateFlashingScreen;
