@@ -23,6 +23,7 @@ import {
   TextStyle,
 } from 'react-native';
 import {Portal} from 'react-native-paper-portal';
+import { Image } from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const defaultProps = {
@@ -37,7 +38,8 @@ const defaultProps = {
 export type OptionsType = {
   value: string;
   label: string;
-  color?: string;
+  bgColor?: string;
+  textColor?: string;
 };
 
 export type DropdownProps = {
@@ -249,8 +251,8 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
               onSelect(item);
               setLabelColor(undefined);
             }}>
-            <View style={[styles.dropdownItem, {backgroundColor: item.color}]}>
-              <Text style={styles.dropdownTextStyles}>{item.label}</Text>
+            <View style={[styles.dropdownItem, {backgroundColor: item.bgColor}]}>
+              <Text style={[styles.dropdownTextStyles, {color: item.textColor}]}>{item.label}</Text>
             </View>
           </Pressable>
         );
@@ -280,7 +282,7 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
             keyExtractor={(_item, index) => `option-top${index}`}
             showsVerticalScrollIndicator={showsVerticalScrollIndicator}
             contentContainerStyle={{
-              padding: 10,
+              paddingVertical: 10,
             }}
           />
         </View>
@@ -315,7 +317,7 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
               keyExtractor={(_item, index) => `option-bottom${index}`}
               showsVerticalScrollIndicator={showsVerticalScrollIndicator}
               contentContainerStyle={{
-                padding: 10,
+                paddingVertical: 10,
               }}
             />
           </View>
@@ -416,46 +418,34 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
       H,
       focus,
     ]);
-
     return (
       <View
         style={StyleSheet.flatten([styles.mainWrap, style])}
         ref={ref}
         onLayout={_measure}>
         {labelField && <Text style={styles.label}>{labelField}</Text>}
-
-        <TouchableWithoutFeedback onPress={() => showOrClose()}>
-          <View style={styles.contentInput}>
-            {currentValue && currentValue.color ? (
-              <View style={{flexDirection: 'row'}}>
-                <View
-                  style={{
-                    backgroundColor: currentValue.color,
-                    width: 20,
-                    height: 20,
-                    borderRadius: 20,
-                    marginRight: 8,
-                  }}
-                />
-                <TextInput
-                  style={[styles.input, inputStyles]}
-                  placeholder={placeholder}
-                  value={currentValue && currentValue.label}
-                  editable={false}
-                />
-              </View>
-            ) : (
-              <TextInput
-                style={[styles.input, inputStyles]}
-                placeholder={placeholder}
-                value={currentValue && currentValue.label}
-                editable={search}
-              />
-            )}
-
-            {!search && <Ionicons name={nameIcon} size={24} color="black" />}
-          </View>
-        </TouchableWithoutFeedback>
+        <Pressable style={styles.contentInput} onPress={() => showOrClose()}>
+            <TextInput
+              style={[
+                styles.input,
+                inputStyles,
+                { 
+                  backgroundColor: currentValue?.bgColor && currentValue?.bgColor,
+                  color: currentValue?.textColor ? currentValue?.textColor : 'black'
+                }
+              ]}
+              placeholder={placeholder}
+              value={currentValue && currentValue.label}
+              editable={search}
+              onPressIn={() => showOrClose()}
+            />
+            <Ionicons 
+              name={visible ? 'arrow-up' : 'arrow-down'} 
+              size={24} 
+              color="black" 
+              style={{alignSelf: 'center', position: 'absolute', right: 10}}
+            />
+        </Pressable>
         {_renderModal()}
       </View>
     );
@@ -489,8 +479,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   flexShrink: {
-    flexShrink: 1,
-    height: 200
+    height: 400
   },
   wrapTop: {
     justifyContent: 'flex-end',
@@ -499,7 +488,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 100,
+    height: 500,
   },
   title: {
     marginVertical: 5,
@@ -523,25 +512,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'left',
     width: '100%',
-    height: 40,
-    paddingHorizontal: 8
+    height: 52,
+    paddingHorizontal: 8,
+    borderWidth: 0.2,
+    borderRadius: 8
   },
   dropdownTextStyles: {
     fontSize: 20,
     textAlign: 'left',
   },
   dropdownItem: {
-    borderBottomColor: 'grey',
-    borderBottomWidth: 1,
-    paddingVertical: 10,
-    height: 60
+    justifyContent: 'center',
+    height: 60,
+    marginBottom: 8,
+    width: '100%'
   },
   contentInput: {
     flexDirection: 'row',
     borderColor: '#8F94AE',
-    borderWidth: 0.2,
-    borderRadius: 8,
-    padding: 6,
     backgroundColor: 'white',
   },
   label: {
