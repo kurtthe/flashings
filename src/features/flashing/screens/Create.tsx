@@ -12,21 +12,45 @@ import Input from '@ui/components/Input';
 import SelectInput from '@ui/components/SelectInput';
 
 const data = [{
-  value: 'pink',
-  label: 'piiiink',
-  color: 'pink',
+  value: 'stone',
+  label: 'Stone',
+  bgColor: '#867F76',
+  textColor: 'white'
 }, {
-  value: 'hot pink',
-  label: 'hot piiiink',
-  color: 'hotpink',
+  value: 'galvanised',
+  label: 'Galvanised',
+  bgColor: 'lightgray',
+  textColor: 'black'
 },{
-  value: 'skyblue',
-  label: 'skyblue',
-  color: 'skyblue',
+  value: 'zinc',
+  label: 'Zinc',
+  bgColor: '#A6A6A6',
+  textColor: 'black'
 },{
-  value: 'pink',
-  label: 'piiiink',
-  color: 'pink',
+  value: 'basalt',
+  label: 'Basalt',
+  bgColor: '#6E6C70',
+  textColor: 'white'
+},{
+  value: 'cream',
+  label: 'Cream',
+  bgColor: '#EADEBF',
+  textColor: '#8F94AE'
+},{
+  value: 'cottage_green',
+  label: 'Cottage Green',
+  bgColor: '#384C40',
+  textColor: 'white'
+},{
+  value: 'deep_ocean',
+  label: 'Deep Ocean',
+  bgColor: '#3A4252',
+  textColor: 'white'
+},{
+  value: 'manor_red',
+  label: 'Manor Red',
+  bgColor: '#582115',
+  textColor: 'white'
 }]
 
 const CreateFlashingScreen = () => {
@@ -52,8 +76,8 @@ const CreateFlashingScreen = () => {
           value={name} 
         />
         <SelectInput 
-          value='pink' 
-          label='hola'
+          value='' 
+          label='Colour/Material'
           options={data}
           onChange={option => console.log(option)}
         />
