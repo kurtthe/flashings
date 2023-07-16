@@ -10,6 +10,7 @@ import {
 } from '@ui/components';
 import Input from '@ui/components/Input';
 import SelectInput from '@ui/components/SelectInput';
+import { Routes } from '../navigation/routes';
 
 const data = [{
   id: 1,
@@ -104,6 +105,18 @@ const CreateFlashingScreen = ({ navigation }) => {
           />
             <Text style={{position: 'absolute', bottom: 36, right: 20, color: 'gray'}}>| mm</Text>
         </Box>
+
+      <Box mt="2xl" p="m">
+        <Text variant="headerExtraBold">create screen</Text>
+        <Button
+          mt="l"
+          onPress={() => navigation.navigate(Routes.GUTTER_FLASHING)}>
+          Go to board
+        </Button>
+        <Button mt="l" onPress={() => navigation.navigate(Routes.DEMO)}>
+          Demo event
+        </Button>
+      </Box>
       </Box>
     </>
   );
