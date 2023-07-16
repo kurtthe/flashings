@@ -26,10 +26,9 @@ const ScreenHeaderBox = ({leftIcon, rightIcon, centerText, style, ...rest}: Prop
           {
             backgroundColor: 'white',
             shadowColor: 'gray',
-            shadowOffset: { width: 0, height: 3 },
-            shadowOpacity: 0.5,
-            shadowRadius: 2,
-            elevation: 2,
+            shadowOffset: { width: 0, height: 5 },
+            shadowOpacity: 0.15,
+            elevation: 1,
           },
           style,
         ]}>

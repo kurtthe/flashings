@@ -13,7 +13,6 @@ const buttonVariants = {
     fontFamily: CustomFonts.LibreFranklin,
     fontWeight: '600',
     fontSize: 17,
-    lineHeight: 21,
     letterSpacing: 0.049, // 0.049 => 0.0035em (fontSize 14)
   },
   solid: {
@@ -40,6 +39,10 @@ const buttonVariants = {
     borderWidth: 1,
     borderColor: 'buttonBorder',
   },
+  small: {
+    backgroundColor: 'primaryBlue',
+    color: 'white',
+  }
 };
 
 export default buttonVariants;

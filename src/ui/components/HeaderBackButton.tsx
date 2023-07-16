@@ -12,12 +12,12 @@ type Props = Omit<IconButtonProps, 'icon'> & {
 const HeaderBackButton = ({
   variant = 'light',
   popToTop,
-  customPressEvent,
+  customPressEvent = () => {},
   ...props
 }: Props) => {
   return (
     <IconButton
-      onPress={() => null}
+      onPress={() => customPressEvent()}
       icon={<Ionicons name="arrow-back" size={20} color="black" />}
       {...props}
     />
