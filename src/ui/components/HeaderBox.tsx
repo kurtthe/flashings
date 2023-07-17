@@ -41,7 +41,13 @@ const ScreenHeaderBox = ({
           {...rest}
           style={[style]}>
           {leftIcon}
-          {title && <Text variant="subheadLargeBold">{title}</Text>}
+          {title && (
+            <Text
+              mx={leftIcon && rightIcon ? 'm' : 'unset'}
+              variant="subheadLargeBold">
+              {title}
+            </Text>
+          )}
           {rightIcon}
         </Box>
       </SafeAreaView>
