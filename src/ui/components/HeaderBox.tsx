@@ -29,7 +29,13 @@ const ScreenHeaderBox = ({leftIcon, rightIcon, style, title, ...rest}: Props) =>
           {...rest}
           style={[style]}>
           {title && !leftIcon ? <Box px="m" /> : leftIcon}
-          {title && <Text variant="subheadLargeBold">{title}</Text>}
+          {title && (
+            <Text
+              mx={leftIcon && rightIcon ? 'm' : 'unset'}
+              variant="subheadLargeBold">
+              {title}
+            </Text>
+          )}
           {title && !rightIcon ? <Box px="m" /> : rightIcon}
         </Box>
       </SafeAreaView>
