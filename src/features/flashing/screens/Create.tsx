@@ -25,8 +25,8 @@ const CreateFlashingScreen = () => {
           onPress={() => navigation.navigate(Routes.GUTTER_FLASHING)}>
           Go to board
         </Button>
-        <Button mt="l" onPress={() => navigation.navigate(Routes.DEMO)}>
-          Demo event
+        <Button mt="l" onPress={() => navigation.navigate(Routes.DEMO_BOARD)}>
+          Demo draw event move points
         </Button>
       </Box>
     </>
