@@ -5,6 +5,7 @@ import {
   CreateFlashingScreen,
   GutterFlashingScreen,
   DemoFlashingScreen,
+  DemoBoardScreen,
   AllJobsScreen,
 } from '../screens';
 import {HeaderBackButton, HeaderBox, Icon} from '@ui/components';
@@ -57,7 +58,27 @@ const Stack = () => {
         name={Routes.DEMO}
         component={DemoFlashingScreen}
         options={{
-          header: () => null,
+          header: () => (
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              title="demo event"
+            />
+          ),
+        }}
+      />
+      <Screen
+        name={Routes.DEMO_BOARD}
+        component={DemoBoardScreen}
+        options={{
+          header: () => (
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              rightIcon={<Icon as={CartIcon} />}
+              title="demo board"
+            />
+          ),
         }}
       />
     </Navigator>

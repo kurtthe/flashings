@@ -67,35 +67,35 @@ const CreateFlashingScreen = ({ navigation }) => {
   const [qty, setQty] = useState('')
   const [length, setLength] = useState('')
   return (
-      <Box 
+      <Box
         p="m"
         justifyContent={'space-between'}
         backgroundColor={'white'}
         flex={1}
       >
         <Box>
-          <Input 
+          <Input
             label="Name"
-            onChangeText={(text) => setName(text)} 
-            value={name} 
+            onChangeText={(text) => setName(text)}
+            value={name}
           />
-          <SelectInput 
-            value='' 
+          <SelectInput
+            value=''
             label='Colour/Material'
             options={data}
             onChange={option => console.log(option)}
           />
           <Box flexDirection={'row'} justifyContent={'space-between'}>
-            <Input 
+            <Input
               label="Qty"
-              onChangeText={(text) => setQty(text)} 
-              value={qty} 
+              onChangeText={(text) => setQty(text)}
+              value={qty}
               inputStyles={{ width: '35%'}}
             />
-            <Input 
+            <Input
               label="Length"
-              onChangeText={(text) => setLength(text)} 
-              value={length} 
+              onChangeText={(text) => setLength(text)}
+              value={length}
               inputStyles={{ width: '35%'}}
             />
               <Text style={{position: 'absolute', bottom: 36, right: 20, color: 'gray'}}>| mm</Text>
@@ -108,8 +108,8 @@ const CreateFlashingScreen = ({ navigation }) => {
             onPress={() => navigation.navigate(Routes.GUTTER_FLASHING)}>
             Go to board
           </Button>
-          <Button mt="l" mb='xl' onPress={() => navigation.navigate(Routes.DEMO)}>
-            Demo event
+          <Button mt="l" mb='xl' onPress={() => navigation.navigate(Routes.DEMO_BOARD)}>
+            Demo draw event move points
           </Button>
         </Box>
       </Box>

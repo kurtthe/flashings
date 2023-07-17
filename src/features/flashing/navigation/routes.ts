@@ -3,4 +3,5 @@ export enum Routes {
   ALL_JOBS='ALL_JOBS',
   GUTTER_FLASHING = 'GUTTER_FLASHING',
   DEMO = 'Demo_FLASHING',
+  DEMO_BOARD = 'DEMO_BOARD',
 }
