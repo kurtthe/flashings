@@ -3,12 +3,13 @@ import {
   TouchableOpacity,
   GestureResponderEvent,
   StyleSheet,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import Svg, {Circle, Path, G, Text} from 'react-native-svg';
+import Svg, {Circle, Path, G} from 'react-native-svg';
 import {CoordsType, heightScreen, widthScreen} from './types';
 import {makeLine} from './utils';
 import {serialize, Path as PathType} from 'react-native-redash';
-import {BackgroundGridResponsive} from '@assets/images';
+import {GridComponent} from '@features/flashing/components';
 
 type Props = {
   width?: number;
@@ -69,10 +70,11 @@ const Board: React.FC<Props> = ({
   };
 
   return (
-    <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
-      <BackgroundGridResponsive style={StyleSheet.absoluteFill} />
-
-      <Svg width={widthScreen} height="90%">
+    <TouchableWithoutFeedback
+      onPress={handlePointer}
+      style={{backgroundColor: 'red'}}>
+      <Svg width={widthScreen} height="100%">
+        <GridComponent />
         {pointers.map((pointRender, index) => (
           <Circle
             onPress={() => {
@@ -102,7 +104,7 @@ const Board: React.FC<Props> = ({
             ),
         )}
       </Svg>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 };
 
