@@ -3,7 +3,6 @@ import {
   TouchableOpacity,
   GestureResponderEvent,
   StyleSheet,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import Svg, {Circle, Path, G} from 'react-native-svg';
 import {CoordsType, heightScreen, widthScreen} from './types';
@@ -70,9 +69,7 @@ const Board: React.FC<Props> = ({
   };
 
   return (
-    <TouchableWithoutFeedback
-      onPress={handlePointer}
-      style={{backgroundColor: 'red'}}>
+    <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
       <Svg width={widthScreen} height="100%">
         <GridComponent />
         {pointers.map((pointRender, index) => (
@@ -104,7 +101,7 @@ const Board: React.FC<Props> = ({
             ),
         )}
       </Svg>
-    </TouchableWithoutFeedback>
+    </TouchableOpacity>
   );
 };
 
