@@ -33,3 +33,21 @@ export const ScaleXBar = (dataScale: ScaleColumnType) =>
 
 export const ScaleYBar = (dataScale: ScaleColumnType) =>
   scaleColumns(dataScale);
+
+export const findClosestNumber = (
+  dataNumber: number[],
+  valueNumber: number,
+) => {
+  let closest = dataNumber[0];
+  let minDifference = Math.abs(valueNumber - dataNumber[0]);
+
+  for (let i = 1; i < dataNumber.length; i++) {
+    const difference = Math.abs(valueNumber - dataNumber[i]);
+    if (difference < minDifference) {
+      minDifference = difference;
+      closest = dataNumber[i];
+    }
+  }
+
+  return closest;
+};
