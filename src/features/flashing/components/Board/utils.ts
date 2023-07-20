@@ -2,7 +2,7 @@ import {MakeLine} from './types';
 import * as shape from 'd3-shape';
 import {parse, Path} from 'react-native-redash';
 
-export const makeLine = ({pointers}: MakeLine) => {
+export const makeLines = ({pointers}: MakeLine) => {
   if (pointers.length < 1) return null;
   const generatorLine = shape
     .line()
