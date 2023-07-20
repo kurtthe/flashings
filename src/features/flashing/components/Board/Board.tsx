@@ -9,6 +9,7 @@ import {CoordsType, heightScreen, widthScreen} from './types';
 import {makeLine} from './utils';
 import {serialize, Path as PathType} from 'react-native-redash';
 import {GridComponent} from '@features/flashing/components';
+import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
 
 type Props = {
   width?: number;
@@ -41,9 +42,13 @@ const Board: React.FC<Props> = ({
   }, [pointers]);
 
   const handlePointer = (event: GestureResponderEvent) => {
+    const newPosition = findCoordsNearest({
+      positionX: event.nativeEvent.locationX,
+      positionY: event.nativeEvent.locationY,
+    });
+
     const newPointCoordinates = {
-      y: event.nativeEvent.locationY,
-      x: event.nativeEvent.locationX,
+      ...newPosition,
       sizeLine: '?',
     };
 
