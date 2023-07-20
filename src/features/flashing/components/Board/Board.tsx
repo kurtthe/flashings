@@ -5,7 +5,13 @@ import {
   StyleSheet,
 } from 'react-native';
 import Svg, {Circle, Path, G} from 'react-native-svg';
-import {CoordsType, heightScreen, widthScreen} from './types';
+import {
+  CoordsType,
+  heightScreen,
+  SIZE_POINTER,
+  SIZE_POINTER_LAST,
+  widthScreen,
+} from './types';
 import {makeLine} from './utils';
 import {serialize, Path as PathType} from 'react-native-redash';
 import {GridComponent} from '@features/flashing/components';
@@ -22,7 +28,6 @@ const Board: React.FC<Props> = ({
   const colorPointer = '#8F94AE';
   const colorBorderPointer = '#000000';
   const borderWidth = 1;
-  const sizePointer = 5;
 
   const [pointers, setPointers] = React.useState<CoordsType[]>([]);
   const [lineNumberSelected, setLineNumberSelected] = React.useState<
@@ -77,21 +82,7 @@ const Board: React.FC<Props> = ({
     <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
       <Svg width={widthScreen} height="100%">
         <GridComponent />
-        {pointers.map((pointRender, index) => (
-          <Circle
-            onPress={() => {
-              setLineNumberSelected(index);
-              setModalSizeLine(true);
-            }}
-            key={index}
-            cx={pointRender.x}
-            cy={pointRender.y}
-            r={sizePointer}
-            fill={colorPointer}
-            strokeWidth={borderWidth}
-            stroke={colorBorderPointer}
-          />
-        ))}
+
         {graphs.map(
           (linePoint, index) =>
             !!linePoint && (
@@ -105,6 +96,21 @@ const Board: React.FC<Props> = ({
               </G>
             ),
         )}
+        {pointers.map((pointRender, index) => (
+          <Circle
+            onPress={() => {
+              setLineNumberSelected(index);
+              setModalSizeLine(true);
+            }}
+            key={index}
+            cx={pointRender.x}
+            cy={pointRender.y}
+            r={pointers.length - 1 === index ? SIZE_POINTER_LAST : SIZE_POINTER}
+            fill={colorPointer}
+            strokeWidth={borderWidth}
+            stroke={colorBorderPointer}
+          />
+        ))}
       </Svg>
     </TouchableOpacity>
   );
