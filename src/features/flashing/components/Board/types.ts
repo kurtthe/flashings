@@ -10,7 +10,8 @@ export type CoordsType = {
 export type MakeLine = {
   pointers: CoordsType[];
 };
-
+export const SIZE_POINTER = 4;
+export const SIZE_POINTER_LAST = 8;
 export const widthScreen = Dimensions.get('screen').width;
 export const heightScreen = Dimensions.get('screen').height;
 type Boundaries = [number, number];
