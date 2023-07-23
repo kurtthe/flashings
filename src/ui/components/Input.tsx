@@ -48,6 +48,7 @@ type TextInputProps = PropInput & {
   inputStyles?: TextStyle;
   secureTextEntry?: boolean;
   nameIcon?: keyof typeof Ionicons;
+  isMandatory?: boolean;
 };
 
 const Input: FC<TextInputProps> = ({
@@ -58,6 +59,7 @@ const Input: FC<TextInputProps> = ({
   placeholder,
   secureTextEntry = false,
   nameIcon,
+  isMandatory,
   ...props
 }) => {
   const inputRef = useRef<TextInput>();
@@ -65,7 +67,7 @@ const Input: FC<TextInputProps> = ({
   return (
     <TouchableWithoutFeedback onPress={() => inputRef?.current?.focus()}>
       <View style={styles.container}>
-        {label && <Text style={[styles.labelInput, labelStyles]}>{label}</Text>}
+        {label && <Text style={[styles.labelInput, labelStyles]}>{label}{isMandatory ? <Text style={{color: 'red'}}>*</Text> : ''}</Text>}
         <View style={styles.contentInput}>
           {nameIcon && (
             <Ionicons

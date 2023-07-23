@@ -35,7 +35,7 @@ const buttonVariants = {
   },
   outlineWhite: {
     backgroundColor: 'input',
-    color: 'primaryBlue',
+    color: 'black',
     borderWidth: 1,
     borderColor: 'buttonBorder',
   },
