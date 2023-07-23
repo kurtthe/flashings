@@ -27,11 +27,6 @@ const textVariants = {
     fontSize: 24,
     lineHeight: 32,
   },
-  subheadSmall: {
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 22,
-  },
   subheadLight: {
     fontWeight: '300',
     fontSize: 16,
@@ -151,10 +146,17 @@ const textVariants = {
     lineHeight: 15,
     color: 'errorAlert',
   },
-  actionsHelper: {
-    fontWeight: '400',
-    fontSize: 12,
-    lineHeight: 15,
+  // ALREADY MODIFIED AND IN USE
+  subheadSmall: {
+    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 20,
+  },
+  lightGraySmallText: {
+    fontWeight: '500',
+    fontSize: 13,
+    lineHeight: 16,
+    color: 'lightGray'
   },
 };
 
