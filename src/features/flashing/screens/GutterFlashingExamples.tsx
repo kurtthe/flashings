@@ -13,7 +13,17 @@ interface DataItem {
   source: string;
 }
 
-const data=[{id: 1, source: require('../../../assets/images/asset_temp.png')}, {id:2, source: require('../../../assets/images/asset_temp.png')}, {id:3, source: require('../../../assets/images/asset_temp.png')}, {id:4, source: require('../../../assets/images/asset_temp.png')}]
+const data=[
+  {id: 1, source: require('../../../assets/images/Group17.png')},
+  {id:2, source: require('../../../assets/images/Group18.png')},
+  {id:3, source: require('../../../assets/images/Group19.png')},
+  {id:4, source: require('../../../assets/images/Group20.png')},
+  {id:5, source: require('../../../assets/images/Group21.png')},
+  {id:6, source: require('../../../assets/images/Group22.png')},
+  {id:7, source: require('../../../assets/images/Group23.png')},
+  {id:8, source: require('../../../assets/images/Group24.png')},
+  {id:9, source: require('../../../assets/images/Group25.png')}
+]
 
 const GutterFlashingExamples = ({ navigation }) => {
   const renderItem: React.FC<{ item: DataItem }> = ({ item }) => (
@@ -45,8 +55,8 @@ const GutterFlashingExamples = ({ navigation }) => {
 const styles = StyleSheet.create({
   item: {
     flex: 1,
-    margin: 10,
-    padding: 20,
+    margin: 5,
+    padding: 10,
     alignItems: 'center',
   },
   image: {

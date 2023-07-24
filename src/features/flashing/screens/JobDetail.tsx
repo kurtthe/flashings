@@ -120,10 +120,10 @@ const JobDetailsScreen = ({route, navigation}) => {
       <View style={styles.paddingContainer}>
         <Box style={styles.mainDetails}>
           <Text style={styles.title}>Job Details</Text>
-          <Text style={styles.text}>{item.client_name}</Text>
-          <Text style={styles.text}>{item.address}</Text>
-          <Text style={styles.text}>{item.job_number}</Text>
-          <Text style={styles.text}>{item.client_name}</Text>
+          <Text style={styles.text}>Site Name: {item.client_name}</Text>
+          <Text style={styles.text}>Site Address: {item.address}</Text>
+          <Text style={styles.text}>Job # {item.job_number}</Text>
+          <Text style={styles.text}>Contact Name: {item.client_name}</Text>
         </Box>
           <FlatList
             data={data[0].custom_fields}
