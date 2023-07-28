@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   ClearIcon,
   EditIcon,
@@ -7,7 +7,8 @@ import {
   NextIcon,
   UndoIcon,
 } from '@assets/icons';
-import {Box, Icon, IconButton} from '@ui/components';
+import {Box, Icon, IconButton, Text} from '@ui/components';
+
 type Props = {
   onUndo?: () => void;
   onEdit?: () => void;
@@ -15,6 +16,31 @@ type Props = {
   onEraser?: () => void;
   onNext?: () => void;
 };
+
+type IconMenuEditorProps = {
+  nameIcon: any;
+  onPress?: () => void;
+  title?: string;
+};
+
+const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
+  title,
+  nameIcon,
+  onPress,
+}) => (
+  <Box>
+    <IconButton
+      onPress={() => onPress && onPress()}
+      icon={<Icon as={nameIcon} />}
+    />
+    {title && (
+      <Text mt="xs" variant="menuEditor">
+        {title}
+      </Text>
+    )}
+  </Box>
+);
+
 const MenuEditorComponent: React.FC<Props> = ({
   onNext,
   onLibrary,
@@ -32,25 +58,31 @@ const MenuEditorComponent: React.FC<Props> = ({
       bottom="-4%"
       style={styles.shadow}>
       <Box px="m" style={styles.content}>
-        <IconButton
+        <IconMenuEditor
           onPress={() => onUndo && onUndo()}
-          icon={<Icon as={UndoIcon} />}
+          nameIcon={UndoIcon}
+          title="Undo"
         />
-        <IconButton
+
+        <IconMenuEditor
           onPress={() => onEraser && onEraser()}
-          icon={<Icon as={ClearIcon} />}
+          nameIcon={ClearIcon}
+          title="Clear"
         />
-        <IconButton
+        <IconMenuEditor
           onPress={() => onEdit && onEdit()}
-          icon={<Icon as={EditIcon} />}
+          nameIcon={EditIcon}
+          title="Edit"
         />
-        <IconButton
+        <IconMenuEditor
           onPress={() => onLibrary && onLibrary()}
-          icon={<Icon as={LibraryIcon} />}
+          nameIcon={LibraryIcon}
+          title="Library"
         />
-        <IconButton
+        <IconMenuEditor
           onPress={() => onNext && onNext()}
-          icon={<Icon as={NextIcon} />}
+          nameIcon={NextIcon}
+          title="Next"
         />
       </Box>
     </Box>

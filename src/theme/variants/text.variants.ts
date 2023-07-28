@@ -156,6 +156,12 @@ const textVariants = {
     fontSize: 12,
     lineHeight: 15,
   },
+  menuEditor: {
+    color: 'textGray',
+    fontFamily: CustomFonts.LibreFranklin,
+    letterSpacing: 0.049, // 0.049 (fontSize 14) = 0.0035em
+    fontSize: 12,
+  },
 };
 
 export default textVariants;
