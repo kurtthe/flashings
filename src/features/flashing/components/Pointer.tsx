@@ -11,9 +11,11 @@ import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
-import {CIRCLE_RADIUS} from '@features/flashing/components/Board';
+import {CIRCLE_RADIUS, CoordsType} from '@features/flashing/components/Board';
 
-type Props = CircleProps;
+type Props = CircleProps & {
+  key: number;
+};
 
 type ContextType = {
   translateX: number;
@@ -23,6 +25,7 @@ const PointerComponent: React.FC<Props> = props => {
   const translateX = useSharedValue(props.cx);
   const translateY = useSharedValue(props.cy);
 
+  // @ts-ignore
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
   const panGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
@@ -33,8 +36,11 @@ const PointerComponent: React.FC<Props> = props => {
       context.translateY = translateY.value as number;
     },
     onActive: (event, context) => {
-      translateX.value = event.translationX + context.translateX;
-      translateY.value = event.translationY + context.translateY;
+      const newX = event.translationX + context.translateX;
+      const newY = event.translationY + context.translateY;
+
+      translateX.value = newX;
+      translateY.value = newY;
     },
     onEnd: () => {
       const distance = Math.sqrt(

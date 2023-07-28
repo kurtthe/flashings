@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Svg, {Path, G} from 'react-native-svg';
 import {CoordsType, heightScreen, widthScreen} from '../Board/types';
-import {makeLine} from '../Board/utils';
+import {makeLines} from '../Board/utils';
 import {serialize, Path as PathType} from 'react-native-redash';
 import {BackgroundGridResponsive} from '@assets/images';
 import PointerComponent from '../Pointer';
@@ -15,10 +15,7 @@ import {
   GestureHandlerRootView,
   PanGestureHandler,
 } from 'react-native-gesture-handler';
-import {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+import {runOnUI} from 'react-native-reanimated';
 
 type Props = {
   width?: number;
@@ -43,7 +40,7 @@ const BoardComponent: React.FC<Props> = ({
   React.useEffect(() => {
     if (pointers.length < 1) return;
 
-    const makingLines = makeLine({
+    const makingLines = makeLines({
       pointers,
     });
     if (!makingLines || makingLines.length < 1) return;
@@ -85,41 +82,43 @@ const BoardComponent: React.FC<Props> = ({
     console.log('dataPoint: ' + dataPoint);
     console.log('numberPointer: ' + numberPointer);
   };
+  return null;
 
-  return (
-    <View style={StyleSheet.absoluteFill}>
-      <TouchableOpacity
-        activeOpacity={1}
-        onPress={handlePointer}
-        style={{backgroundColor: 'white'}}>
-        <BackgroundGridResponsive style={StyleSheet.absoluteFill} />
-        <GestureHandlerRootView style={{flex: 1}}>
-          {pointers.map((pointRender, index) => (
-            <PointerComponent
-              key={`pointer${Math.random()}`}
-              x={pointRender.x}
-              y={pointRender.y}
-            />
-          ))}
-          <Svg width={widthScreen} height="93%">
-            {graphs.map(
-              (linePoint, index) =>
-                !!linePoint && (
-                  <G key={`group${index}`}>
-                    <Path
-                      key={index}
-                      d={serialize(linePoint)}
-                      strokeWidth={1}
-                      stroke="#000"
-                    />
-                  </G>
-                ),
-            )}
-          </Svg>
-        </GestureHandlerRootView>
-      </TouchableOpacity>
-    </View>
-  );
+  // return (
+  //   <View style={StyleSheet.absoluteFill}>
+  //     <TouchableOpacity
+  //       activeOpacity={1}
+  //       onPress={handlePointer}
+  //       style={{backgroundColor: 'white'}}>
+  //       <BackgroundGridResponsive style={StyleSheet.absoluteFill} />
+  //       <GestureHandlerRootView style={{flex: 1}}>
+  //         {pointers.map((pointRender, index) => (
+  //           <PointerComponent
+  //             updateDataPointers={handleChangePosition}
+  //             key={index}
+  //             x={pointRender.x}
+  //             y={pointRender.y}
+  //           />
+  //         ))}
+  //         <Svg width={widthScreen} height="93%">
+  //           {graphs.map(
+  //             (linePoint, index) =>
+  //               !!linePoint && (
+  //                 <G key={`group${index}`}>
+  //                   <Path
+  //                     key={index}
+  //                     d={serialize(linePoint)}
+  //                     strokeWidth={1}
+  //                     stroke="#000"
+  //                   />
+  //                 </G>
+  //               ),
+  //           )}
+  //         </Svg>
+  //       </GestureHandlerRootView>
+  //     </TouchableOpacity>
+  //   </View>
+  // );
 };
 
 export default BoardComponent;
