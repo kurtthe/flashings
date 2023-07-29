@@ -18,10 +18,12 @@ const BoardContainer = () => {
     setPointers(newPointCoordinates);
   };
 
+  const handleNext = () => {};
+
   return (
     <>
       <BoardComponent points={pointers} onAddPoint={handleAddPoint} />
-      <MenuEditorComponent onUndo={handleUndo} />
+      <MenuEditorComponent onUndo={handleUndo} onNext={handleNext} />
     </>
   );
 };
