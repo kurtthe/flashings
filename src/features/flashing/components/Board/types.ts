@@ -73,3 +73,37 @@ export const scalerY = ({
   height?: number;
 }) =>
   rescale([minValue, maxValue || 1], [padding, height - padding])(rankScale);
+
+export const LETTER_LINES = [
+  'A',
+  'B',
+  'C',
+  'D',
+  'E',
+  'F',
+  'G',
+  'H',
+  'I',
+  'J',
+  'K',
+  'L',
+  'M',
+  'N',
+  'O',
+  'P',
+  'Q',
+  'R',
+  'S',
+  'T',
+  'U',
+  'V',
+  'W',
+  'X',
+  'Z',
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+];

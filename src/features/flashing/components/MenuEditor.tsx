@@ -28,7 +28,7 @@ const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
   nameIcon,
   onPress,
 }) => (
-  <Box>
+  <Box alignItems="center" justifyContent="center">
     <IconButton
       onPress={() => onPress && onPress()}
       icon={<Icon as={nameIcon} />}

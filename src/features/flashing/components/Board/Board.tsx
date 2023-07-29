@@ -34,7 +34,7 @@ const Board: React.FC<Props> = ({
   const [lineNumberSelected, setLineNumberSelected] = React.useState<
     number | undefined
   >();
-  const [graphs, setGraphs] = React.useState<Array<PathType | null>>([]);
+  const [graphs, setGraphs] = React.useState<JSX.Element[]>([]);
 
   React.useEffect(() => {
     if (points.length < 1) return;
@@ -63,18 +63,7 @@ const Board: React.FC<Props> = ({
       <GestureHandlerRootView>
         <Svg width={widthScreen} height="100%">
           <GridComponent />
-
-          {graphs.map(
-            (linePoint, index) =>
-              !!linePoint && (
-                <Path
-                  key={index}
-                  d={serialize(linePoint)}
-                  strokeWidth={1}
-                  stroke="#000"
-                />
-              ),
-          )}
+          {graphs}
           {points.map((pointRender, index) => (
             <PointerComponent
               onPress={() => {
