@@ -34,8 +34,8 @@ const calculatePositionText = (
   }
 
   return {
-    x: (pointInit.x + pointFinal.x) / 2 + scaleNumber * 20,
-    y: (pointInit.y + pointFinal.y) / 2 + scaleNumber * 20,
+    x: (pointInit.x + pointFinal.x) / 2 + scaleNumber * 25,
+    y: (pointInit.y + pointFinal.y) / 2 + scaleNumber * 25,
   };
 };
 
