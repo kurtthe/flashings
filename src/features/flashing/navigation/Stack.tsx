@@ -10,6 +10,9 @@ import {
 } from '../screens';
 import {HeaderBackButton, HeaderBox, Icon} from '@ui/components';
 import {SearchIcon, CartIcon} from '@assets/icons';
+import JobDetailsScreen from '../screens/JobDetail';
+import CreateJobScreen from '../screens/CreateJob';
+import GutterFlashingExamples from '../screens/GutterFlashingExamples';
 
 const Stack = () => {
   const {Navigator, Screen} = createStackNavigator();
@@ -77,6 +80,45 @@ const Stack = () => {
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
               rightIcon={<Icon as={CartIcon} />}
               title="demo board"
+            />
+          ),
+        }}
+      />
+      <Screen
+        name={Routes.JOB_DETAILS}
+        component={JobDetailsScreen}
+        options={{
+          header: () => (
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              title="Micks House"
+            />
+          ),
+        }}
+      />
+      <Screen
+        name={Routes.CREATE_JOB}
+        component={CreateJobScreen}
+        options={{
+          header: () => (
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              title={"New Job"}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name={Routes.GUTTER_FLASHING_EXAMPLES}
+        component={GutterFlashingExamples}
+        options={{
+          header: () => (
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              title={"Gutter Flashing"}
             />
           ),
         }}
