@@ -46,7 +46,8 @@ const palette = {
   white: '#fff',
 
   primaryBlue: '#0E3A90',
-  lightGray: '#8F94AE'
+  lightGray: '#8F94AE',
+  lightBlue: '#0E3A901A'
 } as const;
 
 export default palette;
