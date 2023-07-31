@@ -19,11 +19,7 @@ const buttonVariants = {
     backgroundColor: 'primaryBlue',
     color: 'white',
   },
-  outline: {
-    color: 'primaryBlue',
-    borderWidth: 1,
-    borderColor: 'buttonBorder',
-  },
+  
   ghost: {},
   link: {
     textDecorationLine: 'underline',
@@ -39,8 +35,14 @@ const buttonVariants = {
     borderWidth: 1,
     borderColor: 'buttonBorder',
   },
+  outline: {
+    backgroundColor: 'lightBlue',
+    color: 'primaryBlue',
+    borderWidth: 1,
+    borderColor: 'black',
+  },
   small: {
-    backgroundColor: 'primaryBlueBlue',
+    backgroundColor: 'primaryBlue',
     color: 'white',
   }
 };
