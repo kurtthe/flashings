@@ -45,13 +45,14 @@ type RestyleButtonProps = VariantProps<Theme, 'buttonVariants'> &
   TypographyProps<Theme> &
   OpacityProps<Theme>;
 
-export type ButtonProps = RestyleButtonProps &
+export type Props = RestyleButtonProps &
   Omit<BaseButtonProps, 'disabled'> & {
     children?: React.ReactText;
     spinner?: React.ReactElement;
     isLoading?: boolean;
     isDisabled?: boolean;
     isFullWidth?: boolean;
+    textColor?: string;
     _disabled?: RestyleButtonProps & {_dark?: RestyleButtonProps};
     _dark?: RestyleButtonProps;
     _light?: RestyleButtonProps;
@@ -81,7 +82,7 @@ const textStyleProperties = [color, ...typography].map(
   ({property}) => property as string,
 );
 
-const Button = forwardRef<ButtonProps, typeof Pressable>(
+const Button = forwardRef<Props, typeof Pressable>(
   (
     {
       children,
@@ -95,6 +96,7 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
       _dark,
       _light,
       style,
+      textColor,
       ...rest
     },
     ref,
@@ -157,7 +159,13 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
                 size="small"
               />
             ))}
-          <Text maxFontSizeMultiplier={1.3} style={[textStyle, fontStyle]}>
+          <Text
+            maxFontSizeMultiplier={1.3}
+            style={[
+              textStyle,
+              fontStyle,
+              {color: textColor ? textColor : 'white'},
+            ]}>
             {children}
           </Text>
         </BaseButton>
@@ -170,8 +178,8 @@ Button.defaultProps = {
   variant: 'solid',
   isFullWidth: true,
 };
-
-export default React.memo(Button) as typeof Button;
+export type ButtonProps = React.ComponentProps<typeof Button>;
+export default Button;
 
 const styles = StyleSheet.create({
   container: {
