@@ -26,6 +26,10 @@ const BoardContainer = () => {
     setPointers(newPointCoordinates);
   };
 
+  const handleEdit = () => {
+    setModeBoard('draw');
+  };
+
   const handleNext = () => {
     setModeBoard('sizes');
   };
@@ -38,7 +42,11 @@ const BoardContainer = () => {
         onUpdatePoint={handleUpdatePoint}
         mode={modeBoard}
       />
-      <MenuEditorComponent onUndo={handleUndo} onNext={handleNext} />
+      <MenuEditorComponent
+        onUndo={handleUndo}
+        onEdit={handleEdit}
+        onNext={handleNext}
+      />
     </>
   );
 };

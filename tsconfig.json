@@ -25,6 +25,7 @@
       "@routes/*": ["src/routes/*"],
       "@contexts/*": ["src/contexts/*"],
       "@components/*": ["src/components/*"],
+      "@components": ["src/components/index"],
       "@services/*": ["src/core/services/*"],
       "@hooks/*": ["src/core/hooks/*"],
       "@shared/*": ["src/shared/*"],

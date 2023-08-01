@@ -8,7 +8,6 @@ import {GridComponent} from '@features/flashing/components/index';
 import PointerComponent from '@features/flashing/components/Pointer';
 import Svg from 'react-native-svg';
 import React from 'react';
-import {TouchableOpacity} from 'react-native';
 
 type Props = {
   graphs: {normal: JSX.Element[]; select: JSX.Element[]};

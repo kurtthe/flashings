@@ -64,7 +64,11 @@ const PointerComponent: React.FC<Props> = props => {
       <PanGestureHandler
         key={`gesture${Math.random()}`}
         onGestureEvent={panGestureEvent}>
-        <AnimatedCircle {...props} animatedProps={animatedProps} />
+        <AnimatedCircle
+          {...props}
+          key={`pointer${Math.random()}`}
+          animatedProps={animatedProps}
+        />
       </PanGestureHandler>
     </>
   );
