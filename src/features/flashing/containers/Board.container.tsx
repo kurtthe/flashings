@@ -4,9 +4,11 @@ import {
   CoordsType,
   MenuEditorComponent,
 } from '@features/flashing/components';
+import {MODES_BOARD} from '@features/flashing/components/Board/Board';
 
 const BoardContainer = () => {
   const [pointers, setPointers] = React.useState<CoordsType[]>([]);
+  const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
 
   const handleAddPoint = (newPoint: CoordsType) => {
     const newPointers = [...pointers, newPoint];
@@ -18,11 +20,17 @@ const BoardContainer = () => {
     setPointers(newPointCoordinates);
   };
 
-  const handleNext = () => {};
+  const handleNext = () => {
+    setModeBoard('sizes');
+  };
 
   return (
     <>
-      <BoardComponent points={pointers} onAddPoint={handleAddPoint} />
+      <BoardComponent
+        points={pointers}
+        onAddPoint={handleAddPoint}
+        mode={modeBoard}
+      />
       <MenuEditorComponent onUndo={handleUndo} onNext={handleNext} />
     </>
   );
