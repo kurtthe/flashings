@@ -46,13 +46,11 @@ export const makeLines = ({pointers, onPressLine}: MakeLine) => {
       select: [],
     };
 
-  const pathSelect: MakeLine['pointers'] = pointers.map(
-    (p, index, allPoints) => ({
-      ...p,
-      x: p.x + 10,
-      y: p.y - 4,
-    }),
-  );
+  const pathSelect: MakeLine['pointers'] = pointers.map(p => ({
+    ...p,
+    x: p.x + 8,
+    y: p.y - 4,
+  }));
 
   return {
     normal: buildLines({pointers, colorLine: 'black', onPressLine}),
@@ -93,14 +91,13 @@ const buildLines = ({
     );
     if (!showLetterLine) {
       return (
-        <G fill="red" onPress={() => onPressLine(index)}>
-          <PathComponent
-            key={`selectLine${index}`}
-            d={serialize(linePoint)}
-            strokeWidth={1}
-            stroke={colorPath}
-          />
-        </G>
+        <PathComponent
+          onPress={() => onPressLine(index)}
+          key={`selectLine${index}`}
+          d={serialize(linePoint)}
+          strokeWidth={1}
+          stroke={colorPath}
+        />
       );
     }
     return (
@@ -114,6 +111,7 @@ const buildLines = ({
           {LETTER_LINES[index]}
         </Text>
         <PathComponent
+          onPress={() => onPressLine(index)}
           key={`normalLine${index}`}
           d={serialize(linePoint)}
           strokeWidth={1}

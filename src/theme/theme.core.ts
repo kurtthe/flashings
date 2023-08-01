@@ -33,6 +33,7 @@ const theme = createTheme({
     bodyOverlay: palette.bodyOverlay,
     charlotte: palette.charlotte,
     textGray: palette.textGray,
+    primaryBlue: palette.primaryBlue,
   },
   spacing: {
     //@ts-ignore allow unset props

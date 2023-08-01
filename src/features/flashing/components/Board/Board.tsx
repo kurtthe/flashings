@@ -5,6 +5,9 @@ import {makeLines} from './utils';
 import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import SvgBoard from '@features/flashing/components/SvgBoard';
+import {ModalBottom, ModalBottomRef} from '@components';
+import {Text} from '@ui/components';
+import MeasurementLines from '@features/flashing/components/MeasurementLines';
 
 export type MODES_BOARD = 'draw' | 'sizes';
 type Props = {
@@ -23,10 +26,12 @@ const Board: React.FC<Props> = ({
   mode = 'draw',
   onUpdatePoint,
 }) => {
+  const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<{
     normal: JSX.Element[];
     select: JSX.Element[];
   }>({normal: [], select: []});
+  const isDrawing = mode === 'draw';
 
   React.useEffect(() => {
     if (points.length < 1) return;
@@ -39,10 +44,11 @@ const Board: React.FC<Props> = ({
   }, [points]);
 
   const onPressLine = (numberLine: number) => {
-    console.log('=> onPressLine::', numberLine);
+    if (!isDrawing) return;
+    modalBottomRef.current?.show();
   };
   const handlePointer = (event: GestureResponderEvent) => {
-    if (mode !== 'draw') return;
+    if (!isDrawing) return;
     const newPosition = findCoordsNearest({
       positionX: event.nativeEvent.locationX,
       positionY: event.nativeEvent.locationY,
@@ -65,6 +71,9 @@ const Board: React.FC<Props> = ({
           />
         </GestureHandlerRootView>
       </TouchableOpacity>
+      <ModalBottom ref={modalBottomRef} height={300} borderRadius={0}>
+        <MeasurementLines />
+      </ModalBottom>
     </>
   );
 };
