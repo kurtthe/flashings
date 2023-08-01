@@ -21,7 +21,7 @@ const calculatePositionText = (
 
   if (isHorizontal) {
     return {
-      y: pointInit.y - scaleNumber * 6,
+      y: pointInit.y - scaleNumber * 20,
       x: (pointInit.x + pointFinal.x) / 2,
     };
   }
@@ -40,7 +40,37 @@ const calculatePositionText = (
 };
 
 export const makeLines = ({pointers}: MakeLine) => {
-  if (pointers.length < 1) return null;
+  if (pointers.length < 1)
+    return {
+      normal: [],
+      select: [],
+    };
+
+  const pathSelect: MakeLine['pointers'] = pointers.map(
+    (p, index, allPoints) => ({
+      ...p,
+      x: p.x + 10,
+      y: p.y - 4,
+    }),
+  );
+
+  return {
+    normal: buildLines({pointers, colorLine: 'black'}),
+    select: buildLines({
+      pointers: pathSelect,
+      colorLine: 'blue',
+      showLetterLine: false,
+    }),
+  };
+};
+
+const buildLines = ({
+  pointers,
+  showLetterLine = true,
+  colorLine,
+}: MakeLine & {colorLine: 'black' | 'blue'; showLetterLine?: boolean}) => {
+  const colorPath = colorLine === 'black' ? '#000' : '#0056FF';
+
   const generatorLine = shape
     .line()
     .x(data => data[0])
@@ -53,18 +83,22 @@ export const makeLines = ({pointers}: MakeLine) => {
 
     const positionText = calculatePositionText(point, pointers[index + 1]);
 
-    console.log('point.x::', point.x);
-    console.log('point.y::', point.y);
-
-    console.log('point+1.x::', pointers[index + 1]?.x || point.x);
-    console.log('point+1.y::', pointers[index + 1]?.y || point.y);
-
     const linePoint = parse(
       generatorLine([
         [point.x, point.y],
         [pointers[index + 1]?.x || point.x, pointers[index + 1]?.y || point.y],
       ]) as string,
     );
+    if (!showLetterLine) {
+      return (
+        <PathComponent
+          key={`selectLine${index}`}
+          d={serialize(linePoint)}
+          strokeWidth={1}
+          stroke={colorPath}
+        />
+      );
+    }
     return (
       <G>
         <Text
@@ -76,10 +110,10 @@ export const makeLines = ({pointers}: MakeLine) => {
           {LETTER_LINES[index]}
         </Text>
         <PathComponent
-          key={index}
+          key={`normalLine${index}`}
           d={serialize(linePoint)}
           strokeWidth={1}
-          stroke="#000"
+          stroke={colorPath}
         />
       </G>
     );
