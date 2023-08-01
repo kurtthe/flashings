@@ -1,18 +1,9 @@
 import React from 'react';
 import {TouchableOpacity, GestureResponderEvent} from 'react-native';
-import Svg from 'react-native-svg';
-import {
-  CoordsType,
-  heightScreen,
-  SIZE_POINTER,
-  SIZE_POINTER_LAST,
-  widthScreen,
-} from './types';
+import {CoordsType, heightScreen, widthScreen} from './types';
 import {makeLines} from './utils';
-import {GridComponent} from '@features/flashing/components';
 import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import PointerComponent from '@features/flashing/components/Pointer';
 import SvgBoard from '@features/flashing/components/SvgBoard';
 
 export type MODES_BOARD = 'draw' | 'sizes';
@@ -22,6 +13,7 @@ type Props = {
   width?: number;
   height?: number;
   mode: MODES_BOARD;
+  onUpdatePoint: (numberPoint: number, newDataPoint: CoordsType) => void;
 };
 const Board: React.FC<Props> = ({
   points,
@@ -29,6 +21,7 @@ const Board: React.FC<Props> = ({
   width = widthScreen,
   height = heightScreen,
   mode = 'draw',
+  onUpdatePoint,
 }) => {
   const [graphs, setGraphs] = React.useState<{
     normal: JSX.Element[];
@@ -40,10 +33,14 @@ const Board: React.FC<Props> = ({
 
     const makingLines = makeLines({
       pointers: points,
+      onPressLine: onPressLine,
     });
     setGraphs(makingLines);
   }, [points]);
 
+  const onPressLine = (numberLine: number) => {
+    console.log('=> onPressLine::', numberLine);
+  };
   const handlePointer = (event: GestureResponderEvent) => {
     if (mode !== 'draw') return;
     const newPosition = findCoordsNearest({

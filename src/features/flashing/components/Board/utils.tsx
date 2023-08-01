@@ -39,7 +39,7 @@ const calculatePositionText = (
   };
 };
 
-export const makeLines = ({pointers}: MakeLine) => {
+export const makeLines = ({pointers, onPressLine}: MakeLine) => {
   if (pointers.length < 1)
     return {
       normal: [],
@@ -55,11 +55,12 @@ export const makeLines = ({pointers}: MakeLine) => {
   );
 
   return {
-    normal: buildLines({pointers, colorLine: 'black'}),
+    normal: buildLines({pointers, colorLine: 'black', onPressLine}),
     select: buildLines({
       pointers: pathSelect,
       colorLine: 'blue',
       showLetterLine: false,
+      onPressLine,
     }),
   };
 };
@@ -68,6 +69,7 @@ const buildLines = ({
   pointers,
   showLetterLine = true,
   colorLine,
+  onPressLine,
 }: MakeLine & {colorLine: 'black' | 'blue'; showLetterLine?: boolean}) => {
   const colorPath = colorLine === 'black' ? '#000' : '#0056FF';
 
@@ -91,12 +93,14 @@ const buildLines = ({
     );
     if (!showLetterLine) {
       return (
-        <PathComponent
-          key={`selectLine${index}`}
-          d={serialize(linePoint)}
-          strokeWidth={1}
-          stroke={colorPath}
-        />
+        <G fill="red" onPress={() => onPressLine(index)}>
+          <PathComponent
+            key={`selectLine${index}`}
+            d={serialize(linePoint)}
+            strokeWidth={1}
+            stroke={colorPath}
+          />
+        </G>
       );
     }
     return (

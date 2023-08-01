@@ -9,6 +9,7 @@ export type CoordsType = {
 
 export type MakeLine = {
   pointers: CoordsType[];
+  onPressLine: (numberLine: number) => void;
 };
 export const SIZE_POINTER = 4;
 export const SIZE_POINTER_LAST = 8;
