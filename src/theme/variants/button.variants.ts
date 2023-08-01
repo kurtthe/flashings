@@ -52,6 +52,15 @@ const buttonVariants = {
     marginHorizontal: 'xs',
     marginTop: 's',
   },
+  keyboardBig: {
+    width: '92%',
+    backgroundColor: 'input',
+    borderWidth: 1,
+    borderColor: 'buttonBorder',
+    height: 25,
+    marginHorizontal: 'xs',
+    marginTop: 's',
+  },
 };
 
 export default buttonVariants;
