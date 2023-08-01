@@ -15,6 +15,12 @@ const BoardContainer = () => {
     setPointers(newPointers);
   };
 
+  const handleUpdatePoint = (numberPoint: number, newDataPoint: CoordsType) => {
+    setPointers(prevPointers => {
+      prevPointers[numberPoint] = newDataPoint;
+      return prevPointers;
+    });
+  };
   const handleUndo = () => {
     const newPointCoordinates = pointers.slice(0, -1);
     setPointers(newPointCoordinates);
@@ -29,6 +35,7 @@ const BoardContainer = () => {
       <BoardComponent
         points={pointers}
         onAddPoint={handleAddPoint}
+        onUpdatePoint={handleUpdatePoint}
         mode={modeBoard}
       />
       <MenuEditorComponent onUndo={handleUndo} onNext={handleNext} />
