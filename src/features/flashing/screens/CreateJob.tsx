@@ -119,6 +119,7 @@ const CreateJobScreen = ({ navigation }) => {
             isMandatory
           />
           <Input
+            inputMode="email"
             label="Contact Email"
             onChangeText={(text) => setContactEmail(text)}
             value={contactEmail}
