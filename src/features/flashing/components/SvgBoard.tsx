@@ -29,7 +29,7 @@ const SvgBoard: React.FC<Props> = ({
     <Svg width={widthScreen} height="100%">
       <GridComponent />
       {graphs.normal}
-      {showSelectLines && graphs.select}
+      {/*{showSelectLines && graphs.select}*/}
       {points.map((pointRender, index) => (
         <PointerComponent
           onPress={() => onPressPoint && onPressPoint(index)}

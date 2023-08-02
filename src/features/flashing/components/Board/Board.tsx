@@ -6,7 +6,6 @@ import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import SvgBoard from '@features/flashing/components/SvgBoard';
 import {ModalBottom, ModalBottomRef} from '@components';
-import {Text} from '@ui/components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
 
 export type MODES_BOARD = 'draw' | 'sizes';
@@ -27,10 +26,14 @@ const Board: React.FC<Props> = ({
   onUpdatePoint,
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
+  const [dataModifyLine, setDataModifyLine] = React.useState<
+    {numberLine: number; sizeLine: number} | undefined
+  >(undefined);
   const [graphs, setGraphs] = React.useState<{
     normal: JSX.Element[];
     select: JSX.Element[];
   }>({normal: [], select: []});
+
   const isDrawing = mode === 'draw';
 
   React.useEffect(() => {
@@ -45,7 +48,20 @@ const Board: React.FC<Props> = ({
 
   const onPressLine = (numberLine: number) => {
     if (!isDrawing) return;
+    setDataModifyLine({numberLine, sizeLine: 0});
     modalBottomRef.current?.show();
+  };
+
+  const handleDoneSize = (newSize: number) => {
+    modalBottomRef.current?.hide();
+    if (!dataModifyLine) return;
+
+    setDataModifyLine({...dataModifyLine, sizeLine: newSize});
+    const updatePoint = points[dataModifyLine.numberLine];
+    onUpdatePoint(dataModifyLine.numberLine, {
+      ...updatePoint,
+      sizeLine: newSize.toString(),
+    });
   };
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
@@ -71,8 +87,12 @@ const Board: React.FC<Props> = ({
           />
         </GestureHandlerRootView>
       </TouchableOpacity>
-      <ModalBottom ref={modalBottomRef} height={300} borderRadius={0}>
-        <MeasurementLines />
+      <ModalBottom
+        backdropClosesSheet={false}
+        ref={modalBottomRef}
+        height={300}
+        borderRadius={0}>
+        <MeasurementLines onDone={handleDoneSize} />
       </ModalBottom>
     </>
   );
