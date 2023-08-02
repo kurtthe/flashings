@@ -25,7 +25,49 @@ const Stack = () => {
   const {Navigator, Screen} = createStackNavigator();
 
   return (
-    <Navigator initialRouteName={Routes.ALL_JOBS}>
+    <Navigator initialRouteName={Routes.LOGIN}>
+      <Screen
+        name={Routes.LOGIN}
+        component={LoginScreen}
+        options={{
+          header: () => {},
+        }}
+      />
+      <Screen
+        name={Routes.SUBCONTRACTOR_LOGIN}
+        component={LoginSubcontractorScreen}
+        options={{
+          header: () => {},
+        }}
+      />
+      <Screen
+        name={Routes.FORGOT_PASSWORD}
+        component={ForgotPasswordScreen}
+        options={{
+          header: () => {},
+        }}
+      />
+      <Screen
+        name={Routes.FORGOT_PASSWORD_EMAIL_SENT}
+        component={ForgotPasswordEmailSentScreen}
+        options={{
+          header: () => {},
+        }}
+      />
+      <Screen
+        name={Routes.HELP_SUPPORT}
+        component={HelpSupportScreen}
+        options={{
+          header: () => {},
+        }}
+      />
+      <Screen
+        name={Routes.LEARN_HOW_TO_OPEN}
+        component={LearnHowToOpenScreen}
+        options={{
+          header: () => {},
+        }}
+      />
       <Screen
         name={Routes.ALL_JOBS}
         component={AllJobsScreen}
