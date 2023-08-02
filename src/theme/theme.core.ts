@@ -32,6 +32,8 @@ const theme = createTheme({
     orange: palette.error400,
     bodyOverlay: palette.bodyOverlay,
     charlotte: palette.charlotte,
+    lightBlue: palette.lightBlue,
+    primaryBlue: palette.primaryBlue,
   },
   spacing: {
     //@ts-ignore allow unset props
