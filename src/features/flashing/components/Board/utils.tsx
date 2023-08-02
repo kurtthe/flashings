@@ -21,15 +21,15 @@ const calculatePositionText = (
 
   if (isHorizontal) {
     return {
-      y: pointInit.y - scaleNumber * 20,
-      x: (pointInit.x + pointFinal.x) / 2,
+      y: pointInit.y - scaleNumber * 25,
+      x: (pointInit.x + pointFinal.x) / 1.5,
     };
   }
 
   if (isVertical) {
     return {
-      y: (pointInit.y + pointFinal.y) / 2,
-      x: pointInit.x - scaleNumber * 20,
+      y: (pointInit.y + pointFinal.y) / 1.5,
+      x: pointInit.x - scaleNumber * 25,
     };
   }
 
@@ -101,8 +101,9 @@ const buildLines = ({
       );
     }
     return (
-      <G>
+      <G key={`groupPath${index}`}>
         <Text
+          key={`nameLine${index}`}
           textAnchor="middle"
           fill={colorLabel}
           fontSize={fontSize}

@@ -16,6 +16,7 @@ const BoardContainer = () => {
   };
 
   const handleUpdatePoint = (numberPoint: number, newDataPoint: CoordsType) => {
+    console.log('update point::', newDataPoint);
     setPointers(prevPointers => {
       prevPointers[numberPoint] = newDataPoint;
       return prevPointers;
