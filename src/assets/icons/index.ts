@@ -8,3 +8,4 @@ export {default as CartIcon} from './cart.svg';
 export {default as SearchIcon} from './search.svg';
 export {default as DownIcon} from './up.svg';
 export {default as UpIcon} from './down.svg';
+export {default as EyeOffIcon} from './eye-off.svg'
