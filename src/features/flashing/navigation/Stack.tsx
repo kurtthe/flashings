@@ -19,6 +19,7 @@ import ForgotPasswordScreen from '../screens/ForgotPassword';
 import HelpSupportScreen from '../screens/HelpSupport';
 import ForgotPasswordEmailSentScreen from '../screens/ForgotPasswordEmailSent';
 import LearnHowToOpenScreen from '../screens/LearnHowToOpen';
+import CreateRainheadScreen from '../screens/CreateRainhead';
 
 const Stack = () => {
   const {Navigator, Screen} = createStackNavigator();
@@ -167,6 +168,19 @@ const Stack = () => {
               mb="s"
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
               title={"Gutter Flashing"}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name={Routes.CREATE_RAINHEAD}
+        component={CreateRainheadScreen}
+        options={{
+          header: () => (
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              title={"New Rainhead"}
             />
           ),
         }}
