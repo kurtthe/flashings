@@ -13,6 +13,13 @@ import {SearchIcon, CartIcon} from '@assets/icons';
 import JobDetailsScreen from '../screens/JobDetail';
 import CreateJobScreen from '../screens/CreateJob';
 import GutterFlashingExamples from '../screens/GutterFlashingExamples';
+import LoginScreen from '../screens/Login';
+import LoginSubcontractorScreen from '../screens/LoginSubcontractor';
+import ForgotPasswordScreen from '../screens/ForgotPassword';
+import HelpSupportScreen from '../screens/HelpSupport';
+import ForgotPasswordEmailSentScreen from '../screens/ForgotPasswordEmailSent';
+import LearnHowToOpenScreen from '../screens/LearnHowToOpen';
+import CreateRainheadScreen from '../screens/CreateRainhead';
 
 const Stack = () => {
   const {Navigator, Screen} = createStackNavigator();
@@ -119,6 +126,19 @@ const Stack = () => {
               mb="s"
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
               title={"Gutter Flashing"}
+            />
+          ),
+        }}
+      />
+      <Screen
+        name={Routes.CREATE_RAINHEAD}
+        component={CreateRainheadScreen}
+        options={{
+          header: () => (
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              title={"New Rainhead"}
             />
           ),
         }}
