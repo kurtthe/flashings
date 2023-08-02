@@ -18,7 +18,7 @@ const MeasurementLines: React.FC<Props> = ({onDone}) => {
       <Text
         variant="subheadBold"
         textAlign="center"
-        my="m">{`${measurement}cm`}</Text>
+        my="m">{`${measurement}in`}</Text>
       <KeyBoardNumber onChange={setMeasurement} onDone={handleDone} />
     </Box>
   );
