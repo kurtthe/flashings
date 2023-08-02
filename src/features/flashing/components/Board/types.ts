@@ -1,9 +1,7 @@
 import {Dimensions} from 'react-native';
-import {scaleLinear} from 'd3-scale';
 
 export type CoordsType = {
-  x: number;
-  y: number;
+  point: [number, number];
   sizeLine: string;
 };
 
@@ -16,9 +14,9 @@ export const SIZE_POINTER_LAST = 8;
 export const widthScreen = Dimensions.get('screen').width;
 export const heightScreen = Dimensions.get('screen').height;
 type Boundaries = [number, number];
-type ScaleFunction = (value: number) => number;
+export type ScaleFunction = (value: number) => number;
 
-const rescale =
+export const rescale =
   (from: Boundaries, to: Boundaries) =>
   (scale: ScaleFunction): ScaleFunction => {
     const scaledFrom = from.map(scale);
@@ -31,7 +29,7 @@ const getLogCoord = (abs: number) => {
   const base = 10 + 1000 / abs;
   return log(abs, base);
 };
-const rankScale = (value: number) => {
+export const rankScale = (value: number) => {
   const LINEAR_BOUND = 1;
   const LINEAR_DISTANCE = 0.1;
   const LINEAR_RATIO = LINEAR_DISTANCE / LINEAR_BOUND;
@@ -47,20 +45,6 @@ const rankScale = (value: number) => {
 };
 
 export const CIRCLE_RADIUS = 15;
-export const scalerX = ({
-  minDomain,
-  maxDomain,
-  width = widthScreen,
-  padding = 0,
-}: {
-  minDomain: number;
-  maxDomain: number;
-  width?: number;
-  padding?: number;
-}) =>
-  scaleLinear()
-    .domain([minDomain, maxDomain])
-    .range([padding, width - padding]);
 
 export const scalerY = ({
   minValue,

@@ -29,10 +29,7 @@ const Board: React.FC<Props> = ({
   const [dataModifyLine, setDataModifyLine] = React.useState<
     {numberLine: number; sizeLine: number} | undefined
   >(undefined);
-  const [graphs, setGraphs] = React.useState<{
-    normal: JSX.Element[];
-    select: JSX.Element[];
-  }>({normal: [], select: []});
+  const [graphs, setGraphs] = React.useState<JSX.Element[]>([]);
 
   const isDrawing = mode === 'draw';
 
@@ -42,6 +39,8 @@ const Board: React.FC<Props> = ({
     const makingLines = makeLines({
       pointers: points,
       onPressLine: onPressLine,
+      widthGraph: width,
+      heightGraph: height,
     });
     setGraphs(makingLines);
   }, [points]);
@@ -65,13 +64,13 @@ const Board: React.FC<Props> = ({
   };
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
-    const newPosition = findCoordsNearest({
-      positionX: event.nativeEvent.locationX,
-      positionY: event.nativeEvent.locationY,
-    });
+    const newPosition = findCoordsNearest([
+      event.nativeEvent.locationX,
+      event.nativeEvent.locationY,
+    ]);
 
     onAddPoint({
-      ...newPosition,
+      point: [newPosition.x, newPosition.y],
       sizeLine: '?',
     });
   };

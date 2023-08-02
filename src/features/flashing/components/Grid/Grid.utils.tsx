@@ -83,13 +83,7 @@ const renderLinesHorizontals = ({
   ));
 };
 
-export const findCoordsNearest = ({
-  positionX,
-  positionY,
-}: {
-  positionX: number;
-  positionY: number;
-}) => {
+export const findCoordsNearest = (pointCoord: [number, number]) => {
   const arrayGrid = Array.from({length: SIZE_GRID}, (_, i) => i.toString());
   const scaleXBar = ScaleXBar({
     domainData: arrayGrid,
@@ -108,7 +102,7 @@ export const findCoordsNearest = ({
     parseInt(scaleYBar(point) as unknown as string),
   );
   return {
-    x: findClosestNumber(filterXCoords, positionX),
-    y: findClosestNumber(filterYCoords, positionY),
+    x: findClosestNumber(filterXCoords, pointCoord[0]),
+    y: findClosestNumber(filterYCoords, pointCoord[1]),
   };
 };

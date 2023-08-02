@@ -10,7 +10,7 @@ import Svg from 'react-native-svg';
 import React from 'react';
 
 type Props = {
-  graphs: {normal: JSX.Element[]; select: JSX.Element[]};
+  graphs: JSX.Element[];
   points: CoordsType[];
   showSelectLines?: boolean;
   onPressPoint?: (numberPoint: number) => void;
@@ -28,14 +28,13 @@ const SvgBoard: React.FC<Props> = ({
   return (
     <Svg width={widthScreen} height="100%">
       <GridComponent />
-      {graphs.normal}
-      {/*{showSelectLines && graphs.select}*/}
-      {points.map((pointRender, index) => (
+      {graphs}
+      {points.map(({point}, index) => (
         <PointerComponent
           onPress={() => onPressPoint && onPressPoint(index)}
           key={index}
-          cx={pointRender.x}
-          cy={pointRender.y}
+          cx={point[0]}
+          cy={point[1]}
           r={points.length - 1 === index ? SIZE_POINTER_LAST : SIZE_POINTER}
           fill={colorPointer}
           strokeWidth={borderWidth}
