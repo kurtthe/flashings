@@ -4,18 +4,17 @@ import {
   Image,
   Dimensions,
   TouchableWithoutFeedback,
-  KeyboardAvoidingView,
   Keyboard,
   Platform,
   View
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {
   Text,
   Button,
   Box,
 } from '@ui/components';
 import Input from '@ui/components/Input';
-import ForgotButton from '../components/ForgotButton';
 import SimpleButton from '../components/SimpleButton';
 import { Routes } from '../navigation/routes';
 
@@ -35,9 +34,8 @@ const LoginSubcontractorScreen = ({navigation}) => {
   const navigateTo = (routeToGo) =>{navigation.navigate(routeToGo)}
 
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container} 
       >
         <DismissKeyboard>
           <View style={styles.container}>
@@ -73,7 +71,7 @@ const LoginSubcontractorScreen = ({navigation}) => {
                 Login
               </Button>
               <View>
-                <SimpleButton underlined onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
+                <SimpleButton style={{marginBottom: 5}} underlined onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
                   Need Help?
                 </SimpleButton>
                 <View style={{ flexDirection: 'row' }} >
@@ -89,7 +87,7 @@ const LoginSubcontractorScreen = ({navigation}) => {
             </Box>
           </View>
         </DismissKeyboard>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     );
   }
 
