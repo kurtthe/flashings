@@ -39,11 +39,7 @@ const DismissKeyboard = ({ children }) => (
             <View style={styles.logoAndMainTextContainer}>
               <Image
                 style={styles.mainLogo}
-                source={require('../../../assets/logo/Burdens.png')}
-              />
-              <Image
-                style={styles.bottomLogo}
-                source={require('../../../assets/logo/FlashingDesigner.png')}
+                source={require('../../../assets/logo/MainLogo.png')}
               />
               <Text
                 style={styles.mainTextStyle}
@@ -140,15 +136,10 @@ const styles = StyleSheet.create({
     bottom: 20,
   },
   mainLogo: {
-    width: 130,
-    height: 47,
-    resizeMode: 'contain',
-  },
-  bottomLogo: {
     width: 142,
-    height: 27,
+    height: 74,
     resizeMode: 'contain',
-  },
+  }
 });
 
 export default HelpSupportScreen;
