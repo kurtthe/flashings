@@ -4,6 +4,7 @@ import {
   PADDING_BARS,
 } from '@features/flashing/components/Grid/Grid.types';
 import {scaleBand} from 'd3-scale';
+import {PointType} from '@features/flashing/components';
 
 type ScaleColumnType = {
   domainData: string[];
@@ -50,4 +51,8 @@ export const findClosestNumber = (
   }
 
   return closest;
+};
+
+export const valuePending = (point1: PointType, point2: PointType) => {
+  return (point2[1] - point1[1]) / (point2[0] - point1[0]);
 };
