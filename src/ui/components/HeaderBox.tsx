@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Platform, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   SafeAreaInsetsContext,
   SafeAreaView,
@@ -13,7 +13,13 @@ type Props = BoxProps & {
   title?: string;
 };
 
-const ScreenHeaderBox = ({leftIcon, rightIcon, style, title, ...rest}: Props) => (
+const ScreenHeaderBox = ({
+  leftIcon,
+  rightIcon,
+  style,
+  title,
+  ...rest
+}: Props) => (
   <SafeAreaInsetsContext.Consumer>
     {insets => (
       <SafeAreaView
@@ -29,13 +35,7 @@ const ScreenHeaderBox = ({leftIcon, rightIcon, style, title, ...rest}: Props) =>
           {...rest}
           style={[style]}>
           {title && !leftIcon ? <Box px="m" /> : leftIcon}
-          {title && (
-            <Text
-              mx={leftIcon && rightIcon ? 'm' : 'unset'}
-              variant="subheadLargeBold">
-              {title}
-            </Text>
-          )}
+          {title && <Text variant="subheadLargeBold">{title}</Text>}
           {title && !rightIcon ? <Box px="m" /> : rightIcon}
         </Box>
       </SafeAreaView>
