@@ -3,11 +3,6 @@ import {AppStatusBar} from '@ui/components';
 import {BoardContainer} from '@features/flashing/containers';
 
 const CreateFlashingScreen = () => {
-  return (
-    <>
-      <AppStatusBar />
-      <BoardContainer />
-    </>
-  );
+  return <BoardContainer />;
 };
 export default CreateFlashingScreen;

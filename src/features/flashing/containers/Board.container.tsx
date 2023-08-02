@@ -1,15 +1,53 @@
 import React from 'react';
 import {
   BoardComponent,
+  CoordsType,
   MenuEditorComponent,
 } from '@features/flashing/components';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {MODES_BOARD} from '@features/flashing/components/Board/Board';
 
 const BoardContainer = () => {
+  const [pointers, setPointers] = React.useState<CoordsType[]>([]);
+  const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
+
+  const handleAddPoint = (newPoint: CoordsType) => {
+    const newPointers = [...pointers, newPoint];
+    setPointers(newPointers);
+  };
+
+  const handleUpdatePoint = (numberPoint: number, newDataPoint: CoordsType) => {
+    console.log('update point::', newDataPoint);
+    setPointers(prevPointers => {
+      prevPointers[numberPoint] = newDataPoint;
+      return prevPointers;
+    });
+  };
+  const handleUndo = () => {
+    const newPointCoordinates = pointers.slice(0, -1);
+    setPointers(newPointCoordinates);
+  };
+
+  const handleEdit = () => {
+    setModeBoard('draw');
+  };
+
+  const handleNext = () => {
+    setModeBoard('sizes');
+  };
+
   return (
     <>
-      <BoardComponent />
-      <MenuEditorComponent />
+      <BoardComponent
+        points={pointers}
+        onAddPoint={handleAddPoint}
+        onUpdatePoint={handleUpdatePoint}
+        mode={modeBoard}
+      />
+      <MenuEditorComponent
+        onUndo={handleUndo}
+        onEdit={handleEdit}
+        onNext={handleNext}
+      />
     </>
   );
 };
