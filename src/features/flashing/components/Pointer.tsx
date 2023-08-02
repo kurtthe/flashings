@@ -3,46 +3,50 @@ import {Circle} from 'react-native-svg';
 import type {CircleProps} from 'react-native-svg';
 import Animated, {
   useAnimatedGestureHandler,
-  useAnimatedStyle,
+  useAnimatedProps,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import {
-  GestureHandlerRootView,
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
-import {useVector} from 'react-native-redash';
-import {CIRCLE_RADIUS} from '@features/flashing/components/Board';
+import {CIRCLE_RADIUS, CoordsType} from '@features/flashing/components/Board';
 
-type Props = {
-  x: number;
-  y: number;
+type Props = CircleProps & {
+  key: number;
 };
 
 type ContextType = {
   translateX: number;
   translateY: number;
 };
-const PointerComponent: React.FC<Props> = ({x = 0, y = 0}) => {
-  const translateX = useSharedValue(x);
-  const translateY = useSharedValue(y);
+const PointerComponent: React.FC<Props> = props => {
+  const translateX = useSharedValue(props.cx);
+  const translateY = useSharedValue(props.cy);
 
+  // @ts-ignore
+  const AnimatedCircle = Animated.createAnimatedComponent(Circle);
   const panGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     ContextType
   >({
     onStart: (event, context) => {
-      context.translateX = translateX.value;
-      context.translateY = translateY.value;
+      context.translateX = translateX.value as number;
+      context.translateY = translateY.value as number;
     },
     onActive: (event, context) => {
-      translateX.value = event.translationX + context.translateX;
-      translateY.value = event.translationY + context.translateY;
+      const newX = event.translationX + context.translateX;
+      const newY = event.translationY + context.translateY;
+
+      translateX.value = newX;
+      translateY.value = newY;
     },
     onEnd: () => {
-      const distance = Math.sqrt(translateX.value ** 2 + translateY.value ** 2);
+      const distance = Math.sqrt(
+        parseInt(String(translateX.value as unknown as number)) ** 2 +
+          parseInt(String(translateY.value as unknown as number)) ** 2,
+      );
 
       if (distance < CIRCLE_RADIUS / 2) {
         translateX.value = withSpring(0);
@@ -51,17 +55,8 @@ const PointerComponent: React.FC<Props> = ({x = 0, y = 0}) => {
     },
   });
 
-  const rStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        {
-          translateX: translateX.value,
-        },
-        {
-          translateY: translateY.value,
-        },
-      ],
-    };
+  const animatedProps = useAnimatedProps(() => {
+    return {cx: translateX.value, cy: translateY.value};
   });
 
   return (
@@ -69,23 +64,14 @@ const PointerComponent: React.FC<Props> = ({x = 0, y = 0}) => {
       <PanGestureHandler
         key={`gesture${Math.random()}`}
         onGestureEvent={panGestureEvent}>
-        <Animated.View
-          key={`indicator${Math.random()}`}
-          style={[styles.pointer, rStyle]}
+        <AnimatedCircle
+          {...props}
+          key={`pointer${Math.random()}`}
+          animatedProps={animatedProps}
         />
       </PanGestureHandler>
     </>
   );
 };
 
-const styles = StyleSheet.create({
-  pointer: {
-    width: CIRCLE_RADIUS,
-    height: CIRCLE_RADIUS,
-    backgroundColor: '#8F94AE',
-    borderColor: '#000000',
-    borderWidth: 1,
-    borderRadius: 20,
-  },
-});
 export default PointerComponent;

@@ -44,6 +44,7 @@ const palette = {
   polar: '#F2F8FC',
   transparent: 'rgba(255,255,255,0)',
   white: '#fff',
+  textGray: '#8F94AE',
 
   primaryBlue: '#0E3A90',
   lightGray: '#8F94AE',
