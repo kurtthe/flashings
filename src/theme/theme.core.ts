@@ -32,6 +32,7 @@ const theme = createTheme({
     orange: palette.error400,
     bodyOverlay: palette.bodyOverlay,
     charlotte: palette.charlotte,
+    textGray: palette.textGray,
     lightBlue: palette.lightBlue,
     primaryBlue: palette.primaryBlue,
   },
