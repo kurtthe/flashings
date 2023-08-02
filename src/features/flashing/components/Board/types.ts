@@ -1,9 +1,11 @@
 import {Dimensions} from 'react-native';
 
 export type CoordsType = {
-  point: [number, number];
+  point: PointType;
   sizeLine: string;
 };
+
+export type PointType = [number, number];
 
 export type MakeLine = {
   pointers: CoordsType[];
