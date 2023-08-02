@@ -63,7 +63,7 @@ const Item = ({item}: ItemProps) => (
     <View style={styles.buttonContainer}>
       <Text style={styles.link}>Archive</Text>
       <View style={{marginHorizontal: 12}} />
-      <Pressable style={styles.button}>
+      <Pressable style={styles.button} onPress={() => navigation.navigate(Routes.JOB_DETAILS, {item: item})}>
         <Text style={styles.white}>View Job</Text>
       </Pressable>
     </View>
@@ -80,9 +80,9 @@ const Item = ({item}: ItemProps) => (
         {() => 
         <Button 
           mt="l" 
-          onPress={() => navigation.navigate(Routes.CREATE_FLASHING)}
+          onPress={() => navigation.navigate(Routes.CREATE_JOB)}
           style={[styles.button, {padding: 12}]}>
-          Create New Flashing
+          Create New Job
         </Button>
         }
         ListFooterComponentStyle=
