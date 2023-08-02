@@ -1,27 +1,27 @@
-import {CoordsType, LETTER_LINES, MakeLine, PointType} from './types';
+import { CoordsType, LETTER_LINES, MakeLine, PointType } from './types';
 import * as shape from 'd3-shape';
-import {parse, serialize} from 'react-native-redash';
+import { parse, serialize } from 'react-native-redash';
 import React from 'react';
-import {Path as PathComponent, Text, G} from 'react-native-svg';
-import {valuePending} from '@features/flashing/utils';
+import { Path as PathComponent, Text, G } from 'react-native-svg';
+import { valuePending } from '@features/flashing/utils';
 
 const calculateParallelLine = (
   point1: PointType,
   point2: PointType | undefined,
 ): PointType => {
-  const offset = 5;
+  const offset = 10;
 
   if (!point2) return [point1[0], point1[1] - 5];
 
   const pending = valuePending(point1, point2);
   console.log('=>pending::', pending);
 
-  if (isFinite(pending)) {
-    return [point1[0] + offset, point1[1]];
+  if (pending === 0) {
+    return [point1[0] + offset, point1[1] - offset];
   }
 
-  if (pending === 0) {
-    return [point1[0], point1[1] + offset];
+  if (isFinite(pending)) {
+    return [point1[0] + offset, point1[1]];
   }
 
   return point2;
@@ -63,7 +63,7 @@ export const makeLines = ({
   onPressLine,
   widthGraph,
   heightGraph,
-}: MakeLine & {widthGraph: number; heightGraph: number}) => {
+}: MakeLine & { widthGraph: number; heightGraph: number }) => {
   if (pointers.length < 1) return [];
 
   const parallelPoints: MakeLine['pointers'] = pointers.map((p, index) => ({
@@ -92,7 +92,7 @@ const buildLines = ({
     .y(data => data[1])
     .curve(shape.curveLinear);
 
-  return pointers.map(({point}, index) => {
+  return pointers.map(({ point }, index) => {
     const fontSize = 20;
     const colorLabel = '#8F94AE';
 
