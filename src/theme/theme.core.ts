@@ -33,6 +33,7 @@ const theme = createTheme({
     bodyOverlay: palette.bodyOverlay,
     charlotte: palette.charlotte,
     textGray: palette.textGray,
+    lightBlue: palette.lightBlue,
     primaryBlue: palette.primaryBlue,
   },
   spacing: {
