@@ -1,108 +1,99 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  GestureResponderEvent,
-  StyleSheet,
-} from 'react-native';
-import Svg, {Circle, Path, G, Text} from 'react-native-svg';
+import {TouchableOpacity, GestureResponderEvent} from 'react-native';
 import {CoordsType, heightScreen, widthScreen} from './types';
-import {makeLine} from './utils';
-import {serialize, Path as PathType} from 'react-native-redash';
-import {BackgroundGridResponsive} from '@assets/images';
+import {makeLines} from './utils';
+import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import SvgBoard from '@features/flashing/components/SvgBoard';
+import {ModalBottom, ModalBottomRef} from '@components';
+import MeasurementLines from '@features/flashing/components/MeasurementLines';
 
+export type MODES_BOARD = 'draw' | 'sizes';
 type Props = {
+  points: CoordsType[];
+  onAddPoint: (newPoint: CoordsType) => void;
   width?: number;
   height?: number;
+  mode: MODES_BOARD;
+  onUpdatePoint: (numberPoint: number, newDataPoint: CoordsType) => void;
 };
 const Board: React.FC<Props> = ({
+  points,
+  onAddPoint,
   width = widthScreen,
   height = heightScreen,
+  mode = 'draw',
+  onUpdatePoint,
 }) => {
-  const colorPointer = '#8F94AE';
-  const colorBorderPointer = '#000000';
-  const borderWidth = 1;
-  const sizePointer = 5;
+  const modalBottomRef = React.useRef<ModalBottomRef>();
+  const [dataModifyLine, setDataModifyLine] = React.useState<
+    {numberLine: number; sizeLine: number} | undefined
+  >(undefined);
+  const [graphs, setGraphs] = React.useState<JSX.Element[]>([]);
 
-  const [pointers, setPointers] = React.useState<CoordsType[]>([]);
-  const [lineNumberSelected, setLineNumberSelected] = React.useState<
-    number | undefined
-  >();
-  const [modalSizeLine, setModalSizeLine] = React.useState(false);
-  const [graphs, setGraphs] = React.useState<Array<PathType | null>>([]);
+  const isDrawing = mode === 'draw';
 
   React.useEffect(() => {
-    if (pointers.length < 1) return;
+    if (points.length < 1) return;
 
-    const makingLines = makeLine({
-      pointers,
+    const makingLines = makeLines({
+      pointers: points,
+      onPressLine: onPressLine,
+      widthGraph: width,
+      heightGraph: height,
     });
-    if (!makingLines || makingLines.length < 1) return;
     setGraphs(makingLines);
-  }, [pointers]);
+  }, [points]);
 
+  const onPressLine = (numberLine: number) => {
+    if (!isDrawing) return;
+    setDataModifyLine({numberLine, sizeLine: 0});
+    modalBottomRef.current?.show();
+  };
+
+  const handleDoneSize = (newSize: number) => {
+    modalBottomRef.current?.hide();
+    if (!dataModifyLine) return;
+
+    setDataModifyLine({...dataModifyLine, sizeLine: newSize});
+    const updatePoint = points[dataModifyLine.numberLine];
+    onUpdatePoint(dataModifyLine.numberLine, {
+      ...updatePoint,
+      sizeLine: newSize.toString(),
+    });
+  };
   const handlePointer = (event: GestureResponderEvent) => {
-    const newPointCoordinates = {
-      y: event.nativeEvent.locationY,
-      x: event.nativeEvent.locationX,
+    if (!isDrawing) return;
+    const newPosition = findCoordsNearest([
+      event.nativeEvent.locationX,
+      event.nativeEvent.locationY,
+    ]);
+
+    onAddPoint({
+      point: [newPosition.x, newPosition.y],
       sizeLine: '?',
-    };
-
-    const newPointers = [...pointers, newPointCoordinates];
-    setPointers(newPointers);
-  };
-
-  const handleSetSize = (tmpSizePointer: string) => {
-    if (lineNumberSelected === undefined) return;
-    const modifiedPointers = pointers.map((pointer, index) => ({
-      ...pointer,
-      sizeLine:
-        index === lineNumberSelected ? tmpSizePointer : pointer.sizeLine,
-    }));
-    setPointers(modifiedPointers);
-    setModalSizeLine(false);
-    setLineNumberSelected(undefined);
-  };
-
-  const handleUndo = () => {
-    const newPointCoordinates = pointers.slice(0, -1);
-    setPointers(newPointCoordinates);
+    });
   };
 
   return (
-    <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
-      <BackgroundGridResponsive style={StyleSheet.absoluteFill} />
-
-      <Svg width={widthScreen} height="90%">
-        {pointers.map((pointRender, index) => (
-          <Circle
-            onPress={() => {
-              setLineNumberSelected(index);
-              setModalSizeLine(true);
-            }}
-            key={index}
-            cx={pointRender.x}
-            cy={pointRender.y}
-            r={sizePointer}
-            fill={colorPointer}
-            strokeWidth={borderWidth}
-            stroke={colorBorderPointer}
+    <>
+      <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
+        <GestureHandlerRootView>
+          <SvgBoard
+            graphs={graphs}
+            points={points}
+            showSelectLines={mode !== 'draw'}
           />
-        ))}
-        {graphs.map(
-          (linePoint, index) =>
-            !!linePoint && (
-              <G key={`group${index}`}>
-                <Path
-                  key={index}
-                  d={serialize(linePoint)}
-                  strokeWidth={1}
-                  stroke="#000"
-                />
-              </G>
-            ),
-        )}
-      </Svg>
-    </TouchableOpacity>
+        </GestureHandlerRootView>
+      </TouchableOpacity>
+      <ModalBottom
+        backdropClosesSheet={false}
+        ref={modalBottomRef}
+        height={300}
+        borderRadius={0}>
+        <MeasurementLines onDone={handleDoneSize} />
+      </ModalBottom>
+    </>
   );
 };
 

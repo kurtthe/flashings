@@ -86,14 +86,14 @@ const FooterButtons = ({onPress}) => {
       </Button>
       <Button 
         mt="s" 
-        onPress={() => onPress(Routes.GUTTER_FLASHING_EXAMPLES)} //JUST TO TEST
+        onPress={() => onPress(Routes.CREATE_RAINHEAD)} //JUST TO TEST
         variant="outlineWhite"
       >
         + Add Rainhead
       </Button>
       <Button 
         mt="s" 
-        onPress={() => {}}
+        onPress={() => onPress(Routes.GUTTER_FLASHING_EXAMPLES)}
         variant="outlineWhite"
       >
         + Add Sump
