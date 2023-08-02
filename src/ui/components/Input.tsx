@@ -80,6 +80,7 @@ const Input: FC<TextInputProps> = ({
             />
           )}
           <TextInput
+            secureTextEntry={secureTextEntry}
             ref={inputRef}
             style={[styles.input, inputStyles]}
             onChangeText={text => onChangeText(text)}
