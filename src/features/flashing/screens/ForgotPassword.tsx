@@ -4,11 +4,11 @@ import {
   Image,
   Dimensions,
   TouchableWithoutFeedback,
-  KeyboardAvoidingView,
   Keyboard,
   Platform,
   View
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {
   Text,
   Button,
@@ -34,9 +34,8 @@ const ForgotPasswordScreen = ({navigation}) => {
   const navigateTo = (routeToGo) =>{navigation.navigate(routeToGo)}
 
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container} 
       >
         <DismissKeyboard>
           <View style={styles.container}>
@@ -58,6 +57,7 @@ const ForgotPasswordScreen = ({navigation}) => {
             </View>
             <View style={{flex: 4}}>
               <Input
+                inputMode="email"
                 label="Email"
                 onChangeText={(text) => setEmail(text)}
                 value={email}
@@ -75,7 +75,7 @@ const ForgotPasswordScreen = ({navigation}) => {
                 Send Email
               </Button>
               <View>
-                <SimpleButton underlined onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
+                <SimpleButton style={{marginBottom: 5}} underlined onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
                   Need Help?
                 </SimpleButton>
                 <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
@@ -91,7 +91,7 @@ const ForgotPasswordScreen = ({navigation}) => {
             </Box>
           </View>
         </DismissKeyboard>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     );
   }
 

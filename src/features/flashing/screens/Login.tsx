@@ -4,12 +4,12 @@ import {
   Image,
   Dimensions,
   TouchableWithoutFeedback,
-  KeyboardAvoidingView,
   Keyboard,
   Platform,
   View,
   Pressable
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import {
   Text,
   Button,
@@ -20,7 +20,7 @@ import ForgotButton from '../components/ForgotButton';
 import SimpleButton from '../components/SimpleButton';
 import { Routes } from '../navigation/routes';
 import { Icon } from '@ui/components';
-import { EyeOffIcon, NextIcon } from '../../../assets/icons/index';
+import { EyeOffIcon, OpenEyeIcon } from '../../../assets/icons/index';
 
 const { height, width } = Dimensions.get('screen');
 
@@ -40,9 +40,8 @@ const LoginScreen = ({navigation}) => {
   const navigateTo = (routeToGo) =>{navigation.navigate(routeToGo)}
 
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.container}
+      <KeyboardAwareScrollView
+        contentContainerStyle={styles.container} 
       >
         <DismissKeyboard>
           <View style={styles.container}>
@@ -60,6 +59,7 @@ const LoginScreen = ({navigation}) => {
             </View>
             <View style={{flex: 3}}>
               <Input
+                inputMode="email"
                 label="Email"
                 onChangeText={(text) => setEmail(text)}
                 value={email}
@@ -68,6 +68,7 @@ const LoginScreen = ({navigation}) => {
               />
               <View>
                 <Input
+                  secureTextEntry={!visible}
                   label="Password"
                   onChangeText={(text) => setPassword(text)}
                   value={password}
@@ -76,7 +77,7 @@ const LoginScreen = ({navigation}) => {
                 />
                 <Pressable style={{alignSelf: 'center', position: 'absolute', top:55, right: 15}} onPress={() => setVisible(!visible)}>
                   <Icon
-                    as={visible ? EyeOffIcon : NextIcon}
+                    as={visible ? OpenEyeIcon : EyeOffIcon}
                   />
                 </Pressable>
               </View>
@@ -102,7 +103,7 @@ const LoginScreen = ({navigation}) => {
                 Subcontractor Access
               </Button>
               <View>
-                <SimpleButton underlined onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
+                <SimpleButton style={{marginBottom: 5}} underlined onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
                   Need Help?
                 </SimpleButton>
                 <View style={{ flexDirection: 'row' }} >
@@ -118,7 +119,7 @@ const LoginScreen = ({navigation}) => {
             </Box>
           </View>
         </DismissKeyboard>
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
     );
   }
 
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
     backgroundColor: 'white',
-    paddingVertical: 35
+    paddingVertical: 35,
   },
   logoAndMainTextContainer: {
     flex: 1.5,
