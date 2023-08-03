@@ -52,6 +52,7 @@ export const CIRCLE_RADIUS = 15;
 export const scalerY = rescale([0, 1000], [0, heightScreen])(rankScale);
 
 export const scalerX = scaleLinear().domain([0, 600]).range([0, widthScreen]);
+export type LineSelectedType = CoordsType & { numberLine: number };
 
 export const LETTER_LINES = [
   'A',

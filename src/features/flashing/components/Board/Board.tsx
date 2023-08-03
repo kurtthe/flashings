@@ -1,6 +1,11 @@
 import React from 'react';
 import { TouchableOpacity, GestureResponderEvent } from 'react-native';
-import { CoordsType, heightScreen, widthScreen } from './types';
+import {
+  CoordsType,
+  heightScreen,
+  LineSelectedType,
+  widthScreen,
+} from './types';
 import { makeLines } from './utils';
 import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -18,6 +23,7 @@ type Props = {
   mode: MODES_BOARD;
   onUpdatePoint: (numberPoint: number, newDataPoint: CoordsType) => void;
 };
+
 const Board: React.FC<Props> = ({
   points,
   onAddPoint,
@@ -27,9 +33,7 @@ const Board: React.FC<Props> = ({
   onUpdatePoint,
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
-  const [dataModifyLine, setDataModifyLine] = React.useState<
-    { numberLine: number; sizeLine: number } | undefined
-  >(undefined);
+  const [pointSelected, setPointSelected] = React.useState<LineSelectedType>();
   const [graphs, setGraphs] = React.useState<JSX.Element[]>([]);
 
   const isDrawing = mode === 'draw';
@@ -48,18 +52,21 @@ const Board: React.FC<Props> = ({
 
   const onPressLine = (numberLine: number) => {
     if (!isDrawing) return;
-    setDataModifyLine({ numberLine, sizeLine: 0 });
+    const pathSelected = points[numberLine];
+    setPointSelected({ ...pathSelected, numberLine });
     modalBottomRef.current?.show();
   };
 
-  const handleDoneSize = (newSize: number) => {
+  const handleDoneSize = (newSize: string) => {
     modalBottomRef.current?.hide();
-    if (!dataModifyLine) return;
+    if (!pointSelected) return;
+    const updatePoint: LineSelectedType = {
+      ...pointSelected,
+      sizeLine: newSize.toString(),
+    };
 
-    setDataModifyLine({ ...dataModifyLine, sizeLine: newSize });
-    const updatePoint = points[dataModifyLine.numberLine];
-    onUpdatePoint(dataModifyLine.numberLine, {
-      ...updatePoint,
+    onUpdatePoint(updatePoint.numberLine, {
+      point: updatePoint.point,
       sizeLine: newSize.toString(),
     });
   };
@@ -106,7 +113,7 @@ const Board: React.FC<Props> = ({
         ref={modalBottomRef}
         height={300}
         borderRadius={0}>
-        <MeasurementLines onDone={handleDoneSize} />
+        <MeasurementLines point={pointSelected} onDone={handleDoneSize} />
       </ModalBottom>
     </>
   );
