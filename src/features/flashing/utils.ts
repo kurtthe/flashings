@@ -53,7 +53,7 @@ export const findClosestNumber = (
   return closest;
 };
 
-export const valuePending = (point1: PointType, point2: PointType) => {
+export const calculatePending = (point1: PointType, point2: PointType) => {
   return (point2[1] - point1[1]) / (point2[0] - point1[0]);
 };
 
