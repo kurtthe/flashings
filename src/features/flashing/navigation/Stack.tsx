@@ -1,6 +1,6 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Routes} from './routes';
+import { createStackNavigator } from '@react-navigation/stack';
+import { Routes } from './routes';
 import {
   CreateFlashingScreen,
   GutterFlashingScreen,
@@ -8,66 +8,20 @@ import {
   DemoBoardScreen,
   AllJobsScreen,
 } from '../screens';
-import {HeaderBackButton, HeaderBox, Icon} from '@ui/components';
-import {SearchIcon, CartIcon} from '@assets/icons';
+import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
+import { SearchIcon, CartIcon } from '@assets/icons';
 import JobDetailsScreen from '../screens/JobDetail';
 import CreateJobScreen from '../screens/CreateJob';
 import GutterFlashingExamples from '../screens/GutterFlashingExamples';
-import LoginScreen from '../screens/Login';
-import LoginSubcontractorScreen from '../screens/LoginSubcontractor';
-import ForgotPasswordScreen from '../screens/ForgotPassword';
-import HelpSupportScreen from '../screens/HelpSupport';
-import ForgotPasswordEmailSentScreen from '../screens/ForgotPasswordEmailSent';
-import LearnHowToOpenScreen from '../screens/LearnHowToOpen';
+import HelpSupportScreen from '../../auth/screens/HelpSupport';
+import LearnHowToOpenScreen from '../../auth/screens/LearnHowToOpen';
 import CreateRainheadScreen from '../screens/CreateRainhead';
 
 const Stack = () => {
-  const {Navigator, Screen} = createStackNavigator();
+  const { Navigator, Screen } = createStackNavigator();
 
   return (
-    <Navigator initialRouteName={Routes.LOGIN}>
-      <Screen
-        name={Routes.LOGIN}
-        component={LoginScreen}
-        options={{
-          header: () => {},
-        }}
-      />
-      <Screen
-        name={Routes.SUBCONTRACTOR_LOGIN}
-        component={LoginSubcontractorScreen}
-        options={{
-          header: () => {},
-        }}
-      />
-      <Screen
-        name={Routes.FORGOT_PASSWORD}
-        component={ForgotPasswordScreen}
-        options={{
-          header: () => {},
-        }}
-      />
-      <Screen
-        name={Routes.FORGOT_PASSWORD_EMAIL_SENT}
-        component={ForgotPasswordEmailSentScreen}
-        options={{
-          header: () => {},
-        }}
-      />
-      <Screen
-        name={Routes.HELP_SUPPORT}
-        component={HelpSupportScreen}
-        options={{
-          header: () => {},
-        }}
-      />
-      <Screen
-        name={Routes.LEARN_HOW_TO_OPEN}
-        component={LearnHowToOpenScreen}
-        options={{
-          header: () => {},
-        }}
-      />
+    <Navigator initialRouteName={Routes.GUTTER_FLASHING}>
       <Screen
         name={Routes.ALL_JOBS}
         component={AllJobsScreen}
@@ -154,7 +108,7 @@ const Stack = () => {
             <HeaderBox
               mb="s"
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title={"New Job"}
+              title={'New Job'}
             />
           ),
         }}
@@ -167,7 +121,7 @@ const Stack = () => {
             <HeaderBox
               mb="s"
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title={"Gutter Flashing"}
+              title={'Gutter Flashing'}
             />
           ),
         }}
@@ -180,7 +134,7 @@ const Stack = () => {
             <HeaderBox
               mb="s"
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title={"New Rainhead"}
+              title={'New Rainhead'}
             />
           ),
         }}
