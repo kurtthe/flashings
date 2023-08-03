@@ -3,8 +3,8 @@ import {
   LINE_OFFSET,
   PADDING_BARS,
 } from '@features/flashing/components/Grid/Grid.types';
-import {scaleBand} from 'd3-scale';
-import {PointType} from '@features/flashing/components';
+import { scaleBand } from 'd3-scale';
+import { PointType } from '@features/flashing/components';
 
 type ScaleColumnType = {
   domainData: string[];
@@ -55,4 +55,25 @@ export const findClosestNumber = (
 
 export const valuePending = (point1: PointType, point2: PointType) => {
   return (point2[1] - point1[1]) / (point2[0] - point1[0]);
+};
+
+const calculateExponential = (value: number, toExponential: number = 2) =>
+  Math.pow(value, toExponential);
+
+export const calculateSizeLine = (
+  point1: [number, number],
+  point2: [number, number] | undefined,
+) => {
+  if (!point2) {
+    return 0;
+  }
+
+  const resultSubtractX = point2[0] - point1[0];
+  const resultSubtractY = point2[1] - point1[1];
+
+  const plusPoints =
+    calculateExponential(resultSubtractX) +
+    calculateExponential(resultSubtractY);
+
+  return Math.sqrt(plusPoints);
 };
