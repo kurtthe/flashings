@@ -70,12 +70,19 @@ const Board: React.FC<Props> = ({
       event.nativeEvent.locationY,
     ]);
 
-    const prevPoint = points.pop();
+    const prevPoint = points.slice(-1)[0];
+    if (!prevPoint) {
+      return onAddPoint({
+        point: [newPosition.x, newPosition.y],
+        sizeLine: '',
+      });
+    }
 
-    const sizeLine = calculateSizeLine(
-      [newPosition.x, newPosition.y],
-      prevPoint?.point,
-    );
+    console.log('=>prevPoint', prevPoint);
+    const sizeLine = calculateSizeLine(prevPoint?.point, [
+      newPosition.x,
+      newPosition.y,
+    ]).toFixed(0);
 
     onAddPoint({
       point: [newPosition.x, newPosition.y],
@@ -87,11 +94,7 @@ const Board: React.FC<Props> = ({
     <>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
         <GestureHandlerRootView>
-          <SvgBoard
-            graphs={graphs}
-            points={points}
-            showSelectLines={mode !== 'draw'}
-          />
+          <SvgBoard graphs={graphs} points={points} />
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom
