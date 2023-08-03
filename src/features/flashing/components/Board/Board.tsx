@@ -78,15 +78,19 @@ const Board: React.FC<Props> = ({
       });
     }
 
-    console.log('=>prevPoint', prevPoint);
     const sizeLine = calculateSizeLine(prevPoint?.point, [
       newPosition.x,
       newPosition.y,
     ]).toFixed(0);
 
+    points[points.length - 1] = {
+      ...prevPoint,
+      sizeLine: sizeLine.toString(),
+    };
+
     onAddPoint({
       point: [newPosition.x, newPosition.y],
-      sizeLine: sizeLine.toString(),
+      sizeLine: '',
     });
   };
 
