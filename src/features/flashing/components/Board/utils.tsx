@@ -152,6 +152,7 @@ const buildLines = ({
               ry={0}
             />
             <Text
+              onPress={() => onPressLine(index)}
               key={`backgroundSizeText${index}`}
               textAnchor="middle"
               fill="#000"

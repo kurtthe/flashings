@@ -4,7 +4,7 @@ import {
   CoordsType,
   MenuEditorComponent,
 } from '@features/flashing/components';
-import {MODES_BOARD} from '@features/flashing/components/Board/Board';
+import { MODES_BOARD } from '@features/flashing/components/Board/Board';
 
 const BoardContainer = () => {
   const [pointers, setPointers] = React.useState<CoordsType[]>([]);
@@ -17,10 +17,10 @@ const BoardContainer = () => {
 
   const handleUpdatePoint = (numberPoint: number, newDataPoint: CoordsType) => {
     console.log('update point::', newDataPoint);
-    setPointers(prevPointers => {
-      prevPointers[numberPoint] = newDataPoint;
-      return prevPointers;
+    const pointsUpdated = pointers.map((point, index) => {
+      return index === numberPoint ? newDataPoint : point;
     });
+    setPointers(pointsUpdated);
   };
   const handleUndo = () => {
     const newPointCoordinates = pointers.slice(0, -1);
