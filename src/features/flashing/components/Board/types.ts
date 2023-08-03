@@ -11,6 +11,7 @@ export type PointType = [number, number];
 export type MakeLine = {
   pointers: CoordsType[];
   onPressLine: (numberLine: number) => void;
+  isDrawing?: boolean;
 };
 export const SIZE_POINTER = 4;
 export const SIZE_POINTER_LAST = 8;

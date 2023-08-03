@@ -46,12 +46,13 @@ const Board: React.FC<Props> = ({
       onPressLine: onPressLine,
       widthGraph: width,
       heightGraph: height,
+      isDrawing,
     });
     setGraphs(makingLines);
-  }, [points]);
+  }, [points, isDrawing]);
 
   const onPressLine = (numberLine: number) => {
-    if (!isDrawing) return;
+    if (isDrawing) return;
     const pathSelected = points[numberLine];
     setPointSelected({ ...pathSelected, numberLine });
     modalBottomRef.current?.show();
