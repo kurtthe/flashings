@@ -58,7 +58,7 @@ export const makeLines = ({
   widthGraph,
   heightGraph,
 }: MakeLine & { widthGraph: number; heightGraph: number }) => {
-  if (pointers.length < 1) return [];
+  if (pointers.length <= 1) return [];
 
   const parallelPoints: MakeLine['pointers'] = pointers.map((p, index) => ({
     ...p,
@@ -93,6 +93,7 @@ const buildLines = ({
     const positionText = calculatePositionText(
       point,
       pointers[index + 1]?.point,
+      1,
     );
 
     const positionTextSizeLine = calculatePositionText(
@@ -112,15 +113,17 @@ const buildLines = ({
 
     return (
       <G key={`groupPath${index}`}>
-        <Text
-          key={`nameLine${index}`}
-          textAnchor="middle"
-          fill={colorLabel}
-          fontSize={fontSize}
-          x={positionText[0]}
-          y={positionText[1]}>
-          {LETTER_LINES[index]}
-        </Text>
+        {sizeLine && (
+          <Text
+            key={`nameLine${index}`}
+            textAnchor="middle"
+            fill={colorLabel}
+            fontSize={fontSize}
+            x={positionText[0]}
+            y={positionText[1]}>
+            {LETTER_LINES[index]}
+          </Text>
+        )}
 
         <PathComponent
           onPress={() => onPressLine(index)}
@@ -137,7 +140,7 @@ const buildLines = ({
           stroke="#0056FF"
         />
         {sizeLine && (
-          <G>
+          <>
             <Rect
               width="30"
               height="17"
@@ -157,7 +160,7 @@ const buildLines = ({
               fontSize={14}>
               {sizeLine}
             </Text>
-          </G>
+          </>
         )}
       </G>
     );
