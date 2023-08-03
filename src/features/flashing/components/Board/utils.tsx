@@ -57,6 +57,7 @@ export const makeLines = ({
   onPressLine,
   widthGraph,
   heightGraph,
+  isDrawing = true,
 }: MakeLine & { widthGraph: number; heightGraph: number }) => {
   if (pointers.length <= 1) return [];
 
@@ -69,6 +70,7 @@ export const makeLines = ({
     pointers,
     parallelPoints,
     onPressLine,
+    isDrawing,
   });
 };
 
@@ -76,6 +78,7 @@ const buildLines = ({
   pointers,
   parallelPoints,
   onPressLine,
+  isDrawing,
 }: MakeLine & {
   showLetterLine?: boolean;
   parallelPoints: CoordsType[];
@@ -113,7 +116,7 @@ const buildLines = ({
 
     return (
       <G key={`groupPath${index}`}>
-        {sizeLine && (
+        {sizeLine && !isDrawing && (
           <Text
             key={`nameLine${index}`}
             textAnchor="middle"
@@ -139,15 +142,15 @@ const buildLines = ({
           strokeWidth={1}
           stroke="#0056FF"
         />
-        {sizeLine && (
+        {sizeLine && !isDrawing && (
           <>
             <Rect
-              width="30"
+              width="40"
               height="17"
               origin={`${positionTextSizeLine[0]}, ${positionTextSizeLine[1]}`}
               fill="#fff"
               y={positionTextSizeLine[1] - 14}
-              x={positionTextSizeLine[0] - 14}
+              x={positionTextSizeLine[0] - 20}
               rx={0}
               ry={0}
             />
@@ -159,7 +162,7 @@ const buildLines = ({
               y={positionTextSizeLine[1]}
               x={positionTextSizeLine[0]}
               fontSize={14}>
-              {sizeLine}
+              {`${sizeLine}in`}
             </Text>
           </>
         )}
