@@ -1,12 +1,13 @@
 import React from 'react';
-import {TouchableOpacity, GestureResponderEvent} from 'react-native';
-import {CoordsType, heightScreen, widthScreen} from './types';
-import {makeLines} from './utils';
-import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { TouchableOpacity, GestureResponderEvent } from 'react-native';
+import { CoordsType, heightScreen, widthScreen } from './types';
+import { makeLines } from './utils';
+import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SvgBoard from '@features/flashing/components/SvgBoard';
-import {ModalBottom, ModalBottomRef} from '@components';
+import { ModalBottom, ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
+import { calculateSizeLine } from '@features/flashing/utils';
 
 export type MODES_BOARD = 'draw' | 'sizes';
 type Props = {
@@ -27,7 +28,7 @@ const Board: React.FC<Props> = ({
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [dataModifyLine, setDataModifyLine] = React.useState<
-    {numberLine: number; sizeLine: number} | undefined
+    { numberLine: number; sizeLine: number } | undefined
   >(undefined);
   const [graphs, setGraphs] = React.useState<JSX.Element[]>([]);
 
@@ -47,7 +48,7 @@ const Board: React.FC<Props> = ({
 
   const onPressLine = (numberLine: number) => {
     if (!isDrawing) return;
-    setDataModifyLine({numberLine, sizeLine: 0});
+    setDataModifyLine({ numberLine, sizeLine: 0 });
     modalBottomRef.current?.show();
   };
 
@@ -55,7 +56,7 @@ const Board: React.FC<Props> = ({
     modalBottomRef.current?.hide();
     if (!dataModifyLine) return;
 
-    setDataModifyLine({...dataModifyLine, sizeLine: newSize});
+    setDataModifyLine({ ...dataModifyLine, sizeLine: newSize });
     const updatePoint = points[dataModifyLine.numberLine];
     onUpdatePoint(dataModifyLine.numberLine, {
       ...updatePoint,
@@ -69,9 +70,16 @@ const Board: React.FC<Props> = ({
       event.nativeEvent.locationY,
     ]);
 
+    const prevPoint = points.pop();
+
+    const sizeLine = calculateSizeLine(
+      [newPosition.x, newPosition.y],
+      prevPoint?.point,
+    );
+
     onAddPoint({
       point: [newPosition.x, newPosition.y],
-      sizeLine: '?',
+      sizeLine: sizeLine.toString(),
     });
   };
 

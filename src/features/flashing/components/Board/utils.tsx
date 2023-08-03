@@ -3,7 +3,11 @@ import * as shape from 'd3-shape';
 import { parse, serialize } from 'react-native-redash';
 import React from 'react';
 import { Path as PathComponent, Text, G } from 'react-native-svg';
+<<<<<<< Updated upstream
 import { valuePending } from '@features/flashing/utils';
+=======
+import { ScaleXBar, valuePending } from '@features/flashing/utils';
+>>>>>>> Stashed changes
 
 const calculateParallelLine = (
   point1: PointType,

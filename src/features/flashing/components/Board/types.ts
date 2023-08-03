@@ -1,4 +1,5 @@
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
+import { scaleLinear } from 'd3-scale';
 
 export type CoordsType = {
   point: PointType;
@@ -48,18 +49,9 @@ export const rankScale = (value: number) => {
 
 export const CIRCLE_RADIUS = 15;
 
-export const scalerY = ({
-  minValue,
-  maxValue,
-  padding = 0,
-  height = heightScreen,
-}: {
-  minValue: number;
-  maxValue: number;
-  padding?: number;
-  height?: number;
-}) =>
-  rescale([minValue, maxValue || 1], [padding, height - padding])(rankScale);
+export const scalerY = rescale([0, 1000], [0, heightScreen])(rankScale);
+
+export const scalerX = scaleLinear().domain([0, 600]).range([0, widthScreen]);
 
 export const LETTER_LINES = [
   'A',
