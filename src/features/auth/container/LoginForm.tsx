@@ -3,24 +3,28 @@ import { Formik, FormikProps } from 'formik';
 import { LoginFormValues } from '@features/auth/container/types';
 import { forms } from '../constants';
 import LoginFormComponent from '@features/auth/components/LoginForm';
-import { RequestService } from '@services/index';
-import { endPoints } from '@shared/endPoints';
+import { useLogin } from '@hooks/auth';
+import { useNavigation } from '@react-navigation/native';
+import { LOGIN_RESPONSE } from '@models';
+import { StackPrivateDefinitions } from '@routes/PrivateNavigator';
 
-const LoginForm = ({}) => {
+const LoginForm = () => {
+  const navigation = useNavigation();
   const formikRef = React.useRef<FormikProps<LoginFormValues>>(null);
+
+  const { mutate: doLogin } = useLogin(data => {
+    if ((data as LOGIN_RESPONSE).api_key) {
+      navigation.navigate(StackPrivateDefinitions.FLASHING);
+    }
+  });
 
   const handleSubmit = React.useCallback(async (values: LoginFormValues) => {
     const { email, password } = values;
-    RequestService.auth(endPoints.login, {
+
+    doLogin({
       username: email,
-      password: password,
-    })
-      .then(data => {
-        console.log(' response login data::', data);
-      })
-      .catch(err => {
-        console.log('error', err);
-      });
+      password,
+    });
   }, []);
 
   return (

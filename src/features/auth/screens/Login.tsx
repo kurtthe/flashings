@@ -1,13 +1,5 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableWithoutFeedback,
-  Keyboard,
-  View,
-} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import React from 'react';
+import { StyleSheet, Image, Dimensions, View } from 'react-native';
 import { Text, Button, Box } from '@ui/components';
 import SimpleButton from '../../flashing/components/SimpleButton';
 import { Routes } from '../navigation/routes';
