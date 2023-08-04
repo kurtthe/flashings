@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import {Image} from 'react-native';
+import {Image, View} from 'react-native';
 import {
   Box,
   Button,
+  ScrollBox,
+  Text
 } from '@ui/components';
 import Input from '@ui/components/Input';
 import SelectInput from '@ui/components/SelectInput';
 import { Routes } from '../navigation/routes';
 import { StyleSheet } from 'react-native';
+import { DataTable } from 'react-native-paper';
 
 const data = [{
   id: 1,
@@ -59,14 +62,37 @@ const data = [{
   textColor: 'white'
 }]
 
+const tableRows = [{
+  dimension: 'A',
+  description: 'Length across',
+  length: ''
+},{
+  dimension: 'B',
+  description: 'Off the wall dimension for overflow',
+  length: ''
+},{
+  dimension: 'C',
+  description: 'Overall Height',
+  length: ''
+},
+{
+  dimension: 'D',
+  description: 'Off the wall dimension for shroud',
+  length: ''
+},
+{
+  dimension: 'E',
+  description: 'Height of overflow wall',
+  length: ''
+}]
+
 const CreateRainheadScreen = ({ navigation }) => {
   const [name, setName] = useState('')
   const [qty, setQty] = useState('')
 
   return (
-      <Box
+      <ScrollBox
         p="m"
-        justifyContent={'space-between'}
         backgroundColor={'white'}
         flex={1}
       >
@@ -80,6 +106,32 @@ const CreateRainheadScreen = ({ navigation }) => {
             style={styles.imageStyles}
             source={require('../../../assets/images/rainHeadDimensions.png')}
           />
+          <DataTable style={styles.tableContainer}>
+            <DataTable.Header style={{marginHorizontal: -15}}>
+              <DataTable.Title textStyle={styles.tableText} style={[styles.border, {flex:2}]}>Dimension</DataTable.Title>
+              <DataTable.Title textStyle={styles.tableText} style={[styles.border, {flex:5}]}>Description</DataTable.Title>
+              <DataTable.Title textStyle={styles.tableText} style={[styles.border, {flex:3}]}>Length</DataTable.Title>
+            </DataTable.Header>
+            {tableRows.map((cell) => {
+              return(
+                <DataTable.Row style={{marginHorizontal: -15}}>
+                  <DataTable.Cell textStyle={styles.tableText} style={[styles.border, {flex:2}]}>{cell.dimension}</DataTable.Cell>
+                  <DataTable.Cell textStyle={styles.tableText} style={[styles.border, {flex:5}]}>{cell.description}</DataTable.Cell>
+                  <DataTable.Cell textStyle={styles.tableText} style={[styles.border, {flex:3}]}>
+                    <View style={styles.lengthCell}>
+                      <Input
+                        label=""
+                        onChangeText={() => {}}
+                        value={cell.length}
+                        inputStyles={{ width: '50%', height: '100%'}}
+                      />
+                      <Text style={{color: 'gray'}}>| mm</Text>
+                    </View>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              )
+              })}
+          </DataTable>
           <SelectInput
             value=''
             label='Colour/Material'
@@ -98,7 +150,7 @@ const CreateRainheadScreen = ({ navigation }) => {
             Save Rainhead
           </Button>
         </Box>
-      </Box>
+      </ScrollBox>
   );
 };
 export default CreateRainheadScreen;
@@ -107,5 +159,23 @@ const styles = StyleSheet.create({
   imageStyles: {
     width: 276,
     height: 247
+  },
+  border: {
+    borderWidth: 0.5,
+    height: 50,
+    textAlign: 'center'
+  },
+  tableText: {
+    display: 'flex',
+    width: '100%',
+    textAlign: 'center',
+    color: 'black'
+  },
+  tableContainer: {
+    paddingVertical: 15,
+  },
+  lengthCell: {
+    flexDirection: 'row',
+    alignItems: 'center'
   }
 })
