@@ -1,16 +1,22 @@
 import React from 'react';
-import {Box, Text} from '@ui/components';
-import {KeyBoardNumber} from '@features/flashing/components/KeyBoardNumber';
+import { Box, Text } from '@ui/components';
+import { KeyBoardNumber } from '@features/flashing/components/KeyBoardNumber';
+import { LineSelectedType } from '@features/flashing/components/Board';
 
 type Props = {
-  onDone: (sizeLine: number) => void;
+  onDone: (sizeLine: string) => void;
+  point?: LineSelectedType;
 };
-const MeasurementLines: React.FC<Props> = ({onDone}) => {
+const MeasurementLines: React.FC<Props> = ({ onDone, point }) => {
   const [measurement, setMeasurement] = React.useState('0');
 
+  React.useEffect(() => {
+    if (!point) return;
+    setMeasurement(point.sizeLine);
+  }, [point]);
   const handleDone = (newSizeLine: string) => {
     setMeasurement(newSizeLine);
-    onDone(parseFloat(newSizeLine));
+    onDone(newSizeLine);
   };
 
   return (

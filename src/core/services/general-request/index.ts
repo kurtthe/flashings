@@ -3,8 +3,9 @@ import axios, {
   AxiosResponse,
   AxiosResponseHeaders,
 } from 'axios';
-import {GeneralRequestInterface} from './general-request.type';
-import {getItemStorage, setItemStorage} from '@services/Storage';
+import { GeneralRequestInterface } from './general-request.type';
+import { getItemStorage, setItemStorage } from '@services/Storage';
+import { PROPERTIES_STORE_TYPE } from '@services/Storage/types';
 
 class GeneralRequestService implements GeneralRequestInterface {
   static instance: GeneralRequestService;
@@ -34,7 +35,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           any,
           AxiosResponse<TypeResult>
         >(endpoint, {
-          headers: {'ttrak-key': this.tokeAuth || ''},
+          headers: { 'ttrak-key': this.tokeAuth || '' },
           ...options,
         });
         resolve({
@@ -109,7 +110,7 @@ class GeneralRequestService implements GeneralRequestInterface {
       try {
         const response = await this.httpService.post<
           TypeData,
-          AxiosResponse<TypeResult & {api_key: string}>
+          AxiosResponse<TypeResult & { api_key: string }>
         >(endpoint, data);
         await this.saverToken<TypeResult>({
           ...(response.data as TypeResult),
@@ -127,16 +128,19 @@ class GeneralRequestService implements GeneralRequestInterface {
     });
   }
 
-  private async saverToken<TypeData>(data: TypeData & {api_key: string}) {
+  private async saverToken<TypeData>(data: TypeData & { api_key: string }) {
     if (data) {
       this.tokeAuth = data.api_key;
-      await setItemStorage('data_user', JSON.stringify(data));
+      await setItemStorage(
+        PROPERTIES_STORE_TYPE.DATA_USER,
+        JSON.stringify(data),
+      );
     }
   }
 
   private async getToken(): Promise<string | undefined> {
     try {
-      const data = await getItemStorage('data_user');
+      const data = await getItemStorage(PROPERTIES_STORE_TYPE.DATA_USER);
       if (typeof data === 'string') {
         const dataParse = JSON.parse(data);
         return dataParse.api_key;

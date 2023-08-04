@@ -1,10 +1,10 @@
-import {StackPublicDefinitions} from './types';
+import { StackPublicDefinitions } from './types';
 
-import {FlashingStack} from '@features/flashing';
+import { AuthStack } from '@features/auth';
 
 export const routes = {
-  [StackPublicDefinitions.FLASHINGS]: {
-    name: StackPublicDefinitions.FLASHINGS,
-    component: FlashingStack,
+  [StackPublicDefinitions.AUTH]: {
+    name: StackPublicDefinitions.AUTH,
+    component: AuthStack,
   },
 };

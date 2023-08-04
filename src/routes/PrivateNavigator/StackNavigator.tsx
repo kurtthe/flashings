@@ -1,14 +1,14 @@
 import React from 'react';
 import { StackNavigator } from '@navigators/index';
 import { routes as stackRoutes } from './routes';
-import { StackPublicDefinitions } from './types';
+import { StackPrivateDefinitions } from './types';
 
 let config = {
   routes: stackRoutes,
-  initialRouteName: StackPublicDefinitions.AUTH,
+  initialRouteName: StackPrivateDefinitions.FLASHING,
 };
 
-export const StackNavigatorPublic = () => {
+export const StackNavigatorPrivate = () => {
   const routes = Object.entries(config.routes).map(([name, value]) => ({
     ...value,
     name,

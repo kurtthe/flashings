@@ -1,6 +1,6 @@
 import React from 'react';
-import {Circle} from 'react-native-svg';
-import type {CircleProps} from 'react-native-svg';
+import { Circle } from 'react-native-svg';
+import type { CircleProps } from 'react-native-svg';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedProps,
@@ -11,7 +11,7 @@ import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
-import {CIRCLE_RADIUS, CoordsType} from '@features/flashing/components/Board';
+import { CIRCLE_RADIUS, CoordsType } from '@features/flashing/components/Board';
 
 type Props = CircleProps & {
   key: number;
@@ -22,8 +22,10 @@ type ContextType = {
   translateY: number;
 };
 const PointerComponent: React.FC<Props> = props => {
-  const translateX = useSharedValue(props.cx);
-  const translateY = useSharedValue(props.cy);
+  const [currentPosition, setCurrentPosition] = React.useState([
+    props.cx,
+    props.cy,
+  ]);
 
   // @ts-ignore
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -32,31 +34,29 @@ const PointerComponent: React.FC<Props> = props => {
     ContextType
   >({
     onStart: (event, context) => {
-      context.translateX = translateX.value as number;
-      context.translateY = translateY.value as number;
+      context.translateX = currentPosition[0] as number;
+      context.translateY = currentPosition[1] as number;
     },
     onActive: (event, context) => {
       const newX = event.translationX + context.translateX;
       const newY = event.translationY + context.translateY;
 
-      translateX.value = newX;
-      translateY.value = newY;
+      setCurrentPosition([newX, newY]);
     },
     onEnd: () => {
       const distance = Math.sqrt(
-        parseInt(String(translateX.value as unknown as number)) ** 2 +
-          parseInt(String(translateY.value as unknown as number)) ** 2,
+        parseInt(String(currentPosition[0] as number)) ** 2 +
+          parseInt(String(currentPosition[1] as number)) ** 2,
       );
 
       if (distance < CIRCLE_RADIUS / 2) {
-        translateX.value = withSpring(0);
-        translateY.value = withSpring(0);
+        setCurrentPosition([withSpring(0), withSpring(0)]);
       }
     },
   });
 
   const animatedProps = useAnimatedProps(() => {
-    return {cx: translateX.value, cy: translateY.value};
+    return { cx: currentPosition[0], cy: currentPosition[1] };
   });
 
   return (
