@@ -6,7 +6,6 @@ import { EyeIcon, EyeOffIcon } from '@assets/icons';
 import { ErrorMessage, FieldInput } from '@components/forms';
 import { Box, Button, Icon, IconButton } from '@ui/components';
 import { LoginFormValues } from '@features/auth/container/types';
-import { Routes } from '@features/auth/navigation/routes';
 
 type LoginFormComponentProps = {};
 
