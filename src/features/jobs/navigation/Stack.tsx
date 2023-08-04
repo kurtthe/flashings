@@ -15,11 +15,7 @@ const Stack = () => {
         component={AllJobsScreen}
         options={{
           header: () => (
-            <HeaderBox
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              rightIcon={<Icon as={SearchIcon} />}
-              title="All Jobs"
-            />
+            <HeaderBox rightIcon={<Icon as={SearchIcon} />} title="All Jobs" />
           ),
         }}
       />
