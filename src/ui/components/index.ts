@@ -19,3 +19,5 @@ export type { IconButtonProps } from './IconButton';
 export { default as IconButton } from './IconButton';
 export type { InputProps } from './Input';
 export { default as Input } from './Input';
+export type { SafeAreaBoxProps } from './SafeAreaBox';
+export { default as SafeAreaBox } from './SafeAreaBox';
