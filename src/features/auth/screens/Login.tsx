@@ -13,13 +13,8 @@ import SimpleButton from '../../flashing/components/SimpleButton';
 import { Routes } from '../navigation/routes';
 import LoginForm from '@features/auth/container/LoginForm';
 
-const { height, width } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
 const LoginScreen = ({ navigation }) => {
   const navigateTo = routeToGo => {
     navigation.navigate(routeToGo);
@@ -38,12 +33,7 @@ const LoginScreen = ({ navigation }) => {
         </Text>
       </View>
       <LoginForm />
-      <Box flex={2} style={{ justifyContent: 'space-evenly' }}>
-        <Button
-          variant="outline"
-          onPress={() => navigateTo(Routes.SUBCONTRACTOR_LOGIN)}>
-          Subcontractor Access
-        </Button>
+      <Box flex={1} justifyContent="space-evenly" alignItems="center">
         <View>
           <SimpleButton
             style={{ marginBottom: 5 }}
