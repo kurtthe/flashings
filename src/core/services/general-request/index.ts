@@ -6,7 +6,7 @@ import axios, {
 import { GeneralRequestInterface } from './general-request.type';
 import { getItemStorage, setItemStorage } from '@services/Storage';
 import { PROPERTIES_STORE_TYPE } from '@services/Storage/types';
-
+import handleErrors from './handleErrors';
 class GeneralRequestService implements GeneralRequestInterface {
   static instance: GeneralRequestService;
   private httpService;
@@ -43,6 +43,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           headers: response.headers,
         });
       } catch (err) {
+        handleErrors.manage(err);
         return reject(err);
       }
     });
@@ -72,6 +73,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           headers: response.headers,
         });
       } catch (err) {
+        handleErrors.manage(err);
         reject(err);
       }
     });
@@ -96,6 +98,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           headers: response.headers,
         });
       } catch (err) {
+        handleErrors.manage(err);
         console.log('error post', err);
         reject(err);
       }
@@ -123,6 +126,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           headers: response.headers,
         });
       } catch (err) {
+        handleErrors.manage(err);
         reject(err);
       }
     });
@@ -145,8 +149,9 @@ class GeneralRequestService implements GeneralRequestInterface {
         const dataParse = JSON.parse(data);
         return dataParse.api_key;
       }
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      handleErrors.manage(err);
+      console.error(err);
     }
   }
 }
