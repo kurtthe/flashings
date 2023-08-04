@@ -1,12 +1,18 @@
 import React from 'react';
-import {TouchableOpacity, GestureResponderEvent} from 'react-native';
-import {CoordsType, heightScreen, widthScreen} from './types';
-import {makeLines} from './utils';
-import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import { TouchableOpacity, GestureResponderEvent } from 'react-native';
+import {
+  CoordsType,
+  heightScreen,
+  LineSelectedType,
+  widthScreen,
+} from './types';
+import { makeLines } from './utils';
+import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SvgBoard from '@features/flashing/components/SvgBoard';
-import {ModalBottom, ModalBottomRef} from '@components';
+import { ModalBottom, ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
+import { calculateSizeLine } from '@features/flashing/utils';
 
 export type MODES_BOARD = 'draw' | 'sizes';
 type Props = {
@@ -17,6 +23,7 @@ type Props = {
   mode: MODES_BOARD;
   onUpdatePoint: (numberPoint: number, newDataPoint: CoordsType) => void;
 };
+
 const Board: React.FC<Props> = ({
   points,
   onAddPoint,
@@ -26,9 +33,7 @@ const Board: React.FC<Props> = ({
   onUpdatePoint,
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
-  const [dataModifyLine, setDataModifyLine] = React.useState<
-    {numberLine: number; sizeLine: number} | undefined
-  >(undefined);
+  const [pointSelected, setPointSelected] = React.useState<LineSelectedType>();
   const [graphs, setGraphs] = React.useState<JSX.Element[]>([]);
 
   const isDrawing = mode === 'draw';
@@ -41,24 +46,28 @@ const Board: React.FC<Props> = ({
       onPressLine: onPressLine,
       widthGraph: width,
       heightGraph: height,
+      isDrawing,
     });
     setGraphs(makingLines);
-  }, [points]);
+  }, [points, isDrawing]);
 
   const onPressLine = (numberLine: number) => {
-    if (!isDrawing) return;
-    setDataModifyLine({numberLine, sizeLine: 0});
+    if (isDrawing) return;
+    const pathSelected = points[numberLine];
+    setPointSelected({ ...pathSelected, numberLine });
     modalBottomRef.current?.show();
   };
 
-  const handleDoneSize = (newSize: number) => {
+  const handleDoneSize = (newSize: string) => {
     modalBottomRef.current?.hide();
-    if (!dataModifyLine) return;
+    if (!pointSelected) return;
+    const updatePoint: LineSelectedType = {
+      ...pointSelected,
+      sizeLine: newSize.toString(),
+    };
 
-    setDataModifyLine({...dataModifyLine, sizeLine: newSize});
-    const updatePoint = points[dataModifyLine.numberLine];
-    onUpdatePoint(dataModifyLine.numberLine, {
-      ...updatePoint,
+    onUpdatePoint(updatePoint.numberLine, {
+      point: updatePoint.point,
       sizeLine: newSize.toString(),
     });
   };
@@ -69,9 +78,27 @@ const Board: React.FC<Props> = ({
       event.nativeEvent.locationY,
     ]);
 
+    const prevPoint = points.slice(-1)[0];
+    if (!prevPoint) {
+      return onAddPoint({
+        point: [newPosition.x, newPosition.y],
+        sizeLine: '',
+      });
+    }
+
+    const sizeLine = calculateSizeLine(prevPoint?.point, [
+      newPosition.x,
+      newPosition.y,
+    ]).toFixed(0);
+
+    points[points.length - 1] = {
+      ...prevPoint,
+      sizeLine: sizeLine.toString(),
+    };
+
     onAddPoint({
       point: [newPosition.x, newPosition.y],
-      sizeLine: '?',
+      sizeLine: '',
     });
   };
 
@@ -79,11 +106,7 @@ const Board: React.FC<Props> = ({
     <>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
         <GestureHandlerRootView>
-          <SvgBoard
-            graphs={graphs}
-            points={points}
-            showSelectLines={mode !== 'draw'}
-          />
+          <SvgBoard graphs={graphs} points={points} />
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom
@@ -91,7 +114,7 @@ const Board: React.FC<Props> = ({
         ref={modalBottomRef}
         height={300}
         borderRadius={0}>
-        <MeasurementLines onDone={handleDoneSize} />
+        <MeasurementLines point={pointSelected} onDone={handleDoneSize} />
       </ModalBottom>
     </>
   );
