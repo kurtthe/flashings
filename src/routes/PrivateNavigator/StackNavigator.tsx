@@ -5,7 +5,7 @@ import { StackPrivateDefinitions } from './types';
 
 let config = {
   routes: stackRoutes,
-  initialRouteName: StackPrivateDefinitions.FLASHING,
+  initialRouteName: StackPrivateDefinitions.JOBS,
 };
 
 export const StackNavigatorPrivate = () => {
