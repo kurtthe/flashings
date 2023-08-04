@@ -5,3 +5,11 @@ export type JOB_DETAIL = {
   job_number: string;
   client_name: string;
 };
+
+export type MATERIALS = {
+  id: number;
+  value: string;
+  label: string;
+  bgColor: string;
+  textColor: string;
+};
