@@ -18,3 +18,10 @@ export const getItemStorage = (key: string) => {
     reject('There was no saved data');
   });
 };
+
+export const deleteItemStorage = (key: string) => {
+  return new Promise(async resolve => {
+    await AsyncStorage.removeItem(key);
+    resolve('');
+  });
+};

@@ -10,3 +10,4 @@ export { default as DownIcon } from './up.svg';
 export { default as UpIcon } from './down.svg';
 export { default as EyeOffIcon } from './eye-off.svg';
 export { default as EyeIcon } from './eye.svg';
+export { default as Logout } from './logout.svg';

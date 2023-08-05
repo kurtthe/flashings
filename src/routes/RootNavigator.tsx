@@ -1,6 +1,6 @@
 import React from 'react';
 import { PublicNavigator } from './PublicNavigator';
-import { useUserAuthenticated } from '@hooks/useUserAuthenticated';
+import { useUserAuthenticated } from '@hooks/auth';
 import { PrivateNavigator } from '@routes/PrivateNavigator';
 
 export const RootNavigator = () => {
