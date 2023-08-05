@@ -4,11 +4,6 @@ import { SearchIcon } from '@assets/icons';
 import JobsListContainer from '@features/jobs/containers/JobsList';
 
 const AllJobsScreens = () => {
-  return (
-    <>
-      <HeaderBox rightIcon={<Icon as={SearchIcon} />} title="All Jobs" />
-      <JobsListContainer />
-    </>
-  );
+  return <JobsListContainer />;
 };
 export default AllJobsScreens;

@@ -2,9 +2,9 @@ import React from 'react';
 import { FieldInput } from '@components/forms';
 import { useFormikContext } from 'formik';
 import { CreateFormValues } from '@features/jobs/containers/types';
-import { Box, Button, Divider, Text } from "@ui/components";
+import { Box, Button, Divider, Text } from '@ui/components';
 
-const CreateJobForm = ({}) => {
+const CreateJobFormComponent = ({}) => {
   const formik = useFormikContext<CreateFormValues>();
   const { errors, isValid, isSubmitting, handleSubmit } = formik;
 
@@ -18,6 +18,7 @@ const CreateJobForm = ({}) => {
           returnKeyType="next"
           isDisabled={isSubmitting}
           label="Job Name"
+          mt="m"
         />
         <FieldInput
           name="jobNumber"
@@ -25,6 +26,7 @@ const CreateJobForm = ({}) => {
           returnKeyType="next"
           isDisabled={isSubmitting}
           label="Job Number"
+          mt="m"
         />
         <FieldInput
           name="siteAddress"
@@ -32,6 +34,7 @@ const CreateJobForm = ({}) => {
           returnKeyType="next"
           isDisabled={isSubmitting}
           label="Site Address"
+          mt="m"
         />
         <FieldInput
           name="fileUpload"
@@ -39,35 +42,43 @@ const CreateJobForm = ({}) => {
           returnKeyType="next"
           isDisabled={isSubmitting}
           label="File upload"
+          mt="m"
         />
       </Box>
-      <Divider my="l" mx="l" />
-        <Text variant="subheadSmall">Contact Details</Text>
-        <FieldInput
-          name="contactName"
-          placeholder="Contact Name"
-          returnKeyType="next"
-          isDisabled={isSubmitting}
-          label="File upload"
-        />
-        <FieldInput
-          name="contactNumber"
-          placeholder="Contact Number"
-          returnKeyType="next"
-          isDisabled={isSubmitting}
-          label="File upload"
-        />
-        <FieldInput
-          name="contactEmail"
-          placeholder="Contact Email"
-          returnKeyType="next"
-          isDisabled={isSubmitting}
-          label="File upload"
-        />
-          <Button mt="l" mb="xl" onPress={() => {}}>
-            Create Job
-          </Button>
-      </Box>
+      <Divider my="l" />
+      <Text variant="subheadSmall">Contact Details</Text>
+      <FieldInput
+        name="contactName"
+        placeholder="Contact Name"
+        returnKeyType="next"
+        isDisabled={isSubmitting}
+        mt="m"
+        label="Contact Name"
+      />
+      <FieldInput
+        name="contactNumber"
+        placeholder="Contact Number"
+        returnKeyType="next"
+        isDisabled={isSubmitting}
+        label="Contact Number"
+        mt="m"
+      />
+      <FieldInput
+        name="contactEmail"
+        placeholder="Contact Email"
+        returnKeyType="next"
+        isDisabled={isSubmitting}
+        label="Contact Email"
+        keyboardType="email-address"
+        textContentType="emailAddress"
+        autoCompleteType="email"
+        mt="m"
+      />
+      <Button mt="l" mb="xl" onPress={() => {}}>
+        Create Job
+      </Button>
     </>
   );
 };
+
+export default CreateJobFormComponent;

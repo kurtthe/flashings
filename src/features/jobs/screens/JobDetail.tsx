@@ -5,7 +5,12 @@ import Modal from 'react-native-modal';
 import { Box, Text, Button } from '@ui/components';
 import data from '../../flashing/screens/tempData/data.json';
 import Input from '@ui/components/Input';
-import { Routes } from '../../flashing/navigation/routes';
+import { Routes } from '@features/flashing/navigation/routes';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import {
+  PrivateNavigator,
+  StackPrivateDefinitions,
+} from '@routes/PrivateNavigator';
 
 type ItemProps = {
   id: number;
@@ -88,13 +93,17 @@ const FooterButtons = ({ onPress }) => {
   );
 };
 
-const JobDetailsScreen = ({ route, navigation }) => {
+const JobDetailsScreen = () => {
+  const navigation = useNavigation();
+  const route = useRoute();
   const [modalVisible, setModalVisible] = useState(false);
   const [qty, setQty] = useState('');
   const [length, setLength] = useState('');
   const { item } = route.params;
   const onPressFooter = routeToGo => {
-    navigation.navigate(routeToGo);
+    navigation.navigate(StackPrivateDefinitions.FLASHING, {
+      screen: routeToGo,
+    });
   };
   return (
     <SafeAreaView style={styles.container}>
