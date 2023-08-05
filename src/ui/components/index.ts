@@ -21,3 +21,5 @@ export type { InputProps } from './Input';
 export { default as Input } from './Input';
 export type { SafeAreaBoxProps } from './SafeAreaBox';
 export { default as SafeAreaBox } from './SafeAreaBox';
+export type { DividerProps } from './Divider';
+export { default as Divider } from './Divider';
