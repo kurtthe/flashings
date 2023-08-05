@@ -14,7 +14,7 @@ const LoginForm = () => {
 
   const { mutate: doLogin } = useLogin(data => {
     if ((data as LOGIN_RESPONSE).api_key) {
-      navigation.navigate(StackPrivateDefinitions.FLASHING);
+      navigation.navigate(StackPrivateDefinitions.JOBS);
     }
   });
 

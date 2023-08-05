@@ -14,7 +14,6 @@
     "android:dev": "yarn jetify && concurrently --raw \"react-native run-android --variant=devDebug --appIdSuffix=dev --no-packager --no-jetifier\" \"yarn start\""
   },
   "dependencies": {
-    "@formatjs/fast-memoize": "^2.2.0",
     "@react-native-async-storage/async-storage": "^1.19.0",
     "@react-navigation/native": "^6.1.7",
     "@react-navigation/stack": "^6.3.17",

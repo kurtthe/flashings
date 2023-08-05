@@ -70,14 +70,17 @@ export const forms = {
       contactEmail: 'Contact Email',
     },
     schema: Yup.object({
-      jobName: Yup.string(),
-      jobNumber: Yup.number(),
+      jobName: Yup.string().required(),
+      jobNumber: Yup.string().required(),
       siteAddress: Yup.string(),
       fileUpload: Yup.string(),
       contactName: Yup.string(),
-      contactNumber: Yup.string().test('step', 'Phone number', value =>
-        validatePhone(value),
-      ),
+      contactNumber: Yup.string()
+        .required()
+        .ensure()
+        .trim()
+        .lowercase()
+        .test('step', 'Phone number', value => validatePhone(value)),
       contactEmail: Yup.string()
         .email(customValidationMessages.createJob.email.email)
         .required(customValidationMessages.createJob.email.required)

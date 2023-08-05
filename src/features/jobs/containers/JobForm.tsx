@@ -1,8 +1,9 @@
 import React from 'react';
 import { Formik, FormikProps } from 'formik';
 import { forms } from '../constants';
-import LoginFormComponent from '@features/auth/components/LoginForm';
 import { CreateFormValues } from '@features/jobs/containers/types';
+import CreateJobForm from '@features/jobs/components/CreateJobForm';
+import { Box } from '@ui/components';
 
 const JobFormContainer = () => {
   const formikRef = React.useRef<FormikProps<CreateFormValues>>(null);
@@ -13,16 +14,18 @@ const JobFormContainer = () => {
   );
 
   return (
-    <Formik
-      innerRef={formikRef}
-      initialValues={{
-        ...forms.createJob.initialValues,
-      }}
-      initialErrors={forms.createJob.initialErrors}
-      validationSchema={forms.createJob.schema}
-      onSubmit={handleSubmit}>
-      <LoginFormComponent />
-    </Formik>
+    <Box flex={1} p="m" backgroundColor="white">
+      <Formik
+        innerRef={formikRef}
+        initialValues={{
+          ...forms.createJob.initialValues,
+        }}
+        initialErrors={forms.createJob.initialErrors}
+        validationSchema={forms.createJob.schema}
+        onSubmit={handleSubmit}>
+        <CreateJobForm />
+      </Formik>
+    </Box>
   );
 };
 

@@ -23,3 +23,7 @@ export type { SafeAreaBoxProps } from './SafeAreaBox';
 export { default as SafeAreaBox } from './SafeAreaBox';
 export type { DividerProps } from './Divider';
 export { default as Divider } from './Divider';
+export type { BaseTouchableProps } from './BaseTouchable';
+export { default as BaseTouchable } from './BaseTouchable';
+export type { CardProps } from './Card';
+export { default as Card } from './Card';

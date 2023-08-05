@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 import {
   Animated,
@@ -15,10 +16,10 @@ import {
   boxRestyleFunctions,
   composeRestyleFunctions,
 } from '@shopify/restyle';
-import {Theme, useAppRestyle} from '@theme';
+import { Theme, useAppRestyle } from '@theme';
 
-import {useAsProp} from '@ui/hooks';
-import {forwardRef} from '@ui/utils';
+import { useAsProp } from '@ui/hooks';
+import { forwardRef } from '@ui/utils';
 
 import AnimatedPressable from './AnimatedPressable';
 
@@ -56,9 +57,10 @@ const BaseTouchable = forwardRef<Props, typeof Pressable>(
     ref,
   ) => {
     const TouchableComponent = useAsProp(AnimatedPressable, as);
+    const isDarkMode = false;
     const props = useAppRestyle(restyleFunctions, {
       ...rest,
-      ..._light,
+      ...(isDarkMode ? _dark : _light),
     });
     const childOpacity = props.style?.[0]?.opacity || 1;
     const anim = React.useRef(new Animated.Value(childOpacity)).current;
@@ -88,15 +90,21 @@ const BaseTouchable = forwardRef<Props, typeof Pressable>(
 
     const onPressIn = (event: GestureResponderEvent) => {
       //@ts-ignore ignore bad type
-
+      _opacityActive(
+        event.dispatchConfig.registrationName === 'onResponderGrant' ? 0 : 150,
+      );
+      //@ts-ignore
       if (props.onPressIn != null) {
+        //@ts-ignore
         props.onPressIn(event);
       }
     };
 
     const onPressOut = (event: GestureResponderEvent) => {
       _opacityInactive(170);
+      // @ts-ignore
       if (props.onPressOut != null) {
+        // @ts-ignore
         props.onPressOut(event);
       }
     };
@@ -112,13 +120,15 @@ const BaseTouchable = forwardRef<Props, typeof Pressable>(
       <TouchableComponent
         ref={ref}
         android_ripple={{
-          color: rippleColor || 'rgba(0,0,0,0.1)',
+          color:
+            rippleColor ||
+            (isDarkMode ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'),
           borderless,
           radius,
           foreground,
         }}
         {...props}
-        style={[props.style, Platform.OS !== 'android' && {opacity: anim}]}
+        style={[props.style, Platform.OS !== 'android' && { opacity: anim }]}
         disabled={isDisabled}
         onPressIn={onPressIn}
         onPressOut={onPressOut}>
