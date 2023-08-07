@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Text, Button, Box } from '@ui/components';
 import Input from '@ui/components/Input';
-import SimpleButton from '../../flashing/components/SimpleButton';
+import SimpleButton from '@components/SimpleButton';
 import { Routes } from '../navigation/routes';
 
 const { height, width } = Dimensions.get('screen');
