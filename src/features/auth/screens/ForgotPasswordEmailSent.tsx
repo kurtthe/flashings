@@ -1,80 +1,56 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-  Keyboard,
-  Platform,
-  View,
-} from 'react-native';
-import { Text, Button, Box } from '@ui/components';
-import Input from '@ui/components/Input';
+import { StyleSheet, Image, Dimensions, View } from 'react-native';
+import { Text, Button, Box, KeyboardAvoidingBox } from '@ui/components';
 import SimpleButton from '@components/SimpleButton';
 import { Routes } from '../navigation/routes';
+import { useNavigation } from '@react-navigation/native';
+import { AuthStackProps } from '@features/auth/navigation/Stack.types';
 
-const { height, width } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-// import {
-//   widthPercentageToDP as wp,
-//   heightPercentageToDP as hp,
-// } from 'react-native-responsive-screen';
-
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
-const ForgotPasswordEmailSentScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-
-  const navigateTo = routeToGo => {
-    navigation.navigate(routeToGo);
-  };
+const ForgotPasswordEmailSentScreen = () => {
+  const navigation = useNavigation<AuthStackProps>();
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
-      <DismissKeyboard>
-        <View style={styles.container}>
-          <View style={styles.logoAndMainTextContainer}>
-            <Image
-              style={styles.mainLogo}
-              source={require('@assets/logo/MainLogo.png')}
-            />
-          </View>
-          <View
-            style={{
-              flex: 3,
-              alignItems: 'center',
-              justifyContent: 'space-evenly',
-            }}>
-            <Image
-              style={styles.emailImage}
-              source={require('@assets/images/emailIconImage.png')}
-            />
-            <Text style={styles.mainTextStyle}>Email has been Sent!</Text>
-            <Text style={styles.infoTextStyle}>
-              Please check your email for changes the password
-            </Text>
-          </View>
-          <Box flex={1} style={{ justifyContent: 'space-between' }}>
-            <Button variant="solid" onPress={() => navigateTo(Routes.LOGIN)}>
-              Login
-            </Button>
-            <View>
-              <SimpleButton
-                underlined
-                onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
-                Need Help?
-              </SimpleButton>
-            </View>
-          </Box>
+    <KeyboardAvoidingBox style={styles.container}>
+      <Box style={styles.container}>
+        <View style={styles.logoAndMainTextContainer}>
+          <Image
+            style={styles.mainLogo}
+            source={require('@assets/logo/MainLogo.png')}
+          />
         </View>
-      </DismissKeyboard>
-    </KeyboardAvoidingView>
+        <View
+          style={{
+            flex: 3,
+            alignItems: 'center',
+            justifyContent: 'space-evenly',
+          }}>
+          <Image
+            style={styles.emailImage}
+            source={require('@assets/images/emailIconImage.png')}
+          />
+          <Text style={styles.mainTextStyle}>Email has been Sent!</Text>
+          <Text style={styles.infoTextStyle}>
+            Please check your email for changes the password
+          </Text>
+        </View>
+        <Box flex={1} style={{ justifyContent: 'space-between' }}>
+          <Button
+            variant="solid"
+            onPress={() => navigation.navigate(Routes.LOGIN)}>
+            Login
+          </Button>
+          <View>
+            <SimpleButton
+              underlined
+              onPress={() => navigation.navigate(Routes.HELP_SUPPORT)}>
+              Need Help?
+            </SimpleButton>
+          </View>
+        </Box>
+      </Box>
+    </KeyboardAvoidingBox>
   );
 };
 
