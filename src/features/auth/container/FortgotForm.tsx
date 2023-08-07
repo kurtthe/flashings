@@ -12,8 +12,10 @@ const ForgotForm = () => {
   const navigation = useNavigation<AuthStackProps>();
   const formikRef = React.useRef<FormikProps<ForgotFormValues>>(null);
 
-  const { mutate } = useForgotPassword(() => {
-    navigation.navigate(Routes.LOGIN);
+  const { mutate } = useForgotPassword({
+    onSuccess: data => {
+      navigation.navigate(Routes.FORGOT_PASSWORD_EMAIL_SENT);
+    },
   });
 
   const handleSubmit = React.useCallback(async (values: ForgotFormValues) => {
