@@ -1,16 +1,16 @@
 import React from 'react';
 import { StyleSheet, Image, Dimensions, View } from 'react-native';
-import { Text, Button, Box } from '@ui/components';
-import SimpleButton from '../../flashing/components/SimpleButton';
+import { Text, Box } from '@ui/components';
+import SimpleButton from '@components/SimpleButton';
 import { Routes } from '../navigation/routes';
 import LoginForm from '@features/auth/container/LoginForm';
+import { useNavigation } from '@react-navigation/native';
+import { AuthStackProps } from '@features/auth/navigation/Stack.types';
 
 const { width } = Dimensions.get('screen');
 
-const LoginScreen = ({ navigation }) => {
-  const navigateTo = routeToGo => {
-    navigation.navigate(routeToGo);
-  };
+const LoginScreen = () => {
+  const navigation = useNavigation<AuthStackProps>();
 
   return (
     <View style={styles.container}>
@@ -30,14 +30,15 @@ const LoginScreen = ({ navigation }) => {
           <SimpleButton
             style={{ marginBottom: 5 }}
             underlined
-            onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
+            onPress={() => navigation.navigate(Routes.HELP_SUPPORT)}>
             Need Help?
           </SimpleButton>
           <View style={{ flexDirection: 'row' }}>
             <Text style={{ color: '#444857', fontSize: 15 }}>
               Don't have an account yet?
             </Text>
-            <SimpleButton onPress={() => navigateTo(Routes.LEARN_HOW_TO_OPEN)}>
+            <SimpleButton
+              onPress={() => navigation.navigate(Routes.LEARN_HOW_TO_OPEN)}>
               {' '}
               Learn how to open
             </SimpleButton>

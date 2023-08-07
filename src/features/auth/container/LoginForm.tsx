@@ -2,11 +2,11 @@ import React from 'react';
 import { Formik, FormikProps } from 'formik';
 import { LoginFormValues } from '@features/auth/container/types';
 import { forms } from '../constants';
-import LoginFormComponent from '@features/auth/components/LoginForm';
 import { useLogin } from '@hooks/auth';
 import { useNavigation } from '@react-navigation/native';
 import { LOGIN_RESPONSE } from '@models';
 import { StackPrivateDefinitions } from '@routes/PrivateNavigator';
+import { LoginFormComponent } from '@features/auth/components';
 
 const LoginForm = () => {
   const navigation = useNavigation();

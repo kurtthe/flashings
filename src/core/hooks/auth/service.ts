@@ -15,3 +15,14 @@ export const loginService = async ({
   });
   return Promise.resolve(loginResponse?.body);
 };
+
+export const forgotPasswordService = async (email: string) => {
+  if (!email) {
+    return Promise.reject('Email is required');
+  }
+  const response = await RequestService.post(endPoints.forgotPassword, {
+    username: email,
+  });
+
+  return Promise.resolve(response?.body);
+};

@@ -1,91 +1,57 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Platform,
-  View,
-} from 'react-native';
+import React from 'react';
+import { StyleSheet, Image, Dimensions, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Text, Button, Box } from '@ui/components';
-import Input from '@ui/components/Input';
-import SimpleButton from '../../flashing/components/SimpleButton';
+import { Text, Box, ScrollBox } from '@ui/components';
 import { Routes } from '../navigation/routes';
+import { useNavigation } from '@react-navigation/native';
+import { SimpleButton } from '@components';
+import { AuthStackProps } from '@features/auth/navigation/Stack.types';
+import ForgotForm from '@features/auth/container/FortgotForm';
 
-const { height, width } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-// import {
-//   widthPercentageToDP as wp,
-//   heightPercentageToDP as hp,
-// } from 'react-native-responsive-screen';
-
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
-const ForgotPasswordScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
-
-  const navigateTo = routeToGo => {
-    navigation.navigate(routeToGo);
-  };
+const ForgotPasswordScreen = () => {
+  const navigation = useNavigation<AuthStackProps>();
 
   return (
-    <KeyboardAwareScrollView contentContainerStyle={styles.container}>
-      <DismissKeyboard>
-        <View style={styles.container}>
-          <View style={styles.logoAndMainTextContainer}>
-            <Image
-              style={styles.mainLogo}
-              source={require('@assets/logo/MainLogo.png')}
-            />
-            <Text style={styles.mainTextStyle}>
-              Forgot your current Password?
-            </Text>
-            <Text style={styles.infoTextStyle}>
-              Enter the form to send you an email for changes the password
-            </Text>
-          </View>
-          <View style={{ flex: 4 }}>
-            <Input
-              inputMode="email"
-              label="Email"
-              onChangeText={text => setEmail(text)}
-              value={email}
-              inputStyles={styles.inputStyle}
-              noPadding
-            />
-          </View>
-          <Box flex={2} style={{ justifyContent: 'space-around' }}>
-            <Button
-              variant="solid"
-              onPress={() => navigateTo(Routes.FORGOT_PASSWORD_EMAIL_SENT)}>
-              Send Email
-            </Button>
-            <View>
-              <SimpleButton
-                style={{ marginBottom: 5 }}
-                underlined
-                onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
-                Need Help?
+    <ScrollBox
+      showsVerticalScrollIndicator={false}
+      as={KeyboardAwareScrollView}
+      contentContainerStyle={styles.container}>
+      <Box py="l" backgroundColor="white" flex={1} px="m">
+        <Box mb="s">
+          <Image
+            style={styles.mainLogo}
+            source={require('@assets/logo/MainLogo.png')}
+          />
+          <Text style={styles.mainTextStyle}>
+            Forgot your current Password?
+          </Text>
+          <Text style={styles.infoTextStyle}>
+            Enter the form to send you an email for changes the password
+          </Text>
+        </Box>
+        <ForgotForm />
+        <Box flex={2} justifyContent="space-around">
+          <View>
+            <SimpleButton
+              style={{ marginBottom: 5 }}
+              underlined
+              onPress={() => navigation.navigate(Routes.HELP_SUPPORT)}>
+              Need Help?
+            </SimpleButton>
+            <Box flexDirection="row" justifyContent="center">
+              <Text style={{ color: '#444857', fontSize: 15 }}>
+                Already remember your password?
+              </Text>
+              <SimpleButton onPress={() => navigation.navigate(Routes.LOGIN)}>
+                Login
               </SimpleButton>
-              <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                <Text style={{ color: '#444857', fontSize: 15 }}>
-                  Already remember your password?
-                </Text>
-                <SimpleButton onPress={() => navigateTo(Routes.LOGIN)}>
-                  {' '}
-                  Login
-                </SimpleButton>
-              </View>
-            </View>
-          </Box>
-        </View>
-      </DismissKeyboard>
-    </KeyboardAwareScrollView>
+            </Box>
+          </View>
+        </Box>
+      </Box>
+    </ScrollBox>
   );
 };
 
@@ -95,9 +61,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: 'white',
     paddingVertical: 35,
-  },
-  logoAndMainTextContainer: {
-    flex: 2,
   },
   mainTextStyle: {
     marginVertical: 20,
