@@ -160,7 +160,13 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
                 size="small"
               />
             ))}
-          <Text maxFontSizeMultiplier={1.3} style={[textStyle, fontStyle]}>
+          <Text
+            maxFontSizeMultiplier={1.3}
+            style={[
+              textStyle,
+              fontStyle,
+              { color: buttonVariant === 'solid' ? 'white' : 'black' },
+            ]}>
             {children}
           </Text>
         </BaseButton>
