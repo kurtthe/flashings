@@ -4,6 +4,7 @@ import { parse, serialize } from 'react-native-redash';
 import React from 'react';
 import { Path as PathComponent, Text, G, Rect } from 'react-native-svg';
 import { ScaleXBar, calculatePending } from '@features/flashing/utils';
+import { isNaN } from 'lodash';
 
 const calculateParallelLine = (
   point1: PointType,
@@ -11,20 +12,28 @@ const calculateParallelLine = (
 ): PointType => {
   const offset = 10;
 
-  if (!point2) return [point1[0], point1[1] - 5];
+  const pointSecond = !point2 ? point1 : point2;
 
-  const pending = calculatePending(point1, point2);
-  console.log('=>pending::', pending);
+  const pending = calculatePending(point1, pointSecond);
+  console.log('pending::', pending);
 
   if (pending === 0) {
-    return [point1[0] + offset, point1[1] - offset];
+    return [point1[0], point1[1] + offset];
   }
 
-  if (isFinite(pending)) {
+  if (pending < 0) {
     return [point1[0] + offset, point1[1]];
   }
 
-  return point2;
+  if (pending > 0) {
+    return [point1[0] + offset, point1[1]];
+  }
+
+  if (isNaN(pending)) {
+    return [point1[0] - offset, point1[1]];
+  }
+
+  return [point1[0] + offset, point1[1]];
 };
 const calculatePositionText = (
   pointInit: PointType,
