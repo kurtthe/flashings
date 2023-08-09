@@ -60,20 +60,64 @@ export const calculatePending = (point1: PointType, point2: PointType) => {
 const calculateExponential = (value: number, toExponential: number = 2) =>
   Math.pow(value, toExponential);
 
+/**
+ * function to  calculate the distance between two points of the line
+ * @param point1
+ * @param point2
+ * D = √(x2-x1)^2 +(y2-y1)^2
+ */
 export const calculateSizeLine = (
   point1: [number, number],
   point2: [number, number] | undefined,
 ) => {
-  if (!point2) {
-    return 0;
-  }
+  const pointSecond = !point2 ? point1 : point2;
 
-  const resultSubtractX = point2[0] - point1[0];
-  const resultSubtractY = point2[1] - point1[1];
+  const resultSubtractX = pointSecond[0] - point1[0];
+  const resultSubtractY = pointSecond[1] - point1[1];
 
   const plusPoints =
     calculateExponential(resultSubtractX) +
     calculateExponential(resultSubtractY);
 
   return Math.sqrt(plusPoints);
+};
+
+/*
+ * discover the equation of the line with pending and one point of line
+ * for that it use the follow equations
+ * y - y1 = m(x-x1)
+ * */
+const calculateYOfPoint = (
+  point: [number, number],
+  pending: number,
+  valueX: number,
+) => {
+  const y1 = point[1];
+  const x1 = point[0];
+  const changeSignY1 = y1 * -1;
+  return pending * valueX + (x1 + changeSignY1);
+};
+
+/*
+ * function calculate the  point with the pending and firs point
+ * for that it use the follows equations
+ * Δx = d/√1+m^2
+ * x = x1 + Δx
+ * y= mx+b
+ * return (x,y)
+ * */
+export const calculatePointWithNewDistance = (
+  point1: [number, number],
+  distance: number,
+  pending: number,
+) => {
+  const mExponent2 = calculateExponential(pending);
+  const denominator = Math.sqrt(1 + mExponent2);
+
+  const deltaX = distance / denominator;
+
+  const xPoint = point1[0] + deltaX;
+  const yPoint = calculateYOfPoint(point1, pending, xPoint);
+
+  return [xPoint, yPoint];
 };
