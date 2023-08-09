@@ -3,19 +3,19 @@ import { Formik, FormikProps } from 'formik';
 import { LoginFormValues } from '@features/auth/container/types';
 import { forms } from '../constants';
 import { useLogin } from '@hooks/auth';
-import { useNavigation } from '@react-navigation/native';
 import { LOGIN_RESPONSE } from '@models';
-import { StackPrivateDefinitions } from '@routes/PrivateNavigator';
 import { LoginFormComponent } from '@features/auth/components';
-
+import { useAppDispatch } from '@hooks/useStore';
+import { actions as authActions } from '@store/auth/actions';
 const LoginForm = () => {
-  const navigation = useNavigation();
+  const dispatch = useAppDispatch();
+
   const formikRef = React.useRef<FormikProps<LoginFormValues>>(null);
 
-  const { mutate: doLogin } = useLogin(data => {
-    if ((data as LOGIN_RESPONSE).api_key) {
-      navigation.navigate(StackPrivateDefinitions.JOBS);
-    }
+  const { mutate: doLogin } = useLogin({
+    onSuccess: data => {
+      dispatch(authActions.signIn({ data: data as LOGIN_RESPONSE }));
+    },
   });
 
   const handleSubmit = React.useCallback(async (values: LoginFormValues) => {
