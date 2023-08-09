@@ -13,6 +13,7 @@ export const loginService = async ({
     username,
     password,
   });
+  console.log('=>loginResponse?.body::', loginResponse?.body);
   return Promise.resolve(loginResponse?.body);
 };
 

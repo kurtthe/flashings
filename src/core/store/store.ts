@@ -16,7 +16,10 @@ const persistedReducer = persistReducer(
   rootReducer,
 ) as typeof rootReducer;
 
+const createDebugger = require('redux-flipper').default;
+debuggerFlipper = createDebugger();
 export const store = configureStore({
+  devTools: true,
   reducer: persistedReducer,
   middleware: getDefaultMiddleware => {
     const middleware = getDefaultMiddleware({
