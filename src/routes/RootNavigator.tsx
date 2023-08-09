@@ -6,7 +6,6 @@ import { isAuthenticatedSelector } from '@store/auth/selectors';
 
 export const RootNavigator = () => {
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
-  console.log('=>isAuthenticated', isAuthenticated);
 
   if (isAuthenticated) {
     return <PrivateNavigator />;
