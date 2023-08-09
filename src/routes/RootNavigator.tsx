@@ -5,9 +5,11 @@ import { useAppSelector } from '@hooks/useStore';
 import { isAuthenticatedSelector } from '@store/auth/selectors';
 
 export const RootNavigator = () => {
-  const isAuthenticatedSelector1 = useAppSelector(isAuthenticatedSelector);
+  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
 
-  if (isAuthenticatedSelector1) {
+  console.log('=>isAuthenticated', isAuthenticated);
+
+  if (isAuthenticated) {
     return <PrivateNavigator />;
   }
   return <PublicNavigator />;
