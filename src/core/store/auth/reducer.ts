@@ -18,6 +18,12 @@ const authReducer = createReducer(INITIAL_STATE, builder => {
     state.user = data.user;
     state.api_key = data.api_key;
   });
+
+  builder.addCase(actions.logOut, state => {
+    state.api_key = undefined;
+    state.isAuthenticated = false;
+    state.user = undefined;
+  });
 });
 
 export type AuthenticationState = ReturnType<typeof authReducer>;

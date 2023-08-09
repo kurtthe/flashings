@@ -14,11 +14,7 @@ const LoginForm = () => {
 
   const { mutate: doLogin } = useLogin({
     onSuccess: data => {
-      console.log('=>data::success', data);
       dispatch(authActions.signIn({ data: data as LOGIN_RESPONSE }));
-    },
-    onSettled: data => {
-      console.log('=>data::onSettled', data);
     },
   });
 

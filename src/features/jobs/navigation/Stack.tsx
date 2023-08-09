@@ -5,11 +5,15 @@ import { AllJobsScreen, JobDetailsScreen, CreateJobScreen } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { Logout, SearchIcon } from '@assets/icons';
 import IconButton from '../../../ui/components/IconButton';
-import { useLogOut } from '@hooks/auth/useLogOut';
+import { useAppDispatch } from '@hooks/useStore';
+import { actions as authActions } from '@store/auth/actions';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator();
-  const { removeToken } = useLogOut();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => dispatch(authActions.logOut());
+
   return (
     <Navigator initialRouteName={Routes.ALL_JOBS}>
       <Screen
@@ -19,7 +23,10 @@ const Stack = () => {
           header: () => (
             <HeaderBox
               rightIcon={
-                <IconButton onPress={removeToken} icon={<Icon as={Logout} />} />
+                <IconButton
+                  onPress={handleLogout}
+                  icon={<Icon as={Logout} />}
+                />
               }
               leftIcon={<Icon as={SearchIcon} />}
               title="All Jobs"
