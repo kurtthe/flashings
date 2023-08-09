@@ -165,7 +165,12 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
             style={[
               textStyle,
               fontStyle,
-              { color: buttonVariant === 'solid' ? 'white' : 'black' },
+              {
+                color:
+                  buttonVariant === 'solid' || buttonVariant === 'small'
+                    ? 'white'
+                    : 'black',
+              },
             ]}>
             {children}
           </Text>

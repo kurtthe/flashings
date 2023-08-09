@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
 import { LoginFormValues } from '@features/auth/container/types';
 import { forms } from '../constants';
 import { useLogin } from '@hooks/auth';
@@ -18,14 +18,21 @@ const LoginForm = () => {
     },
   });
 
-  const handleSubmit = React.useCallback(async (values: LoginFormValues) => {
-    const { email, password } = values;
-
-    doLogin({
-      username: email,
-      password,
-    });
-  }, []);
+  const handleSubmit = React.useCallback(
+    async (
+      values: LoginFormValues,
+      { setSubmitting }: FormikHelpers<LoginFormValues>,
+    ) => {
+      const { email, password } = values;
+      setSubmitting(true);
+      doLogin({
+        username: email,
+        password,
+      });
+      setSubmitting(false);
+    },
+    [],
+  );
 
   return (
     <Formik
