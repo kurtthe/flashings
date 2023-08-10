@@ -3,6 +3,7 @@ import { TouchableOpacity, GestureResponderEvent } from 'react-native';
 import {
   DREW_LINE_TYPE,
   heightScreen,
+  LINE_SELECTED,
   LINE_TYPE,
   POINT_TYPE,
   widthScreen,
@@ -18,6 +19,7 @@ export type MODES_BOARD = 'draw' | 'sizes';
 type Props = {
   lines: LINE_TYPE[];
   onAddPoint: (newPoint: POINT_TYPE) => void;
+  onUpdatePoint: (dataLine: LINE_SELECTED) => void;
   width?: number;
   height?: number;
   mode: MODES_BOARD;
@@ -25,6 +27,7 @@ type Props = {
 
 const Board: React.FC<Props> = ({
   lines,
+  onUpdatePoint,
   onAddPoint,
   width = widthScreen,
   height = heightScreen,
@@ -32,6 +35,9 @@ const Board: React.FC<Props> = ({
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
+  const [pointSelected, setPointSelected] = React.useState<
+    LINE_SELECTED | undefined
+  >();
   const isDrawing = mode === 'draw';
 
   React.useEffect(() => {
@@ -46,22 +52,19 @@ const Board: React.FC<Props> = ({
   }, [lines, isDrawing]);
 
   const onPressLine = (numberLine: number) => {
-    console.log('onPressLine::', numberLine);
+    setPointSelected({
+      numberLine: numberLine,
+      sizeLine: lines[numberLine].distance,
+    });
+    modalBottomRef.current?.show();
   };
 
-  // const handleDoneSize = (newSize: string) => {
-  //   modalBottomRef.current?.hide();
-  //   if (!pointSelected) return;
-  //   const updatePoint: LineSelectedType = {
-  //     ...pointSelected,
-  //     sizeLine: newSize.toString(),
-  //   };
-  //
-  //   onUpdatePoint(updatePoint.numberLine, {
-  //     point: updatePoint.point,
-  //     sizeLine: newSize.toString(),
-  //   });
-  // };
+  const handleDoneSize = (newSize: number) => {
+    modalBottomRef.current?.hide();
+    if (!pointSelected) return;
+
+    onUpdatePoint({ ...pointSelected, sizeLine: newSize });
+  };
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
     const newPosition = findCoordsNearest([
@@ -79,13 +82,13 @@ const Board: React.FC<Props> = ({
           <SvgBoard graphs={graphs} />
         </GestureHandlerRootView>
       </TouchableOpacity>
-      {/*<ModalBottom*/}
-      {/*  backdropClosesSheet={false}*/}
-      {/*  ref={modalBottomRef}*/}
-      {/*  height={300}*/}
-      {/*  borderRadius={0}>*/}
-      {/*  <MeasurementLines point={pointSelected} onDone={handleDoneSize} />*/}
-      {/*</ModalBottom>*/}
+      <ModalBottom
+        backdropClosesSheet={false}
+        ref={modalBottomRef}
+        height={300}
+        borderRadius={0}>
+        <MeasurementLines dataLine={pointSelected} onDone={handleDoneSize} />
+      </ModalBottom>
     </>
   );
 };

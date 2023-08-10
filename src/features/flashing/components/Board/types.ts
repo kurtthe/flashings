@@ -48,6 +48,10 @@ export type DREW_LINE_TYPE = LINE_TYPE & {
   path: JSX.Element | undefined;
 };
 
+export type LINE_SELECTED = {
+  sizeLine: number;
+  numberLine: number;
+};
 export const LETTER_LINES = [
   'A',
   'B',

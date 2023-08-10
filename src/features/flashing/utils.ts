@@ -112,7 +112,7 @@ export const calculatePointWithNewDistance = (
   point1: [number, number],
   distance: number,
   pending: number,
-) => {
+): POINT_TYPE => {
   const mExponent2 = calculateExponential(pending);
   const denominator = Math.sqrt(1 + mExponent2);
 
@@ -159,4 +159,28 @@ export const calculateParallelLine = ({
   }
 
   return points;
+};
+
+export const calculatePositionText = (
+  { pending, points }: LINE_TYPE,
+  offset: number = 0.5,
+): POINT_TYPE => {
+  const isHorizontal = pending === 0;
+  const isVertical = 'Infinity' === `${pending}`;
+
+  const pointInit = points[0];
+  const pointFinal = points[1];
+
+  if (isHorizontal) {
+    return [pointInit[0] + pointFinal[0] / 1.5, pointInit[1] - offset * 25];
+  }
+
+  if (isVertical) {
+    return [pointInit[0] - offset * 25, (pointInit[1] + pointFinal[1]) / 1.5];
+  }
+
+  return [
+    (pointInit[0] + pointFinal[0]) / 2 + offset * 25,
+    (pointInit[1] + pointFinal[1]) / 2 + offset * 25,
+  ];
 };
