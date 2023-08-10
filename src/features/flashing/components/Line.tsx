@@ -17,23 +17,11 @@ const LineMadeComponent: React.FC<Props> = ({
   const [textWidth, setTextWidth] = React.useState(30);
   const fontSize = 20;
   const colorLabel = '#8F94AE';
-  const positionTextSizeLine = calculatePositionText(line);
-  const positionText = calculatePositionText(line, 2);
+  const positionText = calculatePositionText(line);
   const pointsParallel = calculateParallelLine(line);
 
   return (
     <G key={`groupPath${id}`}>
-      {!isDrawing && (
-        <Text
-          key={`nameLine${id}`}
-          textAnchor="middle"
-          fill={colorLabel}
-          fontSize={fontSize}
-          x={positionText[0]}
-          y={positionText[1]}>
-          {LETTER_LINES[id]}
-        </Text>
-      )}
       <PathComponent
         onPress={() => onPressLine(id)}
         key={`normalLine${id}`}
@@ -53,10 +41,10 @@ const LineMadeComponent: React.FC<Props> = ({
           <Rect
             width={textWidth}
             height="17"
-            origin={`${positionTextSizeLine[0]}, ${positionTextSizeLine[1]}`}
+            origin={`${positionText[0]}, ${positionText[1]}`}
             fill="#fff"
-            y={positionTextSizeLine[1] - 14}
-            x={positionTextSizeLine[0] - 28}
+            y={positionText[1] - 14}
+            x={positionText[0] - 28}
             rx={0}
             ry={0}
           />
@@ -68,10 +56,33 @@ const LineMadeComponent: React.FC<Props> = ({
             key={`backgroundSizeText${id}`}
             textAnchor="middle"
             fill="#000"
-            y={positionTextSizeLine[1]}
-            x={positionTextSizeLine[0]}
+            y={positionText[1]}
+            x={positionText[0] - 3}
             fontSize={14}>
             {`${line.distance}in`}
+          </Text>
+        </>
+      )}
+      {!isDrawing && (
+        <>
+          <Rect
+            width="17"
+            height="25"
+            origin={`${positionText[0]}, ${positionText[1]}`}
+            fill="#fff"
+            y={positionText[1] - 50}
+            x={positionText[0] - 9}
+            rx={0}
+            ry={0}
+          />
+          <Text
+            key={`nameLine${id}`}
+            textAnchor="middle"
+            fill={colorLabel}
+            fontSize={fontSize}
+            x={positionText[0]}
+            y={positionText[1] - 30}>
+            {LETTER_LINES[id]}
           </Text>
         </>
       )}
