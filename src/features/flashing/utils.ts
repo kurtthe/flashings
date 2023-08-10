@@ -152,21 +152,64 @@ export const calculateParallelLine = ({
 }: LINE_TYPE): POINT_TYPE[] => {
   const offset = 10;
 
-  console.log('pending::', pending);
-  console.log('pending === 0::', pending === 0);
-  console.log('is negative 0::', pending === -0);
+  const pointX1 = points[0][0];
+  const pointX2 = points[1][0];
 
-  if (pending === 0) {
+  const pointY1 = points[0][1];
+  const pointY2 = points[1][1];
+
+  const isVertical = pointX1 === pointX2;
+  const isHorizontal = pointY1 === pointY2;
+
+  if (isHorizontal) {
+    if (pointY2 > pointX1) {
+      return [
+        [points[0][0], points[0][1] - offset],
+        [points[1][0], points[1][1] - offset],
+      ];
+    }
     return [
-      [points[0][0], points[0][1] - offset],
-      [points[1][0], points[1][1] - offset],
+      [points[0][0], points[0][1] + offset],
+      [points[1][0], points[1][1] + offset],
     ];
   }
 
-  if ('Infinity' === `${pending}`) {
+  if (isVertical) {
+    if (pointY1 > pointY2) {
+      return [
+        [points[0][0] - offset, points[0][1]],
+        [points[1][0] - offset, points[1][1]],
+      ];
+    }
     return [
       [points[0][0] + offset, points[0][1]],
       [points[1][0] + offset, points[1][1]],
+    ];
+  }
+
+  if (pending < 0) {
+    if (pointY1 > pointY2) {
+      return [
+        [points[0][0] - offset, points[0][1] - offset],
+        [points[1][0] - offset, points[1][1] - offset],
+      ];
+    }
+    return [
+      [points[0][0] + offset, points[0][1] + offset],
+      [points[1][0] + offset, points[1][1] + offset],
+    ];
+  }
+
+  if (pending > 0) {
+    if (pointY1 > pointY2) {
+      return [
+        [points[0][0] - offset, points[0][1] + offset],
+        [points[1][0] - offset, points[1][1] + offset],
+      ];
+    }
+    return [
+      [points[0][0] + offset, points[0][1] - offset],
+      [points[1][0] + offset, points[1][1] - offset],
     ];
   }
 
