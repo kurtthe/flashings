@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   BoardComponent,
+  LINE_SELECTED,
   LINE_TYPE,
   MenuEditorComponent,
   POINT_TYPE,
@@ -8,6 +9,7 @@ import {
 import { MODES_BOARD } from '@features/flashing/components/Board/Board';
 import {
   calculatePending,
+  calculatePointWithNewDistance,
   calculateSizeLine,
   getLastPoint,
   validateLineComplete,
@@ -56,12 +58,34 @@ const BoardContainer = () => {
   const handleNext = () => {
     setModeBoard('sizes');
   };
+  const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
+    console.log('update point::', dataLine);
+
+    const linesUpdated = lines.map((line, index) => {
+      if (dataLine.numberLine === index) {
+        const point1 = line.points[0];
+        const getPointWithNewSize = calculatePointWithNewDistance(
+          point1,
+          dataLine.sizeLine,
+          line.pending,
+        );
+        return {
+          ...line,
+          points: [point1, getPointWithNewSize],
+          distance: dataLine.sizeLine,
+        };
+      }
+      return line;
+    });
+    setLines(linesUpdated);
+  };
 
   return (
     <>
       <BoardComponent
         lines={lines}
         onAddPoint={handleAddPoint}
+        onUpdatePoint={handleUpdatePoint}
         mode={modeBoard}
       />
       <MenuEditorComponent
