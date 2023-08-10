@@ -5,7 +5,8 @@ import {
 } from '@features/flashing/components/Grid/Grid.types';
 import { scaleBand } from 'd3-scale';
 import { LINE_TYPE, POINT_TYPE } from '@features/flashing/components';
-import { round } from 'react-native-redash';
+import { parse, round, serialize } from 'react-native-redash';
+import * as shape from 'd3-shape';
 
 type ScaleColumnType = {
   domainData: string[];
@@ -194,4 +195,13 @@ export const calculatePositionText = (
     (pointInit[0] + pointFinal[0]) / 2 + offset * 25,
     (pointInit[1] + pointFinal[1]) / 2 + offset * 25,
   ];
+};
+
+export const buildPathLine = (points: LINE_TYPE['points']) => {
+  const generatorLine = shape
+    .line()
+    .x(data => data[0])
+    .y(data => data[1])
+    .curve(shape.curveLinear);
+  return serialize(parse(generatorLine(points) as string));
 };
