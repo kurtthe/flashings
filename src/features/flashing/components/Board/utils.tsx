@@ -53,8 +53,6 @@ const buildLine = ({ line, onPressLine, isDrawing, id }: BUILD_LINE) => {
   const positionTextSizeLine = calculatePositionText(line);
   const positionText = calculatePositionText(line, 1);
   const pointsParallel = calculateParallelLine(line);
-  console.log('line points::', line.points);
-  console.log('pointsParallel::', pointsParallel);
   return (
     <G key={`groupPath${id}`}>
       {!isDrawing && (

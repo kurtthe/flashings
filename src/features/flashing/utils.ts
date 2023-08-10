@@ -88,16 +88,23 @@ export const calculateSizeLine = (
  * discover the equation of the line with pending and one point of line
  * for that it use the follow equations
  * y - y1 = m(x-x1)
+ * if m doesn't exist then the equation change for y2= y1+d
+ * d is the distance between point and line
  * */
 const calculateYOfPoint = (
   point: [number, number],
   pending: number,
-  valueX: number,
+  valueXOrDistance: number,
 ) => {
   const y1 = point[1];
+
+  if ('Infinity' === `${pending}`) {
+    return point[1] + valueXOrDistance;
+  }
+
   const x1 = point[0];
   const changeSignY1 = y1 * -1;
-  return pending * valueX + (x1 + changeSignY1);
+  return pending * valueXOrDistance + (x1 + changeSignY1);
 };
 
 /*
@@ -119,7 +126,11 @@ export const calculatePointWithNewDistance = (
   const deltaX = distance / denominator;
 
   const xPoint = point1[0] + deltaX;
-  const yPoint = calculateYOfPoint(point1, pending, xPoint);
+  const yPoint = calculateYOfPoint(
+    point1,
+    pending,
+    'Infinity' === `${pending}` ? distance : xPoint,
+  );
 
   return [xPoint, yPoint];
 };
