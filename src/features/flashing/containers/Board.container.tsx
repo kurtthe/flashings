@@ -59,7 +59,7 @@ const BoardContainer = () => {
     setModeBoard('sizes');
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
-    console.log('update point::', dataLine);
+    let newPointOfLine: POINT_TYPE | undefined = undefined;
 
     const linesUpdated = lines.map((line, index) => {
       if (dataLine.numberLine === index) {
@@ -69,10 +69,21 @@ const BoardContainer = () => {
           dataLine.sizeLine,
           line.pending,
         );
+        newPointOfLine = getPointWithNewSize;
         return {
           ...line,
           points: [point1, getPointWithNewSize],
           distance: dataLine.sizeLine,
+        };
+      }
+
+      if (dataLine.numberLine + 1 === index && newPointOfLine) {
+        const point2 = line.points[1];
+        return {
+          ...line,
+          points: [newPointOfLine, point2],
+          pending: calculatePending(newPointOfLine, point2),
+          distance: calculateSizeLine(newPointOfLine, point2),
         };
       }
       return line;
