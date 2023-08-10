@@ -3,6 +3,7 @@ import * as shape from 'd3-shape';
 import { parse, serialize } from 'react-native-redash';
 import React from 'react';
 import { Path as PathComponent } from 'react-native-svg';
+import { calculateParallelLine } from '@features/flashing/utils';
 
 export const drawLines = ({
   lines,
@@ -40,14 +41,25 @@ const buildPathLine = (points: LINE_TYPE['points']) => {
 const buildLine = ({ line, onPressLine, isDrawing, id }: BUILD_LINE) => {
   const fontSize = 20;
   const colorLabel = '#8F94AE';
-
+  const pointsParallel = calculateParallelLine(line);
+  console.log('line points::', line.points);
+  console.log('pointsParallel::', pointsParallel);
   return (
-    <PathComponent
-      onPress={() => onPressLine(id)}
-      key={`normalLine${id}`}
-      d={buildPathLine(line.points)}
-      strokeWidth={1}
-      stroke="#000"
-    />
+    <>
+      <PathComponent
+        onPress={() => onPressLine(id)}
+        key={`normalLine${id}`}
+        d={buildPathLine(line.points)}
+        strokeWidth={1}
+        stroke="#000"
+      />
+      <PathComponent
+        onPress={() => onPressLine(id)}
+        key={`parallelLine${id}`}
+        d={buildPathLine(pointsParallel)}
+        strokeWidth={1}
+        stroke="#0056FF"
+      />
+    </>
   );
 };
