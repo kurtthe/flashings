@@ -1,30 +1,54 @@
 import React from 'react';
 import {
   BoardComponent,
-  CoordsType,
+  LINE_TYPE,
   MenuEditorComponent,
+  POINT_TYPE,
 } from '@features/flashing/components';
 import { MODES_BOARD } from '@features/flashing/components/Board/Board';
+import {
+  calculatePending,
+  calculateSizeLine,
+  getLastPoint,
+  validateLineComplete,
+} from '@features/flashing/utils';
 
 const BoardContainer = () => {
-  const [pointers, setPointers] = React.useState<CoordsType[]>([]);
+  const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
 
-  const handleAddPoint = (newPoint: CoordsType) => {
-    const newPointers = [...pointers, newPoint];
-    setPointers(newPointers);
+  const handleAddPoint = (newPoint: POINT_TYPE) => {
+    if (lines.length < 1) {
+      console.log('first newPoint::', newPoint);
+
+      const dataLine: LINE_TYPE = {
+        points: [newPoint],
+        pending: 0,
+        distance: 0,
+        isLine: false,
+      };
+      return setLines([dataLine]);
+    }
+
+    const lineComplete = validateLineComplete(lines);
+    const lastPoint = getLastPoint(lines);
+
+    const dataLine: LINE_TYPE = {
+      points: [lastPoint, newPoint],
+      pending: calculatePending(lastPoint, newPoint),
+      distance: calculateSizeLine(lastPoint, newPoint),
+      isLine: true,
+    };
+
+    if (!lineComplete) {
+      return setLines([dataLine]);
+    }
+    setLines(prevState => [...prevState, dataLine]);
   };
 
-  const handleUpdatePoint = (numberPoint: number, newDataPoint: CoordsType) => {
-    console.log('update point::', newDataPoint);
-    const pointsUpdated = pointers.map((point, index) => {
-      return index === numberPoint ? newDataPoint : point;
-    });
-    setPointers(pointsUpdated);
-  };
   const handleUndo = () => {
-    const newPointCoordinates = pointers.slice(0, -1);
-    setPointers(newPointCoordinates);
+    const newPointCoordinates = lines.slice(0, -1);
+    setLines(newPointCoordinates);
   };
 
   const handleEdit = () => {
@@ -38,9 +62,8 @@ const BoardContainer = () => {
   return (
     <>
       <BoardComponent
-        points={pointers}
+        lines={lines}
         onAddPoint={handleAddPoint}
-        onUpdatePoint={handleUpdatePoint}
         mode={modeBoard}
       />
       <MenuEditorComponent

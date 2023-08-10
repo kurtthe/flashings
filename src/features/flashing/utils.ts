@@ -4,7 +4,8 @@ import {
   PADDING_BARS,
 } from '@features/flashing/components/Grid/Grid.types';
 import { scaleBand } from 'd3-scale';
-import { PointType } from '@features/flashing/components';
+import { LINE_TYPE, POINT_TYPE } from '@features/flashing/components';
+import { round } from 'react-native-redash';
 
 type ScaleColumnType = {
   domainData: string[];
@@ -53,7 +54,7 @@ export const findClosestNumber = (
   return closest;
 };
 
-export const calculatePending = (point1: PointType, point2: PointType) => {
+export const calculatePending = (point1: POINT_TYPE, point2: POINT_TYPE) => {
   return (point2[1] - point1[1]) / (point2[0] - point1[0]);
 };
 
@@ -69,7 +70,7 @@ const calculateExponential = (value: number, toExponential: number = 2) =>
 export const calculateSizeLine = (
   point1: [number, number],
   point2: [number, number] | undefined,
-) => {
+): number => {
   const pointSecond = !point2 ? point1 : point2;
 
   const resultSubtractX = pointSecond[0] - point1[0];
@@ -79,7 +80,8 @@ export const calculateSizeLine = (
     calculateExponential(resultSubtractX) +
     calculateExponential(resultSubtractY);
 
-  return Math.sqrt(plusPoints);
+  const result = Math.sqrt(plusPoints);
+  return round(result, 1);
 };
 
 /*
@@ -120,4 +122,15 @@ export const calculatePointWithNewDistance = (
   const yPoint = calculateYOfPoint(point1, pending, xPoint);
 
   return [xPoint, yPoint];
+};
+
+export const validateLineComplete = (lines: LINE_TYPE[]): boolean => {
+  const lastLine = lines[lines.length - 1];
+  console.log('lastLine.points.length::', lastLine.points.length);
+  return lastLine.points.length === 2;
+};
+
+export const getLastPoint = (lines: LINE_TYPE[]) => {
+  const lastLine = lines[lines.length - 1];
+  return lastLine.points[lastLine.points.length - 1];
 };
