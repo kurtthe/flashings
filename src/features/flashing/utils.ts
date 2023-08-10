@@ -126,11 +126,37 @@ export const calculatePointWithNewDistance = (
 
 export const validateLineComplete = (lines: LINE_TYPE[]): boolean => {
   const lastLine = lines[lines.length - 1];
-  console.log('lastLine.points.length::', lastLine.points.length);
   return lastLine.points.length === 2;
 };
 
 export const getLastPoint = (lines: LINE_TYPE[]) => {
   const lastLine = lines[lines.length - 1];
   return lastLine.points[lastLine.points.length - 1];
+};
+
+export const calculateParallelLine = ({
+  pending,
+  points,
+}: LINE_TYPE): POINT_TYPE[] => {
+  const offset = 10;
+
+  console.log('pending::', pending);
+  console.log('pending === 0::', pending === 0);
+  console.log('is negative 0::', pending === -0);
+
+  if (pending === 0) {
+    return [
+      [points[0][0], points[0][1] - offset],
+      [points[1][0], points[1][1] - offset],
+    ];
+  }
+
+  if ('Infinity' === `${pending}`) {
+    return [
+      [points[0][0] + offset, points[0][1]],
+      [points[1][0] + offset, points[1][1]],
+    ];
+  }
+
+  return points;
 };

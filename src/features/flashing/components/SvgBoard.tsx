@@ -17,8 +17,6 @@ const SvgBoard: React.FC<Props> = ({ graphs = [] }) => {
   const colorBorderPointer = '#000000';
   const borderWidth = 1;
 
-  console.log('svgBoard graphs::', graphs);
-
   return (
     <Svg width={widthScreen} height="100%">
       <GridComponent />

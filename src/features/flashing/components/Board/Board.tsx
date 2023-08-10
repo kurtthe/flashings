@@ -43,7 +43,7 @@ const Board: React.FC<Props> = ({
       isDrawing,
     });
     setGraphs(makingLines);
-  }, [lines]);
+  }, [lines, isDrawing]);
 
   const onPressLine = (numberLine: number) => {
     console.log('onPressLine::', numberLine);
@@ -71,9 +71,6 @@ const Board: React.FC<Props> = ({
 
     onAddPoint([newPosition.x, newPosition.y]);
   };
-
-  console.log('board graphs::', graphs);
-  console.log('board graphs::', graphs[0]?.points);
 
   return (
     <>

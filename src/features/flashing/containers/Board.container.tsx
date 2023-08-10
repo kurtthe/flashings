@@ -19,8 +19,6 @@ const BoardContainer = () => {
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
-      console.log('first newPoint::', newPoint);
-
       const dataLine: LINE_TYPE = {
         points: [newPoint],
         pending: 0,
