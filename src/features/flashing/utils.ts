@@ -160,6 +160,14 @@ export const calculateParallelLine = ({
 
   const isVertical = pointX1 === pointX2;
   const isHorizontal = pointY1 === pointY2;
+  // console.log('=============>::');
+  //
+  // console.log('pending::', pending);
+  // console.log('pointX1 ::', pointX1);
+  // console.log('pointX2 ::', pointX2);
+  //
+  // console.log('pointY1 ::', pointY1);
+  // console.log('pointY2 ::', pointY2);
 
   if (isHorizontal) {
     if (pointY2 > pointX1) {
