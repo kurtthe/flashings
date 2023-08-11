@@ -73,19 +73,19 @@ const BoardContainer = () => {
         return {
           ...line,
           points: [point1, getPointWithNewSize],
-          distance: dataLine.sizeLine,
+          distance: calculateSizeLine(point1, getPointWithNewSize),
+          pending: calculatePending(point1, getPointWithNewSize),
         };
       }
 
-      if (dataLine.numberLine + 1 === index && newPointOfLine) {
-        const point2 = line.points[1];
-        return {
-          ...line,
-          points: [newPointOfLine, point2],
-          pending: calculatePending(newPointOfLine, point2),
-          distance: calculateSizeLine(newPointOfLine, point2),
-        };
-      }
+      // if (dataLine.numberLine + 1 === index && newPointOfLine) {
+      //   const point2 = line.points[1];
+      //   return {
+      //     ...line,
+      //     points: [newPointOfLine, point2],
+      //     distance: calculateSizeLine(newPointOfLine, point2),
+      //   };
+      // }
       return line;
     });
     setLines(linesUpdated);
