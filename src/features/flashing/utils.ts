@@ -74,15 +74,13 @@ export const calculateSizeLine = (
 ): number => {
   const pointSecond = !point2 ? point1 : point2;
 
-  const resultSubtractX = pointSecond[0] - point1[0];
-  const resultSubtractY = pointSecond[1] - point1[1];
+  const deltaX = pointSecond[0] - point1[0];
+  const deltaY = pointSecond[1] - point1[1];
 
-  const plusPoints =
-    calculateExponential(resultSubtractX) +
-    calculateExponential(resultSubtractY);
+  const sumDeltas = calculateExponential(deltaX) + calculateExponential(deltaY);
 
-  const result = Math.sqrt(plusPoints);
-  return round(result, 1);
+  const result = Math.sqrt(sumDeltas);
+  return round(result, 0);
 };
 
 /*
@@ -121,7 +119,14 @@ export const calculatePointWithNewDistance = (
   distance: number,
   pending: number,
 ): POINT_TYPE => {
+  console.log('calculatePointWithNewDistance:: point1', point1);
+  console.log('calculatePointWithNewDistance:: distance', distance);
+  console.log('calculatePointWithNewDistance:: pending', pending);
+
   const mExponent2 = calculateExponential(pending);
+  console.log('mExponent2', mExponent2);
+  console.log('pending *pending ', pending * pending);
+
   const denominator = Math.sqrt(1 + mExponent2);
 
   const deltaX = distance / denominator;
@@ -133,7 +138,7 @@ export const calculatePointWithNewDistance = (
     'Infinity' === `${pending}` ? distance : xPoint,
   );
 
-  return [xPoint, yPoint];
+  return [round(xPoint, 0), round(yPoint, 0)];
 };
 
 export const validateLineComplete = (lines: LINE_TYPE[]): boolean => {
