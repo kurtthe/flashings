@@ -70,10 +70,12 @@ const BoardContainer = () => {
           line.pending,
         );
         newPointOfLine = getPointWithNewSize;
+        console.log('newPointOfLine::', getPointWithNewSize);
+        console.log('point2::', line.points[1]);
         return {
           ...line,
           points: [point1, getPointWithNewSize],
-          distance: calculateSizeLine(point1, getPointWithNewSize),
+          distance: dataLine.sizeLine,
           pending: calculatePending(point1, getPointWithNewSize),
         };
       }
