@@ -98,6 +98,8 @@ const BoardContainer = () => {
     setLines(linesUpdated);
   };
 
+  const handleClear = () => setLines([]);
+
   return (
     <>
       <ButtonMenu onChangeSide={setPaintLineRight} />
@@ -112,6 +114,7 @@ const BoardContainer = () => {
         onUndo={handleUndo}
         onEdit={handleEdit}
         onNext={handleNext}
+        onEraser={handleClear}
       />
     </>
   );
