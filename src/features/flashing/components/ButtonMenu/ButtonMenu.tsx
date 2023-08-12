@@ -22,7 +22,7 @@ const ButtonMenu: React.FC<Props> = ({ onChangeSide }) => {
       flexDirection="row-reverse"
       justifyContent="center"
       borderRadius="s"
-      alignItems="center">
+      >
       <Box p="s">
         <IconButton
           onPress={() => setOpen(!open)}
