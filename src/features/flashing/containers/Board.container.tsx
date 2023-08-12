@@ -14,10 +14,12 @@ import {
   getLastPoint,
   validateLineComplete,
 } from '@features/flashing/utils';
+import { ButtonMenu } from '@features/flashing/components/ButtonMenu';
 
 const BoardContainer = () => {
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
+  const [paintLineRight, setPaintLineRight] = React.useState<boolean>(true);
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
@@ -27,6 +29,7 @@ const BoardContainer = () => {
         distance: 0,
         isLine: false,
       };
+
       return setLines([dataLine]);
     }
 
@@ -40,6 +43,7 @@ const BoardContainer = () => {
       isLine: true,
     };
 
+    console.log('add dataline::', dataLine);
     if (!lineComplete) {
       return setLines([dataLine]);
     }
@@ -70,24 +74,25 @@ const BoardContainer = () => {
           line.pending,
         );
         newPointOfLine = getPointWithNewSize;
-        console.log('newPointOfLine::', getPointWithNewSize);
-        console.log('point2::', line.points[1]);
+        console.log('update addPoint::', [point1, getPointWithNewSize]);
+        console.log('update data::', line);
+        console.log('update distance::', dataLine.sizeLine);
+
         return {
           ...line,
           points: [point1, getPointWithNewSize],
           distance: dataLine.sizeLine,
-          pending: calculatePending(point1, getPointWithNewSize),
         };
       }
 
-      // if (dataLine.numberLine + 1 === index && newPointOfLine) {
-      //   const point2 = line.points[1];
-      //   return {
-      //     ...line,
-      //     points: [newPointOfLine, point2],
-      //     distance: calculateSizeLine(newPointOfLine, point2),
-      //   };
-      // }
+      if (dataLine.numberLine + 1 === index && newPointOfLine) {
+        const point2 = line.points[1];
+        return {
+          ...line,
+          points: [newPointOfLine, point2],
+          distance: calculateSizeLine(newPointOfLine, point2),
+        };
+      }
       return line;
     });
     setLines(linesUpdated);
@@ -95,7 +100,9 @@ const BoardContainer = () => {
 
   return (
     <>
+      <ButtonMenu onChangeSide={setPaintLineRight} />
       <BoardComponent
+        rightLinePaint={paintLineRight}
         lines={lines}
         onAddPoint={handleAddPoint}
         onUpdatePoint={handleUpdatePoint}

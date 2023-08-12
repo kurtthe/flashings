@@ -6,6 +6,7 @@ export const drawLines = ({
   lines,
   onPressLine,
   isDrawing = true,
+  rightLinePaint = true,
 }: MAKE_LINE & {
   widthGraph: number;
   heightGraph: number;
@@ -16,7 +17,9 @@ export const drawLines = ({
     ...line,
     path:
       line.points.length === 2 ? (
-        <LineMadeComponent {...{ id: index, line, onPressLine, isDrawing }} />
+        <LineMadeComponent
+          {...{ id: index, line, onPressLine, isDrawing, rightLinePaint }}
+        />
       ) : undefined,
   }));
 };

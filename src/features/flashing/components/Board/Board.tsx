@@ -23,6 +23,7 @@ type Props = {
   width?: number;
   height?: number;
   mode: MODES_BOARD;
+  rightLinePaint: boolean;
 };
 
 const Board: React.FC<Props> = ({
@@ -32,6 +33,7 @@ const Board: React.FC<Props> = ({
   width = widthScreen,
   height = heightScreen,
   mode = 'draw',
+  rightLinePaint,
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
@@ -47,9 +49,10 @@ const Board: React.FC<Props> = ({
       widthGraph: width,
       heightGraph: height,
       isDrawing,
+      rightLinePaint,
     });
     setGraphs(makingLines);
-  }, [lines, isDrawing]);
+  }, [lines, isDrawing, rightLinePaint]);
 
   const onPressLine = (numberLine: number) => {
     setPointSelected({

@@ -167,7 +167,9 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
               fontStyle,
               {
                 color:
-                  buttonVariant === 'solid' || buttonVariant === 'small'
+                  buttonVariant === 'solid' ||
+                  buttonVariant === 'small' ||
+                  buttonVariant === 'smallMenuActive'
                     ? 'white'
                     : 'black',
               },
