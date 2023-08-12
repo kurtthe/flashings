@@ -37,7 +37,7 @@ const LineMadeComponent: React.FC<Props> = ({
         strokeWidth={1}
         stroke="#0056FF"
       />
-      {!isDrawing && line.distance && (
+      {!isDrawing && line.distance ? (
         <>
           <Rect
             width={textWidth}
@@ -63,7 +63,7 @@ const LineMadeComponent: React.FC<Props> = ({
             {`${line.distance}in`}
           </Text>
         </>
-      )}
+      ) : null}
       <>
         <Rect
           width="17"

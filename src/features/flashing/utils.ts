@@ -4,7 +4,11 @@ import {
   PADDING_BARS,
 } from '@features/flashing/components/Grid/Grid.types';
 import { scaleBand } from 'd3-scale';
-import { LINE_TYPE, POINT_TYPE } from '@features/flashing/components';
+import {
+  casesLineParallel,
+  LINE_TYPE,
+  POINT_TYPE,
+} from '@features/flashing/components';
 import { parse, round, serialize } from 'react-native-redash';
 import * as shape from 'd3-shape';
 
@@ -162,87 +166,44 @@ export const calculateParallelLine = (
 
   const pointY1 = points[0][1];
   const pointY2 = points[1][1];
-
-  const isVertical = pointX1 === pointX2;
+  const side = isRight ? 'right' : 'left';
   const isHorizontal = pointY1 === pointY2;
+  const isVertical = pointX1 === pointX2;
+
+  const pointsLineParallel = casesLineParallel({
+    points,
+    offset,
+  });
 
   if (isHorizontal) {
-    if (pointY2 > pointX1) {
-      return [
-        [points[0][0], isRight ? points[0][1] - offset : points[0][1] + offset],
-        [points[1][0], isRight ? points[1][1] - offset : points[0][1] + offset],
-      ];
-    }
-    return [
-      [points[0][0], isRight ? points[0][1] + offset : points[0][1] - offset],
-      [points[1][0], isRight ? points[1][1] + offset : points[0][1] - offset],
-    ];
+    const dataHorizontal = pointsLineParallel.horizontal;
+    return pointX2 > pointX1
+      ? dataHorizontal.someOnePointMajor[side]
+      : dataHorizontal.default[side];
   }
 
   if (isVertical) {
-    if (pointY1 > pointY2) {
-      return [
-        [isRight ? points[0][0] - offset : points[0][0] + offset, points[0][1]],
-        [isRight ? points[1][0] - offset : points[1][0] + offset, points[1][1]],
-      ];
-    }
-    return [
-      [!isRight ? points[0][0] - offset : points[0][0] + offset, points[0][1]],
-      [!isRight ? points[1][0] - offset : points[1][0] + offset, points[1][1]],
-    ];
-  }
-
-  if (pending < 0) {
-    if (pointY1 > pointY2) {
-      return [
-        [
-          isRight ? points[0][0] - offset : points[0][0] + offset,
-          isRight ? points[0][1] - offset : points[0][1] + offset,
-        ],
-        [
-          isRight ? points[1][0] - offset : points[1][0] + offset,
-          isRight ? points[1][1] - offset : points[1][1] + offset,
-        ],
-      ];
-    }
-    return [
-      [
-        !isRight ? points[0][0] - offset : points[0][0] + offset,
-        !isRight ? points[0][1] - offset : points[0][1] + offset,
-      ],
-      [
-        !isRight ? points[1][0] - offset : points[1][0] + offset,
-        !isRight ? points[1][1] - offset : points[1][1] + offset,
-      ],
-    ];
+    const dataVertical = pointsLineParallel.vertical;
+    return pointY1 > pointY2
+      ? dataVertical.someOnePointMajor[side]
+      : dataVertical.default[side];
   }
 
   if (pending > 0) {
-    if (pointY1 > pointY2) {
-      return [
-        [
-          isRight ? points[0][0] - offset : points[0][0] + offset,
-          isRight ? points[0][1] + offset : points[0][1] - offset,
-        ],
-        [
-          isRight ? points[1][0] - offset : points[1][0] + offset,
-          isRight ? points[1][1] + offset : points[1][1] - offset,
-        ],
-      ];
-    }
-    return [
-      [
-        isRight ? points[0][0] + offset : points[0][0] - offset,
-        isRight ? points[0][1] - offset : points[0][1] + offset,
-      ],
-      [
-        isRight ? points[1][0] + offset : points[1][0] - offset,
-        isRight ? points[1][1] - offset : points[1][1] + offset,
-      ],
-    ];
+    const dataPendingPositive = pointsLineParallel.pendingPositive;
+    return pointY1 > pointY2
+      ? dataPendingPositive.someOnePointMajor[side]
+      : dataPendingPositive.default[side];
   }
 
-  return points;
+  if (pending < 0) {
+    const dataPendingNegative = pointsLineParallel.pendingNegative;
+    return pointY1 > pointY2
+      ? dataPendingNegative.someOnePointMajor[side]
+      : dataPendingNegative.default[side];
+  }
+
+  return pointsLineParallel.default;
 };
 
 export const calculatePositionText = (
