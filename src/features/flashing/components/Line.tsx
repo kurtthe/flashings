@@ -13,12 +13,13 @@ const LineMadeComponent: React.FC<Props> = ({
   onPressLine,
   isDrawing,
   id,
+  rightLinePaint,
 }) => {
   const [textWidth, setTextWidth] = React.useState(30);
   const fontSize = 20;
   const colorLabel = '#8F94AE';
   const positionText = calculatePositionText(line);
-  const pointsParallel = calculateParallelLine(line);
+  const pointsParallel = calculateParallelLine(line, rightLinePaint);
 
   return (
     <G key={`groupPath${id}`}>
@@ -63,29 +64,27 @@ const LineMadeComponent: React.FC<Props> = ({
           </Text>
         </>
       )}
-      {!isDrawing && (
-        <>
-          <Rect
-            width="17"
-            height="25"
-            origin={`${positionText[0]}, ${positionText[1]}`}
-            fill="#fff"
-            y={positionText[1] - 50}
-            x={positionText[0] - 9}
-            rx={0}
-            ry={0}
-          />
-          <Text
-            key={`nameLine${id}`}
-            textAnchor="middle"
-            fill={colorLabel}
-            fontSize={fontSize}
-            x={positionText[0]}
-            y={positionText[1] - 30}>
-            {LETTER_LINES[id]}
-          </Text>
-        </>
-      )}
+      <>
+        <Rect
+          width="17"
+          height="25"
+          origin={`${positionText[0]}, ${positionText[1]}`}
+          fill="#fff"
+          y={positionText[1] - 50}
+          x={positionText[0] - 9}
+          rx={0}
+          ry={0}
+        />
+        <Text
+          key={`nameLine${id}`}
+          textAnchor="middle"
+          fill={colorLabel}
+          fontSize={fontSize}
+          x={positionText[0]}
+          y={positionText[1] - 30}>
+          {LETTER_LINES[id]}
+        </Text>
+      </>
     </G>
   );
 };

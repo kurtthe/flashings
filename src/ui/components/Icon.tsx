@@ -1,10 +1,10 @@
 import React from 'react';
-import {BaseTheme, VariantProps} from '@shopify/restyle';
+import { BaseTheme, VariantProps } from '@shopify/restyle';
 import Svg from 'react-native-svg';
 
-import {forwardRef} from '@ui/utils';
+import { forwardRef } from '@ui/utils';
 
-import SvgBox, {SvgBoxProps} from './SvgBox';
+import SvgBox, { SvgBoxProps } from './SvgBox';
 
 /**
  * Decription with color props supported
@@ -17,7 +17,12 @@ export type IconProps = SvgBoxProps & {
 
 // @ts-ignore
 const Icon = forwardRef<IconProps, Svg>((props, ref) => (
-  <SvgBox ref={ref} {...props} fill={props.fill || props.color} />
+  <SvgBox
+    ref={ref}
+    {...props}
+    fill={props.fill ?? props.color}
+    size={props.size ?? 25}
+  />
 ));
 
 export default Icon;

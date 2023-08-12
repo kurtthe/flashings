@@ -46,6 +46,21 @@ const buttonVariants = {
     fontSize: 14,
     color: 'white',
   },
+  smallMenu: {
+    minHeight: 30,
+    fontSize: 12,
+    color: 'black',
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  smallMenuActive: {
+    backgroundColor: 'primaryBlue',
+    minHeight: 30,
+    fontSize: 12,
+    borderWidth: 1,
+    borderColor: 'white',
+    color: 'white',
+  },
   keyboard: {
     width: 50,
     backgroundColor: 'input',

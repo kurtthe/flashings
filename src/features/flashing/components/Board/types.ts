@@ -12,6 +12,7 @@ export type MAKE_LINE = {
   lines: LINE_TYPE[];
   onPressLine: (numberLine: number) => void;
   isDrawing?: boolean;
+  rightLinePaint?: boolean;
 };
 
 export type BUILD_LINE = {
@@ -19,6 +20,7 @@ export type BUILD_LINE = {
   line: LINE_TYPE;
   onPressLine: (numberLine: number) => void;
   isDrawing?: boolean;
+  rightLinePaint?: boolean;
 };
 export const SIZE_POINTER = 4;
 export const SIZE_POINTER_LAST = 8;

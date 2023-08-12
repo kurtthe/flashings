@@ -119,14 +119,11 @@ export const calculatePointWithNewDistance = (
   distance: number,
   pending: number,
 ): POINT_TYPE => {
-  console.log('calculatePointWithNewDistance:: point1', point1);
-  console.log('calculatePointWithNewDistance:: distance', distance);
-  console.log('calculatePointWithNewDistance:: pending', pending);
+  console.log('point1::', point1);
+  console.log('distance::', distance);
+  console.log('pending::', pending);
 
   const mExponent2 = calculateExponential(pending);
-  console.log('mExponent2', mExponent2);
-  console.log('pending *pending ', pending * pending);
-
   const denominator = Math.sqrt(1 + mExponent2);
 
   const deltaX = distance / denominator;
@@ -137,6 +134,9 @@ export const calculatePointWithNewDistance = (
     pending,
     'Infinity' === `${pending}` ? distance : xPoint,
   );
+
+  console.log('new pointX::', xPoint);
+  console.log('new yPoint::', yPoint);
 
   return [round(xPoint, 0), round(yPoint, 0)];
 };
@@ -151,10 +151,10 @@ export const getLastPoint = (lines: LINE_TYPE[]) => {
   return lastLine.points[lastLine.points.length - 1];
 };
 
-export const calculateParallelLine = ({
-  pending,
-  points,
-}: LINE_TYPE): POINT_TYPE[] => {
+export const calculateParallelLine = (
+  { pending, points }: LINE_TYPE,
+  isRight: boolean = true,
+): POINT_TYPE[] => {
   const offset = 10;
 
   const pointX1 = points[0][0];
@@ -165,64 +165,80 @@ export const calculateParallelLine = ({
 
   const isVertical = pointX1 === pointX2;
   const isHorizontal = pointY1 === pointY2;
-  // console.log('=============>::');
-  //
-  // console.log('pending::', pending);
-  // console.log('pointX1 ::', pointX1);
-  // console.log('pointX2 ::', pointX2);
-  //
-  // console.log('pointY1 ::', pointY1);
-  // console.log('pointY2 ::', pointY2);
 
   if (isHorizontal) {
     if (pointY2 > pointX1) {
       return [
-        [points[0][0], points[0][1] - offset],
-        [points[1][0], points[1][1] - offset],
+        [points[0][0], isRight ? points[0][1] - offset : points[0][1] + offset],
+        [points[1][0], isRight ? points[1][1] - offset : points[0][1] + offset],
       ];
     }
     return [
-      [points[0][0], points[0][1] + offset],
-      [points[1][0], points[1][1] + offset],
+      [points[0][0], isRight ? points[0][1] + offset : points[0][1] - offset],
+      [points[1][0], isRight ? points[1][1] + offset : points[0][1] - offset],
     ];
   }
 
   if (isVertical) {
     if (pointY1 > pointY2) {
       return [
-        [points[0][0] - offset, points[0][1]],
-        [points[1][0] - offset, points[1][1]],
+        [isRight ? points[0][0] - offset : points[0][0] + offset, points[0][1]],
+        [isRight ? points[1][0] - offset : points[1][0] + offset, points[1][1]],
       ];
     }
     return [
-      [points[0][0] + offset, points[0][1]],
-      [points[1][0] + offset, points[1][1]],
+      [!isRight ? points[0][0] - offset : points[0][0] + offset, points[0][1]],
+      [!isRight ? points[1][0] - offset : points[1][0] + offset, points[1][1]],
     ];
   }
 
   if (pending < 0) {
     if (pointY1 > pointY2) {
       return [
-        [points[0][0] - offset, points[0][1] - offset],
-        [points[1][0] - offset, points[1][1] - offset],
+        [
+          isRight ? points[0][0] - offset : points[0][0] + offset,
+          isRight ? points[0][1] - offset : points[0][1] + offset,
+        ],
+        [
+          isRight ? points[1][0] - offset : points[1][0] + offset,
+          isRight ? points[1][1] - offset : points[1][1] + offset,
+        ],
       ];
     }
     return [
-      [points[0][0] + offset, points[0][1] + offset],
-      [points[1][0] + offset, points[1][1] + offset],
+      [
+        !isRight ? points[0][0] - offset : points[0][0] + offset,
+        !isRight ? points[0][1] - offset : points[0][1] + offset,
+      ],
+      [
+        !isRight ? points[1][0] - offset : points[1][0] + offset,
+        !isRight ? points[1][1] - offset : points[1][1] + offset,
+      ],
     ];
   }
 
   if (pending > 0) {
     if (pointY1 > pointY2) {
       return [
-        [points[0][0] - offset, points[0][1] + offset],
-        [points[1][0] - offset, points[1][1] + offset],
+        [
+          isRight ? points[0][0] - offset : points[0][0] + offset,
+          isRight ? points[0][1] + offset : points[0][1] - offset,
+        ],
+        [
+          isRight ? points[1][0] - offset : points[1][0] + offset,
+          isRight ? points[1][1] + offset : points[1][1] - offset,
+        ],
       ];
     }
     return [
-      [points[0][0] + offset, points[0][1] - offset],
-      [points[1][0] + offset, points[1][1] - offset],
+      [
+        isRight ? points[0][0] + offset : points[0][0] - offset,
+        isRight ? points[0][1] - offset : points[0][1] + offset,
+      ],
+      [
+        isRight ? points[1][0] + offset : points[1][0] - offset,
+        isRight ? points[1][1] - offset : points[1][1] + offset,
+      ],
     ];
   }
 
