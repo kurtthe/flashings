@@ -19,7 +19,7 @@ const LineMadeComponent: React.FC<Props> = ({
   const fontSize = 20;
   const colorLabel = '#8F94AE';
   const positionText = calculatePositionText(line);
-  const pointsParallel = calculateParallelLine(line, rightLinePaint);
+  // const pointsParallel = calculateParallelLine(line, rightLinePaint);
 
   return (
     <G key={`groupPath${id}`}>
@@ -30,13 +30,13 @@ const LineMadeComponent: React.FC<Props> = ({
         strokeWidth={1}
         stroke="#000"
       />
-      <PathComponent
-        onPress={() => onPressLine(id)}
-        key={`parallelLine${id}`}
-        d={buildPathLine(pointsParallel)}
-        strokeWidth={1}
-        stroke="#0056FF"
-      />
+      {/*<PathComponent*/}
+      {/*  onPress={() => onPressLine(id)}*/}
+      {/*  key={`parallelLine${id}`}*/}
+      {/*  d={buildPathLine(pointsParallel)}*/}
+      {/*  strokeWidth={1}*/}
+      {/*  stroke="#0056FF"*/}
+      {/*/>*/}
       {!isDrawing && line.distance ? (
         <>
           <Rect

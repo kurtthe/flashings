@@ -13,7 +13,8 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SvgBoard from '@features/flashing/components/SvgBoard';
 import { ModalBottom, ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
-import { drawLines } from '@features/flashing/components/Board/utils';
+import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
+import { Path } from 'react-native-redash';
 
 export type MODES_BOARD = 'draw' | 'sizes';
 type Props = {
@@ -40,6 +41,8 @@ const Board: React.FC<Props> = ({
   const [pointSelected, setPointSelected] = React.useState<
     LINE_SELECTED | undefined
   >();
+  const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
+
   const isDrawing = mode === 'draw';
 
   React.useEffect(() => {
@@ -51,6 +54,7 @@ const Board: React.FC<Props> = ({
       isDrawing,
       rightLinePaint,
     });
+    setPathParallel(drawParallelLines(lines, rightLinePaint))
     setGraphs(makingLines);
   }, [lines, isDrawing, rightLinePaint]);
 
@@ -82,7 +86,7 @@ const Board: React.FC<Props> = ({
     <>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
         <GestureHandlerRootView>
-          <SvgBoard graphs={graphs} />
+          <SvgBoard graphs={graphs} pathParallel={pathParallel} />
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom
