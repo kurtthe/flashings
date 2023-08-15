@@ -238,3 +238,11 @@ export const buildPathLine = (points: LINE_TYPE['points']) => {
     .curve(shape.curveLinear);
   return serialize(parse(generatorLine(points) as string));
 };
+
+export const buildPathLineParallel = (points: LINE_TYPE['points']) => {
+  return parse(shape
+      .line()
+      .x(data => data[0])
+      .y(data => data[1])
+      .curve(shape.curveLinear)(points) as string)
+};

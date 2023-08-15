@@ -43,7 +43,6 @@ const BoardContainer = () => {
       isLine: true,
     };
 
-    console.log('add dataline::', dataLine);
     if (!lineComplete) {
       return setLines([dataLine]);
     }
@@ -74,9 +73,6 @@ const BoardContainer = () => {
           line.pending,
         );
         newPointOfLine = getPointWithNewSize;
-        console.log('update addPoint::', [point1, getPointWithNewSize]);
-        console.log('update data::', line);
-        console.log('update distance::', dataLine.sizeLine);
 
         return {
           ...line,

@@ -1,6 +1,8 @@
 import React from 'react';
-import { DREW_LINE_TYPE, MAKE_LINE } from './types';
+import { DREW_LINE_TYPE, LINE_TYPE, MAKE_LINE, POINT_TYPE } from "./types";
 import LineMadeComponent from '@features/flashing/components/Line';
+import { buildPathLineParallel, calculateParallelLine } from "@features/flashing/utils";
+import { Path } from 'react-native-redash';
 
 export const drawLines = ({
   lines,
@@ -23,3 +25,15 @@ export const drawLines = ({
       ) : undefined,
   }));
 };
+
+export const drawParallelLines = (lines: LINE_TYPE[],  rightLinePaint=true):Path | null=>{
+
+  if(!lines.length || lines[0].points.length <= 1) {
+    return null;
+  }
+
+  const allPoints: POINT_TYPE[] = lines.map(line => calculateParallelLine(line, rightLinePaint)[0])
+  return buildPathLineParallel(allPoints)
+
+
+}
