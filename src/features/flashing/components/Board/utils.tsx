@@ -27,13 +27,12 @@ export const drawLines = ({
 };
 
 export const drawParallelLines = (lines: LINE_TYPE[],  rightLinePaint=true):Path | null=>{
-
   if(!lines.length || lines[0].points.length <= 1) {
     return null;
   }
 
-  const allPoints: POINT_TYPE[] = lines.map(line => calculateParallelLine(line, rightLinePaint)[0])
-  return buildPathLineParallel(allPoints)
+  const allPoints = lines.map(line =>[ calculateParallelLine(line, rightLinePaint)])
 
-
+  console.log("=>allPoints::", allPoints.flat(2))
+  return buildPathLineParallel(allPoints.flat(2))
 }
