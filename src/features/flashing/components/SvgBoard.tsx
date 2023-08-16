@@ -6,13 +6,15 @@ import {
 } from '@features/flashing/components/Board';
 import { GridComponent } from '@features/flashing/components/index';
 import PointerComponent from '@features/flashing/components/Pointer';
-import Svg from 'react-native-svg';
+import Svg, { Path as PathComponent } from "react-native-svg";
 import React from 'react';
+import { Path, serialize } from "react-native-redash";
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
+  pathParallel: Path | null;
 };
-const SvgBoard: React.FC<Props> = ({ graphs = [] }) => {
+const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel}) => {
   const colorPointer = '#8F94AE';
   const colorBorderPointer = '#000000';
   const borderWidth = 1;
@@ -22,7 +24,13 @@ const SvgBoard: React.FC<Props> = ({ graphs = [] }) => {
       <GridComponent />
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
         <React.Fragment key={Math.random()}>
-          {LineComponent && LineComponent}
+          {LineComponent}
+          {pathParallel && <PathComponent
+            d={serialize(pathParallel)}
+            stroke={"#0056FF"}
+            strokeWidth={1}
+            fill="transparent"
+          />}
           <PointerComponent
             key={`first-point-line${index}`}
             cx={points[0][0]}
