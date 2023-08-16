@@ -209,12 +209,17 @@ export const calculateParallelLine = (
 export const calculatePositionText = (
   { pending, points }: LINE_TYPE,
   offset: number = 0.5,
+  atPoint: boolean = false
 ): POINT_TYPE => {
   const isHorizontal = pending === 0;
   const isVertical = 'Infinity' === `${pending}`;
 
   const pointInit = points[0];
   const pointFinal = points[1];
+
+  if(atPoint){
+    return [points[1][0] - offset * 25, points[1][1]]
+  }
 
   if (isHorizontal) {
     return [pointInit[0] + pointFinal[0] / 1.5, pointInit[1] - offset * 25];
@@ -246,12 +251,19 @@ export const buildPathLine = (points: LINE_TYPE['points']) => {
 export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined)=> {
   if(!secondLine) return undefined
 
-
   const m1 = firstLine.pending
   const m2 = secondLine.pending
 
-  const subtractionPending = m1 - m2
-  const numerator = 1 + subtractionPending
+  if(m1 === Infinity || m2 === Infinity){
+    return 90;
+  }
+
+  const subtractionPending = m2 - m1
+  const multiplePending = m2*m1
+  const numerator = 1 + multiplePending
   const result = subtractionPending / numerator
-  return Math.atan(result);
+  const angleRad = Math.atan(Math.abs(result))
+  const angleDeg = angleRad * 180 / Math.PI;
+
+  return round(angleDeg, 0);
 }
