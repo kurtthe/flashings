@@ -22,6 +22,7 @@ const LineMadeComponent: React.FC<Props> = ({
   const fontSize = 20;
   const colorLabel = '#8F94AE';
   const positionText = calculatePositionText(line);
+  // const pointsParallel = calculateParallelLine(line, rightLinePaint);
   const positionTextAngle = calculatePositionText(line, 0, true);
   const pointsParallel = calculateParallelLine(line, rightLinePaint);
 

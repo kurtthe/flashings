@@ -14,7 +14,9 @@ import { Host as PortalProvider } from 'react-native-paper-portal';
 import { Provider as StoreProvider, ProviderProps } from 'react-redux';
 import { PersistGate, PersistGateProps } from 'redux-persist/integration/react';
 
-type Props = Pick<PersistGateProps, 'persistor'> & ProviderProps;
+type Props = Pick<PersistGateProps, 'persistor'> & ProviderProps &{
+  children: React.ReactElement
+};
 
 export const Application: React.FC<Props> = ({ persistor, store }) => {
   return (

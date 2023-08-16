@@ -244,6 +244,14 @@ export const buildPathLine = (points: LINE_TYPE['points']) => {
   return serialize(parse(generatorLine(points) as string));
 };
 
+export const buildPathLineParallel = (points: LINE_TYPE['points']) => {
+  return parse(shape
+      .line()
+      .x(data => data[0])
+      .y(data => data[1])
+      .curve(shape.curveLinear)(points) as string)
+};
+
 /*
  * function calculate the  angle between two lines
  * ∠ = arctan((m2-m1)/(1+m1*m2))
