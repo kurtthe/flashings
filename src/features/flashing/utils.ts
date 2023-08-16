@@ -246,7 +246,7 @@ export const buildPathLine = (points: LINE_TYPE['points']) => {
 
 /*
  * function calculate the  angle between two lines
- * ∠ = arctan((m1/m2)/(1+m1-m2))
+ * ∠ = arctan((m2-m1)/(1+m1*m2))
  * */
 export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined)=> {
   if(!secondLine) return undefined
