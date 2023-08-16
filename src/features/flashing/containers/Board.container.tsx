@@ -9,7 +9,6 @@ import {
 import { MODES_BOARD } from '@features/flashing/components/Board/Board';
 import {
   calculatePending,
-  calculatePointWithNewDistance,
   calculateSizeLine,
   getLastPoint,
   validateLineComplete,
@@ -43,7 +42,6 @@ const BoardContainer = () => {
       isLine: true,
     };
 
-    console.log('add dataline::', dataLine);
     if (!lineComplete) {
       return setLines([dataLine]);
     }
@@ -63,34 +61,11 @@ const BoardContainer = () => {
     setModeBoard('sizes');
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
-    let newPointOfLine: POINT_TYPE | undefined = undefined;
-
     const linesUpdated = lines.map((line, index) => {
       if (dataLine.numberLine === index) {
-        const point1 = line.points[0];
-        const getPointWithNewSize = calculatePointWithNewDistance(
-          point1,
-          dataLine.sizeLine,
-          line.pending,
-        );
-        newPointOfLine = getPointWithNewSize;
-        console.log('update addPoint::', [point1, getPointWithNewSize]);
-        console.log('update data::', line);
-        console.log('update distance::', dataLine.sizeLine);
-
         return {
           ...line,
-          points: [point1, getPointWithNewSize],
           distance: dataLine.sizeLine,
-        };
-      }
-
-      if (dataLine.numberLine + 1 === index && newPointOfLine) {
-        const point2 = line.points[1];
-        return {
-          ...line,
-          points: [newPointOfLine, point2],
-          distance: calculateSizeLine(newPointOfLine, point2),
         };
       }
       return line;
