@@ -22,7 +22,6 @@ const LineMadeComponent: React.FC<Props> = ({
   const fontSize = 20;
   const colorLabel = '#8F94AE';
   const positionText = calculatePositionText(line);
-  // const pointsParallel = calculateParallelLine(line, rightLinePaint);
   const positionTextAngle = calculatePositionText(line, 0, true);
   const pointsParallel = calculateParallelLine(line, rightLinePaint);
 
@@ -42,7 +41,7 @@ const LineMadeComponent: React.FC<Props> = ({
         strokeWidth={1}
         stroke="#0056FF"
       />
-      {showAngle && (
+      {showAngle !== undefined && (
         <TextSvg id={id} onPress={onPressLine} positionTextYRect={positionTextAngle[1] -4} positionTextXRect={positionTextAngle[0] + 6} positionTextX={positionTextAngle[0] + 28} positionTextY={positionTextAngle[1] + 10} textValue={`${showAngle}°`} />
       )}
       {!isDrawing && line.distance ? (
