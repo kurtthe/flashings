@@ -238,3 +238,20 @@ export const buildPathLine = (points: LINE_TYPE['points']) => {
     .curve(shape.curveLinear);
   return serialize(parse(generatorLine(points) as string));
 };
+
+/*
+ * function calculate the  angle between two lines
+ * ∠ = arctan((m1/m2)/(1+m1-m2))
+ * */
+export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined)=> {
+  if(!secondLine) return undefined
+
+
+  const m1 = firstLine.pending
+  const m2 = secondLine.pending
+
+  const subtractionPending = m1 - m2
+  const numerator = 1 + subtractionPending
+  const result = subtractionPending / numerator
+  return Math.atan(result);
+}
