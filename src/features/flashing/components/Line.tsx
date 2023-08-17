@@ -2,7 +2,6 @@ import React from 'react';
 import { BUILD_LINE, LETTER_LINES } from '@features/flashing/components/Board';
 import {
   buildPathLine,
-  calculateParallelLine,
   calculatePositionText,
 } from '@features/flashing/utils';
 import { G, Path as PathComponent} from 'react-native-svg';
@@ -16,14 +15,12 @@ const LineMadeComponent: React.FC<Props> = ({
   onPressLine,
   isDrawing,
   id,
-  rightLinePaint,
   showAngle
 }) => {
   const fontSize = 20;
   const colorLabel = '#8F94AE';
   const positionText = calculatePositionText(line);
   const positionTextAngle = calculatePositionText(line, 0, true);
-  const pointsParallel = calculateParallelLine(line, rightLinePaint);
 
   return (
     <G key={`groupPath${id}`}>
@@ -33,13 +30,6 @@ const LineMadeComponent: React.FC<Props> = ({
         d={buildPathLine(line.points)}
         strokeWidth={1}
         stroke="#000"
-      />
-      <PathComponent
-        onPress={() => onPressLine(id)}
-        key={`parallelLine${id}`}
-        d={buildPathLine(pointsParallel)}
-        strokeWidth={1}
-        stroke="#0056FF"
       />
       {showAngle !== undefined && (
         <TextSvg id={id} onPress={onPressLine} positionTextYRect={positionTextAngle[1] -4} positionTextXRect={positionTextAngle[0] + 6} positionTextX={positionTextAngle[0] + 28} positionTextY={positionTextAngle[1] + 10} textValue={`${showAngle}°`} />

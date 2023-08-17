@@ -11,6 +11,7 @@ import {
 } from '@features/flashing/components';
 import { parse, round, serialize } from 'react-native-redash';
 import * as shape from 'd3-shape';
+import { isNaN } from "lodash";
 
 type ScaleColumnType = {
   domainData: string[];
@@ -155,12 +156,8 @@ export const getLastPoint = (lines: LINE_TYPE[]) => {
   return lastLine.points[lastLine.points.length - 1];
 };
 
-export const calculateParallelLine = (
-  { pending, points }: LINE_TYPE,
-  isRight: boolean = true,
-): POINT_TYPE[] => {
-  const offset = 10;
-
+const getPointParallel = ({line, offset, isRight}:{line: LINE_TYPE; offset: number, isRight: boolean}) =>{
+  const {points, pending} = line
   const pointX1 = points[0][0];
   const pointX2 = points[1][0];
 
@@ -204,6 +201,48 @@ export const calculateParallelLine = (
   }
 
   return pointsLineParallel.default;
+}
+export const calculateParallelLines = (
+  lines: LINE_TYPE[],
+  isRight: boolean = true,
+): POINT_TYPE[][] => {
+  const offset = 10;
+
+  return lines.map((line, index, arrayLines) => {
+    const currentLineParallel = getPointParallel({line, isRight, offset})
+
+    const previousLine = arrayLines[index - 1]
+    const nextLine = arrayLines[index + 1]
+
+    if(previousLine && !nextLine){
+      const previousLineParallel = getPointParallel({line: previousLine, isRight, offset})
+      const pointIntersection = calculatePointsIntersectionBetweenLines({...previousLine, points: previousLineParallel}, {...line, points: currentLineParallel} );
+
+      if(!pointIntersection) return currentLineParallel
+      return [pointIntersection, currentLineParallel[1] ]
+    }
+
+    if(!previousLine && nextLine){
+      const nextLineParallel = getPointParallel({line: nextLine, isRight, offset})
+      const pointIntersectionNext = calculatePointsIntersectionBetweenLines({...line, points: currentLineParallel}, {...nextLine, points: nextLineParallel});
+
+      if(!pointIntersectionNext) return currentLineParallel
+      return [currentLineParallel[0], pointIntersectionNext]
+    }
+
+    if(previousLine && nextLine){
+      const previousLineParallel = getPointParallel({line: previousLine, isRight, offset})
+      const nextLineParallel = getPointParallel({line: nextLine, isRight, offset})
+
+      const pointIntersectionPrevious = calculatePointsIntersectionBetweenLines({...previousLine, points: previousLineParallel}, {...line, points: currentLineParallel} );
+      const pointIntersectionNext = calculatePointsIntersectionBetweenLines({...line, points: currentLineParallel}, {...nextLine, points: nextLineParallel});
+
+      if(!pointIntersectionPrevious || !pointIntersectionNext) return currentLineParallel
+      return [pointIntersectionPrevious, pointIntersectionNext]
+    }
+
+    return currentLineParallel
+  })
 };
 
 export const calculatePositionText = (
@@ -272,8 +311,54 @@ export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | und
   if(angleDeg <= 0){
     angleDeg = 180 - Math.abs(angleDeg)
   }
-  console.log("internal angleDeg::", angleDeg)
-  console.log("external angleDeg::", 180 - angleDeg)
+  // console.log("internal angleDeg::", angleDeg)
+  // console.log("external angleDeg::", 180 - angleDeg)
 
   return round(angleDeg, 0);
+}
+
+
+const createEquationOfLine = (line: LINE_TYPE): string=> {
+  const x1 = line.points[0][0]
+  const y1 = line.points[0][1]
+
+  const pendingMultiplyX1 = line.pending*(x1 * -1)
+  const sumY1PendingMultiply = pendingMultiplyX1 + y1
+
+  return `${line.pending}x${sumY1PendingMultiply > 0 ? '+': ''}${sumY1PendingMultiply}`
+}
+
+const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_TYPE | undefined):POINT_TYPE | null=>{
+
+  if(!line2) return null;
+
+  const eq1 = createEquationOfLine(line1)
+  const eq2 = createEquationOfLine(line2)
+
+  const paramsEq1 = eq1.split('x')
+  const paramsEq2 = eq2.split('x')
+
+  const paramPending1 = parseInt(paramsEq1[0])
+  const paramPending2 = parseInt(paramsEq2[0]) * -1
+
+  const result = paramPending1 + paramPending2
+
+  const paramB1 = parseInt(paramsEq1[1]) * -1
+  const paramB2 = parseInt(paramsEq2[1])
+
+  const result2 = paramB1 + paramB2
+
+  const xPoint = result2/ result
+
+  if(isNaN(xPoint) || xPoint === Infinity){
+    return null
+  }
+
+  const yPoint = calculateYOfPoint(
+    line1.points[0],
+    line1.pending,
+    xPoint,
+  );
+
+  return [xPoint, yPoint]
 }
