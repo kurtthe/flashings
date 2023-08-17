@@ -154,12 +154,18 @@ export const calculateParallelLines = (
   const offset = 10;
 
   return lines.map((line, index, arrayLines): POINT_TYPE[] => {
+    console.log(`****************************************${index}********************************************************`)
     const currentLineParallel = getPointParallel({line, isRight, offset})
 
     const previousLine = arrayLines[index - 1]
     const nextLine = arrayLines[index + 1]
 
+    console.log("line current::",line)
+    console.log("line nextLine::",nextLine)
+    console.log("line previousLine::",previousLine)
+
     if(previousLine && !nextLine){
+      console.log("previousLine && !nextLine")
       const previousLineParallel = getPointParallel({line: previousLine, isRight, offset})
       const pointIntersection = calculatePointsIntersectionBetweenLines({...previousLine, points: previousLineParallel}, {...line, points: currentLineParallel} );
 
@@ -168,6 +174,7 @@ export const calculateParallelLines = (
     }
 
     if(!previousLine && nextLine){
+      console.log("!previousLine && nextLine")
 
       const nextLineParallel = getPointParallel({line: nextLine, isRight, offset})
       const pointIntersectionNext = calculatePointsIntersectionBetweenLines({...line, points: currentLineParallel}, {...nextLine, points: nextLineParallel});
@@ -177,6 +184,7 @@ export const calculateParallelLines = (
     }
 
     if(previousLine && nextLine){
+      console.log("previousLine && nextLine")
       const previousLineParallel = getPointParallel({line: previousLine, isRight, offset})
       const nextLineParallel = getPointParallel({line: nextLine, isRight, offset})
 
@@ -186,6 +194,7 @@ export const calculateParallelLines = (
       if(!pointIntersectionPrevious || !pointIntersectionNext) return currentLineParallel
       return [pointIntersectionPrevious, pointIntersectionNext]
     }
+    console.log("default")
 
     return currentLineParallel
   })
@@ -283,6 +292,13 @@ const resolveEqWithValueX = (eq: string, valueX: number)=>{
 const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_TYPE | undefined):POINT_TYPE | null=>{
 
   if(!line2) return null;
+  if(line1.pending === Infinity && line2.pending === 0){
+    return [line1.points[0][0], line2.points[0][1]]
+  }
+
+  if(line1.pending === -Infinity && line2.pending === 0){
+    return [line1.points[0][0], line2.points[0][1]]
+  }
 
   const eq1 = createEquationOfLine(line1)
   const eq2 = createEquationOfLine(line2)
@@ -302,7 +318,7 @@ const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_T
   const result2 = paramB1 + paramB2
   const xPoint = result2/ result
 
-  if(isNaN(xPoint) || xPoint === Infinity){
+  if(isNaN(xPoint)){
     return null
   }
 
