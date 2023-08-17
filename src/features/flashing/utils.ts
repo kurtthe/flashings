@@ -88,63 +88,8 @@ export const calculateSizeLine = (
   return round(result, 0);
 };
 
-/*
- * discover the equation of the line with pending and one point of line
- * for that it use the follow equations
- * y - y1 = m(x-x1)
- * if m doesn't exist then the equation change for y2= y1+d
- * d is the distance between point and line
- * */
-const calculateYOfPoint = (
-  point: [number, number],
-  pending: number,
-  valueXOrDistance: number,
-) => {
-  const y1 = point[1];
 
-  if ('Infinity' === `${pending}`) {
-    return point[1] + valueXOrDistance;
-  }
 
-  const x1 = point[0];
-  const changeSignY1 = y1 * -1;
-  return pending * valueXOrDistance + (x1 + changeSignY1);
-};
-
-/*
- * function calculate the  point with the pending and firs point
- * for that it use the follows equations
- * Δx = d/√1+m^2
- * x = x1 + Δx
- * y= mx+b
- * return (x,y)
- * */
-export const calculatePointWithNewDistance = (
-  point1: [number, number],
-  distance: number,
-  pending: number,
-): POINT_TYPE => {
-  console.log('point1::', point1);
-  console.log('distance::', distance);
-  console.log('pending::', pending);
-
-  const mExponent2 = calculateExponential(pending);
-  const denominator = Math.sqrt(1 + mExponent2);
-
-  const deltaX = distance / denominator;
-
-  const xPoint = point1[0] + deltaX;
-  const yPoint = calculateYOfPoint(
-    point1,
-    pending,
-    'Infinity' === `${pending}` ? distance : xPoint,
-  );
-
-  console.log('new pointX::', xPoint);
-  console.log('new yPoint::', yPoint);
-
-  return [round(xPoint, 0), round(yPoint, 0)];
-};
 
 export const validateLineComplete = (lines: LINE_TYPE[]): boolean => {
   const lastLine = lines[lines.length - 1];
@@ -208,7 +153,7 @@ export const calculateParallelLines = (
 ): POINT_TYPE[][] => {
   const offset = 10;
 
-  return lines.map((line, index, arrayLines) => {
+  return lines.map((line, index, arrayLines): POINT_TYPE[] => {
     const currentLineParallel = getPointParallel({line, isRight, offset})
 
     const previousLine = arrayLines[index - 1]
@@ -223,6 +168,7 @@ export const calculateParallelLines = (
     }
 
     if(!previousLine && nextLine){
+
       const nextLineParallel = getPointParallel({line: nextLine, isRight, offset})
       const pointIntersectionNext = calculatePointsIntersectionBetweenLines({...line, points: currentLineParallel}, {...nextLine, points: nextLineParallel});
 
@@ -328,6 +274,12 @@ const createEquationOfLine = (line: LINE_TYPE): string=> {
   return `${line.pending}x${sumY1PendingMultiply > 0 ? '+': ''}${sumY1PendingMultiply}`
 }
 
+const resolveEqWithValueX = (eq: string, valueX: number)=>{
+  const eqWithValueX = eq.replace('x', `*${valueX}`)
+  return eval(eqWithValueX)
+
+}
+
 const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_TYPE | undefined):POINT_TYPE | null=>{
 
   if(!line2) return null;
@@ -338,27 +290,23 @@ const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_T
   const paramsEq1 = eq1.split('x')
   const paramsEq2 = eq2.split('x')
 
-  const paramPending1 = parseInt(paramsEq1[0])
-  const paramPending2 = parseInt(paramsEq2[0]) * -1
+  const paramPending1 = parseFloat(paramsEq1[0])
+  const paramPending2 = parseFloat(paramsEq2[0]) * -1
+
 
   const result = paramPending1 + paramPending2
 
-  const paramB1 = parseInt(paramsEq1[1]) * -1
-  const paramB2 = parseInt(paramsEq2[1])
+  const paramB1 = parseFloat(paramsEq1[1]) * -1
+  const paramB2 = parseFloat(paramsEq2[1])
 
   const result2 = paramB1 + paramB2
-
   const xPoint = result2/ result
 
   if(isNaN(xPoint) || xPoint === Infinity){
     return null
   }
 
-  const yPoint = calculateYOfPoint(
-    line1.points[0],
-    line1.pending,
-    xPoint,
-  );
+  const yPoint = resolveEqWithValueX(eq1, xPoint)
 
   return [xPoint, yPoint]
 }
