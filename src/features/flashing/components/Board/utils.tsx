@@ -36,7 +36,17 @@ export const drawParallelLines = (lines: LINE_TYPE[],  rightLinePaint=true):Path
     return null;
   }
 
-  const allPoints = lines.map(line =>[ calculateParallelLine(line, rightLinePaint)])
+  const allPoints = lines.map((line, index, arrayLines) =>{
+
+    const currentPointLine =  calculateParallelLine(line, rightLinePaint)
+    if(arrayLines[index + 1]){
+      const nextPointLine = calculateParallelLine(arrayLines[index], rightLinePaint)
+      return [[currentPointLine[0], nextPointLine[1]]]
+    }
+    return [currentPointLine]
+  })
+
+  console.log("allPoints::", allPoints.flat(2))
 
   return buildPathLineParallel(allPoints.flat(2))
 }
