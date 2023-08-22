@@ -9,26 +9,19 @@ import { persistReducer, persistStore } from 'redux-persist';
 import rootReducer from './rootReducer';
 import { persistConfigRoot } from './config';
 
-let debuggerFlipper: any;
 
 const persistedReducer = persistReducer(
   persistConfigRoot,
   rootReducer,
 ) as typeof rootReducer;
 
-const createDebugger = require('redux-flipper').default;
-debuggerFlipper = createDebugger();
 export const store = configureStore({
   devTools: true,
   reducer: persistedReducer,
   middleware: getDefaultMiddleware => {
-    const middleware = getDefaultMiddleware({
+    return getDefaultMiddleware({
       serializableCheck: false,
     });
-    if (debuggerFlipper) {
-      middleware.push(debuggerFlipper);
-    }
-    return middleware;
   },
 });
 
