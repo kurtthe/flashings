@@ -1,6 +1,6 @@
-import {AllProps, RNStyle, useRestyle, useTheme} from '@shopify/restyle';
+import { AllProps, RNStyle, useRestyle, useTheme } from '@shopify/restyle';
 
-import type {Theme} from './types';
+import type { Theme } from './types';
 
 /**
  * Short tutorial about reestyle
@@ -10,12 +10,9 @@ export const useAppTheme = () => useTheme<Theme>();
 
 export const useAppRestyle = <TProps, ExtraStyle extends Record<string, any>>(
   restyleFunctions: Parameters<typeof useRestyle>[0],
-  props: TProps,
+  props: TProps & any,
 ) =>
-  useRestyle(restyleFunctions as any, props) as Omit<
-    TProps,
-    keyof AllProps<Theme> | 'style' | 'variant'
-  > & {
+  useRestyle(restyleFunctions as any, props) as Omit<TProps, keyof AllProps<Theme> | 'style' | 'variant'> & {
     style: Array<RNStyle & ExtraStyle>;
   };
 export * from './constants';
