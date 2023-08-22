@@ -1,17 +1,26 @@
 import { Dimensions } from 'react-native';
-import { scaleLinear } from 'd3-scale';
+import { ReactElement } from 'react';
 
-export type CoordsType = {
-  point: PointType;
+export type COORDS_TYPE = {
+  point: LINE_TYPE;
   sizeLine: string;
 };
 
-export type PointType = [number, number];
+export type POINT_TYPE = [number, number];
 
-export type MakeLine = {
-  pointers: CoordsType[];
+export type MAKE_LINE = {
+  lines: LINE_TYPE[];
   onPressLine: (numberLine: number) => void;
   isDrawing?: boolean;
+  rightLinePaint?: boolean;
+};
+
+export type BUILD_LINE = {
+  id: number;
+  line: LINE_TYPE;
+  onPressLine: (numberLine: number) => void;
+  isDrawing?: boolean;
+  rightLinePaint?: boolean;
 };
 export const SIZE_POINTER = 4;
 export const SIZE_POINTER_LAST = 8;
@@ -27,34 +36,24 @@ export const rescale =
     const ratio = (to[1] - to[0]) / (scaledFrom[1] - scaledFrom[0]);
     return value => (scale(value) - scaledFrom[0]) * ratio + to[0];
   };
-const log = (value: number, base: number) => Math.log(value) / Math.log(base);
-
-const getLogCoord = (abs: number) => {
-  const base = 10 + 1000 / abs;
-  return log(abs, base);
-};
-export const rankScale = (value: number) => {
-  const LINEAR_BOUND = 1;
-  const LINEAR_DISTANCE = 0.1;
-  const LINEAR_RATIO = LINEAR_DISTANCE / LINEAR_BOUND;
-  const LINEAR_LOG_AMEND = LINEAR_DISTANCE - Math.log10(LINEAR_BOUND);
-
-  const abs = Math.abs(value);
-
-  const absCoord =
-    abs < LINEAR_BOUND
-      ? abs * LINEAR_RATIO
-      : getLogCoord(abs) + LINEAR_LOG_AMEND;
-  return Math.sign(value) * absCoord;
-};
 
 export const CIRCLE_RADIUS = 15;
 
-export const scalerY = rescale([0, 1000], [0, heightScreen])(rankScale);
+export type LINE_TYPE = {
+  points: POINT_TYPE[];
+  pending: number;
+  distance: number;
+  isLine: boolean;
+};
 
-export const scalerX = scaleLinear().domain([0, 600]).range([0, widthScreen]);
-export type LineSelectedType = CoordsType & { numberLine: number };
+export type DREW_LINE_TYPE = LINE_TYPE & {
+  path: ReactElement | undefined;
+};
 
+export type LINE_SELECTED = {
+  sizeLine: number;
+  numberLine: number;
+};
 export const LETTER_LINES = [
   'A',
   'B',
@@ -81,10 +80,122 @@ export const LETTER_LINES = [
   'W',
   'X',
   'Z',
-  'a',
-  'b',
-  'c',
-  'd',
-  'e',
-  'f',
 ];
+
+export const casesLineParallel = ({
+  points,
+  offset,
+}: {
+  points: POINT_TYPE[];
+  offset: number;
+}): TYPE_PARALLEL_LINES => {
+  return {
+    horizontal: {
+      someOnePointMajor: {
+        left: [
+          [points[0][0], points[0][1] + offset],
+          [points[1][0], points[0][1] + offset],
+        ],
+        right: [
+          [points[0][0], points[0][1] - offset],
+          [points[1][0], points[1][1] - offset],
+        ],
+      },
+      default: {
+        left: [
+          [points[0][0], points[0][1] - offset],
+          [points[1][0], points[0][1] - offset],
+        ],
+        right: [
+          [points[0][0], points[0][1] + offset],
+          [points[1][0], points[1][1] + offset],
+        ],
+      },
+    },
+    vertical: {
+      someOnePointMajor: {
+        left: [
+          [points[0][0] + offset, points[0][1]],
+          [points[1][0] + offset, points[1][1]],
+        ],
+        right: [
+          [points[0][0] - offset, points[0][1]],
+          [points[1][0] - offset, points[1][1]],
+        ],
+      },
+      default: {
+        left: [
+          [points[0][0] - offset, points[0][1]],
+          [points[1][0] - offset, points[1][1]],
+        ],
+        right: [
+          [points[0][0] + offset, points[0][1]],
+          [points[1][0] + offset, points[1][1]],
+        ],
+      },
+    },
+    pendingPositive: {
+      someOnePointMajor: {
+        left: [
+          [points[0][0] + offset, points[0][1] - offset],
+          [points[1][0] + offset, points[1][1] - offset],
+        ],
+        right: [
+          [points[0][0] - offset, points[0][1] + offset],
+          [points[1][0] - offset, points[1][1] + offset],
+        ],
+      },
+      default: {
+        left: [
+          [points[0][0] - offset, points[0][1] + offset],
+          [points[1][0] - offset, points[1][1] + offset],
+        ],
+        right: [
+          [points[0][0] + offset, points[0][1] - offset],
+          [points[1][0] + offset, points[1][1] - offset],
+        ],
+      },
+    },
+    pendingNegative: {
+      someOnePointMajor: {
+        left: [
+          [points[0][0] + offset, points[0][1] + offset],
+          [points[1][0] + offset, points[1][1] + offset],
+        ],
+        right: [
+          [points[0][0] - offset, points[0][1] - offset],
+          [points[1][0] - offset, points[1][1] - offset],
+        ],
+      },
+      default: {
+        left: [
+          [points[0][0] - offset, points[0][1] - offset],
+          [points[1][0] - offset, points[1][1] - offset],
+        ],
+        right: [
+          [points[0][0] + offset, points[0][1] + offset],
+          [points[1][0] + offset, points[1][1] + offset],
+        ],
+      },
+    },
+    default: points,
+  };
+};
+
+type SIDES_LINES = {
+  right: POINT_TYPE[];
+  left: POINT_TYPE[];
+};
+
+type DATA_SIDE_POINTS = {
+  someOnePointMajor: SIDES_LINES;
+  default: SIDES_LINES;
+};
+
+export type TYPE_PARALLEL_LINES = {
+  horizontal: DATA_SIDE_POINTS;
+  vertical: DATA_SIDE_POINTS;
+  pendingNegative: DATA_SIDE_POINTS;
+  pendingPositive: DATA_SIDE_POINTS;
+  default: POINT_TYPE[];
+};

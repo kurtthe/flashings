@@ -4,9 +4,7 @@ import axios, {
   AxiosResponseHeaders,
 } from 'axios';
 import { GeneralRequestInterface } from './general-request.type';
-import { getItemStorage, setItemStorage } from '@services/Storage';
-import { PROPERTIES_STORE_TYPE } from '@services/Storage/types';
-
+import handleErrors from './handleErrors';
 class GeneralRequestService implements GeneralRequestInterface {
   static instance: GeneralRequestService;
   private httpService;
@@ -14,9 +12,6 @@ class GeneralRequestService implements GeneralRequestInterface {
 
   constructor() {
     this.httpService = axios;
-    this.getToken().then(data => {
-      this.tokeAuth = data;
-    });
   }
   static getInstance() {
     if (!GeneralRequestService.instance) {
@@ -43,6 +38,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           headers: response.headers,
         });
       } catch (err) {
+        handleErrors.manage(err);
         return reject(err);
       }
     });
@@ -72,6 +68,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           headers: response.headers,
         });
       } catch (err) {
+        handleErrors.manage(err);
         reject(err);
       }
     });
@@ -96,6 +93,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           headers: response.headers,
         });
       } catch (err) {
+        handleErrors.manage(err);
         console.log('error post', err);
         reject(err);
       }
@@ -112,42 +110,16 @@ class GeneralRequestService implements GeneralRequestInterface {
           TypeData,
           AxiosResponse<TypeResult & { api_key: string }>
         >(endpoint, data);
-        await this.saverToken<TypeResult>({
-          ...(response.data as TypeResult),
-          companyName: '',
-          api_key: response.data.api_key,
-        });
 
         resolve({
           body: response.data as TypeResult,
           headers: response.headers,
         });
       } catch (err) {
+        handleErrors.manage(err);
         reject(err);
       }
     });
-  }
-
-  private async saverToken<TypeData>(data: TypeData & { api_key: string }) {
-    if (data) {
-      this.tokeAuth = data.api_key;
-      await setItemStorage(
-        PROPERTIES_STORE_TYPE.DATA_USER,
-        JSON.stringify(data),
-      );
-    }
-  }
-
-  private async getToken(): Promise<string | undefined> {
-    try {
-      const data = await getItemStorage(PROPERTIES_STORE_TYPE.DATA_USER);
-      if (typeof data === 'string') {
-        const dataParse = JSON.parse(data);
-        return dataParse.api_key;
-      }
-    } catch (e) {
-      console.error(e);
-    }
   }
 }
 

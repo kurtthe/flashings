@@ -1,14 +1,36 @@
 import React from 'react';
-import { Formik, FormikProps } from 'formik';
+import { Formik, FormikHelpers, FormikProps } from 'formik';
 import { LoginFormValues } from '@features/auth/container/types';
 import { forms } from '../constants';
-import LoginFormComponent from '@features/auth/components/LoginForm';
+import { useLogin } from '@hooks/auth';
+import { LOGIN_RESPONSE } from '@models';
+import { LoginFormComponent } from '@features/auth/components';
+import { useAppDispatch } from '@hooks/useStore';
+import { actions as authActions } from '@store/auth/actions';
+const LoginForm = () => {
+  const dispatch = useAppDispatch();
 
-const LoginForm = ({}) => {
   const formikRef = React.useRef<FormikProps<LoginFormValues>>(null);
 
+  const { mutate: doLogin } = useLogin({
+    onSuccess: data => {
+      dispatch(authActions.signIn({ data: data as LOGIN_RESPONSE }));
+    },
+  });
+
   const handleSubmit = React.useCallback(
-    async (values: LoginFormValues) => {},
+    async (
+      values: LoginFormValues,
+      { setSubmitting }: FormikHelpers<LoginFormValues>,
+    ) => {
+      const { email, password } = values;
+      setSubmitting(true);
+      doLogin({
+        username: email,
+        password,
+      });
+      setSubmitting(false);
+    },
     [],
   );
 

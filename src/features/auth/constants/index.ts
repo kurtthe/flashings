@@ -10,8 +10,37 @@ export const customValidationMessages = {
       required: 'Enter your password',
     },
   },
+  forgot: {
+    email: {
+      email: 'Invalid email address',
+      required: 'Enter your email address',
+    },
+  },
 };
+
 export const forms = {
+  forgot: {
+    initialValues: {
+      email: '',
+    },
+    initialErrors: {
+      email: '',
+    },
+    labels: {
+      email: 'Email address',
+    },
+    placeholders: {
+      email: 'myemail@email.com',
+    },
+    schema: Yup.object({
+      email: Yup.string()
+        .email(customValidationMessages.forgot.email.email)
+        .required(customValidationMessages.forgot.email.required)
+        .ensure()
+        .trim()
+        .lowercase(),
+    }),
+  },
   login: {
     initialValues: {
       email: '',

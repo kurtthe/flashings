@@ -11,11 +11,9 @@ import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from 'react-native-gesture-handler';
-import { CIRCLE_RADIUS, CoordsType } from '@features/flashing/components/Board';
+import { CIRCLE_RADIUS } from '@features/flashing/components/Board';
 
-type Props = CircleProps & {
-  key: number;
-};
+type Props = CircleProps;
 
 type ContextType = {
   translateX: number;

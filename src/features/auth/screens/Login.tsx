@@ -1,29 +1,16 @@
-import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Image,
-  Dimensions,
-  TouchableWithoutFeedback,
-  Keyboard,
-  View,
-} from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Text, Button, Box } from '@ui/components';
-import SimpleButton from '../../flashing/components/SimpleButton';
+import React from 'react';
+import { StyleSheet, Image, Dimensions, View } from 'react-native';
+import { Text, Box } from '@ui/components';
+import SimpleButton from '@components/SimpleButton';
 import { Routes } from '../navigation/routes';
 import LoginForm from '@features/auth/container/LoginForm';
+import { useNavigation } from '@react-navigation/native';
+import { AuthStackProps } from '@features/auth/navigation/Stack.types';
 
-const { height, width } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
-const LoginScreen = ({ navigation }) => {
-  const navigateTo = routeToGo => {
-    navigation.navigate(routeToGo);
-  };
+const LoginScreen = () => {
+  const navigation = useNavigation<AuthStackProps>();
 
   return (
     <View style={styles.container}>
@@ -38,24 +25,20 @@ const LoginScreen = ({ navigation }) => {
         </Text>
       </View>
       <LoginForm />
-      <Box flex={2} style={{ justifyContent: 'space-evenly' }}>
-        <Button
-          variant="outline"
-          onPress={() => navigateTo(Routes.SUBCONTRACTOR_LOGIN)}>
-          Subcontractor Access
-        </Button>
+      <Box flex={1} justifyContent="space-evenly" alignItems="center">
         <View>
           <SimpleButton
             style={{ marginBottom: 5 }}
             underlined
-            onPress={() => navigateTo(Routes.HELP_SUPPORT)}>
+            onPress={() => navigation.navigate(Routes.HELP_SUPPORT)}>
             Need Help?
           </SimpleButton>
           <View style={{ flexDirection: 'row' }}>
             <Text style={{ color: '#444857', fontSize: 15 }}>
               Don't have an account yet?
             </Text>
-            <SimpleButton onPress={() => navigateTo(Routes.LEARN_HOW_TO_OPEN)}>
+            <SimpleButton
+              onPress={() => navigation.navigate(Routes.LEARN_HOW_TO_OPEN)}>
               {' '}
               Learn how to open
             </SimpleButton>

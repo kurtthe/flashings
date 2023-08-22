@@ -217,7 +217,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     );
     return (
       <Pressable
-        style={[styles.inputContainer, style]}
+        style={[styles.inputContainer, containerStyle, style]}
         onPress={handleExternalFocus}
         accessible={false}>
         <Box flexDirection="row" alignItems="center">

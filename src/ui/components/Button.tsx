@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, TextStyle, View} from 'react-native';
+import { Pressable, StyleSheet, Text, TextStyle, View } from 'react-native';
 import {
   backgroundColor,
   BackgroundColorProps,
@@ -25,12 +25,12 @@ import {
   TypographyProps,
   VariantProps,
 } from '@shopify/restyle';
-import {Theme, useAppRestyle} from '@theme';
+import { Theme, useAppRestyle } from '@theme';
 
-import {useFontStyle} from '@ui/hooks';
-import {forwardRef, getKeys} from '@ui/utils';
+import { useFontStyle } from '@ui/hooks';
+import { forwardRef, getKeys } from '@ui/utils';
 
-import BaseButton, {BaseButtonProps} from './BaseButton';
+import BaseButton, { BaseButtonProps } from './BaseButton';
 import BaseSpinner from './BaseSpinner';
 
 type RestyleButtonProps = VariantProps<Theme, 'buttonVariants'> &
@@ -45,15 +45,14 @@ type RestyleButtonProps = VariantProps<Theme, 'buttonVariants'> &
   TypographyProps<Theme> &
   OpacityProps<Theme>;
 
-export type Props = RestyleButtonProps &
+export type ButtonProps = RestyleButtonProps &
   Omit<BaseButtonProps, 'disabled'> & {
     children?: React.ReactText;
     spinner?: React.ReactElement;
     isLoading?: boolean;
     isDisabled?: boolean;
     isFullWidth?: boolean;
-    textColor?: string;
-    _disabled?: RestyleButtonProps & {_dark?: RestyleButtonProps};
+    _disabled?: RestyleButtonProps & { _dark?: RestyleButtonProps };
     _dark?: RestyleButtonProps;
     _light?: RestyleButtonProps;
   };
@@ -77,12 +76,14 @@ const restyleFunctions = composeRestyleFunctions([
   variant,
 ]);
 
-const spacingStyleProperties = spacing.map(({property}) => property as string);
+const spacingStyleProperties = spacing.map(
+  ({ property }) => property as string,
+);
 const textStyleProperties = [color, ...typography].map(
-  ({property}) => property as string,
+  ({ property }) => property as string,
 );
 
-const Button = forwardRef<Props, typeof Pressable>(
+const Button = forwardRef<ButtonProps, typeof Pressable>(
   (
     {
       children,
@@ -96,11 +97,11 @@ const Button = forwardRef<Props, typeof Pressable>(
       _dark,
       _light,
       style,
-      textColor,
       ...rest
     },
     ref,
   ) => {
+    const isDarkMode = false;
     const disabledStyle = {
       backgroundColor: buttonVariant === 'solid' ? 'disabled' : undefined,
       opacity: buttonVariant !== 'solid' ? 0.5 : 1,
@@ -111,13 +112,13 @@ const Button = forwardRef<Props, typeof Pressable>(
       alignSelf,
       ...(isDisabled && disabledStyle),
       ...rest,
-      ..._light,
+      ...(isDarkMode ? _dark : _light),
     });
     const fontStyle = useFontStyle(props.style[0] as TextStyle);
     const containerStyle = props.style[0];
     const nextContainerStyle: typeof containerStyle = {};
 
-    const {textStyle, spacingStyle} = getKeys(containerStyle).reduce(
+    const { textStyle, spacingStyle } = getKeys(containerStyle).reduce(
       (styleAcc, styleProperty) => {
         let isValidStyle = true;
         if (textStyleProperties.indexOf(styleProperty) !== -1) {
@@ -137,7 +138,7 @@ const Button = forwardRef<Props, typeof Pressable>(
         }
         return styleAcc;
       },
-      {textStyle: {}, spacingStyle: {}} as Record<
+      { textStyle: {}, spacingStyle: {} } as Record<
         'textStyle' | 'spacingStyle',
         Record<string, any>
       >,
@@ -150,7 +151,7 @@ const Button = forwardRef<Props, typeof Pressable>(
           ref={ref}
           style={[nextContainerStyle, style]}
           disabled={isDisabled}
-          accessibilityState={{disabled: isDisabled, busy: isLoading}}>
+          accessibilityState={{ disabled: isDisabled, busy: isLoading }}>
           {isLoading &&
             (spinner || (
               <BaseSpinner
@@ -159,7 +160,20 @@ const Button = forwardRef<Props, typeof Pressable>(
                 size="small"
               />
             ))}
-          <Text maxFontSizeMultiplier={1.3} style={[textStyle, fontStyle, {color: buttonVariant === 'solid' ? 'white' : 'black'}]}>
+          <Text
+            maxFontSizeMultiplier={1.3}
+            style={[
+              textStyle,
+              fontStyle,
+              {
+                color:
+                  buttonVariant === 'solid' ||
+                  buttonVariant === 'small' ||
+                  buttonVariant === 'smallMenuActive'
+                    ? 'white'
+                    : 'black',
+              },
+            ]}>
             {children}
           </Text>
         </BaseButton>
@@ -172,8 +186,8 @@ Button.defaultProps = {
   variant: 'solid',
   isFullWidth: true,
 };
-export type ButtonProps = React.ComponentProps<typeof Button>;
-export default Button;
+
+export default React.memo(Button) as typeof Button;
 
 const styles = StyleSheet.create({
   container: {
