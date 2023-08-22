@@ -19,10 +19,9 @@ export const store = configureStore({
   devTools: true,
   reducer: persistedReducer,
   middleware: getDefaultMiddleware => {
-    const middleware = getDefaultMiddleware({
+    return getDefaultMiddleware({
       serializableCheck: false,
     });
-    return middleware;
   },
 });
 
