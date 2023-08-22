@@ -16,5 +16,5 @@ yarn pod:install
 yarn ios:dev
 
 # using run for ios
-yarn android:dev
+yarn android:dev s
 ```
