@@ -1,4 +1,4 @@
-import {CustomFonts} from '@theme/constants';
+import { CustomFonts } from '@theme/constants';
 
 const buttonVariants = {
   defaults: {
@@ -19,7 +19,6 @@ const buttonVariants = {
     backgroundColor: 'primaryBlue',
     color: 'white',
   },
-  
   ghost: {},
   link: {
     textDecorationLine: 'underline',
@@ -43,6 +42,23 @@ const buttonVariants = {
   },
   small: {
     backgroundColor: 'primaryBlue',
+    minHeight: 30,
+    fontSize: 14,
+    color: 'white',
+  },
+  smallMenu: {
+    minHeight: 30,
+    fontSize: 12,
+    color: 'black',
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+  smallMenuActive: {
+    backgroundColor: 'primaryBlue',
+    minHeight: 30,
+    fontSize: 12,
+    borderWidth: 1,
+    borderColor: 'white',
     color: 'white',
   },
   keyboard: {

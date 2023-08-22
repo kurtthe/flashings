@@ -1,16 +1,8 @@
-import React, {useState} from 'react';
-import {Animated} from 'react-native';
-import {
-  AppStatusBar,
-  Box,
-  HeaderBackButton,
-  HeaderBox,
-  Text,
-  Button,
-} from '@ui/components';
+import React, { useState } from 'react';
+import { Box, Text, Button } from '@ui/components';
 import Input from '@ui/components/Input';
 import SelectInput from '@ui/components/SelectInput';
-import {Routes} from '../navigation/routes';
+import { Routes } from '../navigation/routes';
 
 const data = [
   {
@@ -71,7 +63,7 @@ const data = [
   },
 ];
 
-const CreateFlashingScreen = ({navigation}) => {
+const CreateFlashingScreen = ({ navigation }) => {
   const [name, setName] = useState('');
   const [qty, setQty] = useState('');
   const [length, setLength] = useState('');
@@ -94,13 +86,13 @@ const CreateFlashingScreen = ({navigation}) => {
             label="Qty"
             onChangeText={text => setQty(text)}
             value={qty}
-            inputStyles={{width: '35%'}}
+            inputStyles={{ width: '35%' }}
           />
           <Input
             label="Length"
             onChangeText={text => setLength(text)}
             value={length}
-            inputStyles={{width: '35%'}}
+            inputStyles={{ width: '35%' }}
           />
           <Text
             style={{

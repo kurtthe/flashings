@@ -5,16 +5,10 @@ import {
   CreateFlashingScreen,
   GutterFlashingScreen,
   DemoFlashingScreen,
-  DemoBoardScreen,
-  AllJobsScreen,
 } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
-import { SearchIcon, CartIcon } from '@assets/icons';
-import JobDetailsScreen from '../screens/JobDetail';
-import CreateJobScreen from '../screens/CreateJob';
+import { CartIcon } from '@assets/icons';
 import GutterFlashingExamples from '../screens/GutterFlashingExamples';
-import HelpSupportScreen from '../../auth/screens/HelpSupport';
-import LearnHowToOpenScreen from '../../auth/screens/LearnHowToOpen';
 import CreateRainheadScreen from '../screens/CreateRainhead';
 
 const Stack = () => {
@@ -22,19 +16,6 @@ const Stack = () => {
 
   return (
     <Navigator initialRouteName={Routes.GUTTER_FLASHING}>
-      <Screen
-        name={Routes.ALL_JOBS}
-        component={AllJobsScreen}
-        options={{
-          header: () => (
-            <HeaderBox
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              rightIcon={<Icon as={SearchIcon} />}
-              title="All Jobs"
-            />
-          ),
-        }}
-      />
       <Screen
         name={Routes.CREATE_FLASHING}
         component={CreateFlashingScreen}
@@ -69,46 +50,6 @@ const Stack = () => {
               mb="s"
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
               title="demo event"
-            />
-          ),
-        }}
-      />
-      <Screen
-        name={Routes.DEMO_BOARD}
-        component={DemoBoardScreen}
-        options={{
-          header: () => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              rightIcon={<Icon as={CartIcon} />}
-              title="demo board"
-            />
-          ),
-        }}
-      />
-      <Screen
-        name={Routes.JOB_DETAILS}
-        component={JobDetailsScreen}
-        options={{
-          header: () => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title="Micks House"
-            />
-          ),
-        }}
-      />
-      <Screen
-        name={Routes.CREATE_JOB}
-        component={CreateJobScreen}
-        options={{
-          header: () => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title={'New Job'}
             />
           ),
         }}

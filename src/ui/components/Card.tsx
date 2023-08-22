@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View} from 'react-native';
+import { View } from 'react-native';
 import {
   BoxProps,
   boxRestyleFunctions,
@@ -7,12 +7,12 @@ import {
   createVariant,
   VariantProps,
 } from '@shopify/restyle';
-import {Theme, useAppRestyle} from '@theme';
+import { Theme, useAppRestyle } from '@theme';
 
-import {useAsProp} from '@ui/hooks';
-import {forwardRef} from '@ui/utils';
+import { useAsProp } from '@ui/hooks';
+import { forwardRef } from '@ui/utils';
 
-import type {Animation} from 'react-native-animatable';
+import type { Animation } from 'react-native-animatable';
 
 type RestyleCardProps = VariantProps<Theme, 'cardVariants'> & BoxProps<Theme>;
 
@@ -39,15 +39,15 @@ const restyleFunctions = composeRestyleFunctions([
 ]);
 
 const Card = forwardRef<CardProps, typeof View>(
-  ({as, _dark, _light, ...rest}, ref) => {
+  ({ as, _dark, _light, ...rest }, ref) => {
     const CardComponent = useAsProp(View, as);
-    const isDarkMode = useIsDarkMode();
+    const isDarkMode = false;
     const passedProps = useAppRestyle(restyleFunctions, {
       variant: '',
       ...rest,
       ...(isDarkMode ? _dark : _light),
     });
-
+    // @ts-ignore
     return <CardComponent ref={ref} {...passedProps} />;
   },
 );

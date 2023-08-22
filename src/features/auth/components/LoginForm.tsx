@@ -6,10 +6,13 @@ import { EyeIcon, EyeOffIcon } from '@assets/icons';
 import { ErrorMessage, FieldInput } from '@components/forms';
 import { Box, Button, Icon, IconButton } from '@ui/components';
 import { LoginFormValues } from '@features/auth/container/types';
+import { ForgotButton } from '@features/auth/components';
+import { useNavigation } from '@react-navigation/native';
+import { Routes } from '@features/auth/navigation/routes';
+import { AuthStackProps } from '@features/auth/navigation/Stack.types';
 
-type LoginFormComponentProps = {};
-
-const LoginFormComponent = ({}: LoginFormComponentProps) => {
+const LoginFormComponent = () => {
+  const navigation = useNavigation<AuthStackProps>();
   const formik = useFormikContext<LoginFormValues>();
   const { errors, isValid, isSubmitting, handleSubmit } = formik;
   const passwordInputRef = React.useRef<TextInput>(null);
@@ -62,6 +65,12 @@ const LoginFormComponent = ({}: LoginFormComponentProps) => {
         }
         label="Password"
       />
+      <Box alignSelf="flex-end" marginTop="1px">
+        <ForgotButton
+          onPress={() => navigation.navigate(Routes.FORGOT_PASSWORD)}>
+          Forgot Password?
+        </ForgotButton>
+      </Box>
       <Box pt="xl">
         <ErrorMessage textAlign="center" py="l">
           {errorMessage}
@@ -71,6 +80,9 @@ const LoginFormComponent = ({}: LoginFormComponentProps) => {
           isLoading={isSubmitting}
           isDisabled={!isValid || isSubmitting}>
           Log In
+        </Button>
+        <Button mt="m" variant="outline" onPress={() => null}>
+          Subcontractor Access
         </Button>
       </Box>
     </>

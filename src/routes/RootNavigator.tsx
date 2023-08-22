@@ -1,12 +1,13 @@
 import React from 'react';
 import { PublicNavigator } from './PublicNavigator';
-import { useUserAuthenticated } from '@hooks/useUserAuthenticated';
 import { PrivateNavigator } from '@routes/PrivateNavigator';
+import { useAppSelector } from '@hooks/useStore';
+import { isAuthenticatedSelector } from '@store/auth/selectors';
 
 export const RootNavigator = () => {
-  const { isLoading, thereToken } = useUserAuthenticated();
+  const isAuthenticated = useAppSelector(isAuthenticatedSelector);
 
-  if (!isLoading && thereToken) {
+  if (isAuthenticated) {
     return <PrivateNavigator />;
   }
   return <PublicNavigator />;
