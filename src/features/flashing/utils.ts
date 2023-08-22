@@ -154,18 +154,12 @@ export const calculateParallelLines = (
   const offset = 10;
 
   return lines.map((line, index, arrayLines): POINT_TYPE[] => {
-    console.log(`****************************************${index}********************************************************`)
     const currentLineParallel = getPointParallel({line, isRight, offset})
 
     const previousLine = arrayLines[index - 1]
     const nextLine = arrayLines[index + 1]
 
-    console.log("line current::",line)
-    console.log("line nextLine::",nextLine)
-    console.log("line previousLine::",previousLine)
-
     if(previousLine && !nextLine){
-      console.log("previousLine && !nextLine")
       const previousLineParallel = getPointParallel({line: previousLine, isRight, offset})
       const pointIntersection = calculatePointsIntersectionBetweenLines({...previousLine, points: previousLineParallel}, {...line, points: currentLineParallel} );
 
@@ -174,7 +168,6 @@ export const calculateParallelLines = (
     }
 
     if(!previousLine && nextLine){
-      console.log("!previousLine && nextLine")
 
       const nextLineParallel = getPointParallel({line: nextLine, isRight, offset})
       const pointIntersectionNext = calculatePointsIntersectionBetweenLines({...line, points: currentLineParallel}, {...nextLine, points: nextLineParallel});
@@ -184,7 +177,6 @@ export const calculateParallelLines = (
     }
 
     if(previousLine && nextLine){
-      console.log("previousLine && nextLine")
       const previousLineParallel = getPointParallel({line: previousLine, isRight, offset})
       const nextLineParallel = getPointParallel({line: nextLine, isRight, offset})
 
@@ -194,7 +186,6 @@ export const calculateParallelLines = (
       if(!pointIntersectionPrevious || !pointIntersectionNext) return currentLineParallel
       return [pointIntersectionPrevious, pointIntersectionNext]
     }
-    console.log("default")
 
     return currentLineParallel
   })
