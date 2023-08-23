@@ -14,7 +14,7 @@ const JobFormContainer = () => {
   );
 
   return (
-    <Box flex={1} p="m" backgroundColor="white">
+    <Box flex={1} p="m" pt="xl" backgroundColor="white">
       <Formik
         innerRef={formikRef}
         initialValues={{

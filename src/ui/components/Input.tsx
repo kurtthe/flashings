@@ -72,6 +72,7 @@ type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
       | 'tel';
     label?: string | null;
     styleContent?: StyleProp<TextStyle>;
+    isRequired?: boolean
   };
 export type InputProps = RestyleInputProps & {
   _dark?: RestyleInputProps;
@@ -111,6 +112,7 @@ const inputStyleProperties = [...typography, ...color].map(
 const Input = forwardRef<InputProps, typeof TextInput>(
   (
     {
+      isRequired=false,
       value,
       label,
       isDisabled,
@@ -237,7 +239,12 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 }),
               }}>
               {label ?? placeholder}
+
+              <Text color="error500">
+                {isRequired && '*'}
+              </Text>
             </Text>
+
             <BaseInputComponent
               ref={refs}
               style={[
