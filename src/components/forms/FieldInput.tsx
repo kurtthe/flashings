@@ -39,7 +39,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
     ref,
   ) => {
     const [field, meta] = useField({ name, validate, value, defaultValue });
-    const { style: containerStyle, ...passedProps } = useAppRestyle(
+    const { style: containerStyle={}, ...passedProps } = useAppRestyle(
       restyleFunctionsField,
       rest,
     );
@@ -59,7 +59,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
     }, []);
 
     return (
-      <Box style={containerStyle}>
+      <Box style={[containerStyle]}>
         <Input
           style={styleInput}
           ref={ref}

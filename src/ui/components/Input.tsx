@@ -105,7 +105,7 @@ const restyleFunctions = composeRestyleFunctions([
   //@ts-ignore temporaly fix ignore bad type issue
   variant,
 ]);
-const inputStyleProperties = [...typography, color].map(
+const inputStyleProperties = [...typography, ...color].map(
   ({ property }) => property as string,
 );
 const Input = forwardRef<InputProps, typeof TextInput>(
@@ -217,7 +217,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     );
     return (
       <Pressable
-        style={[styles.inputContainer, containerStyle, style]}
+        style={[styles.inputContainer,  style, containerStyle]}
         onPress={handleExternalFocus}
         accessible={false}>
         <Box flexDirection="row" alignItems="center">

@@ -133,9 +133,6 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
       { textStyle: {}, spacingStyle: {} } as Record<'textStyle' | 'spacingStyle', Record<string, any>>,
     );
 
-    console.log('fontStyle::', fontStyle)
-    console.log('textStyle::', textStyle)
-
     return (
       <View style={[styles.container, spacingStyle]} pointerEvents="box-none">
         <BaseButton
