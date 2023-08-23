@@ -65,9 +65,6 @@ const restyleFunctions = composeRestyleFunctions([
 
 const Text = forwardRef<TextProps, typeof RNText>(
   ({ as, style, onPress, isDisabled, onPressIn, onPressOut, isBlurred, _dark, _light, ...rest }, ref) => {
-    const {
-      colors: { textPrimary },
-    } = useAppTheme();
     const TextComponent = useAsProp(RNText, as);
     const [isHighlighted, setHighlighted] = React.useState(false);
     const {
@@ -117,6 +114,5 @@ Text.defaultProps = {
 export default React.memo(Text) as typeof Text;
 
 const styles = StyleSheet.create({
-  blurView: StyleSheet.absoluteFillObject,
   textShadow: {textShadowRadius: 5, textShadowOffset: {width: 0, height: 0}},
 });
