@@ -85,13 +85,12 @@ const Text = forwardRef<TextProps, typeof RNText>(
       onPressOut?.(ev);
     };
 
-
     return (
       //@ts-ignore missing prop type
       <TextComponent
         {...props}
         ref={ref}
-        style={[textStyle, fontStyle, highlightedStyle, style, styles.textShadow]}
+        style={[fontStyle,textStyle,  highlightedStyle, style, styles.textShadow]}
         onPress={onPress}
         onPressIn={Platform.select({
           ios: onPressIn,

@@ -9,31 +9,28 @@ import { JobStackProps } from "@features/jobs/navigation/Stack.types";
 
 const JobsListContainer = () => {
   const navigation = useNavigation<JobStackProps>();
-  const buttonNewJob = () => (
-    <Button
-      mt="l"
-      onPress={() => navigation.navigate(Routes.CREATE_JOB)}
-      style={[styles.button, { padding: 12 }]}>
-      Create New Job
-    </Button>
-  );
 
   return (
     <Box flex={1} pt="m" backgroundColor="white">
       <Box my="m" px="m" flexDirection="row" alignItems="center" justifyContent="flex-end">
-        <Text variant="subheadLight" mr="m" color="textGray">Current</Text>
-        <Text variant="subheadLight" color="mustard" textDecorationLine="underline" textDecorationColor="mustard" >Archived</Text>
+        <Text variant="subheadSecondary" fontWeight="900" mr="m" color="textGray">Current</Text>
+        <Text variant="subheadSecondary" color="mustard" textDecorationLine="underline" textDecorationColor="mustard" >Archived</Text>
       </Box>
       <FlatList
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{paddingVertical: 10}}
         data={dataJobs}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         renderItem={({ item }) => <CardJobComponent job={item} />}
-        ListFooterComponent={buttonNewJob}
-        ListFooterComponentStyle={{
-          paddingHorizontal: 16,
-          marginBottom: 60,
-        }}
       />
+
+      <Button
+        mx="m"
+        mb="xl"
+        onPress={() => navigation.navigate(Routes.CREATE_JOB)}
+        style={[styles.button, { padding: 12 }]}>
+        Create New Job
+      </Button>
     </Box>
   );
 };

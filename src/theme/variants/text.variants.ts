@@ -82,11 +82,11 @@ const textVariants = {
     lineHeight: 18,
   },
   bodyMediumLink: {
-    fontWeight: '500',
     fontSize: 14,
     lineHeight: 18,
     textDecorationLine: 'underline',
-    color: 'primary',
+    fontWeight: 'bold',
+    color: 'black',
   },
   bodyNumberBlack: {
     fontWeight: '900',
@@ -149,6 +149,11 @@ const textVariants = {
   // ALREADY MODIFIED AND IN USE
   subheadSmall: {
     fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 20,
+  },
+  subheadSmallBold: {
+    fontWeight: 'bold',
     fontSize: 16,
     lineHeight: 20,
   },
