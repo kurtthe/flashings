@@ -44,7 +44,7 @@ export type OptionsType = {
   textColor?: string;
 };
 
-export type DropdownProps = {
+export type SelectInputProps = {
   label?: string;
   style?: StyleProp<ViewStyle>;
   inputStyles?: TextStyle;
@@ -95,7 +95,7 @@ export type DropdownProps = {
   portal?: boolean;
 };
 
-const DropdownComponent = React.forwardRef<any, DropdownProps>(
+const DropdownComponent = React.forwardRef<any, SelectInputProps>(
   (props, currentRef) => {
     const {
       onChange,
@@ -431,7 +431,7 @@ const DropdownComponent = React.forwardRef<any, DropdownProps>(
               style={[
                 styles.input,
                 inputStyles,
-                { 
+                {
                   backgroundColor: currentValue?.bgColor && currentValue?.bgColor,
                   color: currentValue?.textColor ? currentValue?.textColor : 'black'
                 }

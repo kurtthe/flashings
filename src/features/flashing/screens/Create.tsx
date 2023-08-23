@@ -3,116 +3,28 @@ import { Box, Text, Button } from '@ui/components';
 import Input from '@ui/components/Input';
 import SelectInput from '@ui/components/SelectInput';
 import { Routes } from '../navigation/routes';
+import { useNavigation } from "@react-navigation/native";
+import selectData from './tempData/selectData.json'
+import FormCreateFlashingContainer from "../containers/FormCreateFlashing";
+import { FlashingStackProps } from "@features/flashing/navigation/Stack.types";
 
-const data = [
-  {
-    id: 1,
-    value: 'stone',
-    label: 'Stone',
-    bgColor: '#857f76',
-    textColor: 'white',
-  },
-  {
-    id: 2,
-    value: 'galvanised',
-    label: 'Galvanised',
-    bgColor: '#a7aaaf',
-    textColor: 'black',
-  },
-  {
-    id: 3,
-    value: 'zinc',
-    label: 'Zinc',
-    bgColor: '#b7b5b5',
-    textColor: 'black',
-  },
-  {
-    id: 4,
-    value: 'basalt',
-    label: 'Basalt',
-    bgColor: '#6e6c70',
-    textColor: 'white',
-  },
-  {
-    id: 5,
-    value: 'cream',
-    label: 'Cream',
-    bgColor: '#e8dec0',
-    textColor: '#8F94AE',
-  },
-  {
-    id: 6,
-    value: 'cottage_green',
-    label: 'Cottage Green',
-    bgColor: '#3b4c40',
-    textColor: 'white',
-  },
-  {
-    id: 7,
-    value: 'deep_ocean',
-    label: 'Deep Ocean',
-    bgColor: '#3b4252',
-    textColor: 'white',
-  },
-  {
-    id: 8,
-    value: 'manor_red',
-    label: 'Manor Red',
-    bgColor: '#532317',
-    textColor: 'white',
-  },
-];
 
-const CreateFlashingScreen = ({ navigation }) => {
-  const [name, setName] = useState('');
-  const [qty, setQty] = useState('');
-  const [length, setLength] = useState('');
+const CreateFlashingScreen = () => {
+  const navigation = useNavigation<FlashingStackProps>()
+
   return (
     <Box
       p="m"
-      justifyContent={'space-between'}
-      backgroundColor={'white'}
+      justifyContent='space-between'
+      backgroundColor='white'
       flex={1}>
       <Box>
-        <Input label="Name" onChangeText={text => setName(text)} value={name} />
-        <SelectInput
-          value=""
-          label="Colour/Material"
-          options={data}
-          onChange={option => console.log(option)}
-        />
-        <Box flexDirection={'row'} justifyContent={'space-between'}>
-          <Input
-            label="Qty"
-            onChangeText={text => setQty(text)}
-            value={qty}
-            inputStyles={{ width: '35%' }}
-          />
-          <Input
-            label="Length"
-            onChangeText={text => setLength(text)}
-            value={length}
-            inputStyles={{ width: '35%' }}
-          />
-          <Text
-            style={{
-              position: 'absolute',
-              bottom: 36,
-              right: 20,
-              color: 'gray',
-            }}>
-            | mm
-          </Text>
-        </Box>
+        <FormCreateFlashingContainer />
       </Box>
-
-      <Box>
         <Button
-          mt="l"
           onPress={() => navigation.navigate(Routes.GUTTER_FLASHING)}>
-          Go to board
+          Start Drawing
         </Button>
-      </Box>
     </Box>
   );
 };

@@ -7,4 +7,4 @@ export type FLASHINGParamsList = {
   [Routes.DEMO]: undefined;
 };
 
-export type FLASHINGStackProps = StackNavigationProp<FLASHINGParamsList>;
+export type FlashingStackProps = StackNavigationProp<FLASHINGParamsList>;

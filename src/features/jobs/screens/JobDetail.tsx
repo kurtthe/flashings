@@ -3,7 +3,7 @@ import { Pressable } from 'react-native';
 import { SafeAreaView, View, FlatList, StyleSheet, Image } from 'react-native';
 import Modal from 'react-native-modal';
 import { Box, Text, Button } from '@ui/components';
-import data from '../../flashing/screens/tempData/data.json';
+import data from '@features/flashing/tempData/data.json';
 import Input from '@ui/components/Input';
 import { Routes } from '@features/flashing/navigation/routes';
 import { useNavigation, useRoute } from '@react-navigation/native';

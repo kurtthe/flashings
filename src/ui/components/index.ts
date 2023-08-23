@@ -1,3 +1,5 @@
+import { DropdownProps } from "@ui/components/SelectInput";
+
 export type { AnimatePressableProps } from './AnimatedPressable';
 export { default as AnimatedPressable } from './AnimatedPressable';
 export type { ButtonProps } from './Button';
@@ -27,3 +29,5 @@ export type { BaseTouchableProps } from './BaseTouchable';
 export { default as BaseTouchable } from './BaseTouchable';
 export type { CardProps } from './Card';
 export { default as Card } from './Card';
+export {default as SelectInput} from './SelectInput';
+export type { SelectInputProps, OptionsType} from './SelectInput';
