@@ -42,6 +42,15 @@ const buttonVariants = {
     borderRadius: 'unset',
     fontWeight: 'bold',
   },
+  textSmall: {
+    backgroundColor: 'white',
+    fontSize: 10,
+    color: 'primaryBlue',
+    minHeight: 'auto',
+    px: 'xs',
+    py: 'xs',
+
+  },
   small: {
     backgroundColor: 'primaryBlue',
     minHeight: 30,

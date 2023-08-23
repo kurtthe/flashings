@@ -240,9 +240,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               }}>
               {label ?? placeholder}
 
-              <Text color="error500">
-                {isRequired && '*'}
-              </Text>
+              {isRequired && <Text color="error500">*</Text>}
             </Text>
 
             <BaseInputComponent
