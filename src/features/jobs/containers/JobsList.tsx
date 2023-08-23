@@ -13,7 +13,7 @@ const JobsListContainer = () => {
   return (
     <Box flex={1} pt="m" backgroundColor="white">
       <Box my="m" px="m" flexDirection="row" alignItems="center" justifyContent="flex-end">
-        <Text variant="subheadSecondary" fontWeight="900" mr="m" color="textGray">Current</Text>
+        <Text variant="subheadSecondary"  mr="m" color="textGray">Current</Text>
         <Text variant="subheadSecondary" color="mustard" textDecorationLine="underline" textDecorationColor="mustard" >Archived</Text>
       </Box>
       <FlatList

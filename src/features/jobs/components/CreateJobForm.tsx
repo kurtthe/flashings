@@ -4,7 +4,7 @@ import { useFormikContext } from 'formik';
 import { CreateFormValues } from '@features/jobs/containers/types';
 import { Box, Button, Divider, Text } from '@ui/components';
 
-const CreateJobFormComponent = ({}) => {
+const CreateJobFormComponent = () => {
   const formik = useFormikContext<CreateFormValues>();
   const { errors, isValid, isSubmitting, handleSubmit } = formik;
 
@@ -35,6 +35,7 @@ const CreateJobFormComponent = ({}) => {
           isDisabled={isSubmitting}
           label="Site Address"
           mt="m"
+          isRequired
         />
         <FieldInput
           name="fileUpload"
@@ -54,8 +55,10 @@ const CreateJobFormComponent = ({}) => {
         isDisabled={isSubmitting}
         mt="m"
         label="Contact Name"
+        isRequired
       />
       <FieldInput
+        isRequired
         name="contactNumber"
         placeholder="Contact Number"
         returnKeyType="next"

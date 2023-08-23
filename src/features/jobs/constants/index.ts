@@ -6,7 +6,6 @@ export const customValidationMessages = {
   createJob: {
     email: {
       email: 'Invalid email address',
-      required: 'Enter email address',
     },
   },
 };
@@ -70,20 +69,19 @@ export const forms = {
       contactEmail: 'Contact Email',
     },
     schema: Yup.object({
-      jobName: Yup.string().required(),
-      jobNumber: Yup.string().required(),
-      siteAddress: Yup.string(),
+      jobName: Yup.string(),
+      jobNumber: Yup.string(),
+      siteAddress: Yup.string().required('Site Address is required'),
       fileUpload: Yup.string(),
-      contactName: Yup.string(),
+      contactName: Yup.string().required('Contact Name is required'),
       contactNumber: Yup.string()
-        .required()
+        .required('Contact Number is required')
         .ensure()
         .trim()
         .lowercase()
-        .test('step', 'Phone number', value => validatePhone(value)),
+        .test('step', 'Phone number is invalid', value => validatePhone(value)),
       contactEmail: Yup.string()
         .email(customValidationMessages.createJob.email.email)
-        .required(customValidationMessages.createJob.email.required)
         .ensure()
         .trim()
         .lowercase(),
