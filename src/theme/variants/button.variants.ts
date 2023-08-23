@@ -39,6 +39,8 @@ const buttonVariants = {
     color: 'primaryBlue',
     borderWidth: 1,
     borderColor: 'black',
+    borderRadius: 'unset',
+    fontWeight: 'bold',
   },
   small: {
     backgroundColor: 'primaryBlue',

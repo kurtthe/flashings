@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import React from 'react';
 import {
   Animated,
   GestureResponderEvent,
@@ -64,40 +64,19 @@ const restyleFunctions = composeRestyleFunctions([
 ]);
 
 const Text = forwardRef<TextProps, typeof RNText>(
-  (
-    {
-      as,
-      style,
-      onPress,
-      isDisabled,
-      onPressIn,
-      onPressOut,
-      isBlurred,
-      _dark,
-      _light,
-      ...rest
-    },
-    ref,
-  ) => {
+  ({ as, style, onPress, isDisabled, onPressIn, onPressOut, isBlurred, _dark, _light, ...rest }, ref) => {
     const {
-      colors: {textPrimary},
+      colors: { textPrimary },
     } = useAppTheme();
     const TextComponent = useAsProp(RNText, as);
-    const [isHighlighted, setHighlighted] = useState(false);
+    const [isHighlighted, setHighlighted] = React.useState(false);
     const {
       style: [textStyle],
       ...props
-    } = useAppRestyle(restyleFunctions, {
-      variant: '',
-      ...rest,
-      ..._light,
-    });
+    } = useAppRestyle(restyleFunctions, { variant: '', ...rest, ..._light });
     const fontStyle = useFontStyle(textStyle);
     const highlightedStyle = isHighlighted
-      ? {
-          backgroundColor: 'rgba(0,0,0,0.1)',
-          borderRadius: 4,
-        }
+      ? { backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 4 }
       : undefined;
     const handlePressIn = (ev: GestureResponderEvent) => {
       setHighlighted(true);
@@ -109,12 +88,13 @@ const Text = forwardRef<TextProps, typeof RNText>(
       onPressOut?.(ev);
     };
 
+
     return (
       //@ts-ignore missing prop type
       <TextComponent
         {...props}
         ref={ref}
-        style={[textStyle, fontStyle, highlightedStyle, style]}
+        style={[textStyle, fontStyle, highlightedStyle, style, styles.textShadow]}
         onPress={onPress}
         onPressIn={Platform.select({
           ios: onPressIn,
@@ -134,7 +114,7 @@ Text.defaultProps = {
   maxFontSizeMultiplier: 1.3,
 };
 
-export default memo(Text) as typeof Text;
+export default React.memo(Text) as typeof Text;
 
 const styles = StyleSheet.create({
   blurView: StyleSheet.absoluteFillObject,

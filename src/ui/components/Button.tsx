@@ -133,6 +133,9 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
       { textStyle: {}, spacingStyle: {} } as Record<'textStyle' | 'spacingStyle', Record<string, any>>,
     );
 
+    console.log('fontStyle::', fontStyle)
+    console.log('textStyle::', textStyle)
+
     return (
       <View style={[styles.container, spacingStyle]} pointerEvents="box-none">
         <BaseButton
@@ -142,7 +145,7 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
           disabled={isDisabled}
           accessibilityState={{ disabled: isDisabled, busy: isLoading }}>
           {isLoading && (spinner || <BaseSpinner style={styles.spinner} color={textStyle.color} size="small" />)}
-          <Text maxFontSizeMultiplier={1.3} style={[textStyle, fontStyle]}>
+          <Text maxFontSizeMultiplier={1.3} style={[fontStyle, textStyle]}>
             {children}
           </Text>
         </BaseButton>
