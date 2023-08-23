@@ -11,7 +11,7 @@ const CreateJobFormComponent = ({}) => {
   return (
     <>
       <Box>
-        <Text variant="subheadSmall">Job Details</Text>
+        <Text variant="subheadSmallBold">Job Details</Text>
         <FieldInput
           name="jobName"
           placeholder="Job Name"
@@ -46,7 +46,7 @@ const CreateJobFormComponent = ({}) => {
         />
       </Box>
       <Divider my="l" />
-      <Text variant="subheadSmall">Contact Details</Text>
+      <Text variant="subheadSmallBold">Contact Details</Text>
       <FieldInput
         name="contactName"
         placeholder="Contact Name"

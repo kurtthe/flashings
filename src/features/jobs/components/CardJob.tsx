@@ -1,11 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Box, Button, Text } from '@ui/components';
+import { Box, Button, Text, Card } from '@ui/components';
 import { Routes } from '@features/jobs/navigation/routes';
 import { JOB_DETAIL } from '@models';
 import { useNavigation } from '@react-navigation/native';
 import { JobStackProps } from '@features/jobs/navigation/Stack.types';
-import { Card } from '@ui/components';
 
 type Props = {
   job: JOB_DETAIL;
