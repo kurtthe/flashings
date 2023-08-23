@@ -70,6 +70,11 @@ const textVariants = {
     lineHeight: 18,
     color: 'textPrimary',
   },
+  bodySmallRegular: {
+    fontSize: 10,
+    lineHeight: 18,
+    color: 'lightGray',
+  },
   bodyLabelTextfield: {
     fontWeight: 'normal',
     fontSize: 12,
@@ -93,6 +98,12 @@ const textVariants = {
     fontSize: 14,
     lineHeight: 18,
     color: 'secondary',
+  },
+  linkTextSmall: {
+    fontSize: 10,
+    color: 'primary',
+    fontWeight: '500',
+    textDecorationLine: 'underline',
   },
   bodyButtonBold: {
     fontWeight: '600',
