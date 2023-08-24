@@ -39,13 +39,14 @@ const JobDetailsScreen = () => {
           contentContainerStyle={{paddingVertical: 10}}
           data={(data[0].custom_fields as any as JOB_GUTTER[])}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <CardGutterComponent
+              key={`${index}`}
               onAddLength={() => setModalVisible(!modalVisible)}
               data={item}
             />
           )}
-          keyExtractor={item => `${item.id}`}
+          keyExtractor={(item, index) => `card-gutter${item.id}-${index}`}
           ListFooterComponent={
             <Box mx="m" mb="xl" >
               <Button

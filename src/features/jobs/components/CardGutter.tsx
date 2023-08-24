@@ -5,11 +5,13 @@ import { JOB_GUTTER } from "@models";
 
 type Props = {
   data: JOB_GUTTER;
-  onAddLength?: () => void}
-const CardGutterComponent: React.FC<Props> = ({data, onAddLength})=>{
+  onAddLength?: () => void;
+  key?: string;
+}
+const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
 
   return (
-    <Card flexDirection="row" alignItems="center" justifyContent="space-between">
+    <Card flexDirection="row" alignItems="center" justifyContent="space-between" key={key}>
       <Box  width='40%'>
         <Text variant="bodyBold">{data.title}</Text>
         <Image

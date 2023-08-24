@@ -72,7 +72,8 @@ type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
       | 'tel';
     label?: string | null;
     styleContent?: StyleProp<TextStyle>;
-    isRequired?: boolean
+    isRequired?: boolean;
+    suffix?: string;
   };
 export type InputProps = RestyleInputProps & {
   _dark?: RestyleInputProps;
@@ -113,6 +114,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
   (
     {
       isRequired=false,
+      suffix ,
       value,
       label,
       isDisabled,
@@ -269,6 +271,10 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               onEndEditing={handleEndEditing}
             />
           </Box>
+          {suffix && < >
+            <Box width={1} height={40} backgroundColor="lightGray" ml="xs" mr="s" />
+            <Text mt="s" variant="bodyRegular" color="lightGray">{suffix}</Text>
+          </>}
           {rightIcon}
         </Box>
       </Pressable>

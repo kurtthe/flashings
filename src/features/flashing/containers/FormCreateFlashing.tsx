@@ -1,15 +1,16 @@
 import React from 'react';
-import { Formik, } from 'formik';
+import { Formik, FormikProps } from "formik";
 import { AddFlashingFormValues, forms } from "@features/flashing/constants";
 import { FormCreateFlashingComponent } from "@features/flashing/components";
 
 const FormCreateFlashingContainer = ()=> {
+  const formikRef = React.useRef<FormikProps<AddFlashingFormValues>>(null);
 
   const handleSubmit = React.useCallback(
     async (
       values: AddFlashingFormValues,
     ) => {
-      return null
+      console.log("=>values", values)
     },
     [],
   );
@@ -17,6 +18,7 @@ const FormCreateFlashingContainer = ()=> {
 
   return (
     <Formik
+      innerRef={formikRef}
       initialValues={{
         ...forms.createFlashing.initialValues,
       }}

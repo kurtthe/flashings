@@ -17,6 +17,7 @@ import type { InputProps } from '@ui/components';
 import type { ComponentWithAs } from '@ui/types';
 
 export type Props = InputProps &
+  {suffix?: string}&
   Pick<FieldConfig<any>, 'name' | 'type' | 'validate' | 'value'> & {
     label?: string;
     styleInput?: StyleProp<TextStyle>;
