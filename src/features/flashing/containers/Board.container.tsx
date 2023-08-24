@@ -8,7 +8,6 @@ import {
 } from '@features/flashing/components';
 import { MODES_BOARD } from '@features/flashing/components/Board/Board';
 import {
-  calculateAngle,
   calculatePending,
   calculateSizeLine,
   getLastPoint,
@@ -18,6 +17,7 @@ import GuideStepperBoardComponent from "@features/flashing/components/GuideStepp
 
 const BoardContainer = () => {
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
+  const [stepsDrawing, setDrawing] = React.useState(0)
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
@@ -75,9 +75,14 @@ const BoardContainer = () => {
 
   const handleClear = () => setLines([]);
 
+  const finishSteps = () => {
+    console.log('on finish steps::');
+  }
+
+
   return (
     <>
-      <GuideStepperBoardComponent step={0} />
+      <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} />
       <BoardComponent
         rightLinePaint={true}
         lines={lines}
