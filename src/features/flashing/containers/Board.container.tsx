@@ -15,12 +15,16 @@ import {
 } from "@features/flashing/utils";
 import GuideStepperBoardComponent from "@features/flashing/components/GuideStepperBoard";
 import Alert from "@services/general-request/alert";
+import {
+  TYPE_ACTIONS_STEP,
+  VALUE_ACTIONS
+} from "@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type";
 
 const BoardContainer = () => {
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [stepsDrawing, setDrawing] = React.useState(0)
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
-
+const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -85,11 +89,16 @@ const BoardContainer = () => {
     console.log('on finish steps::');
   }
 
+  const changeSettingsBoard = (newSettings: VALUE_ACTIONS) =>{
+    const sideBlueLine = newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase()
+    setBlueLineIsRight(sideBlueLine === 'right');
+  }
+
   return (
     <>
-      <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} />
+      <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
       <BoardComponent
-        rightLinePaint={true}
+        rightLinePaint={ blueLineIsRight}
         lines={lines}
         onAddPoint={handleAddPoint}
         onUpdatePoint={handleUpdatePoint}
