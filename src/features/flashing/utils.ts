@@ -283,16 +283,17 @@ const resolveEqWithValueX = (eq: string, valueX: number)=>{
 const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_TYPE | undefined):POINT_TYPE | null=>{
 
   if(!line2) return null;
-  if(line1.pending === Infinity && line2.pending === 0){
-    return [line1.points[0][0], line2.points[0][1]]
-  }
-
-  if(line1.pending === -Infinity && line2.pending === 0){
-    return [line1.points[0][0], line2.points[0][1]]
-  }
 
   const eq1 = createEquationOfLine(line1)
   const eq2 = createEquationOfLine(line2)
+
+  if(eq1.includes('Infinity')){
+    if(line2.pending === 0){
+      return [line1.points[0][0], line2.points[0][1]]
+    }
+    const yPoint = resolveEqWithValueX(eq2, line1.points[0][0])
+    return [line1.points[0][0], yPoint]
+  }
 
   const paramsEq1 = eq1.split('x')
   const paramsEq2 = eq2.split('x')

@@ -23,7 +23,7 @@ const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel}) => {
     <Svg width={widthScreen} height="100%">
       <GridComponent />
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
-        <React.Fragment key={Math.random()}>
+        <React.Fragment key={`${Math.random()}`}>
           {LineComponent}
           {pathParallel && <PathComponent
             d={serialize(pathParallel)}
