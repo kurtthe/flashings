@@ -10,12 +10,12 @@ import {
 type Props = {
 	step: number;
 	onFinish: ()=>void;
-	onChangeOption?: (newValue: string)=> void;
+	onChangeOption?: (newValue: VALUE_ACTIONS)=> void;
 }
 const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step=1,onChangeOption }) => {
 	const [{ action, description, title }, setDataStep] = React.useState<GUIDE_STEP>(guideSteps[step])
 	const [optionSelected, setOptionSelected] = React.useState<VALUE_ACTIONS>({
-		[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE]: action?.defaultOption ?? ''
+		[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE]: action?.defaultOption ?? 'right'
 	})
 
 	React.useEffect(() =>{
@@ -29,7 +29,7 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step=1,onChange
 
 	const handleChangeOptionAction = (keyValue: TYPE_ACTIONS_STEP,newValue: string) => {
 		setOptionSelected({...optionSelected, [keyValue]: newValue})
-		onChangeOption && onChangeOption(newValue)
+		onChangeOption && onChangeOption({...optionSelected, [keyValue]: newValue})
 	}
 
 	const isOptionSelected = (keyValue: TYPE_ACTIONS_STEP, option: string) => {
@@ -46,7 +46,7 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step=1,onChange
 			</Card>
 			{
 				action && (
-					<Card my="s">
+					<Card my="s" p="xs">
 						<Box>
 							{action.title && (
 								<>
@@ -54,10 +54,10 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step=1,onChange
 									<Divider my="s" />
 								</>
 							)}
-							<Box>
+							<Box flexDirection="row" justifyContent="space-around">
 								{action.options.map((option, index) => ( <Button
 									key={`button-option-action-${index}`}
-									my="xs"
+									m="xs"
 									variant={isOptionSelected(action.key, option.toLowerCase()) ? 'smallMenuActive' : 'smallMenu'}
 									onPress={() => handleChangeOptionAction(action.key, option.toLowerCase())}
 									backgroundColor={isOptionSelected(action.key, option.toLowerCase())  ? 'primaryBlue' : 'white'}>
