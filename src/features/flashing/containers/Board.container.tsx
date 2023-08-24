@@ -14,6 +14,7 @@ import {
   validateLineComplete
 } from "@features/flashing/utils";
 import GuideStepperBoardComponent from "@features/flashing/components/GuideStepperBoard";
+import Alert from "@services/general-request/alert";
 
 const BoardContainer = () => {
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
@@ -58,6 +59,11 @@ const BoardContainer = () => {
   };
 
   const handleNext = () => {
+    if(lines.length === 0 || !lines[0].isLine){
+      return Alert.show("Please draw a line", "")
+    }
+
+    setDrawing(stepsDrawing + 1)
     setModeBoard('sizes');
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
@@ -78,7 +84,6 @@ const BoardContainer = () => {
   const finishSteps = () => {
     console.log('on finish steps::');
   }
-
 
   return (
     <>
