@@ -425,7 +425,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
         style={StyleSheet.flatten([styles.mainWrap, style])}
         ref={ref}
         onLayout={_measure}>
-        {labelField && <Text style={styles.label}>{labelField}</Text>}
+        {labelField && <Text style={[styles.label]}>{labelField} asdf</Text>}
         <Pressable style={styles.contentInput} onPress={() => showOrClose()}>
             <TextInput
               style={[
@@ -436,8 +436,8 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                   color: currentValue?.textColor ? currentValue?.textColor : 'black'
                 }
               ]}
-              placeholder={placeholder}
-              value={currentValue && currentValue.label}
+              placeholder={placeholder + 'askjk'}
+              value={`${currentValue && currentValue.label}`}
               editable={search}
               onPressIn={() => showOrClose()}
             />
@@ -510,6 +510,8 @@ const styles = StyleSheet.create({
     height: 20,
   },
   input: {
+    paddingTop: 10,
+    marginTop: 5,
     fontSize: 16,
     textAlign: 'left',
     width: '100%',
