@@ -9,13 +9,16 @@ export const forms = {
       qty: 0,
       length: 0
     },
-    schema: {
+    schema: Yup.object({
       name: Yup.string(),
       material: Yup.string(),
-      qty: Yup.number(),
-      length: Yup.number()
-    }
+      qty: Yup.number().typeError('Qty must be a number'),
+      length: Yup.number().typeError('Length must be a number')
+    }),
   }
 };
 
-export type AddFlashingFormValues = Yup.InferType<typeof forms.createFlashing.schema>;
+
+export type AddFlashingFormValues = Yup.InferType<typeof forms.createFlashing.schema> & {
+  submit?: string;
+};
