@@ -425,7 +425,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
         style={StyleSheet.flatten([styles.mainWrap, style])}
         ref={ref}
         onLayout={_measure}>
-        {labelField && <Text style={[styles.label]}>{labelField} asdf</Text>}
+        {labelField && <Text style={[styles.label]}>{labelField}</Text>}
         <Pressable style={styles.contentInput} onPress={() => showOrClose()}>
             <TextInput
               style={[

@@ -180,10 +180,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     const handleExternalFocus = useCallback(() => {
       if (isFocusable) {
         //@ts-ignore ignore bad type related to input mask
-        if (as === TextInputMask) internalRef.current?.getElement()?.focus();
-        else {
-          internalRef.current?.focus();
-        }
+        internalRef.current?.focus();
       }
     }, [isFocusable]);
     const handleBlur = useCallback(
@@ -219,6 +216,8 @@ const Input = forwardRef<InputProps, typeof TextInput>(
       },
       [],
     );
+
+
     return (
       <Pressable
         style={[styles.inputContainer,  style, containerStyle]}
@@ -241,7 +240,6 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 }),
               }}>
               {label ?? placeholder}
-
               {isRequired && <Text color="error500">*</Text>}
             </Text>
 
@@ -272,8 +270,8 @@ const Input = forwardRef<InputProps, typeof TextInput>(
             />
           </Box>
           {suffix && < >
-            <Box width={1} height={40} backgroundColor="lightGray" ml="xs" mr="s" />
-            <Text mt="s" variant="bodyRegular" color="lightGray">{suffix}</Text>
+            <Box width={1} height={containerStyle['height']? containerStyle['height'] - 10: 40} backgroundColor="lightGray" ml="xs" mr="s" />
+            <Text mt={label? "s": 'unset'} variant="bodyRegular" color="lightGray">{suffix}</Text>
           </>}
           {rightIcon}
         </Box>

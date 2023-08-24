@@ -20,10 +20,12 @@ const inputVariants = {
     opacity: 0.6,
     backgroundColor: 'inputDisabled',
   },
-  currency: {
+  small: {
     backgroundColor: 'transparent',
-    color: 'secondary',
-    fontWeight: '900',
+    color: 'textPrimary',
+    height: 45,
+    width: 112,
+    borderWidth: 0,
   },
   focused: {
     borderColor: 'inputBorderFocused',
