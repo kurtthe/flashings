@@ -44,6 +44,7 @@ export type LINE_TYPE = {
   pending: number;
   distance: number;
   isLine: boolean;
+  letterLine?: string;
 };
 
 export type DREW_LINE_TYPE = LINE_TYPE & {

@@ -8,17 +8,16 @@ import {
 } from '@features/flashing/components';
 import { MODES_BOARD } from '@features/flashing/components/Board/Board';
 import {
+  calculateAngle,
   calculatePending,
   calculateSizeLine,
   getLastPoint,
-  validateLineComplete,
-} from '@features/flashing/utils';
-import { ButtonMenu } from '@features/flashing/components/ButtonMenu';
+  validateLineComplete
+} from "@features/flashing/utils";
 
 const BoardContainer = () => {
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
-  const [paintLineRight, setPaintLineRight] = React.useState<boolean>(true);
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
@@ -77,9 +76,8 @@ const BoardContainer = () => {
 
   return (
     <>
-      <ButtonMenu onChangeSide={setPaintLineRight} />
       <BoardComponent
-        rightLinePaint={paintLineRight}
+        rightLinePaint={true}
         lines={lines}
         onAddPoint={handleAddPoint}
         onUpdatePoint={handleUpdatePoint}
