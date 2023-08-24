@@ -48,7 +48,7 @@ const FieldSelect = ({ options, name, onChange, onBlur, label, ...rest }: Props)
 const styles = StyleSheet.create({
   labelContainer: {
     position: 'absolute',
-    left: 17,
+    left: 8,
     top: 7,
   },
   containerStyle: {
