@@ -23,8 +23,6 @@ const inputVariants = {
   small: {
     backgroundColor: 'transparent',
     color: 'textPrimary',
-    height: 45,
-    width: 112,
     borderWidth: 0,
   },
   focused: {
