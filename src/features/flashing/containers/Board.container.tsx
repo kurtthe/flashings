@@ -14,6 +14,7 @@ import {
   getLastPoint,
   validateLineComplete
 } from "@features/flashing/utils";
+import GuideStepperBoardComponent from "@features/flashing/components/GuideStepperBoard";
 
 const BoardContainer = () => {
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
@@ -76,6 +77,7 @@ const BoardContainer = () => {
 
   return (
     <>
+      <GuideStepperBoardComponent step={0} />
       <BoardComponent
         rightLinePaint={true}
         lines={lines}

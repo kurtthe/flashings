@@ -71,6 +71,7 @@ const lightTheme = {
     textGray: palette.textGray,
     lightBlue: palette.lightBlue,
     mustard: palette.mustard,
+    lightGray2: palette.lightGray2
   },
 };
 
