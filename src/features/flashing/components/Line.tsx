@@ -31,13 +31,13 @@ const LineMadeComponent: React.FC<Props> = ({
         strokeWidth={1}
         stroke="#000"
       />
-      {showAngle !== undefined && (
+      {!isDrawing &&  showAngle !== undefined && (
         <TextSvg id={id} onPress={onPressLine} positionTextYRect={positionTextAngle[1] -4} positionTextXRect={positionTextAngle[0] + 6} positionTextX={positionTextAngle[0] + 28} positionTextY={positionTextAngle[1] + 10} textValue={`${showAngle}°`} />
       )}
       {!isDrawing && line.distance ? (
           <TextSvg id={id} onPress={onPressLine} positionTextYRect={positionText[1] - 14} positionTextXRect={positionText[0] - 28} positionTextX={positionText[0]-3} positionTextY={positionText[1]} textValue={`${line.distance}in`} />
       ) : null}
-      <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id} onPress={onPressLine} positionTextYRect={positionText[1] - 50} positionTextXRect={positionText[0] - 12} positionTextX={positionText[0]} positionTextY={positionText[1] - 35} textValue={LETTER_LINES[id]} />
+      {!isDrawing && <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id} onPress={onPressLine} positionTextYRect={positionText[1] - 50} positionTextXRect={positionText[0] - 12} positionTextX={positionText[0]} positionTextY={positionText[1] - 35} textValue={LETTER_LINES[id]} />}
     </G>
   );
 };
