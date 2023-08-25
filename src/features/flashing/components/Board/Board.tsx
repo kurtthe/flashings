@@ -15,6 +15,7 @@ import { ModalBottom, ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
 import { Path } from 'react-native-redash';
+import SectionsButton from "@features/flashing/components/SectionsButton";
 
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish';
 type Props = {
@@ -107,6 +108,9 @@ const Board: React.FC<Props> = ({
     setIndexLineSelected(newIndex <= 0? 0 : newIndex)
   }
 
+  const handleOnSave = ()=>{}
+  const handleOnTape = ()=>{}
+
   return (
     <>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
@@ -123,6 +127,7 @@ const Board: React.FC<Props> = ({
         borderRadius={0}>
         <MeasurementLines onNext={handleNextLineSelected} onPrevious={handleBackLineSelected} dataLine={pointSelected} onDone={handleDoneSize} />
       </ModalBottom>
+      {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
     </>
   );
 };
