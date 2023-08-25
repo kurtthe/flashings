@@ -19,7 +19,7 @@ const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX
     <>
       <Rect
         width={textWidth}
-        height="17"
+        height={fontSize + 3}
         origin={`${positionTextX}, ${positionTextY}`}
         fill="#fff"
         y={positionTextYRect}
@@ -29,13 +29,13 @@ const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX
       />
       <Text
         onLayout={event => {
-          setTextWidth(event.nativeEvent.layout.width + 10);
+          setTextWidth(event.nativeEvent.layout.width + 8);
         }}
         key={`backgroundSizeText${id}`}
         textAnchor="middle"
         fill={colorLabel}
-        y={positionTextY}
-        x={positionTextX - 3}
+        y={positionTextY + fontSize}
+        x={positionTextX + 9}
         fontSize={fontSize}>
         {textValue}
       </Text>

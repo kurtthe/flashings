@@ -55,6 +55,10 @@ const BoardContainer = () => {
 
   const handleUndo = () => {
     const newPointCoordinates = lines.slice(0, -1);
+    if(newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine){
+      setDrawing(0)
+      setModeBoard('draw');
+    }
     setLines(newPointCoordinates);
   };
 
@@ -84,7 +88,11 @@ const BoardContainer = () => {
     setLines(linesUpdated);
   };
 
-  const handleClear = () => setLines([]);
+  const handleClear = () => {
+    setDrawing(0)
+    setModeBoard('draw');
+    setLines([]);
+  };
 
   const finishSteps = () => {
     console.log('on finish steps::');

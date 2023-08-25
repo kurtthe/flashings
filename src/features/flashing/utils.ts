@@ -197,8 +197,21 @@ export const calculateParallelLines = (
 export const calculatePointHalf = (
   line: LINE_TYPE,
 ): POINT_TYPE => {
-return line.points[0]
+
+  const x1 = line.points[0][0]
+  const x2 = line.points[1][0]
+
+  const y1 = line.points[0][1]
+  const y2 = line.points[1][1]
+
+  const xPoint = (x1 + x2) / 2
+  const yPoint = (y1 + y2) / 2
+  return [round(xPoint, 0),round(yPoint, 0)]
 };
+
+export const positionEndLine = (line: LINE_TYPE): POINT_TYPE=> {
+  return line.points[0]
+}
 
 export const buildPathLine = (points: LINE_TYPE['points']) => {
   const generatorLine = shape
