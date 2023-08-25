@@ -60,15 +60,15 @@ const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
 
   const handleEdit = () => {
     setModeBoard('draw');
+    setDrawing(0)
   };
 
   const handleNext = () => {
     if(lines.length === 0 || !lines[0].isLine){
       return Alert.show("Please draw a line", "")
     }
-
     setDrawing(stepsDrawing + 1)
-    setModeBoard('sizes');
+    setModeBoard( 'sizes');
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
     const linesUpdated = lines.map((line, index) => {

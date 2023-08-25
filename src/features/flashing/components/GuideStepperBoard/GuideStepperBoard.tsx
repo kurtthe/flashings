@@ -12,7 +12,7 @@ type Props = {
 	onFinish: ()=>void;
 	onChangeOption?: (newValue: VALUE_ACTIONS)=> void;
 }
-const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step=1,onChangeOption }) => {
+const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step,onChangeOption }) => {
 	const [{ action, description, title }, setDataStep] = React.useState<GUIDE_STEP>(guideSteps[step])
 	const [optionSelected, setOptionSelected] = React.useState<VALUE_ACTIONS>({
 		[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE]: action?.defaultOption ?? 'right'
@@ -20,7 +20,7 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step=1,onChange
 
 	React.useEffect(() =>{
 		const lengthSteps = guideSteps.length
-		const newDataStep = guideSteps[1];
+		const newDataStep = guideSteps[step];
 
 		setDataStep(newDataStep)
 		step >= lengthSteps && onFinish()
