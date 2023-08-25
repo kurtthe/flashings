@@ -144,7 +144,6 @@ const getPointParallel = ({line, offset, isRight}:{line: LINE_TYPE; offset: numb
       ? dataPendingNegative.someOnePointMajor[side]
       : dataPendingNegative.default[side];
   }
-
   return pointsLineParallel.default;
 }
 export const calculateParallelLines = (
@@ -186,7 +185,6 @@ export const calculateParallelLines = (
       if(!pointIntersectionPrevious || !pointIntersectionNext) return currentLineParallel
       return [pointIntersectionPrevious, pointIntersectionNext]
     }
-
     return currentLineParallel
   })
 };
@@ -295,12 +293,15 @@ const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_T
     return [line1.points[0][0], yPoint]
   }
 
+  if(eq2.includes('Infinity')){
+    return [line2.points[0][0], line1.points[1][1]]
+  }
+
   const paramsEq1 = eq1.split('x')
   const paramsEq2 = eq2.split('x')
 
   const paramPending1 = parseFloat(paramsEq1[0])
   const paramPending2 = parseFloat(paramsEq2[0]) * -1
-
 
   const result = paramPending1 + paramPending2
 
