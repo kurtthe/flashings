@@ -209,8 +209,8 @@ export const calculatePointHalf = (
   return [round(xPoint, 0),round(yPoint, 0)]
 };
 
-export const positionEndLine = (line: LINE_TYPE): POINT_TYPE=> {
-  return line.points[0]
+export const positionEndLine = (line1: LINE_TYPE): POINT_TYPE=> {
+  return line1.points[1];
 }
 
 export const buildPathLine = (points: LINE_TYPE['points']) => {

@@ -20,6 +20,8 @@ const LineMadeComponent: React.FC<Props> = ({
   const fontSize = 20;
   const colorLabel = '#8F94AE';
   const positionText = calculatePointHalf(line);
+  const positionTextAngle = positionEndLine(line);
+
   const isMeasurements = mode === 'measurements'
   return (
     <G key={`groupPath${id}`}>
@@ -39,6 +41,9 @@ const LineMadeComponent: React.FC<Props> = ({
                 positionTextX={positionText[0]} positionTextY={positionText[1] + fontSize}
                 textValue={`${line.distance}mm`} />
             )
+            }
+            {
+              showAngle && <TextSvg id={id}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${showAngle}°`} />
             }
           </>
         )
