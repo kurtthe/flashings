@@ -34,6 +34,12 @@ const LineMadeComponent: React.FC<Props> = ({
         isMeasurements && (
           <>
             <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id}  positionTextYRect={positionText[1]} positionTextXRect={positionText[0]} positionTextX={positionText[0]} positionTextY={positionText[1]} textValue={LETTER_LINES[id]} />
+            {line.distance && (
+              <TextSvg id={id} positionTextYRect={positionText[1] + fontSize} positionTextXRect={positionText[0] -18}
+                positionTextX={positionText[0]} positionTextY={positionText[1] + fontSize}
+                textValue={`${line.distance}mm`} />
+            )
+            }
           </>
         )
       }
