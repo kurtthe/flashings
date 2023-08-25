@@ -16,13 +16,14 @@ import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
 import { Path } from 'react-native-redash';
 
-export type MODES_BOARD = 'draw' | 'measurements' | 'side';
+export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish';
 type Props = {
   lines: LINE_TYPE[];
   onAddPoint: (newPoint: POINT_TYPE) => void;
   onUpdatePoint: (dataLine: LINE_SELECTED) => void;
   width?: number;
   height?: number;
+  changeMode?: (newMode:MODES_BOARD) => void;
   mode: MODES_BOARD;
   rightLinePaint: boolean;
 };
@@ -34,6 +35,7 @@ const Board: React.FC<Props> = ({
   width = widthScreen,
   height = heightScreen,
   mode = 'draw',
+  changeMode,
   rightLinePaint,
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
@@ -71,7 +73,10 @@ const Board: React.FC<Props> = ({
   const handleDoneSize = (newSize: number) => {
     if (!pointSelected) return;
 
-    setIndexLineSelected(indexLineSelected + 1)
+    const newIndex = indexLineSelected + 1
+    const lengthLine = lines.length - 1
+
+    setIndexLineSelected(newIndex >= lengthLine? lengthLine : indexLineSelected)
     onUpdatePoint({ ...pointSelected, sizeLine: newSize });
   };
   const handlePointer = (event: GestureResponderEvent) => {
@@ -85,11 +90,21 @@ const Board: React.FC<Props> = ({
   };
 
   const handleNextLineSelected = ()=>{
-    setIndexLineSelected(indexLineSelected + 1)
+    const newIndex = indexLineSelected + 1
+    const lengthLine = lines.length - 1
+
+    setIndexLineSelected(newIndex >= lengthLine? lengthLine : newIndex)
+
+    if(newIndex > lengthLine){
+      changeMode && changeMode('finish')
+      modalBottomRef.current?.hide()
+    }
+
   }
 
   const handleBackLineSelected = ()=>{
-    setIndexLineSelected(indexLineSelected  - 1)
+    const newIndex = indexLineSelected - 1
+    setIndexLineSelected(newIndex <= 0? 0 : newIndex)
   }
 
   return (

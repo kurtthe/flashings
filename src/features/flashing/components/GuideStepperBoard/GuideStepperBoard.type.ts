@@ -30,7 +30,7 @@ export const guideSteps: GUIDE_STEP[] = [
 		description: '',
 		action: {
 			title: '',
-			options: ['Right', 'Left'],
+			options: ['Left', 'Right'],
 			key: TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE,
 			defaultOption: 'Right',
 		},

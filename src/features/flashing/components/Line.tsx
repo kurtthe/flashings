@@ -22,7 +22,7 @@ const LineMadeComponent: React.FC<Props> = ({
   const positionText = calculatePointHalf(line);
   const positionTextAngle = positionEndLine(line);
 
-  const isMeasurements = mode === 'measurements'
+  const isMeasurements = mode === 'measurements' || mode === 'finish'
   return (
     <G key={`groupPath${id}`}>
       <PathComponent
