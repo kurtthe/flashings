@@ -38,11 +38,9 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step,onChangeOp
 
 	return (
 		<Box style={styles.container} width="100%" p="m">
-			<Card variant="guide">
-				<Box>
+			<Card variant="guide" p="s">
 					<Text variant="bodyBold" textAlign="center">{title}</Text>
-					<Text variant="bodyRegular" textAlign="center">{description}</Text>
-				</Box>
+				{description && <Text variant="bodyRegular" textAlign="center">{description}</Text>}
 			</Card>
 			{
 				action && (

@@ -21,7 +21,9 @@ const cardVariants = {
     borderRadius: 'unset',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
-    shadowRadius: 2,
+    shadowRadius: 4,
+    borderWidth: 0.2,
+    borderColor: 'black'
   }
 };
 
