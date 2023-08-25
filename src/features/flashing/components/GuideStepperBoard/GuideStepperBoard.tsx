@@ -20,7 +20,7 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step,onChangeOp
 
 	React.useEffect(() =>{
 		const lengthSteps = guideSteps.length
-		const newDataStep = guideSteps[step];
+		const newDataStep = guideSteps[step >= lengthSteps? lengthSteps -1: step ];
 
 		setDataStep(newDataStep)
 		step >= lengthSteps && onFinish()

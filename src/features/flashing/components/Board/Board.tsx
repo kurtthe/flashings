@@ -42,33 +42,36 @@ const Board: React.FC<Props> = ({
     LINE_SELECTED | undefined
   >();
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
+  const [indexLineSelected, setIndexLineSelected] = React.useState(0)
   const isDrawing = mode === 'draw';
 
   React.useEffect(() => {
     const makingLines = drawLines({
       lines,
-      onPressLine: onPressLine,
       widthGraph: width,
       heightGraph: height,
       mode,
       rightLinePaint,
+      lineSelected: indexLineSelected
     });
     setPathParallel(drawParallelLines(lines, rightLinePaint))
     setGraphs(makingLines);
-  }, [lines, mode, rightLinePaint]);
+  }, [lines, mode, rightLinePaint, indexLineSelected]);
 
-  const onPressLine = (numberLine: number) => {
+  React.useEffect(()=>{
+    if(mode !== 'measurements') return;
+
     setPointSelected({
-      numberLine: numberLine,
-      sizeLine: lines[numberLine].distance,
+      numberLine: indexLineSelected,
+      sizeLine: lines[indexLineSelected].distance,
     });
-    modalBottomRef.current?.show();
-  };
+    modalBottomRef.current?.show()
+  }, [mode, indexLineSelected])
 
   const handleDoneSize = (newSize: number) => {
-    modalBottomRef.current?.hide();
     if (!pointSelected) return;
 
+    setIndexLineSelected(indexLineSelected + 1)
     onUpdatePoint({ ...pointSelected, sizeLine: newSize });
   };
   const handlePointer = (event: GestureResponderEvent) => {
@@ -81,6 +84,14 @@ const Board: React.FC<Props> = ({
     onAddPoint([newPosition.x, newPosition.y]);
   };
 
+  const handleNextLineSelected = ()=>{
+    setIndexLineSelected(indexLineSelected + 1)
+  }
+
+  const handleBackLineSelected = ()=>{
+    setIndexLineSelected(indexLineSelected  - 1)
+  }
+
   return (
     <>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
@@ -89,11 +100,13 @@ const Board: React.FC<Props> = ({
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom
+        backdropBackgroundColor="transparent"
         backdropClosesSheet={false}
+        draggable={false}
         ref={modalBottomRef}
         height={300}
         borderRadius={0}>
-        <MeasurementLines dataLine={pointSelected} onDone={handleDoneSize} />
+        <MeasurementLines onNext={handleNextLineSelected} onPrevious={handleBackLineSelected} dataLine={pointSelected} onDone={handleDoneSize} />
       </ModalBottom>
     </>
   );

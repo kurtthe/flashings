@@ -1,13 +1,16 @@
 import React from 'react';
-import { Box, Text } from '@ui/components';
+import { Box, Button, Divider, Text } from "@ui/components";
 import { KeyBoardNumber } from '@features/flashing/components/KeyBoardNumber';
 import { LINE_SELECTED } from '@features/flashing/components/Board';
+import { isNaN } from "lodash";
 
 type Props = {
   onDone: (sizeLine: number) => void;
   dataLine?: LINE_SELECTED;
+  onNext?: (sizeLine?: number) => void;
+  onPrevious?: (sizeLine?: number) => void;
 };
-const MeasurementLines: React.FC<Props> = ({ onDone, dataLine }) => {
+const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPrevious }) => {
   const [measurement, setMeasurement] = React.useState(0);
 
   React.useEffect(() => {
@@ -20,14 +23,28 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine }) => {
     onDone(size);
   };
 
+
   return (
     <Box p="s">
-      <Text
-        variant="subheadBold"
-        textAlign="center"
-        my="m">{`${measurement}in`}</Text>
+      <Box flexDirection="row" alignItems="center" justifyContent="space-around">
+        <Button
+          onPress={() => onPrevious && onPrevious(measurement)}
+          variant="keyboard">
+          {`<`}
+        </Button>
+        <Text
+          variant="subheadBold"
+          textAlign="center"
+          my="m">{`${isNaN(measurement)? '0': measurement}mm`}</Text>
+        <Button
+          onPress={() => onNext && onNext(measurement)}
+          variant="keyboard">
+          {`>`}
+        </Button>
+      </Box>
+      <Divider my="s" />
       <KeyBoardNumber
-        onChange={size => setMeasurement(parseInt(size))}
+        onChange={size => setMeasurement(parseFloat(size))}
         onDone={handleDone}
       />
     </Box>

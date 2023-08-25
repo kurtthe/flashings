@@ -16,7 +16,7 @@ const KeyBoardNumber: React.FC<Props> = ({onChange, onDone}) => {
   React.useEffect(() => onChange && onChange(currentValue), [currentValue]);
   const handleChange = (digit: string) => {
     if (digit === 'done') {
-      onDone(currentValue);
+      onDone && onDone(currentValue);
     }
 
     if (NUMBER_REGEX.test(digit)) {
@@ -27,12 +27,11 @@ const KeyBoardNumber: React.FC<Props> = ({onChange, onDone}) => {
   };
 
   return (
-    <Box flexDirection="row" justifyContent="center">
+    <Box flexDirection="row" justifyContent="space-between" px="s">
       <Box flexDirection="row" alignItems="center" flexWrap="wrap" width="50%">
         {BUTTONS_KEYBOARD.map(digit => (
           <Button
             onPress={() => handleChange(digit)}
-            textColor="black"
             key={`button-${digit}`}
             variant="keyboard">
             {digit}
@@ -43,7 +42,6 @@ const KeyBoardNumber: React.FC<Props> = ({onChange, onDone}) => {
         {BUTTONS_KEYBOARD2.map(digit => (
           <Button
             onPress={() => handleChange(digit)}
-            textColor="black"
             key={`button-${digit}`}
             variant={
               digit === 'delete' || digit === 'done'

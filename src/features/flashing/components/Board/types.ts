@@ -11,15 +11,15 @@ export type POINT_TYPE = [number, number];
 
 export type MAKE_LINE = {
   lines: LINE_TYPE[];
-  onPressLine: (numberLine: number) => void;
-  mode: string;
+  mode: MODES_BOARD;
   rightLinePaint?: boolean;
+  lineSelected: number
 };
 
 export type BUILD_LINE = {
   id: number;
   line: LINE_TYPE;
-  onPressLine: (numberLine: number) => void;
+  lineSelected: number;
   mode: MODES_BOARD;
   rightLinePaint?: boolean;
 };

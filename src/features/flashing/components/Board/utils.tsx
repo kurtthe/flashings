@@ -10,7 +10,7 @@ import { Path } from 'react-native-redash';
 
 export const drawLines = ({
   lines,
-  onPressLine,
+                            lineSelected,
   mode = "draw",
   rightLinePaint = true,
 }: MAKE_LINE & {
@@ -28,7 +28,7 @@ export const drawLines = ({
       path:
         line.points.length === 2 ? (
           <LineMadeComponent
-            {...{ id: index, line, onPressLine, mode, rightLinePaint, showAngle: angle }}
+            {...{ id: index, line, lineSelected, mode, rightLinePaint, showAngle: angle }}
           />
         ) : undefined,
     })
@@ -40,6 +40,5 @@ export const drawParallelLines = (lines: LINE_TYPE[],  rightLinePaint=true):Path
     return null;
   }
   const allPoints = calculateParallelLines(lines, rightLinePaint)
-  // console.log("allPoints::", allPoints.flat(1))
   return buildPathLineParallel(allPoints.flat(1))
 }
