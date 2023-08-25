@@ -2,8 +2,8 @@ import React from 'react';
 import { BUILD_LINE, LETTER_LINES } from '@features/flashing/components/Board';
 import {
   buildPathLine,
-  calculatePositionText,
-} from '@features/flashing/utils';
+  calculatePointHalf, positionEndLine
+} from "@features/flashing/utils";
 import { G, Path as PathComponent} from 'react-native-svg';
 import TextSvg from "@features/flashing/components/TextSvg";
 
@@ -19,8 +19,7 @@ const LineMadeComponent: React.FC<Props> = ({
 }) => {
   const fontSize = 20;
   const colorLabel = '#8F94AE';
-  const positionText = calculatePositionText(line);
-  const positionTextAngle = calculatePositionText(line, 0, true);
+  const positionText = calculatePointHalf(line);
   const isMeasurements = mode === 'measurements'
   return (
     <G key={`groupPath${id}`}>
@@ -34,14 +33,7 @@ const LineMadeComponent: React.FC<Props> = ({
       {
         isMeasurements && (
           <>
-            <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id}  positionTextYRect={positionText[1] - 50} positionTextXRect={positionText[0] - 28} positionTextX={positionText[0]} positionTextY={positionText[1] - 35} textValue={LETTER_LINES[id]} />
-            {showAngle !== undefined && (
-              <TextSvg id={id} positionTextYRect={positionTextAngle[1] -4} positionTextXRect={positionTextAngle[0] + 6} positionTextX={positionTextAngle[0] + 28} positionTextY={positionTextAngle[1] + 10} textValue={`${showAngle}°`} />
-            )}
-
-            {line.distance && (
-              <TextSvg id={id} positionTextYRect={positionText[1] - 14} positionTextXRect={positionText[0] - 28} positionTextX={positionText[0]-3} positionTextY={positionText[1]} textValue={`${line.distance}in`} />
-            )}
+            <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id}  positionTextYRect={positionText[1]} positionTextXRect={positionText[0]} positionTextX={positionText[0]} positionTextY={positionText[1]} textValue={LETTER_LINES[id]} />
           </>
         )
       }

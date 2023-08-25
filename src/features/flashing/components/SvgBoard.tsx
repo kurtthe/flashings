@@ -24,13 +24,13 @@ const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel}) => {
       <GridComponent />
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
         <React.Fragment key={`${Math.random()}`}>
-          {LineComponent}
           {pathParallel && <PathComponent
             d={serialize(pathParallel)}
             stroke={"#0056FF"}
             strokeWidth={1}
             fill="transparent"
           />}
+          {LineComponent}
           <PointerComponent
             key={`first-point-line${index}`}
             cx={points[0][0]}
