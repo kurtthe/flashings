@@ -12,7 +12,7 @@ type Props = BUILD_LINE & {
 };
 const LineMadeComponent: React.FC<Props> = ({
   line,
-  onPressLine,
+  lineSelected,
   mode,
   id,
   showAngle
@@ -26,11 +26,10 @@ const LineMadeComponent: React.FC<Props> = ({
   return (
     <G key={`groupPath${id}`}>
       <PathComponent
-        onPress={() => onPressLine(id)}
         key={`normalLine${id}`}
         d={buildPathLine(line.points)}
-        strokeWidth={1}
-        stroke="#000"
+        strokeWidth={lineSelected === id && isMeasurements? 2:1}
+        stroke={lineSelected === id && isMeasurements ? "#DEA000":"#000"}
       />
       {
         isMeasurements && (
