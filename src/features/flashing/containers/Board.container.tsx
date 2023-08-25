@@ -24,7 +24,7 @@ const BoardContainer = () => {
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [stepsDrawing, setDrawing] = React.useState(0)
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
-const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
+  const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -67,8 +67,9 @@ const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
     if(lines.length === 0 || !lines[0].isLine){
       return Alert.show("Please draw a line", "")
     }
-    setDrawing(stepsDrawing + 1)
-    setModeBoard( 'sizes');
+    const newStep = stepsDrawing + 1
+    setDrawing(newStep)
+    setModeBoard( newStep ==1 ? 'side': 'measurements');
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
     const linesUpdated = lines.map((line, index) => {

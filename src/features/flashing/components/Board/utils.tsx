@@ -11,7 +11,7 @@ import { Path } from 'react-native-redash';
 export const drawLines = ({
   lines,
   onPressLine,
-  isDrawing = true,
+  mode = "draw",
   rightLinePaint = true,
 }: MAKE_LINE & {
   widthGraph: number;
@@ -28,7 +28,7 @@ export const drawLines = ({
       path:
         line.points.length === 2 ? (
           <LineMadeComponent
-            {...{ id: index, line, onPressLine, isDrawing, rightLinePaint, showAngle: angle }}
+            {...{ id: index, line, onPressLine, mode, rightLinePaint, showAngle: angle }}
           />
         ) : undefined,
     })

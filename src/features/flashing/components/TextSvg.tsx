@@ -7,13 +7,12 @@ type Props = {
   positionTextXRect : number;
   positionTextYRect : number;
   id: number;
-  onPress: (value: number) => void;
   textValue: string;
   fontSize?: number;
   colorLabel?: string;
 }
 
-const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX, positionTextY, textValue, onPress, id, positionTextXRect, positionTextYRect}) => {
+const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX, positionTextY, textValue,  id, positionTextXRect, positionTextYRect}) => {
   const [textWidth, setTextWidth] = React.useState(30);
 
   return (
@@ -32,7 +31,6 @@ const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX
         onLayout={event => {
           setTextWidth(event.nativeEvent.layout.width + 10);
         }}
-        onPress={() => onPress(id)}
         key={`backgroundSizeText${id}`}
         textAnchor="middle"
         fill={colorLabel}

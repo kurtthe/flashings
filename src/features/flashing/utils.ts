@@ -189,33 +189,15 @@ export const calculateParallelLines = (
   })
 };
 
-export const calculatePositionText = (
-  { pending, points }: LINE_TYPE,
-  offset: number = 0.5,
-  atPoint: boolean = false
+/**
+ * function to  calculate the point half between lines
+ * @param line
+ * this is the equation[(x1+x2)/2, (y1+y2)/2]
+ */
+export const calculatePointHalf = (
+  line: LINE_TYPE,
 ): POINT_TYPE => {
-  const isHorizontal = pending === 0;
-  const isVertical = 'Infinity' === `${pending}`;
-
-  const pointInit = points[0];
-  const pointFinal = points[1];
-
-  if(atPoint){
-    return [points[1][0] - offset * 25, points[1][1]]
-  }
-
-  if (isHorizontal) {
-    return [pointInit[0] + pointFinal[0] / 1.5, pointInit[1] - offset * 25];
-  }
-
-  if (isVertical) {
-    return [pointInit[0] - offset * 25, (pointInit[1] + pointFinal[1]) / 1.5];
-  }
-
-  return [
-    (pointInit[0] + pointFinal[0]) / 2 + offset * 25,
-    (pointInit[1] + pointFinal[1]) / 2 + offset * 25,
-  ];
+return line.points[0]
 };
 
 export const buildPathLine = (points: LINE_TYPE['points']) => {

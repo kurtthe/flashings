@@ -1,5 +1,6 @@
 import { Dimensions } from 'react-native';
 import { ReactElement } from 'react';
+import { MODES_BOARD } from "@features/flashing/components/Board/Board";
 
 export type COORDS_TYPE = {
   point: LINE_TYPE;
@@ -11,7 +12,7 @@ export type POINT_TYPE = [number, number];
 export type MAKE_LINE = {
   lines: LINE_TYPE[];
   onPressLine: (numberLine: number) => void;
-  isDrawing?: boolean;
+  mode: string;
   rightLinePaint?: boolean;
 };
 
@@ -19,7 +20,7 @@ export type BUILD_LINE = {
   id: number;
   line: LINE_TYPE;
   onPressLine: (numberLine: number) => void;
-  isDrawing?: boolean;
+  mode: MODES_BOARD;
   rightLinePaint?: boolean;
 };
 export const SIZE_POINTER = 4;

@@ -16,7 +16,7 @@ import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
 import { Path } from 'react-native-redash';
 
-export type MODES_BOARD = 'draw' | 'sizes';
+export type MODES_BOARD = 'draw' | 'measurements' | 'side';
 type Props = {
   lines: LINE_TYPE[];
   onAddPoint: (newPoint: POINT_TYPE) => void;
@@ -42,7 +42,6 @@ const Board: React.FC<Props> = ({
     LINE_SELECTED | undefined
   >();
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
-
   const isDrawing = mode === 'draw';
 
   React.useEffect(() => {
@@ -51,12 +50,12 @@ const Board: React.FC<Props> = ({
       onPressLine: onPressLine,
       widthGraph: width,
       heightGraph: height,
-      isDrawing,
+      mode,
       rightLinePaint,
     });
     setPathParallel(drawParallelLines(lines, rightLinePaint))
     setGraphs(makingLines);
-  }, [lines, isDrawing, rightLinePaint]);
+  }, [lines, mode, rightLinePaint]);
 
   const onPressLine = (numberLine: number) => {
     setPointSelected({
