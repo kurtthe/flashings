@@ -109,6 +109,7 @@ const BoardContainer = () => {
       <BoardComponent
         rightLinePaint={ blueLineIsRight}
         lines={lines}
+        changeMode={setModeBoard}
         onAddPoint={handleAddPoint}
         onUpdatePoint={handleUpdatePoint}
         mode={modeBoard}
