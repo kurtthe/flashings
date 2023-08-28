@@ -4,8 +4,6 @@ import {
   DREW_LINE_TYPE,
   heightScreen,
   LINE_SELECTED,
-  LINE_TYPE,
-  POINT_TYPE,
   widthScreen,
 } from './types';
 import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
@@ -16,8 +14,8 @@ import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
 import { Path } from 'react-native-redash';
 import SectionsButton from "@features/flashing/components/SectionsButton";
+import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
 
-export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish';
 type Props = {
   lines: LINE_TYPE[];
   onAddPoint: (newPoint: POINT_TYPE) => void;
