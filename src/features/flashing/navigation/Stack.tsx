@@ -4,7 +4,6 @@ import { Routes } from './routes';
 import {
   CreateFlashingScreen,
   GutterFlashingScreen,
-  DemoFlashingScreen,
 } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
@@ -37,19 +36,6 @@ const Stack = () => {
               leftIcon={<HeaderBackButton customPressEvent={() => null} />}
               rightIcon={<Icon as={CartIcon} />}
               title="Gutter Flashing"
-            />
-          ),
-        }}
-      />
-      <Screen
-        name={Routes.DEMO}
-        component={DemoFlashingScreen}
-        options={{
-          header: () => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title="demo event"
             />
           ),
         }}

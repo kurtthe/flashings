@@ -79,6 +79,9 @@ const Board: React.FC<Props> = ({
 
     setIndexLineSelected(newIndex >= lengthLine? lengthLine : indexLineSelected)
     onUpdatePoint({ ...pointSelected, sizeLine: newSize });
+    if(newIndex > lengthLine){
+      changeMode && changeMode('finish')
+    }
   };
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
@@ -108,8 +111,8 @@ const Board: React.FC<Props> = ({
     setIndexLineSelected(newIndex <= 0? 0 : newIndex)
   }
 
-  const handleOnSave = ()=>{}
-  const handleOnTape = ()=>{}
+  const handleOnSave = ()=> null
+  const handleOnTape = ()=> null
 
   return (
     <>
