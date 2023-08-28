@@ -20,6 +20,8 @@ type Props = {
   lines: LINE_TYPE[];
   onAddPoint: (newPoint: POINT_TYPE) => void;
   onUpdatePoint: (dataLine: LINE_SELECTED) => void;
+  onSave?: () => void;
+  onTape?: ()=> void
   width?: number;
   height?: number;
   changeMode?: (newMode:MODES_BOARD) => void;
@@ -36,6 +38,8 @@ const Board: React.FC<Props> = ({
   mode = 'draw',
   changeMode,
   rightLinePaint,
+  onSave,
+  onTape,
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
@@ -103,7 +107,6 @@ const Board: React.FC<Props> = ({
     if(newIndex > lengthLine){
       changeMode && changeMode('finish')
     }
-
   }
 
   const handleBackLineSelected = ()=>{
@@ -111,8 +114,14 @@ const Board: React.FC<Props> = ({
     setIndexLineSelected(newIndex <= 0? 0 : newIndex)
   }
 
-  const handleOnSave = ()=> null
-  const handleOnTape = ()=> null
+  const handleOnSave = ()=> {
+    console.log('on saved');
+    onSave && onSave()
+  }
+  const handleOnTape = ()=> {
+    console.log('on tape')
+    onTape && onTape()
+  }
 
   return (
     <>

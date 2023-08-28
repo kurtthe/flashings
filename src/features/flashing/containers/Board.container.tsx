@@ -2,11 +2,8 @@ import React from 'react';
 import {
   BoardComponent,
   LINE_SELECTED,
-  LINE_TYPE,
   MenuEditorComponent,
-  POINT_TYPE,
 } from '@features/flashing/components';
-import { MODES_BOARD } from '@features/flashing/components/Board/Board';
 import {
   calculatePending,
   calculateSizeLine,
@@ -19,8 +16,13 @@ import {
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS
 } from "@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type";
+import { FLASHINGS_DATA, LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
+import { useAppDispatch } from "@hooks/useStore";
+import { actions as flashingActions } from "@store/flashing/actions";
 
 const BoardContainer = () => {
+  const dispatch = useAppDispatch();
+
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [stepsDrawing, setDrawing] = React.useState(0)
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
@@ -103,6 +105,11 @@ const BoardContainer = () => {
     setBlueLineIsRight(sideBlueLine === 'right');
   }
 
+  const handleSave = ()=>{
+    dispatch(flashingActions.addFlashing({ data: lines as FLASHINGS_DATA[] }));
+  }
+  const handleTape = () =>{}
+
   return (
     <>
       <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
@@ -112,6 +119,8 @@ const BoardContainer = () => {
         changeMode={setModeBoard}
         onAddPoint={handleAddPoint}
         onUpdatePoint={handleUpdatePoint}
+        onSave={handleSave}
+        onTape={handleTape}
         mode={modeBoard}
       />
       <MenuEditorComponent

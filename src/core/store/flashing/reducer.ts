@@ -12,7 +12,7 @@ const INITIAL_STATE: FLASHING_STATE = {
 const flashingReducer = createReducer(INITIAL_STATE, builder => {
 	builder.addCase(actions.addFlashing, (state, action) => {
 		const {data}= action.payload;
-		state.flashings = [...state.flashings, data]
+		state.flashings = data
 	})
 })
 
