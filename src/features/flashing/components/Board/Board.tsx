@@ -62,6 +62,9 @@ const Board: React.FC<Props> = ({
   }, [lines, mode, rightLinePaint, indexLineSelected]);
 
   React.useEffect(()=>{
+    if(mode === "finish" ) {
+      modalBottomRef.current?.hide()
+    }
     if(mode !== 'measurements') return;
 
     setPointSelected({
@@ -101,7 +104,6 @@ const Board: React.FC<Props> = ({
 
     if(newIndex > lengthLine){
       changeMode && changeMode('finish')
-      modalBottomRef.current?.hide()
     }
 
   }

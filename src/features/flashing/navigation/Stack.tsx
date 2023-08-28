@@ -19,9 +19,9 @@ const Stack = () => {
         name={Routes.CREATE_FLASHING}
         component={CreateFlashingScreen}
         options={{
-          header: () => (
+          header: ({navigation}) => (
             <HeaderBox
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
               title="New Flashing"
             />
           ),
@@ -31,9 +31,9 @@ const Stack = () => {
         name={Routes.GUTTER_FLASHING}
         component={GutterFlashingScreen}
         options={{
-          header: () => (
+          header: ({navigation}) => (
             <HeaderBox
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
               rightIcon={<Icon as={CartIcon} />}
               title="Gutter Flashing"
             />
@@ -44,10 +44,10 @@ const Stack = () => {
         name={Routes.GUTTER_FLASHING_EXAMPLES}
         component={GutterFlashingExamples}
         options={{
-          header: () => (
+          header: ({navigation}) => (
             <HeaderBox
               mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
               title={'Gutter Flashing'}
             />
           ),
@@ -57,10 +57,10 @@ const Stack = () => {
         name={Routes.CREATE_RAINHEAD}
         component={CreateRainheadScreen}
         options={{
-          header: () => (
+          header: ({navigation}) => (
             <HeaderBox
               mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
               title={'New Rainhead'}
             />
           ),
