@@ -8,9 +8,9 @@ export type LINE_TYPE = {
 	letterLine?: string;
 };
 
-export type FLASHINGS_DATA = LINE_TYPE & {
+export type FLASHINGS_DATA =  {
 	name: string;
-	colourMaterial: string;
+	colourMaterial: number;
 	qty: number;
 	length: number;
 };

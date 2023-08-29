@@ -3,9 +3,10 @@ import { persistReducer } from 'redux-persist';
 import { JOB_STATE } from "@models";
 import { actions } from './actions';
 import { persistConfigFlashings } from "@store/config";
+import { dataJobs } from "@store/jobs/mocks";
 
 const INITIAL_STATE: JOB_STATE = {
-	jobs: []
+	jobs: dataJobs
 };
 
 const flashingReducer = createReducer(INITIAL_STATE, builder => {
