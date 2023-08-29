@@ -26,7 +26,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
   }
 
   return (
-    <Card flexDirection="row" alignItems="center" justifyContent="space-between" key={key}>
+    <Card flexDirection="row" alignItems="center" justifyContent="space-between" key={`card-gutter-${key}`}>
       <Box  width='40%'>
         <Text variant="bodyBold">{data.name}</Text>
         <Image
@@ -47,13 +47,14 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
           <Text variant="linkTextSmall">Edit</Text>
         </Box>
         <Box>
-          <Text variant="bodyRegular">Description</Text>
-            <Text variant="bodyRegular">
+          <Text variant="bodyLabelTextfield" fontWeight="bold" color="black" >Description</Text>
+            <Text variant="bodySmallRegular">
+              <Text variant="bodySmallRegular" style={{textTransform: 'capitalize'}}>{getMaterial(data.colourMaterial).id} </Text>
+              <Text variant="bodySmallRegular" style={{textTransform: 'capitalize'}}>{getMaterial(data.colourMaterial).textColor}</Text>,
               {getMaterial(data.colourMaterial).label}
             </Text>
-            <Text variant="bodySmallRegular">{data.length}</Text>
             <Box  flexDirection="row" alignItems="flex-start" justifyContent="flex-start">
-              <Text variant="bodySmallRegular">{data.qty}</Text>
+              <Text variant="bodySmallRegular">{data.length} x <Text variant="bodySmallRegular">{data.qty}</Text></Text>
               <Button variant="textSmall" onPress={() => onAddLength && onAddLength()}>
                 +ADD LENGTH
               </Button>
