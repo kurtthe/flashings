@@ -1,18 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
-import { FLASHING_STATE } from "@models";
+import { JOB_STATE } from "@models";
 import { actions } from './actions';
 import { persistConfigFlashings } from "@store/config";
 
-
-const INITIAL_STATE: FLASHING_STATE = {
-	flashings: []
+const INITIAL_STATE: JOB_STATE = {
+	jobs: []
 };
 
 const flashingReducer = createReducer(INITIAL_STATE, builder => {
-	builder.addCase(actions.addFlashing, (state, action) => {
-		const {data}= action.payload;
-		state.flashings = data
+	builder.addCase(actions.addJob, (state, action) => {
+		const {job}= action.payload;
+		state.jobs = [...state.jobs, job]
+	});
+	builder.addCase(actions.loadJobs, (state, action)=> {
+		state.jobs = action.payload.jobs
 	})
 })
 
