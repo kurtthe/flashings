@@ -180,6 +180,14 @@ const textVariants = {
     letterSpacing: 0.049, // 0.049 (fontSize 14) = 0.0035em
     fontSize: 12,
   },
+  typeJobActive: {
+    color:"mustard",
+    textDecorationLine:"underline",
+    textDecorationColor:"mustard"
+  },
+  typeJob: {
+    color:"textGray"
+  }
 };
 
 export default textVariants;

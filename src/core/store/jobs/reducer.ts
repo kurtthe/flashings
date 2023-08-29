@@ -3,10 +3,11 @@ import { persistReducer } from 'redux-persist';
 import { JOB_STATE } from "@models";
 import { actions } from './actions';
 import { persistConfigFlashings } from "@store/config";
-import { dataJobs } from "@store/jobs/mocks";
+import { dataJobs, jobsArchive } from "@store/jobs/mocks";
 
 const INITIAL_STATE: JOB_STATE = {
-	jobs: dataJobs
+	jobs: dataJobs,
+	jobsArchive: jobsArchive
 };
 
 const flashingReducer = createReducer(INITIAL_STATE, builder => {
@@ -16,6 +17,9 @@ const flashingReducer = createReducer(INITIAL_STATE, builder => {
 	});
 	builder.addCase(actions.loadJobs, (state, action)=> {
 		state.jobs = action.payload.jobs
+	});
+	builder.addCase(actions.loadJobsArchive, (state, action) =>{
+		state.jobsArchive = action.payload.jobs
 	})
 })
 
