@@ -19,7 +19,7 @@ const ScreenHeaderBox = ({
   rightIcon,
   style,
   title,
-  maxLength,
+  maxLength = 35,
   ...rest
 }: Props) => (
   <SafeAreaInsetsContext.Consumer>
@@ -37,7 +37,11 @@ const ScreenHeaderBox = ({
           {...rest}
           style={[style]}>
           {title && !leftIcon ? <Box px="m" /> : leftIcon}
-          {title && <Text numberOfLines={1} maxLength={maxLength} variant="subheadLargeBold">{title}</Text>}
+          {title && <Text numberOfLines={1}  variant="subheadLargeBold">
+            {(title.length < maxLength || !maxLength)
+                ? `${title}`
+                : `${title.substring(0, maxLength)}...`}
+          </Text>}
           {title && !rightIcon ? <Box px="m" /> : rightIcon}
         </Box>
       </SafeAreaView>

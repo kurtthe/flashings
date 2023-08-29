@@ -47,7 +47,6 @@ type RestyleTextProps = PositionProps<Theme> &
     useNativeDriver?: boolean;
     easing?: string;
     isBlurred?: boolean;
-    maxLength?: number;
   };
 
 export type TextProps = RestyleTextProps & {
@@ -87,16 +86,6 @@ const Text = forwardRef<TextProps, typeof RNText>(
       onPressOut?.(ev);
     };
 
-    const lengthText = ():string => {
-      if(!props.maxLength){
-        return `${props.children}`
-      }
-      if(props.children.length < props.maxLength){
-        return `${props.children}`
-      }
-      return `${props.children.substring(0, props.maxLength)}...`
-    }
-
     return (
       //@ts-ignore missing prop type
       <TextComponent
@@ -113,7 +102,6 @@ const Text = forwardRef<TextProps, typeof RNText>(
           default: handlePressOut,
         })}
         disabled={isDisabled}
-        children={lengthText()}
       />
     );
   },

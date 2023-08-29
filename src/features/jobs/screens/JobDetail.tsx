@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FlatList } from 'react-native';
 import { Box, Text, Button } from "@ui/components";
-import data from '@features/flashing/tempData/data.json';
 import { Routes } from '@features/flashing/navigation/routes';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -40,7 +39,7 @@ const JobDetailsScreen = () => {
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
             <CardGutterComponent
-              key={`${index}`}
+              key={`gutter-${index}`}
               onAddLength={() => setModalVisible(!modalVisible)}
               data={item}
             />
