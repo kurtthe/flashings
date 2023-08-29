@@ -8,11 +8,30 @@ export type LINE_TYPE = {
 	letterLine?: string;
 };
 
-export type FLASHINGS_DATA = LINE_TYPE;
+export type FLASHINGS_DATA = LINE_TYPE & {
+	name: string;
+	colourMaterial: string;
+	qty: number;
+	length: number;
+};
 
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish';
 
+type SIDES = {
+	acrossFront: number;
+	offWallDimensionsOverflow: number;
+	heightOverall: number;
+	offWallDimensionsShroud:number;
+	heightOverflowWall: number;
+}
 
-export type FLASHING_STATE = {
-	flashings: FLASHINGS_DATA[]
+export type RAIN_HEAD = SIDES & {
+	colourMaterial: string;
+	qty: number;
+}
+
+export type SUMB = SIDES &{
+	type: string;
+	colourMaterial: string;
+	qty: number;
 }

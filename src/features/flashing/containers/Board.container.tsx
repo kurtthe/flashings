@@ -18,7 +18,7 @@ import {
 } from "@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type";
 import { FLASHINGS_DATA, LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
 import { useAppDispatch } from "@hooks/useStore";
-import { actions as flashingActions } from "@store/flashing/actions";
+import { actions as flashingActions } from "@store/jobs/actions";
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();

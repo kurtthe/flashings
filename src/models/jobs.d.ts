@@ -1,3 +1,5 @@
+import { FLASHINGS_DATA, LINE_TYPE, RAIN_HEAD, SUMB } from "@models/flashings";
+
 export type JOB_DETAIL = {
   id: number;
   name: string;
@@ -10,7 +12,6 @@ export type JOB_GUTTER = {
   "id": number,
   "title": string,
   "job_flasing": JOB_FLASHING[],
-
 }
 
 type JOB_FLASHING = {
@@ -30,3 +31,23 @@ export type MATERIALS = {
   bgColor: string;
   textColor: string;
 };
+
+export type JOB_STATE = {
+  jobs: JOB_DATA[]
+}
+
+export type JOB_DATA= {
+  id: number;
+  name?: string;
+  number?: string;
+  address: string;
+  file_upload: string;
+  contact:{
+    name: string;
+    number: string;
+    email?:string
+  },
+  flashings: FLASHINGS_DATA[];
+  rain_heads: RAIN_HEAD[];
+  sumbs: SUMB[];
+}
