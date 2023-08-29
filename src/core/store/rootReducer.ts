@@ -2,11 +2,11 @@ import { combineReducers } from 'redux';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 import authReducer from './auth';
-import flashingReducer from './jobs'
+import jobsReducer from './jobs'
 
 const combinedRootReducer = combineReducers({
   auth: authReducer,
-  flashings: flashingReducer,
+  jobs: jobsReducer,
 });
 
 function rootReducer(state: any, action: PayloadAction) {
