@@ -41,7 +41,7 @@ export type JOB_DATA= {
   name?: string;
   number?: string;
   address: string;
-  file_upload: string;
+  file_upload?: string;
   contact:{
     name: string;
     number: string;

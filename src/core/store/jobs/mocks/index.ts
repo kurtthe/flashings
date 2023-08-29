@@ -1,26 +1,33 @@
-import { JOB_DETAIL, MATERIALS } from '@models';
+import { JOB_DATA, MATERIALS } from "@models";
 
-export const dataJobs: JOB_DETAIL[] = [
+export const dataJobs: JOB_DATA[] = [
   {
-    id: 1001,
+    id: 1,
     name: '6A Pine Cres Ringwood North',
+    number: '684',
     address: '6a Pine Cres, Ringwood North VIC, Australia',
-    job_number: '894',
-    client_name: 'Ross Jurey',
-  },
-  {
-    id: 1002,
-    job_number: '1391',
-    name: '20-22 hereford rd Mount Evelyn',
-    address: '20-22 Hereford Rd, Mount Evelyn VIC, Australia',
-    client_name: 'Barry  Biggin',
-  },
-  {
-    id: 1003,
-    job_number: '1392',
-    name: '46 Centre way, Croydon South.',
-    address: '46 Centre Way, Croydon South VIC, Australia',
-    client_name: 'Sharp & Howells',
+    file_upload: '',
+    contact:{
+      name: "Ross Jurey",
+      number: "0491570159",
+      email:"roos@gmail.com"
+    },
+    flashings: [
+      {
+        name: "Gutter Flashing",
+        colourMaterial: 1,
+        qty: 1,
+        length: 1500
+      },
+      {
+        name: "Gutter Flashing Tapered",
+        colourMaterial: 2,
+        qty: 4,
+        length: 2500
+      }
+    ],
+    rain_heads: [],
+    sumbs: []
   },
 ];
 

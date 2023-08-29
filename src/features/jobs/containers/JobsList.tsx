@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Button, Text } from '@ui/components';
 import { FlatList, StyleSheet } from 'react-native';
 import { Routes } from '@features/jobs/navigation/routes';
-import { dataJobs } from '@features/jobs/mocks';
+import { dataJobs } from 'src/core/store/jobs/mocks';
 import CardJobComponent from '@features/jobs/components/CardJob';
 import { useNavigation } from '@react-navigation/native';
 import { JobStackProps } from "@features/jobs/navigation/Stack.types";
