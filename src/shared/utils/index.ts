@@ -1,58 +1,8 @@
-import {forms} from '../constants';
-
-import type {InferType} from 'yup';
-export type HelpEmailUsFormValues = InferType<
-  typeof forms.helpEmailUsModal.schema
->;
-
-export type EmailComposerFormValues = {
-  subject: string;
-  message: string;
-};
-
-export type FAQType = {
-  id: number;
-  date: string;
-  title: {
-    rendered: string;
-  };
-  excerpt: {
-    rendered: string;
-  };
-  content: {
-    rendered: string;
-  };
-};
-
-export type KnowledgeType = {
-  id: number;
-  date: string;
-  slug: string;
-  status: string;
-  title: {
-    rendered: string;
-  };
-  excerpt: {
-    rendered: string;
-  };
-  content: {
-    rendered: string;
-  };
-  link: string;
-  yoast_head_json: {
-    title: string;
-    og_image: {
-      width: number;
-      height: number;
-      url: string;
-      size: string;
-      id: number;
-      alt: string;
-      pixels: string;
-      type: string;
-    }[];
-  };
-};
+export const getRandomInt = (min:number = 0, max: number = 100): number => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 export type KnowledgeDataState = {
   id: number;

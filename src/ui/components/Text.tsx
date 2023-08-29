@@ -18,7 +18,7 @@ import {
   TextProps as ShopifyRestyleTextProps,
   textRestyleFunctions,
 } from '@shopify/restyle';
-import {CustomFonts, useAppRestyle, useAppTheme} from '@theme';
+import {CustomFonts, useAppRestyle} from '@theme';
 
 import {useAsProp, useFontStyle} from '@ui/hooks';
 import {forwardRef} from '@ui/utils';
@@ -47,6 +47,7 @@ type RestyleTextProps = PositionProps<Theme> &
     useNativeDriver?: boolean;
     easing?: string;
     isBlurred?: boolean;
+    maxLength?: number;
   };
 
 export type TextProps = RestyleTextProps & {
@@ -71,6 +72,7 @@ const Text = forwardRef<TextProps, typeof RNText>(
       style: [textStyle],
       ...props
     } = useAppRestyle(restyleFunctions, { variant: '', ...rest, ..._light });
+    // @ts-ignore
     const fontStyle = useFontStyle(textStyle);
     const highlightedStyle = isHighlighted
       ? { backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 4 }
@@ -84,6 +86,16 @@ const Text = forwardRef<TextProps, typeof RNText>(
       setHighlighted(false);
       onPressOut?.(ev);
     };
+
+    const lengthText = ():string => {
+      if(!props.maxLength){
+        return `${props.children}`
+      }
+      if(props.children.length < props.maxLength){
+        return `${props.children}`
+      }
+      return `${props.children.substring(0, props.maxLength)}...`
+    }
 
     return (
       //@ts-ignore missing prop type
@@ -101,6 +113,7 @@ const Text = forwardRef<TextProps, typeof RNText>(
           default: handlePressOut,
         })}
         disabled={isDisabled}
+        children={lengthText()}
       />
     );
   },
