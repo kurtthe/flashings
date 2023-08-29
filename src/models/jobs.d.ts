@@ -26,7 +26,8 @@ export type MATERIALS = {
 };
 
 export type JOB_STATE = {
-  jobs: JOB_DATA[]
+  jobs: JOB_DATA[];
+  jobsArchive: JOB_DATA[];
 }
 
 export type JOB_DATA= {

@@ -1,10 +1,43 @@
 import { JOB_DATA, MATERIALS } from "@models";
 
+
+export const jobsArchive: JOB_DATA[] = [
+  {
+    id: 1,
+    name: ' Ringwood North',
+    number: '684',
+    address: '6a Pine Cres, Ringwood North VIC, Australia',
+    file_upload: '',
+    contact:{
+      name: "Ross Jurey",
+      number: "0491570159",
+      email:"roos@gmail.com"
+    },
+    flashings: [],
+    rain_heads: [],
+    sumbs: []
+  },
+  {
+    id: 2,
+    name: 'North Ringwood',
+    number: '896',
+    address: '6a Pine Cres, Ringwood North VIC, Australia',
+    file_upload: '',
+    contact:{
+      name: "Ross Jurey",
+      number: "0491570159",
+      email:"roos@gmail.com"
+    },
+    flashings: [],
+    rain_heads: [],
+    sumbs: []
+  },
+];
 export const dataJobs: JOB_DATA[] = [
   {
     id: 1,
     name: '6A Pine Cres Ringwood North',
-    number: '684',
+    number: '972',
     address: '6a Pine Cres, Ringwood North VIC, Australia',
     file_upload: '',
     contact:{
