@@ -1,19 +1,34 @@
 import React from 'react';
 import { Box, Button, Card, Text } from "@ui/components";
 import { Image,  StyleSheet} from "react-native";
-import { JOB_GUTTER } from "@models";
+import { FLASHINGS_DATA, MATERIALS } from "@models";
+import { dataMaterials } from "@store/jobs/mocks";
 
 type Props = {
-  data: JOB_GUTTER;
+  data: FLASHINGS_DATA;
   onAddLength?: () => void;
   key?: string;
 }
 const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
+  const getMaterial = (idMaterial: number): MATERIALS => {
+
+    const material = dataMaterials.find((item)=> item.id === idMaterial)
+    if(!material) {
+      return {
+        id: 1,
+        value: 'stone',
+        label: 'Stone',
+        bgColor: '#857f76',
+        textColor: 'white',
+      };
+    }
+    return material
+  }
 
   return (
     <Card flexDirection="row" alignItems="center" justifyContent="space-between" key={key}>
       <Box  width='40%'>
-        <Text variant="bodyBold">{data.title}</Text>
+        <Text variant="bodyBold">{data.name}</Text>
         <Image
           source={require('@assets/images/asset_temp.png')}
           style={styles.cardImage}
@@ -33,25 +48,16 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
         </Box>
         <Box>
           <Text variant="bodyRegular">Description</Text>
-          {data.job_flasing.map(dataFlashing => {
-            return (
-              <>
-                <Text variant="bodyRegular">
-                  {dataFlashing.description}
-                </Text>
-                <Text variant="bodySmallRegular">{dataFlashing.width}</Text>
-                <Box  flexDirection="row" alignItems="flex-start" justifyContent="flex-start">
-                  <Text variant="bodySmallRegular">{dataFlashing.high}</Text>
-                  {dataFlashing.canAddLength && (
-                    <Button variant="textSmall" onPress={() => onAddLength && onAddLength()}>
-                      +ADD LENGTH
-                    </Button>
-                  )}
-                </Box>
-                <Text variant="bodySmallRegular">{dataFlashing.depth}</Text>
-              </>
-            );
-          })}
+            <Text variant="bodyRegular">
+              {getMaterial(data.colourMaterial).label}
+            </Text>
+            <Text variant="bodySmallRegular">{data.length}</Text>
+            <Box  flexDirection="row" alignItems="flex-start" justifyContent="flex-start">
+              <Text variant="bodySmallRegular">{data.qty}</Text>
+              <Button variant="textSmall" onPress={() => onAddLength && onAddLength()}>
+                +ADD LENGTH
+              </Button>
+            </Box>
         </Box>
       </Box>
     </Card>

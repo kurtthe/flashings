@@ -6,9 +6,12 @@ import { dataJobs } from 'src/core/store/jobs/mocks';
 import CardJobComponent from '@features/jobs/components/CardJob';
 import { useNavigation } from '@react-navigation/native';
 import { JobStackProps } from "@features/jobs/navigation/Stack.types";
+import { useAppSelector } from "@hooks/useStore";
+import { jobsList } from "@store/jobs/selectors";
 
 const JobsListContainer = () => {
   const navigation = useNavigation<JobStackProps>();
+  const jobs = useAppSelector(jobsList);
 
   return (
     <Box flex={1} pt="m" backgroundColor="white">
@@ -19,7 +22,7 @@ const JobsListContainer = () => {
       <FlatList
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingVertical: 10}}
-        data={dataJobs}
+        data={jobs}
         keyExtractor={(item, index) => `${item.id}-${index}`}
         renderItem={({ item }) => <CardJobComponent job={item} />}
       />

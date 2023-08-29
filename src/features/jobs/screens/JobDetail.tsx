@@ -10,7 +10,6 @@ import {
 } from "@routes/PrivateNavigator";
 import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
 import CardGutterComponent from "@features/jobs/components";
-import { JOB_GUTTER } from "@models";
 
 
 const JobDetailsScreen = () => {
@@ -29,15 +28,15 @@ const JobDetailsScreen = () => {
       <Box p="m">
         <Box>
           <Text variant="subheadSmallBold" mb="s">Job Details</Text>
-          <Text variant="bodyBold">Site Name: <Text variant="bodyRegular">{item.client_name}</Text></Text>
+          <Text variant="bodyBold">Site Name: <Text variant="bodyRegular">{item.name}</Text></Text>
           <Text variant="bodyBold">Site Address: <Text variant="bodyRegular">{item.address}</Text> </Text>
-          <Text variant="bodyBold">Job # <Text variant="bodyRegular">{item.job_number}</Text></Text>
-          <Text variant="bodyBold">Contact Name: <Text variant="bodyRegular">{item.client_name}</Text></Text>
+          <Text variant="bodyBold">Job # <Text variant="bodyRegular">{item.number}</Text></Text>
+          <Text variant="bodyBold">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>
         </Box>
       </Box>
         <FlatList
           contentContainerStyle={{paddingVertical: 10}}
-          data={(data[0].custom_fields as any as JOB_GUTTER[])}
+          data={item.flashings}
           showsVerticalScrollIndicator={false}
           renderItem={({ item, index }) => (
             <CardGutterComponent
