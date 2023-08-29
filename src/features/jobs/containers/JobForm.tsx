@@ -4,12 +4,50 @@ import { forms } from '../constants';
 import { CreateFormValues } from '@features/jobs/containers/types';
 import CreateJobForm from '@features/jobs/components/CreateJobForm';
 import { Box } from '@ui/components';
+import { useAppDispatch } from "@hooks/useStore";
+import { actions } from '@store/jobs/actions';
+import { getRandomInt } from "@shared/utils";
+import { useNavigation } from "@react-navigation/native";
+import { JobStackProps } from "@features/jobs/navigation/Stack.types";
+import { Routes } from "@features/jobs/navigation/routes";
 
 const JobFormContainer = () => {
+  const navigation = useNavigation<JobStackProps>()
   const formikRef = React.useRef<FormikProps<CreateFormValues>>(null);
+  const dispatch = useAppDispatch();
+
+
 
   const handleSubmit = React.useCallback(
-    async (values: CreateFormValues) => {},
+    async (values: CreateFormValues) => {
+      const {
+        jobName,
+        jobNumber,
+        siteAddress,
+        fileUpload,
+        contactName,
+        contactNumber,
+        contactEmail} = values;
+
+      const dataJob = {
+        id: getRandomInt(),
+        name: jobName,
+        number: jobNumber,
+        address: siteAddress,
+        file_upload: fileUpload,
+        contact:{
+          name: contactName,
+          number: contactNumber,
+          email:contactEmail
+        },
+        flashings: [],
+        rain_heads: [],
+        sumbs: []
+      }
+
+      dispatch(actions.addJob({job:dataJob }))
+      navigation.navigate(Routes.JOB_DETAILS, {item: dataJob })
+    },
     [],
   );
 

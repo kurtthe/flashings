@@ -6,7 +6,7 @@ import { Box, Button, Divider, Text } from '@ui/components';
 
 const CreateJobFormComponent = () => {
   const formik = useFormikContext<CreateFormValues>();
-  const { errors, isValid, isSubmitting, handleSubmit } = formik;
+  const {  isValid,  handleSubmit } = formik;
 
   return (
     <>
@@ -16,7 +16,6 @@ const CreateJobFormComponent = () => {
           name="jobName"
           placeholder="Job Name"
           returnKeyType="next"
-          isDisabled={isSubmitting}
           label="Job Name"
           mt="m"
         />
@@ -24,7 +23,6 @@ const CreateJobFormComponent = () => {
           name="jobNumber"
           placeholder="Job Number"
           returnKeyType="next"
-          isDisabled={isSubmitting}
           label="Job Number"
           mt="m"
         />
@@ -32,7 +30,6 @@ const CreateJobFormComponent = () => {
           name="siteAddress"
           placeholder="Site Address"
           returnKeyType="next"
-          isDisabled={isSubmitting}
           label="Site Address"
           mt="m"
           isRequired
@@ -41,7 +38,6 @@ const CreateJobFormComponent = () => {
           name="fileUpload"
           placeholder="File Upload"
           returnKeyType="next"
-          isDisabled={isSubmitting}
           label="File upload"
           mt="m"
         />
@@ -52,7 +48,6 @@ const CreateJobFormComponent = () => {
         name="contactName"
         placeholder="Contact Name"
         returnKeyType="next"
-        isDisabled={isSubmitting}
         mt="m"
         label="Contact Name"
         isRequired
@@ -62,7 +57,6 @@ const CreateJobFormComponent = () => {
         name="contactNumber"
         placeholder="Contact Number"
         returnKeyType="next"
-        isDisabled={isSubmitting}
         label="Contact Number"
         mt="m"
       />
@@ -70,14 +64,13 @@ const CreateJobFormComponent = () => {
         name="contactEmail"
         placeholder="Contact Email"
         returnKeyType="next"
-        isDisabled={isSubmitting}
         label="Contact Email"
         keyboardType="email-address"
         textContentType="emailAddress"
         autoCompleteType="email"
         mt="m"
       />
-      <Button mt="l" mb="xl" onPress={() => {}}>
+      <Button mt="l" mb="xl" isDisabled={!isValid}  onPress={handleSubmit.bind(null, undefined)}>
         Create Job
       </Button>
     </>

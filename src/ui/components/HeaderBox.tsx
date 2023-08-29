@@ -11,6 +11,7 @@ type Props = BoxProps & {
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
   title?: string;
+  maxLength?:number
 };
 
 const ScreenHeaderBox = ({
@@ -18,6 +19,7 @@ const ScreenHeaderBox = ({
   rightIcon,
   style,
   title,
+  maxLength,
   ...rest
 }: Props) => (
   <SafeAreaInsetsContext.Consumer>
@@ -35,7 +37,7 @@ const ScreenHeaderBox = ({
           {...rest}
           style={[style]}>
           {title && !leftIcon ? <Box px="m" /> : leftIcon}
-          {title && <Text variant="subheadLargeBold">{title}</Text>}
+          {title && <Text numberOfLines={1} maxLength={maxLength} variant="subheadLargeBold">{title}</Text>}
           {title && !rightIcon ? <Box px="m" /> : rightIcon}
         </Box>
       </SafeAreaView>
