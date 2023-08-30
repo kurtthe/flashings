@@ -1,4 +1,5 @@
 import { JOB_DATA, MATERIALS } from "@models";
+import { getRandomInt } from "@shared/utils";
 
 
 export const jobsArchive: JOB_DATA[] = [
@@ -47,16 +48,22 @@ export const dataJobs: JOB_DATA[] = [
     },
     flashings: [
       {
+        id: getRandomInt(),
         name: "Gutter Flashing",
-        colourMaterial: 1,
+        colourMaterial: 2,
         qty: 1,
-        length: 1500
+        length: 1500,
+        dataLines:[],
+        parallelRight: true
       },
       {
+        id: getRandomInt(),
+        colourMaterial: 1,
+        qty: 1,
+        length: 1500,
+        dataLines:[],
+        parallelRight: true,
         name: "Gutter Flashing Tapered",
-        colourMaterial: 2,
-        qty: 4,
-        length: 2500
       }
     ],
     rain_heads: [],
