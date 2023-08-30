@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, Button, Card, Text } from "@ui/components";
-import { Image,  StyleSheet} from "react-native";
 import { FLASHINGS_DATA, MATERIALS } from "@models";
 import { dataMaterials } from "@store/jobs/mocks";
 import PreviewFlashing from "@features/flashing/components/PreviewFlashing";

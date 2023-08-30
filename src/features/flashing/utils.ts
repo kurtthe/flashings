@@ -6,12 +6,11 @@ import {
 import { scaleBand } from 'd3-scale';
 import {
   casesLineParallel,
-  LINE_TYPE,
-  POINT_TYPE,
 } from '@features/flashing/components';
 import { parse, round, serialize } from 'react-native-redash';
 import * as shape from 'd3-shape';
 import { isNaN } from "lodash";
+import { LINE_TYPE, POINT_TYPE } from "@models";
 
 type ScaleColumnType = {
   domainData: string[];
