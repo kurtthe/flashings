@@ -16,9 +16,10 @@ const JobDetailsScreen = () => {
   const route = useRoute<RouteProp<JobsStackParamsList, RoutesJobs.JOB_DETAILS>>();
   const [modalVisible, setModalVisible] = useState(false);
   const { item } = route.params;
-  const onPressFooter = (routeToGo: Routes) => {
+  const onPressFooter = (routeToGo: Routes, params= {}) => {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {
       screen: routeToGo,
+      params
     });
   };
 
@@ -50,7 +51,7 @@ const JobDetailsScreen = () => {
               <Button
                 variant="outlineWhite"
                 mt="l"
-                onPress={() => onPressFooter(Routes.CREATE_FLASHING)}>
+                onPress={() => onPressFooter(Routes.CREATE_FLASHING, {jobId: item.id})}>
                 + Add Flashing
               </Button>
               <Button
@@ -61,7 +62,7 @@ const JobDetailsScreen = () => {
               </Button>
               <Button
                 mt="s"
-                onPress={() => onPressFooter(Routes.GUTTER_FLASHING_EXAMPLES)}
+                onPress={() => null}
                 variant="outlineWhite">
                 + Add Sump
               </Button>

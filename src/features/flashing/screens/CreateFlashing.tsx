@@ -1,8 +1,8 @@
 import React from 'react';
 import { Box } from '@ui/components';
-import { Routes } from '../navigation/routes';
-import { useNavigation } from "@react-navigation/native";
-import { FlashingStackProps } from "@features/flashing/navigation/Stack.types";
+import { Routes as RoutesFlashing, Routes } from "../navigation/routes";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { FLASHINGParamsList, FlashingStackProps } from "@features/flashing/navigation/Stack.types";
 import {AddFlashingFormValues, forms} from "@features/flashing/constants";
 import {FormCreateFlashingComponent} from "@features/flashing/components";
 import { Formik,  FormikProps } from "formik";
@@ -10,7 +10,9 @@ import { Formik,  FormikProps } from "formik";
 
 const CreateFlashingScreen = () => {
   const navigation = useNavigation<FlashingStackProps>()
-    const formikRef = React.useRef<FormikProps<AddFlashingFormValues>>(null);
+  const route = useRoute<RouteProp<FLASHINGParamsList, RoutesFlashing.CREATE_FLASHING>>();
+
+  const formikRef = React.useRef<FormikProps<AddFlashingFormValues>>(null);
 
   const handleSubmit = React.useCallback(
     async (
@@ -24,7 +26,7 @@ const CreateFlashingScreen = () => {
           length: length ?? 0,
           colourMaterial: material ?? '',
           dataLines: []
-      }})
+        }, jobId: route.params.jobId})
     },
     [],
   );
@@ -33,15 +35,15 @@ const CreateFlashingScreen = () => {
     <Box
       backgroundColor='white'
       flex={1}>
-          <Formik
-              innerRef={formikRef}
-              initialValues={{
-                  ...forms.createFlashing.initialValues,
-              }}
-              validationSchema={forms.createFlashing.schema}
-              onSubmit={handleSubmit}>
-              <FormCreateFlashingComponent />
-          </Formik>
+      <Formik
+        innerRef={formikRef}
+        initialValues={{
+          ...forms.createFlashing.initialValues,
+        }}
+        validationSchema={forms.createFlashing.schema}
+        onSubmit={handleSubmit}>
+        <FormCreateFlashingComponent />
+      </Formik>
     </Box>
   );
 };

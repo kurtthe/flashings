@@ -25,7 +25,7 @@ import {FLASHINGParamsList} from "@features/flashing/navigation/Stack.types";
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
-  const route = useRoute<RouteProp<FLASHINGParamsList, RoutesFlashing.CREATE_FLASHING>>();
+  const route = useRoute<RouteProp<FLASHINGParamsList, RoutesFlashing.GUTTER_FLASHING>>();
 
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [stepsDrawing, setDrawing] = React.useState(0)
@@ -110,9 +110,11 @@ const BoardContainer = () => {
   }
 
   const handleSave = ()=>{
-    // dispatch(flashingActions.addFlashing({ flashing: lines, idJob: route.params.idJob  }));
+    const dataFlashing = route.params.data
+    const idJob = route.params?.jobId
+    dispatch(flashingActions.addFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines}}));
   }
-  const handleTape = () =>{}
+  const handleTape = () => {}
 
   return (
     <>

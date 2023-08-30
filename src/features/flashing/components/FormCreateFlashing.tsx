@@ -8,7 +8,6 @@ import { AddFlashingFormValues } from "@features/flashing/constants";
 
 const FormCreateFlashingComponent = ()=>{
   const formik = useFormikContext<AddFlashingFormValues>();
-
   const { handleSubmit } = formik;
   return (
     <>
