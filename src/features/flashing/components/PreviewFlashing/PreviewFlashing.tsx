@@ -14,13 +14,13 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataLines}) => {
 	const [pathLines, setPathLines ] = React.useState<Path | null>(null)
 
 	React.useEffect(() => {
-		const makingLines = buildLinesForPreview(dataLines);
+		const makingLines = buildLinesForPreview(dataLines, width, height);
 		setPathLines(makingLines)
 	}, [dataLines]);
 
 	return (
-		<Box mt="s" width={width} height={height} backgroundColor="primary">
-			<Svg width={width} height={height}>
+		<Box width={width} height={height} backgroundColor="primary" >
+			<Svg width={width - 5} height={height - 5} style={{backgroundColor: 'red'}}>
 				{pathLines && <PathComponent
 					d={serialize(pathLines)}
 					stroke={"#000"}
