@@ -115,12 +115,13 @@ const BoardContainer = () => {
   const handleSave = ()=>{
     const dataFlashing = route.params.data
     const idJob = route.params?.jobId
+
     dispatch(flashingActions.addFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines, parallelRight:blueLineIsRight }}));
 
     navigation.navigate(StackPrivateDefinitions.JOBS, {
       screen: RoutesJobs.JOB_DETAILS,
       params: {
-        jobId: idJob
+        jobId: idJob,
       }
     });
   }

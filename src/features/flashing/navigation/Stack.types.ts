@@ -9,6 +9,7 @@ export type FLASHINGParamsList = {
   [Routes.GUTTER_FLASHING]: {
     data: FLASHINGS_DATA,
     jobId: number,
+    jobName: string,
   };
   [Routes.DEMO]: undefined;
 };

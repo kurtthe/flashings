@@ -28,7 +28,11 @@ const JobDetailsScreen = () => {
   };
 
   if(!item){
-    return <ActivityIndicator/>;
+    return (
+      <Box flex={1} alignItems="center" justifyContent="center">
+        <ActivityIndicator/>
+      </Box>
+    );
   }
 
   return (
@@ -42,45 +46,44 @@ const JobDetailsScreen = () => {
           <Text variant="bodyBold">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>
         </Box>
       </Box>
-        <FlatList
-          contentContainerStyle={{paddingVertical: 10}}
-          data={item.flashings}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item, index }) => (
-            <CardGutterComponent
-              key={`gutter-${index}`}
-              onAddLength={() => setModalVisible(!modalVisible)}
-              data={item}
-            />
-          )}
-          keyExtractor={(flashing, index) => `card-flashing${flashing.id}-${index}`}
-          ListFooterComponent={
-            <Box mx="m" mb="xl" >
-              <Button
-                variant="outlineWhite"
-                mt="l"
-                onPress={() => onPressFooter(Routes.CREATE_FLASHING, {jobId: item.id})}>
-                + Add Flashing
-              </Button>
-              <Button
-                mt="s"
-                onPress={() => onPressFooter(Routes.CREATE_RAINHEAD)} //JUST TO TEST
-                variant="outlineWhite">
-                + Add Rainhead
-              </Button>
-              <Button
-                mt="s"
-                onPress={() => null}
-                variant="outlineWhite">
-                + Add Sump
-              </Button>
-              <Button mt="s" onPress={() => {}} variant="solid">
-                Preview
-              </Button>
-            </Box>
-          }
-        />
-
+      <FlatList
+        contentContainerStyle={{paddingVertical: 10}}
+        data={item.flashings}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item, index }) => (
+          <CardGutterComponent
+            key={`gutter-${index}`}
+            onAddLength={() => setModalVisible(!modalVisible)}
+            data={item}
+          />
+        )}
+        keyExtractor={(flashing, index) => `card-flashing${flashing.id}-${index}`}
+        ListFooterComponent={
+          <Box mx="m" mb="xl" >
+            <Button
+              variant="outlineWhite"
+              mt="l"
+              onPress={() => onPressFooter(Routes.CREATE_FLASHING, {jobId: item.id, jobName: item.name})}>
+              + Add Flashing
+            </Button>
+            <Button
+              mt="s"
+              onPress={() => onPressFooter(Routes.CREATE_RAINHEAD)} //JUST TO TEST
+              variant="outlineWhite">
+              + Add Rainhead
+            </Button>
+            <Button
+              mt="s"
+              onPress={() => null}
+              variant="outlineWhite">
+              + Add Sump
+            </Button>
+            <Button mt="s" onPress={() => {}} variant="solid">
+              Preview
+            </Button>
+          </Box>
+        }
+      />
     </Box>
   );
 };
