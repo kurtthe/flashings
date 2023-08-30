@@ -4,7 +4,7 @@ import { Routes } from "./routes";
 import { AllJobsScreen, JobDetailsScreen, CreateJobScreen } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { Logout, SearchIcon } from '@assets/icons';
-import IconButton from '../../../ui/components/IconButton';
+import IconButton from '@ui/components/IconButton';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as authActions } from '@store/auth/actions';
 import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
@@ -46,7 +46,7 @@ const Stack = () => {
             <HeaderBox
               maxLength={14}
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
-              title={route.params?.jobName ?? ''}
+              title={route.params ? route.params.jobName: ''}
             />
           ),
         }}
