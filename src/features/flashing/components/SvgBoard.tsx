@@ -22,7 +22,6 @@ const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel}) => {
   return (
     <Svg width={widthScreen} height="100%">
       <GridComponent />
-
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
         <React.Fragment key={`${Math.random()}`}>
           {pathParallel && <PathComponent
@@ -52,7 +51,6 @@ const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel}) => {
               stroke={colorBorderPointer}
             />
           )}
-
         </React.Fragment>
       ))}
     </Svg>

@@ -9,10 +9,11 @@ export type LINE_TYPE = {
 };
 
 export type FLASHINGS_DATA =  {
-	name: string;
-	colourMaterial: number;
+	colourMaterial: string;
 	qty: number;
 	length: number;
+	name?: string;
+	dataLines?: LINE_TYPE[]
 };
 
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish';

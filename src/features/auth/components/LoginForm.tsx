@@ -26,7 +26,7 @@ const LoginFormComponent = () => {
     passwordInputRef.current?.focus();
   }, []);
 
-  const errorMessage = errors.submit || '';
+  const errorMessage = errors.submit ?? '';
 
   return (
     <>
