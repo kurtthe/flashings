@@ -5,11 +5,12 @@ import {FLASHINGS_DATA} from "@models";
 export type FLASHINGParamsList = {
   [Routes.CREATE_FLASHING]: {
     jobId: number,
+    jobName: string,
   };
   [Routes.GUTTER_FLASHING]: {
     data: FLASHINGS_DATA,
     jobId: number,
-    jobName: string,
+    jobName: string
   };
   [Routes.DEMO]: undefined;
 };
