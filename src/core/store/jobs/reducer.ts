@@ -24,13 +24,13 @@ const flashingReducer = createReducer(INITIAL_STATE, builder => {
     builder.addCase(actions.addFlashing, (state, action)=>{
 
     const jobId = action.payload.idJob
-    const dataFlashing =  action.payload.flashing
+    const dataFlashings =  action.payload.flashing
 
     state.jobs = state.jobs.map((job)=> {
         if(job.id === jobId){
             return {
                 ...job,
-                flashings: [...job.flashings, dataFlashing]
+                flashings: [...job.flashings, dataFlashings]
             }
         }
         return job

@@ -16,12 +16,16 @@ import {
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS
 } from "@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type";
-import { FLASHINGS_DATA, LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
+import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
 import { useAppDispatch } from "@hooks/useStore";
 import { actions as flashingActions } from "@store/jobs/actions";
+import {RouteProp, useRoute} from "@react-navigation/native";
+import {Routes as RoutesFlashing} from "@features/flashing/navigation/routes";
+import {FLASHINGParamsList} from "@features/flashing/navigation/Stack.types";
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
+  const route = useRoute<RouteProp<FLASHINGParamsList, RoutesFlashing.CREATE_FLASHING>>();
 
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [stepsDrawing, setDrawing] = React.useState(0)
@@ -106,7 +110,7 @@ const BoardContainer = () => {
   }
 
   const handleSave = ()=>{
-    dispatch(flashingActions.addFlashing({ data: lines as FLASHINGS_DATA[] }));
+    // dispatch(flashingActions.addFlashing({ flashing: lines, idJob: route.params.idJob  }));
   }
   const handleTape = () =>{}
 
