@@ -16,13 +16,13 @@ type Props = Omit<SelectInputProps, 'onChange'> &
 };
 const isAndroid = Platform.OS === 'android';
 const FieldSelect = ({ options, name, onChange, onBlur, label, ...rest }: Props) => {
-  const [field, meta, helpers] = useField<string>(name);
+  const [field, meta, helpers] = useField<number>(name);
   const isInvalid = Boolean(meta.touched && meta.error);
 
   const handleChange = React.useCallback(
     (item: OptionsType) => {
       helpers.setValue(item.value);
-      onChange?.(item.value, field.value);
+      onChange && onChange(item.value, field.value);
     },
     [helpers, onChange],
   );

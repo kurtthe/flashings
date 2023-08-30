@@ -9,6 +9,7 @@ import { AddFlashingFormValues } from "@features/flashing/constants";
 const FormCreateFlashingComponent = ()=>{
   const formik = useFormikContext<AddFlashingFormValues>();
   const { handleSubmit } = formik;
+
   return (
       <Box px="m" flex={1} >
         <Box my="m" flex={0.8}>

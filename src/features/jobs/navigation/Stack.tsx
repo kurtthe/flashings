@@ -46,7 +46,7 @@ const Stack = () => {
             <HeaderBox
               maxLength={14}
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
-              title={route.params ? route.params.item?.name: ''}
+              title={route.params?.jobName ?? ''}
             />
           ),
         }}

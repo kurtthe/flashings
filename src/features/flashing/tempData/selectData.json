@@ -1,56 +1,48 @@
 [
   {
-    "id":1,
-    "value":"stone",
+    "value":1,
     "label":"Stone",
     "bgColor":"#857f76",
     "textColor":"white"
   },
   {
-    "id":2,
-    "value":"galvanised",
+    "value":2,
     "label":"Galvanised",
     "bgColor":"#a7aaaf",
     "textColor":"black"
   },
   {
-    "id":3,
-    "value":"zinc",
+    "value":3,
     "label":"Zinc",
     "bgColor":"#b7b5b5",
     "textColor":"black"
   },
   {
-    "id":4,
-    "value":"basalt",
+    "value":4,
     "label":"Basalt",
     "bgColor":"#6e6c70",
     "textColor":"white"
   },
   {
-    "id":5,
-    "value":"cream",
+    "value":5,
     "label":"Cream",
     "bgColor":"#e8dec0",
     "textColor":"#8F94AE"
   },
   {
-    "id":6,
-    "value":"cottage_green",
+    "value":6,
     "label":"Cottage Green",
     "bgColor":"#3b4c40",
     "textColor":"white"
   },
   {
-    "id":7,
-    "value":"deep_ocean",
+    "value": 7,
     "label":"Deep Ocean",
     "bgColor":"#3b4252",
     "textColor":"white"
   },
   {
-    "id":8,
-    "value":"manor_red",
+    "value": 8,
     "label":"Manor Red",
     "bgColor":"#532317",
     "textColor":"white"
