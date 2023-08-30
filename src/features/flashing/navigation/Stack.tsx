@@ -7,7 +7,6 @@ import {
 } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
-import GutterFlashingExamples from '../screens/GutterFlashingExamples';
 import CreateRainheadScreen from '../screens/CreateRainhead';
 
 const Stack = () => {
@@ -36,19 +35,6 @@ const Stack = () => {
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
               rightIcon={<Icon as={CartIcon} />}
               title="Gutter Flashing"
-            />
-          ),
-        }}
-      />
-      <Screen
-        name={Routes.GUTTER_FLASHING_EXAMPLES}
-        component={GutterFlashingExamples}
-        options={{
-          header: ({navigation}) => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
-              title={'Gutter Flashing'}
             />
           ),
         }}
