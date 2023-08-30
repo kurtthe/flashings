@@ -29,7 +29,7 @@ const CreateFlashingScreen = () => {
           colourMaterial: material ?? 1,
           dataLines: [],
           parallelRight: true
-        }, jobId: route.params.jobId})
+        }, jobId: route.params.jobId, jobName: route.params.jobName})
     },
     [],
   );

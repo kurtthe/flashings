@@ -24,11 +24,10 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
     }
     return material
   }
-
   return (
     <Card flexDirection="row" alignItems="center" justifyContent="space-between" key={`card-gutter-${key}`}>
       <Box  width='40%'>
-        <Text variant="bodyBold">{data.name}</Text>
+        <Text variant="bodyBold">{data.name !== '' ? data.name: 'Flashing'}</Text>
         <PreviewFlashing width={120} height={89} dataLines={data.dataLines} />
       </Box>
       <Box width='50%'>

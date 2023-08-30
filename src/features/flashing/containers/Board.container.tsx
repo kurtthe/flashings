@@ -114,6 +114,7 @@ const BoardContainer = () => {
   const handleSave = ()=>{
     const dataFlashing = route.params.data
     const idJob = route.params?.jobId
+    const jobName = route.params?.jobName
 
     dispatch(flashingActions.addFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines, parallelRight:blueLineIsRight }}));
 
@@ -121,6 +122,7 @@ const BoardContainer = () => {
       screen: RoutesJobs.JOB_DETAILS,
       params: {
         jobId: idJob,
+        jobName
       }
     });
   }
