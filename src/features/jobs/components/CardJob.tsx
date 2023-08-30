@@ -31,7 +31,7 @@ const CardJobComponent: React.FC<Props> = ({ job }) => {
         <Button
           variant="small"
           onPress={() =>
-            navigation.navigate(Routes.JOB_DETAILS, { item: job })
+            navigation.navigate(Routes.JOB_DETAILS, { jobId: job.id })
           }>
           View Job
         </Button>

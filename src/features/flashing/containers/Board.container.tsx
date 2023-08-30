@@ -19,12 +19,15 @@ import {
 import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
 import { useAppDispatch } from "@hooks/useStore";
 import { actions as flashingActions } from "@store/jobs/actions";
-import {RouteProp, useRoute} from "@react-navigation/native";
-import {Routes as RoutesFlashing} from "@features/flashing/navigation/routes";
-import {FLASHINGParamsList} from "@features/flashing/navigation/Stack.types";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {Routes as RoutesJobs } from "@features/jobs/navigation/routes";
+import {Routes as RoutesFlashing } from "@features/flashing/navigation/routes";
+import { FLASHINGParamsList } from "@features/flashing/navigation/Stack.types";
+import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
+  const navigation  = useNavigation<StackPrivateProps>()
   const route = useRoute<RouteProp<FLASHINGParamsList, RoutesFlashing.GUTTER_FLASHING>>();
 
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
@@ -112,7 +115,14 @@ const BoardContainer = () => {
   const handleSave = ()=>{
     const dataFlashing = route.params.data
     const idJob = route.params?.jobId
-    dispatch(flashingActions.addFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines}}));
+    dispatch(flashingActions.addFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines, parallelRight:blueLineIsRight }}));
+
+    navigation.navigate(StackPrivateDefinitions.JOBS, {
+      screen: RoutesJobs.JOB_DETAILS,
+      params: {
+        idJob: idJob
+      }
+    });
   }
   const handleTape = () => {}
 
