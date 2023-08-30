@@ -46,7 +46,7 @@ const JobFormContainer = () => {
       }
 
       dispatch(actions.addJob({job:dataJob }))
-      navigation.navigate(Routes.JOB_DETAILS, {jobId: dataJob.id })
+      navigation.navigate(Routes.JOB_DETAILS, {jobId: dataJob.id, jobName: dataJob.name  })
     },
     [],
   );

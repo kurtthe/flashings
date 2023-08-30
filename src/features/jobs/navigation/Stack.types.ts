@@ -6,6 +6,7 @@ export type JobsStackParamsList = {
   [Routes.ALL_JOBS]: undefined;
   [Routes.JOB_DETAILS]: {
     jobId: number;
+    jobName?: string;
   };
 };
 

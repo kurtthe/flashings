@@ -38,7 +38,7 @@ const defaultProps = {
 };
 
 export type OptionsType = {
-  value: string;
+  value: number;
   label: string;
   bgColor?: string;
   textColor?: string;
