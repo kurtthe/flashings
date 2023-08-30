@@ -10,57 +10,55 @@ const FormCreateFlashingComponent = ()=>{
   const formik = useFormikContext<AddFlashingFormValues>();
   const { handleSubmit } = formik;
   return (
-    <>
-      <Box p="m" justifyContent="space-between" flex={1}>
-        <FieldInput
-          name="Name"
-          placeholder="Name"
-          returnKeyType="next"
-          label="Name"
-          my="l"
-        />
-
-        <FieldSelect
-          label="Colour/Material"
-          name="material"
-          placeholder="Select material"
-          options={selectData}
-          my="l"
-        />
-
-        <Box flexDirection="row" justifyContent="space-between" my="l" >
+      <Box px="m" flex={1} >
+        <Box my="m" flex={0.8}>
           <FieldInput
-            name="qty"
-            placeholder="qty"
-            label="Qty"
-            style={{width: 150}}
-            keyboardType="numeric"
+            name="Name"
+            placeholder="Name"
+            returnKeyType="next"
+            label="Name"
+            my="l"
           />
-          <FieldInput
-            name="length"
-            placeholder="length"
-            label="Length"
-            style={{width: 150}}
-            suffix="mm"
-            keyboardType="numeric"
+
+          <FieldSelect
+            label="Colour/Material"
+            name="material"
+            placeholder="Select material"
+            options={selectData}
+            my="l"
           />
+
+          <Box flexDirection="row" justifyContent="space-between" my="l" >
+            <FieldInput
+              name="qty"
+              placeholder="qty"
+              label="Qty"
+              style={{width: 150}}
+              keyboardType="numeric"
+            />
+            <FieldInput
+              name="length"
+              placeholder="length"
+              label="Length"
+              style={{width: 150}}
+              suffix="mm"
+              keyboardType="numeric"
+            />
+          </Box>
+
+          <Button
+            variant="outlineWhite"
+            mt="2xl">
+            + Add Length
+          </Button>
         </Box>
 
         <Button
-          variant="outlineWhite"
-          mt="2xl">
-          + Add Length
+          onPress={handleSubmit.bind(null, undefined)}>
+          Start Drawing
         </Button>
       </Box>
-
-      <Button
-        onPress={() => handleSubmit.bind(null, undefined)}>
-        Start Drawing
-      </Button>
-
-    </>
   )
-
 }
 
 export default FormCreateFlashingComponent

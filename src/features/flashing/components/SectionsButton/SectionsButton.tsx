@@ -13,12 +13,12 @@ const SectionsButton: React.FC<Props> = ({ onSave, onSetTape }) => {
         <Button
           my="m"
           variant="outlineWhite"
-          onPress={onSave}>
+          onPress={onSetTape}>
           Set as Tapered Flashing
         </Button>
         <Button
           my="m"
-          onPress={onSetTape}>
+          onPress={onSave}>
           Save Flashing
         </Button>
       </Card>

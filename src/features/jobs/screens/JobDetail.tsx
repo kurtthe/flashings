@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FlatList } from 'react-native';
+import { ActivityIndicator, FlatList } from "react-native";
 import { Box, Text, Button } from "@ui/components";
 import { Routes } from '@features/flashing/navigation/routes';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
@@ -9,19 +9,29 @@ import {
 } from "@routes/PrivateNavigator";
 import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
 import CardGutterComponent from "@features/jobs/components";
+import { useAppSelector } from "@hooks/useStore";
+import { jobData } from "@store/jobs/selectors";
 
 
 const JobDetailsScreen = () => {
   const navigation = useNavigation<StackPrivateProps>();
   const route = useRoute<RouteProp<JobsStackParamsList, RoutesJobs.JOB_DETAILS>>();
   const [modalVisible, setModalVisible] = useState(false);
-  const { item } = route.params;
+  const { jobId } = route.params;
+  const item = useAppSelector((state) => jobData(state, jobId));
+
+
+
   const onPressFooter = (routeToGo: Routes, params= {}) => {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {
       screen: routeToGo,
       params
     });
   };
+
+  if(!item){
+    return <ActivityIndicator/>;
+  }
 
   return (
     <Box flex={1} backgroundColor="white">

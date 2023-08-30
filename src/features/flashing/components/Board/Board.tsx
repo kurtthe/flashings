@@ -15,6 +15,7 @@ import { drawLines, drawParallelLines } from "@features/flashing/components/Boar
 import { Path } from 'react-native-redash';
 import SectionsButton from "@features/flashing/components/SectionsButton";
 import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
+import { isNaN } from "lodash";
 
 type Props = {
   lines: LINE_TYPE[];
@@ -77,16 +78,16 @@ const Board: React.FC<Props> = ({
   }, [mode, indexLineSelected])
 
   const handleDoneSize = (newSize: number) => {
-    if (!pointSelected) return;
-
+    if (!pointSelected ) return;
     const newIndex = indexLineSelected + 1
     const lengthLine = lines.length - 1
-
     setIndexLineSelected(newIndex >= lengthLine? lengthLine : indexLineSelected)
-    onUpdatePoint({ ...pointSelected, sizeLine: newSize });
     if(newIndex > lengthLine){
       changeMode && changeMode('finish')
     }
+
+    if(isNaN(newSize)) return
+    onUpdatePoint({ ...pointSelected, sizeLine: newSize });
   };
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
@@ -119,7 +120,6 @@ const Board: React.FC<Props> = ({
     onSave && onSave()
   }
   const handleOnTape = ()=> {
-    console.log('on tape')
     onTape && onTape()
   }
 

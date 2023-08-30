@@ -13,7 +13,8 @@ export type FLASHINGS_DATA =  {
 	qty: number;
 	length: number;
 	name?: string;
-	dataLines: LINE_TYPE[]
+	dataLines: LINE_TYPE[],
+	parallelRight: boolean;
 };
 
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish';
