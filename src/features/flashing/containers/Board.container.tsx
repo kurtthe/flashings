@@ -42,7 +42,6 @@ const BoardContainer = () => {
         distance: 0,
         isLine: false,
       };
-
       return setLines([dataLine]);
     }
 

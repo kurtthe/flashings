@@ -3,6 +3,7 @@ import { Box, Button, Card, Text } from "@ui/components";
 import { Image,  StyleSheet} from "react-native";
 import { FLASHINGS_DATA, MATERIALS } from "@models";
 import { dataMaterials } from "@store/jobs/mocks";
+import PreviewFlashing from "@features/flashing/components/PreviewFlashing";
 
 type Props = {
   data: FLASHINGS_DATA;
@@ -29,10 +30,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
     <Card flexDirection="row" alignItems="center" justifyContent="space-between" key={`card-gutter-${key}`}>
       <Box  width='40%'>
         <Text variant="bodyBold">{data.name}</Text>
-        <Image
-          source={require('@assets/images/asset_temp.png')}
-          style={styles.cardImage}
-        />
+        <PreviewFlashing width={120} height={89} dataLines={data.dataLines} />
       </Box>
       <Box width='50%'>
         <Box
@@ -64,14 +62,5 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
     </Card>
   )
 }
-
-const styles = StyleSheet.create({
-  cardImage: {
-    width: 120,
-    height: 89,
-    marginTop: 10,
-  },
-});
-
 
 export default  CardGutterComponent
