@@ -120,7 +120,7 @@ const BoardContainer = () => {
     navigation.navigate(StackPrivateDefinitions.JOBS, {
       screen: RoutesJobs.JOB_DETAILS,
       params: {
-        idJob: idJob
+        jobId: idJob
       }
     });
   }

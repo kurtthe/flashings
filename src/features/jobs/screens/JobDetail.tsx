@@ -20,7 +20,8 @@ const JobDetailsScreen = () => {
   const { jobId } = route.params;
   const item = useAppSelector((state) => jobData(state, jobId));
 
-
+  console.log("jobId::",jobId);
+  console.log("item::", item)
 
   const onPressFooter = (routeToGo: Routes, params= {}) => {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {

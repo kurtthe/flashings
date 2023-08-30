@@ -8,4 +8,4 @@ export const jobsList = createSelector(jobsSelector,
 
 export const jobData = createSelector(jobsSelector,
 	(_:any, idJob: number) => idJob,
-	(state, idJob) =>  state.jobs.find((job)=> job.id === idJob));
+	(state, idJob) => state.jobs.find((job)=> job.id === idJob));
