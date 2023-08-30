@@ -5,13 +5,13 @@ export const forms = {
   createFlashing: {
     initialValues: {
       name: '',
-      material: '',
+      material: 1,
       qty: 0,
       length: 0
     },
     schema: Yup.object({
       name: Yup.string(),
-      material: Yup.string(),
+      material: Yup.number(),
       qty: Yup.number().typeError('Qty must be a number'),
       length: Yup.number().typeError('Length must be a number')
     }),

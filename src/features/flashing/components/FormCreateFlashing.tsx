@@ -13,7 +13,7 @@ const FormCreateFlashingComponent = ()=>{
       <Box px="m" flex={1} >
         <Box my="m" flex={0.8}>
           <FieldInput
-            name="Name"
+            name="name"
             placeholder="Name"
             returnKeyType="next"
             label="Name"
