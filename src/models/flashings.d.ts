@@ -9,7 +9,8 @@ export type LINE_TYPE = {
 };
 
 export type FLASHINGS_DATA =  {
-	colourMaterial: string;
+	id: number;
+	colourMaterial: number;
 	qty: number;
 	length: number;
 	name?: string;

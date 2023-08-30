@@ -56,7 +56,7 @@ const JobDetailsScreen = () => {
               data={item}
             />
           )}
-          keyExtractor={(_, index) => `card-gutter${Math.random()}-${index}`}
+          keyExtractor={(flashing, index) => `card-flashing${flashing.id}-${index}`}
           ListFooterComponent={
             <Box mx="m" mb="xl" >
               <Button

@@ -6,6 +6,7 @@ import { FLASHINGParamsList, FlashingStackProps } from "@features/flashing/navig
 import {AddFlashingFormValues, forms} from "@features/flashing/constants";
 import {FormCreateFlashingComponent} from "@features/flashing/components";
 import { Formik,  FormikProps } from "formik";
+import { getRandomInt } from "@shared/utils";
 
 
 const CreateFlashingScreen = () => {
@@ -21,6 +22,7 @@ const CreateFlashingScreen = () => {
       const { name, qty, material, length } = values;
       navigation.navigate(Routes.GUTTER_FLASHING, {
         data: {
+          id: getRandomInt(),
           name,
           qty: qty ?? 0,
           length: length ?? 0,
