@@ -19,8 +19,8 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataLines}) => {
 	}, [dataLines]);
 
 	return (
-		<Box width={width} height={height} backgroundColor="primary" >
-			<Svg width={width - 5} height={height - 5} style={{backgroundColor: 'red'}}>
+		<Box width={width} height={height} mt="xs" >
+			<Svg width={width} height={height} >
 				{pathLines && <PathComponent
 					d={serialize(pathLines)}
 					stroke={"#000"}
