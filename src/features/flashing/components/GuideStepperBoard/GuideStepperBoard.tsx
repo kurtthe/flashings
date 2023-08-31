@@ -39,12 +39,12 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step,onChangeOp
 	return (
 		<Box style={styles.container} width="100%" p="m">
 			<Card variant="guide" p="s">
-				<Text variant="bodyBold" textAlign="center">{title}</Text>
+					<Text variant="bodyBold" textAlign="center">{title}</Text>
 				{description && <Text variant="bodyRegular" textAlign="center">{description}</Text>}
 			</Card>
 			{
 				action && (
-					<Card my="s" p="xs" position="absolute" bottom="4%">
+					<Card my="s" p="xs">
 						<Box>
 							{action.title && (
 								<>
@@ -75,12 +75,12 @@ const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
 		backgroundColor: 'transparent',
-		height: '90%',
-		top: 10,
+		top: 30,
+		left: 0,
 		zIndex: 1,
 
 		alignItems: 'center',
-		justifyContent: 'flex-start',
+		justifyContent: 'center',
 	},
 
 });
