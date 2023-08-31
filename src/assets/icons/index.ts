@@ -12,3 +12,6 @@ export { default as EyeOffIcon } from './eye-off.svg';
 export { default as EyeIcon } from './eye.svg';
 export { default as Logout } from './logout.svg';
 export { default as DeleteIcon } from './delete.svg';
+export { default as NextArrowIcon } from './nextArrow.svg';
+export { default as BackArrowIcon } from './backArrow.svg';
+
