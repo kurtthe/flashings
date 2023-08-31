@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, Card, Divider, Text } from "@ui/components";
-import { StyleSheet } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import {
 	GUIDE_STEP,
 	guideSteps, TYPE_ACTIONS_STEP,
@@ -12,6 +12,8 @@ type Props = {
 	onFinish: ()=>void;
 	onChangeOption?: (newValue: VALUE_ACTIONS)=> void;
 }
+
+const heightScreen = Dimensions.get("screen").height
 const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step,onChangeOption }) => {
 	const [{ action, description, title }, setDataStep] = React.useState<GUIDE_STEP>(guideSteps[step])
 	const [optionSelected, setOptionSelected] = React.useState<VALUE_ACTIONS>({
@@ -44,26 +46,29 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step,onChangeOp
 			</Card>
 			{
 				action && (
-					<Card my="s" p="xs">
-						<Box>
-							{action.title && (
-								<>
-									<Text textAlign="center">{action.title}</Text>
-									<Divider my="s" />
-								</>
-							)}
-							<Box flexDirection="row" justifyContent="space-around">
-								{action.options.map((option, index) => ( <Button
-									key={`button-option-action-${index}`}
-									m="xs"
-									variant={isOptionSelected(action.key, option.toLowerCase()) ? 'smallMenuActive' : 'smallMenu'}
-									onPress={() => handleChangeOptionAction(action.key, option.toLowerCase())}
-									backgroundColor={isOptionSelected(action.key, option.toLowerCase())  ? 'primaryBlue' : 'white'}>
-									{option}
-								</Button>))}
+					<Box top={heightScreen - 370}>
+						<Card my="s" p="xs">
+							<Box>
+								{action.title && (
+									<>
+										<Text textAlign="center">{action.title}</Text>
+										<Divider my="s" />
+									</>
+								)}
+								<Box flexDirection="row" justifyContent="space-around">
+									{action.options.map((option, index) => ( <Button
+										key={`button-option-action-${index}`}
+										m="xs"
+										variant={isOptionSelected(action.key, option.toLowerCase()) ? 'smallMenuActive' : 'smallMenu'}
+										onPress={() => handleChangeOptionAction(action.key, option.toLowerCase())}
+										backgroundColor={isOptionSelected(action.key, option.toLowerCase())  ? 'primaryBlue' : 'white'}>
+										{option}
+									</Button>))}
+								</Box>
 							</Box>
-						</Box>
-					</Card>
+						</Card>
+					</Box>
+
 				)
 			}
 		</Box>
