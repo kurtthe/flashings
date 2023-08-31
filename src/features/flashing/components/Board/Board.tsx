@@ -135,7 +135,7 @@ const Board: React.FC<Props> = ({
         backdropClosesSheet={false}
         draggable={false}
         ref={modalBottomRef}
-        height={300}
+        height={350}
         borderRadius={0}>
         <MeasurementLines onNext={handleNextLineSelected} onPrevious={handleBackLineSelected} dataLine={pointSelected} onDone={handleDoneSize} />
       </ModalBottom>
