@@ -73,23 +73,25 @@ const buttonVariants = {
     color: 'white',
   },
   keyboard: {
-    width: 50,
+    width: 100,
     backgroundColor: 'input',
     borderWidth: 1,
     borderColor: 'buttonBorder',
     height: 25,
     marginHorizontal: 'xs',
     marginTop: 's',
+    fontSize: 20
   },
-  keyboardBig: {
-    width: '92%',
-    backgroundColor: 'input',
+  keyboardGray: {
+    width: 100,
+    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: 'buttonBorder',
     height: 25,
     marginHorizontal: 'xs',
     marginTop: 's',
-  },
+    fontSize: 20
+  }
 };
 
 export default buttonVariants;
