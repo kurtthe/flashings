@@ -22,13 +22,13 @@ import { actions as flashingActions } from "@store/jobs/actions";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import {Routes as RoutesJobs } from "@features/jobs/navigation/routes";
 import {Routes as RoutesFlashing } from "@features/flashing/navigation/routes";
-import { FLASHINGParamsList } from "@features/flashing/navigation/Stack.types";
+import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
 import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
   const navigation  = useNavigation<StackPrivateProps>()
-  const route = useRoute<RouteProp<FLASHINGParamsList, RoutesFlashing.GUTTER_FLASHING>>();
+  const route = useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
 
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [stepsDrawing, setDrawing] = React.useState(0)
