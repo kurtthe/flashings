@@ -8,17 +8,12 @@ import { DeleteIcon } from "@assets/icons";
 
 type Props = {
   onChange: (value: string) => void;
-  onDone: (value: string) => void;
 };
-const KeyBoardNumber: React.FC<Props> = ({onChange, onDone}) => {
+const KeyBoardNumber: React.FC<Props> = ({onChange}) => {
   const [currentValue, setCurrentValue] = React.useState('');
 
   React.useEffect(() => onChange && onChange(currentValue), [currentValue]);
   const handleChange = (digit: string) => {
-    if (digit === 'done') {
-      onDone && onDone(currentValue);
-    }
-
     if (NUMBER_REGEX.test(digit)) {
       return setCurrentValue(prevState => prevState.concat(digit));
     }
