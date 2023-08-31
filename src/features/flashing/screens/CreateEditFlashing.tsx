@@ -2,7 +2,7 @@ import React from 'react';
 import { Box } from '@ui/components';
 import { Routes as RoutesFlashing, Routes } from "../navigation/routes";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { FLASHINGParamsList, FlashingStackProps } from "@features/flashing/navigation/Stack.types";
+import { FlashingParamsList, FlashingStackProps } from "@features/flashing/navigation/Stack.types";
 import {AddFlashingFormValues, forms} from "@features/flashing/constants";
 import {FormCreateFlashingComponent} from "@features/flashing/components";
 import { Formik,  FormikProps } from "formik";
@@ -11,7 +11,7 @@ import { getRandomInt } from "@shared/utils";
 
 const CreateFlashingScreen = () => {
   const navigation = useNavigation<FlashingStackProps>()
-  const route = useRoute<RouteProp<FLASHINGParamsList, RoutesFlashing.CREATE_FLASHING>>();
+  const route = useRoute<RouteProp<FlashingParamsList, RoutesFlashing.CREATE_EDIT_FLASHING>>();
 
   const formikRef = React.useRef<FormikProps<AddFlashingFormValues>>(null);
 
@@ -20,7 +20,7 @@ const CreateFlashingScreen = () => {
       values: AddFlashingFormValues,
     ) => {
       const { name, qty, material, length } = values;
-      navigation.navigate(Routes.GUTTER_FLASHING, {
+      navigation.navigate(Routes.BOARD_FLASHING, {
         data: {
           id: getRandomInt(),
           name,

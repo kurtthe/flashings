@@ -2,12 +2,12 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { Routes } from './routes';
 import {FLASHINGS_DATA} from "@models";
 
-export type FLASHINGParamsList = {
-  [Routes.CREATE_FLASHING]: {
+export type FlashingParamsList = {
+  [Routes.CREATE_EDIT_FLASHING]: {
     jobId: number,
     jobName: string,
   };
-  [Routes.GUTTER_FLASHING]: {
+  [Routes.BOARD_FLASHING]: {
     data: FLASHINGS_DATA,
     jobId: number,
     jobName: string
@@ -15,4 +15,4 @@ export type FLASHINGParamsList = {
   [Routes.DEMO]: undefined;
 };
 
-export type FlashingStackProps = StackNavigationProp<FLASHINGParamsList>;
+export type FlashingStackProps = StackNavigationProp<FlashingParamsList>;

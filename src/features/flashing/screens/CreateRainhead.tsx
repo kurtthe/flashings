@@ -7,7 +7,6 @@ import {
 } from '@ui/components';
 import Input from '@ui/components/Input';
 import SelectInput from '@ui/components/SelectInput';
-import { Routes } from '../navigation/routes';
 import { DataTable } from 'react-native-paper';
 import data from '../tempData/dataRainHead.json'
 import tableRows from '../tempData/tablaRows.json'
@@ -15,7 +14,6 @@ import { useNavigation } from "@react-navigation/native";
 import { images } from "@assets/images";
 
 const CreateRainheadScreen = () => {
-  const navigation = useNavigation()
   const [name, setName] = useState('')
   const [qty, setQty] = useState('')
 
@@ -60,11 +58,6 @@ const CreateRainheadScreen = () => {
               )
               })}
           </DataTable>
-          <SelectInput
-            label='Colour/Material'
-            options={data}
-            onChange={option => console.log(option)}
-          />
           <Input
             mt="s"
             label="Qty"
