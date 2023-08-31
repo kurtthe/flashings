@@ -137,7 +137,7 @@ const Board: React.FC<Props> = ({
         ref={modalBottomRef}
         height={350}
         borderRadius={0}>
-        <MeasurementLines onNext={handleNextLineSelected} onPrevious={handleBackLineSelected} dataLine={pointSelected} onDone={handleDoneSize} />
+        <MeasurementLines showPrevious={indexLineSelected > 0} onNext={handleNextLineSelected} onPrevious={handleBackLineSelected} dataLine={pointSelected} onDone={handleDoneSize} />
       </ModalBottom>
       {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
     </>

@@ -26,27 +26,23 @@ const KeyBoardNumber: React.FC<Props> = ({onChange, onDone}) => {
   };
 
   return (
-    <Box flexDirection="row" justifyContent="space-between" px="s">
-      <Box flexDirection="row" alignItems="center" justifyContent="center" flexWrap="wrap">
-        {BUTTONS_KEYBOARD.map(digit => (
-          <>
-            {
-              digit === 'delete'? (
-                <Box onPress={()=> handleChange(digit)} mx="xs" mt="s" backgroundColor="white" p="s" width={100} alignItems="center" justifyContent="center" borderColor="buttonBorder" borderWidth={1} borderRadius="s" minHeight={50}>
-                  <IconButton onPress={()=> handleChange(digit)} icon={ <Icon as={DeleteIcon} size={32}  />} />
-                </Box>
-              ): (<Button
-                onPress={() => handleChange(digit)}
-                key={`button-${digit}`}
-                variant={digit === '.'? "keyboardGray" :"keyboard"} >
-                {digit}
-              </Button>)
-            }
-          </>
-
-        ))}
-      </Box>
-
+    <Box flexDirection="row" alignItems="center" justifyContent="center" flexWrap="wrap" >
+      {BUTTONS_KEYBOARD.map(digit => (
+        <>
+          {
+            digit === 'delete'? (
+              <Box onPress={()=> handleChange(digit)} mx="xs" mt="s" backgroundColor="white" p="s" width={100} alignItems="center" justifyContent="center" borderColor="buttonBorder" borderWidth={1} borderRadius="s" minHeight={50}>
+                <IconButton onPress={()=> handleChange(digit)} icon={ <Icon as={DeleteIcon} size={32}  />} />
+              </Box>
+            ): (<Button
+              onPress={() => handleChange(digit)}
+              key={`button-${digit}`}
+              variant={digit === '.'? "keyboardGray" :"keyboard"} >
+              {digit}
+            </Button>)
+          }
+        </>
+      ))}
     </Box>
   );
 };
