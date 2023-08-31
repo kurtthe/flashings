@@ -1,7 +1,7 @@
 import React from 'react';
 import {BoardContainer} from '@features/flashing/containers';
 
-const CreateFlashingScreen = () => {
+const BoardFlashingScreen = () => {
   return <BoardContainer />;
 };
-export default CreateFlashingScreen;
+export default BoardFlashingScreen;

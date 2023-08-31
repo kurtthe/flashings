@@ -2,21 +2,21 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Routes } from './routes';
 import {
-  CreateFlashingScreen,
-  GutterFlashingScreen,
-} from '../screens';
+  BoardFlashingScreen,
+  CreateEditFlashingScreen,
+  CreateRainheadScreen,
+} from "../screens";
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
-import CreateRainheadScreen from '../screens/CreateRainhead';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator();
 
   return (
-    <Navigator initialRouteName={Routes.GUTTER_FLASHING}>
+    <Navigator initialRouteName={Routes.CREATE_EDIT_FLASHING}>
       <Screen
-        name={Routes.CREATE_FLASHING}
-        component={CreateFlashingScreen}
+        name={Routes.CREATE_EDIT_FLASHING}
+        component={CreateEditFlashingScreen}
         options={{
           header: ({navigation}) => (
             <HeaderBox
@@ -27,8 +27,8 @@ const Stack = () => {
         }}
       />
       <Screen
-        name={Routes.GUTTER_FLASHING}
-        component={GutterFlashingScreen}
+        name={Routes.BOARD_FLASHING}
+        component={BoardFlashingScreen}
         options={{
           header: ({navigation}) => (
             <HeaderBox

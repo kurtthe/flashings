@@ -63,7 +63,7 @@ const JobDetailsScreen = () => {
             <Button
               variant="outlineWhite"
               mt="l"
-              onPress={() => onPressFooter(Routes.CREATE_FLASHING, {jobId: item.id, jobName: item.name})}>
+              onPress={() => onPressFooter(Routes.CREATE_EDIT_FLASHING, {jobId: item.id, jobName: item.name})}>
               + Add Flashing
             </Button>
             <Button
