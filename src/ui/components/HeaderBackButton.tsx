@@ -19,7 +19,7 @@ const HeaderBackButton = ({
   const navigation = useNavigation();
   return (
     <IconButton
-      onPress={() => navigation.goBack()}
+      onPress={() => !customPressEvent? navigation.goBack() : customPressEvent()}
       icon={<Icon as={BackIcon} />}
       {...props}
     />
