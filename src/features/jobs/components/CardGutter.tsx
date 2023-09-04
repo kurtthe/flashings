@@ -39,7 +39,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
     <Card flexDirection="row" alignItems="center" justifyContent="space-between" key={`card-gutter-${key}`}>
       <Box  width='40%'>
         <Text variant="bodyBold">{data.name !== '' ? data.name: 'Flashing'}</Text>
-        <PreviewFlashing width={120} height={89} dataLines={data.dataLines} />
+        <PreviewFlashing width={120} height={89} dataFlashing={data} />
       </Box>
       <Box width='50%'>
         <Box

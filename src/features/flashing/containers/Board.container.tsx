@@ -126,13 +126,13 @@ const BoardContainer = () => {
       }
     });
   }
-  const handleTape = () => {}
+  const handleTape = () => null
 
   return (
     <>
       <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
       <BoardComponent
-        rightLinePaint={ blueLineIsRight}
+        rightLinePaint={blueLineIsRight}
         lines={lines}
         changeMode={setModeBoard}
         onAddPoint={handleAddPoint}

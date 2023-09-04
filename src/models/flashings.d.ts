@@ -18,7 +18,7 @@ export type FLASHINGS_DATA =  {
 	parallelRight: boolean;
 };
 
-export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish';
+export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish' | 'preview';
 
 type SIDES = {
 	acrossFront: number;
