@@ -13,6 +13,7 @@ const CreateJobFormComponent = () => {
       <Box>
         <Text variant="subheadSmallBold">Job Details</Text>
         <FieldInput
+          isRequired
           name="jobName"
           placeholder="Job Name"
           returnKeyType="next"
@@ -32,7 +33,6 @@ const CreateJobFormComponent = () => {
           returnKeyType="next"
           label="Site Address"
           mt="m"
-          isRequired
         />
         <FieldInput
           name="fileUpload"
@@ -50,10 +50,8 @@ const CreateJobFormComponent = () => {
         returnKeyType="next"
         mt="m"
         label="Contact Name"
-        isRequired
       />
       <FieldInput
-        isRequired
         name="contactNumber"
         placeholder="Contact Number"
         returnKeyType="next"
