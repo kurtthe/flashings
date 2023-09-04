@@ -71,7 +71,7 @@ const textVariants = {
     color: 'textPrimary',
   },
   bodySmallRegular: {
-    fontSize: 10,
+    fontSize: 11,
     lineHeight: 18,
     color: 'lightGray',
   },

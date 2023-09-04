@@ -233,7 +233,7 @@ export const buildPathLineParallel = (points: LINE_TYPE['points']) => {
  * function calculate the  angle between two lines
  * ∠ = arctan((m2-m1)/(1+m1*m2))
  * */
-export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined)=> {
+export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined): number | undefined=> {
   if(!secondLine) return undefined
 
   const m1 = firstLine.pending === Infinity ? 120 : firstLine.pending
@@ -249,12 +249,8 @@ export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | und
   if(angleDeg <= 0){
     angleDeg = 180 - Math.abs(angleDeg)
   }
-  // console.log("internal angleDeg::", angleDeg)
-  // console.log("external angleDeg::", 180 - angleDeg)
-
-  return round(angleDeg, 0);
+  return round(angleDeg, 0)
 }
-
 
 const createEquationOfLine = (line: LINE_TYPE): string=> {
   const x1 = line.points[0][0]

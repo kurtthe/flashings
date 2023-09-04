@@ -7,22 +7,20 @@ import {
 import { G, Path as PathComponent} from 'react-native-svg';
 import TextSvg from "@features/flashing/components/TextSvg";
 
-type Props = BUILD_LINE & {
-  showAngle?: number
-};
+type Props = BUILD_LINE ;
 const LineMadeComponent: React.FC<Props> = ({
   line,
   lineSelected,
   mode,
   id,
-  showAngle
+                                              angle
 }) => {
   const fontSize = 20;
   const colorLabel = '#8F94AE';
   const positionText = calculatePointHalf(line);
   const positionTextAngle = positionEndLine(line);
+  const isMeasurements = mode === 'measurements' || mode === 'finish';
 
-  const isMeasurements = mode === 'measurements' || mode === 'finish'
   return (
     <G key={`groupPath${id}`}>
       <PathComponent
@@ -42,7 +40,7 @@ const LineMadeComponent: React.FC<Props> = ({
             )
             }
             {
-              showAngle && <TextSvg id={id}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${showAngle}°`} />
+              angle && <TextSvg id={id}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${angle}°`} />
             }
           </>
         )

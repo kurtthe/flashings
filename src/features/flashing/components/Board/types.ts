@@ -14,6 +14,7 @@ export type BUILD_LINE = {
   line: LINE_TYPE;
   lineSelected: number;
   mode: MODES_BOARD;
+  angle: number | undefined;
   rightLinePaint?: boolean;
 };
 export const SIZE_POINTER = 4;

@@ -22,21 +22,21 @@ const KeyBoardNumber: React.FC<Props> = ({onChange}) => {
 
   return (
     <Box flexDirection="row" alignItems="center" justifyContent="center" flexWrap="wrap" >
-      {BUTTONS_KEYBOARD.map(digit => (
-        <>
+      {BUTTONS_KEYBOARD.map((digit, index )=> (
+        <React.Fragment key={`fragment-button-keyboard${digit}-${index}`}>
           {
             digit === 'delete'? (
-              <Box onPress={()=> handleChange(digit)} mx="xs" mt="s" backgroundColor="white" p="s" width={100} alignItems="center" justifyContent="center" borderColor="buttonBorder" borderWidth={1} borderRadius="s" minHeight={50}>
+              <Box key={`button-${digit}-${index}`} onPress={()=> handleChange(digit)} mx="xs" mt="s" backgroundColor="white" p="s" width={100} alignItems="center" justifyContent="center" borderColor="buttonBorder" borderWidth={1} borderRadius="s" minHeight={50}>
                 <IconButton onPress={()=> handleChange(digit)} icon={ <Icon as={DeleteIcon} size={32}  />} />
               </Box>
             ): (<Button
               onPress={() => handleChange(digit)}
-              key={`button-${digit}`}
+              key={`button-${digit}-${index}`}
               variant={digit === '.'? "keyboardGray" :"keyboard"} >
               {digit}
             </Button>)
           }
-        </>
+        </React.Fragment>
       ))}
     </Box>
   );
