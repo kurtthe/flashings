@@ -33,7 +33,6 @@ export const drawLines = ({
     })
   });
 };
-
 export const drawParallelLines = (lines: LINE_TYPE[],  rightLinePaint=true):Path | null=>{
   if(!lines.length || lines[0].points.length <= 1) {
     return null;
