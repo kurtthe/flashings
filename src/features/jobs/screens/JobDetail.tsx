@@ -52,12 +52,11 @@ const JobDetailsScreen = () => {
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
           <CardGutterComponent
-            key={`gutter-${index}`}
+            key={`${item.id}-${index}`}
             onAddLength={() => setModalVisible(!modalVisible)}
             data={item}
           />
         )}
-        keyExtractor={(flashing, index) => `card-flashing${flashing.id}-${index}`}
         ListFooterComponent={
           <Box mx="m" mb="xl" >
             <Button
