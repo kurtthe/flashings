@@ -70,7 +70,7 @@ const BoardContainer = () => {
     setLines(newPointCoordinates);
   };
 
-  const handleEdit = () => {
+  const handleBack = () => {
     setModeBoard('draw');
     setDrawing(0)
   };
@@ -143,7 +143,7 @@ const BoardContainer = () => {
       />
       <MenuEditorComponent
         onUndo={handleUndo}
-        onEdit={handleEdit}
+        onBack={handleBack}
         onNext={handleNext}
         onEraser={handleClear}
       />
