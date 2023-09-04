@@ -14,4 +14,5 @@ export { default as Logout } from './logout.svg';
 export { default as DeleteIcon } from './delete.svg';
 export { default as NextArrowIcon } from './nextArrow.svg';
 export { default as BackArrowIcon } from './backArrow.svg';
+export { default as CloseIcon } from './close.svg';
 
