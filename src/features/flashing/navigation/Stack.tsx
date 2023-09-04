@@ -34,7 +34,7 @@ const Stack = () => {
             <HeaderBox
               leftIcon={<HeaderBackButton  />}
               rightIcon={<Icon as={CartIcon} />}
-              title="Gutter Flashing"
+              title="Draw Flashing"
             />
           ),
         }}
