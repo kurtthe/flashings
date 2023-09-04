@@ -1,15 +1,14 @@
 import React from 'react';
-import { Box, Button, Card, Text } from "@ui/components";
+import { Box, Button, Card, CardProps, Text } from "@ui/components";
 import { FLASHINGS_DATA, MATERIALS } from "@models";
 import { dataMaterials } from "@store/jobs/mocks";
 import PreviewFlashing from "@features/flashing/components/PreviewFlashing";
 
-type Props = {
+type Props = CardProps & {
   data: FLASHINGS_DATA;
   onAddLength?: () => void;
-  key?: string;
 }
-const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
+const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
   const getMaterial = (idMaterial: number): MATERIALS => {
 
     const material = dataMaterials.find((item)=> item.id === idMaterial)
@@ -36,7 +35,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength,key})=>{
   }
 
   return (
-    <Card flexDirection="row" alignItems="center" justifyContent="space-between" key={`card-gutter-${key}`}>
+    <Card flexDirection="row" alignItems="center" justifyContent="space-between" {...rest}>
       <Box  width='40%'>
         <Text variant="bodyBold">{data.name !== '' ? data.name: 'Flashing'}</Text>
         <PreviewFlashing width={120} height={89} dataFlashing={data} />
