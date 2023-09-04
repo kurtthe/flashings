@@ -34,11 +34,11 @@ export type JOB_DATA= {
   id: number;
   name?: string;
   number?: string;
-  address: string;
+  address?: string;
   file_upload?: string;
   contact:{
-    name: string;
-    number: string;
+    name?: string;
+    number?: string;
     email?:string
   },
   flashings: FLASHINGS_DATA[];

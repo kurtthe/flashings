@@ -69,11 +69,11 @@ export const forms = {
       contactEmail: 'Contact Email',
     },
     schema: Yup.object({
-      jobName: Yup.string(),
+      jobName: Yup.string().required("Job Name is required."),
       jobNumber: Yup.string(),
-      siteAddress: Yup.string().required('Site Address is required'),
+      siteAddress: Yup.string(),
       fileUpload: Yup.string(),
-      contactName: Yup.string().required('Contact Name is required'),
+      contactName: Yup.string(),
       contactNumber: Yup.string()
         .required('Contact Number is required')
         .ensure()

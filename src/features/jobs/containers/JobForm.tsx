@@ -16,8 +16,6 @@ const JobFormContainer = () => {
   const formikRef = React.useRef<FormikProps<CreateFormValues>>(null);
   const dispatch = useAppDispatch();
 
-
-
   const handleSubmit = React.useCallback(
     async (values: CreateFormValues) => {
       const {
@@ -38,7 +36,7 @@ const JobFormContainer = () => {
         contact:{
           name: contactName,
           number: contactNumber,
-          email:contactEmail
+          email: contactEmail
         },
         flashings: [],
         rain_heads: [],
