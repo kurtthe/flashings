@@ -21,15 +21,13 @@ export const drawLines = ({
   if (lines.length < 1) return [];
 
   return lines.map((line, index,arrayLines) => {
-
     const angle = calculateAngle(line, arrayLines[index + 1])
-
     return ({
       ...line,
       path:
         line.points.length === 2 ? (
           <LineMadeComponent
-            {...{ id: index, line, lineSelected, mode, rightLinePaint, showAngle: angle }}
+            {...{ id: index, line, lineSelected, mode, rightLinePaint, angle }}
           />
         ) : undefined,
     })

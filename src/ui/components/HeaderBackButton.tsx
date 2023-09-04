@@ -13,7 +13,7 @@ type Props = Omit<IconButtonProps, 'icon'> & {
 const HeaderBackButton = ({
   variant = 'light',
   popToTop,
-  customPressEvent = () => {},
+  customPressEvent,
   ...props
 }: Props) => {
   const navigation = useNavigation();

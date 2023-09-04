@@ -78,9 +78,9 @@ const JobDetailsScreen = () => {
               variant="outlineWhite">
               + Add Sump
             </Button>
-            <Button mt="s" onPress={() => {}} variant="solid">
-              Preview
-            </Button>
+            {/*<Button mt="s" onPress={() => {}} variant="solid">*/}
+            {/*  Preview*/}
+            {/*</Button>*/}
           </Box>
         }
       />

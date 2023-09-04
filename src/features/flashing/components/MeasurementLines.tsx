@@ -46,7 +46,6 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
           </Box>
           <Text variant="bodyBold">mm</Text>
         </Box>
-
         <IconButton onPress={handleNext} icon={ <Icon as={NextArrowIcon} size={24}  />} />
       </Box>
       <Divider my="s" />

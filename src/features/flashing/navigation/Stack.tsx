@@ -30,9 +30,9 @@ const Stack = () => {
         name={Routes.BOARD_FLASHING}
         component={BoardFlashingScreen}
         options={{
-          header: ({navigation}) => (
+          header: () => (
             <HeaderBox
-              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
+              leftIcon={<HeaderBackButton  />}
               rightIcon={<Icon as={CartIcon} />}
               title="Gutter Flashing"
             />
