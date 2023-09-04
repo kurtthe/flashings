@@ -20,6 +20,7 @@ const LineMadeComponent: React.FC<Props> = ({
   const positionText = calculatePointHalf(line);
   const positionTextAngle = positionEndLine(line);
   const isMeasurements = mode === 'measurements' || mode === 'finish';
+  const isPreview = mode === 'preview'
 
   return (
     <G key={`groupPath${id}`}>
@@ -30,7 +31,7 @@ const LineMadeComponent: React.FC<Props> = ({
         stroke={lineSelected === id && isMeasurements ? "#DEA000":"#000"}
       />
       {
-        isMeasurements && (
+        isMeasurements || isPreview && (
           <>
             <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id}  positionTextYRect={positionText[1]} positionTextXRect={positionText[0]} positionTextX={positionText[0]} positionTextY={positionText[1]} textValue={LETTER_LINES[id]} />
             {line.distance && (

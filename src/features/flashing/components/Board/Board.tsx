@@ -127,7 +127,7 @@ const Board: React.FC<Props> = ({
     <>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
         <GestureHandlerRootView>
-          <SvgBoard graphs={graphs} pathParallel={pathParallel} mode={mode} />
+          <SvgBoard graphs={graphs} pathParallel={pathParallel} />
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom

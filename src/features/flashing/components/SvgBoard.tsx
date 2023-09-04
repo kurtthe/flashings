@@ -9,21 +9,19 @@ import PointerComponent from '@features/flashing/components/Pointer';
 import Svg, { Path as PathComponent } from "react-native-svg";
 import React from 'react';
 import { Path, serialize } from "react-native-redash";
-import { MODES_BOARD } from "@models";
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
   pathParallel: Path | null;
-  mode: MODES_BOARD
 };
-const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel, mode}) => {
+const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel}) => {
   const colorPointer = '#8F94AE';
   const colorBorderPointer = '#000000';
   const borderWidth = 1;
 
   return (
     <Svg width={widthScreen} height="100%">
-      {mode !== "preview" && <GridComponent />}
+      <GridComponent />
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
         <React.Fragment key={`${Math.random()}`}>
           {pathParallel && <PathComponent
