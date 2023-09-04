@@ -30,7 +30,7 @@ const FieldSelect = ({ options, name, onChange, onBlur, label, ...rest }: Props)
   return (
     <Box>
       <SelectInput
-        value=""
+        value={field.value ?? ""}
         options={options}
         onChange={handleChange}
         {...rest}
