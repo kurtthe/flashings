@@ -59,7 +59,7 @@ const Stack = () => {
           header: () => (
             <HeaderBox
               mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
+              leftIcon={<HeaderBackButton />}
               title={'New Job'}
             />
           ),
