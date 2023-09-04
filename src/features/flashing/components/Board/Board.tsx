@@ -19,8 +19,8 @@ import { isNaN } from "lodash";
 
 type Props = {
   lines: LINE_TYPE[];
-  onAddPoint: (newPoint: POINT_TYPE) => void;
-  onUpdatePoint: (dataLine: LINE_SELECTED) => void;
+  onAddPoint?: (newPoint: POINT_TYPE) => void;
+  onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
   onSave?: () => void;
   onTape?: ()=> void
   width?: number;
@@ -72,7 +72,7 @@ const Board: React.FC<Props> = ({
 
     setPointSelected({
       numberLine: indexLineSelected,
-      sizeLine: lines[indexLineSelected].distance,
+      sizeLine: lines[indexLineSelected]?.distance ?? 0,
     });
     modalBottomRef.current?.show()
   }, [mode, indexLineSelected])
@@ -87,7 +87,7 @@ const Board: React.FC<Props> = ({
     }
 
     if(isNaN(newSize)) return
-    onUpdatePoint({ ...pointSelected, sizeLine: newSize });
+    onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
   };
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
@@ -96,7 +96,7 @@ const Board: React.FC<Props> = ({
       event.nativeEvent.locationY,
     ]);
 
-    onAddPoint([newPosition.x, newPosition.y]);
+    onAddPoint && onAddPoint([newPosition.x, newPosition.y]);
   };
 
   const handleNextLineSelected = ()=>{
@@ -127,7 +127,7 @@ const Board: React.FC<Props> = ({
     <>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
         <GestureHandlerRootView>
-          <SvgBoard graphs={graphs} pathParallel={pathParallel} />
+          <SvgBoard graphs={graphs} pathParallel={pathParallel} mode={mode} />
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom
