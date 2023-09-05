@@ -42,10 +42,10 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataFlashing}) => {
 			<ModalBottom
 				backdropClosesSheet={true}
 				ref={modalBottomRef}
-				height={450}
+				height={500}
 				draggable={false}
 			>
-				<Box style={{marginTop: -60}}>
+				<Box style={{marginTop: -120}}>
 					<BoardComponent
 						rightLinePaint={dataFlashing.parallelRight}
 						lines={dataFlashing.dataLines}
