@@ -45,7 +45,7 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataFlashing}) => {
 				height={500}
 				draggable={false}
 			>
-				<Box style={{marginTop: -120}}>
+				<Box style={{marginTop: -100}}>
 					<BoardComponent
 						rightLinePaint={dataFlashing.parallelRight}
 						lines={dataFlashing.dataLines}
