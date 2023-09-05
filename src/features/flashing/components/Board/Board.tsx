@@ -118,7 +118,6 @@ const Board: React.FC<Props> = ({
   }
 
   const handleOnSave = ()=> {
-    console.log('on saved');
     onSave && onSave()
   }
   const handleOnTape = ()=> {

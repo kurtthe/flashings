@@ -145,8 +145,6 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
         item => item.value === value || item.label === value,
       );
 
-      console.log('=>optionValue', optionValue, 'value=>', value);
-      console.log('=>options', options);
 
       if (!optionValue) return;
       setCurrentValue(optionValue);
