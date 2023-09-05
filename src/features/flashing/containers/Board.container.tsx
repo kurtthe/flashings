@@ -72,6 +72,7 @@ const BoardContainer = () => {
 
   const handleBack = () => {
     const newStep = stepsDrawing - 1;
+    if(newStep < 0) return;
     const editMode = newStep === 0;
     const drawSide = newStep === 1;
     const newMode: MODES_BOARD  = editMode? 'draw': drawSide ? 'side': 'measurements';
