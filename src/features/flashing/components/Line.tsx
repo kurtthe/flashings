@@ -31,7 +31,7 @@ const LineMadeComponent: React.FC<Props> = ({
         stroke={lineSelected === id && isMeasurements ? "#DEA000":"#000"}
       />
       {
-        isMeasurements || isPreview && (
+        (isMeasurements || isPreview) && (
           <>
             <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id}  positionTextYRect={positionText[1]} positionTextXRect={positionText[0]} positionTextX={positionText[0]} positionTextY={positionText[1]} textValue={LETTER_LINES[id]} />
             {line.distance && (
