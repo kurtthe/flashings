@@ -71,8 +71,13 @@ const BoardContainer = () => {
   };
 
   const handleBack = () => {
-    setModeBoard('draw');
-    setDrawing(0)
+    const newStep = stepsDrawing - 1;
+    const editMode = newStep === 0;
+    const drawSide = newStep === 1;
+    const newMode: MODES_BOARD  = editMode? 'draw': drawSide ? 'side': 'measurements';
+
+    setModeBoard(newMode);
+    setDrawing(newStep)
   };
 
   const handleNext = () => {
@@ -81,7 +86,7 @@ const BoardContainer = () => {
     }
     const newStep = stepsDrawing + 1
     setDrawing(newStep)
-    setModeBoard( newStep ==1 ? 'side': 'measurements');
+    setModeBoard( newStep === 1 ? 'side': 'measurements');
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
     const linesUpdated = lines.map((line, index) => {
@@ -140,6 +145,7 @@ const BoardContainer = () => {
         onSave={handleSave}
         onTape={handleTape}
         mode={modeBoard}
+        backStep = {handleBack}
       />
       <MenuEditorComponent
         onUndo={handleUndo}
