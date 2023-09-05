@@ -26,6 +26,7 @@ type Props = {
   width?: number;
   height?: number;
   changeMode?: (newMode:MODES_BOARD) => void;
+  backStep?: () => void;
   mode: MODES_BOARD;
   rightLinePaint: boolean;
 };
@@ -41,6 +42,7 @@ const Board: React.FC<Props> = ({
   rightLinePaint,
   onSave,
   onTape,
+  backStep
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
@@ -131,8 +133,12 @@ const Board: React.FC<Props> = ({
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom
+        onCloseFinish={() => {
+          if (mode === "finish") return
+          setIndexLineSelected(0)
+          backStep && backStep();
+        }}
         backdropBackgroundColor="transparent"
-        backdropClosesSheet={false}
         draggable={false}
         ref={modalBottomRef}
         height={350}
