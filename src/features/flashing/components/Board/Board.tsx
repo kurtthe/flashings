@@ -134,7 +134,6 @@ const Board: React.FC<Props> = ({
       <ModalBottom
         onCloseFinish={() => {
           if (mode === "finish") return
-          setIndexLineSelected(0)
           backStep && backStep();
         }}
         backdropBackgroundColor="transparent"
