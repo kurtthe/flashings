@@ -125,11 +125,12 @@ const Board: React.FC<Props> = ({
   }
 
   const validateShowHigher = () => {
+    if(!graphs.length) return 0
     const getSelectedLine = graphs[indexLineSelected];
     if(getSelectedLine.points.length <= 1) return 0
 
-    if(visibleKeyboard && getSelectedLine.points[1][1] >= 384){
-      return getSelectedLine.points[1][1] / (indexLineSelected) * -1
+    if(visibleKeyboard && getSelectedLine.points[1][1] > 384){
+      return (getSelectedLine.points[1][1] / indexLineSelected) * -1
     }
     return 0
   }
