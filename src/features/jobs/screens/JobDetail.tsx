@@ -40,10 +40,12 @@ const JobDetailsScreen = () => {
       <Box p="m">
         <Box>
           <Text variant="subheadSmallBold" mb="s">Job Details</Text>
-          <Text variant="bodyBold">Site Name: <Text variant="bodyRegular">{item.name}</Text></Text>
-          <Text variant="bodyBold">Site Address: <Text variant="bodyRegular">{item.address}</Text> </Text>
-          <Text variant="bodyBold">Job # <Text variant="bodyRegular">{item.number}</Text></Text>
-          <Text variant="bodyBold">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>
+          <Text variant="bodyBold" my="xxs">Site Name: <Text variant="bodyRegular">{item.name}</Text></Text>
+          <Text variant="bodyBold"  my="xxs">Site Address: <Text variant="bodyRegular">{item.address}</Text> </Text>
+          <Text variant="bodyBold" my="xxs">Job # <Text variant="bodyRegular">{item.number}</Text></Text>
+          { item.contact.name && <Text variant="bodyBold"  my="xxs">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>}
+          {item.contact.email && <Text variant="bodyBold"  my="xxs">Contact Email: <Text variant="bodyRegular">{item.contact.email}</Text></Text>}
+          {item.contact.number && <Text variant="bodyBold"  my="xxs">Contact Phone: <Text variant="bodyRegular">{item.contact.number}</Text></Text>}
         </Box>
       </Box>
       <FlatList
