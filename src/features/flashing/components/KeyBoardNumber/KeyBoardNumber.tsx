@@ -8,9 +8,10 @@ import { DeleteIcon } from "@assets/icons";
 
 type Props = {
   onChange: (value: string) => void;
+  currentValue: string;
+  setCurrentValue:  React.Dispatch<React.SetStateAction<string>>
 };
-const KeyBoardNumber: React.FC<Props> = ({onChange}) => {
-  const [currentValue, setCurrentValue] = React.useState('');
+const KeyBoardNumber: React.FC<Props> = ({onChange, currentValue, setCurrentValue}) => {
 
   React.useEffect(() => {
     onChange && onChange(currentValue);
@@ -21,6 +22,7 @@ const KeyBoardNumber: React.FC<Props> = ({onChange}) => {
     }
     return setCurrentValue(prevState => prevState.slice(0, -1));
   };
+
 
   return (
     <Box flexDirection="row" alignItems="center" justifyContent="center" flexWrap="wrap" >

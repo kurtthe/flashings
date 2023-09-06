@@ -14,16 +14,17 @@ type Props = {
 };
 const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPrevious , showPrevious=false}) => {
   const [measurement, setMeasurement] = React.useState(0);
-
-  console.log("dataLine::", dataLine)
+  const [currentValue, setCurrentValue] = React.useState('');
 
   React.useEffect(() => {
     if (!dataLine) return;
+
     setMeasurement(dataLine.sizeLine);
   }, [dataLine, dataLine?.sizeLine]);
   const handleDone = (newSizeLine: string) => {
     const size = parseInt(newSizeLine, 10);
     setMeasurement(size);
+    setCurrentValue('')
     onDone(size);
   };
   const handlePrevious = () =>{
@@ -52,6 +53,8 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
       </Box>
       <Divider my="s" />
       <KeyBoardNumber
+        setCurrentValue={setCurrentValue}
+        currentValue={currentValue}
         onChange={size => setMeasurement(parseFloat(size))}
       />
     </Box>
