@@ -17,12 +17,10 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataFlashing}) => {
 	const [pathLines, setPathLines ] = React.useState<Path | null>(null)
 	const modalBottomRef = React.useRef<ModalBottomRef>();
 
-
 	React.useEffect(() => {
 		const makingLines = buildLinesForPreview(dataFlashing.dataLines, width, height);
 		setPathLines(makingLines)
 	}, [dataFlashing.dataLines]);
-
 
 	return (
 		<>

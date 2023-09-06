@@ -16,6 +16,7 @@ import { Path } from 'react-native-redash';
 import SectionsButton from "@features/flashing/components/SectionsButton";
 import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
 import { isNaN } from "lodash";
+import { Box } from "@ui/components";
 
 type Props = {
   lines: LINE_TYPE[];
@@ -32,18 +33,18 @@ type Props = {
 };
 
 const Board: React.FC<Props> = ({
-                                  lines,
-                                  onUpdatePoint,
-                                  onAddPoint,
-                                  width = widthScreen,
-                                  height = heightScreen,
-                                  mode = 'draw',
-                                  changeMode,
-                                  rightLinePaint,
-                                  onSave,
-                                  onTape,
-                                  backStep
-                                }) => {
+  lines,
+  onUpdatePoint,
+  onAddPoint,
+  width = widthScreen,
+  height = heightScreen,
+  mode = 'draw',
+  changeMode,
+  rightLinePaint,
+  onSave,
+  onTape,
+  backStep
+}) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
@@ -51,6 +52,8 @@ const Board: React.FC<Props> = ({
   >();
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
   const [indexLineSelected, setIndexLineSelected] = React.useState(0)
+  const [visibleKeyboard, setVisibleKeyboard] = React.useState(false)
+
   const isDrawing = mode === 'draw';
 
   React.useEffect(() => {
@@ -69,15 +72,17 @@ const Board: React.FC<Props> = ({
   React.useEffect(()=>{
     if(mode === "finish" ) {
       modalBottomRef.current?.hide()
+      setVisibleKeyboard(false)
     }
-
-    if(mode !== 'measurements') return;
-
+    if(mode !== 'measurements') {
+      return setVisibleKeyboard(false);
+    }
     setPointSelected({
       numberLine: indexLineSelected,
       sizeLine: lines[indexLineSelected]?.distance ?? 0,
     });
     modalBottomRef.current?.show()
+    setVisibleKeyboard(true)
   }, [mode, indexLineSelected])
 
   const handleDoneSize = (newSize: number) => {
@@ -119,8 +124,18 @@ const Board: React.FC<Props> = ({
     onTape && onTape()
   }
 
+  const validateShowHigher = () => {
+    const getSelectedLine = graphs[indexLineSelected];
+    if(getSelectedLine.points.length <= 1) return 0
+
+    if(visibleKeyboard && getSelectedLine.points[1][1] >= 384){
+      return getSelectedLine.points[1][1] / (indexLineSelected) * -1
+    }
+    return 0
+  }
+
   return (
-    <>
+    <Box style={{marginTop: validateShowHigher()}}>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
         <GestureHandlerRootView>
           <SvgBoard graphs={graphs} pathParallel={pathParallel} />
@@ -145,7 +160,7 @@ const Board: React.FC<Props> = ({
         />
       </ModalBottom>
       {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
-    </>
+    </Box>
   );
 };
 
