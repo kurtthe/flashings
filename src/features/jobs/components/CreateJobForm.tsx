@@ -3,10 +3,22 @@ import { FieldInput } from '@components/forms';
 import { useFormikContext } from 'formik';
 import { CreateFormValues } from '@features/jobs/containers/types';
 import { Box, Button, Divider, Text } from '@ui/components';
+import { validatePhone } from "@features/jobs/constants";
+import { formatPhone } from "@shared/helpers";
 
 const CreateJobFormComponent = () => {
   const formik = useFormikContext<CreateFormValues>();
-  const {  isValid,  handleSubmit } = formik;
+  const {  isValid,  handleSubmit,  setFieldValue } = formik;
+  const handleEndEditing = (text: string) => {
+    if (!text) return;
+    const value = text;
+    const isValidPhoneNumber = validatePhone(value);
+
+    if (isValidPhoneNumber) {
+      const phoneNumber = formatPhone(value);
+      setFieldValue('contactNumber', phoneNumber)
+    }
+  };
 
   return (
     <>
@@ -56,7 +68,11 @@ const CreateJobFormComponent = () => {
         placeholder="Contact Number"
         returnKeyType="next"
         label="Contact Number"
+        keyboardType="phone-pad"
+        inputMode="tel"
+        textContentType="telephoneNumber"
         mt="m"
+        onEndEditing={(e) => handleEndEditing(e.nativeEvent.text)}
       />
       <FieldInput
         name="contactEmail"

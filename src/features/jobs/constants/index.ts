@@ -10,22 +10,25 @@ export const customValidationMessages = {
   },
 };
 
-const validatePhone = (phone: string | undefined) =>
+// 0433773578
+// 433758963
+// +61433773578
+
+export const validatePhone = (phone: string | undefined) =>
   Yup.string()
     .trim()
     .test('phone', 'Phone number is invalid', (value: string | undefined) => {
       if (!value) {
         return false;
       }
-
       const clearValue = value.replace(/[\s()-]/g, '');
       if (isInteger(Number(clearValue)) && clearValue.length === 10) {
         const formatedPhone = formatPhone(clearValue);
-        if (formatedPhone.length === 14) return true;
+        if (formatedPhone.length === 12) return true;
       }
       if (value.length === 10) {
         const formatedPhone = formatPhone(value);
-        if (formatedPhone.length === 14) return true;
+        if (formatedPhone.length === 12) return true;
       }
       return false;
     })
