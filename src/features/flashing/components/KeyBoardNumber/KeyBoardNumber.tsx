@@ -12,7 +12,9 @@ type Props = {
 const KeyBoardNumber: React.FC<Props> = ({onChange}) => {
   const [currentValue, setCurrentValue] = React.useState('');
 
-  React.useEffect(() => onChange && onChange(currentValue), [currentValue]);
+  React.useEffect(() => {
+    onChange && onChange(currentValue);
+  }, [currentValue]);
   const handleChange = (digit: string) => {
     if (NUMBER_REGEX.test(digit)) {
       return setCurrentValue(prevState => prevState.concat(digit));

@@ -32,18 +32,18 @@ type Props = {
 };
 
 const Board: React.FC<Props> = ({
-  lines,
-  onUpdatePoint,
-  onAddPoint,
-  width = widthScreen,
-  height = heightScreen,
-  mode = 'draw',
-  changeMode,
-  rightLinePaint,
-  onSave,
-  onTape,
-  backStep
-}) => {
+                                  lines,
+                                  onUpdatePoint,
+                                  onAddPoint,
+                                  width = widthScreen,
+                                  height = heightScreen,
+                                  mode = 'draw',
+                                  changeMode,
+                                  rightLinePaint,
+                                  onSave,
+                                  onTape,
+                                  backStep
+                                }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
@@ -70,6 +70,7 @@ const Board: React.FC<Props> = ({
     if(mode === "finish" ) {
       modalBottomRef.current?.hide()
     }
+
     if(mode !== 'measurements') return;
 
     setPointSelected({
@@ -81,12 +82,6 @@ const Board: React.FC<Props> = ({
 
   const handleDoneSize = (newSize: number) => {
     if (!pointSelected ) return;
-    const newIndex = indexLineSelected + 1
-    const lengthLine = lines.length - 1
-    setIndexLineSelected(newIndex >= lengthLine? lengthLine : indexLineSelected)
-    if(newIndex > lengthLine){
-      changeMode && changeMode('finish')
-    }
 
     if(isNaN(newSize)) return
     onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
@@ -105,7 +100,7 @@ const Board: React.FC<Props> = ({
     const newIndex = indexLineSelected + 1
     const lengthLine = lines.length - 1
 
-    setIndexLineSelected(newIndex >= lengthLine? lengthLine : newIndex)
+    setIndexLineSelected(newIndex > lengthLine? lengthLine : newIndex)
 
     if(newIndex > lengthLine){
       changeMode && changeMode('finish')
@@ -126,7 +121,7 @@ const Board: React.FC<Props> = ({
 
   return (
     <>
-      <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
+      <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
         <GestureHandlerRootView>
           <SvgBoard graphs={graphs} pathParallel={pathParallel} />
         </GestureHandlerRootView>
@@ -139,9 +134,15 @@ const Board: React.FC<Props> = ({
         backdropBackgroundColor="transparent"
         draggable={false}
         ref={modalBottomRef}
-        height={350}
+        height={330}
         borderRadius={0}>
-        <MeasurementLines showPrevious={indexLineSelected > 0} onNext={handleNextLineSelected} onPrevious={handleBackLineSelected} dataLine={pointSelected} onDone={handleDoneSize} />
+        <MeasurementLines
+          showPrevious={indexLineSelected > 0}
+          onNext={handleNextLineSelected}
+          onPrevious={handleBackLineSelected}
+          onDone={handleDoneSize}
+          dataLine={pointSelected}
+        />
       </ModalBottom>
       {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
     </>

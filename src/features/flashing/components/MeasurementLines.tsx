@@ -15,18 +15,20 @@ type Props = {
 const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPrevious , showPrevious=false}) => {
   const [measurement, setMeasurement] = React.useState(0);
 
+  console.log("dataLine::", dataLine)
+
   React.useEffect(() => {
     if (!dataLine) return;
     setMeasurement(dataLine.sizeLine);
-  }, [dataLine]);
+  }, [dataLine, dataLine?.sizeLine]);
   const handleDone = (newSizeLine: string) => {
     const size = parseInt(newSizeLine, 10);
     setMeasurement(size);
     onDone(size);
   };
   const handlePrevious = () =>{
-    onPrevious && onPrevious()
     handleDone(`${measurement}`)
+    onPrevious && onPrevious()
   }
   const handleNext = () =>{
     handleDone(`${measurement}`)
@@ -36,17 +38,17 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
   return (
     <Box p="s" >
       <Box flexDirection="row" alignItems="center" justifyContent="space-around">
-        {showPrevious &&<IconButton onPress={handlePrevious} icon={ <Icon as={BackArrowIcon} size={24}  />} /> }
+        {showPrevious &&<IconButton onPress={handlePrevious} icon={ <Icon as={BackArrowIcon} size={22}  />} /> }
         <Text variant="subheadSecondary">Length:</Text>
         <Box flexDirection="row" alignItems="center">
-          <Box backgroundColor="white" px="l" py="s">
+          <Box backgroundColor="white" px="m" py="xxs">
             <Text
               variant="subheadMedium"
             >{`${isNaN(measurement)? '0': measurement}`}</Text>
           </Box>
           <Text variant="bodyBold">mm</Text>
         </Box>
-        <IconButton onPress={handleNext} icon={ <Icon as={NextArrowIcon} size={24}  />} />
+        <IconButton onPress={handleNext} icon={ <Icon as={NextArrowIcon} size={22}  />} />
       </Box>
       <Divider my="s" />
       <KeyBoardNumber
