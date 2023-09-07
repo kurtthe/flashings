@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box,  Divider, Icon, IconButton, Text } from "@ui/components";
+import { BaseTouchable, Box, Divider, Icon, IconButton, Text } from "@ui/components";
 import { KeyBoardNumber } from '@features/flashing/components/KeyBoardNumber';
 import { LINE_SELECTED } from '@features/flashing/components/Board';
 import { isNaN } from "lodash";
@@ -10,9 +10,9 @@ type Props = {
   dataLine?: LINE_SELECTED;
   onNext?: () => void;
   onPrevious?: () => void;
-  showPrevious?: boolean
+  disabledPrevious?: boolean
 };
-const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPrevious , showPrevious=false}) => {
+const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPrevious , disabledPrevious=true}) => {
   const [measurement, setMeasurement] = React.useState(0);
   const [currentValue, setCurrentValue] = React.useState('');
 
@@ -28,6 +28,8 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
     onDone(size);
   };
   const handlePrevious = () =>{
+    if(disabledPrevious) return
+
     handleDone(`${measurement}`)
     onPrevious && onPrevious()
   }
@@ -39,7 +41,9 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
   return (
     <Box p="s" >
       <Box flexDirection="row" alignItems="center" justifyContent="space-around">
-        {showPrevious &&<IconButton onPress={handlePrevious} icon={ <Icon as={BackArrowIcon} size={22}  />} /> }
+        <Box disabled={disabledPrevious} as={BaseTouchable} onPress={handlePrevious}>
+          <Icon opacity={disabledPrevious? 0.3: 1} as={BackArrowIcon} size={22}  />
+        </Box>
         <Text variant="subheadSecondary">Length:</Text>
         <Box flexDirection="row" alignItems="center">
           <Box backgroundColor="white" px="m" py="xxs">
@@ -49,7 +53,9 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
           </Box>
           <Text variant="bodyBold">mm</Text>
         </Box>
-        <IconButton onPress={handleNext} icon={ <Icon as={NextArrowIcon} size={22}  />} />
+        <Box as={BaseTouchable} onPress={handleNext}>
+          <Icon as={NextArrowIcon} size={22}  />
+        </Box>
       </Box>
       <Divider my="s" />
       <KeyBoardNumber

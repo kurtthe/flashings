@@ -153,7 +153,7 @@ const Board: React.FC<Props> = ({
         height={330}
         borderRadius={0}>
         <MeasurementLines
-          showPrevious={indexLineSelected > 0}
+          disabledPrevious={indexLineSelected === 0}
           onNext={handleNextLineSelected}
           onPrevious={handleBackLineSelected}
           onDone={handleDoneSize}
