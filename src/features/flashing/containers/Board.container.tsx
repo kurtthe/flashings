@@ -149,6 +149,11 @@ const BoardContainer = () => {
         backStep = {handleBack}
       />
       <MenuEditorComponent
+        disabledBack={lines.length === 0}
+        disabledUndo={lines.length === 0}
+        disabledEraser={lines.length === 0}
+        disabledLibrary={true}
+        disabledNext={modeBoard === 'finish' }
         onUndo={handleUndo}
         onBack={handleBack}
         onNext={handleNext}
