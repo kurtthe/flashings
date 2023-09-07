@@ -7,7 +7,7 @@ import {
   NextIcon,
   UndoIcon
 } from "@assets/icons";
-import { Box, Icon, IconButton, IconProps, Text } from "@ui/components";
+import { BaseTouchable, Box, Icon, IconProps, Text } from "@ui/components";
 
 type Props = {
   onUndo?: () => void;
@@ -15,6 +15,11 @@ type Props = {
   onLibrary?: () => void;
   onEraser?: () => void;
   onNext?: () => void;
+  disabledBack?: boolean;
+  disabledUndo?: boolean;
+  disabledEraser?: boolean;
+  disabledLibrary?: boolean;
+  disabledNext?: boolean;
 };
 
 type IconMenuEditorProps = IconProps &{
@@ -27,13 +32,18 @@ const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
   title,
   nameIcon,
   onPress,
+  disabled = true,
   ...rest
 }) => (
-  <Box alignItems="center" justifyContent="center">
-    <IconButton
-      onPress={() => onPress && onPress()}
-      icon={<Icon as={nameIcon} {...rest} />}
-    />
+  <Box
+    disabled={disabled}
+    p="m"
+    as={BaseTouchable}
+    alignItems="center"
+    justifyContent="center"
+    onPress={() => onPress && !disabled && onPress()}
+    >
+    <Icon as={nameIcon} opacity={disabled? 0.5: 1}  {...rest} />
     {title && (
       <Text mt="xs" variant="menuEditor">
         {title}
@@ -48,10 +58,15 @@ const MenuEditorComponent: React.FC<Props> = ({
   onBack,
   onUndo,
   onEraser,
+  disabledBack= true,
+  disabledUndo=true,
+  disabledEraser=true,
+  disabledLibrary=true,
+  disabledNext=true
 }) => {
   return (
     <Box
-      py="l"
+      py="s"
       mb="xl"
       backgroundColor="white"
       position="absolute"
@@ -60,6 +75,7 @@ const MenuEditorComponent: React.FC<Props> = ({
       style={styles.shadow}>
       <Box px="m" style={styles.content}>
         <IconMenuEditor
+          disabled={disabledBack}
           onPress={() => onBack && onBack()}
           nameIcon={BackIcon}
           title="Back"
@@ -67,22 +83,26 @@ const MenuEditorComponent: React.FC<Props> = ({
           size={20}
         />
         <IconMenuEditor
+          disabled={disabledUndo}
           onPress={() => onUndo && onUndo()}
           nameIcon={UndoIcon}
           title="Undo"
         />
         <IconMenuEditor
           onPress={() => onEraser && onEraser()}
+          disabled={disabledEraser}
           nameIcon={ClearIcon}
           title="Clear"
           size={22}
         />
         <IconMenuEditor
+          disabled={disabledLibrary}
           onPress={() => onLibrary && onLibrary()}
           nameIcon={LibraryIcon}
           title="Library"
         />
         <IconMenuEditor
+          disabled={disabledNext}
           onPress={() => onNext && onNext()}
           nameIcon={NextIcon}
           title="Next"
