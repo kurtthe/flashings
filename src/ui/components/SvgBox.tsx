@@ -35,7 +35,7 @@ type RestyleSvgBoxProps = Omit<SvgProps, 'color' | 'fill' | 'stroke'> &
     points?: string;
     fontSize?: number;
     fontWeight?: string;
-    fontFamily?: string | undefined;
+    fontFamily?: string;
   };
 
 export type SvgBoxProps = RestyleSvgBoxProps & {
