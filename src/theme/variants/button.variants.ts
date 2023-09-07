@@ -77,7 +77,7 @@ const buttonVariants = {
     backgroundColor: 'input',
     borderWidth: 1,
     borderColor: 'buttonBorder',
-    height: 25,
+    height: 50,
     marginHorizontal: 'xs',
     marginTop: 's',
     fontSize: 20
@@ -87,7 +87,7 @@ const buttonVariants = {
     backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: 'buttonBorder',
-    height: 25,
+    height: 50,
     marginHorizontal: 'xs',
     marginTop: 's',
     fontSize: 20
