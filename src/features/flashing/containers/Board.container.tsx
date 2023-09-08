@@ -178,7 +178,7 @@ const BoardContainer = () => {
       <MenuEditorComponent
         disabledBack={modeBoard === "draw"}
         disabledUndo={lines.length === 0 || modeBoard !== 'draw'}
-        disabledEraser={lines.length === 0 || modeBoard !== 'draw'}
+        disabledEraser={lines.length === 0}
         disabledLibrary={true}
         disabledNext={modeBoard === 'finish' }
         onUndo={handleUndo}
