@@ -13,6 +13,7 @@ export type FlashingParamsList = {
     jobName: string
   };
   [Routes.DEMO]: undefined;
+  [Routes.CREATE_RAINHEAD]: undefined;
 };
 
 export type FlashingStackProps = StackNavigationProp<FlashingParamsList>;

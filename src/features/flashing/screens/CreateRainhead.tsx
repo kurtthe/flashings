@@ -6,11 +6,8 @@ import {
   ScrollBox,
 } from '@ui/components';
 import Input from '@ui/components/Input';
-import SelectInput from '@ui/components/SelectInput';
 import { DataTable } from 'react-native-paper';
-import data from '../tempData/dataRainHead.json'
 import tableRows from '../tempData/tablaRows.json'
-import { useNavigation } from "@react-navigation/native";
 import { images } from "@assets/images";
 
 const CreateRainheadScreen = () => {
