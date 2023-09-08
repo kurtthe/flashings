@@ -8,9 +8,10 @@ import {
 } from "../screens";
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
+import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
 
 const Stack = () => {
-  const { Navigator, Screen } = createStackNavigator();
+  const { Navigator, Screen } = createStackNavigator<FlashingParamsList>();
 
   return (
     <Navigator initialRouteName={Routes.CREATE_EDIT_FLASHING}>
