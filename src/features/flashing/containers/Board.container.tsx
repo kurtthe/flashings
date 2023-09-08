@@ -50,6 +50,12 @@ const BoardContainer = () => {
     const lineComplete = validateLineComplete(lines);
     const lastPoint = getLastPoint(lines);
 
+    const validAddNewPoint = lines.find((line)=> {
+      return JSON.stringify(line.points[0]) === JSON.stringify(newPoint)
+    })
+
+    if(validAddNewPoint) return
+
     const dataLine: LINE_TYPE = {
       points: [lastPoint, newPoint],
       pending: calculatePending(lastPoint, newPoint),
