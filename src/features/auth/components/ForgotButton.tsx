@@ -1,9 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 
-const ForgotButton = props => {
+type Props = {
+  onPress?: ()=>void;
+  children?: string
+}
+const ForgotButton: React.FC<Props> = props => {
   return (
-    <TouchableWithoutFeedback activeOpacity={0.6} onPress={props.onPress}>
+    <TouchableWithoutFeedback onPress={props.onPress}>
       <View style={styles_btn_link.button}>
         <Text style={styles_btn_link.buttonText}>{props.children}</Text>
       </View>
@@ -14,7 +18,7 @@ const ForgotButton = props => {
 const styles_btn_link = StyleSheet.create({
   button: {
     top:0,
-    paddingTop:10, 
+    paddingTop:10,
   },
   buttonText: {
     color: '#8F94AE',
