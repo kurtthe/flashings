@@ -1,64 +1,33 @@
 import React from 'react';
-import { StyleSheet, Image, Dimensions, View } from 'react-native';
-import { Text, Box } from '@ui/components';
-import SimpleButton from '@components/SimpleButton';
-import { Routes } from '../navigation/routes';
+import { StyleSheet, Image } from 'react-native';
+import { Text, Box, KeyboardAvoidingBox, ScreenHeaderBox } from "@ui/components";
 import LoginForm from '@features/auth/container/LoginForm';
-import { useNavigation } from '@react-navigation/native';
-import { AuthStackProps } from '@features/auth/navigation/Stack.types';
-
-const { width } = Dimensions.get('screen');
+import DismissKeyboardPressable from "@components/forms/DismissKeyboardPressable";
 
 const LoginScreen = () => {
-  const navigation = useNavigation<AuthStackProps>();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.logoAndMainTextContainer}>
-        <Image
-          style={styles.mainLogo}
-          source={require('@assets/logo/MainLogo.png')}
-        />
-        <Text style={styles.mainTextStyle}>
-          Welcome Back,{'\n'}
-          Please sign in with your account
-        </Text>
-      </View>
-      <LoginForm />
-      <Box flex={1} justifyContent="space-evenly" alignItems="center">
-        <View>
-          <SimpleButton
-            style={{ marginBottom: 5 }}
-            underlined
-            onPress={() => navigation.navigate(Routes.HELP_SUPPORT)}>
-            Need Help?
-          </SimpleButton>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={{ color: '#444857', fontSize: 15 }}>
-              Don't have an account yet?
-            </Text>
-            <SimpleButton
-              onPress={() => navigation.navigate(Routes.LEARN_HOW_TO_OPEN)}>
-              {' '}
-              Learn how to open
-            </SimpleButton>
-          </View>
-        </View>
+    <KeyboardAvoidingBox flex={1}>
+      <ScreenHeaderBox />
+      <DismissKeyboardPressable>
+      <Box px="m" flex={0.8} backgroundColor="white" >
+          <Image
+            style={styles.mainLogo}
+            source={require('@assets/logo/MainLogo.png')}
+          />
+          <Text style={styles.mainTextStyle}>
+            Welcome Back,{'\n'}
+            Please sign in with your account
+          </Text>
       </Box>
-    </View>
-  );
+      <LoginForm />
+      </DismissKeyboardPressable>
+    </KeyboardAvoidingBox>
+
+);
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 10,
-    backgroundColor: 'white',
-    paddingVertical: 35,
-  },
-  logoAndMainTextContainer: {
-    flex: 1.5,
-  },
   mainTextStyle: {
     marginVertical: 20,
     fontFamily: 'Inter',
@@ -66,16 +35,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: '#2E2F33',
     fontSize: 20,
-  },
-  inputStyle: {
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: '#E1E2E9',
-  },
-  button: {
-    marginBottom: 5,
-    width: width - 5,
-    bottom: 20,
   },
   mainLogo: {
     width: 142,

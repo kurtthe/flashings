@@ -31,3 +31,5 @@ export type { CardProps } from './Card';
 export { default as Card } from './Card';
 export {default as SelectInput} from './SelectInput';
 export type { SelectInputProps, OptionsType} from './SelectInput';
+export {default as ScreenHeaderBox} from './HeaderBox'
+export type {ScreenHeaderBoxProps} from './HeaderBox'
