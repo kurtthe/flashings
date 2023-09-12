@@ -23,7 +23,6 @@ const LoginScreen = () => {
       <LoginForm />
       </DismissKeyboardPressable>
     </KeyboardAvoidingBox>
-
 );
 };
 
