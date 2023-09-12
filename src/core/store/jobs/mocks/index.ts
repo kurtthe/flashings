@@ -69,7 +69,42 @@ export const dataJobs: JOB_DATA[] = [
     rain_heads: [],
     sumbs: []
   },
+  {
+    id: 2,
+    name: '26A Molinos North Dosquebradas',
+    number: '103',
+    address: '26A Provenza Antioquía Medellin, Colombia',
+    file_upload: '',
+    contact:{
+      name: "Dr Foreman",
+      number: "0491536169",
+      email:"forman@gmail.com"
+    },
+    flashings: [
+      {
+        id: getRandomInt(),
+        name: "Poblado Flashings",
+        colourMaterial: 2,
+        qty: 1,
+        length: 1500,
+        dataLines:[],
+        parallelRight: true
+      },
+      {
+        id: getRandomInt(),
+        colourMaterial: 3,
+        qty: 1,
+        length: 1500,
+        dataLines:[],
+        parallelRight: false,
+        name: "Epps Flashings",
+      }
+    ],
+    rain_heads: [],
+    sumbs: []
+  },
 ];
+
 
 export const dataMaterials: MATERIALS[] = [
   {

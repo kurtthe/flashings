@@ -4,7 +4,7 @@ import { useFormikContext } from 'formik';
 import { EyeIcon, EyeOffIcon } from '@assets/icons';
 
 import { ErrorMessage, FieldInput } from '@components/forms';
-import { Box, Button, Icon, IconButton } from '@ui/components';
+import { Box, Button, Icon, IconButton, Text } from "@ui/components";
 import { LoginFormValues } from '@features/auth/container/types';
 import { ForgotButton } from '@features/auth/components';
 import { useNavigation } from '@react-navigation/native';
@@ -29,7 +29,7 @@ const LoginFormComponent = () => {
   const errorMessage = errors.submit ?? '';
 
   return (
-    <>
+    <Box px="m" backgroundColor="white">
       <FieldInput
         name="email"
         placeholder="Email"
@@ -65,12 +65,13 @@ const LoginFormComponent = () => {
         }
         label="Password"
       />
-      <Box alignSelf="flex-end" marginTop="1px">
+      <Box alignSelf="flex-end" >
         <ForgotButton
           onPress={() => navigation.navigate(Routes.FORGOT_PASSWORD)}>
           Forgot Password?
         </ForgotButton>
       </Box>
+
       <Box pt="xl">
         <ErrorMessage textAlign="center" py="l">
           {errorMessage}
@@ -81,11 +82,8 @@ const LoginFormComponent = () => {
           isDisabled={!isValid || isSubmitting}>
           Log In
         </Button>
-        <Button mt="m" variant="outline" onPress={() => null}>
-          Subcontractor Access
-        </Button>
       </Box>
-    </>
+    </Box>
   );
 };
 

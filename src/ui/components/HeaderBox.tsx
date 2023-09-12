@@ -4,10 +4,9 @@ import {
   SafeAreaInsetsContext,
   SafeAreaView,
 } from 'react-native-safe-area-context';
-
 import {Box, BoxProps, Text} from '@ui/components';
 
-type Props = BoxProps & {
+export type ScreenHeaderBoxProps = BoxProps & {
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
   title?: string;
@@ -21,7 +20,7 @@ const ScreenHeaderBox = ({
   title,
   maxLength = 35,
   ...rest
-}: Props) => (
+}: ScreenHeaderBoxProps) => (
   <SafeAreaInsetsContext.Consumer>
     {insets => (
       <SafeAreaView

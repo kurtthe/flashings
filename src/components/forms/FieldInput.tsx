@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import { useAppRestyle } from '@theme';
 import { FieldConfig, useField } from 'formik';
-
 import { Box, Input } from '@ui/components';
 
 import { restyleFunctionsField } from './constants';
@@ -21,6 +20,7 @@ export type Props = InputProps &
   Pick<FieldConfig<any>, 'name' | 'type' | 'validate' | 'value'> & {
     label?: string;
     styleInput?: StyleProp<TextStyle>;
+    isClearButtonModeIcon?: 'while-editing' | 'never' | 'unless-editing' | 'always';
     styleContent?: StyleProp<TextStyle>;
   };
 
@@ -35,6 +35,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
       onChangeText,
       styleInput,
       styleContent,
+      isClearButtonModeIcon,
       ...rest
     },
     ref,
@@ -70,7 +71,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
           defaultValue={meta.initialValue}
           value={field.value}
           isInvalid={isInvalid}
-          clearButtonMode="never"
+          clearButtonMode={isClearButtonModeIcon ?? 'while-editing'}
           styleContent={styleContent}
           {...passedProps}
         />
