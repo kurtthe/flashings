@@ -250,8 +250,8 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 inputStyle,
                 fontStyle,
                 {
-                  paddingTop: value || isFocused ? 17 : 0,
-                  fontWeight: isFocused ? '700' : '500',
+                  paddingTop: (value || isFocused) ? 17 : 0,
+                  fontWeight: (value || isFocused) ? '700' : '500',
                   paddingHorizontal: 0,
                 },
                 styleContent,

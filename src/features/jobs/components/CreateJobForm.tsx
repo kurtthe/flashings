@@ -3,12 +3,13 @@ import { FieldInput } from '@components/forms';
 import { useFormikContext } from 'formik';
 import { CreateFormValues } from '@features/jobs/containers/types';
 import { Box, Button, Divider, Text } from '@ui/components';
-import { validatePhone } from "@features/jobs/constants";
+import { formKeys, forms, validatePhone } from "@features/jobs/constants";
 import { formatPhone } from "@shared/helpers";
 
 const CreateJobFormComponent = () => {
   const formik = useFormikContext<CreateFormValues>();
-  const {  isValid,  handleSubmit,  setFieldValue } = formik;
+  const { isValid,  handleSubmit,  setFieldValue } = formik;
+
   const handleEndEditing = (text: string) => {
     if (!text) return;
     const value = text;
@@ -16,7 +17,7 @@ const CreateJobFormComponent = () => {
 
     if (isValidPhoneNumber) {
       const phoneNumber = formatPhone(value);
-      setFieldValue('contactNumber', phoneNumber)
+      setFieldValue(formKeys.createJob.contactNumber, phoneNumber)
     }
   };
 
@@ -26,48 +27,43 @@ const CreateJobFormComponent = () => {
         <Text variant="subheadSmallBold">Job Details</Text>
         <FieldInput
           isRequired
-          name="jobName"
-          placeholder="Job Name"
+          name={formKeys.createJob.jobName}
+          placeholder={forms.createJob.placeholders[formKeys.createJob.jobName]}
+          label={forms.createJob.labels[formKeys.createJob.jobName]}
           returnKeyType="next"
-          label="Job Name"
           mt="m"
         />
         <FieldInput
-          name="jobNumber"
-          placeholder="Job Number"
+          name={formKeys.createJob.jobNumber}
+          placeholder={forms.createJob.placeholders[formKeys.createJob.jobNumber]}
+          label={forms.createJob.labels[formKeys.createJob.jobNumber]}
           returnKeyType="next"
-          label="Job Number"
           mt="m"
         />
         <FieldInput
-          name="siteAddress"
-          placeholder="Site Address"
+          name={formKeys.createJob.siteAddress}
+          placeholder={forms.createJob.placeholders[formKeys.createJob.siteAddress]}
+          label={forms.createJob.labels[formKeys.createJob.siteAddress]}
           returnKeyType="next"
-          label="Site Address"
-          mt="m"
-        />
-        <FieldInput
-          name="fileUpload"
-          placeholder="File Upload"
-          returnKeyType="next"
-          label="File upload"
           mt="m"
         />
       </Box>
       <Divider my="l" />
       <Text variant="subheadSmallBold">Contact Details</Text>
       <FieldInput
-        name="contactName"
-        placeholder="Contact Name"
+        isRequired
+        name={formKeys.createJob.contactName}
+        placeholder={forms.createJob.placeholders[formKeys.createJob.contactName]}
+        label={forms.createJob.labels[formKeys.createJob.contactName]}
         returnKeyType="next"
         mt="m"
-        label="Contact Name"
       />
       <FieldInput
-        name="contactNumber"
-        placeholder="Contact Number"
+        isRequired
+        name={formKeys.createJob.contactNumber}
+        placeholder={forms.createJob.placeholders[formKeys.createJob.contactNumber]}
+        label={forms.createJob.labels[formKeys.createJob.contactNumber]}
         returnKeyType="next"
-        label="Contact Number"
         keyboardType="phone-pad"
         inputMode="tel"
         textContentType="telephoneNumber"
@@ -75,10 +71,11 @@ const CreateJobFormComponent = () => {
         onEndEditing={(e) => handleEndEditing(e.nativeEvent.text)}
       />
       <FieldInput
-        name="contactEmail"
-        placeholder="Contact Email"
+        isRequired
+        name={formKeys.createJob.contactEmail}
+        placeholder={forms.createJob.placeholders[formKeys.createJob.contactEmail]}
+        label={forms.createJob.labels[formKeys.createJob.contactEmail]}
         returnKeyType="next"
-        label="Contact Email"
         keyboardType="email-address"
         textContentType="emailAddress"
         autoCompleteType="email"

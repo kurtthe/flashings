@@ -33,57 +33,63 @@ export const validatePhone = (phone: string | undefined) =>
       return false;
     })
     .isValidSync(phone);
+
+export const formKeys = {
+  createJob: {
+    jobName: 'jobName',
+    jobNumber: 'jobNumber',
+    siteAddress: 'siteAddress',
+    contactName: 'contactName',
+    contactNumber: 'contactNumber',
+    contactEmail: 'contactEmail',
+  },
+}
 export const forms = {
   createJob: {
     initialValues: {
-      jobName: '',
-      jobNumber: '',
-      siteAddress: '',
-      fileUpload: '',
-      contactName: '',
-      contactNumber: '',
-      contactEmail: '',
+      [formKeys.createJob.jobName]: '',
+      [formKeys.createJob.jobNumber]: '',
+      [formKeys.createJob.siteAddress]: '',
+      [formKeys.createJob.contactName]: '',
+      [formKeys.createJob.contactNumber]: '',
+      [formKeys.createJob.contactEmail]: '',
     },
     initialErrors: {
-      jobName: '',
-      jobNumber: '',
-      siteAddress: '',
-      fileUpload: '',
-      contactName: '',
-      contactNumber: '',
-      contactEmail: '',
+      [formKeys.createJob.jobName]: '',
+      [formKeys.createJob.jobNumber]: '',
+      [formKeys.createJob.siteAddress]: '',
+      [formKeys.createJob.contactName]: '',
+      [formKeys.createJob.contactNumber]: '',
+      [formKeys.createJob.contactEmail]: '',
     },
     labels: {
-      jobName: 'Job Name',
-      jobNumber: 'Job Number',
-      siteAddress: 'Site Address',
-      fileUpload: 'File Upload',
-      contactName: 'Contact Name',
-      contactNumber: 'Contact Number',
-      contactEmail: 'Contact Email',
+      [formKeys.createJob.jobName]: 'Job Name',
+      [formKeys.createJob.jobNumber]: 'Job Number',
+      [formKeys.createJob.siteAddress]: 'Site Address',
+      [formKeys.createJob.contactName]: 'Contact Name',
+      [formKeys.createJob.contactNumber]: 'Contact Number',
+      [formKeys.createJob.contactEmail]: 'Contact Email',
     },
     placeholders: {
-      jobName: 'Job Name',
-      jobNumber: 'Job Number',
-      siteAddress: 'Site Address',
-      fileUpload: 'File Upload',
-      contactName: 'Contact Name',
-      contactNumber: 'Contact Number',
-      contactEmail: 'Contact Email',
+      [formKeys.createJob.jobName]: 'Job Name',
+      [formKeys.createJob.jobNumber]: 'Job Number',
+      [formKeys.createJob.siteAddress]: 'Site Address',
+      [formKeys.createJob.contactName]: 'Contact Name',
+      [formKeys.createJob.contactNumber]: 'Contact Number',
+      [formKeys.createJob.contactEmail]: 'Contact Email',
     },
     schema: Yup.object({
-      jobName: Yup.string().required("Job Name is required."),
-      jobNumber: Yup.string(),
-      siteAddress: Yup.string(),
-      fileUpload: Yup.string(),
-      contactName: Yup.string(),
-      contactNumber: Yup.string()
+      [formKeys.createJob.jobName]: Yup.string().required("Job Name is required."),
+      [formKeys.createJob.jobNumber]: Yup.string(),
+      [formKeys.createJob.siteAddress]: Yup.string(),
+      [formKeys.createJob.contactName]: Yup.string(),
+      [formKeys.createJob.contactNumber]: Yup.string()
         .required('Contact Number is required')
         .ensure()
         .trim()
         .lowercase()
         .test('step', 'Phone number is invalid', value => validatePhone(value)),
-      contactEmail: Yup.string()
+      [formKeys.createJob.contactEmail]: Yup.string()
         .email(customValidationMessages.createJob.email.email)
         .ensure()
         .trim()
