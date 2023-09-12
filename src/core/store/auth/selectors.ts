@@ -10,3 +10,5 @@ export const isAuthenticatedSelector = createSelector(
   [getAuthData],
   authData => !!authData.api_key,
 );
+
+export const dataUserSelector = createSelector(authSelector, (state => state.user))
