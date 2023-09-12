@@ -4,7 +4,7 @@ import { useFormikContext } from 'formik';
 import { EyeIcon, EyeOffIcon } from '@assets/icons';
 
 import { ErrorMessage, FieldInput } from '@components/forms';
-import { Box, Button, Icon, IconButton, Text } from "@ui/components";
+import { Box, Button, Icon, IconButton } from "@ui/components";
 import { LoginFormValues } from '@features/auth/container/types';
 import { ForgotButton } from '@features/auth/components';
 import { useNavigation } from '@react-navigation/native';

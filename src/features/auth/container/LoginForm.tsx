@@ -56,19 +56,19 @@ const LoginForm = () => {
 
       <Box alignItems="center" flex={1} py="s" mb="s" backgroundColor="white">
         <SimpleButton
-          style={{ marginBottom: 5 }}
+          style={{ marginVertical: 5 }}
           underlined
           onPress={() => navigation.navigate(Routes.HELP_SUPPORT)}>
           Need Help?
         </SimpleButton>
-        <Box style={{ flexDirection: 'row' }}>
+        <Box flexDirection='column' alignItems="center" py="s">
           <Text style={{ color: '#444857', fontSize: 15 }}>
             Don't have an account yet?
           </Text>
+
           <SimpleButton
             onPress={() => navigation.navigate(Routes.LEARN_HOW_TO_OPEN)}>
-            {' '}
-            Learn how to open
+            Learn how to open a new account
           </SimpleButton>
         </Box>
       </Box>
