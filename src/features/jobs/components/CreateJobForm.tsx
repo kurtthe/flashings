@@ -13,7 +13,8 @@ const CreateJobFormComponent = () => {
   const handleEndEditing = (text: string) => {
     if (!text) return;
     const value = text;
-    const isValidPhoneNumber = validatePhone(value);
+    const numberInternational = value.includes('+')
+    const isValidPhoneNumber = validatePhone(value, !numberInternational? 'NATIONAL': 'INTERNATIONAL');
 
     if (isValidPhoneNumber) {
       const phoneNumber = formatPhone(value);
