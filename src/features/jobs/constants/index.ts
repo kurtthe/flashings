@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 import { isInteger } from 'lodash';
 import { formatPhone } from '@shared/helpers';
+import { NumberFormat } from "libphonenumber-js";
 
 export const customValidationMessages = {
   createJob: {
@@ -14,7 +15,7 @@ export const customValidationMessages = {
 // 433758963
 // +61433773578
 
-export const validatePhone = (phone: string | undefined) =>
+export const validatePhone = (phone: string | undefined, numberFormat: NumberFormat = "NATIONAL") =>
   Yup.string()
     .trim()
     .test('phone', 'Phone number is invalid', (value: string | undefined) => {
@@ -22,14 +23,22 @@ export const validatePhone = (phone: string | undefined) =>
         return false;
       }
       const clearValue = value.replace(/[\s()-]/g, '');
-      if (isInteger(Number(clearValue)) && clearValue.length === 10) {
-        const formatedPhone = formatPhone(clearValue);
-        if (formatedPhone.length === 12) return true;
+      const lengthNumber = numberFormat === 'NATIONAL'? 10: 12
+      const lengthFormatNumber = numberFormat === 'NATIONAL'? 14: 15
+
+      console.log("lengthNumber::", lengthNumber)
+      console.log("lengthFormatNumber::", lengthFormatNumber)
+
+      if (isInteger(Number(clearValue)) && clearValue.length === lengthNumber) {
+        const formatedPhone = formatPhone(clearValue, {format: numberFormat});
+        if (formatedPhone.length === lengthFormatNumber) return true;
       }
-      if (value.length === 10) {
-        const formatedPhone = formatPhone(value);
-        if (formatedPhone.length === 12) return true;
+
+      if (value.length === lengthNumber) {
+        const formatedPhone = formatPhone(value, {format: numberFormat});
+        if (formatedPhone.length === lengthFormatNumber) return true;
       }
+
       return false;
     })
     .isValidSync(phone);
@@ -88,7 +97,10 @@ export const forms = {
         .ensure()
         .trim()
         .lowercase()
-        .test('step', 'Phone number is invalid', value => validatePhone(value)),
+        .test('step', 'Phone number is invalid', value => {
+          const numberInternational = value.includes('+')
+          return validatePhone(value, numberInternational? 'INTERNATIONAL': 'NATIONAL');
+        }),
       [formKeys.createJob.contactEmail]: Yup.string()
         .email(customValidationMessages.createJob.email.email)
         .ensure()
