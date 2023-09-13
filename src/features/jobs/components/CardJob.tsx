@@ -5,12 +5,23 @@ import { Routes } from '@features/jobs/navigation/routes';
 import { JOB_DATA } from "@models";
 import { useNavigation } from '@react-navigation/native';
 import { JobStackProps } from '@features/jobs/navigation/Stack.types';
+import { actions } from "@store/jobs/actions";
+import { useAppDispatch } from "@hooks/useStore";
 
 type Props = {
   job: JOB_DATA;
+  isArchived: boolean;
 };
-const CardJobComponent: React.FC<Props> = ({ job }) => {
+const CardJobComponent: React.FC<Props> = ({ job, isArchived }) => {
   const navigation = useNavigation<JobStackProps>();
+  const dispatch = useAppDispatch();
+
+  const handleToggleArchive = ()=> {
+    if(isArchived){
+      return dispatch(actions.changeUnArchive({idJob:job.id }))
+    }
+    dispatch(actions.changeArchive({idJob:job.id }))
+  }
 
   return (
     <Card>
@@ -26,7 +37,8 @@ const CardJobComponent: React.FC<Props> = ({ job }) => {
         justifyContent="flex-end"
         alignItems="center"
         flexDirection="row">
-        <Text variant="bodyMediumLink">Archive</Text>
+
+        <Button variant="smallWhite" onPress={handleToggleArchive}>{!isArchived ?"Archive": "Unarchived"}</Button>
         <View style={{ marginHorizontal: 12 }} />
         <Button
           variant="small"

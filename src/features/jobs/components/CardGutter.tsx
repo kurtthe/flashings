@@ -48,9 +48,9 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
           alignSelf='flex-end'
           mb="s"
           >
-          <Text variant="linkTextSmall">Duplicate</Text>
-          <Text variant="linkTextSmall">Save</Text>
-          <Text variant="linkTextSmall">Edit</Text>
+          {/*<Text variant="linkTextSmall">Duplicate</Text>*/}
+          {/*<Text variant="linkTextSmall">Save</Text>*/}
+          {/*<Text variant="linkTextSmall">Edit</Text>*/}
         </Box>
         <Box>
           <Text variant="bodyLabelTextfield" fontWeight="bold" color="black" >Description</Text>
