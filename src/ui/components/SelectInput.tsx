@@ -456,7 +456,7 @@ export default DropdownComponent;
 const styles = StyleSheet.create({
   mainWrap: {
     justifyContent: 'center',
-    width: '100%'
+    width: '100%',
   },
   container: {
     flexShrink: 1,
@@ -513,12 +513,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'left',
     width: '100%',
-    height: 52,
     paddingHorizontal: 8,
     borderWidth: 0.2,
     borderRadius: 8,
     borderColor: '#8F94AE',
     backgroundColor: 'white',
+    height: 60,
+
   },
   dropdownTextStyles: {
     fontSize: 20,
@@ -534,7 +535,6 @@ const styles = StyleSheet.create({
   contentInput: {
     flexDirection: 'row',
     borderColor: '#8F94AE',
-    backgroundColor: 'white',
   },
   label: {
     fontSize: 16,
