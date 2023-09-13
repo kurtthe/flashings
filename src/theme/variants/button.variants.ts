@@ -57,6 +57,14 @@ const buttonVariants = {
     fontSize: 14,
     color: 'white',
   },
+  smallWhite: {
+    px: "unset",
+    backgroundColor: 'white',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    color: 'black',
+  },
   smallMenu: {
     minHeight: 30,
     fontSize: 12,

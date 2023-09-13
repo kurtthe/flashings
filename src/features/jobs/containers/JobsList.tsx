@@ -24,7 +24,7 @@ const JobsListContainer = () => {
         contentContainerStyle={{paddingVertical: 10}}
         data={jobs}
         keyExtractor={(item, index) => `${item.id}-${index}`}
-        renderItem={({ item }) => <CardJobComponent job={item} />}
+        renderItem={({ item }) => <CardJobComponent job={item} isArchived={typeJobs === "archived"} />}
       />
       <Button
         mx="m"

@@ -1,10 +1,9 @@
 import { JOB_DATA, MATERIALS } from "@models";
 import { getRandomInt } from "@shared/utils";
 
-
 export const jobsArchive: JOB_DATA[] = [
   {
-    id: 1,
+    id: getRandomInt(10, 600),
     name: ' Ringwood North',
     number: '684',
     address: '6a Pine Cres, Ringwood North VIC, Australia',
@@ -19,7 +18,7 @@ export const jobsArchive: JOB_DATA[] = [
     sumbs: []
   },
   {
-    id: 2,
+    id: getRandomInt(10, 600),
     name: 'North Ringwood',
     number: '896',
     address: '6a Pine Cres, Ringwood North VIC, Australia',
@@ -36,7 +35,7 @@ export const jobsArchive: JOB_DATA[] = [
 ];
 export const dataJobs: JOB_DATA[] = [
   {
-    id: 1,
+    id: getRandomInt(10, 600),
     name: '6A Pine Cres Ringwood North',
     number: '972',
     address: '6a Pine Cres, Ringwood North VIC, Australia',
@@ -70,7 +69,7 @@ export const dataJobs: JOB_DATA[] = [
     sumbs: []
   },
   {
-    id: 2,
+    id: getRandomInt(10, 600),
     name: '26A Molinos North Dosquebradas',
     number: '103',
     address: '26A Provenza Antioquía Medellin, Colombia',
