@@ -67,18 +67,18 @@ const JobDetailsScreen = () => {
               onPress={() => onPressFooter(Routes.CREATE_EDIT_FLASHING, {jobId: item.id, jobName: item.name})}>
               + Add Flashing
             </Button>
-            <Button
-              mt="s"
-              onPress={() => onPressFooter(Routes.CREATE_RAINHEAD)} //JUST TO TEST
-              variant="outlineWhite">
-              + Add Rainhead
-            </Button>
-            <Button
-              mt="s"
-              onPress={() => null}
-              variant="outlineWhite">
-              + Add Sump
-            </Button>
+            {/*<Button*/}
+            {/*  mt="s"*/}
+            {/*  onPress={() => onPressFooter(Routes.CREATE_RAINHEAD)} //JUST TO TEST*/}
+            {/*  variant="outlineWhite">*/}
+            {/*  + Add Rainhead*/}
+            {/*</Button>*/}
+            {/*<Button*/}
+            {/*  mt="s"*/}
+            {/*  onPress={() => null}*/}
+            {/*  variant="outlineWhite">*/}
+            {/*  + Add Sump*/}
+            {/*</Button>*/}
             {/*<Button mt="s" onPress={() => {}} variant="solid">*/}
             {/*  Preview*/}
             {/*</Button>*/}
