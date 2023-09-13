@@ -43,7 +43,7 @@ const Stack = () => {
         options={{
           header: ({navigation, route}) => (
             <HeaderBox
-              maxLength={14}
+              maxLength={15}
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.navigate(Routes.ALL_JOBS)} />}
               title={route.params ? route.params.jobName: ''}
             />
