@@ -33,6 +33,7 @@ const FieldSelect = ({ options, name, onChange, onBlur, label, ...rest }: Props)
         value={field.value ?? ""}
         options={options}
         onChange={handleChange}
+        label={label}
         {...rest}
       />
       <Box style={styles.labelContainer}>

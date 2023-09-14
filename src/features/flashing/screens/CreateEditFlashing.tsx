@@ -26,7 +26,7 @@ const CreateFlashingScreen = () => {
           name,
           qty: qty ?? 0,
           length: length ?? 0,
-          colourMaterial: material ?? 1,
+          colourMaterial: material ?? 0,
           dataLines: [],
           parallelRight: true
         }, jobId: route.params.jobId, jobName: route.params.jobName})
