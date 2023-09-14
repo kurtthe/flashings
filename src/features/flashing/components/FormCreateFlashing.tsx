@@ -14,6 +14,7 @@ const FormCreateFlashingComponent = ()=>{
       <Box px="m" flex={1} >
         <Box my="m" flex={0.8}>
           <FieldInput
+            isRequired
             name="name"
             placeholder="Name"
             returnKeyType="next"
@@ -21,6 +22,7 @@ const FormCreateFlashingComponent = ()=>{
             my="l"
           />
           <FieldSelect
+            isRequired
             label="Colour/Material"
             name="material"
             options={selectData}
@@ -29,6 +31,7 @@ const FormCreateFlashingComponent = ()=>{
 
           <Box flexDirection="row" justifyContent="space-between" my="l" >
             <FieldInput
+              isRequired
               name="qty"
               placeholder="qty"
               label="Qty"
@@ -36,6 +39,7 @@ const FormCreateFlashingComponent = ()=>{
               keyboardType="numeric"
             />
             <FieldInput
+              isRequired
               name="length"
               placeholder="length"
               label="Length"
