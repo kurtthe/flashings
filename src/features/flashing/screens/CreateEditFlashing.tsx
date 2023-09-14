@@ -24,9 +24,9 @@ const CreateFlashingScreen = () => {
         data: {
           id: getRandomInt(),
           name,
-          qty: qty ?? 0,
-          length: length ?? 0,
-          colourMaterial: material ?? 0,
+          qty: qty,
+          length: length,
+          colourMaterial: material,
           dataLines: [],
           parallelRight: true
         }, jobId: route.params.jobId, jobName: route.params.jobName})
@@ -44,6 +44,7 @@ const CreateFlashingScreen = () => {
           ...forms.createFlashing.initialValues,
         }}
         validationSchema={forms.createFlashing.schema}
+        initialErrors={forms.createFlashing.initialErrors}
         onSubmit={handleSubmit}>
         <FormCreateFlashingComponent />
       </Formik>
