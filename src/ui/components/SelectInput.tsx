@@ -92,6 +92,7 @@ export type SelectInputProps = {
   onConfirmSelectItem?: (item: any) => void;
   renderItems?: (item: OptionsType, index: number) => JSX.Element;
   portal?: boolean;
+  isRequired?: boolean;
 };
 
 const DropdownComponent = React.forwardRef<any, SelectInputProps>(
@@ -122,6 +123,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       search = false,
       value = '',
       portal = true,
+      isRequired = false
     } = props;
     const ref = useRef<View>(null);
     const refList = useRef<FlatList>(null);
@@ -432,7 +434,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                   color: currentValue?.textColor ? currentValue?.textColor : '#8F94AE'
                 }
               ]}
-              value={currentValue?.label ?? labelField}
+              value={`${currentValue?.label ?? labelField}${isRequired? '*': ''}`}
               editable={search}
               onPressIn={() => showOrClose()}
             />

@@ -15,7 +15,7 @@ type Props = Omit<SelectInputProps, 'onChange'> &
   onChange?: (item: any, prev: any) => void;
 };
 const isAndroid = Platform.OS === 'android';
-const FieldSelect = ({ options, name, onChange, onBlur, label, ...rest }: Props) => {
+const FieldSelect = ({ options, name, onChange, onBlur, label, isRequired, ...rest }: Props) => {
   const [field, meta, helpers] = useField<number>(name);
   const isInvalid = Boolean(meta.touched && meta.error);
 
@@ -34,11 +34,13 @@ const FieldSelect = ({ options, name, onChange, onBlur, label, ...rest }: Props)
         options={options}
         onChange={handleChange}
         label={label}
+        isRequired={isRequired}
         {...rest}
       />
       <Box style={styles.labelContainer}>
         <Text variant="subheadLight" fontSize={14}>
           {options.length !== 0 && field.value ? label : ''}
+          {field.value && isRequired ? <Text color="error500">*</Text>: null}
         </Text>
       </Box>
       {isInvalid && <ErrorMessage>{meta.error}</ErrorMessage>}
