@@ -1,8 +1,8 @@
 import React from 'react';
 import { FieldInput, FieldSelect } from "@components/forms";
-import { Button, Box } from "@ui/components";
+import { Button, Box, ScrollBox } from "@ui/components";
 import selectData from '../tempData/selectData.json'
-import { useFormikContext } from "formik";
+import { FieldArray, useFormikContext } from "formik";
 import { AddFlashingFormValues } from "@features/flashing/constants";
 import { FlatList } from "react-native";
 
@@ -12,42 +12,10 @@ type SIZE_LENGTH_TYPE = {
 }
 
 const FormCreateFlashingComponent = ()=> {
-	const [sizesLength, setSizesLength] = React.useState<SIZE_LENGTH_TYPE[]>([{
-		qty: 0,
-		length: 0
-	}])
   const formik = useFormikContext<AddFlashingFormValues>();
-  const { handleSubmit, isValid,isSubmitting } = formik;
-
-
-	const handleLength = () => {
-		setSizesLength((prevState)=> [...prevState, {qty: 0, length: 0} ])
-	}
-
-	const renderItem = ({item})=> (
-		<Box  flexDirection="row" justifyContent="space-between" mt="l" mb="unset" >
-			<FieldInput
-				isRequired
-				name="qty"
-				placeholder="qty"
-				label="Qty"
-				style={{width: 150}}
-				keyboardType="numeric"
-			/>
-			<FieldInput
-				isRequired
-				name="length"
-				placeholder="length"
-				label="Length"
-				style={{width: 150}}
-				suffix="mm"
-				keyboardType="numeric"
-			/>
-		</Box>
-	)
+  const { values, handleSubmit, isValid,isSubmitting } = formik;
 
   return (
-
 	      <Box px="m" flex={1} >
 	        <Box my="m" flex={0.9}>
 	          <FieldInput
@@ -65,22 +33,54 @@ const FormCreateFlashingComponent = ()=> {
 	            options={selectData}
 	            my="l"
 	          />
-
-		          <FlatList
-			          data={sizesLength}
-			          showsVerticalScrollIndicator={false}
-			          keyExtractor={(_,index)=> `row-length${index}`}
-			          renderItem={renderItem}
-			          style={{flexGrow: 1, height: '40%'}}
-		          />
-
-	            <Button
-	              variant="outlineWhite"
-	              mt="2xl"
-	              onPress={handleLength}
-	              >
-	              + Add Length
-	            </Button>
+		        <FieldArray
+		          name="flashingLengths"
+		          render={(arrayHelpers)=> (
+			          <>
+				          <ScrollBox height="30%" showsVerticalScrollIndicator={false}>
+					          {
+						          values.flashingLengths?.map((_, index)=> (
+							          <React.Fragment key={`row-length-${index}`}>
+								          <Box flexDirection="row" justifyContent="space-between" mt="l" mb="unset" >
+									          <FieldInput
+										          isRequired
+										          name={`flashingLength.${index}.qty`}
+										          placeholder="qty"
+										          label="Qty"
+										          style={{width: 150}}
+										          keyboardType="numeric"
+									          />
+									          <FieldInput
+										          isRequired
+										          name={`flashingLength.${index}.length`}
+										          placeholder="length"
+										          label="Length"
+										          style={{width: 150}}
+										          suffix="mm"
+										          keyboardType="numeric"
+									          />
+									          <Button variant="outlineWhite" height={60}>
+										          -
+									          </Button>
+								          </Box>
+							          </React.Fragment>
+						          ))
+					          }
+				          </ScrollBox>
+				          <Button
+					          variant="outlineWhite"
+					          mt="2xl"
+					          onPress={() =>
+						          arrayHelpers.push({
+							          qty: NaN,
+							          length: NaN
+						          })}
+				          >
+					          + Add Length
+				          </Button>
+			          </>
+		          )}
+		        />
 	          </Box>
 
 	          <Button
