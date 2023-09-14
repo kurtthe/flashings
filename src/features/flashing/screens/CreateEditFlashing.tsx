@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@ui/components';
+import { Box, KeyboardAvoidingBox } from "@ui/components";
 import { Routes as RoutesFlashing, Routes } from "../navigation/routes";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { FlashingParamsList, FlashingStackProps } from "@features/flashing/navigation/Stack.types";
@@ -7,6 +7,7 @@ import {AddFlashingFormValues, forms} from "@features/flashing/constants";
 import {FormCreateFlashingComponent} from "@features/flashing/components";
 import { Formik,  FormikProps } from "formik";
 import { getRandomInt } from "@shared/utils";
+import DismissKeyboardPressable from "@components/forms/DismissKeyboardPressable";
 
 
 const CreateFlashingScreen = () => {
@@ -35,20 +36,25 @@ const CreateFlashingScreen = () => {
   );
 
   return (
-    <Box
-      backgroundColor='white'
-      flex={1}>
-      <Formik
-        innerRef={formikRef}
-        initialValues={{
-          ...forms.createFlashing.initialValues,
-        }}
-        validationSchema={forms.createFlashing.schema}
-        initialErrors={forms.createFlashing.initialErrors}
-        onSubmit={handleSubmit}>
-        <FormCreateFlashingComponent />
-      </Formik>
-    </Box>
+    <KeyboardAvoidingBox flex={1}>
+      <DismissKeyboardPressable>
+        <Box
+          backgroundColor='white'
+          flex={1}>
+          <Formik
+            innerRef={formikRef}
+            initialValues={{
+              ...forms.createFlashing.initialValues,
+            }}
+            validationSchema={forms.createFlashing.schema}
+            initialErrors={forms.createFlashing.initialErrors}
+            onSubmit={handleSubmit}>
+            <FormCreateFlashingComponent />
+          </Formik>
+        </Box>
+      </DismissKeyboardPressable>
+    </KeyboardAvoidingBox>
+
   );
 };
 export default CreateFlashingScreen;
