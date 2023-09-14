@@ -3,17 +3,23 @@ import * as Yup from 'yup';
 
 export const forms = {
   createFlashing: {
+    initialErrors: {
+      name: '',
+      material: '',
+      qty: '',
+      length: '',
+    },
     initialValues: {
       name: '',
-      material: 0,
-      qty: 0,
-      length: 0
+      material: NaN,
+      qty: NaN,
+      length: NaN
     },
     schema: Yup.object({
-      name: Yup.string(),
-      material: Yup.number(),
-      qty: Yup.number().typeError('Qty must be a number'),
-      length: Yup.number().typeError('Length must be a number')
+      name: Yup.string().required('Name is required'),
+      material: Yup.number().required('The material is required'),
+      qty: Yup.number().required('Qty is required').typeError('Qty must be a number'),
+      length: Yup.number().required('Qty is required').typeError('Length must be a number')
     }),
   }
 };
