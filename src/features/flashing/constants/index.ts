@@ -5,7 +5,7 @@ export const forms = {
   createFlashing: {
     initialValues: {
       name: '',
-      material: 1,
+      material: 0,
       qty: 0,
       length: 0
     },

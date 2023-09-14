@@ -29,7 +29,6 @@ import {Icon} from '@ui/components';
 import {DownIcon, UpIcon} from '@assets/icons';
 
 const defaultProps = {
-  placeholder: 'Select item',
   activeColor: '#F6F7F8',
   data: [],
   style: {},
@@ -45,7 +44,7 @@ export type OptionsType = {
 };
 
 export type SelectInputProps = {
-  label?: string;
+  label: string;
   style?: StyleProp<ViewStyle>;
   inputStyles?: TextStyle;
   placeholder?: string;
@@ -120,7 +119,6 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       onConfirmSelectItem,
       renderItems,
       inputStyles,
-      placeholder,
       search = false,
       value = '',
       portal = true,
@@ -142,7 +140,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
 
     React.useEffect(() => {
       const optionValue = options.find(
-        item => item.value === value || item.label === value,
+        item => item.value === value ?? item.label === value,
       );
 
 
@@ -418,12 +416,12 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       H,
       focus,
     ]);
+
     return (
       <View
         style={StyleSheet.flatten([styles.mainWrap, style])}
         ref={ref}
         onLayout={_measure}>
-        {labelField && <Text style={[styles.label]}>{labelField}</Text>}
         <Pressable style={styles.contentInput} onPress={() => showOrClose()}>
             <TextInput
               style={[
@@ -431,11 +429,10 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                 inputStyles,
                 {
                   backgroundColor: currentValue?.bgColor && currentValue?.bgColor,
-                  color: currentValue?.textColor ? currentValue?.textColor : 'black'
+                  color: currentValue?.textColor ? currentValue?.textColor : '#8F94AE'
                 }
               ]}
-              placeholder={placeholder + 'askjk'}
-              value={`${currentValue && currentValue.label}`}
+              value={currentValue?.label ?? labelField}
               editable={search}
               onPressIn={() => showOrClose()}
             />
@@ -519,7 +516,6 @@ const styles = StyleSheet.create({
     borderColor: '#8F94AE',
     backgroundColor: 'white',
     height: 60,
-
   },
   dropdownTextStyles: {
     fontSize: 20,

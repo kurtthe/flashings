@@ -23,7 +23,6 @@ const FormCreateFlashingComponent = ()=>{
           <FieldSelect
             label="Colour/Material"
             name="material"
-            placeholder="Select material"
             options={selectData}
             my="l"
           />
