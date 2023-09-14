@@ -20,7 +20,10 @@ const CreateFlashingScreen = () => {
     async (
       values: AddFlashingFormValues,
     ) => {
-      const { name, qty, material, length } = values;
+      const { name,  material, flashingLengths } = values;
+      if(!flashingLengths) return
+      const {qty, length} = flashingLengths[0]
+
       navigation.navigate(Routes.BOARD_FLASHING, {
         data: {
           id: getRandomInt(),

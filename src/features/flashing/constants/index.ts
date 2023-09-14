@@ -12,14 +12,22 @@ export const forms = {
     initialValues: {
       name: '',
       material: NaN,
-      qty: NaN,
-      length: NaN
+      flashingLengths: [
+        {
+          qty: NaN,
+          length: NaN
+        }
+      ]
     },
     schema: Yup.object({
       name: Yup.string().required('Name is required'),
       material: Yup.number().required('The material is required'),
-      qty: Yup.number().required('Qty is required').typeError('Qty must be a number'),
-      length: Yup.number().required('Qty is required').typeError('Length must be a number')
+      flashingLengths: Yup.array().of(
+        Yup.object().shape({
+          qty: Yup.number().required('Qty is required').typeError('Qty must be a number'),
+          length: Yup.number().required('Length is required').typeError('Length must be a number')
+        })
+      )
     }),
   }
 };
