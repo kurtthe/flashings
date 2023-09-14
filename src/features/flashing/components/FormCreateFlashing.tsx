@@ -59,7 +59,7 @@ const FormCreateFlashingComponent = ()=> {
 										          suffix="mm"
 										          keyboardType="numeric"
 									          />
-									          <Button variant="outlineWhite" height={60}>
+									          <Button variant="outlineWhite" height={60} onPress={()=> arrayHelpers.remove(index)}>
 										          -
 									          </Button>
 								          </Box>
