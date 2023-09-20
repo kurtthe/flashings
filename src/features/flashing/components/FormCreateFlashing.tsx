@@ -4,17 +4,13 @@ import { Button, Box, ScrollBox } from "@ui/components";
 import selectData from '../tempData/selectData.json'
 import { FieldArray, useFormikContext } from "formik";
 import { AddFlashingFormValues } from "@features/flashing/constants";
-import { FlatList } from "react-native";
 
-type SIZE_LENGTH_TYPE = {
-	qty: number;
-	length: number;
-}
 
 const FormCreateFlashingComponent = ()=> {
   const formik = useFormikContext<AddFlashingFormValues>();
   const { values, handleSubmit, isValid,isSubmitting } = formik;
-
+	console.log("values::", values)
+	console.log("isValid::", isValid)
   return (
 	      <Box px="m" flex={1} >
 	        <Box my="m" flex={0.9}>
