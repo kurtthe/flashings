@@ -6,18 +6,12 @@ export const forms = {
     initialErrors: {
       name: '',
       material: '',
-      qty: '',
-      length: '',
+      flashingLengths: ''
     },
     initialValues: {
       name: '',
       material: NaN,
-      flashingLengths: [
-        {
-          qty: NaN,
-          length: NaN
-        }
-      ]
+      flashingLengths: []
     },
     schema: Yup.object({
       name: Yup.string().required('Name is required'),
