@@ -55,6 +55,7 @@ const JobDetailsScreen = () => {
         renderItem={({ item, index }) => (
           <CardGutter
             key={`${item.id}-${index}`}
+            jobId={item.id.toString()}
             onAddLength={() => setModalVisible(!modalVisible)}
             data={item}
           />

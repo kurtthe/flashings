@@ -1,5 +1,5 @@
 import {createAction} from "@reduxjs/toolkit";
-import {FLASHINGS_DATA, JOB_DATA} from "@models";
+import { FLASHING_LENGTHS, FLASHINGS_DATA, JOB_DATA } from "@models";
 
 export const actions = {
     addJob: createAction<{job:JOB_DATA}>('add/job'),
@@ -8,4 +8,5 @@ export const actions = {
     addFlashing: createAction<{flashing: FLASHINGS_DATA, idJob: number}>('jobs/add/flashing'),
     changeArchive: createAction<{idJob: number}>('jobs/archive/flashing'),
     changeUnArchive: createAction<{idJob: number}>('jobs/unarchive/flashing'),
+    addLengthJob: createAction<{idJob: number, idFlashing: number, dataLength: FLASHING_LENGTHS}>('jobs/length/add/flashing'),
 }
