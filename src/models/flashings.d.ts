@@ -8,11 +8,12 @@ export type LINE_TYPE = {
 	letterLine?: string;
 };
 
+export type FLASHING_LENGTHS = {qty: number; length: number}
+
 export type FLASHINGS_DATA =  {
 	id: number;
 	colourMaterial: number;
-	qty: number;
-	length: number;
+	flashingLengths: FLASHING_LENGTHS[]
 	name?: string;
 	dataLines: LINE_TYPE[],
 	parallelRight: boolean;

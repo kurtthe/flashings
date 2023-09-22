@@ -58,7 +58,11 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
               0.55 Colorbond, {getMaterial(data.colourMaterial).label}
             </Text>
             <Box  flexDirection="row" alignItems="flex-start" justifyContent="flex-start">
-              <Text variant="bodySmallRegular">{data.length} x {data.qty}</Text>
+              {data.flashingLengths?.map((flashLength, index) =>(<Text key={`flashingLength${index}`} variant="bodySmallRegular">
+                {flashLength.length} x {flashLength.qty}
+                </Text>
+                )
+              )}
               <Button variant="textSmall" onPress={() => onAddLength && onAddLength()}>
                 +ADD LENGTH
               </Button>
