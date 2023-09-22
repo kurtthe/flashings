@@ -42,28 +42,24 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
     if(!data.flashingLengths) return null
 
     return (
-      <>
-        <Box flexDirection="row">
-          <FlatList
-            scrollEnabled={false}
-            keyExtractor={(item, index)=>`textLength-${index}${item.qty}`}
-            data={data.flashingLengths}
-            renderItem={({item, index})=>
-              <Box flexDirection="row" flexWrap="wrap">
-                <Text variant="bodySmallRegular">
-                  {item.length} x {item.qty}
-                </Text>
-	              {(data.flashingLengths.length ===  (index +1)) && <Button variant="textSmall" onPress={() => setVisibleModalLength(true)}>
-                  +ADD LENGTH
-                </Button>
-	              }
-              </Box>
-            }
-          />
-
-        </Box>
-
-      </>
+      <Box flexDirection="row">
+        <FlatList
+          scrollEnabled={false}
+          keyExtractor={(item, index)=>`textLength-${index}${item.qty}`}
+          data={data.flashingLengths}
+          renderItem={({item, index})=>
+            <Box flexDirection="row" flexWrap="wrap">
+              <Text variant="bodySmallRegular">
+                {item.length} x {item.qty}
+              </Text>
+              {(data.flashingLengths.length ===  (index +1)) && <Button variant="textSmall" onPress={() => setVisibleModalLength(true)}>
+                +ADD LENGTH
+              </Button>
+              }
+            </Box>
+          }
+        />
+      </Box>
     )
   }
 
@@ -72,7 +68,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
       <Card flexDirection="row" alignItems="center" justifyContent="space-between" {...rest}>
         <Box  width='40%'>
           <Text variant="bodyBold">{data.name !== '' ? data.name: 'Flashing'}</Text>
-          <PreviewFlashing width={120} height={89} dataFlashing={data} />
+          <PreviewFlashing width={120} height={92} dataFlashing={data} />
         </Box>
         <Box width='50%'>
           <Box
