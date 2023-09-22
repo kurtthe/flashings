@@ -68,8 +68,8 @@ const FormCreateFlashingComponent = ()=> {
 					          mt="2xl"
 					          onPress={() =>
 						          arrayHelpers.push({
-							          qty: NaN,
-							          length: NaN
+							          qty: 0,
+							          length: 0
 						          })}
 				          >
 					          + Add Length
