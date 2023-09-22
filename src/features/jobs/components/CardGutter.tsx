@@ -8,8 +8,9 @@ import ModalAddLengths from "@features/jobs/components/ModalAddLengths";
 type Props = CardProps & {
   data: FLASHINGS_DATA;
   onAddLength?: () => void;
+  jobId: string;
 }
-const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
+const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest})=>{
   const [visibleModalLength, setVisibleModalLength] = React.useState(false)
   const getMaterial = (idMaterial: number): MATERIALS => {
 
