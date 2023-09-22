@@ -8,7 +8,7 @@ import {
   StackPrivateDefinitions, StackPrivateProps
 } from "@routes/PrivateNavigator";
 import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
-import CardGutterComponent from "@features/jobs/components";
+import {CardGutter} from "@features/jobs/components";
 import { useAppSelector } from "@hooks/useStore";
 import { jobData } from "@store/jobs/selectors";
 
@@ -53,7 +53,7 @@ const JobDetailsScreen = () => {
         data={item.flashings}
         showsVerticalScrollIndicator={false}
         renderItem={({ item, index }) => (
-          <CardGutterComponent
+          <CardGutter
             key={`${item.id}-${index}`}
             onAddLength={() => setModalVisible(!modalVisible)}
             data={item}
@@ -67,21 +67,6 @@ const JobDetailsScreen = () => {
               onPress={() => onPressFooter(Routes.CREATE_EDIT_FLASHING, {jobId: item.id, jobName: item.name})}>
               + Add Flashing
             </Button>
-            {/*<Button*/}
-            {/*  mt="s"*/}
-            {/*  onPress={() => onPressFooter(Routes.CREATE_RAINHEAD)} //JUST TO TEST*/}
-            {/*  variant="outlineWhite">*/}
-            {/*  + Add Rainhead*/}
-            {/*</Button>*/}
-            {/*<Button*/}
-            {/*  mt="s"*/}
-            {/*  onPress={() => null}*/}
-            {/*  variant="outlineWhite">*/}
-            {/*  + Add Sump*/}
-            {/*</Button>*/}
-            {/*<Button mt="s" onPress={() => {}} variant="solid">*/}
-            {/*  Preview*/}
-            {/*</Button>*/}
           </Box>
         }
       />
