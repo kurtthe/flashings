@@ -4,11 +4,12 @@ import { FLASHINGS_DATA, MATERIALS } from "@models";
 import { dataMaterials } from "@store/jobs/mocks";
 import PreviewFlashing from "@features/flashing/components/PreviewFlashing";
 import ModalAddLengths from "@features/jobs/components/ModalAddLengths";
+import { FlatList } from "react-native";
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
   onAddLength?: () => void;
-  jobId: string;
+  jobId: number;
 }
 const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest})=>{
   const [visibleModalLength, setVisibleModalLength] = React.useState(false)
@@ -42,40 +43,51 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
 
     return (
       <>
-        {
-          data.flashingLengths.map((flashLength, index) => (
-          <Text key={`flashingLength${index}`} variant="bodySmallRegular">
-            {flashLength.length} x {flashLength.qty}
-          </Text>))
-        }
-        <Button variant="textSmall" onPress={() => setVisibleModalLength(true)}>
-          +ADD LENGTH
-        </Button>
+        <Box flexDirection="row">
+          <FlatList
+            scrollEnabled={false}
+            keyExtractor={(item, index)=>`textLength-${index}${item.qty}`}
+            data={data.flashingLengths}
+            renderItem={({item, index})=>
+              <Box flexDirection="row" flexWrap="wrap">
+                <Text variant="bodySmallRegular">
+                  {item.length} x {item.qty}
+                </Text>
+	              {(data.flashingLengths.length ===  (index +1)) && <Button variant="textSmall" onPress={() => setVisibleModalLength(true)}>
+                  +ADD LENGTH
+                </Button>
+	              }
+              </Box>
+            }
+          />
+
+        </Box>
+
       </>
     )
   }
 
   return (
     <>
-    <Card flexDirection="row" alignItems="center" justifyContent="space-between" {...rest}>
-      <Box  width='40%'>
-        <Text variant="bodyBold">{data.name !== '' ? data.name: 'Flashing'}</Text>
-        <PreviewFlashing width={120} height={89} dataFlashing={data} />
-      </Box>
-      <Box width='50%'>
-        <Box
-          flexDirection='row'
-          justifyContent='space-around'
-          width='80%'
-          alignSelf='flex-end'
-          mb="s"
-          >
-          {/*<Text variant="linkTextSmall">Duplicate</Text>*/}
-          {/*<Text variant="linkTextSmall">Save</Text>*/}
-          {/*<Text variant="linkTextSmall">Edit</Text>*/}
+      <Card flexDirection="row" alignItems="center" justifyContent="space-between" {...rest}>
+        <Box  width='40%'>
+          <Text variant="bodyBold">{data.name !== '' ? data.name: 'Flashing'}</Text>
+          <PreviewFlashing width={120} height={89} dataFlashing={data} />
         </Box>
-        <Box>
-          <Text variant="bodyLabelTextfield" fontWeight="bold" color="black" >Description</Text>
+        <Box width='50%'>
+          <Box
+            flexDirection='row'
+            justifyContent='space-around'
+            width='80%'
+            alignSelf='flex-end'
+            mb="s"
+          >
+            {/*<Text variant="linkTextSmall">Duplicate</Text>*/}
+            {/*<Text variant="linkTextSmall">Save</Text>*/}
+            {/*<Text variant="linkTextSmall">Edit</Text>*/}
+          </Box>
+          <Box>
+            <Text variant="bodyLabelTextfield" fontWeight="bold" color="black" >Description</Text>
             <Text variant="bodySmallRegular" style={{textTransform: 'capitalize'}}>
               0.55 Colorbond, {getMaterial(data.colourMaterial).label}
             </Text>
@@ -83,10 +95,10 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
               {renderFlashingLengths()}
             </Box>
             <Text variant="bodySmallRegular"> {getBends()} Bend Girth - {`${getGirth()}mm`}</Text>
+          </Box>
         </Box>
-      </Box>
-    </Card>
-    <ModalAddLengths visible={visibleModalLength} onClose={()=> setVisibleModalLength(false)} />
+      </Card>
+      <ModalAddLengths idFlashing={data.id} jobId={jobId} visible={visibleModalLength} onClose={()=> setVisibleModalLength(false)} />
     </>
   )
 }

@@ -55,12 +55,18 @@ const flashingReducer = createReducer(INITIAL_STATE, builder => {
 
     builder.addCase(actions.addLengthJob, (state, action)=> {
         const {idFlashing, dataLength, idJob} = action.payload
+	    console.log("add length job::", dataLength)
+	    console.log("idFlashing::", idFlashing)
+	    console.log("idJob::", idJob)
 
         state.jobs = state.jobs.map((job)=> {
+					console.log("job.id::", job.id)
             if(job.id === idJob){
                 return {
                     ...job,
                     flashings: job.flashings.map((jobFlashing)=> {
+	                    console.log("jobFlashing.id", jobFlashing.id)
+	                    console.log("idFlashing", idFlashing)
                         if(jobFlashing.id === idFlashing){
                             return {
                                  ...jobFlashing,
