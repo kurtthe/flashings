@@ -1,13 +1,32 @@
 import React from 'react';
 import {Modal} from "react-native"
 import { Box, Text, Button, Input, BaseTouchable } from "@ui/components";
+import { useAppDispatch } from "@hooks/useStore";
+import { actions as flashingActions } from "@store/jobs/actions";
 type Props = {
 	visible: boolean;
 	onClose?: () => void;
+	jobId: number;
+	idFlashing: number;
 }
-const ModalAddLengths: React.FC<Props> = ({visible, onClose}) => {
+const ModalAddLengths: React.FC<Props> = ({visible, idFlashing, jobId, onClose}) => {
+	const dispatch = useAppDispatch();
+
 	const [qty, setQty]= React.useState("")
 	const [length, setLength]= React.useState("")
+
+	const isValid = () => {
+		return qty.length === 0 || length.length === 0
+	}
+
+	const handleAddLength = () => {
+		dispatch(flashingActions.addLengthJob({idJob: jobId, dataLength: {
+			qty: parseInt(qty), length: parseInt(length)
+			}, idFlashing:idFlashing }));
+		onClose && onClose()
+		setQty("")
+		setLength("")
+	}
 
 	return (
 		<Modal
@@ -37,7 +56,8 @@ const ModalAddLengths: React.FC<Props> = ({visible, onClose}) => {
 						/>
 					</Box>
 					<Button
-						onPress={() => null}>
+						isDisabled={isValid()}
+						onPress={() => handleAddLength()}>
 						Save Flashing
 					</Button>
 				</Box>
