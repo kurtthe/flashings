@@ -22,14 +22,12 @@ const CreateFlashingScreen = () => {
     ) => {
       const { name,  material, flashingLengths } = values;
       if(!flashingLengths) return
-      const {qty, length} = flashingLengths[0]
 
       navigation.navigate(Routes.BOARD_FLASHING, {
         data: {
           id: getRandomInt(),
           name,
-          qty: qty,
-          length: length,
+          flashingLengths,
           colourMaterial: material,
           dataLines: [],
           parallelRight: true

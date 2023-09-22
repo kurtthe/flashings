@@ -50,16 +50,20 @@ export const dataJobs: JOB_DATA[] = [
         id: getRandomInt(),
         name: "Gutter Flashing",
         colourMaterial: 2,
-        qty: 1,
-        length: 1500,
+        flashingLengths: [],
         dataLines:[],
         parallelRight: true
       },
       {
         id: getRandomInt(),
         colourMaterial: 1,
-        qty: 1,
-        length: 1500,
+        flashingLengths: [{
+          qty: 5,
+          length: 12500
+        }, {
+          qty: 14,
+          length: 1300
+        }],
         dataLines:[],
         parallelRight: true,
         name: "Gutter Flashing Tapered",
@@ -84,16 +88,23 @@ export const dataJobs: JOB_DATA[] = [
         id: getRandomInt(),
         name: "Poblado Flashings",
         colourMaterial: 2,
-        qty: 1,
-        length: 1500,
+        flashingLengths: [{
+          qty: 1,
+          length: 12000
+        }, {
+          qty: 4,
+          length: 1300
+        }],
         dataLines:[],
         parallelRight: true
       },
       {
         id: getRandomInt(),
         colourMaterial: 3,
-        qty: 1,
-        length: 1500,
+        flashingLengths: [{
+          qty: 2,
+          length: 2000
+        }],
         dataLines:[],
         parallelRight: false,
         name: "Epps Flashings",
