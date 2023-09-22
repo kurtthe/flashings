@@ -34,6 +34,24 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
     return pointers.flat(1).length ?? 0
   }
 
+  const renderFlashingLengths = () => {
+    if(!data.flashingLengths) return null
+
+    return (
+      <>
+        {
+          data.flashingLengths.map((flashLength, index) => (
+          <Text key={`flashingLength${index}`} variant="bodySmallRegular">
+            {flashLength.length} x {flashLength.qty}
+          </Text>))
+        }
+        <Button variant="textSmall" onPress={() => onAddLength && onAddLength()}>
+          +ADD LENGTH
+        </Button>
+      </>
+    )
+  }
+
   return (
     <Card flexDirection="row" alignItems="center" justifyContent="space-between" {...rest}>
       <Box  width='40%'>
@@ -58,14 +76,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
               0.55 Colorbond, {getMaterial(data.colourMaterial).label}
             </Text>
             <Box  flexDirection="row" alignItems="flex-start" justifyContent="flex-start">
-              {data.flashingLengths?.map((flashLength, index) =>(<Text key={`flashingLength${index}`} variant="bodySmallRegular">
-                {flashLength.length} x {flashLength.qty}
-                </Text>
-                )
-              )}
-              <Button variant="textSmall" onPress={() => onAddLength && onAddLength()}>
-                +ADD LENGTH
-              </Button>
+              {renderFlashingLengths()}
             </Box>
             <Text variant="bodySmallRegular"> {getBends()} Bend Girth - {`${getGirth()}mm`}</Text>
         </Box>
