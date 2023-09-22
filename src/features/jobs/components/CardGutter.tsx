@@ -3,12 +3,14 @@ import { Box, Button, Card, CardProps, Text } from "@ui/components";
 import { FLASHINGS_DATA, MATERIALS } from "@models";
 import { dataMaterials } from "@store/jobs/mocks";
 import PreviewFlashing from "@features/flashing/components/PreviewFlashing";
+import ModalAddLengths from "@features/jobs/components/ModalAddLengths";
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
   onAddLength?: () => void;
 }
 const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
+  const [visibleModalLength, setVisibleModalLength] = React.useState(false)
   const getMaterial = (idMaterial: number): MATERIALS => {
 
     const material = dataMaterials.find((item)=> item.id === idMaterial)
@@ -45,7 +47,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
             {flashLength.length} x {flashLength.qty}
           </Text>))
         }
-        <Button variant="textSmall" onPress={() => onAddLength && onAddLength()}>
+        <Button variant="textSmall" onPress={() => setVisibleModalLength(true)}>
           +ADD LENGTH
         </Button>
       </>
@@ -53,6 +55,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
   }
 
   return (
+    <>
     <Card flexDirection="row" alignItems="center" justifyContent="space-between" {...rest}>
       <Box  width='40%'>
         <Text variant="bodyBold">{data.name !== '' ? data.name: 'Flashing'}</Text>
@@ -82,6 +85,8 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, ...rest})=>{
         </Box>
       </Box>
     </Card>
+    <ModalAddLengths visible={visibleModalLength} onClose={()=> setVisibleModalLength(false)} />
+    </>
   )
 }
 
