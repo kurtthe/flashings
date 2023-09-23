@@ -36,6 +36,14 @@ const BoardContainer = () => {
   const [stepsDrawing, setDrawing] = React.useState(0)
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
   const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
+
+  React.useEffect(()=>{
+    const dataFlashing = route.params.data
+    if(dataFlashing.dataLines.length > 0){
+      return setLines(dataFlashing.dataLines)
+    }
+    setLines([])
+  }, [route.params.data])
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -128,7 +136,6 @@ const BoardContainer = () => {
   const handleSave = ()=>{
     const dataFlashing = route.params.data
     const idJob = route.params?.jobId
-    const jobName = route.params?.jobName
 
     dispatch(flashingActions.addFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines, parallelRight:blueLineIsRight }}));
 
@@ -136,7 +143,6 @@ const BoardContainer = () => {
       screen: RoutesJobs.JOB_DETAILS,
       params: {
         jobId: idJob,
-        jobName
       }
     });
   }
