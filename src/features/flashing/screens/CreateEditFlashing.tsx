@@ -8,18 +8,22 @@ import {FormCreateFlashingComponent} from "@features/flashing/components";
 import { Formik,  FormikProps } from "formik";
 import { getRandomInt } from "@shared/utils";
 import DismissKeyboardPressable from "@components/forms/DismissKeyboardPressable";
+import { useAppSelector } from "@hooks/useStore";
+import { getDataFlashing } from "@store/jobs/selectors";
 
 
 const CreateFlashingScreen = () => {
   const navigation = useNavigation<FlashingStackProps>()
   const route = useRoute<RouteProp<FlashingParamsList, RoutesFlashing.CREATE_EDIT_FLASHING>>();
-
   const formikRef = React.useRef<FormikProps<AddFlashingFormValues>>(null);
+  const dataFlashing = useAppSelector((state) => getDataFlashing(state, { idJob: route.params.jobId, idFlashing: route.params.idFlashing }));
+
 
   const handleSubmit = React.useCallback(
     async (
       values: AddFlashingFormValues,
     ) => {
+
       const { name,  material, flashingLengths } = values;
       if(!flashingLengths) return
 
@@ -29,12 +33,24 @@ const CreateFlashingScreen = () => {
           name,
           flashingLengths,
           colourMaterial: material,
-          dataLines: [],
-          parallelRight: true
-        }, jobId: route.params.jobId, jobName: route.params.jobName})
+          dataLines: dataFlashing? dataFlashing.dataLines:  [],
+          parallelRight: dataFlashing? dataFlashing.parallelRight : true
+        },
+        jobId: route.params.jobId})
     },
     [],
   );
+
+  const loadInitialData = ()=> {
+    if(!dataFlashing){
+      return forms.createFlashing.initialValues
+    }
+    return {
+      name: dataFlashing.name ?? '',
+      material: dataFlashing.colourMaterial,
+      flashingLengths: dataFlashing.flashingLengths
+    }
+  }
 
   return (
     <KeyboardAvoidingBox flex={1}>
@@ -45,7 +61,7 @@ const CreateFlashingScreen = () => {
           <Formik
             innerRef={formikRef}
             initialValues={{
-              ...forms.createFlashing.initialValues,
+              ...loadInitialData(),
             }}
             validationSchema={forms.createFlashing.schema}
             initialErrors={forms.createFlashing.initialErrors}

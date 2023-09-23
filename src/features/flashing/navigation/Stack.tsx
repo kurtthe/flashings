@@ -19,10 +19,10 @@ const Stack = () => {
         name={Routes.CREATE_EDIT_FLASHING}
         component={CreateEditFlashingScreen}
         options={{
-          header: ({navigation}) => (
+          header: ({navigation, route}) => (
             <HeaderBox
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
-              title="New Flashing"
+              title={route.params.idFlashing? "Edit Flashing":"New Flashing"}
             />
           ),
         }}

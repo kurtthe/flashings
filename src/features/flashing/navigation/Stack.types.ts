@@ -5,12 +5,11 @@ import {FLASHINGS_DATA} from "@models";
 export type FlashingParamsList = {
   [Routes.CREATE_EDIT_FLASHING]: {
     jobId: number,
-    jobName: string,
+    idFlashing?: number
   };
   [Routes.BOARD_FLASHING]: {
     data: FLASHINGS_DATA,
     jobId: number,
-    jobName: string
   };
   [Routes.DEMO]: undefined;
   [Routes.CREATE_RAINHEAD]: undefined;

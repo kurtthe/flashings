@@ -45,7 +45,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
   const handleEditFlashing = ()=> {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {
       screen: Routes.CREATE_EDIT_FLASHING,
-      params: {jobId: jobId}
+      params: {jobId: jobId, idFlashing: data.id}
     });
   }
 

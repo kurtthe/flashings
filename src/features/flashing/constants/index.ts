@@ -6,7 +6,6 @@ export const forms = {
     initialErrors: {
       name: '',
       material: '',
-      flashingLengths: ''
     },
     initialValues: {
       name: '',
