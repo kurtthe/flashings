@@ -5,6 +5,9 @@ import { dataMaterials } from "@store/jobs/mocks";
 import PreviewFlashing from "@features/flashing/components/PreviewFlashing";
 import ModalAddLengths from "@features/jobs/components/ModalAddLengths";
 import { FlatList } from "react-native";
+import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
+import { useNavigation } from "@react-navigation/native";
+import { Routes } from "@features/flashing/navigation/routes";
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
@@ -13,6 +16,7 @@ type Props = CardProps & {
 }
 const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest})=>{
   const [visibleModalLength, setVisibleModalLength] = React.useState(false)
+  const navigation = useNavigation<StackPrivateProps>()
   const getMaterial = (idMaterial: number): MATERIALS => {
 
     const material = dataMaterials.find((item)=> item.id === idMaterial)
@@ -36,6 +40,13 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
   const getBends = ()=>{
     const pointers = data.dataLines.map((lineInfo)=> lineInfo.points)
     return pointers.flat(1).length ?? 0
+  }
+
+  const handleEditFlashing = ()=> {
+    navigation.navigate(StackPrivateDefinitions.FLASHING, {
+      screen: Routes.CREATE_EDIT_FLASHING,
+      params: {jobId: jobId}
+    });
   }
 
   const renderFlashingLengths = () => {
@@ -73,14 +84,10 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
         <Box width='50%'>
           <Box
             flexDirection='row'
-            justifyContent='space-around'
-            width='80%'
-            alignSelf='flex-end'
+            justifyContent='flex-start'
             mb="s"
           >
-            {/*<Text variant="linkTextSmall">Duplicate</Text>*/}
-            {/*<Text variant="linkTextSmall">Save</Text>*/}
-            {/*<Text variant="linkTextSmall">Edit</Text>*/}
+            <Text onPress={handleEditFlashing} variant="linkTextSmall">Edit</Text>
           </Box>
           <Box>
             <Text variant="bodyLabelTextfield" fontWeight="bold" color="black" >Description</Text>
