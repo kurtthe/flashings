@@ -45,6 +45,7 @@ const ModalAddLengths: React.FC<Props> = ({visible, idFlashing, jobId, onClose})
 							style={{width: 150}}
 							keyboardType="numeric"
 							mr="s"
+							isRequired
 						/>
 						<Input
 							label="Length"
@@ -53,6 +54,7 @@ const ModalAddLengths: React.FC<Props> = ({visible, idFlashing, jobId, onClose})
 							style={{width: 150}}
 							keyboardType="numeric"
 							suffix="mm"
+							isRequired
 						/>
 					</Box>
 					<Button

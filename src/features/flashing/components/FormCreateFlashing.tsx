@@ -38,7 +38,7 @@ const FormCreateFlashingComponent = ()=> {
 								          <Box flexDirection="row" justifyContent="space-between" mt="l" mb="unset" >
 									          <FieldInput
 										          isRequired
-										          name={`flashingLength.${index}.qty`}
+										          name={`flashingLengths.${index}.qty`}
 										          placeholder="qty"
 										          label="Qty"
 										          style={{width: 150}}
@@ -46,7 +46,7 @@ const FormCreateFlashingComponent = ()=> {
 									          />
 									          <FieldInput
 										          isRequired
-										          name={`flashingLength.${index}.length`}
+										          name={`flashingLengths.${index}.length`}
 										          placeholder="length"
 										          label="Length"
 										          style={{width: 150}}
