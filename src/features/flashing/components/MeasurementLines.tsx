@@ -1,6 +1,5 @@
 import React from 'react';
 import { BaseTouchable, Box, Divider, Icon,  Text } from "@ui/components";
-import { KeyBoardNumber } from '@features/flashing/components/KeyBoardNumber';
 import { LINE_SELECTED } from '@features/flashing/components/Board';
 import { isNaN } from "lodash";
 import { BackArrowIcon,  NextArrowIcon } from "@assets/icons";
@@ -17,11 +16,11 @@ type Props = {
 const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPrevious ,handleInput, disabledPrevious=true}) => {
   const [measurement, setMeasurement] = React.useState(0);
   const [currentValue, setCurrentValue] = React.useState('');
-  const inputRef = React.useRef(null)
+  const inputRef = React.useRef<TextInput>(null)
 
   React.useEffect(() => {
     if (!dataLine) return;
-
+    inputRef.current?.focus()
     setMeasurement(dataLine.sizeLine);
   }, [dataLine, dataLine?.sizeLine]);
   const handleDone = (newSizeLine: string) => {
@@ -42,7 +41,6 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <Box p="s" >
         <Box flexDirection="row" alignItems="center" justifyContent="space-around">
           <Box disabled={disabledPrevious} as={BaseTouchable} onPress={handlePrevious}>
@@ -54,8 +52,6 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
                 ref={inputRef}
                 inputMode="numeric"
                 keyboardType="numeric"
-                onFocus={() => handleInput && handleInput(true)}
-                onBlur={() => handleInput  && handleInput(false)}
                 style={{textAlign: 'center', height: 30, width: 80, backgroundColor: 'white'}}
                 onChangeText={(newText: string)=> setCurrentValue(newText)}
                 value={`${isNaN(measurement)? '0': measurement}`}
@@ -67,13 +63,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
           </Box>
         </Box>
         <Divider my="s" />
-        <KeyBoardNumber
-          setCurrentValue={setCurrentValue}
-          currentValue={currentValue}
-          onChange={size => setMeasurement(parseFloat(size))}
-        />
       </Box>
-    </TouchableWithoutFeedback>
   );
 };
 
