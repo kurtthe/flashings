@@ -7,31 +7,39 @@ import {
 import { G, Path as PathComponent} from 'react-native-svg';
 import TextSvg from "@features/flashing/components/TextSvg";
 
-type Props = BUILD_LINE ;
+type Props = BUILD_LINE & {
+  angle?: number
+  typeSelected: 'line' | 'angle'
+};
 const LineMadeComponent: React.FC<Props> = ({
   line,
   lineSelected,
   mode,
   id,
-                                              angle
+  angle,
+  typeSelected= "line"
 }) => {
   const fontSize = 20;
   const colorLabel = '#8F94AE';
   const positionText = calculatePointHalf(line);
   const positionTextAngle = positionEndLine(line);
-  const isMeasurements = mode === 'measurements' || mode === 'finish';
+  const isMeasurements = mode === 'measurements';
+  const isFinish = mode === 'finish'
   const isPreview = mode === 'preview'
+  const colorSelected = "#DEA000"
+  const lineIsSelected = lineSelected === id && typeSelected === "line"
+  const angleIsSelected = lineSelected === id && typeSelected === "angle"
 
   return (
     <G key={`groupPath${id}`}>
       <PathComponent
         key={`normalLine${id}`}
         d={buildPathLine(line.points)}
-        strokeWidth={lineSelected === id && isMeasurements? 2:1}
-        stroke={lineSelected === id && isMeasurements ? "#DEA000":"#000"}
+        strokeWidth={lineIsSelected && isMeasurements? 2:1}
+        stroke={ lineIsSelected && isMeasurements ? colorSelected:"#000"}
       />
       {
-        (isMeasurements || isPreview) && (
+        (isMeasurements || isPreview || isFinish) && (
           <>
             <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id}  positionTextYRect={positionText[1]} positionTextXRect={positionText[0]} positionTextX={positionText[0]} positionTextY={positionText[1]} textValue={LETTER_LINES[id]} />
             {line.distance && (
@@ -41,7 +49,7 @@ const LineMadeComponent: React.FC<Props> = ({
             )
             }
             {
-              angle && <TextSvg id={id}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${angle}°`} />
+              angle && <TextSvg id={id} colorLabel={angleIsSelected && isMeasurements? colorSelected: '#000'}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${angle}°`} />
             }
           </>
         )

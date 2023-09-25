@@ -43,7 +43,6 @@ const Board: React.FC<Props> = ({
   rightLinePaint,
   onSave,
   onTape,
-  backStep
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
@@ -53,6 +52,7 @@ const Board: React.FC<Props> = ({
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
   const [indexLineSelected, setIndexLineSelected] = React.useState(0)
   const [visibleKeyboard, setVisibleKeyboard] = React.useState(false)
+  const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>('line')
 
   const isDrawing = mode === 'draw';
 
@@ -63,7 +63,8 @@ const Board: React.FC<Props> = ({
       heightGraph: height,
       mode,
       rightLinePaint,
-      lineSelected: indexLineSelected
+      lineSelected: indexLineSelected,
+      typeSelected
     });
     setPathParallel(drawParallelLines(lines, rightLinePaint))
     setGraphs(makingLines);
@@ -80,10 +81,11 @@ const Board: React.FC<Props> = ({
     setPointSelected({
       numberLine: indexLineSelected,
       sizeLine: lines[indexLineSelected]?.distance ?? 0,
+      angle: graphs[indexLineSelected]?.angle,
     });
     modalBottomRef.current?.show()
     setVisibleKeyboard(true)
-  }, [mode, indexLineSelected])
+  }, [mode, indexLineSelected, graphs])
 
   const handleDoneSize = (newSize: number) => {
     if (!pointSelected ) return;
@@ -102,19 +104,40 @@ const Board: React.FC<Props> = ({
   };
 
   const handleNextLineSelected = ()=>{
+
     const newIndex = indexLineSelected + 1
     const lengthLine = lines.length - 1
 
-    setIndexLineSelected(newIndex > lengthLine? lengthLine : newIndex)
+    if(newIndex > lengthLine){
+      return changeMode && changeMode('finish')
+    }
 
     if(newIndex > lengthLine){
-      changeMode && changeMode('finish')
+      setIndexLineSelected(lengthLine)
+      setTypeSelected('line')
+      return
     }
+      if(typeSelected === 'angle') {
+        setIndexLineSelected(newIndex);
+        setTypeSelected("line");
+        return
+      }
+      setTypeSelected('angle')
   }
 
   const handleBackLineSelected = ()=>{
+    if(typeSelected === "angle"){
+      return setTypeSelected("line");
+    }
     const newIndex = indexLineSelected - 1
-    setIndexLineSelected(newIndex <= 0? 0 : newIndex)
+
+    if(newIndex <= 0){
+      setIndexLineSelected(0)
+    }
+    if(typeSelected === 'line'){
+      setIndexLineSelected(newIndex)
+      setTypeSelected('angle')
+    }
   }
 
   const handleOnSave = ()=> {
@@ -144,15 +167,19 @@ const Board: React.FC<Props> = ({
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom
+        onCloseFinish={() => {
+          changeMode && changeMode('finish')
+        }}
         backdropBackgroundColor="transparent"
         draggable={false}
         ref={modalBottomRef}
         height={350}
         borderRadius={0}>
         <MeasurementLines
-          disabledPrevious={indexLineSelected === 0}
+          disabledPrevious={indexLineSelected === 0 && typeSelected === 'line'}
           onNext={handleNextLineSelected}
           onPrevious={handleBackLineSelected}
+          typeSelected={typeSelected}
           onDone={handleDoneSize}
           dataLine={pointSelected}
         />

@@ -14,9 +14,11 @@ export const drawLines = ({
   lineSelected,
   mode = "draw",
   rightLinePaint = true,
+  typeSelected
 }: MAKE_LINE & {
   widthGraph: number;
   heightGraph: number;
+  typeSelected: 'line' | 'angle';
 }): DREW_LINE_TYPE[] => {
   if (lines.length < 1) return [];
 
@@ -24,10 +26,11 @@ export const drawLines = ({
     const angle = calculateAngle(line, arrayLines[index + 1])
     return ({
       ...line,
+      angle,
       path:
         line.points.length === 2 ? (
           <LineMadeComponent
-            {...{ id: index, line, lineSelected, mode, rightLinePaint, angle }}
+            {...{ id: index, line, lineSelected, mode, rightLinePaint, angle, typeSelected }}
           />
         ) : undefined,
     })

@@ -242,8 +242,8 @@ export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | und
   const subtractionPending = m2 - m1
   const multiplePending = m2*m1
   const numerator = 1 + multiplePending
-  const result = subtractionPending / numerator
-  const angleRad = Math.atan(result)
+  const resultA = subtractionPending / numerator
+  const angleRad = Math.atan(resultA)
   let angleDeg = angleRad * 180 / Math.PI
 
   if(angleDeg <= 0){

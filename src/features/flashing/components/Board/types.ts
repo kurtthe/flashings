@@ -14,7 +14,6 @@ export type BUILD_LINE = {
   line: LINE_TYPE;
   lineSelected: number;
   mode: MODES_BOARD;
-  angle: number | undefined;
   rightLinePaint?: boolean;
 };
 export const SIZE_POINTER = 4;
@@ -26,11 +25,13 @@ export const CIRCLE_RADIUS = 15;
 
 export type DREW_LINE_TYPE = LINE_TYPE & {
   path: ReactElement | undefined;
+  angle: number | undefined;
 };
 
 export type LINE_SELECTED = {
   sizeLine: number;
   numberLine: number;
+  angle: number | undefined;
 };
 export const LETTER_LINES = [
   'A',
