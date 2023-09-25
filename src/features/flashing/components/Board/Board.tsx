@@ -53,7 +53,6 @@ const Board: React.FC<Props> = ({
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
   const [indexLineSelected, setIndexLineSelected] = React.useState(0)
   const [visibleKeyboard, setVisibleKeyboard] = React.useState(false)
-  const [showKeyboard, setShowKeyboard] = React.useState(false)
 
   const isDrawing = mode === 'draw';
 
@@ -145,17 +144,12 @@ const Board: React.FC<Props> = ({
         </GestureHandlerRootView>
       </TouchableOpacity>
       <ModalBottom
-        onCloseFinish={() => {
-          if (mode === "finish") return
-          backStep && backStep();
-        }}
         backdropBackgroundColor="transparent"
         draggable={false}
         ref={modalBottomRef}
-        height={showKeyboard? 380 :320}
+        height={350}
         borderRadius={0}>
         <MeasurementLines
-          handleInput={(visibleKeyBoard: boolean)=> setShowKeyboard(visibleKeyBoard)}
           disabledPrevious={indexLineSelected === 0}
           onNext={handleNextLineSelected}
           onPrevious={handleBackLineSelected}

@@ -150,25 +150,27 @@ const BoardContainer = () => {
 
   return (
     <>
-      <Box
-        as={BaseTouchable}
-        onPress={()=> {
-          setModeBoard("draw");
-          setDrawing(0);
-        }}
-        position="absolute"
-        top="50%"
-        backgroundColor="white"
-        p="xs"
-        style={{zIndex: 1, shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.5,
-        shadowRadius: 5,
-        shadowColor: 'lightGray',
-          borderTopRightRadius: 5,
-          borderBottomRightRadius: 5,
-      }}>
-        <Icon as={EditIcon} size={25} />
-      </Box>
+      {(modeBoard !== 'measurements') &&
+        <Box
+          as={BaseTouchable}
+          onPress={()=> {
+            setModeBoard("draw");
+            setDrawing(0);
+          }}
+          position="absolute"
+          top="50%"
+          backgroundColor="white"
+          p="xs"
+          style={{zIndex: 1, shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.5,
+            shadowRadius: 5,
+            shadowColor: 'lightGray',
+            borderTopRightRadius: 5,
+            borderBottomRightRadius: 5,
+          }}>
+          <Icon as={EditIcon} size={25} />
+        </Box>
+      }
       <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
       <BoardComponent
         rightLinePaint={blueLineIsRight}
@@ -179,7 +181,7 @@ const BoardContainer = () => {
         onSave={handleSave}
         onTape={handleTape}
         mode={modeBoard}
-        backStep = {handleBack}
+        backStep={handleBack}
       />
       <MenuEditorComponent
         disabledBack={modeBoard === "draw"}
