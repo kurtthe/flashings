@@ -3,7 +3,7 @@ import { BaseTouchable, Box, Divider, Icon,  Text } from "@ui/components";
 import { LINE_SELECTED } from '@features/flashing/components/Board';
 import { isNaN } from "lodash";
 import { BackArrowIcon,  NextArrowIcon } from "@assets/icons";
-import { Keyboard, TextInput, TouchableWithoutFeedback } from "react-native";
+import { TextInput } from "react-native";
 
 type Props = {
   onDone: (sizeLine: number) => void;
@@ -11,30 +11,31 @@ type Props = {
   onNext?: () => void;
   onPrevious?: () => void;
   disabledPrevious?: boolean
-  handleInput?: (visibleKeyBoard: boolean)=> void;
+  typeSelected: 'line' | 'angle'
 };
-const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPrevious ,handleInput, disabledPrevious=true}) => {
+const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onNext, onPrevious , disabledPrevious=true}) => {
   const [measurement, setMeasurement] = React.useState(0);
-  const [currentValue, setCurrentValue] = React.useState('');
   const inputRef = React.useRef<TextInput>(null)
 
   React.useEffect(() => {
     if (!dataLine) return;
     inputRef.current?.focus()
-    setMeasurement(dataLine.sizeLine);
-  }, [dataLine, dataLine?.sizeLine]);
+    if(typeSelected === 'line'){
+      return setMeasurement(dataLine.sizeLine)
+    }
+    setMeasurement(dataLine.angle ?? 0)
+  }, [dataLine, dataLine?.sizeLine, typeSelected]);
   const handleDone = (newSizeLine: string) => {
     const size = parseInt(newSizeLine, 10);
     setMeasurement(size);
-    setCurrentValue('')
     onDone(size);
   };
   const handlePrevious = () =>{
     if(disabledPrevious) return
-
     handleDone(`${measurement}`)
     onPrevious && onPrevious()
   }
+
   const handleNext = () =>{
     handleDone(`${measurement}`)
     onNext && onNext()
@@ -46,6 +47,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
           <Box disabled={disabledPrevious} as={BaseTouchable} onPress={handlePrevious}>
             <Icon opacity={disabledPrevious? 0.3: 1} as={BackArrowIcon} size={22}  />
           </Box>
+
           <Text variant="subheadSecondary">Length:</Text>
           <Box flexDirection="row" alignItems="center">
               <TextInput
@@ -53,11 +55,11 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, onNext, onPreviou
                 inputMode="numeric"
                 keyboardType="numeric"
                 style={{textAlign: 'center', height: 30, width: 80, backgroundColor: 'white'}}
-                onChangeText={(newText: string)=> setCurrentValue(newText)}
                 value={`${isNaN(measurement)? '0': measurement}`}
               />
-            <Text variant="bodyBold">mm</Text>
+            <Text variant="bodyBold">{typeSelected === 'line'? 'mm': '°'}</Text>
           </Box>
+
           <Box as={BaseTouchable} onPress={handleNext}>
             <Icon as={NextArrowIcon} size={22}  />
           </Box>
