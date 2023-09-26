@@ -52,7 +52,8 @@ export const dataJobs: JOB_DATA[] = [
         colourMaterial: 2,
         flashingLengths: [],
         dataLines:[],
-        parallelRight: true
+        parallelRight: true,
+        angles: []
       },
       {
         id: getRandomInt(),
@@ -66,6 +67,7 @@ export const dataJobs: JOB_DATA[] = [
         }],
         dataLines:[],
         parallelRight: true,
+        angles: [],
         name: "Gutter Flashing Tapered",
       }
     ],
@@ -96,6 +98,7 @@ export const dataJobs: JOB_DATA[] = [
           length: 1300
         }],
         dataLines:[],
+        angles: [],
         parallelRight: true
       },
       {
@@ -106,6 +109,7 @@ export const dataJobs: JOB_DATA[] = [
           length: 2000
         }],
         dataLines:[],
+        angles: [],
         parallelRight: false,
         name: "Epps Flashings",
       }
