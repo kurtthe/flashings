@@ -3,7 +3,6 @@ import { DREW_LINE_TYPE,  MAKE_LINE } from "./types";
 import LineMadeComponent from '@features/flashing/components/Line';
 import {
   buildPathLineParallel,
-  calculateAngle,
   calculateParallelLines
 } from "@features/flashing/utils";
 import { Path } from 'react-native-redash';
@@ -14,23 +13,23 @@ export const drawLines = ({
   lineSelected,
   mode = "draw",
   rightLinePaint = true,
-  typeSelected
+  typeSelected,
+  anglesLines
 }: MAKE_LINE & {
   widthGraph: number;
   heightGraph: number;
   typeSelected: 'line' | 'angle';
+  anglesLines: number[]
 }): DREW_LINE_TYPE[] => {
   if (lines.length < 1) return [];
 
-  return lines.map((line, index,arrayLines) => {
-    const angle = calculateAngle(line, arrayLines[index + 1])
+  return lines.map((line, index) => {
     return ({
       ...line,
-      angle,
       path:
         line.points.length === 2 ? (
           <LineMadeComponent
-            {...{ id: index, line, lineSelected, mode, rightLinePaint, angle, typeSelected }}
+            {...{ id: index, line, lineSelected, mode, rightLinePaint, typeSelected, angle:anglesLines[index] }}
           />
         ) : undefined,
     })

@@ -25,7 +25,6 @@ export const CIRCLE_RADIUS = 15;
 
 export type DREW_LINE_TYPE = LINE_TYPE & {
   path: ReactElement | undefined;
-  angle: number | undefined;
 };
 
 export type LINE_SELECTED = {
