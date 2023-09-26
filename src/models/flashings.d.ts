@@ -16,6 +16,7 @@ export type FLASHINGS_DATA =  {
 	flashingLengths: FLASHING_LENGTHS[]
 	name?: string;
 	dataLines: LINE_TYPE[],
+	angles: number[],
 	parallelRight: boolean;
 };
 
