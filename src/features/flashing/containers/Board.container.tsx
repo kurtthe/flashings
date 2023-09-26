@@ -5,6 +5,7 @@ import {
   MenuEditorComponent,
 } from '@features/flashing/components';
 import {
+  calculateAngle,
   calculatePending,
   calculateSizeLine,
   getLastPoint,
@@ -33,6 +34,7 @@ const BoardContainer = () => {
   const route = useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
 
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
+  const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
   const [stepsDrawing, setDrawing] = React.useState(0)
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
   const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
@@ -44,6 +46,14 @@ const BoardContainer = () => {
     }
     setLines([])
   }, [route.params.data])
+
+  React.useEffect(()=>{
+
+    if(lines.length < 2) return
+
+    const newAngles = lines.map((line, index, arrayLines)=> calculateAngle(line, arrayLines[index + 1])?? 0)
+    setAnglesLines(newAngles)
+  }, [lines])
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -133,6 +143,16 @@ const BoardContainer = () => {
     setBlueLineIsRight(sideBlueLine === 'right');
   }
 
+  const handleUpdateAngle = (newAngle:number, positionAngle:number) => {
+    const anglesUpdated = anglesLines.map((angle, index) => {
+      if(index === positionAngle ){
+        return newAngle
+      }
+      return angle
+    })
+    setAnglesLines(anglesUpdated);
+  }
+
   const handleSave = ()=>{
     const dataFlashing = route.params.data
     const idJob = route.params?.jobId
@@ -182,6 +202,8 @@ const BoardContainer = () => {
         onTape={handleTape}
         mode={modeBoard}
         backStep={handleBack}
+        angles={anglesLines}
+        updateAngle={handleUpdateAngle}
       />
       <MenuEditorComponent
         disabledBack={modeBoard === "draw"}

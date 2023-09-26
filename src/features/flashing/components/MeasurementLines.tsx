@@ -6,7 +6,7 @@ import { BackArrowIcon,  NextArrowIcon } from "@assets/icons";
 import { TextInput } from "react-native";
 
 type Props = {
-  onDone: (sizeLine: number) => void;
+  onDone: (sizeLine: number, type: 'line' | 'angle') => void;
   dataLine?: LINE_SELECTED;
   onNext?: () => void;
   onPrevious?: () => void;
@@ -28,7 +28,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
   const handleDone = (newSizeLine: string) => {
     const size = parseInt(newSizeLine, 10);
     setMeasurement(size);
-    onDone(size);
+    onDone(size, typeSelected);
   };
   const handlePrevious = () =>{
     if(disabledPrevious) return
@@ -56,6 +56,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
                 keyboardType="numeric"
                 style={{textAlign: 'center', height: 30, width: 80, backgroundColor: 'white'}}
                 value={`${isNaN(measurement)? '0': measurement}`}
+                onChangeText={(newText: string)=> setMeasurement(parseInt(newText, 10))}
               />
             <Text variant="bodyBold">{typeSelected === 'line'? 'mm': '°'}</Text>
           </Box>

@@ -8,7 +8,7 @@ import { G, Path as PathComponent} from 'react-native-svg';
 import TextSvg from "@features/flashing/components/TextSvg";
 
 type Props = BUILD_LINE & {
-  angle?: number
+  angle: number
   typeSelected: 'line' | 'angle'
 };
 const LineMadeComponent: React.FC<Props> = ({
@@ -49,7 +49,7 @@ const LineMadeComponent: React.FC<Props> = ({
             )
             }
             {
-              angle && <TextSvg id={id} colorLabel={angleIsSelected && isMeasurements? colorSelected: '#000'}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${angle}°`} />
+              angle > 0 && <TextSvg id={id} colorLabel={angleIsSelected && isMeasurements? colorSelected: '#000'}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${angle}°`} />
             }
           </>
         )
