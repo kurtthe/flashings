@@ -170,12 +170,12 @@ const BoardContainer = () => {
 
   return (
     <>
-      {(modeBoard !== 'measurements') &&
+      {(modeBoard === 'finish') &&
         <Box
           as={BaseTouchable}
           onPress={()=> {
-            setModeBoard("draw");
-            setDrawing(0);
+            setModeBoard("measurements");
+            setDrawing(3);
           }}
           position="absolute"
           top="50%"
