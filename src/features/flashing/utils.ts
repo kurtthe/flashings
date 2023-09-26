@@ -209,7 +209,7 @@ export const calculatePointHalf = (
 };
 
 export const positionEndLine = (line1: LINE_TYPE): POINT_TYPE=> {
-  return line1.points[1];
+  return [line1.points[1][0]+5, line1.points[1][1]+5];
 }
 
 export const buildPathLine = (points: LINE_TYPE['points']) => {
