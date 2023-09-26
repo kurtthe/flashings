@@ -32,12 +32,19 @@ const LineMadeComponent: React.FC<Props> = ({
 
   return (
     <G key={`groupPath${id}`}>
+
       <PathComponent
         key={`normalLine${id}`}
         d={buildPathLine(line.points)}
         strokeWidth={lineIsSelected && isMeasurements? 2:1}
         stroke={ lineIsSelected && isMeasurements ? colorSelected:"#000"}
       />
+      {(isMeasurements || isPreview || isFinish) && <>
+        {
+          angle > 0 && <TextSvg id={id} colorLabel={angleIsSelected && isMeasurements? colorSelected: '#000'}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${angle}°`} />
+        }
+      </>
+      }
       {
         (isMeasurements || isPreview || isFinish) && (
           <>
@@ -47,9 +54,6 @@ const LineMadeComponent: React.FC<Props> = ({
                 positionTextX={positionText[0]} positionTextY={positionText[1] + fontSize}
                 textValue={`${line.distance}mm`} />
             )
-            }
-            {
-              angle > 0 && <TextSvg id={id} colorLabel={angleIsSelected && isMeasurements? colorSelected: '#000'}  positionTextYRect={positionTextAngle[1]} positionTextXRect={positionTextAngle[0]} positionTextX={positionTextAngle[0] + 5} positionTextY={positionTextAngle[1]} textValue={`${angle}°`} />
             }
           </>
         )
