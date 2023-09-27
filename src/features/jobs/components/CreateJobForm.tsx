@@ -19,7 +19,8 @@ const CreateEditJobFormComponent: React.FC<Props> = ({labelButton}) => {
     const isValidPhoneNumber = validatePhone(value, !numberInternational? 'NATIONAL': 'INTERNATIONAL');
 
     if (isValidPhoneNumber) {
-      const phoneNumber = formatPhone(value);
+      const numberInternational = value.includes('+')
+      const phoneNumber = formatPhone(value, {format: numberInternational? 'INTERNATIONAL': 'NATIONAL'});
       setFieldValue(formKeys.createEditJob.contactNumber, phoneNumber)
     }
   };

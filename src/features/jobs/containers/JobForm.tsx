@@ -62,9 +62,7 @@ const JobFormContainer = () => {
           newDataJob: dataJob
         }))
       }
-
       navigation.navigate(Routes.JOB_DETAILS, {jobId: idJob, jobName: dataJob.name })
-
     },
     [],
   );
