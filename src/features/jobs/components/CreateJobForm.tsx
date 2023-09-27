@@ -6,7 +6,10 @@ import { Box, Button, Divider, Text } from '@ui/components';
 import { formKeys, forms, validatePhone } from "@features/jobs/constants";
 import { formatPhone } from "@shared/helpers";
 
-const CreateJobFormComponent = () => {
+type Props = {
+  labelButton: string
+}
+const createEditJobFormComponent: React.FC<Props> = ({labelButton}) => {
   const formik = useFormikContext<CreateFormValues>();
   const { isValid,  handleSubmit,  setFieldValue } = formik;
 
@@ -18,7 +21,7 @@ const CreateJobFormComponent = () => {
 
     if (isValidPhoneNumber) {
       const phoneNumber = formatPhone(value);
-      setFieldValue(formKeys.createJob.contactNumber, phoneNumber)
+      setFieldValue(formKeys.createEditJob.contactNumber, phoneNumber)
     }
   };
 
@@ -28,23 +31,23 @@ const CreateJobFormComponent = () => {
         <Text variant="subheadSmallBold">Job Details</Text>
         <FieldInput
           isRequired
-          name={formKeys.createJob.jobName}
-          placeholder={forms.createJob.placeholders[formKeys.createJob.jobName]}
-          label={forms.createJob.labels[formKeys.createJob.jobName]}
+          name={formKeys.createEditJob.jobName}
+          placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.jobName]}
+          label={forms.createEditJob.labels[formKeys.createEditJob.jobName]}
           returnKeyType="next"
           mt="m"
         />
         <FieldInput
-          name={formKeys.createJob.jobNumber}
-          placeholder={forms.createJob.placeholders[formKeys.createJob.jobNumber]}
-          label={forms.createJob.labels[formKeys.createJob.jobNumber]}
+          name={formKeys.createEditJob.jobNumber}
+          placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.jobNumber]}
+          label={forms.createEditJob.labels[formKeys.createEditJob.jobNumber]}
           returnKeyType="next"
           mt="m"
         />
         <FieldInput
-          name={formKeys.createJob.siteAddress}
-          placeholder={forms.createJob.placeholders[formKeys.createJob.siteAddress]}
-          label={forms.createJob.labels[formKeys.createJob.siteAddress]}
+          name={formKeys.createEditJob.siteAddress}
+          placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.siteAddress]}
+          label={forms.createEditJob.labels[formKeys.createEditJob.siteAddress]}
           returnKeyType="next"
           mt="m"
         />
@@ -53,17 +56,17 @@ const CreateJobFormComponent = () => {
       <Text variant="subheadSmallBold">Contact Details</Text>
       <FieldInput
         isRequired
-        name={formKeys.createJob.contactName}
-        placeholder={forms.createJob.placeholders[formKeys.createJob.contactName]}
-        label={forms.createJob.labels[formKeys.createJob.contactName]}
+        name={formKeys.createEditJob.contactName}
+        placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.contactName]}
+        label={forms.createEditJob.labels[formKeys.createEditJob.contactName]}
         returnKeyType="next"
         mt="m"
       />
       <FieldInput
         isRequired
-        name={formKeys.createJob.contactNumber}
-        placeholder={forms.createJob.placeholders[formKeys.createJob.contactNumber]}
-        label={forms.createJob.labels[formKeys.createJob.contactNumber]}
+        name={formKeys.createEditJob.contactNumber}
+        placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.contactNumber]}
+        label={forms.createEditJob.labels[formKeys.createEditJob.contactNumber]}
         returnKeyType="next"
         keyboardType="phone-pad"
         inputMode="tel"
@@ -73,9 +76,9 @@ const CreateJobFormComponent = () => {
       />
       <FieldInput
         isRequired
-        name={formKeys.createJob.contactEmail}
-        placeholder={forms.createJob.placeholders[formKeys.createJob.contactEmail]}
-        label={forms.createJob.labels[formKeys.createJob.contactEmail]}
+        name={formKeys.createEditJob.contactEmail}
+        placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.contactEmail]}
+        label={forms.createEditJob.labels[formKeys.createEditJob.contactEmail]}
         returnKeyType="next"
         keyboardType="email-address"
         textContentType="emailAddress"
@@ -83,10 +86,10 @@ const CreateJobFormComponent = () => {
         mt="m"
       />
       <Button mt="l" mb="xl" isDisabled={!isValid}  onPress={handleSubmit.bind(null, undefined)}>
-        Create Job
+        {labelButton}
       </Button>
     </>
   );
 };
 
-export default CreateJobFormComponent;
+export default createEditJobFormComponent;

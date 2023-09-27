@@ -8,8 +8,11 @@ export const jobsList = createSelector(jobsSelector,
 	(state, typeJob) => typeJob === 'current' ? state.jobs: state.jobsArchive);
 
 export const jobData = createSelector(jobsSelector,
-	(_:any, idJob: number) => idJob,
-	(state, idJob) => state.jobs.find((job)=> job.id === idJob));
+	(_:any, idJob?: number) => idJob,
+	(state, idJob) => {
+		if(!idJob) return undefined
+		return state.jobs.find((job) => job.id === idJob);
+	});
 
 export const getDataFlashing = createSelector(jobsSelector,
 	(_:any, dataSelect: {idJob:number; idFlashing?: number}) => dataSelect,

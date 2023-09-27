@@ -30,8 +30,8 @@ type Props = {
   backStep?: () => void;
   mode: MODES_BOARD;
   rightLinePaint: boolean;
-  angles: number[];
-  updateAngle: (newAngle:number, positionAngle:number) => void;
+  angles?: number[];
+  updateAngle?: (newAngle:number, positionAngle:number) => void;
 };
 
 const Board: React.FC<Props> = ({
@@ -45,7 +45,7 @@ const Board: React.FC<Props> = ({
   rightLinePaint,
   onSave,
   onTape,
-  angles,
+  angles=[],
   updateAngle
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
@@ -98,7 +98,7 @@ const Board: React.FC<Props> = ({
     if(isNaN(newSize)) return
 
     if(sizeType === 'angle'){
-      updateAngle(newSize, indexLineSelected)
+      updateAngle && updateAngle(newSize, indexLineSelected)
     }
 
     onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });

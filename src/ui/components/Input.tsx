@@ -220,7 +220,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
 
     return (
       <Pressable
-        style={[styles.inputContainer,  style, containerStyle]}
+        style={[styles.inputContainer,  style, {...containerStyle }]}
         onPress={handleExternalFocus}
         accessible={false}>
         <Box flexDirection="row" alignItems="center">
@@ -291,12 +291,9 @@ const styles = StyleSheet.create({
     height: 60,
   },
   text: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 'auto',
-    height: '100%',
     fontSize: 16,
     lineHeight: 20,
+    marginTop: 8,
   },
   inputLabel: {
     marginTop: 8,
