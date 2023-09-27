@@ -29,7 +29,7 @@ const JobsListContainer = () => {
       <Button
         mx="m"
         mb="xl"
-        onPress={() => navigation.navigate(Routes.CREATE_JOB)}
+        onPress={() => navigation.navigate(Routes.CREATE_EDIT_JOB, {jobId: undefined})}
         style={[styles.button, { padding: 12 }]}>
         Create New Job
       </Button>

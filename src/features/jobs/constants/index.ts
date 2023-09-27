@@ -4,7 +4,7 @@ import { formatPhone } from '@shared/helpers';
 import { NumberFormat } from "libphonenumber-js";
 
 export const customValidationMessages = {
-  createJob: {
+  createEditJob: {
     email: {
       email: 'Invalid email address',
     },
@@ -44,7 +44,7 @@ export const validatePhone = (phone: string | undefined, numberFormat: NumberFor
     .isValidSync(phone);
 
 export const formKeys = {
-  createJob: {
+  createEditJob: {
     jobName: 'jobName',
     jobNumber: 'jobNumber',
     siteAddress: 'siteAddress',
@@ -54,45 +54,45 @@ export const formKeys = {
   },
 }
 export const forms = {
-  createJob: {
+  createEditJob: {
     initialValues: {
-      [formKeys.createJob.jobName]: '',
-      [formKeys.createJob.jobNumber]: '',
-      [formKeys.createJob.siteAddress]: '',
-      [formKeys.createJob.contactName]: '',
-      [formKeys.createJob.contactNumber]: '',
-      [formKeys.createJob.contactEmail]: '',
+      [formKeys.createEditJob.jobName]: '',
+      [formKeys.createEditJob.jobNumber]: '',
+      [formKeys.createEditJob.siteAddress]: '',
+      [formKeys.createEditJob.contactName]: '',
+      [formKeys.createEditJob.contactNumber]: '',
+      [formKeys.createEditJob.contactEmail]: '',
     },
     initialErrors: {
-      [formKeys.createJob.jobName]: '',
-      [formKeys.createJob.jobNumber]: '',
-      [formKeys.createJob.siteAddress]: '',
-      [formKeys.createJob.contactName]: '',
-      [formKeys.createJob.contactNumber]: '',
-      [formKeys.createJob.contactEmail]: '',
+      [formKeys.createEditJob.jobName]: '',
+      [formKeys.createEditJob.jobNumber]: '',
+      [formKeys.createEditJob.siteAddress]: '',
+      [formKeys.createEditJob.contactName]: '',
+      [formKeys.createEditJob.contactNumber]: '',
+      [formKeys.createEditJob.contactEmail]: '',
     },
     labels: {
-      [formKeys.createJob.jobName]: 'Job Name',
-      [formKeys.createJob.jobNumber]: 'Job Number',
-      [formKeys.createJob.siteAddress]: 'Site Address',
-      [formKeys.createJob.contactName]: 'Contact Name',
-      [formKeys.createJob.contactNumber]: 'Contact Number',
-      [formKeys.createJob.contactEmail]: 'Contact Email',
+      [formKeys.createEditJob.jobName]: 'Job Name',
+      [formKeys.createEditJob.jobNumber]: 'Job Number',
+      [formKeys.createEditJob.siteAddress]: 'Site Address',
+      [formKeys.createEditJob.contactName]: 'Contact Name',
+      [formKeys.createEditJob.contactNumber]: 'Contact Number',
+      [formKeys.createEditJob.contactEmail]: 'Contact Email',
     },
     placeholders: {
-      [formKeys.createJob.jobName]: 'Job Name',
-      [formKeys.createJob.jobNumber]: 'Job Number',
-      [formKeys.createJob.siteAddress]: 'Site Address',
-      [formKeys.createJob.contactName]: 'Contact Name',
-      [formKeys.createJob.contactNumber]: 'Contact Number',
-      [formKeys.createJob.contactEmail]: 'Contact Email',
+      [formKeys.createEditJob.jobName]: 'Job Name',
+      [formKeys.createEditJob.jobNumber]: 'Job Number',
+      [formKeys.createEditJob.siteAddress]: 'Site Address',
+      [formKeys.createEditJob.contactName]: 'Contact Name',
+      [formKeys.createEditJob.contactNumber]: 'Contact Number',
+      [formKeys.createEditJob.contactEmail]: 'Contact Email',
     },
     schema: Yup.object({
-      [formKeys.createJob.jobName]: Yup.string().required("Job Name is required."),
-      [formKeys.createJob.jobNumber]: Yup.string(),
-      [formKeys.createJob.siteAddress]: Yup.string(),
-      [formKeys.createJob.contactName]: Yup.string(),
-      [formKeys.createJob.contactNumber]: Yup.string()
+      [formKeys.createEditJob.jobName]: Yup.string().required("Job Name is required."),
+      [formKeys.createEditJob.jobNumber]: Yup.string(),
+      [formKeys.createEditJob.siteAddress]: Yup.string(),
+      [formKeys.createEditJob.contactName]: Yup.string(),
+      [formKeys.createEditJob.contactNumber]: Yup.string()
         .required('Contact Number is required')
         .ensure()
         .trim()
@@ -101,8 +101,8 @@ export const forms = {
           const numberInternational = value.includes('+')
           return validatePhone(value, numberInternational? 'INTERNATIONAL': 'NATIONAL');
         }),
-      [formKeys.createJob.contactEmail]: Yup.string()
-        .email(customValidationMessages.createJob.email.email)
+      [formKeys.createEditJob.contactEmail]: Yup.string()
+        .email(customValidationMessages.createEditJob.email.email)
         .ensure()
         .trim()
         .lowercase(),

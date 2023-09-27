@@ -34,7 +34,8 @@ const CreateFlashingScreen = () => {
           flashingLengths,
           colourMaterial: material,
           dataLines: dataFlashing? dataFlashing.dataLines:  [],
-          parallelRight: dataFlashing? dataFlashing.parallelRight : true
+          parallelRight: dataFlashing? dataFlashing.parallelRight : true,
+          angles: dataFlashing? dataFlashing.angles: [],
         },
         jobId: route.params.jobId})
     },

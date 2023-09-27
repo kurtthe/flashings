@@ -1,13 +1,14 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackNavigationOptions, StackNavigationProp } from "@react-navigation/stack";
 import { Routes } from "./routes";
-import { AllJobsScreen, JobDetailsScreen, CreateJobScreen } from '../screens';
+import { AllJobsScreen, JobDetailsScreen, CreateEditJobScreen } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
-import { Logout, SearchIcon } from '@assets/icons';
+import { Logout, EditIcon, DeleteIcon } from "@assets/icons";
 import IconButton from '@ui/components/IconButton';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as authActions } from '@store/auth/actions';
-import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
+import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
+import { RouteProp } from "@react-navigation/native";
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<JobsStackParamsList>();
@@ -15,7 +16,7 @@ const Stack = () => {
 
   const handleLogout = () => dispatch(authActions.logOut());
 
-  return (
+	return (
     <Navigator initialRouteName={Routes.ALL_JOBS}>
       <Screen
         key={Routes.ALL_JOBS}
@@ -41,25 +42,28 @@ const Stack = () => {
         name={Routes.JOB_DETAILS}
         component={JobDetailsScreen}
         options={{
-          header: ({navigation, route}) => (
+          header: ({navigation, route}  ) => (
             <HeaderBox
               maxLength={15}
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.navigate(Routes.ALL_JOBS)} />}
-              title={route.params ? route.params.jobName: ''}
+              rightIcon={ <IconButton icon={<Icon as={EditIcon}  size={28} />} onPress={()=> navigation.navigate(Routes.CREATE_EDIT_JOB, {
+                jobId: route.params?.jobId,
+              })} />}
+              title={route.params?.jobName ?? ''}
             />
           ),
         }}
       />
       <Screen
-        key={Routes.CREATE_JOB}
-        name={Routes.CREATE_JOB}
-        component={CreateJobScreen}
+        key={Routes.CREATE_EDIT_JOB}
+        name={Routes.CREATE_EDIT_JOB}
+        component={CreateEditJobScreen}
         options={{
-          header: () => (
+          header: ({ route}) => (
             <HeaderBox
               mb="s"
               leftIcon={<HeaderBackButton />}
-              title={'New Job'}
+              title={route.params?.jobId? 'Edit Job': 'New Job'}
             />
           ),
         }}

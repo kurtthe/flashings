@@ -7,16 +7,22 @@ import { Box } from '@ui/components';
 import { useAppDispatch, useAppSelector } from "@hooks/useStore";
 import { actions } from '@store/jobs/actions';
 import { getRandomInt } from "@shared/utils";
-import { useNavigation } from "@react-navigation/native";
-import { JobStackProps } from "@features/jobs/navigation/Stack.types";
-import { Routes } from "@features/jobs/navigation/routes";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
+import { Routes as RoutesJobs, Routes } from "@features/jobs/navigation/routes";
 import { dataUserSelector } from "@store/auth/selectors";
+import { jobData } from "@store/jobs/selectors";
 
 const JobFormContainer = () => {
   const navigation = useNavigation<JobStackProps>()
+  const route = useRoute<RouteProp<JobsStackParamsList, RoutesJobs.CREATE_EDIT_JOB>>();
+
   const formikRef = React.useRef<FormikProps<CreateFormValues>>(null);
   const dispatch = useAppDispatch();
   const dataUser = useAppSelector(dataUserSelector);
+
+  const { jobId } = route.params;
+  const dataJob = useAppSelector((state) => jobData(state, jobId));
 
   const handleSubmit = React.useCallback(
     async (values: CreateFormValues) => {
@@ -51,20 +57,36 @@ const JobFormContainer = () => {
     [],
   );
 
+  const loadInitialValues = () => {
+    if(!dataJob){
+      return {
+        ...forms.createEditJob.initialValues,
+        [formKeys.createEditJob.contactName]: `${dataUser?.first_name} ${dataUser?.last_name}`,
+        [formKeys.createEditJob.contactEmail]: dataUser?.email,
+        [formKeys.createEditJob.contactNumber]: dataUser?.phone_number
+      }
+    }
+    return {
+      [formKeys.createEditJob.siteAddress]: dataJob.address,
+      [formKeys.createEditJob.jobNumber]: dataJob.number,
+      [formKeys.createEditJob.jobName]: dataJob.name,
+      [formKeys.createEditJob.contactName]: dataJob.contact.name,
+      [formKeys.createEditJob.contactEmail]: dataJob.contact.email,
+      [formKeys.createEditJob.contactNumber]: dataJob.contact.number,
+    }
+  }
+
   return (
     <Box flex={1} p="m" pt="xl" backgroundColor="white">
       <Formik
         innerRef={formikRef}
         initialValues={{
-          ...forms.createJob.initialValues,
-          [formKeys.createJob.contactName]: `${dataUser?.first_name} ${dataUser?.last_name}`,
-          [formKeys.createJob.contactEmail]: dataUser?.email,
-          [formKeys.createJob.contactNumber]: dataUser?.phone_number,
+          ...loadInitialValues()
         }}
-        initialErrors={forms.createJob.initialErrors}
-        validationSchema={forms.createJob.schema}
+        initialErrors={forms.createEditJob.initialErrors}
+        validationSchema={forms.createEditJob.schema}
         onSubmit={handleSubmit}>
-        <CreateJobForm />
+        <CreateJobForm labelButton={jobId? 'Edit Job': 'Create Job'}  />
       </Formik>
     </Box>
   );
