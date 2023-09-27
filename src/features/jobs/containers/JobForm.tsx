@@ -35,8 +35,8 @@ const JobFormContainer = () => {
         contactNumber,
         contactEmail} = values;
 
+      const idJob = !jobId? getRandomInt(): jobId
       const dataJob = {
-        id: getRandomInt(),
         name: jobName,
         number: jobNumber,
         address: siteAddress,
@@ -46,13 +46,25 @@ const JobFormContainer = () => {
           number: contactNumber,
           email: contactEmail
         },
-        flashings: [],
-        rain_heads: [],
-        sumbs: []
       }
 
-      dispatch(actions.addJob({job:dataJob }))
-      navigation.navigate(Routes.JOB_DETAILS, {jobId: dataJob.id, jobName: dataJob.name })
+      if(!jobId){
+        dispatch(actions.addJob({job: { ...dataJob,
+            id: idJob,
+            flashings: [],
+            rain_heads: [],
+            sumbs: []
+          }}))
+      }
+      else{
+        dispatch(actions.editJob({
+          idJob: jobId,
+          newDataJob: dataJob
+        }))
+      }
+
+      navigation.navigate(Routes.JOB_DETAILS, {jobId: idJob, jobName: dataJob.name })
+
     },
     [],
   );
