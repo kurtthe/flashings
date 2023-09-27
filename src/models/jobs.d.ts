@@ -30,8 +30,7 @@ export type JOB_STATE = {
   jobsArchive: JOB_DATA[];
 }
 
-export type JOB_DATA= {
-  id: number;
+type JOB_DATA_COMMON = {
   name?: string;
   number?: string;
   address?: string;
@@ -40,8 +39,14 @@ export type JOB_DATA= {
     name?: string;
     number?: string;
     email?:string
-  },
+  }
+}
+
+export type JOB_DATA= JOB_DATA_COMMON & {
+  id: number;
   flashings: FLASHINGS_DATA[];
   rain_heads: RAIN_HEAD[];
   sumbs: SUMB[];
 }
+
+export type JOB_EDIT = JOB_DATA_COMMON

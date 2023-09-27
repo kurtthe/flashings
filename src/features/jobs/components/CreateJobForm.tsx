@@ -1,7 +1,7 @@
 import React from 'react';
 import { FieldInput } from '@components/forms';
 import { useFormikContext } from 'formik';
-import { CreateFormValues } from '@features/jobs/containers/types';
+import { CreateEditFormValues } from "@features/jobs/containers/types";
 import { Box, Button, Divider, Text } from '@ui/components';
 import { formKeys, forms, validatePhone } from "@features/jobs/constants";
 import { formatPhone } from "@shared/helpers";
@@ -9,9 +9,8 @@ import { formatPhone } from "@shared/helpers";
 type Props = {
   labelButton: string
 }
-const createEditJobFormComponent: React.FC<Props> = ({labelButton}) => {
-  const formik = useFormikContext<CreateFormValues>();
-  const { isValid,  handleSubmit,  setFieldValue } = formik;
+const CreateEditJobFormComponent: React.FC<Props> = ({labelButton}) => {
+  const { isValid,  handleSubmit,  setFieldValue } = useFormikContext<CreateEditFormValues>();
 
   const handleEndEditing = (text: string) => {
     if (!text) return;
@@ -92,4 +91,4 @@ const createEditJobFormComponent: React.FC<Props> = ({labelButton}) => {
   );
 };
 
-export default createEditJobFormComponent;
+export default CreateEditJobFormComponent;
