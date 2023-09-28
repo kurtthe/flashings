@@ -10,10 +10,13 @@ export const forms = {
     initialValues: {
       name: '',
       material: NaN,
-      flashingLengths: []
+      flashingLengths: [{
+        qty: NaN,
+        length: NaN
+      }]
     },
     schema: Yup.object({
-      name: Yup.string().required('Name is required'),
+      name: Yup.string(),
       material: Yup.number().required('The material is required'),
       flashingLengths: Yup.array().of(
         Yup.object().shape({
