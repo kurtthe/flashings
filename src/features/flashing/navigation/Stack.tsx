@@ -22,7 +22,7 @@ const Stack = () => {
           header: ({navigation, route}) => (
             <HeaderBox
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
-              title={route.params.idFlashing? "Edit Flashing":"New Flashing"}
+              title={route.params?.idFlashing? "Edit Flashing":"New Flashing"}
             />
           ),
         }}
