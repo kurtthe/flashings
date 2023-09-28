@@ -53,6 +53,8 @@ const CreateFlashingScreen = () => {
     }
   }
 
+  console.log("route.params.idFlashing::",route.params.idFlashing)
+
   return (
     <KeyboardAvoidingBox flex={1}>
       <DismissKeyboardPressable>
@@ -65,7 +67,7 @@ const CreateFlashingScreen = () => {
             validationSchema={forms.createFlashing.schema}
             initialErrors={forms.createFlashing.initialErrors}
             onSubmit={handleSubmit}>
-            <FormCreateFlashingComponent />
+            <FormCreateFlashingComponent labelButton={route.params.idFlashing? 'Edit Drawing': 'Start Drawing'} />
           </Formik>
         </Box>
       </DismissKeyboardPressable>
