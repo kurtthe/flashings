@@ -1,5 +1,8 @@
-import {setItemStorage} from '@services/Storage';
+import { Storage, useMMKVStorage } from "@services";
+import { ThemeOptions } from "@theme";
 
-const useTheme = () => setItemStorage('Theme', 'System');
+
+const useTheme = () => useMMKVStorage<ThemeOptions>('Theme', Storage, 'System');
 
 export default useTheme;
+

@@ -22,6 +22,7 @@ import { useAsProp } from '@ui/hooks';
 import { forwardRef } from '@ui/utils';
 
 import AnimatedPressable from './AnimatedPressable';
+import { useIsDarkMode } from "@theme/hooks";
 
 type Props = BoxProps<Theme> & {
   children?: React.ReactElement | React.ReactNode | PressableProps['children'];
@@ -57,7 +58,7 @@ const BaseTouchable = forwardRef<Props, typeof Pressable>(
     ref,
   ) => {
     const TouchableComponent = useAsProp(AnimatedPressable, as);
-    const isDarkMode = false;
+    const isDarkMode = useIsDarkMode();
     const props = useAppRestyle(restyleFunctions, {
       ...rest,
       ...(isDarkMode ? _dark : _light),
