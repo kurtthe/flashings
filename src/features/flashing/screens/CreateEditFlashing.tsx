@@ -61,9 +61,7 @@ const CreateFlashingScreen = () => {
           flex={1}>
           <Formik
             innerRef={formikRef}
-            initialValues={{
-              ...loadInitialData(),
-            }}
+            initialValues={{...loadInitialData()}}
             validationSchema={forms.createFlashing.schema}
             initialErrors={forms.createFlashing.initialErrors}
             onSubmit={handleSubmit}>

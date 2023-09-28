@@ -1,9 +1,10 @@
 import React from 'react';
 import { FieldInput, FieldSelect } from "@components/forms";
-import { Button, Box, ScrollBox } from "@ui/components";
+import { Button, Box, ScrollBox, IconButton, Icon } from "@ui/components";
 import selectData from '../tempData/selectData.json'
 import { FieldArray, useFormikContext } from "formik";
 import { AddFlashingFormValues } from "@features/flashing/constants";
+import { TrashIcon } from "@assets/icons";
 
 
 const FormCreateFlashingComponent = ()=> {
@@ -13,9 +14,7 @@ const FormCreateFlashingComponent = ()=> {
 	      <Box px="m" flex={1} >
 	        <Box my="m" flex={0.9}>
 	          <FieldInput
-	            isRequired
 	            name="name"
-	            placeholder="Name"
 	            returnKeyType="next"
 	            label="Name"
 	            my="l"
@@ -35,48 +34,44 @@ const FormCreateFlashingComponent = ()=> {
 					          {
 						          values.flashingLengths?.map((_, index)=> (
 							          <React.Fragment key={`row-length-${index}`}>
-								          <Box flexDirection="row" justifyContent="space-between" mt="l" mb="unset" >
+								          <Box flexDirection="row" alignItems="center" justifyContent="space-around" mt="l" mb="unset" >
 									          <FieldInput
-										          isRequired
+										          isRequired={index=== 0}
 										          name={`flashingLengths.${index}.qty`}
-										          placeholder="qty"
 										          label="Qty"
-										          style={{width: 150}}
+										          style={{width: index=== 0? 170: 150}}
 										          keyboardType="numeric"
 									          />
 									          <FieldInput
-										          isRequired
+										          isRequired={index=== 0}
 										          name={`flashingLengths.${index}.length`}
-										          placeholder="length"
 										          label="Length"
-										          style={{width: 150}}
+										          style={{width: index=== 0? 170: 150}}
 										          suffix="mm"
 										          keyboardType="numeric"
 									          />
-									          <Button variant="outlineWhite" height={60} onPress={()=> arrayHelpers.remove(index)}>
-										          -
-									          </Button>
+									          {index > 0 && (
+										          <IconButton icon={<Icon as={TrashIcon} />} onPress={()=> arrayHelpers.remove(index)} />
+									          )}
 								          </Box>
 							          </React.Fragment>
 						          ))
 					          }
 				          </ScrollBox>
-				          <Button
-					          variant="outlineWhite"
-					          mt="2xl"
-					          onPress={() =>
-						          arrayHelpers.push({
-							          qty: 0,
-							          length: 0
-						          })}
-				          >
-					          + Add Length
-				          </Button>
+									<Button
+										variant="outlineWhite"
+										mt="2xl"
+										onPress={() =>
+										arrayHelpers.push({
+											qty: NaN,
+											length: NaN
+										})}>
+									+ Add Length
+									</Button>
 			          </>
 		          )}
 		        />
 	          </Box>
-
 	          <Button
 		          isDisabled={!isValid || isSubmitting}
 	            onPress={handleSubmit.bind(null, undefined)}>
