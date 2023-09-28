@@ -34,7 +34,7 @@ const FormCreateFlashingComponent = ()=> {
 					          {
 						          values.flashingLengths?.map((_, index)=> (
 							          <React.Fragment key={`row-length-${index}`} >
-								          <Box flexDirection="row" mt="l"  justifyContent="space-around" mb="unset" >
+								          <Box flexDirection="row" mt="l"  justifyContent="space-between" mb="unset" >
 									          <FieldInput
 										          isRequired={index=== 0}
 										          name={`flashingLengths.${index}.qty`}
@@ -51,7 +51,7 @@ const FormCreateFlashingComponent = ()=> {
 										          keyboardType="numeric"
 									          />
 									          {index > 0 && (
-										          <IconButton icon={<Icon as={TrashIcon} />} onPress={()=> arrayHelpers.remove(index)} />
+										          <IconButton mt="m" icon={<Icon as={TrashIcon}  />} onPress={()=> arrayHelpers.remove(index)} />
 									          )}
 								          </Box>
 							          </React.Fragment>
@@ -63,8 +63,8 @@ const FormCreateFlashingComponent = ()=> {
 										mt="2xl"
 										onPress={() =>
 										arrayHelpers.push({
-											qty: NaN,
-											length: NaN
+											qty: undefined,
+											length: undefined
 										})}>
 									+ Add Length
 									</Button>

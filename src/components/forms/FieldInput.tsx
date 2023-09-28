@@ -14,6 +14,7 @@ import ErrorMessage from './ErrorMessage';
 
 import type { InputProps } from '@ui/components';
 import type { ComponentWithAs } from '@ui/types';
+import { isNaN } from "lodash";
 
 export type Props = InputProps &
   {suffix?: string}&
@@ -69,7 +70,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
           onBlur={handleBlur}
           onChangeText={handleChangeText}
           defaultValue={meta.initialValue}
-          value={`${field.value}`}
+          value={isNaN(field.value)? undefined: field.value?.toString()}
           isInvalid={isInvalid}
           clearButtonMode={isClearButtonModeIcon ?? 'while-editing'}
           styleContent={styleContent}
