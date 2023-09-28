@@ -33,8 +33,8 @@ const FormCreateFlashingComponent = ()=> {
 				          <ScrollBox height="30%" showsVerticalScrollIndicator={false}>
 					          {
 						          values.flashingLengths?.map((_, index)=> (
-							          <React.Fragment key={`row-length-${index}`}>
-								          <Box flexDirection="row" alignItems="center" justifyContent="space-around" mt="l" mb="unset" >
+							          <React.Fragment key={`row-length-${index}`} >
+								          <Box flexDirection="row" mt="l"  justifyContent="space-around" mb="unset" >
 									          <FieldInput
 										          isRequired={index=== 0}
 										          name={`flashingLengths.${index}.qty`}

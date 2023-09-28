@@ -269,10 +269,9 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               onEndEditing={handleEndEditing}
             />
           </Box>
-          {suffix && < >
-            <Box width={1} height={containerStyle['height']? containerStyle['height'] - 10: 40} backgroundColor="lightGray" ml="xs" mr="s" />
+          {suffix && <Box pt="s">
             <Text mt={label? "s": 'unset'} variant="bodyRegular" color="lightGray">{suffix}</Text>
-          </>}
+          </Box>}
           {rightIcon}
         </Box>
       </Pressable>
