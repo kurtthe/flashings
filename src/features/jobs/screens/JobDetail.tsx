@@ -20,6 +20,34 @@ const JobDetailsScreen = () => {
   const { jobId } = route.params;
   const item = useAppSelector((state) => jobData(state, jobId));
 
+
+  const getCommonMaterial = () => {
+    if(!item || item.flashings.length < 2) return null
+    const elementCountMap: Map<any, number> = new Map();
+    const flashingsMaterial = item.flashings.map((flash)=> flash.colourMaterial)
+
+    flashingsMaterial.forEach((material)=> {
+      if (elementCountMap.has(material)) {
+        elementCountMap.set(material, elementCountMap.get(material)! + 1);
+      } else {
+        elementCountMap.set(material, 1);
+      }
+    })
+
+    let mostFrequentElement = flashingsMaterial[0]; // Default to the first element
+    let maxCount = 1; // Default count is 1
+
+    // Find the element with the highest occurrence
+    for (const [element, count] of elementCountMap.entries()) {
+      if (count > maxCount) {
+        mostFrequentElement = element;
+        maxCount = count;
+      }
+    }
+
+    return mostFrequentElement;
+
+  }
   const onPressFooter = (routeToGo: Routes, params= {}) => {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {
       screen: routeToGo,
