@@ -29,7 +29,7 @@ const CreateFlashingScreen = () => {
 
       navigation.navigate(Routes.BOARD_FLASHING, {
         data: {
-          id: getRandomInt(),
+          id: getRandomInt(1, 500),
           name,
           flashingLengths,
           colourMaterial: material,
@@ -46,14 +46,13 @@ const CreateFlashingScreen = () => {
     if(!dataFlashing){
       return forms.createFlashing.initialValues
     }
+
     return {
       name: dataFlashing.name ?? '',
       material: dataFlashing.colourMaterial,
       flashingLengths: dataFlashing.flashingLengths
     }
   }
-
-  console.log("route.params.idFlashing::",route.params.idFlashing)
 
   return (
     <KeyboardAvoidingBox flex={1}>
