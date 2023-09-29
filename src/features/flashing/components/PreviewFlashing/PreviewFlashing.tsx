@@ -25,8 +25,8 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataFlashing}) => {
 	return (
 		<>
 			<TouchableOpacity onPress={() => modalBottomRef.current?.show()}>
-			<Box width={width} height={height} px="s" mt="xs" borderWidth={1.5} borderColor="divider" borderRadius="m" alignItems="center" justifyContent="center"  >
-				<Svg width={width/2} height={height} >
+			<Box backgroundColor="white" width={width} height={height} px="s" mt="xs" borderWidth={1.5} borderColor="divider" borderRadius="m" alignItems="center" justifyContent="center"  >
+				<Svg width={width/2} height={height - 10}>
 					{pathLines && <PathComponent
 						d={serialize(pathLines)}
 						stroke={"#000"}
@@ -43,7 +43,7 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataFlashing}) => {
 				height={500}
 				draggable={false}
 			>
-				<Box style={{marginTop: -100}}>
+				<Box style={{marginTop: -100}} backgroundColor="white">
 					<BoardComponent
 						rightLinePaint={dataFlashing.parallelRight}
 						lines={dataFlashing.dataLines}

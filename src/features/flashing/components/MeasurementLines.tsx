@@ -42,7 +42,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
   }
 
   return (
-      <Box p="s" >
+      <Box p="s" backgroundColor="white">
         <Box flexDirection="row" alignItems="center" justifyContent="space-around">
           <Box disabled={disabledPrevious} as={BaseTouchable} onPress={handlePrevious}>
             <Icon opacity={disabledPrevious? 0.3: 1} as={BackArrowIcon} size={22}  />

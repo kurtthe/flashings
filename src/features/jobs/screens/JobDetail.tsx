@@ -57,7 +57,7 @@ const JobDetailsScreen = () => {
             key={`${item.id}-${index}`}
             jobId={jobId}
             onAddLength={() => setModalVisible(!modalVisible)}
-            data={item}
+            data={{ ...item, name: item.name === '' ? `Flashing ${index +1}` :item.name}}
           />
         )}
         ListFooterComponent={
