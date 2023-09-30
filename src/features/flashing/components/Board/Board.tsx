@@ -74,7 +74,7 @@ const Board: React.FC<Props> = ({
     });
     setPathParallel(drawParallelLines(lines, rightLinePaint))
     setGraphs(makingLines);
-  }, [lines, mode, rightLinePaint, indexLineSelected]);
+  }, [lines, mode, rightLinePaint, indexLineSelected, typeSelected]);
 
   React.useEffect(()=>{
     if(mode === "finish" ) {
@@ -100,8 +100,8 @@ const Board: React.FC<Props> = ({
 
     if(sizeType === 'angle'){
       updateAngle && updateAngle(newSize, indexLineSelected)
+      return;
     }
-
     onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
   };
   const handlePointer = (event: GestureResponderEvent) => {
@@ -137,17 +137,19 @@ const Board: React.FC<Props> = ({
   }
 
   const handleBackLineSelected = ()=>{
-    if(typeSelected === "angle"){
-      return setTypeSelected("line");
-    }
     const newIndex = indexLineSelected - 1
-
-    if(newIndex <= 0){
+    if(newIndex < 0){
       setIndexLineSelected(0)
     }
+
+    if(typeSelected === "angle"){
+      setTypeSelected("line");
+      return
+    }
+
     if(typeSelected === 'line'){
-      setIndexLineSelected(newIndex)
       setTypeSelected('angle')
+      setIndexLineSelected(newIndex)
     }
   }
 
@@ -169,6 +171,7 @@ const Board: React.FC<Props> = ({
     }
     return 0
   }
+
   return (
     <ScrollBox as={KeyboardAwareScrollView} keyboardShouldPersistTaps="handled" enableOnAndroid showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingBox>
