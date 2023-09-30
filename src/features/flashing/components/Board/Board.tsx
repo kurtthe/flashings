@@ -16,7 +16,8 @@ import { Path } from 'react-native-redash';
 import SectionsButton from "@features/flashing/components/SectionsButton";
 import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
 import { isNaN } from "lodash";
-import { Box } from "@ui/components";
+import { Box, KeyboardAvoidingBox, ScrollBox } from "@ui/components";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type Props = {
   lines: LINE_TYPE[];
@@ -169,7 +170,8 @@ const Board: React.FC<Props> = ({
     return 0
   }
   return (
-    <Box style={{marginTop: validateShowHigher()}}>
+    <ScrollBox as={KeyboardAwareScrollView} keyboardShouldPersistTaps="handled" enableOnAndroid showsVerticalScrollIndicator={false}>
+      <KeyboardAvoidingBox>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
         <GestureHandlerRootView>
           <SvgBoard graphs={graphs} pathParallel={pathParallel} />
@@ -194,7 +196,8 @@ const Board: React.FC<Props> = ({
         />
       </ModalBottom>
       {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
-    </Box>
+      </KeyboardAvoidingBox>
+    </ScrollBox>
   );
 };
 

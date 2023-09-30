@@ -44,7 +44,8 @@ const CreateFlashingScreen = () => {
 
   const loadInitialData = ()=> {
     if(!dataFlashing){
-      return forms.createFlashing.initialValues
+      return {... forms.createFlashing.initialValues,
+      material: route.params.commonMaterial ?? forms.createFlashing.initialValues.material }
     }
 
     return {
