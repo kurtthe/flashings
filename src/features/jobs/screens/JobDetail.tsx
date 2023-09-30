@@ -21,8 +21,9 @@ const JobDetailsScreen = () => {
   const item = useAppSelector((state) => jobData(state, jobId));
 
 
-  const getCommonMaterial = () => {
-    if(!item || item.flashings.length < 2) return null
+  const getCommonMaterial = (): number| null => {
+    if(!item || item.flashings.length < 3) return null
+
     const elementCountMap: Map<any, number> = new Map();
     const flashingsMaterial = item.flashings.map((flash)=> flash.colourMaterial)
 
@@ -93,7 +94,7 @@ const JobDetailsScreen = () => {
             <Button
               variant="outlineWhite"
               mt="l"
-              onPress={() => onPressFooter(Routes.CREATE_EDIT_FLASHING, {jobId: item.id, jobName: item.name})}>
+              onPress={() => onPressFooter(Routes.CREATE_EDIT_FLASHING, {jobId: item.id, jobName: item.name, commonMaterial: getCommonMaterial()})}>
               + Add Flashing
             </Button>
           </Box>

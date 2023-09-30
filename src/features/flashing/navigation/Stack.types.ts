@@ -6,6 +6,7 @@ export type FlashingParamsList = {
   [Routes.CREATE_EDIT_FLASHING]: {
     jobId: number,
     idFlashing?: number
+    commonMaterial?: number;
   };
   [Routes.BOARD_FLASHING]: {
     data: FLASHINGS_DATA,
