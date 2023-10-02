@@ -161,6 +161,7 @@ const Board: React.FC<Props> = ({
   }
 
   return (
+    <>
     <ScrollBox as={KeyboardAwareScrollView} keyboardShouldPersistTaps="handled" enableOnAndroid showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingBox>
       <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
@@ -168,15 +169,12 @@ const Board: React.FC<Props> = ({
           <SvgBoard height={heightScreen} graphs={graphs} pathParallel={pathParallel} />
         </GestureHandlerRootView>
       </TouchableOpacity>
-      <ModalBottom
-        onCloseFinish={() => {
-          changeMode && changeMode('finish')
-        }}
-        backdropBackgroundColor="transparent"
-        draggable={false}
-        ref={modalBottomRef}
-        height={350}
-        borderRadius={0}>
+
+      {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
+      </KeyboardAvoidingBox>
+    </ScrollBox>
+
+      <Box height={350} position="absolute" width="100%" bottom={0}>
         <MeasurementLines
           disabledPrevious={indexLineSelected === 0 && typeSelected === 'line'}
           onNext={handleNextLineSelected}
@@ -185,10 +183,9 @@ const Board: React.FC<Props> = ({
           onDone={handleDoneSize}
           dataLine={pointSelected}
         />
-      </ModalBottom>
-      {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
-      </KeyboardAvoidingBox>
-    </ScrollBox>
+      </Box>
+    </>
+
   );
 };
 
