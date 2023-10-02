@@ -62,7 +62,7 @@ const MenuEditorComponent: React.FC<Props> = ({
   disabledUndo=true,
   disabledEraser=true,
   disabledLibrary=true,
-  disabledNext=true
+  disabledNext=false
 }) => {
   return (
     <Box
