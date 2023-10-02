@@ -174,7 +174,7 @@ const Board: React.FC<Props> = ({
       </KeyboardAvoidingBox>
     </ScrollBox>
 
-      <Box height={350} position="absolute" width="100%" bottom={0}>
+      { mode === "measurements" &&<Box height={350} position="absolute" width="100%" bottom={0}>
         <MeasurementLines
           disabledPrevious={indexLineSelected === 0 && typeSelected === 'line'}
           onNext={handleNextLineSelected}
@@ -183,7 +183,7 @@ const Board: React.FC<Props> = ({
           onDone={handleDoneSize}
           dataLine={pointSelected}
         />
-      </Box>
+      </Box>}
     </>
 
   );
