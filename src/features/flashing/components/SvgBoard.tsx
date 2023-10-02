@@ -1,9 +1,9 @@
 import {
-  DREW_LINE_TYPE,
+  DREW_LINE_TYPE, heightScreen,
   SIZE_POINTER,
   SIZE_POINTER_LAST,
-  widthScreen,
-} from '@features/flashing/components/Board';
+  widthScreen
+} from "@features/flashing/components/Board";
 import { GridComponent } from '@features/flashing/components/index';
 import PointerComponent from '@features/flashing/components/Pointer';
 import Svg, { Path as PathComponent } from "react-native-svg";
@@ -13,14 +13,16 @@ import { Path, serialize } from "react-native-redash";
 type Props = {
   graphs: DREW_LINE_TYPE[];
   pathParallel: Path | null;
+  height?: number;
+  width?: number;
 };
-const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel}) => {
+const SvgBoard: React.FC<Props> = ({ graphs = [] , pathParallel, width= widthScreen, height= heightScreen}) => {
   const colorPointer = '#8F94AE';
   const colorBorderPointer = '#000000';
   const borderWidth = 1;
 
   return (
-    <Svg width={widthScreen} height="100%">
+    <Svg width={width} height={height}>
       <GridComponent />
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
         <React.Fragment key={`${Math.random()}`}>
