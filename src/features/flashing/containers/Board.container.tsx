@@ -113,12 +113,20 @@ const BoardContainer = () => {
   };
 
   const handleNext = () => {
+    if(modeBoard === 'finish'){
+      handleSave()
+      return
+    }
+
     if(lines.length === 0 || !lines[0].isLine){
       return Alert.show("Please draw a line", "")
     }
     const newStep = stepsDrawing + 1
     setDrawing(newStep)
     setModeBoard( newStep === 1 ? 'side': 'measurements');
+
+
+
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
     const linesUpdated = lines.map((line, index) => {
@@ -215,7 +223,6 @@ const BoardContainer = () => {
         disabledUndo={lines.length === 0 || modeBoard !== 'draw'}
         disabledEraser={lines.length === 0}
         disabledLibrary={true}
-        disabledNext={modeBoard === 'finish' }
         onUndo={handleUndo}
         onBack={handleBack}
         onNext={handleNext}
