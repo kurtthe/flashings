@@ -19,7 +19,7 @@ export type BUILD_LINE = {
 export const SIZE_POINTER = 4;
 export const SIZE_POINTER_LAST = 8;
 export const widthScreen = Dimensions.get('screen').width;
-export const heightScreen = Dimensions.get('screen').height;
+export const heightScreen = Dimensions.get('screen').height * 2;
 
 export const CIRCLE_RADIUS = 15;
 
