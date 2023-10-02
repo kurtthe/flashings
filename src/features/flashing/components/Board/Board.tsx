@@ -160,18 +160,6 @@ const Board: React.FC<Props> = ({
     onTape && onTape()
   }
 
-  const validateShowHigher = () => {
-    if(!graphs.length) return 0
-
-    const getSelectedLine = graphs[indexLineSelected];
-    if(getSelectedLine?.points?.length <= 1) return 0
-
-    if(visibleKeyboard && getSelectedLine.points[1][1] > 384){
-      return (getSelectedLine.points[1][1] / indexLineSelected) * -1
-    }
-    return 0
-  }
-
   return (
     <ScrollBox as={KeyboardAwareScrollView} keyboardShouldPersistTaps="handled" enableOnAndroid showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingBox>
