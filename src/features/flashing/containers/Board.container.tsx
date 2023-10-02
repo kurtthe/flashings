@@ -51,7 +51,12 @@ const BoardContainer = () => {
 
     if(lines.length < 2) return
 
-    const newAngles = lines.map((line, index, arrayLines)=> calculateAngle(line, arrayLines[index + 1])?? 0)
+    const newAngles = lines.map((line, index, arrayLines)=> {
+      if(!anglesLines[index]){
+        return calculateAngle(line, arrayLines[index + 1])?? 0
+      }
+      return anglesLines[index]
+    })
     setAnglesLines(newAngles)
   }, [lines])
   const handleAddPoint = (newPoint: POINT_TYPE) => {
