@@ -170,9 +170,9 @@ const Board: React.FC<Props> = ({
         </GestureHandlerRootView>
       </TouchableOpacity>
 
-      {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
       </KeyboardAvoidingBox>
     </ScrollBox>
+      {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
 
       { mode === "measurements" &&<Box height={350} position="absolute" width="100%" bottom={0}>
         <MeasurementLines
