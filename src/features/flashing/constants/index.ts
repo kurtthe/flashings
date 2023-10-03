@@ -3,10 +3,6 @@ import * as Yup from 'yup';
 
 export const forms = {
   createFlashing: {
-    initialErrors: {
-      name: '',
-      material: '',
-    },
     initialValues: {
       name: '',
       material: NaN,
