@@ -32,16 +32,34 @@ const flashingReducer = createReducer(INITIAL_STATE, builder => {
     builder.addCase(actions.loadJobsArchive, (state, action) =>{
         state.jobsArchive = action.payload.jobs
     });
-    builder.addCase(actions.addFlashing, (state, action)=>{
+    builder.addCase(actions.addEditFlashing, (state, action)=>{
         const jobId = action.payload.idJob
         const dataFlashings =  action.payload.flashing
 
+
         state.jobs = state.jobs.map((job)=> {
             if(job.id === jobId){
+
+                const existFlashing = job.flashings.find((jFlashing)=> jFlashing.id === dataFlashings.id)
+                if(!existFlashing){
+                    return {
+                        ...job,
+                        flashings: [...job.flashings, dataFlashings]
+                    }
+                }
                 return {
                     ...job,
-                    flashings: [...job.flashings, dataFlashings]
+                    flashings: job.flashings.map((flashingJob)=> {
+                        if(flashingJob.id === dataFlashings.id){
+                            return {
+                                ...flashingJob,
+                                ...dataFlashings,
+                            }
+                        }
+                        return flashingJob
+                    })
                 }
+
             }
             return job
         })
