@@ -62,10 +62,10 @@ const CreateFlashingScreen = () => {
           backgroundColor='white'
           flex={1}>
           <Formik
+            enableReinitialize
             innerRef={formikRef}
             initialValues={{...loadInitialData()}}
             validationSchema={forms.createFlashing.schema}
-            initialErrors={forms.createFlashing.initialErrors}
             onSubmit={handleSubmit}>
             <FormCreateFlashingComponent labelButton={route.params.idFlashing? 'Edit Drawing': 'Start Drawing'} />
           </Formik>
