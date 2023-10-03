@@ -170,7 +170,7 @@ const BoardContainer = () => {
     const dataFlashing = route.params.data
     const idJob = route.params?.jobId
 
-    dispatch(flashingActions.addFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines, parallelRight:blueLineIsRight, angles: anglesLines }}));
+    dispatch(flashingActions.addEditFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines, parallelRight:blueLineIsRight, angles: anglesLines }}));
 
     navigation.navigate(StackPrivateDefinitions.JOBS, {
       screen: RoutesJobs.JOB_DETAILS,
