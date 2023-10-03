@@ -61,7 +61,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
           renderItem={({item, index})=>
             <Box flexDirection="row" flexWrap="wrap">
               <Text variant="bodySmallRegular">
-                {item.length} x {item.qty}
+                {item.length}mm x {item.qty}
               </Text>
               {(data.flashingLengths.length ===  (index +1)) && <Button variant="textSmall" onPress={() => setVisibleModalLength(true)}>
                 +ADD LENGTH

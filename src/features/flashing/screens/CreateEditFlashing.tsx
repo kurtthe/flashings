@@ -29,7 +29,7 @@ const CreateFlashingScreen = () => {
 
       navigation.navigate(Routes.BOARD_FLASHING, {
         data: {
-          id: getRandomInt(1, 500),
+          id: dataFlashing ? dataFlashing.id: getRandomInt(1, 500),
           name,
           flashingLengths,
           colourMaterial: material,
