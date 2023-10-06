@@ -38,7 +38,7 @@ const CardJobComponent: React.FC<Props> = ({ job, isArchived }) => {
         alignItems="center"
         flexDirection="row">
 
-        <Button variant="smallWhite" onPress={handleToggleArchive}>{!isArchived ?"Archive": "Unarchived"}</Button>
+        <Button variant="smallWhite" onPress={handleToggleArchive}>{!isArchived ?"Archive": "Unarchive"}</Button>
         <View style={{ marginHorizontal: 12 }} />
         <Button
           variant="small"
