@@ -6,10 +6,7 @@ export const forms = {
     initialValues: {
       name: '',
       material: NaN,
-      flashingLengths: [{
-        qty: NaN,
-        length: NaN
-      }]
+      flashingLengths: []
     },
     schema: Yup.object({
       name: Yup.string(),
