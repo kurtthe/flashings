@@ -38,23 +38,19 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton})=> {
 							          <React.Fragment key={`row-length-${index}`} >
 								          <Box flexDirection="row" mt="l"  justifyContent="space-between" mb="unset" >
 									          <FieldInput
-										          isRequired={index=== 0}
 										          name={`flashingLengths.${index}.qty`}
 										          label="Qty"
-										          style={{width: index=== 0? 170: 150}}
+										          style={{width: 150}}
 										          keyboardType="numeric"
 									          />
 									          <FieldInput
-										          isRequired={index=== 0}
 										          name={`flashingLengths.${index}.length`}
 										          label="Length"
-										          style={{width: index=== 0? 170: 150}}
+										          style={{width:150 }}
 										          suffix="mm"
 										          keyboardType="numeric"
 									          />
-									          {index > 0 && (
 										          <IconButton mt="m" icon={<Icon as={TrashIcon}  />} onPress={()=> arrayHelpers.remove(index)} />
-									          )}
 								          </Box>
 							          </React.Fragment>
 						          ))
