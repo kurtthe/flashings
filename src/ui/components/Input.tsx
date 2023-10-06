@@ -271,10 +271,12 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               onEndEditing={handleEndEditing}
             />
           </Box>
-          {suffix && <Box pt="s">
+          {suffix && <Box top={(value || isFocused)? 3 :8} right={5}>
             <Text mt={label? "s": 'unset'} variant="bodyRegular" color="lightGray">{suffix}</Text>
           </Box>}
-          {rightIcon}
+          {rightIcon && <Box top={(value || isFocused)? 7 :12} right={5}>
+            {rightIcon}
+          </Box>}
         </Box>
       </Pressable>
     );

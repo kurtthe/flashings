@@ -17,7 +17,7 @@ const JobsListContainer = () => {
     <Box flex={1} pt="m" backgroundColor="white">
       <Box my="m" px="m" flexDirection="row" alignItems="center" justifyContent="flex-end">
         <Text variant={typeJobs === 'current' ? "typeJobActive" :"typeJob"} mx="s"  onPress={() => setTypeJobs('current')}>Current</Text>
-        <Text variant={typeJobs === 'archived' ? "typeJobActive" :"typeJob"} onPress={() => setTypeJobs('archived')} >Archived</Text>
+        <Text variant={typeJobs === 'archived' ? "typeJobActive" :"typeJob"} onPress={() => setTypeJobs('archived')} >Archive</Text>
       </Box>
       <FlatList
         showsVerticalScrollIndicator={false}

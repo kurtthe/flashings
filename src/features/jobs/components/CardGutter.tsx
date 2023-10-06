@@ -98,7 +98,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
             <Box  flexDirection="row" alignItems="flex-start" justifyContent="flex-start">
               {renderFlashingLengths()}
             </Box>
-            <Text variant="bodySmallRegular"> {getBends()} Bend Girth - {`${getGirth()}mm`}</Text>
+            <Text variant="bodySmallRegular">{getBends()} Bend Girth - {`${getGirth()}mm`}</Text>
           </Box>
         </Box>
       </Card>
