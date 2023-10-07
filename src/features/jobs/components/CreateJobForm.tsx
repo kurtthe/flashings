@@ -5,12 +5,21 @@ import { CreateEditFormValues } from "@features/jobs/containers/types";
 import { Box, Button, Divider, Text } from '@ui/components';
 import { formKeys, forms, validatePhone } from "@features/jobs/constants";
 import { formatPhone } from "@shared/helpers";
+import { useAppDispatch } from "@hooks/useStore";
+import { actions } from '@store/jobs/actions';
+import { Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { JobStackProps } from "@features/jobs/navigation/Stack.types";
+import { Routes } from "@features/jobs/navigation/routes";
 
 type Props = {
-  labelButton: string
+  labelButton: string;
+  jobId?: number;
 }
-const CreateEditJobFormComponent: React.FC<Props> = ({labelButton}) => {
+const CreateEditJobFormComponent: React.FC<Props> = ({labelButton, jobId}) => {
   const { isValid,  handleSubmit,  setFieldValue } = useFormikContext<CreateEditFormValues>();
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation<JobStackProps>()
 
   const handleEndEditing = (text: string) => {
     if (!text) return;
@@ -24,6 +33,20 @@ const CreateEditJobFormComponent: React.FC<Props> = ({labelButton}) => {
       setFieldValue(formKeys.createEditJob.contactNumber, phoneNumber)
     }
   };
+
+  const alertDelete = () =>
+    Alert.alert('Are you sure delete this job?', '', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {text: 'Yes', onPress: () => {
+        if(!jobId) return
+        dispatch(actions.deleteJob({ idJob: jobId }))
+        navigation.navigate(Routes.ALL_JOBS)
+        }},
+    ]);
+
 
   return (
     <>
@@ -85,7 +108,12 @@ const CreateEditJobFormComponent: React.FC<Props> = ({labelButton}) => {
         autoCompleteType="email"
         mt="m"
       />
-      <Button mt="l" mb="xl" isDisabled={!isValid}  onPress={handleSubmit.bind(null, undefined)}>
+      {jobId && (
+        <Button variant="delete" mt="l"  onPress={alertDelete}>
+          Delete
+        </Button>
+      )}
+      <Button mt="s" mb="xl" isDisabled={!isValid}  onPress={handleSubmit.bind(null, undefined)}>
         {labelButton}
       </Button>
     </>

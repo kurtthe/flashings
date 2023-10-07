@@ -80,6 +80,10 @@ const buttonVariants = {
     borderColor: 'white',
     color: 'white',
   },
+  delete: {
+    backgroundColor: 'error500',
+    color: 'white',
+  },
   keyboard: {
     width: 100,
     backgroundColor: 'input',
