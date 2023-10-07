@@ -95,7 +95,7 @@ const JobFormContainer = () => {
         initialErrors={forms.createEditJob.initialErrors}
         validationSchema={forms.createEditJob.schema}
         onSubmit={handleSubmit}>
-        <CreateJobForm labelButton={jobId? 'Edit Job': 'Create Job'}  />
+        <CreateJobForm labelButton={jobId? 'Edit Job': 'Create Job'} jobId={jobId}  />
       </Formik>
     </Box>
   );
