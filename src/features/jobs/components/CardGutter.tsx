@@ -77,18 +77,18 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
 
   return (
     <>
-      <Card flexDirection="row" alignItems="center" justifyContent="space-between" {...rest}>
+      <Card flexDirection="row" alignItems="flex-start" justifyContent="space-between" {...rest}>
         <Box  width='40%'>
-          <Text variant="bodyBold">{data.name !== '' ? data.name: 'Flashing'}</Text>
+          <Text variant="bodyBold" >{data.name !== '' ? data.name: 'Flashing'}</Text>
           <PreviewFlashing width={120} height={92} dataFlashing={data} />
         </Box>
         <Box width='50%'>
           <Box
             flexDirection='row'
             justifyContent='flex-start'
-            mb="s"
+            mb="xs"
           >
-            <Text onPress={handleEditFlashing} variant="linkTextSmall">Edit</Text>
+            <Text lineHeight={18} onPress={handleEditFlashing} variant="linkTextSmall">Edit</Text>
           </Box>
           <Box>
             <Text variant="bodyLabelTextfield" fontWeight="bold" color="black" >Description</Text>
