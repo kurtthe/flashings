@@ -20,7 +20,7 @@ const Icon = forwardRef<IconProps, Svg>((props, ref) => (
   <SvgBox
     ref={ref}
     {...props}
-    fill={props.fill ?? props.color}
+    fill={props.fill}
     size={props.size ?? 25}
   />
 ));
