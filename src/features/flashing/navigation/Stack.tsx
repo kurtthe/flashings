@@ -34,7 +34,7 @@ const Stack = () => {
           header: () => (
             <HeaderBox
               leftIcon={<HeaderBackButton  />}
-              rightIcon={<Icon as={CartIcon} />}
+              rightIcon={<Icon as={CartIcon} color="grayIcon" />}
               title="Draw Flashing"
             />
           ),
@@ -48,7 +48,7 @@ const Stack = () => {
             <HeaderBox
               mb="s"
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
-              title={'New Rainhead'}
+              title='New Rainhead'
             />
           ),
         }}

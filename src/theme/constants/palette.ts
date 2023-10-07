@@ -50,7 +50,8 @@ const palette = {
   lightGray: '#8F94AE',
   lightBlue: '#0E3A901A',
   mustard: '#DEA000',
-  lightGray2: '#D9D9D9'
+  lightGray2: '#D9D9D9',
+  grayIcon: '#828489'
 } as const;
 
 export default palette;
