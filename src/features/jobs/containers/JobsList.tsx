@@ -20,6 +20,9 @@ const JobsListContainer = () => {
         <Text variant={typeJobs === 'archived' ? "typeJobActive" :"typeJob"} onPress={() => setTypeJobs('archived')} >Archive</Text>
       </Box>
       <FlatList
+        ListEmptyComponent={<Box alignItems="center" justifyContent="center" paddingVertical="2xl" >
+          <Text variant="headerBold" fontSize={28}>No data</Text>
+        </Box>}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingVertical: 10}}
         data={jobs}
