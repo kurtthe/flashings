@@ -441,6 +441,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
             <Icon
               as={visible ? DownIcon : UpIcon}
               style={{alignSelf: 'center', position: 'absolute', right: 10}}
+              color={currentValue?.label? 'white': 'black'}
             />
         </Pressable>
         {_renderModal()}
