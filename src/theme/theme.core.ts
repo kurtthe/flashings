@@ -29,6 +29,7 @@ const theme = createTheme({
     bodyOverlay: palette.bodyOverlay,
     charlotte: palette.charlotte,
     error500: palette.error500,
+    grayIcon: palette.grayIcon,
   },
   spacing: {
     //@ts-ignore allow unset props

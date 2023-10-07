@@ -43,7 +43,7 @@ const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
     justifyContent="center"
     onPress={() => onPress && !disabled && onPress()}
     >
-    <Icon as={nameIcon} opacity={disabled? 0.5: 1}  {...rest} />
+    <Icon as={nameIcon} {...rest} color={disabled? 'grayIcon': 'black'} />
     {title && (
       <Text mt="xs" variant="menuEditor">
         {title}
