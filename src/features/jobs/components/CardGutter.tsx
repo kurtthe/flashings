@@ -40,7 +40,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
   const getBends = ()=>{
     const pointers = data.dataLines.map((lineInfo)=> lineInfo.points)
     const lengthPoint = pointers.flat(1).length - 2
-    return lengthPoint / 2 ?? 0
+    return lengthPoint? lengthPoint/2 : 0
   }
 
   const handleEditFlashing = ()=> {
@@ -79,7 +79,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
     <>
       <Card flexDirection="row" alignItems="flex-start" justifyContent="space-between" {...rest}>
         <Box  width='40%'>
-          <Text variant="bodyBold" >{data.name !== '' ? data.name: 'Flashing'}</Text>
+          <Text  mb="xs" variant="bodyBold" >{data.name !== '' ? data.name: 'Flashing'}</Text>
           <PreviewFlashing width={120} height={92} dataFlashing={data} />
         </Box>
         <Box width='50%'>
