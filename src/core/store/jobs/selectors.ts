@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@store';
 import { FLASHINGS_DATA } from "@models";
+
 const jobsSelector = (state: RootState) => state.jobs;
 
 export const jobsList = createSelector(jobsSelector,

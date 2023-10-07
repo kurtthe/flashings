@@ -18,7 +18,7 @@ import {
   VALUE_ACTIONS
 } from "@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type";
 import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
-import { useAppDispatch } from "@hooks/useStore";
+import { useAppDispatch, useAppSelector } from "@hooks/useStore";
 import { actions as flashingActions } from "@store/jobs/actions";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import {Routes as RoutesJobs } from "@features/jobs/navigation/routes";
@@ -27,6 +27,7 @@ import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
 import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
 import { BaseTouchable, Box, Icon } from "@ui/components";
 import { EditIcon } from "@assets/icons";
+import { jobData } from "@store/jobs/selectors";
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -38,6 +39,7 @@ const BoardContainer = () => {
   const [stepsDrawing, setDrawing] = React.useState(0)
   const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
   const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
+  const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
 
   React.useEffect(()=>{
     const dataFlashing = route.params.data
@@ -176,6 +178,7 @@ const BoardContainer = () => {
       screen: RoutesJobs.JOB_DETAILS,
       params: {
         jobId: idJob,
+        jobName: dataJob?.name
       }
     });
   }
