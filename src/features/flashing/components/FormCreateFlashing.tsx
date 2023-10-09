@@ -16,7 +16,7 @@ type Props = {
 	idJob?: number;
 	dataFlashing?: FLASHINGS_DATA
 }
-const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataFlashing, showUpdateButton})=> {
+const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataFlashing})=> {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<FlashingStackProps>()
   const formik = useFormikContext<AddFlashingFormValues>();
@@ -25,11 +25,13 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 	const handleUpdateFlashing = ()=> {
 		if(!idJob || !dataFlashing) return;
 
-		dispatch(flashingActions.addEditFlashing({idJob,  flashing: {...dataFlashing,
-				name: values.name,
-				colourMaterial: values.material,
-				flashingLengths: values.flashingLengths ?? []
-			}}));
+		const newDataFlashing = {...dataFlashing,
+			name: values.name,
+			colourMaterial: values.material,
+			flashingLengths: values.flashingLengths ?? []
+		}
+
+		dispatch(flashingActions.addEditFlashing({idJob,  flashing: newDataFlashing}));
 		navigation.goBack()
 
 	}
