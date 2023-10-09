@@ -7,9 +7,10 @@ import { AddFlashingFormValues } from "@features/flashing/constants";
 import { TrashIcon } from "@assets/icons";
 
 type Props = {
-	labelButton: string
+	labelButton: string;
+	showUpdateButton: boolean;
 }
-const FormCreateFlashingComponent: React.FC<Props> = ({labelButton})=> {
+const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, showUpdateButton})=> {
   const formik = useFormikContext<AddFlashingFormValues>();
   const { values, handleSubmit, isValid,isSubmitting } = formik;
   return (
@@ -71,10 +72,21 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton})=> {
 		        />
 	          </Box>
 	          <Button
-		          isDisabled={!isValid || isSubmitting}
-	            onPress={handleSubmit.bind(null, undefined)}>
+		          isDisabled={!isValid}
+	            onPress={handleSubmit.bind(null, undefined)}
+		          isLoading={isSubmitting}
+	          >
 		          {labelButton}
 	          </Button>
+
+		      {
+			      showUpdateButton && <Button
+			      mt="s"
+            isLoading={isSubmitting}
+			      onPress={handleSubmit.bind(null, undefined)}>
+			        Update Flashing
+		        </Button>
+					}
 	      </Box>
 
 
