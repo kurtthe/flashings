@@ -36,8 +36,6 @@ const flashingReducer = createReducer(INITIAL_STATE, builder => {
         const jobId = action.payload.idJob
         const dataFlashings =  action.payload.flashing
 
-        console.log("state.jobs::", state.jobs)
-
         state.jobs = state.jobs.map((job)=> {
             if(job.id === jobId){
                 const existFlashing = job.flashings.find((jFlashing)=> jFlashing.id === dataFlashings.id)

@@ -56,7 +56,6 @@ const Board: React.FC<Props> = ({
   >();
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
   const [indexLineSelected, setIndexLineSelected] = React.useState(0)
-  const [visibleKeyboard, setVisibleKeyboard] = React.useState(false)
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>('line')
 
   const isDrawing = mode === 'draw';
@@ -79,10 +78,6 @@ const Board: React.FC<Props> = ({
   React.useEffect(()=>{
     if(mode === "finish" ) {
       modalBottomRef.current?.hide()
-      setVisibleKeyboard(false)
-    }
-    if(mode !== 'measurements') {
-      return setVisibleKeyboard(false);
     }
     setPointSelected({
       numberLine: indexLineSelected,
@@ -90,7 +85,6 @@ const Board: React.FC<Props> = ({
       angle: angles[indexLineSelected],
     });
     modalBottomRef.current?.show()
-    setVisibleKeyboard(true)
   }, [mode, indexLineSelected, graphs])
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
@@ -106,6 +100,7 @@ const Board: React.FC<Props> = ({
   };
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
+
     const newPosition = findCoordsNearest([
       event.nativeEvent.locationX,
       event.nativeEvent.locationY,
