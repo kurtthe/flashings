@@ -508,7 +508,7 @@ const styles = StyleSheet.create({
     height: 20,
   },
   input: {
-    paddingTop: 10,
+    paddingTop: 0,
     marginTop: 5,
     fontSize: 16,
     textAlign: 'left',

@@ -9,6 +9,8 @@ import {
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
 import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
+import { Alert } from "react-native";
+import { actions } from "@store/jobs/actions";
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<FlashingParamsList>();
@@ -21,7 +23,7 @@ const Stack = () => {
         options={{
           header: ({navigation, route}) => (
             <HeaderBox
-              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
+              leftIcon={<HeaderBackButton/>}
               title={route.params?.idFlashing? "Edit Flashing":"New Flashing"}
             />
           ),
@@ -31,13 +33,26 @@ const Stack = () => {
         name={Routes.BOARD_FLASHING}
         component={BoardFlashingScreen}
         options={{
-          header: () => (
-            <HeaderBox
-              leftIcon={<HeaderBackButton  />}
-              rightIcon={<Icon as={CartIcon} color="grayIcon" />}
-              title="Draw Flashing"
-            />
-          ),
+          header: ({navigation}) => {
+            const alertDelete = () =>
+              Alert.alert('Are you sure you want to continue? ', 'The data will not be saved.', [
+                {
+                  text: 'Cancel',
+                  style: 'cancel',
+                },
+                {text: 'Yes', onPress: () => {
+                    navigation.goBack()
+                  }},
+              ]);
+
+            return (
+              <HeaderBox
+                leftIcon={<HeaderBackButton customPressEvent={alertDelete}  />}
+                rightIcon={<Icon as={CartIcon} color="grayIcon" />}
+                title="Draw Flashing"
+              />
+            )
+          },
         }}
       />
       <Screen
