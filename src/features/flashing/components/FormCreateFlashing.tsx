@@ -14,14 +14,14 @@ import { FlashingStackProps } from "@features/flashing/navigation/Stack.types";
 type Props = {
 	labelButton: string;
 	idJob?: number;
-	dataFlashing?: FLASHINGS_DATA
+	dataFlashing?: FLASHINGS_DATA,
+	showButtonUpdate?: boolean;
 }
-const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataFlashing})=> {
+const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataFlashing, showButtonUpdate=false})=> {
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<FlashingStackProps>()
   const formik = useFormikContext<AddFlashingFormValues>();
-  const { values, handleSubmit, isValid,isSubmitting } = formik;
-
+  const { values, handleSubmit, isValid,isSubmitting, errors } = formik;
 	const handleUpdateFlashing = ()=> {
 		if(!idJob || !dataFlashing) return;
 
@@ -95,7 +95,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 		        />
 	          </Box>
 	          <Button
-		          isDisabled={!isValid}
+		          isDisabled={!isValid || !values.material}
 	            onPress={handleSubmit.bind(null, undefined)}
 		          isLoading={isSubmitting}
 	          >
@@ -103,8 +103,9 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 	          </Button>
 
 		      {
-			      idJob && <Button
+			      showButtonUpdate && <Button
 			      mt="s"
+            isDisabled={!isValid || !values.material}
             isLoading={isSubmitting}
 			      onPress={handleUpdateFlashing}>
 			        Update Flashing
