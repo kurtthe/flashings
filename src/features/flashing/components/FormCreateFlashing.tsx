@@ -5,14 +5,35 @@ import selectData from '../tempData/selectData.json'
 import { FieldArray, useFormikContext } from "formik";
 import { AddFlashingFormValues } from "@features/flashing/constants";
 import { TrashIcon } from "@assets/icons";
+import { actions as flashingActions } from "@store/jobs/actions";
+import { useAppDispatch } from "@hooks/useStore";
+import { FLASHINGS_DATA } from "@models";
+import { useNavigation } from "@react-navigation/native";
+import { FlashingStackProps } from "@features/flashing/navigation/Stack.types";
 
 type Props = {
 	labelButton: string;
-	showUpdateButton: boolean;
+	idJob?: number;
+	dataFlashing?: FLASHINGS_DATA
 }
-const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, showUpdateButton})=> {
+const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataFlashing, showUpdateButton})=> {
+	const dispatch = useAppDispatch();
+	const navigation = useNavigation<FlashingStackProps>()
   const formik = useFormikContext<AddFlashingFormValues>();
   const { values, handleSubmit, isValid,isSubmitting } = formik;
+
+	const handleUpdateFlashing = ()=> {
+		if(!idJob || !dataFlashing) return;
+
+		dispatch(flashingActions.addEditFlashing({idJob,  flashing: {...dataFlashing,
+				name: values.name,
+				colourMaterial: values.material,
+				flashingLengths: values.flashingLengths ?? []
+			}}));
+		navigation.goBack()
+
+	}
+
   return (
 	      <Box px="m" flex={1} >
 	        <Box my="m" flex={0.9}>
@@ -80,10 +101,10 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, showUpdateBu
 	          </Button>
 
 		      {
-			      showUpdateButton && <Button
+			      idJob && <Button
 			      mt="s"
             isLoading={isSubmitting}
-			      onPress={handleSubmit.bind(null, undefined)}>
+			      onPress={handleUpdateFlashing}>
 			        Update Flashing
 		        </Button>
 					}
