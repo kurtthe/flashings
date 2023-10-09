@@ -46,7 +46,7 @@ const Stack = () => {
             <HeaderBox
               maxLength={15}
               leftIcon={<HeaderBackButton customPressEvent={() => navigation.navigate(Routes.ALL_JOBS)} />}
-              rightIcon={ <IconButton icon={<Icon as={EditIcon}  size={28} />} onPress={()=> navigation.navigate(Routes.CREATE_EDIT_JOB, {
+              rightIcon={ <IconButton icon={<Icon as={EditIcon} color="black" />} onPress={()=> navigation.navigate(Routes.CREATE_EDIT_JOB, {
                 jobId: route.params?.jobId,
               })} />}
               title={route.params?.jobName ?? ''}

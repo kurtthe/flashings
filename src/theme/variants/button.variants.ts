@@ -19,6 +19,7 @@ const buttonVariants = {
     backgroundColor: 'primaryBlue',
     color: 'white',
   },
+
   ghost: {},
   link: {
     textDecorationLine: 'underline',

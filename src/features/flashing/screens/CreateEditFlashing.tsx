@@ -18,7 +18,6 @@ const CreateFlashingScreen = () => {
   const formikRef = React.useRef<FormikProps<AddFlashingFormValues>>(null);
   const dataFlashing = useAppSelector((state) => getDataFlashing(state, { idJob: route.params.jobId, idFlashing: route.params.idFlashing }));
 
-
   const handleSubmit = React.useCallback(
     async (
       values: AddFlashingFormValues,
@@ -27,16 +26,18 @@ const CreateFlashingScreen = () => {
       const { name,  material, flashingLengths } = values;
       if(!flashingLengths) return
 
+      const dataCreateEditFlashing = {
+        id: dataFlashing ? dataFlashing.id: getRandomInt(1, 500),
+        name,
+        flashingLengths,
+        colourMaterial: material,
+        dataLines: dataFlashing? dataFlashing.dataLines:  [],
+        parallelRight: dataFlashing? dataFlashing.parallelRight : true,
+        angles: dataFlashing? dataFlashing.angles: [],
+      }
+
       navigation.navigate(Routes.BOARD_FLASHING, {
-        data: {
-          id: dataFlashing ? dataFlashing.id: getRandomInt(1, 500),
-          name,
-          flashingLengths,
-          colourMaterial: material,
-          dataLines: dataFlashing? dataFlashing.dataLines:  [],
-          parallelRight: dataFlashing? dataFlashing.parallelRight : true,
-          angles: dataFlashing? dataFlashing.angles: [],
-        },
+        data: dataCreateEditFlashing,
         jobId: route.params.jobId})
     },
     [],
@@ -68,7 +69,7 @@ const CreateFlashingScreen = () => {
             initialValues={{...loadInitialData()}}
             validationSchema={forms.createFlashing.schema}
             onSubmit={handleSubmit}>
-            <FormCreateFlashingComponent labelButton={route.params.idFlashing? 'Edit Drawing': 'Start Drawing'} />
+            <FormCreateFlashingComponent showUpdateButton={!!route.params.idFlashing} labelButton={route.params.idFlashing? 'Edit Drawing': 'Start Drawing'} />
           </Formik>
         </Box>
       </DismissKeyboardPressable>
