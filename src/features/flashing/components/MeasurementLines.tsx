@@ -45,7 +45,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
       <Box p="s" backgroundColor="white">
         <Box flexDirection="row" alignItems="center" justifyContent="space-around">
           <Box disabled={disabledPrevious} as={BaseTouchable} onPress={handlePrevious}>
-            <Icon opacity={disabledPrevious? 0.3: 1} as={BackArrowIcon} size={22}  />
+            <Icon opacity={disabledPrevious? 0.3: 1} color="black" as={BackArrowIcon} size={22}  />
           </Box>
 
           <Text variant="subheadSecondary">Length:</Text>
@@ -62,7 +62,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
           </Box>
 
           <Box as={BaseTouchable} onPress={handleNext}>
-            <Icon as={NextArrowIcon} size={22}  />
+            <Icon as={NextArrowIcon} size={22} color="black"  />
           </Box>
         </Box>
         <Divider my="s" />

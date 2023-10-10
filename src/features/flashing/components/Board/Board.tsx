@@ -151,23 +151,23 @@ const Board: React.FC<Props> = ({
   const handleOnSave = ()=> {
     onSave && onSave()
   }
-  const handleOnTape = ()=> {
-    onTape && onTape()
+  const handleOnEdit = ()=> {
+    changeMode && changeMode("measurements");
+    setIndexLineSelected(0)
   }
 
   return (
     <>
     <ScrollBox as={KeyboardAwareScrollView} keyboardShouldPersistTaps="handled" enableOnAndroid showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingBox>
-      <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
-        <GestureHandlerRootView>
-          <SvgBoard height={heightScreen} graphs={graphs} pathParallel={pathParallel} />
-        </GestureHandlerRootView>
-      </TouchableOpacity>
-
+        <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
+          <GestureHandlerRootView>
+            <SvgBoard height={heightScreen} graphs={graphs} pathParallel={pathParallel} />
+          </GestureHandlerRootView>
+        </TouchableOpacity>
       </KeyboardAvoidingBox>
     </ScrollBox>
-      {mode === "finish" && <SectionsButton onSave={handleOnSave} onSetTape={handleOnTape} />}
+      {mode === "finish" && <SectionsButton onSave={handleOnSave} onEdit={handleOnEdit} />}
 
       { mode === "measurements" &&<Box height={350} position="absolute" width="100%" bottom={0}>
         <MeasurementLines

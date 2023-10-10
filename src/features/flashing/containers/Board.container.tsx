@@ -26,7 +26,7 @@ import {Routes as RoutesFlashing } from "@features/flashing/navigation/routes";
 import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
 import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
 import { BaseTouchable, Box, Icon } from "@ui/components";
-import { EditIcon } from "@assets/icons";
+import { CompleteEditMeasurementsIcon } from "@assets/icons";
 import { jobData } from "@store/jobs/selectors";
 
 const BoardContainer = () => {
@@ -186,25 +186,25 @@ const BoardContainer = () => {
 
   return (
     <>
-      {(modeBoard === 'finish') &&
+      {(modeBoard === 'measurements') &&
         <Box
           as={BaseTouchable}
           onPress={()=> {
-            setModeBoard("measurements");
-            setDrawing(3);
+            setModeBoard("finish");
           }}
           position="absolute"
-          top="50%"
+          top="43%"
+          right="0%"
           backgroundColor="white"
           p="xs"
           style={{zIndex: 1, shadowOffset: { width: 0, height: 0 },
             shadowOpacity: 0.5,
             shadowRadius: 5,
             shadowColor: 'lightGray',
-            borderTopRightRadius: 5,
-            borderBottomRightRadius: 5,
+            borderTopLeftRadius: 5,
+            borderBottomLeftRadius: 5,
           }}>
-          <Icon as={EditIcon} size={25} />
+          <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
         </Box>
       }
       <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
