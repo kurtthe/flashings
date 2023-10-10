@@ -10,7 +10,7 @@ type Props = {
 
 const SectionsButton: React.FC<Props> = ({ onSave, onEdit }) => {
   return (
-    <Box p="m" position="absolute" bottom="18%"  width="100%" alignItems="center" justifyContent="center" >
+    <Box p="m" position="absolute" bottom="11%"  width="100%" alignItems="center" justifyContent="center" >
       <BaseTouchable
         onPress={onSave}
         my="xs"
@@ -21,7 +21,7 @@ const SectionsButton: React.FC<Props> = ({ onSave, onEdit }) => {
         alignItems="center"
         style={styles.shadow}
       >
-        <Text color="white" variant="subheadMedium" mx="s">Save</Text>
+        <Text color="white" variant="subheadMedium" mx="s">Save Flashing</Text>
         <Icon as={SaveIcon} color="white" />
       </BaseTouchable>
 
@@ -35,7 +35,7 @@ const SectionsButton: React.FC<Props> = ({ onSave, onEdit }) => {
         alignItems="center"
         style={styles.shadow}
       >
-        <Text variant="subheadMedium" mx="s">Edit measurement</Text>
+        <Text variant="subheadMedium" mx="s">Edit measurements</Text>
         <Icon as={EditIcon} color="black" />
       </BaseTouchable>
 
