@@ -16,3 +16,5 @@ export { default as NextArrowIcon } from './nextArrow.svg';
 export { default as BackArrowIcon } from './backArrow.svg';
 export { default as CloseIcon } from './close.svg';
 export { default as TrashIcon } from './trash.svg';
+export { default as CompleteEditMeasurementsIcon } from './measurementsReady.svg';
+export { default as SaveIcon } from './save.svg';
