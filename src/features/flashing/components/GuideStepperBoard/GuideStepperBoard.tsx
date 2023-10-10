@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
 	container: {
 		position: 'absolute',
 		backgroundColor: 'transparent',
-		top: 30,
+		top: -5,
 		left: 0,
 		zIndex: 1,
 
