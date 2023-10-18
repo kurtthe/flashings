@@ -12,20 +12,6 @@ const SectionsButton: React.FC<Props> = ({ onSave, onEdit }) => {
   return (
     <Box p="m" position="absolute" bottom="11%"  width="100%" alignItems="center" justifyContent="center" >
       <BaseTouchable
-        onPress={onSave}
-        my="xs"
-        flexDirection="row-reverse"
-        p="m"
-        borderRadius="s"
-        backgroundColor="primary"
-        alignItems="center"
-        style={styles.shadow}
-      >
-        <Text color="white" variant="subheadMedium" mx="s">Save Flashing</Text>
-        <Icon as={SaveIcon} color="white" />
-      </BaseTouchable>
-
-      <BaseTouchable
         onPress={onEdit}
         my="xs"
         flexDirection="row-reverse"
@@ -35,9 +21,25 @@ const SectionsButton: React.FC<Props> = ({ onSave, onEdit }) => {
         alignItems="center"
         style={styles.shadow}
       >
-        <Text variant="subheadMedium" mx="s">Edit measurements</Text>
+        <Text variant="subheadMedium" mx="s">Edit</Text>
         <Icon as={EditIcon} color="black" />
       </BaseTouchable>
+
+      <BaseTouchable
+        onPress={onSave}
+        my="xs"
+        flexDirection="row-reverse"
+        p="m"
+        borderRadius="s"
+        backgroundColor="primary"
+        alignItems="center"
+        style={styles.shadow}
+      >
+        <Text color="white" variant="subheadMedium" mx="s">Save</Text>
+        <Icon as={SaveIcon} color="white" />
+      </BaseTouchable>
+
+
 
     </Box>
   );

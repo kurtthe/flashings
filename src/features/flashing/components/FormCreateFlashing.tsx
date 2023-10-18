@@ -33,9 +33,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 
 		dispatch(flashingActions.addEditFlashing({idJob,  flashing: newDataFlashing}));
 		navigation.goBack()
-
 	}
-
   return (
 	      <Box px="m" flex={1} >
 	        <Box my="m" flex={0.9}>
@@ -58,23 +56,23 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 			          <>
 				          <ScrollBox height="30%" showsVerticalScrollIndicator={false}>
 					          {
-						          values.flashingLengths?.map((_, index)=> (
+						          values.flashingLengths?.map((_, index, arrayLengths)=> (
 							          <React.Fragment key={`row-length-${index}`} >
 								          <Box flexDirection="row" mt="l"  justifyContent="space-between" mb="unset" >
 									          <FieldInput
 										          name={`flashingLengths.${index}.qty`}
 										          label="Qty"
-										          style={{width: 150}}
+										          style={{width:arrayLengths.length > 1? 150:170 }}
 										          keyboardType="numeric"
 									          />
 									          <FieldInput
 										          name={`flashingLengths.${index}.length`}
 										          label="Length"
-										          style={{width:150 }}
+										          style={{width:arrayLengths.length > 1? 150:170 }}
 										          suffix="mm"
 										          keyboardType="numeric"
 									          />
-										          <IconButton mt="m" icon={<Icon as={TrashIcon}  />} onPress={()=> arrayHelpers.remove(index)} />
+									          {arrayLengths.length > 1 && <IconButton mt="m" icon={<Icon as={TrashIcon}  />} onPress={()=> arrayHelpers.remove(index)} />}
 								          </Box>
 							          </React.Fragment>
 						          ))
