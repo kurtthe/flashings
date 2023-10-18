@@ -5,7 +5,13 @@ export const forms = {
   createFlashing: {
     initialValues: {
       name: '',
-      flashingLengths: []
+      material: NaN,
+      flashingLengths: [
+        {
+          qty: NaN,
+          length: NaN
+        }
+      ]
     },
     schema: Yup.object({
       name: Yup.string(),
