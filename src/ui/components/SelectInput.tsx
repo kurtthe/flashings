@@ -41,6 +41,7 @@ export type OptionsType = {
   label: string;
   bgColor?: string;
   textColor?: string;
+  bold?: boolean
 };
 
 export type SelectInputProps = {
@@ -441,7 +442,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
             <Icon
               as={visible ? DownIcon : UpIcon}
               style={{alignSelf: 'center', position: 'absolute', right: 10}}
-              color={currentValue?.label? 'white': 'black'}
+              color={currentValue?.textColor? currentValue?.textColor: 'black'}
             />
         </Pressable>
         {_renderModal()}

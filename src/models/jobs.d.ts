@@ -23,6 +23,7 @@ export type MATERIALS = {
   label: string;
   bgColor: string;
   textColor: string;
+  bold: boolean;
 };
 
 export type JOB_STATE = {

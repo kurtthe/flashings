@@ -1,7 +1,6 @@
 import React from 'react';
 import { FieldInput, FieldSelect } from "@components/forms";
-import { Button, Box, ScrollBox, IconButton, Icon } from "@ui/components";
-import selectData from '../tempData/selectData.json'
+import { Button, Box, ScrollBox, IconButton, Icon, OptionsType } from "@ui/components";
 import { FieldArray, useFormikContext } from "formik";
 import { AddFlashingFormValues } from "@features/flashing/constants";
 import { TrashIcon } from "@assets/icons";
@@ -10,6 +9,7 @@ import { useAppDispatch } from "@hooks/useStore";
 import { FLASHINGS_DATA } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { FlashingStackProps } from "@features/flashing/navigation/Stack.types";
+import { dataMaterials } from "@store/jobs/mocks";
 
 type Props = {
 	labelButton: string;
@@ -47,7 +47,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 	            isRequired
 	            label="Colour/Material"
 	            name="material"
-	            options={selectData}
+	            options={dataMaterials as any as OptionsType[]}
 	            my="l"
 	          />
 		        <FieldArray
