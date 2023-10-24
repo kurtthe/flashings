@@ -27,6 +27,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
         label: 'Stone',
         bgColor: '#857f76',
         textColor: 'white',
+        bold: false,
       };
     }
     return material
