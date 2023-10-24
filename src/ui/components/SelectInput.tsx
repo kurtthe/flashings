@@ -432,7 +432,8 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                 inputStyles,
                 {
                   backgroundColor: currentValue?.bgColor && currentValue?.bgColor,
-                  color: currentValue?.textColor ? currentValue?.textColor : '#8F94AE'
+                  color: currentValue?.textColor ? currentValue?.textColor : '#8F94AE',
+                  fontWeight: currentValue?.bold ? 'bold' : 'normal'
                 }
               ]}
               value={`${currentValue?.label ?? labelField}${isRequired? '*': ''}`}
