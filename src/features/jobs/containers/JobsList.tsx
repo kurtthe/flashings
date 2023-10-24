@@ -16,12 +16,13 @@ const JobsListContainer = () => {
   return (
     <Box flex={1} pt="m" backgroundColor="white">
       <Box my="m" px="m" flexDirection="row" alignItems="center" justifyContent="flex-end">
-        <Text variant={typeJobs === 'current' ? "typeJobActive" :"typeJob"} mx="s"  onPress={() => setTypeJobs('current')}>Current</Text>
+        <Text variant={typeJobs === 'current' ? "typeJobActive" :"typeJob"} mx="s"  onPress={() => setTypeJobs('current')}>Jobs</Text>
         <Text variant={typeJobs === 'archived' ? "typeJobActive" :"typeJob"} onPress={() => setTypeJobs('archived')} >Archive</Text>
       </Box>
       <FlatList
-        ListEmptyComponent={<Box alignItems="center" justifyContent="center" paddingVertical="2xl" >
-          <Text variant="headerBold" fontSize={28}>No data</Text>
+        ListEmptyComponent={<Box alignItems="center" justifyContent="center" paddingVertical="2xl" paddingHorizontal="2xl" >
+          <Text variant="headerBold" fontSize={28}>No Jobs</Text>
+          <Text variant="headerBold" fontSize={16}>Create a new job by pressing the button at the bottom </Text>
         </Box>}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{paddingVertical: 10}}

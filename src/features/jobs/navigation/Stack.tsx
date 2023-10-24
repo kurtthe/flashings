@@ -31,7 +31,7 @@ const Stack = () => {
                   icon={<Icon as={Logout} />}
                 />
               }
-              title="All Jobs"
+              title="Jobs"
             />
           ),
         }}
