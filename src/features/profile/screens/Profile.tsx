@@ -1,10 +1,11 @@
 import React from 'react';
-import { Box, Text } from "@ui/components";
+import CardProfile from "@features/profile/components/CardProfile";
+import { Box } from "@ui/components";
 
 const ProfileScreen = () => {
 	 return (
-		 <Box>
-			 <Text>profile information</Text>
+		 <Box my="m">
+			 <CardProfile />
 		 </Box>
 	 )
 }
