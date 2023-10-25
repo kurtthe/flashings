@@ -19,3 +19,7 @@ export { default as TrashIcon } from './trash.svg';
 export { default as CompleteEditMeasurementsIcon } from './measurementsReady.svg';
 export { default as SaveIcon } from './save.svg';
 export { default as ProfileIcon } from './profile.svg';
+export { default as MailIcon } from './mail.svg';
+export { default as PhoneIcon } from './phone.svg';
+export { default as CompanyIcon } from './company.svg';
+export { default as WorldIcon } from './world.svg';
