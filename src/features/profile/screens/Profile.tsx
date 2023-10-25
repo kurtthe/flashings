@@ -1,11 +1,11 @@
 import React from 'react';
-import CardProfile from "@features/profile/components/CardProfile";
 import { Box } from "@ui/components";
+import DataUser from "@features/profile/container/DataUser";
 
 const ProfileScreen = () => {
 	 return (
 		 <Box my="m">
-			 <CardProfile />
+			 <DataUser />
 		 </Box>
 	 )
 }
