@@ -182,8 +182,6 @@ const BoardContainer = () => {
       }
     });
   }
-  const handleTape = () => null
-
   return (
     <>
       {(modeBoard === 'measurements') &&
@@ -215,7 +213,6 @@ const BoardContainer = () => {
         onAddPoint={handleAddPoint}
         onUpdatePoint={handleUpdatePoint}
         onSave={handleSave}
-        onTape={handleTape}
         mode={modeBoard}
         backStep={handleBack}
         angles={anglesLines}

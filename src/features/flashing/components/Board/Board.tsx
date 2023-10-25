@@ -9,7 +9,7 @@ import {
 import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SvgBoard from '@features/flashing/components/SvgBoard';
-import { ModalBottom, ModalBottomRef } from '@components';
+import { ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
 import { Path } from 'react-native-redash';
@@ -45,7 +45,6 @@ const Board: React.FC<Props> = ({
   changeMode,
   rightLinePaint,
   onSave,
-  onTape,
   angles=[],
   updateAngle
 }) => {

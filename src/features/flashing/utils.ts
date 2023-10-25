@@ -236,8 +236,8 @@ export const buildPathLineParallel = (points: LINE_TYPE['points']) => {
 export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined): number | undefined=> {
   if(!secondLine) return undefined
 
-  const m1 = firstLine.pending === Infinity ? 120 : firstLine.pending
-  const m2 = secondLine.pending  === Infinity ? 120 : secondLine.pending
+  const m1 = firstLine.pending === Infinity  || firstLine.pending  === -Infinity? 120 : firstLine.pending
+  const m2 = secondLine.pending  === Infinity || secondLine.pending  === -Infinity ? 120 : secondLine.pending
 
   const subtractionPending = m2 - m1
   const multiplePending = m2*m1
@@ -249,6 +249,7 @@ export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | und
   if(angleDeg <= 0){
     angleDeg = 180 - Math.abs(angleDeg)
   }
+  console.log("angleDeg::", angleDeg)
   return round(angleDeg, 0)
 }
 
