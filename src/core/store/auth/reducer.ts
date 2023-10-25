@@ -17,6 +17,7 @@ const authReducer = createReducer(INITIAL_STATE, builder => {
     state.isAuthenticated = !!data.api_key;
     state.user = data.user;
     state.api_key = data.api_key;
+    state.company = data.company;
   });
 
   builder.addCase(actions.logOut, state => {
@@ -24,10 +25,6 @@ const authReducer = createReducer(INITIAL_STATE, builder => {
     state.isAuthenticated = false;
     state.user = undefined;
     state.company= undefined;
-  });
-
-  builder.addCase(actions.setCompany, (state, action) => {
-    state.company = action.payload.company
   });
 });
 

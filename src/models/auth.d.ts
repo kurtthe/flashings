@@ -1,5 +1,6 @@
 export type LOGIN_RESPONSE = {
   api_key: string;
+  company: string;
   user: {
     _links: string[];
     created_date: string;
