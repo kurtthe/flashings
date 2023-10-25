@@ -48,7 +48,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
             <Icon opacity={disabledPrevious? 0.3: 1} color="black" as={BackArrowIcon} size={22}  />
           </Box>
 
-          <Text variant="subheadSecondary">Length:</Text>
+          <Text variant="subheadSecondary">{typeSelected === 'line'?'Length': 'Angle'}</Text>
           <Box flexDirection="row" alignItems="center">
               <TextInput
                 ref={inputRef}
