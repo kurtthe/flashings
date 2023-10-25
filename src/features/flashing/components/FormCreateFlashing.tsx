@@ -47,7 +47,13 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 	            isRequired
 	            label="Colour/Material"
 	            name="material"
-	            options={dataMaterials as any as OptionsType[]}
+	            options={dataMaterials.map((material)=> ({
+		            value: material.id,
+		            label: material.label,
+		            bgColor: material.bgColor,
+		            textColor: material.textColor,
+		            bold: material.bold
+	            }))}
 	            my="l"
 	          />
 		        <FieldArray
