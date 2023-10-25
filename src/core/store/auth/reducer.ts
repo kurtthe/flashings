@@ -8,6 +8,7 @@ const INITIAL_STATE: AUTH_STATE_TYPE = {
   api_key: undefined,
   user: undefined,
   isAuthenticated: false,
+  company: undefined,
 };
 
 const authReducer = createReducer(INITIAL_STATE, builder => {
@@ -22,6 +23,11 @@ const authReducer = createReducer(INITIAL_STATE, builder => {
     state.api_key = undefined;
     state.isAuthenticated = false;
     state.user = undefined;
+    state.company= undefined;
+  });
+
+  builder.addCase(actions.setCompany, (state, action) => {
+    state.company = action.payload.company
   });
 });
 

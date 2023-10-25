@@ -25,4 +25,5 @@ export type AUTH_STATE_TYPE = {
   api_key: string | undefined;
   user: LOGIN_RESPONSE['user'] | undefined;
   isAuthenticated: boolean;
+  company: string | undefined;
 };
