@@ -4,4 +4,5 @@ import { LOGIN_RESPONSE } from '@models';
 export const actions = {
   signIn: createAction<{ data: LOGIN_RESPONSE }>('auth/signIn'),
   logOut: createAction('auth/logOut'),
+  setCompany: createAction<{company: string}>('auth/setCompany'),
 };

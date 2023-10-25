@@ -29,7 +29,7 @@ const CardProfile: React.FC<Props> = ()=> {
 
 			<Box my="xs" flexDirection="row" alignItems="center">
 				<Icon as={CompanyIcon} color="black" size={20} />
-				<Text variant="bodyRegular" mx="s">Company Name: </Text>
+				<Text variant="bodyRegular" mx="s">Company Name: {dataUser?.company}</Text>
 			</Box>
 
 			<Box my="xs" flexDirection="row" alignItems="center">
