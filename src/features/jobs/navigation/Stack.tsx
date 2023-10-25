@@ -1,34 +1,29 @@
 import React from 'react';
-import { createStackNavigator, StackNavigationOptions, StackNavigationProp } from "@react-navigation/stack";
+import { createStackNavigator } from "@react-navigation/stack";
 import { Routes } from "./routes";
 import { AllJobsScreen, JobDetailsScreen, CreateEditJobScreen } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
-import { Logout, EditIcon, DeleteIcon } from "@assets/icons";
+import {  EditIcon,  ProfileIcon } from "@assets/icons";
 import IconButton from '@ui/components/IconButton';
-import { useAppDispatch } from '@hooks/useStore';
-import { actions as authActions } from '@store/auth/actions';
-import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
-import { RouteProp } from "@react-navigation/native";
+import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
+import { StackPrivateDefinitions } from "@routes/PrivateNavigator";
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<JobsStackParamsList>();
-  const dispatch = useAppDispatch();
 
-  const handleLogout = () => dispatch(authActions.logOut());
-
-	return (
+  return (
     <Navigator initialRouteName={Routes.ALL_JOBS}>
       <Screen
         key={Routes.ALL_JOBS}
         name={Routes.ALL_JOBS}
         component={AllJobsScreen}
         options={{
-          header: () => (
+          header: ({navigation}) => (
             <HeaderBox
               rightIcon={
                 <IconButton
-                  onPress={handleLogout}
-                  icon={<Icon as={Logout} />}
+                  onPress={()=> navigation.navigate(StackPrivateDefinitions.PROFILE)}
+                  icon={<Icon as={ProfileIcon} color="black" />}
                 />
               }
               title="Jobs"

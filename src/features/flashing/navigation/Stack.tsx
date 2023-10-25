@@ -10,7 +10,6 @@ import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
 import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
 import { Alert } from "react-native";
-import { actions } from "@store/jobs/actions";
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<FlashingParamsList>();
