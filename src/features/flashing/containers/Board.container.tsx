@@ -184,27 +184,6 @@ const BoardContainer = () => {
   }
   return (
     <>
-      {(modeBoard === 'measurements') &&
-        <Box
-          as={BaseTouchable}
-          onPress={()=> {
-            setModeBoard("finish");
-          }}
-          position="absolute"
-          top="43%"
-          right="0%"
-          backgroundColor="white"
-          p="xs"
-          style={{zIndex: 1, shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.5,
-            shadowRadius: 5,
-            shadowColor: 'lightGray',
-            borderTopLeftRadius: 5,
-            borderBottomLeftRadius: 5,
-          }}>
-          <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
-        </Box>
-      }
       <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
       <BoardComponent
         rightLinePaint={blueLineIsRight}

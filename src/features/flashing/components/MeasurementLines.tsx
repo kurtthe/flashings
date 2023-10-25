@@ -2,8 +2,9 @@ import React from 'react';
 import { BaseTouchable, Box, Divider, Icon,  Text } from "@ui/components";
 import { LINE_SELECTED } from '@features/flashing/components/Board';
 import { isNaN } from "lodash";
-import { BackArrowIcon,  NextArrowIcon } from "@assets/icons";
+import { BackArrowIcon, CompleteEditMeasurementsIcon, NextArrowIcon } from "@assets/icons";
 import { TextInput } from "react-native";
+import { MODES_BOARD } from "@models";
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -11,9 +12,10 @@ type Props = {
   onNext?: () => void;
   onPrevious?: () => void;
   disabledPrevious?: boolean
-  typeSelected: 'line' | 'angle'
+  typeSelected: 'line' | 'angle';
+  changeMode?: (newMode:MODES_BOARD) => void;
 };
-const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onNext, onPrevious , disabledPrevious=true}) => {
+const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onNext, onPrevious , disabledPrevious=true, changeMode}) => {
   const [measurement, setMeasurement] = React.useState(0);
   const inputRef = React.useRef<TextInput>(null)
 
@@ -42,6 +44,28 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
   }
 
   return (
+    <>
+      <Box
+        as={BaseTouchable}
+        onPress={()=> {
+          handleDone(`${measurement}`)
+          changeMode && changeMode('finish')
+        }}
+        position="absolute"
+        bottom="105%"
+        right="0%"
+        backgroundColor="white"
+        p="xs"
+        style={{zIndex: 1, shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.5,
+          shadowRadius: 5,
+          shadowColor: 'lightGray',
+          borderTopLeftRadius: 5,
+          borderBottomLeftRadius: 5,
+        }}>
+        <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
+      </Box>
+
       <Box p="s" backgroundColor="white">
         <Box flexDirection="row" alignItems="center" justifyContent="space-around">
           <Box disabled={disabledPrevious} as={BaseTouchable} onPress={handlePrevious}>
@@ -67,6 +91,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
         </Box>
         <Divider my="s" />
       </Box>
+    </>
   );
 };
 

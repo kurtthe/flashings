@@ -46,7 +46,7 @@ const Board: React.FC<Props> = ({
   rightLinePaint,
   onSave,
   angles=[],
-  updateAngle
+  updateAngle,
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
@@ -176,6 +176,7 @@ const Board: React.FC<Props> = ({
           typeSelected={typeSelected}
           onDone={handleDoneSize}
           dataLine={pointSelected}
+          changeMode={changeMode}
         />
       </Box>}
     </>
