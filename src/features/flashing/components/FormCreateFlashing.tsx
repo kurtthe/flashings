@@ -21,7 +21,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 	const dispatch = useAppDispatch();
 	const navigation = useNavigation<FlashingStackProps>()
   const formik = useFormikContext<AddFlashingFormValues>();
-  const { values, handleSubmit, isValid,isSubmitting, errors } = formik;
+  const { values, handleSubmit, isValid,isSubmitting } = formik;
 	const handleUpdateFlashing = ()=> {
 		if(!idJob || !dataFlashing) return;
 
