@@ -14,8 +14,11 @@ export const loginService = async ({
     password,
   });
 
-  const getDataCompany = await RequestService.get(endPoints.getDataUser.replace(':id', loginResponse.body.user.id.toString()))
-  return Promise.resolve({...loginResponse.body, company: getDataCompany.headers['Tradetrak-Company']});
+  const urlUserView = endPoints.getDataUser.replace(':id', loginResponse.body.user.id.toString())
+  const getDataCompany = await RequestService.get(urlUserView, { headers: {
+      'ttrak-key': loginResponse.body.api_key
+    }})
+  return Promise.resolve({...loginResponse.body, company: getDataCompany.headers['tradetrak-company']});
 };
 
 export const forgotPasswordService = async (email: string) => {
