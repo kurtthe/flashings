@@ -21,7 +21,7 @@ const JobDetailsScreen = () => {
   const item = useAppSelector((state) => jobData(state, jobId));
 
   const getCommonMaterial = (): number| null => {
-    if(!item || item.flashings.length < 2) return null
+    if(!item || item.flashings.length < 1) return null
 
     const elementCountMap: Map<any, number> = new Map();
     const flashingsMaterial = item.flashings.map((flash)=> flash.colourMaterial)

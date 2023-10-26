@@ -16,17 +16,12 @@ import {
   ViewStyle,
   Pressable,
   Text,
-  FlatListProps,
-  ImageStyle,
-  StyleProp,
-  TextProps,
-  TextStyle,
 } from 'react-native';
 import {Portal} from 'react-native-paper-portal';
-import { Image } from 'react-native-svg';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Icon} from '@ui/components';
 import {DownIcon, UpIcon} from '@assets/icons';
+import { OptionsType, SelectInputProps } from "@ui/components/SelectInput/SelectInput.types";
 
 const defaultProps = {
   activeColor: '#F6F7F8',
@@ -34,66 +29,6 @@ const defaultProps = {
   style: {},
   selectedTextProps: {},
   value: '',
-};
-
-export type OptionsType = {
-  value: number;
-  label: string;
-  bgColor?: string;
-  textColor?: string;
-  bold?: boolean
-};
-
-export type SelectInputProps = {
-  label: string;
-  style?: StyleProp<ViewStyle>;
-  inputStyles?: TextStyle;
-  placeholder?: string;
-  containerStyle?: StyleProp<ViewStyle>;
-  placeholderStyle?: StyleProp<TextStyle>;
-  selectedTextStyle?: StyleProp<TextStyle>;
-  selectedTextProps?: TextProps;
-  itemContainerStyle?: StyleProp<ViewStyle>;
-  itemTextStyle?: StyleProp<TextStyle>;
-  inputSearchStyle?: StyleProp<TextStyle>;
-  iconStyle?: StyleProp<ImageStyle>;
-  maxHeight?: number;
-  fontFamily?: string;
-  iconColor?: string;
-  options: OptionsType[];
-  value?: string;
-  labelField?: string;
-  valueField?: string;
-  search?: boolean;
-  searchPlaceholder?: string;
-  disable?: boolean;
-  autoScroll?: boolean;
-  showsVerticalScrollIndicator?: boolean;
-  dropdownPosition?: 'auto' | 'top' | 'bottom';
-  flatListProps?: Omit<FlatListProps<any>, 'renderItem' | 'data'>;
-  keyboardAvoiding?: boolean;
-  statusBarIsTranslucent?: boolean;
-  backgroundColor?: string;
-  confirmSelectItem?: boolean;
-  onChange: (item: OptionsType) => void;
-  valueSearch?: (text?: string) => void;
-  renderLeftIcon?: () => JSX.Element | null | undefined;
-  renderRightIcon?: () => JSX.Element | null | undefined;
-  renderItem?: (
-    item: any,
-    selected?: boolean,
-  ) => JSX.Element | null | undefined;
-  renderInputSearch?: (
-    onSearch: (text: string) => void,
-  ) => JSX.Element | null | undefined;
-  onFocus?: () => void;
-  onBlur?: () => void;
-  searchQuery?: (keyword: string, labelValue: string) => boolean;
-  onChangeText?: (search: string) => void;
-  onConfirmSelectItem?: (item: any) => void;
-  renderItems?: (item: OptionsType, index: number) => JSX.Element;
-  portal?: boolean;
-  isRequired?: boolean;
 };
 
 const DropdownComponent = React.forwardRef<any, SelectInputProps>(
@@ -136,25 +71,19 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
     const [labelColor, setLabelColor] = React.useState<string | undefined>(
       undefined,
     );
-    const [nameIcon, setNameIcon] =
-      React.useState<keyof typeof Ionicons.glyphMap>('chevron-down-sharp');
 
     const {width: W, height: H} = Dimensions.get('window');
+    console.log("options::[]",options)
 
     React.useEffect(() => {
       const optionValue = options.find(
-        item => item.value === value ?? item.label === value,
+        item => item.value.toString() === value || item.label === value,
       );
 
 
       if (!optionValue) return;
       setCurrentValue(optionValue);
     }, [value, options]);
-
-    React.useEffect(() => {
-      visible && setNameIcon('chevron-up-sharp');
-      !visible && setNameIcon('chevron-down-sharp');
-    }, [visible]);
 
     const styleContainerVertical: ViewStyle = useMemo(() => {
       return {
@@ -238,6 +167,9 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
           return (
             <Pressable
               onPress={() => {
+                console.log('item.disabled1::', item.disabled)
+                if(item.disabled) return;
+
                 onSelect(item);
                 setLabelColor(undefined);
               }}>
@@ -249,6 +181,9 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
         return (
           <Pressable
             onPress={() => {
+              console.log('item.disabled2::', item.disabled)
+              if(item.disabled) return;
+
               onSelect(item);
               setLabelColor(undefined);
             }}>

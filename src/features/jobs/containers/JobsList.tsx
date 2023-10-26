@@ -21,8 +21,8 @@ const JobsListContainer = () => {
       </Box>
       <FlatList
         ListEmptyComponent={<Box alignItems="center" justifyContent="center" paddingVertical="2xl" paddingHorizontal="2xl" >
-          <Text variant="headerBold">{typeJobs === "archived"? "No Archive Jobs":"No Jobs"}</Text>
-          {typeJobs === "current" && <Text variant="subheadSecondary" mt="m" fontSize={16} lineHeight={25}>Create a new job by pressing the button
+          <Text textAlign="center" variant="headerBold">{typeJobs === "archived"? "No Archive Jobs":"No Jobs"}</Text>
+          {typeJobs === "current" && <Text textAlign="center" variant="subheadSecondary" mt="m" fontSize={16} lineHeight={25}>Create a new job by pressing the button
             at the bottom </Text>}
         </Box>}
         showsVerticalScrollIndicator={false}
