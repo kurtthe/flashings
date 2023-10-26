@@ -249,7 +249,6 @@ export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | und
   if(angleDeg <= 0){
     angleDeg = 180 - Math.abs(angleDeg)
   }
-  console.log("angleDeg::", angleDeg)
   return round(angleDeg, 0)
 }
 

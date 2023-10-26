@@ -25,8 +25,6 @@ import {Routes as RoutesJobs } from "@features/jobs/navigation/routes";
 import {Routes as RoutesFlashing } from "@features/flashing/navigation/routes";
 import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
 import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
-import { BaseTouchable, Box, Icon } from "@ui/components";
-import { CompleteEditMeasurementsIcon } from "@assets/icons";
 import { jobData } from "@store/jobs/selectors";
 
 const BoardContainer = () => {
