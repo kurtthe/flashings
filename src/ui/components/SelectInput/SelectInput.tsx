@@ -59,7 +59,6 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       search = false,
       value = '',
       portal = true,
-      isRequired = false
     } = props;
     const ref = useRef<View>(null);
     const refList = useRef<FlatList>(null);
@@ -71,9 +70,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
     const [labelColor, setLabelColor] = React.useState<string | undefined>(
       undefined,
     );
-
     const {width: W, height: H} = Dimensions.get('window');
-    console.log("options::[]",options)
 
     React.useEffect(() => {
       const optionValue = options.find(
@@ -181,14 +178,13 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
         return (
           <Pressable
             onPress={() => {
-              console.log('item.disabled2::', item.disabled)
               if(item.disabled) return;
 
               onSelect(item);
               setLabelColor(undefined);
             }}>
             <View style={[styles.dropdownItem, {backgroundColor: item.bgColor}]}>
-              <Text style={[styles.dropdownTextStyles, {color: item.textColor}]}>{item.label}</Text>
+              <Text style={[styles.dropdownTextStyles, {color: item.textColor, fontWeight: item.bold? 'bold': 'normal'}]}>{item.label}</Text>
             </View>
           </Pressable>
         );
@@ -371,7 +367,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                   fontWeight: currentValue?.bold ? 'bold' : 'normal'
                 }
               ]}
-              value={`${currentValue?.label ?? labelField}${isRequired? '*': ''}`}
+              value={`${currentValue?.label ?? labelField}`}
               editable={search}
               onPressIn={() => showOrClose()}
             />

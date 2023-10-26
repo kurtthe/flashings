@@ -52,7 +52,8 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 		            label: material.label,
 		            bgColor: material.bgColor,
 		            textColor: material.textColor,
-		            bold: material.bold
+		            bold: material.bold,
+		            disabled: material.disabled
 	            }))}
 	            my="l"
 	          />
