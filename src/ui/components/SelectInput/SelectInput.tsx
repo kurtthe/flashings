@@ -157,12 +157,11 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
 
     const _renderItem = useCallback(
       ({item, index}: {item: OptionsType; index: number}) => {
-        if (!!renderItems) {
+        if (renderItems) {
           const children = renderItems(item, index);
           return (
             <Pressable
               onPress={() => {
-                console.log('item.disabled1::', item.disabled)
                 if(item.disabled) return;
 
                 onSelect(item);
@@ -348,7 +347,6 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       H,
       focus,
     ]);
-    console.log("value::", value)
 
     return (
       <View

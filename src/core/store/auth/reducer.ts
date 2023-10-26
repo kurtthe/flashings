@@ -14,7 +14,6 @@ const INITIAL_STATE: AUTH_STATE_TYPE = {
 const authReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.signIn, (state, action) => {
     const { data } = action.payload;
-    console.log("data::", data)
     state.isAuthenticated = !!data.api_key;
     state.user = data.user;
     state.api_key = data.api_key;

@@ -42,7 +42,6 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
     handleDone(`${measurement}`)
     onNext && onNext()
   }
-
   return (
     <>
       <Box
@@ -80,7 +79,14 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
                 keyboardType="numeric"
                 style={{textAlign: 'center', height: 30, width: 80, backgroundColor: 'white'}}
                 value={`${isNaN(measurement)? '0': measurement}`}
-                onChangeText={(newText: string)=> setMeasurement(parseInt(newText, 10))}
+                onChangeText={(newText: string)=> {
+                  const baseValue = typeSelected === 'line'? dataLine?.sizeLine: dataLine?.angle
+                  const newCharacters = newText.split( baseValue?.toString() ?? '')
+                  if(newCharacters.length  > 1){
+                    return setMeasurement(parseInt(newCharacters[1], 10))
+                  }
+                  setMeasurement(parseInt(newText, 10))
+                }}
               />
             <Text variant="bodyBold">{typeSelected === 'line'? 'mm': '°'}</Text>
           </Box>
