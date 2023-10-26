@@ -76,8 +76,6 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       const optionValue = options.find(
         item => item.value.toString() === value || item.label === value,
       );
-
-
       if (!optionValue) return;
       setCurrentValue(optionValue);
     }, [value, options]);
@@ -350,6 +348,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       H,
       focus,
     ]);
+    console.log("value::", value)
 
     return (
       <View

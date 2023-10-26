@@ -30,7 +30,7 @@ const FieldSelect = ({ options, name, onChange, onBlur, label, isRequired, ...re
   return (
     <Box>
       <SelectInput
-        value={field.value ?? ""}
+        value={field.value.toString()}
         options={options}
         onChange={handleChange}
         label={label}
