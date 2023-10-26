@@ -24,6 +24,7 @@ export type MATERIALS = {
   bgColor: string;
   textColor: string;
   bold: boolean;
+  disabled: boolean;
 };
 
 export type JOB_STATE = {
