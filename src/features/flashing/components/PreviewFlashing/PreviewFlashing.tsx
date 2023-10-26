@@ -7,6 +7,7 @@ import { Box } from "@ui/components";
 import {TouchableOpacity}  from "react-native";
 import { ModalBottom, ModalBottomRef } from '@components';
 import { BoardComponent } from "@features/flashing/components";
+import { calculateAngle } from "@features/flashing/utils";
 
 type Props = {
 	width: number;
@@ -16,11 +17,25 @@ type Props = {
 const PreviewFlashing: React.FC<Props> = ({width,height, dataFlashing}) => {
 	const [pathLines, setPathLines ] = React.useState<Path | null>(null)
 	const modalBottomRef = React.useRef<ModalBottomRef>();
+	const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
 
 	React.useEffect(() => {
 		const makingLines = buildLinesForPreview(dataFlashing.dataLines, width, height);
 		setPathLines(makingLines)
 	}, [dataFlashing.dataLines]);
+
+	React.useEffect(()=>{
+
+		if(dataFlashing.dataLines.length < 2) return
+
+		const newAngles = dataFlashing.dataLines.map((line, index, arrayLines)=> {
+			if(!anglesLines[index]){
+				return calculateAngle(line, arrayLines[index + 1])?? 0
+			}
+			return anglesLines[index]
+		})
+		setAnglesLines(newAngles)
+	}, [dataFlashing.dataLines])
 
 	return (
 		<>
@@ -47,6 +62,7 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataFlashing}) => {
 					<BoardComponent
 						rightLinePaint={dataFlashing.parallelRight}
 						lines={dataFlashing.dataLines}
+						angles={anglesLines}
 						mode="preview"
 					/>
 				</Box>
