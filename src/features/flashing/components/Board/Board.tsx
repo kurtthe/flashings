@@ -3,9 +3,9 @@ import { TouchableOpacity, GestureResponderEvent } from 'react-native';
 import {
   DREW_LINE_TYPE,
   heightScreen,
-  LINE_SELECTED,
-  widthScreen,
-} from './types';
+  LINE_SELECTED, STEPS_BOARD,
+  widthScreen
+} from "./types";
 import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import SvgBoard from '@features/flashing/components/SvgBoard';
@@ -14,10 +14,12 @@ import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
 import { Path } from 'react-native-redash';
 import SectionsButton from "@features/flashing/components/SectionsButton";
-import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
+import { LINE_TYPE,  POINT_TYPE } from "@models";
 import { isNaN } from "lodash";
 import { Box, KeyboardAvoidingBox, ScrollBox } from "@ui/components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { EndTypesLineComponent } from "@features/flashing/components";
+import { getIndexOfStepForName } from "@features/flashing/utils";
 
 type Props = {
   lines: LINE_TYPE[];
@@ -27,9 +29,9 @@ type Props = {
   onTape?: ()=> void
   width?: number;
   height?: number;
-  changeMode?: (newMode:MODES_BOARD) => void;
+  changeStepBoard?: (newStep:number) => void;
   backStep?: () => void;
-  mode: MODES_BOARD;
+  stepBoard: number;
   rightLinePaint: boolean;
   angles?: number[];
   updateAngle?: (newAngle:number, positionAngle:number) => void;
@@ -41,8 +43,8 @@ const Board: React.FC<Props> = ({
   onAddPoint,
   width = widthScreen,
   height = heightScreen,
-  mode = 'draw',
-  changeMode,
+  stepBoard = 0,
+  changeStepBoard,
   rightLinePaint,
   onSave,
   angles=[],
@@ -57,14 +59,14 @@ const Board: React.FC<Props> = ({
   const [indexLineSelected, setIndexLineSelected] = React.useState(0)
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>('line')
 
-  const isDrawing = mode === 'draw';
+  const isDrawing = STEPS_BOARD[stepBoard] === 'draw';
 
   React.useEffect(() => {
     const makingLines = drawLines({
       lines,
       widthGraph: width,
       heightGraph: height,
-      mode,
+      mode: STEPS_BOARD[stepBoard],
       rightLinePaint,
       lineSelected: indexLineSelected,
       typeSelected,
@@ -72,10 +74,10 @@ const Board: React.FC<Props> = ({
     });
     setPathParallel(drawParallelLines(lines, rightLinePaint))
     setGraphs(makingLines);
-  }, [lines, mode, rightLinePaint, indexLineSelected, typeSelected]);
+  }, [lines, stepBoard, rightLinePaint, indexLineSelected, typeSelected]);
 
   React.useEffect(()=>{
-    if(mode === "finish" ) {
+    if(STEPS_BOARD[stepBoard] === "finish" ) {
       modalBottomRef.current?.hide()
     }
     setPointSelected({
@@ -84,7 +86,7 @@ const Board: React.FC<Props> = ({
       angle: angles[indexLineSelected],
     });
     modalBottomRef.current?.show()
-  }, [mode, indexLineSelected, graphs])
+  }, [stepBoard, indexLineSelected, graphs])
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
     if (!pointSelected ) return;
@@ -114,7 +116,7 @@ const Board: React.FC<Props> = ({
     const lengthLine = lines.length - 1
 
     if(newIndex > lengthLine){
-      return changeMode && changeMode('finish')
+      return changeStepBoard && changeStepBoard(getIndexOfStepForName('finish'))
     }
 
     if(newIndex > lengthLine){
@@ -151,7 +153,7 @@ const Board: React.FC<Props> = ({
     onSave && onSave()
   }
   const handleOnEdit = ()=> {
-    changeMode && changeMode("measurements");
+    changeStepBoard && changeStepBoard(getIndexOfStepForName('measurements'));
     setIndexLineSelected(0)
   }
 
@@ -166,9 +168,8 @@ const Board: React.FC<Props> = ({
         </TouchableOpacity>
       </KeyboardAvoidingBox>
     </ScrollBox>
-      {mode === "finish" && <SectionsButton onSave={handleOnSave} onEdit={handleOnEdit} />}
-
-      { mode === "measurements" &&<Box height={350} position="absolute" width="100%" bottom={0}>
+      {stepBoard === getIndexOfStepForName('finish') && <SectionsButton onSave={handleOnSave} onEdit={handleOnEdit} />}
+      {stepBoard === getIndexOfStepForName('measurements') && <Box height={350} position="absolute" width="100%" bottom={0}>
         <MeasurementLines
           disabledPrevious={indexLineSelected === 0 && typeSelected === 'line'}
           onNext={handleNextLineSelected}
@@ -176,9 +177,13 @@ const Board: React.FC<Props> = ({
           typeSelected={typeSelected}
           onDone={handleDoneSize}
           dataLine={pointSelected}
-          changeMode={changeMode}
+          changeMode={changeStepBoard}
         />
       </Box>}
+      {stepBoard === getIndexOfStepForName('end_type') && <Box height={450} position="absolute" width="100%" bottom={0}>
+        <EndTypesLineComponent />
+      </Box>
+      }
     </>
 
   );

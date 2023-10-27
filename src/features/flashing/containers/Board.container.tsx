@@ -2,12 +2,12 @@ import React from 'react';
 import {
   BoardComponent,
   LINE_SELECTED,
-  MenuEditorComponent,
-} from '@features/flashing/components';
+  MenuEditorComponent, STEPS_BOARD
+} from "@features/flashing/components";
 import {
   calculateAngle,
   calculatePending,
-  calculateSizeLine,
+  calculateSizeLine, getIndexOfStepForName,
   getLastPoint,
   validateLineComplete
 } from "@features/flashing/utils";
@@ -34,8 +34,7 @@ const BoardContainer = () => {
 
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
-  const [stepsDrawing, setDrawing] = React.useState(0)
-  const [modeBoard, setModeBoard] = React.useState<MODES_BOARD>('draw');
+  const [stepBoard, setStepBoard] = React.useState(0)
   const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
   const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
 
@@ -95,25 +94,19 @@ const BoardContainer = () => {
   const handleUndo = () => {
     const newPointCoordinates = lines.slice(0, -1);
     if(newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine){
-      setDrawing(0)
-      setModeBoard('draw');
+      setStepBoard(getIndexOfStepForName('draw'))
     }
     setLines(newPointCoordinates);
   };
 
   const handleBack = () => {
-    const newStep = stepsDrawing - 1;
+    const newStep = stepBoard - 1;
     if(newStep < 0) return;
-    const editMode = newStep === 0;
-    const drawSide = newStep === 1;
-    const newMode: MODES_BOARD  = editMode? 'draw': drawSide ? 'side': 'measurements';
-
-    setModeBoard(newMode);
-    setDrawing(newStep)
+    setStepBoard(newStep)
   };
 
   const handleNext = () => {
-    if(modeBoard === 'finish'){
+    if(stepBoard === getIndexOfStepForName('finish')){
       handleSave()
       return
     }
@@ -121,11 +114,8 @@ const BoardContainer = () => {
     if(lines.length === 0 || !lines[0].isLine){
       return Alert.show("Please draw a line", "")
     }
-    const newStep = stepsDrawing + 1
-    setDrawing(newStep)
-    setModeBoard( newStep === 1 ? 'side': 'measurements');
-
-
+    const newStep = stepBoard + 1
+    setStepBoard(newStep)
 
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
@@ -142,8 +132,8 @@ const BoardContainer = () => {
   };
 
   const handleClear = () => {
-    setDrawing(0)
-    setModeBoard('draw');
+    setStepBoard(getIndexOfStepForName('draw'))
+
     setLines([]);
   };
 
@@ -182,22 +172,22 @@ const BoardContainer = () => {
   }
   return (
     <>
-      <GuideStepperBoardComponent step={stepsDrawing} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
+      <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
       <BoardComponent
         rightLinePaint={blueLineIsRight}
         lines={lines}
-        changeMode={setModeBoard}
+        changeStepBoard={setStepBoard}
         onAddPoint={handleAddPoint}
         onUpdatePoint={handleUpdatePoint}
         onSave={handleSave}
-        mode={modeBoard}
+        stepBoard={stepBoard}
         backStep={handleBack}
         angles={anglesLines}
         updateAngle={handleUpdateAngle}
       />
       <MenuEditorComponent
-        disabledBack={modeBoard === "draw"}
-        disabledUndo={lines.length === 0 || modeBoard !== 'draw'}
+        disabledBack={stepBoard === getIndexOfStepForName('draw')}
+        disabledUndo={lines.length === 0 || stepBoard !== getIndexOfStepForName('draw')}
         disabledEraser={lines.length === 0}
         disabledLibrary={true}
         onUndo={handleUndo}
