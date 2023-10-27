@@ -17,11 +17,11 @@ const JobsListContainer = () => {
     <Box flex={1} pt="m" backgroundColor="white">
       <Box my="m" px="m" flexDirection="row" alignItems="center" justifyContent="flex-end">
         <Text variant={typeJobs === 'current' ? "typeJobActive" :"typeJob"} mx="s"  onPress={() => setTypeJobs('current')}>Jobs</Text>
-        <Text variant={typeJobs === 'archived' ? "typeJobActive" :"typeJob"} onPress={() => setTypeJobs('archived')} >Archive</Text>
+        <Text variant={typeJobs === 'archived' ? "typeJobActive" :"typeJob"} onPress={() => setTypeJobs('archived')} >Archived</Text>
       </Box>
       <FlatList
         ListEmptyComponent={<Box alignItems="center" justifyContent="center" paddingVertical="2xl" paddingHorizontal="2xl" >
-          <Text textAlign="center" variant="headerBold">{typeJobs === "archived"? "No Archive Jobs":"No Jobs"}</Text>
+          <Text textAlign="center" variant="headerBold">{typeJobs === "archived"? "No Archived Jobs":"No Jobs"}</Text>
           {typeJobs === "current" && <Text textAlign="center" variant="subheadSecondary" mt="m" fontSize={16} lineHeight={25}>Create a new job by pressing the button
             at the bottom </Text>}
         </Box>}
