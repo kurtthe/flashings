@@ -5,7 +5,7 @@ export const STEPS_BOARD: MODES_BOARD[] = ['draw', 'side','measurements', 'end_t
 
 export type MAKE_LINE = {
   lines: LINE_TYPE[];
-  mode: MODES_BOARD;
+  step: number;
   rightLinePaint?: boolean;
   lineSelected: number
 };
@@ -14,7 +14,7 @@ export type BUILD_LINE = {
   id: number;
   line: LINE_TYPE;
   lineSelected: number;
-  mode: MODES_BOARD;
+  step: number;
   rightLinePaint?: boolean;
 };
 export const SIZE_POINTER = 4;
