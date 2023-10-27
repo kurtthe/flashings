@@ -24,7 +24,7 @@ const ButtonEndType = ({ title, icon, fullWidth=false, style={} }: {title: strin
 const EndTypesLine: React.FC<Props> = ({onTypeSelected}) => {
 	return (
 		<Box flex={1} backgroundColor="white" p="m">
-			<Text>End Type - Start | End</Text>
+			<Text variant="bodyBold" mx="s">End Type - Start | End</Text>
 			<Box py="m" flexDirection="row" flexWrap="wrap">
 				<ButtonEndType title="None" fullWidth style={{height: 60}} />
 
@@ -36,7 +36,6 @@ const EndTypesLine: React.FC<Props> = ({onTypeSelected}) => {
 
 				<ButtonEndType title="Break" icon={EndBreakLeftIcon}/>
 				<ButtonEndType title="Break" icon={EndBreakRightIcon}/>
-
 			</Box>
 		</Box>
 	)

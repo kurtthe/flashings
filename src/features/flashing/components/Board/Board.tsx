@@ -163,7 +163,7 @@ const Board: React.FC<Props> = ({
       <KeyboardAvoidingBox>
         <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
           <GestureHandlerRootView>
-            <SvgBoard height={heightScreen} graphs={graphs} pathParallel={pathParallel} />
+            <SvgBoard step={stepBoard} height={heightScreen} graphs={graphs} pathParallel={pathParallel} />
           </GestureHandlerRootView>
         </TouchableOpacity>
       </KeyboardAvoidingBox>
