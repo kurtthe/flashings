@@ -11,7 +11,7 @@ import { LINE_TYPE } from "@models";
 export const drawLines = ({
   lines,
   lineSelected,
-  mode = "draw",
+  step=0,
   rightLinePaint = true,
   typeSelected,
   anglesLines
@@ -29,7 +29,7 @@ export const drawLines = ({
       path:
         line.points.length === 2 ? (
           <LineMadeComponent
-            {...{ id: index, line, lineSelected, mode, rightLinePaint, typeSelected, angle:anglesLines[index] }}
+            {...{ id: index, line, lineSelected, step, rightLinePaint, typeSelected, angle:anglesLines[index] }}
           />
         ) : undefined,
     })

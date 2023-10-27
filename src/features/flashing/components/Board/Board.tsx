@@ -66,7 +66,7 @@ const Board: React.FC<Props> = ({
       lines,
       widthGraph: width,
       heightGraph: height,
-      mode: STEPS_BOARD[stepBoard],
+      step: stepBoard,
       rightLinePaint,
       lineSelected: indexLineSelected,
       typeSelected,
@@ -185,7 +185,6 @@ const Board: React.FC<Props> = ({
       </Box>
       }
     </>
-
   );
 };
 
