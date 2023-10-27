@@ -5,12 +5,12 @@ import {
 } from '@features/flashing/components/Grid/Grid.types';
 import { scaleBand } from 'd3-scale';
 import {
-  casesLineParallel,
-} from '@features/flashing/components';
+  casesLineParallel, STEPS_BOARD
+} from "@features/flashing/components";
 import { parse, round, serialize } from 'react-native-redash';
 import * as shape from 'd3-shape';
 import { isNaN } from "lodash";
-import { LINE_TYPE, POINT_TYPE } from "@models";
+import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
 
 type ScaleColumnType = {
   domainData: string[];
@@ -308,4 +308,10 @@ const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_T
   const yPoint = resolveEqWithValueX(eq1, xPoint)
 
   return [xPoint, yPoint]
+}
+
+
+export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
+  return STEPS_BOARD.findIndex((stepName)=> stepName === nameStep)
+
 }

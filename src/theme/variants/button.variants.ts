@@ -85,7 +85,7 @@ const buttonVariants = {
     backgroundColor: 'error500',
     color: 'white',
   },
-  keyboard: {
+  endType: {
     width: 100,
     backgroundColor: 'input',
     borderWidth: 1,
@@ -95,16 +95,7 @@ const buttonVariants = {
     marginTop: 's',
     fontSize: 20
   },
-  keyboardGray: {
-    width: 100,
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: 'buttonBorder',
-    height: 50,
-    marginHorizontal: 'xs',
-    marginTop: 's',
-    fontSize: 20
-  }
+
 };
 
 export default buttonVariants;

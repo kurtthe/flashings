@@ -5,6 +5,7 @@ import { isNaN } from "lodash";
 import { BackArrowIcon, CompleteEditMeasurementsIcon, NextArrowIcon } from "@assets/icons";
 import { TextInput } from "react-native";
 import { MODES_BOARD } from "@models";
+import { getIndexOfStepForName } from "@features/flashing/utils";
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -13,7 +14,7 @@ type Props = {
   onPrevious?: () => void;
   disabledPrevious?: boolean
   typeSelected: 'line' | 'angle';
-  changeMode?: (newMode:MODES_BOARD) => void;
+  changeMode?: (newMode:number) => void;
 };
 const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onNext, onPrevious , disabledPrevious=true, changeMode}) => {
   const [measurement, setMeasurement] = React.useState(0);
@@ -48,7 +49,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
         as={BaseTouchable}
         onPress={()=> {
           handleDone(`${measurement}`)
-          changeMode && changeMode('finish')
+          changeMode && changeMode(getIndexOfStepForName('end_type'))
         }}
         position="absolute"
         bottom="105%"

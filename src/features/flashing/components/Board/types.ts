@@ -1,6 +1,7 @@
 import { Dimensions } from 'react-native';
 import { ReactElement } from 'react';
 import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
+export const STEPS_BOARD: MODES_BOARD[] = ['draw', 'side','measurements', 'end_type', 'finish'];
 
 export type MAKE_LINE = {
   lines: LINE_TYPE[];
