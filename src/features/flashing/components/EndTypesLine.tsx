@@ -8,34 +8,39 @@ import {
 	EndCurveRightIcon
 } from "@assets/icons";
 import { StyleSheet, ViewStyle } from "react-native";
+import { TYPE_END_LINES } from "@models";
 
 type Props = {
-	onTypeSelected?: ()=> void;
+	changeStartTypeLine: (endType: TYPE_END_LINES)=> void;
+	changeEndTypeLine: (endType: TYPE_END_LINES)=> void;
 }
 
-const ButtonEndType = ({ title, icon, fullWidth=false, style={} }: {title: string; icon?: any, fullWidth?:boolean; style?: ViewStyle;})=> {
+const ButtonEndType = (
+	{ title, icon, fullWidth=false, style={}, onPress }:
+		{title: string; icon?: any, fullWidth?:boolean; style?: ViewStyle; onPress?: ()=> void}
+)=> {
 	return (
-		<BaseTouchable my="xs" mx="s" style={[styles.button, fullWidth && {width: '95%'}, style]}>
+		<BaseTouchable onPress={()=> onPress && onPress()} my="xs" mx="s" style={[styles.button, fullWidth && {width: '95%'}, style]}>
 			<Text textAlign={!icon? 'center': 'left'} variant="bodyRegular" mx="s">{title}</Text>
 			{icon && <IconButton icon={<Icon as={icon} size={40} color="grayIcon" />} />}
 		</BaseTouchable>
 	);
 }
-const EndTypesLine: React.FC<Props> = ({onTypeSelected}) => {
+const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine}) => {
 	return (
 		<Box flex={1} backgroundColor="white" p="m">
 			<Text variant="bodyBold" mx="s">End Type - Start | End</Text>
 			<Box py="m" flexDirection="row" flexWrap="wrap">
 				<ButtonEndType title="None" fullWidth style={{height: 60}} />
 
-				<ButtonEndType title="Safety" icon={EndCurveLeftIcon}/>
-				<ButtonEndType title="Safety" icon={EndCurveRightIcon}/>
+				<ButtonEndType title="Safety" onPress={()=> changeStartTypeLine('safetyStart')} icon={EndCurveLeftIcon}/>
+				<ButtonEndType title="Safety" onPress={()=> changeEndTypeLine('safetyEnd')} icon={EndCurveRightIcon}/>
 
-				<ButtonEndType title="Break" icon={EndBreakLeft2Icon}/>
-				<ButtonEndType title="Break" icon={EndBreakRight2Icon}/>
+				<ButtonEndType title="Break" onPress={()=> changeStartTypeLine('break2Start')}  icon={EndBreakLeft2Icon}/>
+				<ButtonEndType title="Break" onPress={()=> changeEndTypeLine('break2End')} icon={EndBreakRight2Icon}/>
 
-				<ButtonEndType title="Break" icon={EndBreakLeftIcon}/>
-				<ButtonEndType title="Break" icon={EndBreakRightIcon}/>
+				<ButtonEndType title="Break" onPress={()=> changeStartTypeLine('break1Start')} icon={EndBreakLeftIcon}/>
+				<ButtonEndType title="Break" onPress={()=> changeEndTypeLine('break1End')} icon={EndBreakRightIcon} />
 			</Box>
 		</Box>
 	)

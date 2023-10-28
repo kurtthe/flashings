@@ -9,7 +9,8 @@ import PointerComponent from '@features/flashing/components/Pointer';
 import Svg, { Path as PathComponent } from "react-native-svg";
 import React from 'react';
 import { Path, serialize } from "react-native-redash";
-import { getIndexOfStepForName } from "@features/flashing/utils";
+import { buildPathLine, getEndStartTypeLine, getIndexOfStepForName } from "@features/flashing/utils";
+import { TYPE_END_LINES } from "@models";
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -17,16 +18,57 @@ type Props = {
   step: number;
   height?: number;
   width?: number;
+  typeEndLine: TYPE_END_LINES;
+  typeStartLine: TYPE_END_LINES;
+  isRight: boolean;
 };
-const SvgBoard: React.FC<Props> = ({ graphs = [] , step, pathParallel, width= widthScreen, height= heightScreen}) => {
+const SvgBoard: React.FC<Props> = ({
+  graphs = [],
+  step,
+  pathParallel,
+  width= widthScreen,
+  height= heightScreen,
+  typeEndLine,
+  typeStartLine,
+  isRight
+}) => {
   const colorPointer = '#8F94AE';
   const colorBorderPointer = '#000000';
   const borderWidth = 1;
   const isDraw = step === getIndexOfStepForName('draw');
 
+  const renderTypeEndStartLines= () => {
+    if(graphs.length < 2) return
+    const pointsStartEndType = getEndStartTypeLine({typeEnd:typeEndLine, typeStart: typeStartLine, lineStart:graphs[0], lineEnd:graphs[graphs.length -1], isRightBlueLine: isRight })
+
+    return (
+      <>
+        {
+          typeStartLine !== 'none' && (
+            <PathComponent
+              d={buildPathLine(pointsStartEndType.start)}
+              strokeWidth={1}
+              stroke="#000"
+            />
+          )
+        }
+        {
+          typeEndLine !== 'none' && (
+            <PathComponent
+              d={buildPathLine(pointsStartEndType.end)}
+              strokeWidth={1}
+              stroke="#000"
+            />
+          )
+        }
+      </>
+    )
+  }
+
   return (
     <Svg width={width} height={height}>
       <GridComponent />
+      {renderTypeEndStartLines()}
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
         <React.Fragment key={`${Math.random()}`}>
           {pathParallel && <PathComponent

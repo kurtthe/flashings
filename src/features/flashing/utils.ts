@@ -10,7 +10,7 @@ import {
 import { parse, round, serialize } from 'react-native-redash';
 import * as shape from 'd3-shape';
 import { isNaN } from "lodash";
-import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
+import { LINE_TYPE, MODES_BOARD, POINT_TYPE, TYPE_END_LINES } from "@models";
 
 type ScaleColumnType = {
   domainData: string[];
@@ -265,11 +265,9 @@ const createEquationOfLine = (line: LINE_TYPE): string=> {
 const resolveEqWithValueX = (eq: string, valueX: number)=>{
   const eqWithValueX = eq.replace('x', `*${valueX}`)
   return eval(eqWithValueX)
-
 }
 
 const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_TYPE | undefined):POINT_TYPE | null=>{
-
   if(!line2) return null;
 
   const eq1 = createEquationOfLine(line1)
@@ -310,8 +308,30 @@ const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_T
   return [xPoint, yPoint]
 }
 
-
 export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
   return STEPS_BOARD.findIndex((stepName)=> stepName === nameStep)
+}
 
+const calculateBrakeType = (type:TYPE_END_LINES,  line: LINE_TYPE, start=true, isRight=true): POINT_TYPE[]=> {
+  const sizeLine = 20;
+  let anglesRight = start? 40: 60;
+  let anglesLeft = start? 5: 20;
+  if(type.includes('1')){
+    anglesRight = start? 80: 40;
+    anglesLeft = start? 20: 30;
+  }
+  const angle=  isRight ?anglesRight: anglesLeft ;
+  const x1 = start?line.points[0][0]: line.points[1][0];
+  const y1 = start? line.points[0][1]: line.points[1][1];
+
+  const x2 = x1 + sizeLine * Math.cos(angle)
+  const y2 = y1 + sizeLine * Math.sin(angle)
+  return [[x1,y1], [x2,y2]]
+}
+
+export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEnd, lineStart}: {typeStart: TYPE_END_LINES; typeEnd: TYPE_END_LINES; isRightBlueLine: boolean; lineStart: LINE_TYPE; lineEnd: LINE_TYPE})=>{
+  return {
+    start: calculateBrakeType(typeStart,lineStart, true,isRightBlueLine),
+    end: calculateBrakeType(typeEnd, lineEnd, false, isRightBlueLine)
+  }
 }
