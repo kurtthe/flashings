@@ -23,6 +23,21 @@ export type FLASHINGS_DATA =  {
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish' | 'preview' | 'end_type';
 export type TYPE_END_LINES = 'none' | 'safetyEnd' | 'safetyStart' | 'break1End' | 'break1Start' | 'break2End' | 'break2Start'
 
+export type BREAK_END_START_LINE_TYPE ={
+	type:TYPE_END_LINES;
+	line: LINE_TYPE;
+	start: boolean;
+	isRight: boolean
+}
+
+export type START_END_LINE_TYPE = {
+	typeStart: TYPE_END_LINES;
+	typeEnd: TYPE_END_LINES;
+	isRightBlueLine: boolean;
+	lineStart: LINE_TYPE;
+	lineEnd: LINE_TYPE;
+}
+
 type SIDES = {
 	acrossFront: number;
 	offWallDimensionsOverflow: number;

@@ -90,8 +90,8 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 										mt="2xl"
 										onPress={() =>
 										arrayHelpers.push({
-											qty: undefined,
-											length: undefined
+											qty: NaN,
+											length: NaN
 										})}>
 									+ Add Length
 									</Button>

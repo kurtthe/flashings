@@ -8,7 +8,6 @@ import {
 } from "./types";
 import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import SvgBoard from '@features/flashing/components/SvgBoard';
 import { ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
@@ -18,7 +17,7 @@ import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from "@models";
 import { isNaN } from "lodash";
 import { Box, KeyboardAvoidingBox, ScrollBox } from "@ui/components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { EndTypesLineComponent } from "@features/flashing/components";
+import { EndTypesLineComponent, SvgBoard } from "@features/flashing/components";
 import { getIndexOfStepForName } from "@features/flashing/utils";
 
 type Props = {

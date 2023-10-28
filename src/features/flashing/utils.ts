@@ -10,7 +10,11 @@ import {
 import { parse, round, serialize } from 'react-native-redash';
 import * as shape from 'd3-shape';
 import { isNaN } from "lodash";
-import { LINE_TYPE, MODES_BOARD, POINT_TYPE, TYPE_END_LINES } from "@models";
+import {
+  LINE_TYPE,
+  MODES_BOARD,
+  POINT_TYPE,
+} from "@models";
 
 type ScaleColumnType = {
   domainData: string[];
@@ -212,12 +216,12 @@ export const positionEndLine = (line1: LINE_TYPE): POINT_TYPE=> {
   return [line1.points[1][0]+5, line1.points[1][1]+5];
 }
 
-export const buildPathLine = (points: LINE_TYPE['points']) => {
+export const buildPathLine = (points: LINE_TYPE['points'], curseLine: shape.CurveFactory= shape.curveLinear ) => {
   const generatorLine = shape
     .line()
     .x(data => data[0])
     .y(data => data[1])
-    .curve(shape.curveLinear);
+    .curve(curseLine);
   return serialize(parse(generatorLine(points) as string));
 };
 
@@ -310,28 +314,4 @@ const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_T
 
 export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
   return STEPS_BOARD.findIndex((stepName)=> stepName === nameStep)
-}
-
-const calculateBrakeType = (type:TYPE_END_LINES,  line: LINE_TYPE, start=true, isRight=true): POINT_TYPE[]=> {
-  const sizeLine = 20;
-  let anglesRight = start? 40: 60;
-  let anglesLeft = start? 5: 20;
-  if(type.includes('1')){
-    anglesRight = start? 80: 40;
-    anglesLeft = start? 20: 30;
-  }
-  const angle=  isRight ?anglesRight: anglesLeft ;
-  const x1 = start?line.points[0][0]: line.points[1][0];
-  const y1 = start? line.points[0][1]: line.points[1][1];
-
-  const x2 = x1 + sizeLine * Math.cos(angle)
-  const y2 = y1 + sizeLine * Math.sin(angle)
-  return [[x1,y1], [x2,y2]]
-}
-
-export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEnd, lineStart}: {typeStart: TYPE_END_LINES; typeEnd: TYPE_END_LINES; isRightBlueLine: boolean; lineStart: LINE_TYPE; lineEnd: LINE_TYPE})=>{
-  return {
-    start: calculateBrakeType(typeStart,lineStart, true,isRightBlueLine),
-    end: calculateBrakeType(typeEnd, lineEnd, false, isRightBlueLine)
-  }
 }

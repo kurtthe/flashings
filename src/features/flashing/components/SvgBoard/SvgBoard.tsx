@@ -1,16 +1,16 @@
 import {
   DREW_LINE_TYPE, heightScreen,
   SIZE_POINTER,
-  SIZE_POINTER_LAST,
   widthScreen
 } from "@features/flashing/components/Board";
-import { GridComponent } from '@features/flashing/components/index';
+import { GridComponent } from '@features/flashing/components';
 import PointerComponent from '@features/flashing/components/Pointer';
 import Svg, { Path as PathComponent } from "react-native-svg";
 import React from 'react';
 import { Path, serialize } from "react-native-redash";
-import { buildPathLine, getEndStartTypeLine, getIndexOfStepForName } from "@features/flashing/utils";
+import {  getIndexOfStepForName } from "@features/flashing/utils";
 import { TYPE_END_LINES } from "@models";
+import { getEndStartTypeLine } from "@features/flashing/components/SvgBoard/utils";
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -38,31 +38,14 @@ const SvgBoard: React.FC<Props> = ({
   const isDraw = step === getIndexOfStepForName('draw');
 
   const renderTypeEndStartLines= () => {
-    if(graphs.length < 2) return
-    const pointsStartEndType = getEndStartTypeLine({typeEnd:typeEndLine, typeStart: typeStartLine, lineStart:graphs[0], lineEnd:graphs[graphs.length -1], isRightBlueLine: isRight })
-
-    return (
-      <>
-        {
-          typeStartLine !== 'none' && (
-            <PathComponent
-              d={buildPathLine(pointsStartEndType.start)}
-              strokeWidth={1}
-              stroke="#000"
-            />
-          )
-        }
-        {
-          typeEndLine !== 'none' && (
-            <PathComponent
-              d={buildPathLine(pointsStartEndType.end)}
-              strokeWidth={1}
-              stroke="#000"
-            />
-          )
-        }
-      </>
-    )
+    if(graphs.length < 2) return null
+    return  getEndStartTypeLine({
+      typeEnd:typeEndLine,
+      typeStart: typeStartLine,
+      lineStart:graphs[0],
+      lineEnd:graphs[graphs.length -1],
+      isRightBlueLine: isRight
+    });
   }
 
   return (

@@ -1,5 +1,6 @@
 export * from './Board';
 export * from './PreviewFlashing'
+export * from './SvgBoard'
 
 export { default as MenuEditorComponent } from './MenuEditor';
 export { default as GridComponent } from './Grid/Grid';
