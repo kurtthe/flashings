@@ -21,6 +21,7 @@ export type FLASHINGS_DATA =  {
 };
 
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish' | 'preview' | 'end_type';
+export type TYPE_END_LINES = 'none' | 'safetyEnd' | 'safetyStart' | 'break1End' | 'break1Start' | 'break2End' | 'break2Start'
 
 type SIDES = {
 	acrossFront: number;
