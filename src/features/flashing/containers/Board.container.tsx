@@ -17,7 +17,7 @@ import {
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS
 } from "@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type";
-import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
+import { LINE_TYPE, MODES_BOARD, POINT_TYPE, TYPE_END_LINES } from "@models";
 import { useAppDispatch, useAppSelector } from "@hooks/useStore";
 import { actions as flashingActions } from "@store/jobs/actions";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -35,7 +35,10 @@ const BoardContainer = () => {
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
   const [stepBoard, setStepBoard] = React.useState(0)
-  const [blueLineIsRight, setBlueLineIsRight] = React.useState(true)
+  const [blueLineIsRight, setBlueLineIsRight] = React.useState(true);
+  const [startTypeLine, setStartTypeLine] = React.useState<TYPE_END_LINES>('none')
+  const [endTypeLine, setEndTypeLine] = React.useState<TYPE_END_LINES>('none')
+
   const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
 
   React.useEffect(()=>{
@@ -160,7 +163,16 @@ const BoardContainer = () => {
     const dataFlashing = route.params.data
     const idJob = route.params?.jobId
 
-    dispatch(flashingActions.addEditFlashing({idJob,  flashing: {...dataFlashing, dataLines: lines, parallelRight:blueLineIsRight, angles: anglesLines }}));
+    dispatch(flashingActions.addEditFlashing({
+      idJob,
+      flashing: {
+        ...dataFlashing,
+        dataLines: lines,
+        parallelRight:blueLineIsRight,
+        angles: anglesLines,
+        endType: endTypeLine,
+        startType:startTypeLine
+      }}));
 
     navigation.navigate(StackPrivateDefinitions.JOBS, {
       screen: RoutesJobs.JOB_DETAILS,
@@ -184,6 +196,10 @@ const BoardContainer = () => {
         backStep={handleBack}
         angles={anglesLines}
         updateAngle={handleUpdateAngle}
+        startTypeLine={startTypeLine}
+        endTypeLine={endTypeLine}
+        changeStartTypeLine={setStartTypeLine}
+        changeEndTypeLine={setEndTypeLine}
       />
       <MenuEditorComponent
         disabledBack={stepBoard === getIndexOfStepForName('draw')}
