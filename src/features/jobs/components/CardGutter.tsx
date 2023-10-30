@@ -23,11 +23,12 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
     if(!material) {
       return {
         id: 1,
-        value: 'stone',
-        label: 'Stone',
-        bgColor: '#857f76',
-        textColor: 'white',
+        value: 'galvanised',
+        label: 'Galvanised',
+        bgColor: '#a7aaaf',
+        textColor: 'black',
         bold: false,
+        disabled: false,
       };
     }
     return material
