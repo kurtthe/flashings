@@ -44,9 +44,6 @@ const BoardContainer = () => {
   React.useEffect(()=>{
     const dataFlashing = route.params.data;
     if(dataFlashing.dataLines.length > 0){
-      console.log("dataFlashing.startType::", dataFlashing.startType)
-      console.log("dataFlashing.endType::", dataFlashing.endType)
-
       setLines(dataFlashing.dataLines);
       setBlueLineIsRight(dataFlashing.parallelRight);
       setStartTypeLine(dataFlashing.startType);

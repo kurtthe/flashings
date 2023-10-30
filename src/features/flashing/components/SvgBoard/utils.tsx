@@ -28,17 +28,26 @@ const calculateTypeLine = ({start=true, type, line, isRight=true}: BREAK_END_STA
 export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEnd, lineStart}:START_END_LINE_TYPE )=>{
 	const pointsStart = calculateTypeLine({ type: typeStart, line: lineStart, start:true, isRight: isRightBlueLine })
 	const pointsEnd = calculateTypeLine({ type: typeEnd, line: lineEnd, start:false, isRight: isRightBlueLine })
+
 	const isSafetyStart = typeStart.includes('safety')
 	const isSafetyEnd = typeEnd.includes('safety')
-	const pathSafetyStart = `M${pointsStart[0][0]},${pointsStart[0][1]} C60,${pointsStart[0][1] + 20} ${pointsStart[0][1]-65},${pointsStart[0][1] -10} ${pointsStart[0][0] + 20},${pointsStart[0][1]}`
-	const pathSafetyEnd = `M${pointsEnd[0][0]},${pointsEnd[0][1]} C210,${pointsEnd[1][1]- 30} ${pointsEnd[0][0]},${pointsEnd[1][1] - 30} ${pointsEnd[0][0] + 25},${pointsEnd[0][1] -20}`
+
+	console.log("==================||===============")
+	console.log("pointsStart::", pointsStart)
+	console.log("pointsEnd::", pointsEnd)
+
+	const calculateStart = pointsStart[0][0] - pointsStart[1][0]
+	const calculateEnd = pointsEnd[0][0] - pointsEnd[1][0]
+
+	const pathSafetyStart = `M${pointsStart[0][0]},${pointsStart[0][1]} a${calculateStart},${calculateStart / 2} 0 1,0 0, ${calculateStart} a${calculateStart / 2},0 0 0,0 0,0`
+	const pathSafetyEnd = `M${pointsEnd[0][0]},${pointsEnd[0][1]} a${calculateEnd}, ${calculateEnd / 2} 0 1,0 0,${calculateEnd} a${calculateEnd / 2},0 0 0,0 0,0`
 
 	return (
 		<>
 			{
 				typeStart !== 'none' && (
 					<PathComponent
-						d={isSafetyStart? pathSafetyStart: buildPathLine(pointsStart)}
+						d={isSafetyStart? pathSafetyStart : buildPathLine(pointsStart)}
 						strokeWidth={1}
 						stroke="#000"
 						fill="none"
