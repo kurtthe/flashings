@@ -22,7 +22,7 @@ const ButtonEndType = (
 	return (
 		<BaseTouchable onPress={()=> onPress && onPress()} my="xs" mx="s" backgroundColor={active? "lightBlue" : "transparent"} style={[styles.button, fullWidth && {width: '95%'}, style]}>
 			<Text textAlign={!icon? 'center': 'left'} variant="bodyRegular" mx="s">{title}</Text>
-			{icon && <IconButton icon={<Icon as={icon} size={40} color="grayIcon" />} />}
+			{icon && <Icon as={icon} size={40} color="grayIcon" />}
 		</BaseTouchable>
 	);
 }
