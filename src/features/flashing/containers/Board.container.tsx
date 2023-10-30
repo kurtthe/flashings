@@ -42,17 +42,22 @@ const BoardContainer = () => {
   const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
 
   React.useEffect(()=>{
-    const dataFlashing = route.params.data
+    const dataFlashing = route.params.data;
     if(dataFlashing.dataLines.length > 0){
-      return setLines(dataFlashing.dataLines)
+      console.log("dataFlashing.startType::", dataFlashing.startType)
+      console.log("dataFlashing.endType::", dataFlashing.endType)
+
+      setLines(dataFlashing.dataLines);
+      setBlueLineIsRight(dataFlashing.parallelRight);
+      setStartTypeLine(dataFlashing.startType);
+      setEndTypeLine(dataFlashing.endType);
+      return;
     }
     setLines([])
   }, [route.params.data])
 
-  React.useEffect(()=>{
-
+  React.useEffect(()=> {
     if(lines.length < 2) return
-
     const newAngles = lines.map((line, index, arrayLines)=> {
       if(!anglesLines[index]){
         return calculateAngle(line, arrayLines[index + 1])?? 0
@@ -78,7 +83,6 @@ const BoardContainer = () => {
     const validAddNewPoint = lines.find((line)=> {
       return JSON.stringify(line.points[0]) === JSON.stringify(newPoint)
     })
-
     if(validAddNewPoint) return
 
     const dataLine: LINE_TYPE = {
