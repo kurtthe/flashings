@@ -18,6 +18,8 @@ export type FLASHINGS_DATA =  {
 	dataLines: LINE_TYPE[],
 	angles: number[],
 	parallelRight: boolean;
+	endType: TYPE_END_LINES;
+	startType: TYPE_END_LINES;
 };
 
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish' | 'preview' | 'end_type';

@@ -34,6 +34,10 @@ type Props = {
   rightLinePaint: boolean;
   angles?: number[];
   updateAngle?: (newAngle:number, positionAngle:number) => void;
+  startTypeLine?: TYPE_END_LINES;
+  endTypeLine?: TYPE_END_LINES;
+  changeStartTypeLine: (newType:TYPE_END_LINES ) => void;
+  changeEndTypeLine: (newType:TYPE_END_LINES ) => void;
 };
 
 const Board: React.FC<Props> = ({
@@ -48,6 +52,10 @@ const Board: React.FC<Props> = ({
   onSave,
   angles=[],
   updateAngle,
+  changeStartTypeLine,
+  changeEndTypeLine,
+  startTypeLine="none",
+  endTypeLine= "none"
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
@@ -57,9 +65,6 @@ const Board: React.FC<Props> = ({
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
   const [indexLineSelected, setIndexLineSelected] = React.useState(0)
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>('line')
-
-  const [typeStartLine, setTypeStartLine] = React.useState<TYPE_END_LINES>('none')
-  const [typeEndLine, setTypeEndLine] = React.useState<TYPE_END_LINES>('none')
 
   const isDrawing = STEPS_BOARD[stepBoard] === 'draw';
 
@@ -165,7 +170,15 @@ const Board: React.FC<Props> = ({
       <KeyboardAvoidingBox>
         <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
           <GestureHandlerRootView>
-            <SvgBoard isRight={rightLinePaint} typeEndLine={typeEndLine} typeStartLine={typeStartLine}  step={stepBoard} height={heightScreen} graphs={graphs} pathParallel={pathParallel} />
+            <SvgBoard
+              isRight={rightLinePaint}
+              typeEndLine={endTypeLine}
+              typeStartLine={startTypeLine}
+              step={stepBoard}
+              height={heightScreen}
+              graphs={graphs}
+              pathParallel={pathParallel}
+            />
           </GestureHandlerRootView>
         </TouchableOpacity>
       </KeyboardAvoidingBox>
@@ -183,7 +196,10 @@ const Board: React.FC<Props> = ({
         />
       </Box>}
       {stepBoard === getIndexOfStepForName('end_type') && <Box height={450} position="absolute" width="100%" bottom={0}>
-        <EndTypesLineComponent changeStartTypeLine={setTypeStartLine} changeEndTypeLine={setTypeEndLine} />
+        <EndTypesLineComponent
+          changeStartTypeLine={changeStartTypeLine}
+          changeEndTypeLine={changeEndTypeLine}
+        />
       </Box>
       }
     </>

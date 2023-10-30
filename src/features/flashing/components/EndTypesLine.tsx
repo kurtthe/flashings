@@ -11,36 +11,56 @@ import { StyleSheet, ViewStyle } from "react-native";
 import { TYPE_END_LINES } from "@models";
 
 type Props = {
-	changeStartTypeLine: (endType: TYPE_END_LINES)=> void;
+	changeStartTypeLine: (startType: TYPE_END_LINES)=> void;
 	changeEndTypeLine: (endType: TYPE_END_LINES)=> void;
 }
 
 const ButtonEndType = (
-	{ title, icon, fullWidth=false, style={}, onPress }:
-		{title: string; icon?: any, fullWidth?:boolean; style?: ViewStyle; onPress?: ()=> void}
+	{ title, icon, fullWidth=false, style={}, onPress, active=false }:
+	{title: string; icon?: any, fullWidth?:boolean; style?: ViewStyle; onPress?: ()=> void; active?: boolean}
 )=> {
 	return (
-		<BaseTouchable onPress={()=> onPress && onPress()} my="xs" mx="s" style={[styles.button, fullWidth && {width: '95%'}, style]}>
+		<BaseTouchable onPress={()=> onPress && onPress()} my="xs" mx="s" backgroundColor={active? "lightBlue" : "transparent"} style={[styles.button, fullWidth && {width: '95%'}, style]}>
 			<Text textAlign={!icon? 'center': 'left'} variant="bodyRegular" mx="s">{title}</Text>
 			{icon && <IconButton icon={<Icon as={icon} size={40} color="grayIcon" />} />}
 		</BaseTouchable>
 	);
 }
 const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine}) => {
+	const [currentValueStartSelected, setCurrentValueStartSelected] = React.useState<TYPE_END_LINES>("none")
+	const [currentValueEndSelected, setCurrentValueEndSelected] = React.useState<TYPE_END_LINES>("none")
+
+	const handlePressButton = (label: TYPE_END_LINES= "none", startLine: boolean= false) => {
+		if(startLine){
+			changeStartTypeLine(label)
+			setCurrentValueStartSelected(label)
+			return;
+		}
+		changeEndTypeLine(label)
+		setCurrentValueEndSelected(label)
+	}
+	const handleClearLineType = () => {
+		setCurrentValueStartSelected("none")
+		setCurrentValueEndSelected("none")
+
+		changeStartTypeLine("none")
+		changeEndTypeLine("none")
+	}
+
 	return (
 		<Box flex={1} backgroundColor="white" p="m">
 			<Text variant="bodyBold" mx="s">End Type - Start | End</Text>
 			<Box py="m" flexDirection="row" flexWrap="wrap">
-				<ButtonEndType title="None" fullWidth style={{height: 60}} />
+				<ButtonEndType title="None" active={currentValueEndSelected === "none" || currentValueStartSelected === "none"} onPress={()=> handleClearLineType()} fullWidth style={{height: 60}} />
 
-				<ButtonEndType title="Safety" onPress={()=> changeStartTypeLine('safetyStart')} icon={EndCurveLeftIcon}/>
-				<ButtonEndType title="Safety" onPress={()=> changeEndTypeLine('safetyEnd')} icon={EndCurveRightIcon}/>
+				<ButtonEndType title="Safety" active={currentValueStartSelected === "safetyStart"} onPress={()=> handlePressButton('safetyStart', true)} icon={EndCurveLeftIcon}/>
+				<ButtonEndType title="Safety" active={currentValueEndSelected === "safetyEnd"} onPress={()=> handlePressButton('safetyEnd')} icon={EndCurveRightIcon}/>
 
-				<ButtonEndType title="Break" onPress={()=> changeStartTypeLine('break2Start')}  icon={EndBreakLeft2Icon}/>
-				<ButtonEndType title="Break" onPress={()=> changeEndTypeLine('break2End')} icon={EndBreakRight2Icon}/>
+				<ButtonEndType title="Break" active={currentValueStartSelected === "break2Start"} onPress={()=> handlePressButton('break2Start', true)}  icon={EndBreakLeft2Icon}/>
+				<ButtonEndType title="Break" active={currentValueEndSelected === "break2End"} onPress={()=> handlePressButton('break2End')} icon={EndBreakRight2Icon}/>
 
-				<ButtonEndType title="Break" onPress={()=> changeStartTypeLine('break1Start')} icon={EndBreakLeftIcon}/>
-				<ButtonEndType title="Break" onPress={()=> changeEndTypeLine('break1End')} icon={EndBreakRightIcon} />
+				<ButtonEndType title="Break" active={currentValueStartSelected === "break1Start"} onPress={()=> handlePressButton('break1Start', true)} icon={EndBreakLeftIcon}/>
+				<ButtonEndType title="Break" active={currentValueEndSelected === "break1End"} onPress={()=> handlePressButton('break1End')} icon={EndBreakRightIcon} />
 			</Box>
 		</Box>
 	)
