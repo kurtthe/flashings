@@ -42,7 +42,7 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 	}
 
 	if(isVertical){
-		return `M${pointX1} ${pointY1} Q ${(pointX1-pointX1 - 20) * -1 } ${pointY1} ${pointX1} ${pointY1 * 1.2}`
+		return `M${pointX1} ${pointY1} Q ${(pointX1- 20) * -1 } ${pointY1} ${pointX1} ${pointY1 * 1.2}`
 	}
 
 	return `M${pointX1} ${pointY1} Q ${pointX1} ${pointY1 * 1.2} ${pointX1 * 1.3} ${pointY1}`
