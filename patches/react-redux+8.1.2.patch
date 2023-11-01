@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-redux/es/components/Provider.d.ts b/node_modules/react-redux/es/components/Provider.d.ts
+index 3eebefc..33bbfbd 100644
+--- a/node_modules/react-redux/es/components/Provider.d.ts
++++ b/node_modules/react-redux/es/components/Provider.d.ts
+@@ -21,7 +21,7 @@ export interface ProviderProps<A extends Action = AnyAction, S = unknown> {
+     stabilityCheck?: CheckFrequency;
+     /** Global configuration for the `useSelector` no-op check */
+     noopCheck?: CheckFrequency;
+-    children: ReactNode;
++    children?: ReactNode;
+ }
+ declare function Provider<A extends Action = AnyAction, S = unknown>({ store, context, children, serverState, stabilityCheck, noopCheck, }: ProviderProps<A, S>): JSX.Element;
+ export default Provider;
