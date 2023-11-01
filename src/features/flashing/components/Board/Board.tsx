@@ -123,7 +123,7 @@ const Board: React.FC<Props> = ({
     const lengthLine = lines.length - 1
 
     if(newIndex > lengthLine){
-      return changeStepBoard && changeStepBoard(getIndexOfStepForName('finish'))
+      return changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'))
     }
 
     if(newIndex > lengthLine){

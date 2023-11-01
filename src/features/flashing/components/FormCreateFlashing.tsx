@@ -22,18 +22,23 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 	const navigation = useNavigation<FlashingStackProps>()
   const formik = useFormikContext<AddFlashingFormValues>();
   const { values, handleSubmit, isValid,isSubmitting } = formik;
-	const handleUpdateFlashing = ()=> {
+	const handleUpdateDeleteFlashing = (deleteFlashing=false)=> {
 		if(!idJob || !dataFlashing) return;
+
+		if(deleteFlashing){
+			dispatch(flashingActions.deleteFlashing({idJob,  idFlashing: dataFlashing.id}));
+			return navigation.goBack();
+		}
 
 		const newDataFlashing = {...dataFlashing,
 			name: values.name,
 			colourMaterial: values.material,
 			flashingLengths: values.flashingLengths ?? []
 		}
-
 		dispatch(flashingActions.addEditFlashing({idJob,  flashing: newDataFlashing}));
-		navigation.goBack()
+		navigation.goBack();
 	}
+
   return (
 	      <Box px="m" flex={1} >
 	        <Box my="m" flex={0.9}>
@@ -108,13 +113,24 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 	          </Button>
 
 		      {
-			      showButtonUpdate && <Button
-			      mt="s"
-            isDisabled={!isValid || !values.material}
-            isLoading={isSubmitting}
-			      onPress={handleUpdateFlashing}>
-			        Update Flashing
-		        </Button>
+			      showButtonUpdate && (
+							<>
+								<Button
+									mt="s"
+									isDisabled={!isValid || !values.material}
+									isLoading={isSubmitting}
+									onPress={() => handleUpdateDeleteFlashing()}>
+									Update Flashing
+								</Button>
+								<Button
+									variant="delete"
+									mt="s"
+									isLoading={isSubmitting}
+									onPress={()=>handleUpdateDeleteFlashing(true)}>
+									Delete Flashing
+								</Button>
+							</>
+			      )
 					}
 	      </Box>
 

@@ -8,6 +8,7 @@ export const actions = {
     loadJobs: createAction<{jobs:JOB_DATA[]}>('load/jobs'),
     loadJobsArchive: createAction<{jobs: JOB_DATA[]}>('load/jobs/archive'),
     addEditFlashing: createAction<{flashing: FLASHINGS_DATA, idJob: number}>('jobs/add/flashing'),
+    deleteFlashing: createAction<{idJob: number; idFlashing: number}>('jobs/delete/flashing'),
     changeArchive: createAction<{idJob: number}>('jobs/archive/flashing'),
     changeUnArchive: createAction<{idJob: number}>('jobs/unarchive/flashing'),
     addLengthJob: createAction<{idJob: number, idFlashing: number, dataLength: FLASHING_LENGTHS}>('jobs/add/length/flashing'),
