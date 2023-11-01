@@ -1,8 +1,6 @@
 import alertService from './alert';
 
 class HandleErrors {
-  constructor() {}
-
   manage(error) {
     if (error.response?.status === 0) {
       this.showAlertOffline();
