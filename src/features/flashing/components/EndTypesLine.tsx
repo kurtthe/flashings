@@ -29,9 +29,9 @@ const ButtonEndType = (
 const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine}) => {
 	const [currentValueStartSelected, setCurrentValueStartSelected] = React.useState<TYPE_END_LINES>("none")
 	const [currentValueEndSelected, setCurrentValueEndSelected] = React.useState<TYPE_END_LINES>("none")
-
-	const handlePressButton = (label: TYPE_END_LINES= "none", startLine: boolean= false) => {
-		if(startLine){
+	const [typeLine, setTypeLine] = React.useState<'start'| 'end'>('start')
+	const handlePressButton = (label: TYPE_END_LINES= "none") => {
+		if(typeLine==="start"){
 			changeStartTypeLine(label)
 			setCurrentValueStartSelected(label)
 			return;
@@ -40,27 +40,39 @@ const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine}) 
 		setCurrentValueEndSelected(label)
 	}
 	const handleClearLineType = () => {
-		setCurrentValueStartSelected("none")
+		if(typeLine === "start"){
+			setCurrentValueStartSelected("none")
+			changeStartTypeLine("none")
+			return
+		}
 		setCurrentValueEndSelected("none")
-
-		changeStartTypeLine("none")
 		changeEndTypeLine("none")
+	}
+	const validateTypeLine = (typeLineStartEnd: TYPE_END_LINES) => {
+		if(typeLine==="start"){
+			return currentValueStartSelected === typeLineStartEnd
+		}
+		return currentValueEndSelected === typeLineStartEnd
 	}
 
 	return (
 		<Box flex={1} backgroundColor="white" p="m">
-			<Text variant="bodyBold" mx="s">End Type - Start | End</Text>
+			<Text variant="bodyBold" mx="s">End Type</Text>
+			<Box flexDirection="row" py="s" mx="s" mt="s" borderBottomWidth={1} borderBottomColor="lightGray">
+				<Text fontWeight="600" mr="s" variant={typeLine === 'start' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('start')}>Start</Text>
+				<Text fontWeight="600"  variant={typeLine === 'end' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('end')}>End</Text>
+			</Box>
 			<Box py="m" flexDirection="row" flexWrap="wrap">
-				<ButtonEndType title="None" active={currentValueEndSelected === "none" || currentValueStartSelected === "none"} onPress={()=> handleClearLineType()} fullWidth style={{height: 60}} />
+				<ButtonEndType title="None" active={validateTypeLine("none")} onPress={()=> handleClearLineType()} fullWidth style={{height: 60}} />
 
-				<ButtonEndType title="Safety" active={currentValueStartSelected === "safetyStart"} onPress={()=> handlePressButton('safetyStart', true)} icon={EndCurveLeftIcon}/>
-				<ButtonEndType title="Safety" active={currentValueEndSelected === "safetyEnd"} onPress={()=> handlePressButton('safetyEnd')} icon={EndCurveRightIcon}/>
+				<ButtonEndType title="Safety" active={validateTypeLine("safetyStart")} onPress={()=> handlePressButton('safetyStart')} icon={EndCurveLeftIcon}/>
+				<ButtonEndType title="Safety" active={validateTypeLine("safetyEnd")} onPress={()=> handlePressButton('safetyEnd')} icon={EndCurveRightIcon}/>
 
-				<ButtonEndType title="Break" active={currentValueStartSelected === "break2Start"} onPress={()=> handlePressButton('break2Start', true)}  icon={EndBreakLeft2Icon}/>
-				<ButtonEndType title="Break" active={currentValueEndSelected === "break2End"} onPress={()=> handlePressButton('break2End')} icon={EndBreakRight2Icon}/>
+				<ButtonEndType title="Break" active={validateTypeLine("break2Start")} onPress={()=> handlePressButton('break2Start')}  icon={EndBreakLeft2Icon}/>
+				<ButtonEndType title="Break" active={validateTypeLine("break2End")} onPress={()=> handlePressButton('break2End')} icon={EndBreakRight2Icon}/>
 
-				<ButtonEndType title="Break" active={currentValueStartSelected === "break1Start"} onPress={()=> handlePressButton('break1Start', true)} icon={EndBreakLeftIcon}/>
-				<ButtonEndType title="Break" active={currentValueEndSelected === "break1End"} onPress={()=> handlePressButton('break1End')} icon={EndBreakRightIcon} />
+				<ButtonEndType title="Break" active={validateTypeLine("break1Start")} onPress={()=> handlePressButton('break1Start')} icon={EndBreakLeftIcon}/>
+				<ButtonEndType title="Break" active={validateTypeLine("break1End")} onPress={()=> handlePressButton('break1End')} icon={EndBreakRightIcon} />
 			</Box>
 		</Box>
 	)
