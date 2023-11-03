@@ -1,6 +1,6 @@
 import React from "react";
 import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, START_END_LINE_TYPE } from "@models";
-import { Path as PathComponent } from "react-native-svg";
+import { Path as PathComponent, Ellipse } from "react-native-svg";
 import { buildPathLine } from "@features/flashing/utils";
 
 const calculateTypeLine = ({start=true, type, line, isRight=true}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
@@ -55,17 +55,15 @@ export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEn
 	const isSafetyStart = typeStart.includes('safety')
 	const isSafetyEnd = typeEnd.includes('safety')
 
-	const calculateEnd = pointsEnd[0][0] - pointsEnd[1][0]
-
-	const pathSafetyStart = calculatePointsParabola(lineStart, isRightBlueLine)
-	const pathSafetyEnd = `M${pointsEnd[0][0]},${pointsEnd[0][1]} a${calculateEnd}, ${calculateEnd / 2} 0 1,0 0,${calculateEnd} a${calculateEnd / 2},0 0 0,0 0,0`
+	const radiusEllipseX = 5
+	const radiusEllipseY = 15
 
 	return (
 		<>
 			{
-				typeStart !== 'none' && (
+				!isSafetyStart && (
 					<PathComponent
-						d={isSafetyStart? pathSafetyStart : buildPathLine(pointsStart)}
+						d={buildPathLine(pointsStart)}
 						strokeWidth={1}
 						stroke="#000"
 						fill="none"
@@ -73,13 +71,23 @@ export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEn
 				)
 			}
 			{
-				typeEnd !== 'none' && (
+				isSafetyStart && (
+					<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusEllipseX} ry={radiusEllipseY} stroke="black" fill="black" />
+				)
+			}
+			{
+				!isSafetyEnd && (
 					<PathComponent
-						d={isSafetyEnd? pathSafetyEnd : buildPathLine(pointsEnd)}
+						d={buildPathLine(pointsEnd)}
 						strokeWidth={1}
 						stroke="#000"
 						fill="none"
 					/>
+				)
+			}
+			{
+				isSafetyEnd && (
+					<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEllipseX} ry={radiusEllipseY} stroke="black" fill="black" />
 				)
 			}
 		</>
