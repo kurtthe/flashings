@@ -183,7 +183,7 @@ const textVariants = {
   typeJobActive: {
     color:"mustard",
     textDecorationLine:"underline",
-    textDecorationColor:"mustard"
+    textDecorationColor:"mustard",
   },
   typeJob: {
     color:"textGray"
