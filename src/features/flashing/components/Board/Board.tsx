@@ -164,6 +164,11 @@ const Board: React.FC<Props> = ({
     changeStepBoard && changeStepBoard(getIndexOfStepForName('measurements'));
     setIndexLineSelected(0)
   }
+  const handleOnEditEndType = ()=> {
+    changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'));
+
+  }
+
 
   return (
     <>
@@ -184,7 +189,7 @@ const Board: React.FC<Props> = ({
         </TouchableOpacity>
       </KeyboardAvoidingBox>
     </ScrollBox>
-      {stepBoard === getIndexOfStepForName('finish') && <SectionsButton onSave={handleOnSave} onEdit={handleOnEdit} />}
+      {stepBoard === getIndexOfStepForName('finish') && <SectionsButton onSave={handleOnSave} onEdit={handleOnEdit} onEditEndType={handleOnEditEndType} />}
       {stepBoard === getIndexOfStepForName('measurements') && <Box height={350} position="absolute" width="100%" bottom={0}>
         <MeasurementLines
           disabledPrevious={indexLineSelected === 0 && typeSelected === 'line'}

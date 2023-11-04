@@ -6,9 +6,10 @@ import { StyleSheet } from "react-native";
 type Props = {
   onSave: ()=> void;
   onEdit: ()=> void;
+  onEditEndType: ()=> void;
 };
 
-const SectionsButton: React.FC<Props> = ({ onSave, onEdit }) => {
+const SectionsButton: React.FC<Props> = ({ onSave, onEdit, onEditEndType }) => {
   return (
     <Box p="m" position="absolute" bottom="11%"  width="100%" alignItems="center" justifyContent="center" >
       <BaseTouchable
@@ -21,7 +22,21 @@ const SectionsButton: React.FC<Props> = ({ onSave, onEdit }) => {
         alignItems="center"
         style={styles.shadow}
       >
-        <Text variant="subheadMedium" mx="s">Edit</Text>
+        <Text variant="subheadMedium" mx="s">Edit Measurements</Text>
+        <Icon as={EditIcon} color="black" />
+      </BaseTouchable>
+
+      <BaseTouchable
+        onPress={onEditEndType}
+        my="xs"
+        flexDirection="row-reverse"
+        p="m"
+        borderRadius="s"
+        backgroundColor="white"
+        alignItems="center"
+        style={styles.shadow}
+      >
+        <Text variant="subheadMedium" mx="s">Edit End | Start Type</Text>
         <Icon as={EditIcon} color="black" />
       </BaseTouchable>
 
