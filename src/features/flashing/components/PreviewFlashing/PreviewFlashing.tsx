@@ -7,7 +7,7 @@ import { Box } from "@ui/components";
 import {TouchableOpacity}  from "react-native";
 import { ModalBottom, ModalBottomRef } from '@components';
 import { BoardComponent } from "@features/flashing/components";
-import { calculateAngle } from "@features/flashing/utils";
+import { calculateAngle, getIndexOfStepForName } from "@features/flashing/utils";
 
 type Props = {
 	width: number;
@@ -63,7 +63,7 @@ const PreviewFlashing: React.FC<Props> = ({width,height, dataFlashing}) => {
 						rightLinePaint={dataFlashing.parallelRight}
 						lines={dataFlashing.dataLines}
 						angles={anglesLines}
-						mode="preview"
+						stepBoard={getIndexOfStepForName('preview')}
 					/>
 				</Box>
 			</ModalBottom>

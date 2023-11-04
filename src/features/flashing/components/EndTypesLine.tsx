@@ -11,8 +11,8 @@ import { StyleSheet, ViewStyle } from "react-native";
 import { TYPE_END_LINES } from "@models";
 
 type Props = {
-	changeStartTypeLine: (startType: TYPE_END_LINES)=> void;
-	changeEndTypeLine: (endType: TYPE_END_LINES)=> void;
+	changeStartTypeLine?: (startType: TYPE_END_LINES)=> void;
+	changeEndTypeLine?: (endType: TYPE_END_LINES)=> void;
 }
 
 const ButtonEndType = (
@@ -32,21 +32,21 @@ const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine}) 
 	const [typeLine, setTypeLine] = React.useState<'start'| 'end'>('start')
 	const handlePressButton = (label: TYPE_END_LINES= "none") => {
 		if(typeLine==="start"){
-			changeStartTypeLine(label)
+			changeStartTypeLine && changeStartTypeLine(label)
 			setCurrentValueStartSelected(label)
 			return;
 		}
-		changeEndTypeLine(label)
+		changeEndTypeLine && changeEndTypeLine(label)
 		setCurrentValueEndSelected(label)
 	}
 	const handleClearLineType = () => {
 		if(typeLine === "start"){
 			setCurrentValueStartSelected("none")
-			changeStartTypeLine("none")
+			changeStartTypeLine && changeStartTypeLine("none")
 			return
 		}
 		setCurrentValueEndSelected("none")
-		changeEndTypeLine("none")
+		changeEndTypeLine && changeEndTypeLine("none")
 	}
 	const validateTypeLine = (typeLineStartEnd: TYPE_END_LINES) => {
 		if(typeLine==="start"){
