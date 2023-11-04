@@ -4,12 +4,14 @@ import { Button, Box, ScrollBox, IconButton, Icon, OptionsType } from "@ui/compo
 import { FieldArray, useFormikContext } from "formik";
 import { AddFlashingFormValues } from "@features/flashing/constants";
 import { TrashIcon } from "@assets/icons";
-import { actions as flashingActions } from "@store/jobs/actions";
+import { actions, actions as flashingActions } from "@store/jobs/actions";
 import { useAppDispatch } from "@hooks/useStore";
 import { FLASHINGS_DATA } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { FlashingStackProps } from "@features/flashing/navigation/Stack.types";
 import { dataMaterials } from "@store/jobs/mocks";
+import { Alert } from "react-native";
+import { Routes } from "@features/jobs/navigation/routes";
 
 type Props = {
 	labelButton: string;
@@ -22,6 +24,18 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 	const navigation = useNavigation<FlashingStackProps>()
   const formik = useFormikContext<AddFlashingFormValues>();
   const { values, handleSubmit, isValid,isSubmitting } = formik;
+
+	const alertDelete = () =>
+		Alert.alert('Are you sure delete this Flashing?', '', [
+			{
+				text: 'Cancel',
+				style: 'cancel',
+			},
+			{text: 'Yes', onPress: () => {
+					handleUpdateDeleteFlashing(true)
+				}},
+		]);
+
 	const handleUpdateDeleteFlashing = (deleteFlashing=false)=> {
 		if(!idJob || !dataFlashing) return;
 
@@ -126,7 +140,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 									variant="delete"
 									mt="s"
 									isLoading={isSubmitting}
-									onPress={()=>handleUpdateDeleteFlashing(true)}>
+									onPress={()=> alertDelete()}>
 									Delete Flashing
 								</Button>
 							</>
