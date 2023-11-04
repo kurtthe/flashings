@@ -2,6 +2,7 @@ import React from "react";
 import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, START_END_LINE_TYPE } from "@models";
 import { Path as PathComponent, Ellipse } from "react-native-svg";
 import { buildPathLine } from "@features/flashing/utils";
+import { palette } from "@theme";
 
 const calculateTypeLine = ({start=true, type, line, isRight=true}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const sizeLine = 20;
@@ -28,7 +29,7 @@ const calculateTypeLine = ({start=true, type, line, isRight=true}: BREAK_END_STA
 
 const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 	const {points} = dataLine
-	let radiusEllipseX = 5
+	let radiusEllipseX = 4
 	let radiusEllipseY = 10
 
 	const pointX1 = points[0][0];
@@ -43,27 +44,27 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 	if(isHorizontal){
 		if(pointX2 > pointX1){
 			if(parallelRight){
-				return {points: [[pointX1 + 3, pointY1 + 10]], radius: {
-					x: radiusEllipseX,
-					y: radiusEllipseY
+				return {points: [[pointX1 + radiusEllipseX, pointY1 + radiusEllipseX]], radius: {
+					x: radiusEllipseY,
+					y: radiusEllipseX
 					}}
 			}
-			return {points:  [[pointX1 + 3, pointY1 - 9]], radius: {
-					x: radiusEllipseX,
-					y: radiusEllipseY
+			return {points:  [[pointX1 + radiusEllipseX, pointY1 - radiusEllipseX]], radius: {
+					x: radiusEllipseY,
+					y: radiusEllipseX
 				}}
 		}
 		if(parallelRight){
-			return { points: [[pointX1, pointY1 - 10]], radius: {
-					x: radiusEllipseX,
-					y: radiusEllipseY
+			return { points: [[pointX1, pointY1 - radiusEllipseX]], radius: {
+					x: radiusEllipseY,
+					y: radiusEllipseX
 				} }
 		}
 		return {
-			points: [[pointX1, pointY1 + 10]],
+			points: [[pointX1, pointY1 + radiusEllipseX]],
 			radius: {
-				x: radiusEllipseX,
-				y: radiusEllipseY
+				x: radiusEllipseY,
+				y: radiusEllipseX
 			}
 		}
 	}
@@ -72,7 +73,7 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 		if(pointY1 > pointY2){
 			if(parallelRight){
 				return {
-					points: [[pointX1 + 13, pointY1 + 10]],
+					points: [[pointX1 - radiusEllipseX, pointY1 - radiusEllipseY]],
 					radius: {
 						x: radiusEllipseX,
 						y: radiusEllipseY
@@ -80,27 +81,28 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 				}
 			}
 			return {
-				points: [[pointX1 + 23, pointY1 + 10]],
+				points: [[pointX1 + radiusEllipseX, pointY1 - radiusEllipseY]],
 				radius: {
 					x: radiusEllipseX,
 					y: radiusEllipseY
 				}
 			}
 		}
+
 		if(parallelRight){
 			return {
-				points: [[pointX1 - 10, pointY1]],
+				points: [[pointX1 - radiusEllipseX, pointY1 + radiusEllipseY]],
 				radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX
+					x: radiusEllipseX,
+					y: radiusEllipseY
 				}
 			}
 		}
 		return {
-			points: [[pointX1 + 10, pointY1]],
+			points: [[pointX1 + radiusEllipseX, pointY1 + radiusEllipseY]],
 			radius: {
-				x: radiusEllipseY,
-				y: radiusEllipseX
+				x: radiusEllipseX,
+				y: radiusEllipseY
 			}
 		}
 	}
@@ -115,6 +117,8 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 }
 
 export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEnd, lineStart}:START_END_LINE_TYPE )=>{
+	const colorBg = palette.base300
+
 	const pointsStartPath = calculateTypeLine({ type: typeStart, line: lineStart, start:true, isRight: isRightBlueLine })
 	const pointsEndPath = calculateTypeLine({ type: typeEnd, line: lineEnd, start:false, isRight: isRightBlueLine })
 
@@ -122,9 +126,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEn
 	const isSafetyEnd = typeEnd.includes('safety')
 
 	const isStartLine = typeStart.includes('Start')
-	console.log("typeStart::", typeStart)
-	console.log("isStartLine::", isStartLine)
-	const isEndLine = typeEnd.includes('end')
+	const isEndLine = typeEnd.includes('End')
 
 	const {points: pointsStart, radius: radiusStart} = calculatePointsParabola(lineStart, isStartLine)
 	const {points: pointsEnd, radius: radiusEnd} = calculatePointsParabola(lineEnd, isEndLine)
@@ -143,7 +145,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEn
 			}
 			{
 				isSafetyStart && (
-					<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill="transparent" />
+					<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg} />
 				)
 			}
 			{
