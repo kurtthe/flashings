@@ -27,8 +27,8 @@ const calculateTypeLine = ({start=true, type, line, isRight=true}: BREAK_END_STA
 	return [[x1,y1], [x2,y2]]
 }
 
-const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
-	const {points} = dataLine
+const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoints= false )=> {
+	const {points, pending} = dataLine
 	let radiusEllipseX = 4
 	let radiusEllipseY = 10
 
@@ -38,30 +38,33 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 	const pointY1 = points[0][1];
 	const pointY2 = points[1][1];
 
+	const currentPointX = endPoints?pointX2 :pointX1
+	const currentPointY = endPoints?pointY2: pointY1
+
 	const isHorizontal = pointY1 === pointY2;
 	const isVertical = pointX1 === pointX2;
 
 	if(isHorizontal){
 		if(pointX2 > pointX1){
 			if(parallelRight){
-				return {points: [[pointX1 + radiusEllipseX, pointY1 + radiusEllipseX]], radius: {
+				return {points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseX]], radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX
 					}}
 			}
-			return {points:  [[pointX1 + radiusEllipseX, pointY1 - radiusEllipseX]], radius: {
+			return {points:  [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseX]], radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX
 				}}
 		}
 		if(parallelRight){
-			return { points: [[pointX1, pointY1 - radiusEllipseX]], radius: {
+			return { points: [[currentPointX, currentPointY - radiusEllipseX]], radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX
 				} }
 		}
 		return {
-			points: [[pointX1, pointY1 + radiusEllipseX]],
+			points: [[currentPointX, currentPointY + radiusEllipseX]],
 			radius: {
 				x: radiusEllipseY,
 				y: radiusEllipseX
@@ -73,7 +76,7 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 		if(pointY1 > pointY2){
 			if(parallelRight){
 				return {
-					points: [[pointX1 - radiusEllipseX, pointY1 - radiusEllipseY]],
+					points: [[currentPointX - radiusEllipseX, currentPointY - radiusEllipseY]],
 					radius: {
 						x: radiusEllipseX,
 						y: radiusEllipseY
@@ -81,7 +84,7 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 				}
 			}
 			return {
-				points: [[pointX1 + radiusEllipseX, pointY1 - radiusEllipseY]],
+				points: [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseY]],
 				radius: {
 					x: radiusEllipseX,
 					y: radiusEllipseY
@@ -91,7 +94,7 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 
 		if(parallelRight){
 			return {
-				points: [[pointX1 - radiusEllipseX, pointY1 + radiusEllipseY]],
+				points: [[currentPointX - radiusEllipseX, currentPointY + radiusEllipseY]],
 				radius: {
 					x: radiusEllipseX,
 					y: radiusEllipseY
@@ -99,19 +102,60 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true )=> {
 			}
 		}
 		return {
-			points: [[pointX1 + radiusEllipseX, pointY1 + radiusEllipseY]],
+			points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseY]],
 			radius: {
 				x: radiusEllipseX,
 				y: radiusEllipseY
 			}
 		}
 	}
-
+	// pending positive
+	if (pending > 0) {
+		if(pointY1 > pointY2){
+			if(parallelRight){
+				return {
+					points: [[currentPointX, currentPointY]],
+					radius: {
+						x: radiusEllipseX,
+						y: radiusEllipseY
+					}
+				}
+			}
+			return {
+				points: [[currentPointX, currentPointY]],
+				radius: {
+					x: radiusEllipseX,
+					y: radiusEllipseY
+				}
+			}
+		}
+	}
+//pending negative
+	if (pending < 0) {
+		if(pointY1 > pointY2){
+			if(parallelRight){
+				return {
+					points: [[currentPointX, currentPointY + radiusEllipseX ]],
+					radius: {
+						x: radiusEllipseY,
+						y: radiusEllipseX
+					}
+				}
+			}
+			return {
+				points: [[currentPointX - 5, currentPointY - radiusEllipseX]],
+				radius: {
+					x: radiusEllipseY,
+					y: radiusEllipseX
+				}
+			}
+		}
+	}
 	return {
-		points: [[pointX1, pointY1]],
+		points: [[currentPointX - radiusEllipseX, currentPointY+ 5]],
 		radius: {
-			x: radiusEllipseX,
-			y: radiusEllipseY
+			x: radiusEllipseY,
+			y: radiusEllipseX
 		}
 	}
 }
@@ -129,7 +173,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEn
 	const isEndLine = typeEnd.includes('End')
 
 	const {points: pointsStart, radius: radiusStart} = calculatePointsParabola(lineStart, isStartLine)
-	const {points: pointsEnd, radius: radiusEnd} = calculatePointsParabola(lineEnd, isEndLine)
+	const {points: pointsEnd, radius: radiusEnd} = calculatePointsParabola(lineEnd, isEndLine, true)
 
 	return (
 		<>
@@ -160,7 +204,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEn
 			}
 			{
 				isSafetyEnd && (
-					<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEnd.x} ry={radiusEnd.y} stroke="black" fill="black" />
+					<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEnd.x} ry={radiusEnd.y} stroke="black" fill={colorBg} />
 				)
 			}
 		</>
