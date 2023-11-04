@@ -24,6 +24,7 @@ const LineMadeComponent: React.FC<Props> = ({
   const positionText = calculatePointHalf(line);
   const positionTextAngle = positionEndLine(line);
   const measurementIndex = getIndexOfStepForName('measurements')
+  const previewIndex = getIndexOfStepForName('preview')
   const isMeasurements = step === measurementIndex;
 
   const colorSelected = "#DEA000"
@@ -38,7 +39,7 @@ const LineMadeComponent: React.FC<Props> = ({
         strokeWidth={lineIsSelected && isMeasurements? 2:1}
         stroke={ lineIsSelected && isMeasurements ? colorSelected:"#000"}
       />
-      {(step >= measurementIndex && angle > 0) && (
+      {((step >= measurementIndex || previewIndex === step) && angle > 0) && (
         <TextSvg
           id={id}
           colorLabel={angleIsSelected && isMeasurements? colorSelected: '#000'}
@@ -49,7 +50,7 @@ const LineMadeComponent: React.FC<Props> = ({
           textValue={`${angle}°`}
         />
       )}
-      {(step >= measurementIndex) && (
+      {(step >= measurementIndex || previewIndex === step) && (
           <>
             <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id}  positionTextYRect={positionText[1]} positionTextXRect={positionText[0]} positionTextX={positionText[0]} positionTextY={positionText[1]} textValue={LETTER_LINES[id]} />
             {line.distance && (

@@ -37,8 +37,8 @@ type Props = {
   updateAngle?: (newAngle:number, positionAngle:number) => void;
   startTypeLine?: TYPE_END_LINES;
   endTypeLine?: TYPE_END_LINES;
-  changeStartTypeLine: (newType:TYPE_END_LINES ) => void;
-  changeEndTypeLine: (newType:TYPE_END_LINES ) => void;
+  changeStartTypeLine?: (newType:TYPE_END_LINES ) => void;
+  changeEndTypeLine?: (newType:TYPE_END_LINES ) => void;
 };
 
 const Board: React.FC<Props> = ({
