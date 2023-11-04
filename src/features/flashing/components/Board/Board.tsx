@@ -15,10 +15,11 @@ import { Path } from 'react-native-redash';
 import SectionsButton from "@features/flashing/components/SectionsButton";
 import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from "@models";
 import { isNaN } from "lodash";
-import { Box, KeyboardAvoidingBox, ScrollBox } from "@ui/components";
+import { BaseTouchable, Box, Icon, KeyboardAvoidingBox, ScrollBox } from "@ui/components";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { EndTypesLineComponent, SvgBoard } from "@features/flashing/components";
 import { getIndexOfStepForName } from "@features/flashing/utils";
+import { CompleteEditMeasurementsIcon } from "@assets/icons";
 
 type Props = {
   lines: LINE_TYPE[];
@@ -195,12 +196,32 @@ const Board: React.FC<Props> = ({
           changeMode={changeStepBoard}
         />
       </Box>}
-      {stepBoard === getIndexOfStepForName('end_type') && <Box height={450} position="absolute" width="100%" bottom={0}>
+      {stepBoard === getIndexOfStepForName('end_type') && (<Box height={480} position="absolute" width="100%" bottom={0}>
+        <Box
+          as={BaseTouchable}
+          onPress={()=> {
+            changeStepBoard && changeStepBoard(getIndexOfStepForName('finish'))
+          }}
+          position="absolute"
+          bottom="100%"
+          right="0%"
+          backgroundColor="white"
+          p="xs"
+          style={{zIndex: 1, shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.5,
+            shadowRadius: 5,
+            shadowColor: 'lightGray',
+            borderTopLeftRadius: 5,
+            borderBottomLeftRadius: 5,
+          }}>
+          <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
+        </Box>
+
         <EndTypesLineComponent
           changeStartTypeLine={changeStartTypeLine}
           changeEndTypeLine={changeEndTypeLine}
         />
-      </Box>
+      </Box>)
       }
     </>
   );
