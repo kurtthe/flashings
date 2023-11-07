@@ -2,9 +2,8 @@ import React from 'react';
 import { Box, Button, Card, CardProps, Text } from "@ui/components";
 import { FLASHINGS_DATA, MATERIALS } from "@models";
 import { dataMaterials } from "@store/jobs/mocks";
-import PreviewFlashing from "@features/flashing/components/PreviewFlashing";
 import ModalAddLengths from "@features/jobs/components/ModalAddLengths";
-import { FlatList } from "react-native";
+import { FlatList, Image } from "react-native";
 import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
 import { useNavigation } from "@react-navigation/native";
 import { Routes } from "@features/flashing/navigation/routes";
@@ -82,7 +81,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
       <Card flexDirection="row" alignItems="flex-start" justifyContent="space-between" {...rest}>
         <Box  width='40%'>
           <Text  mb="xs" variant="bodyBold" >{data.name !== '' ? data.name: 'Flashing'}</Text>
-          <PreviewFlashing width={120} height={92} dataFlashing={data} />
+          {data.imgPreview && <Image source={{ uri: data.imgPreview }} width={120} height={92} />}
         </Box>
         <Box width='50%'>
           <Box
