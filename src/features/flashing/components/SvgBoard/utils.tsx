@@ -15,7 +15,7 @@ const calculateTypeLine = ({type, points}: BREAK_END_START_LINE_TYPE): POINT_TYP
 	}
 
 	if(type.includes('End')){
-		angle = type.includes('1')? -120 : 90;
+		angle = type.includes('1')? -70 : 90;
 	}
 
 	const x2 = x1 + sizeLine * Math.cos(angle)
