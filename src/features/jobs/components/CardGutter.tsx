@@ -82,7 +82,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
       <Card flexDirection="row" alignItems="flex-start" justifyContent="space-between" {...rest}>
         <Box  width='40%'>
           <Text  mb="xs" variant="bodyBold" >{data.name !== '' ? data.name: 'Flashing'}</Text>
-          <PreviewFlashing imgPreview={data.imgPreview}/>
+          <PreviewFlashing imgPreview={`data:image/png;base64,${data.imgPreview}`}/>
         </Box>
         <Box width='50%'>
           <Box
