@@ -27,9 +27,7 @@ export type TYPE_END_LINES = 'none' | 'safetyEnd' | 'safetyStart' | 'break1End' 
 
 export type BREAK_END_START_LINE_TYPE ={
 	type:TYPE_END_LINES;
-	line: LINE_TYPE;
-	start: boolean;
-	isRight: boolean
+	points: [number, number];
 }
 
 export type START_END_LINE_TYPE = {
