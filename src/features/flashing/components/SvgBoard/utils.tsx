@@ -4,23 +4,19 @@ import { Path as PathComponent, Ellipse } from "react-native-svg";
 import { buildPathLine } from "@features/flashing/utils";
 import { palette } from "@theme";
 
-const calculateTypeLine = ({start=true, type, line, isRight=true}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
+const calculateTypeLine = ({type, points}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const sizeLine = 20;
-	let anglesRight = start? 40: 60;
-	let anglesLeft = start? 5: 20;
+	let angle = 20;
+	let x1: number = points[0];
+	let y1: number = points[1];
 
-	if(type.includes('1')){
-		anglesRight = start? 80: 40;
-		anglesLeft = start? 20: 30;
+	if(type.includes('Start')){
+		angle = type.includes('1')? 120 : 60;
 	}
 
-	if(type.includes('safety')){
-		anglesRight = 120;
-		anglesLeft = 90;
+	if(type.includes('End')){
+		angle = type.includes('1')? -120 : 90;
 	}
-	const angle=  isRight ?anglesRight: anglesLeft ;
-	const x1 = start? line.points[0][0]: line.points[1][0];
-	const y1 = start? line.points[0][1]: line.points[1][1];
 
 	const x2 = x1 + sizeLine * Math.cos(angle)
 	const y2 = y1 + sizeLine * Math.sin(angle)
@@ -160,17 +156,17 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 	}
 }
 
-export const getEndStartTypeLine = ({typeStart, typeEnd, isRightBlueLine, lineEnd, lineStart}:START_END_LINE_TYPE )=>{
+export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:START_END_LINE_TYPE )=>{
 	const colorBg = palette.base300
-
-	const pointsStartPath = calculateTypeLine({ type: typeStart, line: lineStart, start:true, isRight: isRightBlueLine })
-	const pointsEndPath = calculateTypeLine({ type: typeEnd, line: lineEnd, start:false, isRight: isRightBlueLine })
-
-	const isSafetyStart = typeStart.includes('safety')
-	const isSafetyEnd = typeEnd.includes('safety')
 
 	const isStartLine = typeStart.includes('Start')
 	const isEndLine = typeEnd.includes('End')
+
+	const pointsStartPath = calculateTypeLine({ type: typeStart, points: lineStart.points[0], })
+	const pointsEndPath = calculateTypeLine({ type: typeEnd, points: lineEnd.points[1]})
+
+	const isSafetyStart = typeStart.includes('safety')
+	const isSafetyEnd = typeEnd.includes('safety')
 
 	const {points: pointsStart, radius: radiusStart} = calculatePointsParabola(lineStart, isStartLine)
 	const {points: pointsEnd, radius: radiusEnd} = calculatePointsParabola(lineEnd, isEndLine, true)
