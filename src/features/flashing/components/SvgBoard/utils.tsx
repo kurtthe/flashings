@@ -159,6 +159,9 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:START_END_LINE_TYPE )=>{
 	const colorBg = palette.base300
 
+	const isNoneStart = typeStart.includes('none')
+	const isNoneEnd = typeStart.includes('none')
+
 	const isStartLine = typeStart.includes('Start')
 	const isEndLine = typeEnd.includes('End')
 
@@ -173,36 +176,45 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 
 	return (
 		<>
-			{
-				!isSafetyStart && (
-					<PathComponent
-						d={buildPathLine(pointsStartPath)}
-						strokeWidth={1}
-						stroke="#000"
-						fill="none"
-					/>
-				)
-			}
-			{
-				isSafetyStart && (
-					<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg} />
-				)
-			}
-			{
-				!isSafetyEnd && (
-					<PathComponent
-						d={buildPathLine(pointsEndPath)}
-						strokeWidth={1}
-						stroke="#000"
-						fill="none"
-					/>
-				)
-			}
-			{
-				isSafetyEnd && (
-					<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEnd.x} ry={radiusEnd.y} stroke="black" fill={colorBg} />
-				)
-			}
+			{isNoneStart ? null: (
+				<>
+					{
+						!isSafetyStart && (
+							<PathComponent
+								d={buildPathLine(pointsStartPath)}
+								strokeWidth={1}
+								stroke="#000"
+								fill="none"
+							/>
+						)
+					}
+					{
+						isSafetyStart && (
+							<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg} />
+						)
+					}
+				</>
+			)}
+
+			{isNoneEnd? null : (
+				<>
+					{
+						!isSafetyEnd && (
+							<PathComponent
+								d={buildPathLine(pointsEndPath)}
+								strokeWidth={1}
+								stroke="#000"
+								fill="none"
+							/>
+						)
+					}
+					{
+						isSafetyEnd && (
+							<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEnd.x} ry={radiusEnd.y} stroke="black" fill={colorBg} />
+						)
+					}
+				</>
+			)}
 		</>
 	)
 }

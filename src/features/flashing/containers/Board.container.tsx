@@ -1,8 +1,9 @@
 import React from 'react';
+import ViewShot from "react-native-view-shot";
 import {
   BoardComponent,
   LINE_SELECTED,
-  MenuEditorComponent, STEPS_BOARD
+  MenuEditorComponent
 } from "@features/flashing/components";
 import {
   calculateAngle,
@@ -17,7 +18,7 @@ import {
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS
 } from "@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type";
-import { LINE_TYPE, MODES_BOARD, POINT_TYPE, TYPE_END_LINES } from "@models";
+import { LINE_TYPE,  POINT_TYPE, TYPE_END_LINES } from "@models";
 import { useAppDispatch, useAppSelector } from "@hooks/useStore";
 import { actions as flashingActions } from "@store/jobs/actions";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -40,7 +41,7 @@ const BoardContainer = () => {
   const [endTypeLine, setEndTypeLine] = React.useState<TYPE_END_LINES>('none')
 
   const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
-
+  const refViewShot = React.useRef<ViewShot>(null);
   React.useEffect(()=>{
     const dataFlashing = route.params.data;
     if(dataFlashing.dataLines.length > 0){
@@ -161,31 +162,37 @@ const BoardContainer = () => {
   }
 
   const handleSave = ()=>{
-    const dataFlashing = route.params.data
-    const idJob = route.params?.jobId
+    (async ()=> {
+      const dataFlashing = route.params.data
+      const idJob = route.params?.jobId
 
-    dispatch(flashingActions.addEditFlashing({
-      idJob,
-      flashing: {
-        ...dataFlashing,
-        dataLines: lines,
-        parallelRight:blueLineIsRight,
-        angles: anglesLines,
-        endType: endTypeLine,
-        startType:startTypeLine
-      }}));
+      const resultViewShot = await refViewShot.current?.capture();
+      console.log("resultViewShot::", resultViewShot)
+      dispatch(flashingActions.addEditFlashing({
+        idJob,
+        flashing: {
+          ...dataFlashing,
+          dataLines: lines,
+          parallelRight:blueLineIsRight,
+          angles: anglesLines,
+          endType: endTypeLine,
+          startType:startTypeLine,
+          imgPreview: resultViewShot
+        }}));
 
-    navigation.navigate(StackPrivateDefinitions.JOBS, {
-      screen: RoutesJobs.JOB_DETAILS,
-      params: {
-        jobId: idJob,
-        jobName: dataJob?.name
-      }
-    });
+      navigation.navigate(StackPrivateDefinitions.JOBS, {
+        screen: RoutesJobs.JOB_DETAILS,
+        params: {
+          jobId: idJob,
+          jobName: dataJob?.name
+        }
+      });
+    })()
   }
   return (
     <>
       <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
+      <ViewShot ref={refViewShot} options={{ fileName: `flashing-shot${Math.random()}`, format: "png", quality: 0.9 }}>
       <BoardComponent
         rightLinePaint={blueLineIsRight}
         lines={lines}
@@ -202,6 +209,7 @@ const BoardContainer = () => {
         changeStartTypeLine={setStartTypeLine}
         changeEndTypeLine={setEndTypeLine}
       />
+      </ViewShot>
       <MenuEditorComponent
         disabledBack={stepBoard === getIndexOfStepForName('draw')}
         disabledUndo={lines.length === 0 || stepBoard !== getIndexOfStepForName('draw')}

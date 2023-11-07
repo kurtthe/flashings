@@ -20,6 +20,7 @@ export type FLASHINGS_DATA =  {
 	parallelRight: boolean;
 	endType: TYPE_END_LINES;
 	startType: TYPE_END_LINES;
+	imgPreview: string | undefined;
 };
 
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish' | 'preview' | 'end_type';
