@@ -167,7 +167,6 @@ const BoardContainer = () => {
       const idJob = route.params?.jobId
 
       const resultViewShot = await refViewShot.current?.capture();
-      console.log("resultViewShot::", resultViewShot)
       dispatch(flashingActions.addEditFlashing({
         idJob,
         flashing: {

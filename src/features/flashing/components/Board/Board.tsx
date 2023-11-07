@@ -158,6 +158,7 @@ const Board: React.FC<Props> = ({
   }
 
   const handleOnSave = ()=> {
+    changeStepBoard && changeStepBoard(getIndexOfStepForName('draw'))
     onSave && onSave()
   }
   const handleOnEdit = ()=> {
