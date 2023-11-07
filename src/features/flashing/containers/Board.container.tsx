@@ -165,8 +165,8 @@ const BoardContainer = () => {
     (async ()=> {
       const dataFlashing = route.params.data
       const idJob = route.params?.jobId
-
       const resultViewShot = await refViewShot.current?.capture();
+
       dispatch(flashingActions.addEditFlashing({
         idJob,
         flashing: {
@@ -191,7 +191,7 @@ const BoardContainer = () => {
   return (
     <>
       <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
-      <ViewShot ref={refViewShot} options={{ fileName: `flashing-shot${Math.random()}`, format: "png", quality: 0.9 }}>
+      <ViewShot ref={refViewShot} options={{ fileName: `flashing-shot${Math.random()}`, format: "png",  quality: 0.9, result: 'base64' }}>
       <BoardComponent
         rightLinePaint={blueLineIsRight}
         lines={lines}
