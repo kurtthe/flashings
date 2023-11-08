@@ -91,7 +91,7 @@ const Text = forwardRef<TextProps, typeof RNText>(
       <TextComponent
         {...props}
         ref={ref}
-        style={[fontStyle,textStyle,  highlightedStyle, style, styles.textShadow]}
+        style={[fontStyle,textStyle,  highlightedStyle, style]}
         onPress={onPress}
         onPressIn={Platform.select({
           ios: onPressIn,
@@ -113,6 +113,3 @@ Text.defaultProps = {
 
 export default React.memo(Text) as typeof Text;
 
-const styles = StyleSheet.create({
-  textShadow: {textShadowRadius: 5, textShadowOffset: {width: 0, height: 0}},
-});
