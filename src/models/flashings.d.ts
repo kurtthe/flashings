@@ -23,7 +23,7 @@ export type FLASHINGS_DATA =  {
 	imgPreview: string | undefined;
 };
 
-export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish' | 'preview' | 'end_type';
+export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish' | 'preview' | 'end_type' | 'screen_shot';
 export type TYPE_END_LINES = 'none' | 'safetyEnd' | 'safetyStart' | 'break1End' | 'break1Start' | 'break2End' | 'break2Start'
 
 export type BREAK_END_START_LINE_TYPE ={

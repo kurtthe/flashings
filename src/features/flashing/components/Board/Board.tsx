@@ -158,7 +158,7 @@ const Board: React.FC<Props> = ({
   }
 
   const handleOnSave = ()=> {
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('draw'))
+    changeStepBoard && changeStepBoard(getIndexOfStepForName('screen_shot'))
     onSave && onSave()
   }
   const handleOnEdit = ()=> {
@@ -226,6 +226,8 @@ const Board: React.FC<Props> = ({
         <EndTypesLineComponent
           changeStartTypeLine={changeStartTypeLine}
           changeEndTypeLine={changeEndTypeLine}
+          startTypeLine={startTypeLine}
+          endTypeLine={endTypeLine}
         />
       </Box>)
       }

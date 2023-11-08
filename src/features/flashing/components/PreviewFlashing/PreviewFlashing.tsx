@@ -20,7 +20,7 @@ const PreviewFlashing: React.FC<Props> = ({ imgPreview}) => {
 	return (
 		<>
 			<TouchableOpacity onPress={() => modalBottomRef.current?.show()}>
-				{imgPreview && <Image source={{ uri: imgPreview }} width={120} height={92} />}
+				{imgPreview && <Image resizeMode="stretch" source={{ uri: imgPreview }} width={120} height={92} />}
 			</TouchableOpacity>
 
 			<ModalBottom
@@ -30,7 +30,7 @@ const PreviewFlashing: React.FC<Props> = ({ imgPreview}) => {
 				draggable={false}
 			>
 				<Box backgroundColor="white">
-					{<Image source={{ uri: imgPreview }} width={Dimensions.get("screen").width} height={600} />}
+					{<Image resizeMode="contain" source={{ uri: imgPreview }} width={Dimensions.get("screen").width} height={600} />}
 				</Box>
 			</ModalBottom>
 		</>

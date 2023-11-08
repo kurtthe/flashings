@@ -131,10 +131,10 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 		if(pointY1 > pointY2){
 			if(parallelRight){
 				return {
-					points: [[currentPointX, currentPointY + radiusEllipseX ]],
+					points: [[currentPointX +radiusEllipseX, currentPointY ]],
 					radius: {
-						x: radiusEllipseY,
-						y: radiusEllipseX
+						x: radiusEllipseX,
+						y: radiusEllipseY
 					}
 				}
 			}
@@ -160,7 +160,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 	const colorBg = palette.base300
 
 	const isNoneStart = typeStart.includes('none')
-	const isNoneEnd = typeStart.includes('none')
+	const isNoneEnd = typeEnd.includes('none')
 
 	const isStartLine = typeStart.includes('Start')
 	const isEndLine = typeEnd.includes('End')
@@ -190,7 +190,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 					}
 					{
 						isSafetyStart && (
-							<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg} />
+							<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg}  />
 						)
 					}
 				</>
