@@ -34,7 +34,7 @@ const ScreenHeaderBox = ({
           mt="m"
           backgroundColor="white"
           {...rest}
-          style={[styles.container, { marginTop: (insets?.top || 0) + Platform.select({ ios: 16, default: 24 }), paddingVertical: Platform.select({android:15})}, style]}>
+          style={[styles.container, { marginTop: (insets?.top ?? 0) + Platform.select({ ios: -20, default: 24 }), paddingVertical: Platform.select({android:15, ios: 0})}, style]}>
           {title && !leftIcon ? <Box px="m" /> : leftIcon}
           {title && <Text numberOfLines={1}  variant="subheadLargeBold">
             {(title.length < maxLength || !maxLength)
