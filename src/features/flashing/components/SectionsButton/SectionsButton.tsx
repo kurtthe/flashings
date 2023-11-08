@@ -13,12 +13,14 @@ const SectionsButton: React.FC<Props> = ({ onSave, onEdit, onEditEndType }) => {
   return (
     <Box p="m" position="absolute" bottom="11%"  width="100%" alignItems="center" justifyContent="center" >
       <BaseTouchable
+
         onPress={onEdit}
         my="xs"
         flexDirection="row-reverse"
         p="m"
         borderRadius="s"
         backgroundColor="white"
+        justifyContent="center"
         alignItems="center"
         style={styles.shadow}
       >
@@ -33,21 +35,24 @@ const SectionsButton: React.FC<Props> = ({ onSave, onEdit, onEditEndType }) => {
         p="m"
         borderRadius="s"
         backgroundColor="white"
+        justifyContent="center"
         alignItems="center"
         style={styles.shadow}
       >
-        <Text variant="subheadMedium" mx="s">Edit End | Start Type</Text>
+        <Text variant="subheadMedium" mx="s" width={145}>Edit End | Start</Text>
         <Icon as={EditIcon} color="black" />
       </BaseTouchable>
 
       <BaseTouchable
         onPress={onSave}
+        width={222}
         my="xs"
         flexDirection="row-reverse"
         p="m"
         borderRadius="s"
         backgroundColor="primary"
         alignItems="center"
+        justifyContent="center"
         style={styles.shadow}
       >
         <Text color="white" variant="subheadMedium" mx="s">Save</Text>

@@ -13,6 +13,8 @@ import { TYPE_END_LINES } from "@models";
 type Props = {
 	changeStartTypeLine?: (startType: TYPE_END_LINES)=> void;
 	changeEndTypeLine?: (endType: TYPE_END_LINES)=> void;
+	startTypeLine: TYPE_END_LINES;
+	endTypeLine: TYPE_END_LINES;
 }
 
 const ButtonEndType = (
@@ -26,9 +28,9 @@ const ButtonEndType = (
 		</BaseTouchable>
 	);
 }
-const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine}) => {
-	const [currentValueStartSelected, setCurrentValueStartSelected] = React.useState<TYPE_END_LINES>("none")
-	const [currentValueEndSelected, setCurrentValueEndSelected] = React.useState<TYPE_END_LINES>("none")
+const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine,  startTypeLine="none", endTypeLine= "none"}) => {
+	const [currentValueStartSelected, setCurrentValueStartSelected] = React.useState<TYPE_END_LINES>(startTypeLine)
+	const [currentValueEndSelected, setCurrentValueEndSelected] = React.useState<TYPE_END_LINES>(endTypeLine)
 	const [typeLine, setTypeLine] = React.useState<'start'| 'end'>('start')
 	const handlePressButton = (label: TYPE_END_LINES= "none") => {
 		if(typeLine==="start"){
@@ -58,9 +60,9 @@ const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine}) 
 	return (
 		<Box flex={1} backgroundColor="white" p="m">
 			<Text variant="bodyBold" mx="s">End Type</Text>
-			<Box flexDirection="row" py="s" mx="s" mt="s" borderBottomWidth={1} borderBottomColor="lightGray">
-				<Text fontWeight="600" mr="s" variant={typeLine === 'start' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('start')}>Start</Text>
-				<Text fontWeight="600"  variant={typeLine === 'end' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('end')}>End</Text>
+			<Box flexDirection="row" py="s" mx="s" mt="s" justifyContent="center">
+				<Text fontWeight="600" fontSize={18} mr="s" variant={typeLine === 'start' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('start')}>Start</Text>
+				<Text fontWeight="600" fontSize={18} variant={typeLine === 'end' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('end')}>End</Text>
 			</Box>
 			<Box py="m" flexDirection="row" flexWrap="wrap">
 				<ButtonEndType title="None" active={validateTypeLine("none")} onPress={()=> handleClearLineType()} fullWidth style={{height: 60}} />

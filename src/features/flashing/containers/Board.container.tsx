@@ -190,7 +190,7 @@ const BoardContainer = () => {
   }
   return (
     <>
-      <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />
+      {stepBoard !== getIndexOfStepForName('screen_shot') &&  <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />}
       <ViewShot ref={refViewShot} options={{ fileName: `flashing-shot${Math.random()}`, format: "png",  quality: 0.9, result: 'base64' }}>
       <BoardComponent
         rightLinePaint={blueLineIsRight}
