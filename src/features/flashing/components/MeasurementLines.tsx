@@ -4,8 +4,8 @@ import { LINE_SELECTED } from '@features/flashing/components/Board';
 import { isNaN } from "lodash";
 import { BackArrowIcon, CompleteEditMeasurementsIcon, NextArrowIcon } from "@assets/icons";
 import { TextInput } from "react-native";
-import { MODES_BOARD } from "@models";
 import { getIndexOfStepForName } from "@features/flashing/utils";
+import { isAndroid } from "@shared/platform";
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -78,7 +78,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
                 ref={inputRef}
                 inputMode="numeric"
                 keyboardType="numeric"
-                style={{textAlign: 'center', height: 30, width: 80, backgroundColor: 'white'}}
+                style={[{textAlign: 'center', height: 30, width: 80, backgroundColor: 'white'}, isAndroid && {padding: 10, height: 40}]}
                 value={`${isNaN(measurement)? '0': measurement}`}
                 onChangeText={(newText: string)=> {
                   const baseValue = typeSelected === 'line'? dataLine?.sizeLine: dataLine?.angle
@@ -93,7 +93,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
           </Box>
 
           <Box as={BaseTouchable} onPress={handleNext}>
-            <Icon as={NextArrowIcon} size={22} color="black"  />
+            <Icon as={NextArrowIcon} size={22} color="black"/>
           </Box>
         </Box>
         <Divider my="s" />
