@@ -13,9 +13,30 @@ type Props = {
 	width?: number;
 	height?: number;
 	imgPreview: string | undefined;
+	dataFlashing: FLASHINGS_DATA;
 }
-const PreviewFlashing: React.FC<Props> = ({ imgPreview}) => {
+const PreviewFlashing: React.FC<Props> = ({ imgPreview, dataFlashing,width=120, height=92,}) => {
+	const [pathLines, setPathLines ] = React.useState<Path | null>(null)
+	const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
 	const modalBottomRef = React.useRef<ModalBottomRef>();
+
+	React.useEffect(() => {
+		const makingLines = buildLinesForPreview(dataFlashing.dataLines, width, height);
+		setPathLines(makingLines)
+	}, [dataFlashing.dataLines]);
+
+	React.useEffect(()=>{
+
+		if(dataFlashing.dataLines.length < 2) return
+
+		const newAngles = dataFlashing.dataLines.map((line, index, arrayLines)=> {
+			if(!anglesLines[index]){
+				return calculateAngle(line, arrayLines[index + 1])?? 0
+			}
+			return anglesLines[index]
+		})
+		setAnglesLines(newAngles)
+	}, [dataFlashing.dataLines])
 
 	return (
 		<>
@@ -26,11 +47,16 @@ const PreviewFlashing: React.FC<Props> = ({ imgPreview}) => {
 			<ModalBottom
 				backdropClosesSheet={true}
 				ref={modalBottomRef}
-				height={600}
+				height={500}
 				draggable={false}
 			>
-				<Box backgroundColor="white">
-					{<Image resizeMode="contain" source={{ uri: imgPreview }} width={Dimensions.get("screen").width} height={600} />}
+				<Box style={{marginTop: -100}} backgroundColor="white">
+					<BoardComponent
+						rightLinePaint={dataFlashing.parallelRight}
+						lines={dataFlashing.dataLines}
+						angles={anglesLines}
+						stepBoard={getIndexOfStepForName('preview')}
+					/>
 				</Box>
 			</ModalBottom>
 		</>
