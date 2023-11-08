@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
+import { Platform, StyleSheet } from "react-native";
 import {
   SafeAreaInsetsContext,
   SafeAreaView,
@@ -34,7 +34,7 @@ const ScreenHeaderBox = ({
           mt="m"
           backgroundColor="white"
           {...rest}
-          style={[style]}>
+          style={[styles.container, { marginTop: (insets?.top || 0) + Platform.select({ ios: 16, default: 24 }), paddingVertical: Platform.select({android:15})}, style]}>
           {title && !leftIcon ? <Box px="m" /> : leftIcon}
           {title && <Text numberOfLines={1}  variant="subheadLargeBold">
             {(title.length < maxLength || !maxLength)
@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowColor: 'rgba(47, 51, 80, 0.12)',
     shadowOpacity: 1,
+  },
+  container: {
+    zIndex: 1,
   },
 });
 

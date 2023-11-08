@@ -27,6 +27,9 @@ import {Routes as RoutesFlashing } from "@features/flashing/navigation/routes";
 import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
 import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
 import { jobData } from "@store/jobs/selectors";
+import { isAndroid } from "@shared/platform";
+import { useKeyboardVisibility } from "@hooks/useKeyboardVisibility";
+
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +45,7 @@ const BoardContainer = () => {
 
   const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
   const refViewShot = React.useRef<ViewShot>(null);
+  const showKeyboard = useKeyboardVisibility({})
   React.useEffect(()=>{
     const dataFlashing = route.params.data;
     if(dataFlashing.dataLines.length > 0){
@@ -165,6 +169,7 @@ const BoardContainer = () => {
     (async ()=> {
       const dataFlashing = route.params.data
       const idJob = route.params?.jobId
+      // @ts-ignore
       const resultViewShot = await refViewShot.current?.capture();
 
       dispatch(flashingActions.addEditFlashing({
@@ -209,16 +214,21 @@ const BoardContainer = () => {
         changeEndTypeLine={setEndTypeLine}
       />
       </ViewShot>
-      <MenuEditorComponent
-        disabledBack={stepBoard === getIndexOfStepForName('draw')}
-        disabledUndo={lines.length === 0 || stepBoard !== getIndexOfStepForName('draw')}
-        disabledEraser={lines.length === 0}
-        disabledLibrary={true}
-        onUndo={handleUndo}
-        onBack={handleBack}
-        onNext={handleNext}
-        onEraser={handleClear}
-      />
+      {isAndroid && showKeyboard && stepBoard === getIndexOfStepForName("measurements")?
+        null:
+        (
+          <MenuEditorComponent
+            disabledBack={stepBoard === getIndexOfStepForName("draw")}
+            disabledUndo={lines.length === 0 || stepBoard !== getIndexOfStepForName("draw")}
+            disabledEraser={lines.length === 0}
+            disabledLibrary={true}
+            onUndo={handleUndo}
+            onBack={handleBack}
+            onNext={handleNext}
+            onEraser={handleClear}
+          />
+        )
+      }
     </>
   );
 };

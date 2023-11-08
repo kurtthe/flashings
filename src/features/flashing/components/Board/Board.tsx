@@ -20,6 +20,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { EndTypesLineComponent, SvgBoard } from "@features/flashing/components";
 import { getIndexOfStepForName } from "@features/flashing/utils";
 import { CompleteEditMeasurementsIcon } from "@assets/icons";
+import { isAndroid } from "@shared/platform";
+import { useKeyboardVisibility } from "@hooks/useKeyboardVisibility";
 
 type Props = {
   lines: LINE_TYPE[];
@@ -66,7 +68,11 @@ const Board: React.FC<Props> = ({
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
   const [indexLineSelected, setIndexLineSelected] = React.useState(0)
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>('line')
-
+  const [heightMeasurement, setHeightMeasurement] = React.useState(350)
+  useKeyboardVisibility({
+    onKeyboardDidShow: ()=> setHeightMeasurement(isAndroid? 70: 350),
+    onKeyboardDidHide: ()=> setHeightMeasurement(200)
+  })
   const isDrawing = STEPS_BOARD[stepBoard] === 'draw';
 
   React.useEffect(() => {
@@ -167,13 +173,11 @@ const Board: React.FC<Props> = ({
   }
   const handleOnEditEndType = ()=> {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'));
-
   }
-
 
   return (
     <>
-    <ScrollBox as={KeyboardAwareScrollView} keyboardShouldPersistTaps="handled" enableOnAndroid showsVerticalScrollIndicator={false}>
+    <ScrollBox as={KeyboardAwareScrollView} showsVerticalScrollIndicator={false}>
       <KeyboardAvoidingBox>
         <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
           <GestureHandlerRootView>
@@ -191,7 +195,7 @@ const Board: React.FC<Props> = ({
       </KeyboardAvoidingBox>
     </ScrollBox>
       {stepBoard === getIndexOfStepForName('finish') && <SectionsButton onSave={handleOnSave} onEdit={handleOnEdit} onEditEndType={handleOnEditEndType} />}
-      {stepBoard === getIndexOfStepForName('measurements') && <Box height={350} position="absolute" width="100%" bottom={0}>
+      {stepBoard === getIndexOfStepForName('measurements') && <Box height={heightMeasurement} position="absolute" width="100%" bottom={0}>
         <MeasurementLines
           disabledPrevious={indexLineSelected === 0 && typeSelected === 'line'}
           onNext={handleNextLineSelected}
