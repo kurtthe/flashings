@@ -7,8 +7,8 @@ import { palette } from "@theme";
 const calculateTypeLine = ({type, points}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const sizeLine = 20;
 	let angle = 20;
-	let x1: number = points[0];
-	let y1: number = points[1];
+	const x1: number = points[0];
+	const y1: number = points[1];
 
 	if(type.includes('Start')){
 		angle = type.includes('1')? 120 : 60;
@@ -34,11 +34,18 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 	const pointY1 = points[0][1];
 	const pointY2 = points[1][1];
 
-	const currentPointX = endPoints?pointX2 :pointX1
-	const currentPointY = endPoints?pointY2: pointY1
+	const currentPointX = endPoints? pointX2: pointX1
+	const currentPointY = endPoints? pointY2: pointY1
 
 	const isHorizontal = pointY1 === pointY2;
 	const isVertical = pointX1 === pointX2;
+
+	console.log("=============================::===================")
+	console.log("endPoints::", endPoints)
+	console.log("isHorizontal::", isHorizontal)
+	console.log("isVertical::", isVertical)
+	console.log("pending > 0::", pending > 0)
+	console.log("pending < 0::", pending < 0)
 
 	if(isHorizontal){
 		if(pointX2 > pointX1){
@@ -147,6 +154,9 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 			}
 		}
 	}
+
+	console.log("default ellipse::")
+
 	return {
 		points: [[currentPointX - radiusEllipseX, currentPointY+ 5]],
 		radius: {

@@ -10,7 +10,6 @@ import { getRandomInt } from "@shared/utils";
 import DismissKeyboardPressable from "@components/forms/DismissKeyboardPressable";
 import { useAppSelector } from "@hooks/useStore";
 import { getDataFlashing } from "@store/jobs/selectors";
-import { TYPE_END_LINES } from "@models";
 
 
 const CreateFlashingScreen = () => {
@@ -39,6 +38,7 @@ const CreateFlashingScreen = () => {
           angles: dataFlashing? dataFlashing.angles: [],
           endType: dataFlashing? dataFlashing.endType: "none",
           startType: dataFlashing? dataFlashing.startType: "none",
+          imgPreview: undefined,
         },
         jobId: route.params.jobId})
     },
