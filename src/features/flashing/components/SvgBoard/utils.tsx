@@ -1,29 +1,20 @@
 import React from "react";
-import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, START_END_LINE_TYPE } from "@models";
+import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, START_END_LINE_TYPE, TYPE_END_LINES } from "@models";
 import { Path as PathComponent, Ellipse } from "react-native-svg";
 import { buildPathLine } from "@features/flashing/utils";
 import { palette } from "@theme";
 
-const calculateTypeLine = ({type, points}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
+const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const sizeLine = 20;
-	let angle = 20;
 	const x1: number = points[0];
 	const y1: number = points[1];
 
-	if(type.includes('Start')){
-		angle = type.includes('1')? 120 : 60;
-	}
-
-	if(type.includes('End')){
-		angle = type.includes('1')? -70 : 90;
-	}
-
-	const x2 = x1 + sizeLine * Math.cos(angle)
-	const y2 = y1 + sizeLine * Math.sin(angle)
+	const x2 = x1 + sizeLine * Math.sin(angle)
+	const y2 = y1 + sizeLine * Math.cos(angle)
 	return [[x1,y1], [x2,y2]]
 }
 
-const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoints= false )=> {
+const calculatePointsParabola = (dataLine:LINE_TYPE,  endPoints= false )=> {
 	const {points, pending} = dataLine
 	let radiusEllipseX = 4
 	let radiusEllipseY = 10
@@ -49,22 +40,10 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 
 	if(isHorizontal){
 		if(pointX2 > pointX1){
-			if(parallelRight){
-				return {points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseX]], radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX
-					}}
-			}
 			return {points:  [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseX]], radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX
 				}}
-		}
-		if(parallelRight){
-			return { points: [[currentPointX, currentPointY - radiusEllipseX]], radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX
-				} }
 		}
 		return {
 			points: [[currentPointX, currentPointY + radiusEllipseX]],
@@ -77,15 +56,6 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 // vertical
 	if(isVertical){
 		if(pointY1 > pointY2){
-			if(parallelRight){
-				return {
-					points: [[currentPointX - radiusEllipseX, currentPointY - radiusEllipseY]],
-					radius: {
-						x: radiusEllipseX,
-						y: radiusEllipseY
-					}
-				}
-			}
 			return {
 				points: [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseY]],
 				radius: {
@@ -95,15 +65,6 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 			}
 		}
 
-		if(parallelRight){
-			return {
-				points: [[currentPointX - radiusEllipseX, currentPointY + radiusEllipseY]],
-				radius: {
-					x: radiusEllipseX,
-					y: radiusEllipseY
-				}
-			}
-		}
 		return {
 			points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseY]],
 			radius: {
@@ -115,15 +76,6 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 	// pending positive
 	if (pending > 0) {
 		if(pointY1 > pointY2){
-			if(parallelRight){
-				return {
-					points: [[currentPointX, currentPointY]],
-					radius: {
-						x: radiusEllipseX,
-						y: radiusEllipseY
-					}
-				}
-			}
 			return {
 				points: [[currentPointX, currentPointY]],
 				radius: {
@@ -136,15 +88,6 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 //pending negative
 	if (pending < 0) {
 		if(pointY1 > pointY2){
-			if(parallelRight){
-				return {
-					points: [[currentPointX +radiusEllipseX, currentPointY ]],
-					radius: {
-						x: radiusEllipseX,
-						y: radiusEllipseY
-					}
-				}
-			}
 			return {
 				points: [[currentPointX - 5, currentPointY - radiusEllipseX]],
 				radius: {
@@ -166,23 +109,28 @@ const calculatePointsParabola = (dataLine:LINE_TYPE, parallelRight= true, endPoi
 	}
 }
 
+const anglesEachType = {
+	['break2Start' as TYPE_END_LINES]: 5,
+	['break2End' as TYPE_END_LINES]: 230,
+	['break1Start' as TYPE_END_LINES]: 240,
+	['break1End' as TYPE_END_LINES]: 310
+}
+
 export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:START_END_LINE_TYPE )=>{
 	const colorBg = palette.base300
 
 	const isNoneStart = typeStart.includes('none')
 	const isNoneEnd = typeEnd.includes('none')
 
-	const isStartLine = typeStart.includes('Start')
-	const isEndLine = typeEnd.includes('End')
 
-	const pointsStartPath = calculateTypeLine({ type: typeStart, points: lineStart.points[0], })
-	const pointsEndPath = calculateTypeLine({ type: typeEnd, points: lineEnd.points[1]})
+	const pointsStartPath = calculateTypeLine({ points: lineStart.points[0], angle: anglesEachType[typeStart] })
+	const pointsEndPath = calculateTypeLine({  points: lineEnd.points[1], angle: anglesEachType[typeEnd]})
 
 	const isSafetyStart = typeStart.includes('safety')
 	const isSafetyEnd = typeEnd.includes('safety')
 
-	const {points: pointsStart, radius: radiusStart} = calculatePointsParabola(lineStart, isStartLine)
-	const {points: pointsEnd, radius: radiusEnd} = calculatePointsParabola(lineEnd, isEndLine, true)
+	const {points: pointsStart, radius: radiusStart} = calculatePointsParabola(lineStart)
+	const {points: pointsEnd, radius: radiusEnd} = calculatePointsParabola(lineEnd, true)
 
 	return (
 		<>
