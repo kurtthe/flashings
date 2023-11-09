@@ -35,22 +35,23 @@ const calculatePointsParabola = (dataLine:LINE_TYPE,  endPoints= false )=> {
 	console.log("endPoints::", endPoints)
 	console.log("isHorizontal::", isHorizontal)
 	console.log("isVertical::", isVertical)
-	console.log("pending > 0::", pending > 0)
-	console.log("pending < 0::", pending < 0)
+	console.log("pending::", pending)
 
 	if(isHorizontal){
 		if(pointX2 > pointX1){
 			return {points:  [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseX]], radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX
-				}}
+				},rotation: pending
+			}
 		}
 		return {
 			points: [[currentPointX, currentPointY + radiusEllipseX]],
 			radius: {
 				x: radiusEllipseY,
-				y: radiusEllipseX
-			}
+				y: radiusEllipseX,
+			},
+			rotation: pending
 		}
 	}
 // vertical
@@ -61,7 +62,8 @@ const calculatePointsParabola = (dataLine:LINE_TYPE,  endPoints= false )=> {
 				radius: {
 					x: radiusEllipseX,
 					y: radiusEllipseY
-				}
+				},
+				rotation: pending
 			}
 		}
 
@@ -70,18 +72,22 @@ const calculatePointsParabola = (dataLine:LINE_TYPE,  endPoints= false )=> {
 			radius: {
 				x: radiusEllipseX,
 				y: radiusEllipseY
-			}
+			},
+			rotation: pending
 		}
 	}
 	// pending positive
 	if (pending > 0) {
+		console.log("Pending positive::")
+		console.log("pointY1 > pointY2::",pointY1 > pointY2)
 		if(pointY1 > pointY2){
 			return {
 				points: [[currentPointX, currentPointY]],
 				radius: {
 					x: radiusEllipseX,
 					y: radiusEllipseY
-				}
+				},
+				rotation: pending
 			}
 		}
 	}
@@ -93,19 +99,20 @@ const calculatePointsParabola = (dataLine:LINE_TYPE,  endPoints= false )=> {
 				radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX
-				}
+				},
+				rotation: pending
 			}
 		}
 	}
 
-	console.log("default ellipse::")
-
+console.log("default ::")
 	return {
 		points: [[currentPointX - radiusEllipseX, currentPointY+ 5]],
 		radius: {
 			x: radiusEllipseY,
 			y: radiusEllipseX
-		}
+		},
+		rotation: pending
 	}
 }
 
@@ -129,8 +136,8 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 	const isSafetyStart = typeStart.includes('safety')
 	const isSafetyEnd = typeEnd.includes('safety')
 
-	const {points: pointsStart, radius: radiusStart} = calculatePointsParabola(lineStart)
-	const {points: pointsEnd, radius: radiusEnd} = calculatePointsParabola(lineEnd, true)
+	const {points: pointsStart, radius: radiusStart, rotation: rotationStart} = calculatePointsParabola(lineStart)
+	const {points: pointsEnd, radius: radiusEnd, rotation: rotationEnd} = calculatePointsParabola(lineEnd, true)
 
 	return (
 		<>
@@ -148,7 +155,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 					}
 					{
 						isSafetyStart && (
-							<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg}  />
+							<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg} transform={`rotate(${rotationStart} ${pointsStart[0][0]} ${pointsStart[0][1]})`} />
 						)
 					}
 				</>
@@ -168,7 +175,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 					}
 					{
 						isSafetyEnd && (
-							<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEnd.x} ry={radiusEnd.y} stroke="black" fill={colorBg} />
+							<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEnd.x} ry={radiusEnd.y} stroke="black" transform={`rotate(${rotationEnd} ${pointsEnd[0][0]} ${pointsEnd[0][1]})`} fill={colorBg}  />
 						)
 					}
 				</>
