@@ -91,9 +91,6 @@ export const calculateSizeLine = (
   return round(result, 0);
 };
 
-
-
-
 export const validateLineComplete = (lines: LINE_TYPE[]): boolean => {
   const lastLine = lines[lines.length - 1];
   return lastLine.points.length === 2;
@@ -256,14 +253,17 @@ export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | und
   return round(angleDeg, 0)
 }
 
-const createEquationOfLine = (line: LINE_TYPE): string=> {
-  const x1 = line.points[0][0]
-  const y1 = line.points[0][1]
+export const createEquationOfLine = ({points, angle, pending}:{ points: LINE_TYPE["points"]; angle?: number; pending?:number
+}): string=> {
+  const x1 = points[0][0]
+  const y1 = points[0][1]
 
-  const pendingMultiplyX1 = line.pending*(x1 * -1)
+  const thePending = angle? Math.tan(angle): pending ?? 0
+
+  const pendingMultiplyX1 = thePending*(x1 * -1)
   const sumY1PendingMultiply = pendingMultiplyX1 + y1
 
-  return `${line.pending}x${sumY1PendingMultiply > 0 ? '+': ''}${sumY1PendingMultiply}`
+  return `${thePending}x${sumY1PendingMultiply > 0 ? '+': ''}${sumY1PendingMultiply}`
 }
 
 const resolveEqWithValueX = (eq: string, valueX: number)=>{
@@ -274,8 +274,8 @@ const resolveEqWithValueX = (eq: string, valueX: number)=>{
 const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_TYPE | undefined):POINT_TYPE | null=>{
   if(!line2) return null;
 
-  const eq1 = createEquationOfLine(line1)
-  const eq2 = createEquationOfLine(line2)
+  const eq1 = createEquationOfLine({points: line1.points, pending: line1.pending})
+  const eq2 = createEquationOfLine({points: line2.points, pending: line2.pending})
 
   if(eq1.includes('Infinity')){
     if(line2.pending === 0){
