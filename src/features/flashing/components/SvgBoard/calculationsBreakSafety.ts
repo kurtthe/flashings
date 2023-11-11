@@ -14,10 +14,10 @@ const anglesEachType = {
 		},
 		x2minus: {
 			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 40,
-			['break2End' as TYPE_END_LINES]: 320,
-			['break1Start' as TYPE_END_LINES]: 140,
-			['break1End' as TYPE_END_LINES]: 210
+			['break2Start' as TYPE_END_LINES]: 150,
+			['break2End' as TYPE_END_LINES]: 60,
+			['break1Start' as TYPE_END_LINES]: 170,
+			['break1End' as TYPE_END_LINES]: 320
 		}
 	},
 	vertical: {
