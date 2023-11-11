@@ -1,7 +1,74 @@
-import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE } from "@models";
+import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, START_END_LINE_TYPE, TYPE_END_LINES } from "@models";
 import { isNaN } from "lodash";
 import { createEquationOfLine } from "@features/flashing/utils";
 
+const anglesEachType = {
+	default: 45,
+	horizontal: {
+		x2major: {
+			['none']: NaN,
+			['break2Start' as TYPE_END_LINES]: 140,
+			['break2End' as TYPE_END_LINES]: 210,
+			['break1Start' as TYPE_END_LINES]: 40,
+			['break1End' as TYPE_END_LINES]: 320
+		},
+		x2minus: {
+			['none']: NaN,
+			['break2Start' as TYPE_END_LINES]: 40,
+			['break2End' as TYPE_END_LINES]: 320,
+			['break1Start' as TYPE_END_LINES]: 140,
+			['break1End' as TYPE_END_LINES]: 210
+		}
+	},
+	vertical: {
+		y2major: {
+			['none']: NaN,
+			['break2Start' as TYPE_END_LINES]: 30,
+			['break2End' as TYPE_END_LINES]: 240,
+			['break1Start' as TYPE_END_LINES]: 130,
+			['break1End' as TYPE_END_LINES]: 210
+		},
+		y2minus: {
+			['none']: NaN,
+			['break2Start' as TYPE_END_LINES]: 40,
+			['break2End' as TYPE_END_LINES]: 140,
+			['break1Start' as TYPE_END_LINES]: 240,
+			['break1End' as TYPE_END_LINES]: 310
+		}
+	},
+	pendingPositive: {
+		y2major: {
+			['none']: NaN,
+			['break2Start' as TYPE_END_LINES]: 80,
+			['break2End' as TYPE_END_LINES]: 210,
+			['break1Start' as TYPE_END_LINES]: 190,
+			['break1End' as TYPE_END_LINES]: 310
+		},
+		y2minus: {
+			['none']: NaN,
+			['break2Start' as TYPE_END_LINES]: 20,
+			['break2End' as TYPE_END_LINES]: 310,
+			['break1Start' as TYPE_END_LINES]: 140,
+			['break1End' as TYPE_END_LINES]: 210
+		}
+	},
+	pendingNegative: {
+		y2major: {
+			['none']: NaN,
+			['break2Start' as TYPE_END_LINES]: 90,
+			['break2End' as TYPE_END_LINES]: 180,
+			['break1Start' as TYPE_END_LINES]: 170,
+			['break1End' as TYPE_END_LINES]: 260
+		},
+		y2minus: {
+			['none']: NaN,
+			['break2Start' as TYPE_END_LINES]: 160,
+			['break2End' as TYPE_END_LINES]: 260,
+			['break1Start' as TYPE_END_LINES]: 30,
+			['break1End' as TYPE_END_LINES]: 80
+		}
+	}
+}
 export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const sizeLine = 20;
 	const x1: number = points[0];
@@ -129,3 +196,48 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  endPoints= false )=
 		rotation: pending
 	}
 }
+
+export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => {
+	const {points, pending} = line
+	const pointX1 = points[0][0];
+	const pointX2 = points[1][0];
+
+	const pointY1 = points[0][1];
+	const pointY2 = points[1][1];
+
+	const isHorizontal = pointY1 === pointY2;
+	const isVertical = pointX1 === pointX2;
+
+	if (isHorizontal) {
+		const dataHorizontal = anglesEachType.horizontal;
+		return pointX2 > pointX1
+			? dataHorizontal.x2major[typeLine]
+			: dataHorizontal.x2minus[typeLine]
+	}
+
+	if (isVertical) {
+		const dataVertical = anglesEachType.vertical;
+		return pointY1 > pointY2
+			? dataVertical.y2minus[typeLine]
+			: dataVertical.y2major[typeLine]
+	}
+
+	if (pending > 0) {
+		const dataPendingPositive = anglesEachType.pendingPositive;
+		return pointY1 > pointY2
+			? dataPendingPositive.y2minus[typeLine]
+			: dataPendingPositive.y2major[typeLine]
+	}
+
+	if (pending < 0) {
+		const dataPendingNegative = anglesEachType.pendingNegative;
+		return pointY1 > pointY2
+			? dataPendingNegative.y2minus[typeLine]
+			: dataPendingNegative.y2major[typeLine]
+	}
+
+	return anglesEachType.default
+}
+
+
+
