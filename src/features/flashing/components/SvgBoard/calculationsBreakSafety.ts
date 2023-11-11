@@ -23,10 +23,10 @@ const anglesEachType = {
 	vertical: {
 		y2major: {
 			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 30,
-			['break2End' as TYPE_END_LINES]: 240,
-			['break1Start' as TYPE_END_LINES]: 130,
-			['break1End' as TYPE_END_LINES]: 210
+			['break2Start' as TYPE_END_LINES]: 145,
+			['break2End' as TYPE_END_LINES]: 150,
+			['break1Start' as TYPE_END_LINES]: 345,
+			['break1End' as TYPE_END_LINES]: 368
 		},
 		y2minus: {
 			['none']: NaN,
