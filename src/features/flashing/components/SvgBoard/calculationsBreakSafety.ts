@@ -7,10 +7,10 @@ const anglesEachType = {
 	horizontal: {
 		x2major: {
 			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 140,
-			['break2End' as TYPE_END_LINES]: 210,
-			['break1Start' as TYPE_END_LINES]: 40,
-			['break1End' as TYPE_END_LINES]: 320
+			['break2Start' as TYPE_END_LINES]: 120,
+			['break2End' as TYPE_END_LINES]: 320,
+			['break1Start' as TYPE_END_LINES]: 210,
+			['break1End' as TYPE_END_LINES]: 340
 		},
 		x2minus: {
 			['none']: NaN,
@@ -70,22 +70,26 @@ const anglesEachType = {
 	}
 }
 export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
-	const sizeLine = 20;
 	const x1: number = points[0];
 	const y1: number = points[1];
 
 	if(isNaN(angle)){
 		return [[x1,y1], [x1,y1]]
 	}
-
 	const eqOfLine = createEquationOfLine({points: [points], angle: angle})
-	const paramB = parseFloat(eqOfLine.split('x')[1])
 	const paramM = eqOfLine.split('x')[0]
-	const valueBForEquation = `${paramB < 0? '+': '-'}${paramB}`
 
+	const sizeLine = (parseFloat(paramM) !== 0)? 10: 20;
+
+
+	const paramB = parseFloat(eqOfLine.split('x')[1])
+	const valueBForEquation = `${paramB < 0? '+': '-'}${paramB}`
+	const angleRad = (angle * Math.PI) / 180
+	console.log("=================::===================")
 	console.log("eqOfLine::",eqOfLine)
 	console.log("angle::",angle)
-	const y2 = y1 + sizeLine * Math.cos(angle)
+	console.log("angleRad::",angleRad)
+	const y2 = y1 + sizeLine * Math.cos(angleRad)
 	console.log("y2::",y2)
 	const resultX = `(${y2}${valueBForEquation})/${paramM}`
 	console.log("resultX::",resultX)
@@ -208,7 +212,11 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => 
 	const isHorizontal = pointY1 === pointY2;
 	const isVertical = pointX1 === pointX2;
 
+
 	if (isHorizontal) {
+		console.log("[Pending horizontal]::")
+		console.log("pointX2 > pointX1::",pointX2 > pointX1)
+		console.log("typeLine::",typeLine)
 		const dataHorizontal = anglesEachType.horizontal;
 		return pointX2 > pointX1
 			? dataHorizontal.x2major[typeLine]
@@ -216,6 +224,9 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => 
 	}
 
 	if (isVertical) {
+		console.log("[Pending vertical]::")
+		console.log("pointY1 > pointY2::",pointY1 > pointY2)
+		console.log("typeLine::",typeLine)
 		const dataVertical = anglesEachType.vertical;
 		return pointY1 > pointY2
 			? dataVertical.y2minus[typeLine]
@@ -223,6 +234,9 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => 
 	}
 
 	if (pending > 0) {
+		console.log("[Pending positive]::")
+		console.log("pointY1 > pointY2::",pointY1 > pointY2)
+		console.log("typeLine::",typeLine)
 		const dataPendingPositive = anglesEachType.pendingPositive;
 		return pointY1 > pointY2
 			? dataPendingPositive.y2minus[typeLine]
@@ -230,6 +244,9 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => 
 	}
 
 	if (pending < 0) {
+		console.log("[Pending negative]::")
+		console.log("pointY1 > pointY2::",pointY1 > pointY2)
+		console.log("typeLine::",typeLine)
 		const dataPendingNegative = anglesEachType.pendingNegative;
 		return pointY1 > pointY2
 			? dataPendingNegative.y2minus[typeLine]
