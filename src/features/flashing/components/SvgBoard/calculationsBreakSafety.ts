@@ -55,10 +55,10 @@ const anglesEachType = {
 	pendingNegative: {
 		y2major: {
 			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 190,
-			['break2End' as TYPE_END_LINES]: 180,
+			['break2Start' as TYPE_END_LINES]: 150,
+			['break2End' as TYPE_END_LINES]: 60,
 			['break1Start' as TYPE_END_LINES]: 170,
-			['break1End' as TYPE_END_LINES]: 260
+			['break1End' as TYPE_END_LINES]: 40
 		},
 		y2minus: {
 			['none']: NaN,
