@@ -39,14 +39,14 @@ const anglesEachType = {
 	pendingPositive: {
 		y2major: {
 			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 80,
+			['break2Start' as TYPE_END_LINES]: 180,
 			['break2End' as TYPE_END_LINES]: 210,
 			['break1Start' as TYPE_END_LINES]: 190,
 			['break1End' as TYPE_END_LINES]: 310
 		},
 		y2minus: {
 			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 20,
+			['break2Start' as TYPE_END_LINES]: 120,
 			['break2End' as TYPE_END_LINES]: 310,
 			['break1Start' as TYPE_END_LINES]: 140,
 			['break1End' as TYPE_END_LINES]: 210
@@ -55,17 +55,17 @@ const anglesEachType = {
 	pendingNegative: {
 		y2major: {
 			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 90,
+			['break2Start' as TYPE_END_LINES]: 190,
 			['break2End' as TYPE_END_LINES]: 180,
 			['break1Start' as TYPE_END_LINES]: 170,
 			['break1End' as TYPE_END_LINES]: 260
 		},
 		y2minus: {
 			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 160,
-			['break2End' as TYPE_END_LINES]: 260,
-			['break1Start' as TYPE_END_LINES]: 30,
-			['break1End' as TYPE_END_LINES]: 80
+			['break2Start' as TYPE_END_LINES]: 50,
+			['break2End' as TYPE_END_LINES]: 360,
+			['break1Start' as TYPE_END_LINES]: 150,
+			['break1End' as TYPE_END_LINES]: 305
 		}
 	}
 }
@@ -81,20 +81,12 @@ export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): P
 
 	const sizeLine = (parseFloat(paramM) !== 0)? 10: 20;
 
-
 	const paramB = parseFloat(eqOfLine.split('x')[1])
 	const valueBForEquation = `${paramB < 0? '+': '-'}${paramB}`
 	const angleRad = (angle * Math.PI) / 180
-	console.log("=================::===================")
-	console.log("eqOfLine::",eqOfLine)
-	console.log("angle::",angle)
-	console.log("angleRad::",angleRad)
 	const y2 = y1 + sizeLine * Math.cos(angleRad)
-	console.log("y2::",y2)
 	const resultX = `(${y2}${valueBForEquation})/${paramM}`
-	console.log("resultX::",resultX)
 	const x2 = eval(resultX)
-	console.log("x2::",x2)
 
 	return [[x1,y1], [x2,y2]]
 }
