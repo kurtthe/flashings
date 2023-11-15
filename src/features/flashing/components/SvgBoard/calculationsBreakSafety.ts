@@ -98,6 +98,7 @@ export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): P
 	return [[x1,y1], [x2,y2]]
 }
 
+
 export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END_LINES, endPoints= false )=> {
 	const {points} = dataLine
 	const pending = calculateAngle(dataLine)
@@ -116,7 +117,6 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	const isHorizontal = pointY1 === pointY2;
 	const isVertical = pointX1 === pointX2;
 	const isStartLine = typeLine.includes('Start')
-
 
 	if(isHorizontal){
 		if(pointX2 > pointX1){
@@ -302,9 +302,6 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => 
 
 
 	if (isHorizontal) {
-		console.log("[Pending horizontal]::")
-		console.log("pointX2 > pointX1::",pointX2 > pointX1)
-		console.log("typeLine::",typeLine)
 		const dataHorizontal = anglesEachType.horizontal;
 		return pointX2 > pointX1
 			? dataHorizontal.x2major[typeLine]
@@ -312,9 +309,6 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => 
 	}
 
 	if (isVertical) {
-		console.log("[Pending vertical]::")
-		console.log("pointY1 > pointY2::",pointY1 > pointY2)
-		console.log("typeLine::",typeLine)
 		const dataVertical = anglesEachType.vertical;
 		return pointY1 > pointY2
 			? dataVertical.y2minus[typeLine]
@@ -322,9 +316,6 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => 
 	}
 
 	if (pending > 0) {
-		console.log("[Pending positive]::")
-		console.log("pointY1 > pointY2::",pointY1 > pointY2)
-		console.log("typeLine::",typeLine)
 		const dataPendingPositive = anglesEachType.pendingPositive;
 		return pointY1 > pointY2
 			? dataPendingPositive.y2minus[typeLine]
@@ -332,9 +323,6 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => 
 	}
 
 	if (pending < 0) {
-		console.log("[Pending negative]::")
-		console.log("pointY1 > pointY2::",pointY1 > pointY2)
-		console.log("typeLine::",typeLine)
 		const dataPendingNegative = anglesEachType.pendingNegative;
 		return pointY1 > pointY2
 			? dataPendingNegative.y2minus[typeLine]
