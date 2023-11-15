@@ -113,27 +113,34 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	if(isHorizontal){
 		if(pointX2 > pointX1){
 			if(isStartLine){
-				return {points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseX]], radius: {
+				return {
+					rotation: pending,
+					points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseX]], radius: {
 						x: radiusEllipseY,
-						y: radiusEllipseX
+						y: radiusEllipseX,
 					}}
 			}
-			return {points:  [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseX]], radius: {
+			return {
+				rotation: pending,
+				points:  [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseX]], radius: {
 					x: radiusEllipseY,
-					y: radiusEllipseX
+					y: radiusEllipseX,
 				}}
 		}
 		if(isStartLine){
-			return { points: [[currentPointX, currentPointY - radiusEllipseX]], radius: {
+			return {
+				rotation: pending,
+				points: [[currentPointX, currentPointY - radiusEllipseX]], radius: {
 					x: radiusEllipseY,
-					y: radiusEllipseX
+					y: radiusEllipseX,
 				} }
 		}
 		return {
 			points: [[currentPointX, currentPointY + radiusEllipseX]],
+			rotation: pending,
 			radius: {
 				x: radiusEllipseY,
-				y: radiusEllipseX
+				y: radiusEllipseX,
 			}
 		}
 	}
@@ -143,17 +150,19 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 			if(isStartLine){
 				return {
 					points: [[currentPointX - radiusEllipseX, currentPointY - radiusEllipseY]],
+					rotation: pending,
 					radius: {
 						x: radiusEllipseX,
-						y: radiusEllipseY
+						y: radiusEllipseY,
 					}
 				}
 			}
 			return {
 				points: [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseY]],
+				rotation: pending,
 				radius: {
 					x: radiusEllipseX,
-					y: radiusEllipseY
+					y: radiusEllipseY,
 				}
 			}
 		}
@@ -163,15 +172,17 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 				points: [[currentPointX - radiusEllipseX, currentPointY + radiusEllipseY]],
 				radius: {
 					x: radiusEllipseX,
-					y: radiusEllipseY
-				}
+					y: radiusEllipseY,
+				},
+				rotation: pending
 			}
 		}
 		return {
 			points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseY]],
+			rotation: pending,
 			radius: {
 				x: radiusEllipseX,
-				y: radiusEllipseY
+				y: radiusEllipseY,
 			}
 		}
 	}
@@ -180,17 +191,19 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 			if(isStartLine){
 				return {
 					points: [[currentPointX, currentPointY]],
+					rotation: pending,
 					radius: {
 						x: radiusEllipseX,
-						y: radiusEllipseY
+						y: radiusEllipseY,
 					}
 				}
 			}
 			return {
 				points: [[currentPointX, currentPointY]],
+				rotation: pending,
 				radius: {
 					x: radiusEllipseX,
-					y: radiusEllipseY
+					y: radiusEllipseY,
 				}
 			}
 		}
@@ -198,17 +211,19 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 		if(isStartLine){
 			return {
 				points: [[currentPointX - radiusEllipseX, currentPointY]],
+				rotation: pending,
 				radius: {
 					x: radiusEllipseY,
-					y: radiusEllipseX
+					y: radiusEllipseX,
 				}
 			}
 		}
 		return {
 			points: [[currentPointX + (radiusEllipseX * 3), currentPointY]],
+			rotation: pending,
 			radius: {
 				x: radiusEllipseY,
-				y: radiusEllipseX
+				y: radiusEllipseX,
 			}
 		}
 
@@ -219,17 +234,19 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 			if(isStartLine){
 				return {
 					points: [[currentPointX -radiusEllipseX, currentPointY + radiusEllipseX ]],
+					rotation: pending,
 					radius: {
 						x: radiusEllipseY,
-						y: radiusEllipseX
+						y: radiusEllipseX,
 					}
 				}
 			}
 			return {
 				points: [[currentPointX - 5, currentPointY - radiusEllipseX]],
+				rotation: pending,
 				radius: {
 					x: radiusEllipseY,
-					y: radiusEllipseX
+					y: radiusEllipseX,
 				}
 			}
 		}
@@ -237,26 +254,29 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 		if(isStartLine){
 			return {
 				points: [[currentPointX - radiusEllipseX, currentPointY - 3]],
+				rotation: pending,
 				radius: {
 					x: radiusEllipseY,
-					y: radiusEllipseX
+					y: radiusEllipseX,
 				}
 			}
 		}
 		return {
 			points: [[currentPointX, currentPointY + 5]],
+			rotation: pending,
 			radius: {
 				x: radiusEllipseY,
-				y: radiusEllipseX
+				y: radiusEllipseX,
 			}
 		}
 	}
 
 	return {
 		points: [[currentPointX - radiusEllipseX, currentPointY+ 5]],
+		rotation: pending,
 		radius: {
 			x: radiusEllipseY,
-			y: radiusEllipseX
+			y: radiusEllipseX,
 		}
 	}
 }
