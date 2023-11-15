@@ -91,7 +91,7 @@ export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): P
 	return [[x1,y1], [x2,y2]]
 }
 
-export const calculatePointsParabola = (dataLine:LINE_TYPE,  endPoints= false )=> {
+export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END_LINES, endPoints= false )=> {
 	const {points, pending} = dataLine
 	let radiusEllipseX = 4
 	let radiusEllipseY = 10
@@ -107,89 +107,123 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  endPoints= false )=
 
 	const isHorizontal = pointY1 === pointY2;
 	const isVertical = pointX1 === pointX2;
+	const isStartLine = typeLine.includes('Start')
 
-	// console.log("=============================::===================")
-	// console.log("endPoints::", endPoints)
-	// console.log("isHorizontal::", isHorizontal)
-	// console.log("isVertical::", isVertical)
-	// console.log("pending::", pending)
 
 	if(isHorizontal){
 		if(pointX2 > pointX1){
+			if(isStartLine){
+				return {points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseX]], radius: {
+						x: radiusEllipseY,
+						y: radiusEllipseX
+					}}
+			}
 			return {points:  [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseX]], radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX
-				},rotation: pending
-			}
+				}}
+		}
+		if(isStartLine){
+			return { points: [[currentPointX, currentPointY - radiusEllipseX]], radius: {
+					x: radiusEllipseY,
+					y: radiusEllipseX
+				} }
 		}
 		return {
 			points: [[currentPointX, currentPointY + radiusEllipseX]],
 			radius: {
 				x: radiusEllipseY,
-				y: radiusEllipseX,
-			},
-			rotation: pending
+				y: radiusEllipseX
+			}
 		}
 	}
 // vertical
 	if(isVertical){
 		if(pointY1 > pointY2){
+			if(isStartLine){
+				return {
+					points: [[currentPointX - radiusEllipseX, currentPointY - radiusEllipseY]],
+					radius: {
+						x: radiusEllipseX,
+						y: radiusEllipseY
+					}
+				}
+			}
 			return {
 				points: [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseY]],
 				radius: {
 					x: radiusEllipseX,
 					y: radiusEllipseY
-				},
-				rotation: pending
+				}
 			}
 		}
 
+		if(isStartLine){
+			return {
+				points: [[currentPointX - radiusEllipseX, currentPointY + radiusEllipseY]],
+				radius: {
+					x: radiusEllipseX,
+					y: radiusEllipseY
+				}
+			}
+		}
 		return {
 			points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseY]],
 			radius: {
 				x: radiusEllipseX,
 				y: radiusEllipseY
-			},
-			rotation: pending
+			}
 		}
 	}
 	// pending positive
 	if (pending > 0) {
-		// console.log("Pending positive::")
-		// console.log("pointY1 > pointY2::",pointY1 > pointY2)
 		if(pointY1 > pointY2){
+			if(isStartLine){
+				return {
+					points: [[currentPointX, currentPointY]],
+					radius: {
+						x: radiusEllipseX,
+						y: radiusEllipseY
+					}
+				}
+			}
 			return {
 				points: [[currentPointX, currentPointY]],
 				radius: {
 					x: radiusEllipseX,
 					y: radiusEllipseY
-				},
-				rotation: pending
+				}
 			}
 		}
 	}
 //pending negative
 	if (pending < 0) {
 		if(pointY1 > pointY2){
+			if(isStartLine){
+				return {
+					points: [[currentPointX +radiusEllipseX, currentPointY ]],
+					radius: {
+						x: radiusEllipseX,
+						y: radiusEllipseY
+					}
+				}
+			}
 			return {
 				points: [[currentPointX - 5, currentPointY - radiusEllipseX]],
 				radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX
-				},
-				rotation: pending
+				}
 			}
 		}
 	}
 
-// console.log("default ::")
 	return {
 		points: [[currentPointX - radiusEllipseX, currentPointY+ 5]],
 		radius: {
 			x: radiusEllipseY,
 			y: radiusEllipseX
-		},
-		rotation: pending
+		}
 	}
 }
 

@@ -25,8 +25,8 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 	const isSafetyStart = typeStart.includes('safety')
 	const isSafetyEnd = typeEnd.includes('safety')
 
-	const {points: pointsStart, radius: radiusStart, rotation: rotationStart} = calculatePointsParabola(lineStart)
-	const {points: pointsEnd, radius: radiusEnd, rotation: rotationEnd} = calculatePointsParabola(lineEnd, true)
+	const {points: pointsStart, radius: radiusStart, rotation: rotationStart} = calculatePointsParabola(lineStart, typeStart)
+	const {points: pointsEnd, radius: radiusEnd, rotation: rotationEnd} = calculatePointsParabola(lineEnd, typeEnd)
 
 	return (
 		<>
@@ -44,7 +44,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 					}
 					{
 						isSafetyStart && (
-							<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg} transform={`rotate(${rotationStart} ${pointsStart[0][0]} ${pointsStart[0][1]})`} />
+							<Ellipse cx={pointsStart[0][0]} cy={pointsStart[0][1]} rx={radiusStart.x} ry={radiusStart.y} stroke="black" fill={colorBg} />
 						)
 					}
 				</>
@@ -64,7 +64,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 					}
 					{
 						isSafetyEnd && (
-							<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEnd.x} ry={radiusEnd.y} stroke="black" transform={`rotate(${rotationEnd} ${pointsEnd[0][0]} ${pointsEnd[0][1]})`} fill={colorBg}  />
+							<Ellipse cx={pointsEnd[0][0]} cy={pointsEnd[0][1]} rx={radiusEnd.x} ry={radiusEnd.y} stroke="black" fill={colorBg}  />
 						)
 					}
 				</>
