@@ -175,7 +175,6 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 			}
 		}
 	}
-	// pending positive
 	if (pending > 0) {
 		if(pointY1 > pointY2){
 			if(isStartLine){
@@ -195,16 +194,34 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 				}
 			}
 		}
+
+		if(isStartLine){
+			return {
+				points: [[currentPointX - radiusEllipseX, currentPointY]],
+				radius: {
+					x: radiusEllipseY,
+					y: radiusEllipseX
+				}
+			}
+		}
+		return {
+			points: [[currentPointX + (radiusEllipseX * 3), currentPointY]],
+			radius: {
+				x: radiusEllipseY,
+				y: radiusEllipseX
+			}
+		}
+
 	}
 //pending negative
 	if (pending < 0) {
 		if(pointY1 > pointY2){
 			if(isStartLine){
 				return {
-					points: [[currentPointX +radiusEllipseX, currentPointY ]],
+					points: [[currentPointX -radiusEllipseX, currentPointY + radiusEllipseX ]],
 					radius: {
-						x: radiusEllipseX,
-						y: radiusEllipseY
+						x: radiusEllipseY,
+						y: radiusEllipseX
 					}
 				}
 			}
@@ -214,6 +231,23 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 					x: radiusEllipseY,
 					y: radiusEllipseX
 				}
+			}
+		}
+
+		if(isStartLine){
+			return {
+				points: [[currentPointX - radiusEllipseX, currentPointY - 3]],
+				radius: {
+					x: radiusEllipseY,
+					y: radiusEllipseX
+				}
+			}
+		}
+		return {
+			points: [[currentPointX, currentPointY + 5]],
+			radius: {
+				x: radiusEllipseY,
+				y: radiusEllipseX
 			}
 		}
 	}
