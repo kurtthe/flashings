@@ -76,6 +76,8 @@ const anglesEachType = {
 		}
 	}
 }
+// Funcion para buscar los puntos x2,y2 de la linea con los puntos inciales, tamaño de la linea
+// y el angulo
 export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const x1: number = points[0];
 	const y1: number = points[1];
