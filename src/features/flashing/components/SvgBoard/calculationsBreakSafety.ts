@@ -63,7 +63,7 @@ const anglesEachType = {
 		y2major: {
 			['none']: NaN,
 			['break2Start' as TYPE_END_LINES]: 150,
-			['break2End' as TYPE_END_LINES]: 60,
+			['break2End' as TYPE_END_LINES]: 166,
 			['break1Start' as TYPE_END_LINES]: 170,
 			['break1End' as TYPE_END_LINES]: 40
 		},
@@ -81,29 +81,14 @@ const anglesEachType = {
 export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const x1: number = points[0];
 	const y1: number = points[1];
-	// validando que el angulo exista
+	const sizeLine = 20
 	if(isNaN(angle)){
 		return [[x1,y1], [x1,y1]]
 	}
-	// se crea la ecuación de la linea recta con los puntos y el angulo,
-	// con el angulo se halla la pendiente de la linea recta
-	// ecaución = mx + b
-	const eqOfLine = createEquationOfLine({points: [points], angle: angle})
-	// sacando la pendiente de la ecuacion
-	const paramM = eqOfLine.split('x')[0]
-	// tamaño de la linea que se va a dibujar
-	const sizeLine = (parseFloat(paramM) !== 0)? 10: 20;
 
-	const paramB = parseFloat(eqOfLine.split('x')[1])
-	//preparando b para la ecuación  para hallar el x
-	const valueBForEquation = `${paramB < 0? '+': '-'}${paramB}`
-	// hallando el y2 para la linea del break
-	const y2 = y1 + sizeLine * Math.sin(angle)
-	// hallando el x2 para la linea del break
-	// x = y2-b/pending
-	const resultX = `${y2}${valueBForEquation}/${paramM}`
-	//resolviendo la ecuación
-	const x2 = eval(resultX)
+	const x2 = (sizeLine*Math.cos(angle))+x1
+	const y2 = (sizeLine*Math.sin(angle))+y1
+
 	return [[x1,y1], [x2,y2]]
 }
 
