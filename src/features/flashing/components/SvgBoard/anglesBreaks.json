@@ -1,5 +1,15 @@
 [
   {
+    "default": "0",
+    "angles": {
+      "none": "NaN",
+      "break2Start": 220,
+      "break2End" : 150,
+      "break1Start" : 60,
+      "break1End" : 305
+    }
+  },
+  {
     "default": "90",
     "angles": {
       "none": "NaN",
