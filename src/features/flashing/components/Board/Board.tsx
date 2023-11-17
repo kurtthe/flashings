@@ -28,11 +28,9 @@ type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
   onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
   onSave?: () => void;
-  onTape?: ()=> void
   width?: number;
   height?: number;
   changeStepBoard?: (newStep:number) => void;
-  backStep?: () => void;
   stepBoard: number;
   rightLinePaint: boolean;
   angles?: number[];
@@ -90,7 +88,7 @@ const Board: React.FC<Props> = ({
     });
     setPathParallel(drawParallelLines(lines, rightLinePaint))
     setGraphs(makingLines);
-  }, [lines, stepBoard, rightLinePaint, indexLineSelected, typeSelected]);
+  }, [lines, stepBoard, rightLinePaint, indexLineSelected, typeSelected, angles]);
 
   React.useEffect(()=>{
     if(STEPS_BOARD[stepBoard] === "finish" ) {

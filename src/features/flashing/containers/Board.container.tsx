@@ -60,7 +60,9 @@ const BoardContainer = () => {
   }, [route.params.data])
 
   React.useEffect(()=> {
+    setAnglesLines([])
     if(lines.length < 2) return
+
     const newAngles = lines.map((line, index, arrayLines)=> {
       if(!anglesLines[index]){
         return calculateAngle(line, arrayLines[index + 1])?? 0
@@ -68,7 +70,7 @@ const BoardContainer = () => {
       return anglesLines[index]
     })
     setAnglesLines(newAngles)
-  }, [lines])
+  }, [lines, lines.length])
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -103,10 +105,12 @@ const BoardContainer = () => {
 
   const handleUndo = () => {
     const newPointCoordinates = lines.slice(0, -1);
+    const newAngles = anglesLines.slice(0, -1);
     if(newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine){
       setStepBoard(getIndexOfStepForName('draw'))
     }
     setLines(newPointCoordinates);
+    setAnglesLines(newAngles)
   };
 
   const handleBack = () => {
@@ -143,8 +147,9 @@ const BoardContainer = () => {
   const handleClear = () => {
     setStartTypeLine("none")
     setEndTypeLine("none")
-    setStepBoard(getIndexOfStepForName('draw'))
     setLines([]);
+    setAnglesLines([])
+    setStepBoard(getIndexOfStepForName('draw'))
   };
 
   const finishSteps = () => {
@@ -206,7 +211,6 @@ const BoardContainer = () => {
         onUpdatePoint={handleUpdatePoint}
         onSave={handleSave}
         stepBoard={stepBoard}
-        backStep={handleBack}
         angles={anglesLines}
         updateAngle={handleUpdateAngle}
         startTypeLine={startTypeLine}
