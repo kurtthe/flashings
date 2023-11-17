@@ -26,7 +26,7 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 	const isSafetyEnd = typeEnd.includes('safety')
 
 	const {points: pointsStart, radius: radiusStart, rotation: rotationStart} = calculatePointsParabola(lineStart, typeStart)
-	const {points: pointsEnd, radius: radiusEnd, rotation: rotationEnd} = calculatePointsParabola(lineEnd, typeEnd)
+	const {points: pointsEnd, radius: radiusEnd, rotation: rotationEnd} = calculatePointsParabola(lineEnd, typeEnd, true)
 
 	return (
 		<>
