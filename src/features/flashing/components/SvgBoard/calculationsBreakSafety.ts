@@ -1,6 +1,7 @@
 import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, TYPE_END_LINES, TYPE_END_LINES_BREAK } from "@models";
 import { isNaN } from "lodash";
 import anglesBreaks from'./anglesBreaks.json'
+
 const equationResultAzimuth = {
 	'1': 'angle',
 	'2': '180-angle',
@@ -8,6 +9,10 @@ const equationResultAzimuth = {
 	'4': '360-angle'
 }
 
+const changeTheTypeLine = (typeLine: TYPE_END_LINES_BREAK): TYPE_END_LINES_BREAK=> {
+	const has1 = typeLine.includes('1')
+	return (has1? typeLine.replace('1','2'): typeLine.replace('2','1')) as TYPE_END_LINES_BREAK
+}
 export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const x1: number = points[0];
 	const y1: number = points[1];
@@ -21,8 +26,6 @@ export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): P
 
 	return [[x1,y1], [x2,y2]]
 }
-
-
 export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END_LINES, endPoints= false )=> {
 	const {points} = dataLine
 	const pending = calculateAngleAzimut(dataLine)
@@ -213,15 +216,37 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 		}
 	}
 }
-
 export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES_BREAK): number => {
 	const angleAzimut = parseInt(calculateAngleAzimut(line))
-	console.log("angleAzimut::",typeLine,angleAzimut)
+
+	const pointX1 = line.points[0][0];
+	const pointX2 = line.points[1][0];
+
+	const pointY1 = line.points[0][1];
+	const pointY2 = line.points[1][1];
+
+	const isHorizontal = pointY1 === pointY2;
+	const isVertical = pointX1 === pointX2;
 
 	const dataAngles =  anglesBreaks.find((angleB)=> angleB.default === angleAzimut.toString())
-	return dataAngles ? parseInt(`${dataAngles.angles[typeLine]}`): NaN
-}
 
+	if(!dataAngles) return NaN
+
+	if(isHorizontal){
+		if(pointX2 < pointX1){
+			return parseInt(`${dataAngles.angles[changeTheTypeLine(typeLine)]}`)
+		}
+	}
+
+	if(isVertical){
+		if(pointY1 < pointY2){
+			return parseInt(`${dataAngles.angles[changeTheTypeLine(typeLine)]}`)
+		}
+	}
+
+	return parseInt(`${dataAngles.angles[typeLine]}`)
+
+}
 export const calculateAngleAzimut = (lineData: LINE_TYPE)=>{
 	const coordinatesM = lineData.points[0];
 	const coordinatesN = lineData.points[1];
