@@ -20,6 +20,26 @@
     }
   },
   {
+    "default": "34",
+    "angles": {
+      "none": "NaN",
+      "break2Start": 220,
+      "break2End" : 290,
+      "break1Start" : 130,
+      "break1End" : 40
+    }
+  },
+  {
+    "default": "45",
+    "angles": {
+      "none": "NaN",
+      "break2Start": 190,
+      "break2End" : 270,
+      "break1Start" : 90,
+      "break1End" : 350
+    }
+  },
+  {
     "default": "-90",
     "angles": {
       "none": "NaN",
