@@ -1,9 +1,10 @@
 import React from "react";
 import { START_END_LINE_TYPE } from "@models";
 import { Path as PathComponent, Ellipse } from "react-native-svg";
-import { buildPathLine, } from "@features/flashing/utils";
+import { buildPathLine, calculateAngle } from "@features/flashing/utils";
 import { palette } from "@theme";
 import {
+	calculateAngleAzimut,
 	calculatePointsParabola,
 	calculateTypeLine, getAngleForTheLine
 } from "@features/flashing/components/SvgBoard/calculationsBreakSafety";
