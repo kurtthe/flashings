@@ -215,10 +215,9 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 
 export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES_BREAK): number => {
 	const angleAzimut = parseInt(calculateAngleAzimut(line))
-	console.log("angleAzimut::",angleAzimut)
+	console.log("angleAzimut::",typeLine,angleAzimut)
 
 	const dataAngles =  anglesBreaks.find((angleB)=> angleB.default === angleAzimut.toString())
-
 	return dataAngles ? parseInt(`${dataAngles.angles[typeLine]}`): NaN
 }
 
