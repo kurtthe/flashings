@@ -235,8 +235,6 @@ export const buildPathLineParallel = (points: LINE_TYPE['points']) => {
  * ∠ = arctan((m2-m1)/(1+m1*m2))
  * */
 export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined): number | undefined=> {
-  console.log("dataFirstLine::", firstLine)
-  console.log("secondLine::", secondLine)
 
   if(!secondLine) return undefined
 

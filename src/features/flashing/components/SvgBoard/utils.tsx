@@ -1,10 +1,9 @@
 import React from "react";
-import { START_END_LINE_TYPE } from "@models";
+import { START_END_LINE_TYPE, TYPE_END_LINES_BREAK } from "@models";
 import { Path as PathComponent, Ellipse } from "react-native-svg";
-import { buildPathLine, calculateAngle } from "@features/flashing/utils";
+import { buildPathLine } from "@features/flashing/utils";
 import { palette } from "@theme";
 import {
-	calculateAngleAzimut,
 	calculatePointsParabola,
 	calculateTypeLine, getAngleForTheLine
 } from "@features/flashing/components/SvgBoard/calculationsBreakSafety";
@@ -17,8 +16,8 @@ export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:ST
 	const isNoneStart = typeStart.includes('none')
 	const isNoneEnd = typeEnd.includes('none')
 
-	const angleStartLine = getAngleForTheLine(lineStart, typeStart)
-	const angleEndLine = getAngleForTheLine(lineEnd, typeEnd)
+	const angleStartLine = getAngleForTheLine(lineStart, typeStart as TYPE_END_LINES_BREAK)
+	const angleEndLine = getAngleForTheLine(lineEnd, typeEnd as TYPE_END_LINES_BREAK)
 
 	const pointsStartPath = calculateTypeLine({ points: lineStart.points[0], angle: angleStartLine })
 	const pointsEndPath = calculateTypeLine({  points: lineEnd.points[1], angle: angleEndLine})

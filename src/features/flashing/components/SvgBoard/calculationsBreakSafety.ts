@@ -213,12 +213,13 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	}
 }
 
-export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES_BREAK) => {
-	const angleAzimut = calculateAngleAzimut(line)
+export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES_BREAK): number => {
+	const angleAzimut = parseInt(calculateAngleAzimut(line))
 	console.log("angleAzimut::",angleAzimut)
+
 	const dataAngles =  anglesBreaks.find((angleB)=> angleB.default === angleAzimut.toString())
 
-	return dataAngles ? dataAngles.angles[typeLine]: NaN
+	return dataAngles ? parseInt(`${dataAngles.angles[typeLine]}`): NaN
 }
 
 export const calculateAngleAzimut = (lineData: LINE_TYPE)=>{
