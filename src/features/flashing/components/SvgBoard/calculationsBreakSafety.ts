@@ -1,7 +1,6 @@
-import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, START_END_LINE_TYPE, TYPE_END_LINES } from "@models";
+import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from "@models";
 import { isNaN } from "lodash";
-import { createEquationOfLine } from "@features/flashing/utils";
-
+import anglesBreaks from'./anglesBreaks.json'
 const equationResultAzimuth = {
 	'1': 'angle',
 	'2': '180-angle',
@@ -9,75 +8,6 @@ const equationResultAzimuth = {
 	'4': '360-angle'
 }
 
-const anglesEachType = {
-	default: 45,
-	horizontal: {
-		x2major: {
-			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 120,
-			['break2End' as TYPE_END_LINES]: 320,
-			['break1Start' as TYPE_END_LINES]: 210,
-			['break1End' as TYPE_END_LINES]: 340
-		},
-		x2minus: {
-			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 150,
-			['break2End' as TYPE_END_LINES]: 60,
-			['break1Start' as TYPE_END_LINES]: 170,
-			['break1End' as TYPE_END_LINES]: 320
-		}
-	},
-	vertical: {
-		y2major: {
-			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 143,
-			['break2End' as TYPE_END_LINES]: 150,
-			['break1Start' as TYPE_END_LINES]: 345,
-			['break1End' as TYPE_END_LINES]: 368
-		},
-		y2minus: {
-			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 40,
-			['break2End' as TYPE_END_LINES]: 315,
-			['break1Start' as TYPE_END_LINES]: 145,
-			['break1End' as TYPE_END_LINES]: 210
-		}
-	},
-	pendingPositive: {
-		y2major: {
-			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 50,
-			['break2End' as TYPE_END_LINES]: 180,
-			['break1Start' as TYPE_END_LINES]: 30,
-			['break1End' as TYPE_END_LINES]: 305
-		},
-		y2minus: {
-			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 60,
-			['break2End' as TYPE_END_LINES]: 360,
-			['break1Start' as TYPE_END_LINES]: 140,
-			['break1End' as TYPE_END_LINES]: 50
-		}
-	},
-	pendingNegative: {
-		y2major: {
-			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 150,
-			['break2End' as TYPE_END_LINES]: 166,
-			['break1Start' as TYPE_END_LINES]: 170,
-			['break1End' as TYPE_END_LINES]: 40
-		},
-		y2minus: {
-			['none']: NaN,
-			['break2Start' as TYPE_END_LINES]: 50,
-			['break2End' as TYPE_END_LINES]: 360,
-			['break1Start' as TYPE_END_LINES]: 150,
-			['break1End' as TYPE_END_LINES]: 305
-		}
-	}
-}
-// Funcion para buscar los puntos x2,y2 de la linea con los puntos inciales, tamaño de la linea
-// y el angulo
 export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const x1: number = points[0];
 	const y1: number = points[1];
@@ -85,9 +15,9 @@ export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): P
 	if(isNaN(angle)){
 		return [[x1,y1], [x1,y1]]
 	}
-
-	const x2 = (sizeLine*Math.cos(angle))+x1
-	const y2 = (sizeLine*Math.sin(angle))+y1
+	const angleInRadians =  angle / 180 * Math.PI;
+	const x2 = x1 + sizeLine * Math.cos(angleInRadians);
+	const y2 = y1 + sizeLine * Math.sin(angleInRadians);
 
 	return [[x1,y1], [x2,y2]]
 }
@@ -95,7 +25,7 @@ export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): P
 
 export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END_LINES, endPoints= false )=> {
 	const {points} = dataLine
-	const pending = calculateAngle(dataLine)
+	const pending = calculateAngleAzimut(dataLine)
 	let radiusEllipseX = 4
 	let radiusEllipseY = 10
 
@@ -284,49 +214,13 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 }
 
 export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => {
-	const {points, pending} = line
-	const pointX1 = points[0][0];
-	const pointX2 = points[1][0];
+	const angleAzimut = calculateAngleAzimut(line)
+	const dataAngles =  anglesBreaks.find((angleB)=> angleB.default === angleAzimut.toString())
 
-	const pointY1 = points[0][1];
-	const pointY2 = points[1][1];
-
-	const isHorizontal = pointY1 === pointY2;
-	const isVertical = pointX1 === pointX2;
-
-
-	if (isHorizontal) {
-		const dataHorizontal = anglesEachType.horizontal;
-		return pointX2 > pointX1
-			? dataHorizontal.x2major[typeLine]
-			: dataHorizontal.x2minus[typeLine]
-	}
-
-	if (isVertical) {
-		const dataVertical = anglesEachType.vertical;
-		return pointY1 > pointY2
-			? dataVertical.y2minus[typeLine]
-			: dataVertical.y2major[typeLine]
-	}
-
-	if (pending > 0) {
-		const dataPendingPositive = anglesEachType.pendingPositive;
-		return pointY1 > pointY2
-			? dataPendingPositive.y2minus[typeLine]
-			: dataPendingPositive.y2major[typeLine]
-	}
-
-	if (pending < 0) {
-		const dataPendingNegative = anglesEachType.pendingNegative;
-		return pointY1 > pointY2
-			? dataPendingNegative.y2minus[typeLine]
-			: dataPendingNegative.y2major[typeLine]
-	}
-
-	return anglesEachType.default
+	return dataAngles ? dataAngles.angles[typeLine as TYPE_END_LINES]: NaN
 }
 
-const calculateAngle = (lineData: LINE_TYPE)=>{
+export const calculateAngleAzimut = (lineData: LINE_TYPE)=>{
 	const coordinatesM = lineData.points[0];
 	const coordinatesN = lineData.points[1];
 
