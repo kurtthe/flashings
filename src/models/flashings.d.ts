@@ -25,6 +25,7 @@ export type FLASHINGS_DATA =  {
 
 export type MODES_BOARD = 'draw' | 'measurements' | 'side' | 'finish' | 'preview' | 'end_type' | 'screen_shot';
 export type TYPE_END_LINES = 'none' | 'safetyEnd' | 'safetyStart' | 'break1End' | 'break1Start' | 'break2End' | 'break2Start'
+export type TYPE_END_LINES_BREAK = 'none' | 'break1End' | 'break1Start' | 'break2End' | 'break2Start'
 
 export type BREAK_END_START_LINE_TYPE ={
 	points: [number, number];

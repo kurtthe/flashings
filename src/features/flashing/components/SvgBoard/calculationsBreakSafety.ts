@@ -1,4 +1,4 @@
-import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from "@models";
+import { BREAK_END_START_LINE_TYPE, LINE_TYPE, POINT_TYPE, TYPE_END_LINES, TYPE_END_LINES_BREAK } from "@models";
 import { isNaN } from "lodash";
 import anglesBreaks from'./anglesBreaks.json'
 const equationResultAzimuth = {
@@ -213,11 +213,12 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	}
 }
 
-export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES) => {
+export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES_BREAK) => {
 	const angleAzimut = calculateAngleAzimut(line)
+	console.log("angleAzimut::",angleAzimut)
 	const dataAngles =  anglesBreaks.find((angleB)=> angleB.default === angleAzimut.toString())
 
-	return dataAngles ? dataAngles.angles[typeLine as TYPE_END_LINES]: NaN
+	return dataAngles ? dataAngles.angles[typeLine]: NaN
 }
 
 export const calculateAngleAzimut = (lineData: LINE_TYPE)=>{
