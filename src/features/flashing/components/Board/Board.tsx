@@ -69,10 +69,12 @@ const Board: React.FC<Props> = ({
   const [indexLineSelected, setIndexLineSelected] = React.useState(0)
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>('line')
   const [heightMeasurement, setHeightMeasurement] = React.useState(350)
+
   useKeyboardVisibility({
     onKeyboardDidShow: ()=> setHeightMeasurement(isAndroid? 70: 350),
     onKeyboardDidHide: ()=> setHeightMeasurement(200)
   })
+
   const isDrawing = STEPS_BOARD[stepBoard] === 'draw';
 
   React.useEffect(() => {

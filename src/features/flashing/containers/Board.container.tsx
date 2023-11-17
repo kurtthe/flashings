@@ -46,6 +46,7 @@ const BoardContainer = () => {
   const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
   const refViewShot = React.useRef<ViewShot>(null);
   const showKeyboard = useKeyboardVisibility({})
+
   React.useEffect(()=>{
     const dataFlashing = route.params.data;
     if(dataFlashing.dataLines.length > 0){
@@ -125,7 +126,6 @@ const BoardContainer = () => {
     }
     const newStep = stepBoard + 1
     setStepBoard(newStep)
-
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
     const linesUpdated = lines.map((line, index) => {
@@ -141,8 +141,9 @@ const BoardContainer = () => {
   };
 
   const handleClear = () => {
+    setStartTypeLine("none")
+    setEndTypeLine("none")
     setStepBoard(getIndexOfStepForName('draw'))
-
     setLines([]);
   };
 
