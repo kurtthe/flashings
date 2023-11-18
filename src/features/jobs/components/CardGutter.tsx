@@ -36,12 +36,26 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
 
   const getGirth = () =>{
     const sizeLines = data.dataLines.map((lineInfo)=> lineInfo.distance)
-    return sizeLines.reduce((a, b) => a + b, 0)
+    let breaksAdd = 0
+    if(data.startType !== "none"){
+      breaksAdd += 15
+    }
+    if(data.endType !== "none"){
+      breaksAdd += 15
+    }
+    return sizeLines.reduce((a, b) => a + b, 0) + breaksAdd
   }
 
   const getBends = ()=>{
     const pointers = data.dataLines.map((lineInfo)=> lineInfo.points)
-    const lengthPoint = pointers.flat(1).length - 2
+    let subastract = 0
+    if(data.startType !== "none"){
+      subastract += 1
+    }
+    if(data.endType !== "none"){
+      subastract += 1
+    }
+    const lengthPoint = pointers.flat(1).length - subastract
     return lengthPoint? lengthPoint/2 : 0
   }
 
