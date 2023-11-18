@@ -21,6 +21,7 @@ type Props = {
   typeEndLine: TYPE_END_LINES;
   typeStartLine: TYPE_END_LINES;
   isRight: boolean;
+  removeGrid?: boolean;
 };
 const SvgBoard: React.FC<Props> = ({
   graphs = [],
@@ -30,7 +31,8 @@ const SvgBoard: React.FC<Props> = ({
   height= heightScreen,
   typeEndLine,
   typeStartLine,
-  isRight
+  isRight,
+  removeGrid
 }) => {
   const colorPointer = '#8F94AE';
   const colorBorderPointer = '#000000';
@@ -50,7 +52,7 @@ const SvgBoard: React.FC<Props> = ({
 
   return (
     <Svg width={width} height={height}>
-      <GridComponent />
+      {!removeGrid && <GridComponent />}
       {renderTypeEndStartLines()}
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
         <React.Fragment key={`${Math.random()}`}>
