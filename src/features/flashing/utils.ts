@@ -314,5 +314,6 @@ const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_T
 }
 
 export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
+  if(nameStep === 'screen_shot') return 333
   return STEPS_BOARD.findIndex((stepName)=> stepName === nameStep)
 }
