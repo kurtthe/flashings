@@ -65,10 +65,10 @@ const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine,  
 				<Text fontWeight="600" fontSize={18} variant={typeLine === 'end' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('end')}>End</Text>
 			</Box>
 			<Box py="m" flexDirection="row" flexWrap="wrap">
-				<ButtonEndType title="None" active={validateTypeLine("none")} onPress={()=> handleClearLineType()} fullWidth style={{height: 60}} />
+				<ButtonEndType title="None" active={validateTypeLine("none")} onPress={()=> handleClearLineType()} style={{height: 60, width: 100}} />
 
-				<ButtonEndType title="Safety" active={validateTypeLine("safetyStart")} onPress={()=> handlePressButton('safetyStart')} icon={EndCurveLeftIcon}/>
-				<ButtonEndType title="Safety" active={validateTypeLine("safetyEnd")} onPress={()=> handlePressButton('safetyEnd')} icon={EndCurveRightIcon}/>
+				<ButtonEndType title="Safety" active={validateTypeLine("safetyStart")} onPress={()=> handlePressButton('safetyStart')} style={{height: 60, width: 100}} icon={EndCurveLeftIcon}/>
+				<ButtonEndType title="Safety" active={validateTypeLine("safetyEnd")} onPress={()=> handlePressButton('safetyEnd')} style={{height: 60, width: 100}} icon={EndCurveRightIcon}/>
 
 				<ButtonEndType title="Break" active={validateTypeLine("break2Start")} onPress={()=> handlePressButton('break2Start')}  icon={EndBreakLeft2Icon}/>
 				<ButtonEndType title="Break" active={validateTypeLine("break2End")} onPress={()=> handlePressButton('break2End')} icon={EndBreakRight2Icon}/>
