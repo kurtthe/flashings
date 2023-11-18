@@ -43,20 +43,29 @@ const LineMadeComponent: React.FC<Props> = ({
         <TextSvg
           id={id}
           colorLabel={angleIsSelected && isMeasurements? colorSelected: '#000'}
-          positionTextYRect={positionTextAngle[1]}
-          positionTextXRect={positionTextAngle[0]}
-          positionTextX={positionTextAngle[0] + 5}
+          positionTextYRect={positionTextAngle[1] - 13}
+          positionTextXRect={positionTextAngle[0] + 5}
+          positionTextX={positionTextAngle[0] + 20}
           positionTextY={positionTextAngle[1]}
           textValue={`${angle}°`}
         />
       )}
       {(step >= measurementIndex || previewIndex === step) && (
           <>
-            <TextSvg colorLabel={colorLabel} fontSize={fontSize} id={id}  positionTextYRect={positionText[1]} positionTextXRect={positionText[0]} positionTextX={positionText[0]} positionTextY={positionText[1]} textValue={LETTER_LINES[id]} />
+            <TextSvg
+              colorLabel={colorLabel}
+              fontSize={fontSize}
+              id={id}
+              positionTextX={positionText[0]}
+              positionTextY={positionText[1]}
+              textValue={LETTER_LINES[id]} />
             {line.distance && (
-              <TextSvg id={id} positionTextYRect={positionText[1] + fontSize} positionTextXRect={positionText[0] -18}
-                positionTextX={positionText[0]} positionTextY={positionText[1] + fontSize}
-                textValue={`${line.distance}mm`} />
+              <TextSvg
+                id={id}
+                positionTextX={positionText[0]}
+                positionTextY={positionText[1] + 15}
+                textValue={`${line.distance}mm`}
+              />
             )
             }
           </>

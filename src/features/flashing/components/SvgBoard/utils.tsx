@@ -4,11 +4,9 @@ import { Path as PathComponent, Ellipse } from "react-native-svg";
 import { buildPathLine } from "@features/flashing/utils";
 import { palette } from "@theme";
 import {
-	calculatePointsParabola,
 	calculateTypeLine, getAngleForTheLine
 } from "@features/flashing/components/SvgBoard/calculationsBreakSafety";
-
-
+import { calculatePointsParabola } from "@features/flashing/components/SvgBoard/calculateParabola";
 
 export const getEndStartTypeLine = ({typeStart, typeEnd,  lineEnd, lineStart}:START_END_LINE_TYPE )=>{
 	const colorBg = palette.base300

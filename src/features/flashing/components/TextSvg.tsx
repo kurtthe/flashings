@@ -4,8 +4,8 @@ import { Rect, Text } from "react-native-svg";
 type Props = {
   positionTextX : number;
   positionTextY : number;
-  positionTextXRect : number;
-  positionTextYRect : number;
+  positionTextXRect?: number;
+  positionTextYRect?: number;
   id: number;
   textValue: string;
   fontSize?: number;
@@ -17,7 +17,7 @@ const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX
 
   return (
     <>
-      <Rect
+      {(positionTextXRect && positionTextYRect) && <Rect
         width={textWidth}
         height={fontSize + 3}
         origin={`${positionTextX}, ${positionTextY}`}
@@ -26,7 +26,7 @@ const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX
         x={positionTextXRect}
         rx={0}
         ry={0}
-      />
+      />}
       <Text
         onLayout={event => {
           setTextWidth(event.nativeEvent.layout.width + 8);
@@ -34,8 +34,8 @@ const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX
         key={`backgroundSizeText${id}`}
         textAnchor="middle"
         fill={colorLabel}
-        y={positionTextY + fontSize}
-        x={positionTextX + 9}
+        y={positionTextY}
+        x={positionTextX}
         fontSize={fontSize}>
         {textValue}
       </Text>
