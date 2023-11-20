@@ -38,7 +38,7 @@ const ScrollBox = forwardRef<Props, typeof ScrollView>(
     const ScrollBoxComponent = useAsProp(ScrollView, as);
     const props = useAppRestyle(restyleFunctions, {...rest, ..._light});
 
-    return <ScrollBoxComponent ref={ref} {...props} />;
+    return <ScrollBoxComponent ref={ref}  {...props} />;
   },
 );
 

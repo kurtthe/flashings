@@ -13,20 +13,23 @@ import { Text, Button, Box } from '@ui/components';
 import SimpleButton from '@components/SimpleButton';
 import { Routes } from '../navigation/routes';
 
-const { height, width } = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-// import {
-//   widthPercentageToDP as wp,
-//   heightPercentageToDP as hp,
-// } from 'react-native-responsive-screen';
+type props = {
+  children: any
+}
 
-const DismissKeyboard = ({ children }) => (
+const DismissKeyboard: React.FC<props> = ({ children }) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     {children}
   </TouchableWithoutFeedback>
 );
-const LearnHowToOpenScreen = ({ navigation }) => {
-  const navigateTo = routeToGo => {
+
+type PropsLearnHowToOpen ={
+  navigation: any
+}
+const LearnHowToOpenScreen: React.FC<PropsLearnHowToOpen> = ({ navigation }) => {
+  const navigateTo = (routeToGo) => {
     navigation.navigate(routeToGo);
   };
 
