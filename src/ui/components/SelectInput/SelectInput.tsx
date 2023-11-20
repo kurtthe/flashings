@@ -23,6 +23,7 @@ import {DownIcon, UpIcon} from '@assets/icons';
 import { OptionsType, SelectInputProps } from "@ui/components/SelectInput/SelectInput.types";
 import { makeStyles } from "@ui/components/SelectInput/SelectInput.styles";
 import { isAndroid } from "@shared/platform";
+import { ColorThemeValue } from "@ui/components/SvgBox";
 
 const defaultProps = {
   activeColor: '#F6F7F8',
@@ -372,7 +373,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
             <Icon
               as={visible ? DownIcon : UpIcon}
               style={{alignSelf: 'center', position: 'absolute', right: 10}}
-              color={currentValue?.textColor? currentValue?.textColor: 'black'}
+              color={currentValue?.textColor? currentValue?.textColor as ColorThemeValue: 'black'}
             />
         </Pressable>
         {_renderModal()}
