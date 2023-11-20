@@ -50,12 +50,14 @@ const PreviewFlashing: React.FC<Props> = ({ imgPreview, dataFlashing,width=120, 
 				height={500}
 				draggable={false}
 			>
-				<Box style={{marginTop: -100}} backgroundColor="white">
+				<Box backgroundColor="white">
 					<BoardComponent
 						rightLinePaint={dataFlashing.parallelRight}
 						lines={dataFlashing.dataLines}
 						angles={anglesLines}
 						stepBoard={getIndexOfStepForName('preview')}
+						startTypeLine={dataFlashing.startType}
+						endTypeLine={dataFlashing.endType}
 					/>
 				</Box>
 			</ModalBottom>
