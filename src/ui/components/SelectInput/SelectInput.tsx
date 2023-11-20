@@ -262,7 +262,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
           const styleVertical: ViewStyle = {left: left, maxHeight: maxHeight};
           const isTopPosition =
             dropdownPosition === 'auto'
-              ? bottom < 500
+              ? bottom < 250
               : dropdownPosition === 'top';
           let topHeight = isTopPosition ? top - height : top;
           const keyboardStyle: ViewStyle = {};

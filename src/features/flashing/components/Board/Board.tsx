@@ -174,8 +174,7 @@ const Board: React.FC<Props> = ({
   const handleOnEditEndType = ()=> {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'));
   }
-  console.log("stepBoard::", stepBoard)
-  console.log("getIndexOfStepForName('screen_shot')::", getIndexOfStepForName('screen_shot'))
+
   return (
     <>
     <ScrollBox as={KeyboardAwareScrollView} showsVerticalScrollIndicator={false}>

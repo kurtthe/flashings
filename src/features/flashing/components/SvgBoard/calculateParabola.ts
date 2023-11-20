@@ -20,12 +20,6 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	const isVertical = pointX1 === pointX2;
 	const isStartLine = typeLine.includes('Start')
 
-	console.log("================================::================================")
-	console.log("endPoints::", endPoints)
-	console.log("isVertical::", isVertical)
-	console.log("isHorizontal::", isHorizontal)
-	console.log("pointY1 > pointY2::", pointY1 > pointY2)
-
 	if(isHorizontal){
 		if(pointX2 > pointX1){
 			if(isStartLine){
