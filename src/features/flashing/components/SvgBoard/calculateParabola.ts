@@ -4,7 +4,7 @@ import { calculateAngleAzimut } from "@features/flashing/components/SvgBoard/cal
 export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END_LINES, endPoints= false )=> {
 	const {points} = dataLine
 	const pending = calculateAngleAzimut(dataLine)
-	let radiusEllipseX = 4
+	let radiusEllipseX = 2
 	let radiusEllipseY = 10
 
 	const pointX1 = points[0][0];
@@ -79,7 +79,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 
 		if(isStartLine){
 			return {
-				points: [[currentPointX - 4, currentPointY ]],
+				points: [[currentPointX - radiusEllipseX, currentPointY ]],
 				radius: {
 					x: radiusEllipseY,
 					y: radiusEllipseX,
@@ -88,7 +88,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 			}
 		}
 		return {
-			points: [[currentPointX + 4, currentPointY]],
+			points: [[currentPointX + radiusEllipseX, currentPointY]],
 			rotation: pending,
 			radius: {
 				x: radiusEllipseY,
@@ -121,7 +121,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 
 		if(isStartLine){
 			return {
-				points: [[currentPointX - 5, currentPointY +3]],
+				points: [[currentPointX - radiusEllipseX, currentPointY +3]],
 				rotation: pending,
 				radius: {
 					x: radiusEllipseY,
@@ -130,7 +130,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 			}
 		}
 		return {
-			points: [[currentPointX + 5, currentPointY- 2]],
+			points: [[currentPointX + radiusEllipseX, currentPointY- 2]],
 			rotation: pending,
 			radius: {
 				x: radiusEllipseY,
@@ -144,7 +144,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 		if(pointY1 > pointY2){
 			if(isStartLine){
 				return {
-					points: [[currentPointX, currentPointY + 4 ]],
+					points: [[currentPointX, currentPointY + radiusEllipseY ]],
 					rotation: pending,
 					radius: {
 						x: radiusEllipseY,
@@ -153,7 +153,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 				}
 			}
 			return {
-				points: [[currentPointX, currentPointY - 4]],
+				points: [[currentPointX, currentPointY - radiusEllipseY]],
 				rotation: pending,
 				radius: {
 					x: radiusEllipseY,
@@ -164,7 +164,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 
 		if(isStartLine){
 			return {
-				points: [[currentPointX - 5, currentPointY - 2]],
+				points: [[currentPointX - radiusEllipseX, currentPointY - radiusEllipseY]],
 				rotation: pending,
 				radius: {
 					x: radiusEllipseY,
@@ -173,7 +173,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 			}
 		}
 		return {
-			points: [[currentPointX, currentPointY + 4]],
+			points: [[currentPointX, currentPointY + radiusEllipseY]],
 			rotation: pending,
 			radius: {
 				x: radiusEllipseY,
