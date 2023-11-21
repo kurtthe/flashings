@@ -48,15 +48,16 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
 
   const getBends = ()=>{
     const pointers = data.dataLines.map((lineInfo)=> lineInfo.points)
-    let subastract = 0
+    let addTo = 0
     if(data.startType !== "none"){
-      subastract += 1
+      addTo += 1
     }
     if(data.endType !== "none"){
-      subastract += 1
+      addTo += 1
     }
-    const lengthPoint = pointers.flat(1).length - subastract
-    return lengthPoint? lengthPoint/2 : 0
+
+    const lengthPoint = (pointers.length -1) + addTo
+    return lengthPoint ?? 0
   }
 
   const handleEditFlashing = ()=> {
