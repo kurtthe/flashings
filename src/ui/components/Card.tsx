@@ -13,6 +13,7 @@ import { useAsProp } from '@ui/hooks';
 import { forwardRef } from '@ui/utils';
 
 import type { Animation } from 'react-native-animatable';
+import { useIsDarkMode } from "@theme/hooks";
 
 type RestyleCardProps = VariantProps<Theme, 'cardVariants'> & BoxProps<Theme>;
 
@@ -41,7 +42,7 @@ const restyleFunctions = composeRestyleFunctions([
 const Card = forwardRef<CardProps, typeof View>(
   ({ as, _dark, _light, ...rest }, ref) => {
     const CardComponent = useAsProp(View, as);
-    const isDarkMode = false;
+    const isDarkMode = useIsDarkMode();
     const passedProps = useAppRestyle(restyleFunctions, {
       variant: '',
       ...rest,

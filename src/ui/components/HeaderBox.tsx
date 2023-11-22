@@ -1,16 +1,16 @@
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
+import { Platform, StyleSheet } from "react-native";
 import {
   SafeAreaInsetsContext,
   SafeAreaView,
 } from 'react-native-safe-area-context';
-
 import {Box, BoxProps, Text} from '@ui/components';
 
-type Props = BoxProps & {
+export type ScreenHeaderBoxProps = BoxProps & {
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
   title?: string;
+  maxLength?:number
 };
 
 const ScreenHeaderBox = ({
@@ -18,8 +18,9 @@ const ScreenHeaderBox = ({
   rightIcon,
   style,
   title,
+  maxLength = 35,
   ...rest
-}: Props) => (
+}: ScreenHeaderBoxProps) => (
   <SafeAreaInsetsContext.Consumer>
     {insets => (
       <SafeAreaView
@@ -33,9 +34,13 @@ const ScreenHeaderBox = ({
           mt="m"
           backgroundColor="white"
           {...rest}
-          style={[style]}>
+          style={[styles.container, { marginTop: (insets?.top ?? 0) + Platform.select({ ios: -20, default: 24 }), paddingVertical: Platform.select({android:15, ios: 0})}, style]}>
           {title && !leftIcon ? <Box px="m" /> : leftIcon}
-          {title && <Text variant="subheadLargeBold">{title}</Text>}
+          {title && <Text numberOfLines={1}  variant="subheadLargeBold">
+            {(title.length < maxLength || !maxLength)
+                ? `${title}`
+                : `${title.substring(0, maxLength)}...`}
+          </Text>}
           {title && !rightIcon ? <Box px="m" /> : rightIcon}
         </Box>
       </SafeAreaView>
@@ -52,6 +57,9 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowColor: 'rgba(47, 51, 80, 0.12)',
     shadowOpacity: 1,
+  },
+  container: {
+    zIndex: 1,
   },
 });
 

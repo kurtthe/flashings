@@ -70,6 +70,11 @@ const textVariants = {
     lineHeight: 18,
     color: 'textPrimary',
   },
+  bodySmallRegular: {
+    fontSize: 11,
+    lineHeight: 18,
+    color: 'lightGray',
+  },
   bodyLabelTextfield: {
     fontWeight: 'normal',
     fontSize: 12,
@@ -82,17 +87,23 @@ const textVariants = {
     lineHeight: 18,
   },
   bodyMediumLink: {
-    fontWeight: '500',
     fontSize: 14,
     lineHeight: 18,
     textDecorationLine: 'underline',
-    color: 'primary',
+    fontWeight: 'bold',
+    color: 'black',
   },
   bodyNumberBlack: {
     fontWeight: '900',
     fontSize: 14,
     lineHeight: 18,
     color: 'secondary',
+  },
+  linkTextSmall: {
+    fontSize: 10,
+    color: 'primary',
+    fontWeight: '500',
+    textDecorationLine: 'underline',
   },
   bodyButtonBold: {
     fontWeight: '600',
@@ -152,6 +163,11 @@ const textVariants = {
     fontSize: 16,
     lineHeight: 20,
   },
+  subheadSmallBold: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    lineHeight: 20,
+  },
   lightGraySmallText: {
     fontWeight: '500',
     fontSize: 13,
@@ -164,6 +180,14 @@ const textVariants = {
     letterSpacing: 0.049, // 0.049 (fontSize 14) = 0.0035em
     fontSize: 12,
   },
+  typeJobActive: {
+    color:"mustard",
+    textDecorationLine:"underline",
+    textDecorationColor:"mustard",
+  },
+  typeJob: {
+    color:"textGray"
+  }
 };
 
 export default textVariants;

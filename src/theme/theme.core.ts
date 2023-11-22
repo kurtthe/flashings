@@ -1,13 +1,7 @@
 import { createTheme } from '@shopify/restyle';
 
 import { palette } from '@theme/constants';
-import {
-  inputVariants,
-  textVariants,
-  buttonVariants,
-  cardVariants,
-} from '@theme/variants';
-import dividerVariants from '@theme/variants/divider.variants';
+import { buttonVariants, cardVariants, dividerVariants, inputVariants,  textVariants } from '@theme/variants';
 
 const theme = createTheme({
   colors: {
@@ -22,6 +16,7 @@ const theme = createTheme({
     base700: palette.base700,
     base800: palette.base800,
     base900: palette.base900,
+    success100: palette.success100,
     success700: palette.success700,
     bodyDrop: palette.blackAlpha500,
     navDrop: palette.blackAlpha250,
@@ -33,9 +28,8 @@ const theme = createTheme({
     orange: palette.error400,
     bodyOverlay: palette.bodyOverlay,
     charlotte: palette.charlotte,
-    textGray: palette.textGray,
-    lightBlue: palette.lightBlue,
-    primaryBlue: palette.primaryBlue,
+    error500: palette.error500,
+    grayIcon: palette.grayIcon,
   },
   spacing: {
     //@ts-ignore allow unset props
@@ -74,9 +68,9 @@ const theme = createTheme({
     tablet: 768,
   },
   zIndices: {},
-  inputVariants: inputVariants,
   textVariants: textVariants,
   buttonVariants: buttonVariants,
+  inputVariants: inputVariants,
   cardVariants: cardVariants,
   dividerVariants: dividerVariants,
 });

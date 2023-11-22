@@ -1,0 +1,63 @@
+[
+  {
+    "default": "0",
+    "angles": {
+      "none": "NaN",
+      "break2Start": 320,
+      "break2End" : 40,
+      "break1Start" : 220,
+      "break1End" : 140
+    }
+  },
+  {
+    "default": "86",
+    "angles": {
+      "none": "NaN",
+      "break2Start": 224,
+      "break2End" : 316,
+      "break1Start" : 136,
+      "break1End" : 44
+    }
+  },
+  {
+    "default": "90",
+    "angles": {
+      "none": "NaN",
+      "break2Start": 220,
+      "break2End" : 320,
+      "break1Start" : 140,
+      "break1End" : 40
+    }
+  },
+  {
+    "default": "-85",
+    "angles": {
+      "none": "NaN",
+      "break2Start": 225,
+      "break2End" : 315,
+      "break1Start" : 135,
+      "break1End" : 45
+    }
+  },
+  {
+    "default": "45",
+    "angles": {
+      "none": "NaN",
+      "break2Start": 190,
+      "break2End" : 270,
+      "break1Start" : 90,
+      "break1End" : 350
+    }
+  },
+  {
+    "default": "-90",
+    "angles": {
+      "none": "NaN",
+      "break2Start" : 40,
+      "break2End" : 140,
+      "break1Start": 320,
+      "break1End" : 220
+     
+    }
+  }
+]

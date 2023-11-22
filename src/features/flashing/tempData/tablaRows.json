@@ -1,0 +1,27 @@
+[
+  {
+    "dimension":"A",
+    "description":"Length across",
+    "length":""
+  },
+  {
+    "dimension":"B",
+    "description":"Off the wall dimension for overflow",
+    "length":""
+  },
+  {
+    "dimension":"C",
+    "description":"Overall Height",
+    "length":""
+  },
+  {
+    "dimension":"D",
+    "description":"Off the wall dimension for shroud",
+    "length":""
+  },
+  {
+    "dimension":"E",
+    "description":"Height of overflow wall",
+    "length":""
+  }
+]

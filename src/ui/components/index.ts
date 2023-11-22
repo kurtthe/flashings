@@ -27,3 +27,7 @@ export type { BaseTouchableProps } from './BaseTouchable';
 export { default as BaseTouchable } from './BaseTouchable';
 export type { CardProps } from './Card';
 export { default as Card } from './Card';
+export {default as SelectInput} from './SelectInput/SelectInput';
+export type { SelectInputProps, OptionsType} from './SelectInput';
+export {default as ScreenHeaderBox} from './HeaderBox'
+export type {ScreenHeaderBoxProps} from './HeaderBox'

@@ -14,9 +14,7 @@ import { Host as PortalProvider } from 'react-native-paper-portal';
 import { Provider as StoreProvider, ProviderProps } from 'react-redux';
 import { PersistGate, PersistGateProps } from 'redux-persist/integration/react';
 
-type Props = Pick<PersistGateProps, 'persistor'> & ProviderProps &{
-  children: React.ReactElement
-};
+type Props = Pick<PersistGateProps, 'persistor'> & ProviderProps;
 
 export const Application: React.FC<Props> = ({ persistor, store }) => {
   return (
@@ -37,7 +35,3 @@ export const Application: React.FC<Props> = ({ persistor, store }) => {
     </SafeAreaProvider>
   );
 };
-
-const styles = StyleSheet.create({
-  safeAreaView: { flex: 1 },
-});

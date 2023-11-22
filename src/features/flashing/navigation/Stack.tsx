@@ -2,80 +2,67 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Routes } from './routes';
 import {
-  CreateFlashingScreen,
-  GutterFlashingScreen,
-  DemoFlashingScreen,
-} from '../screens';
+  BoardFlashingScreen,
+  CreateEditFlashingScreen,
+  CreateRainheadScreen,
+} from "../screens";
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
-import GutterFlashingExamples from '../screens/GutterFlashingExamples';
-import CreateRainheadScreen from '../screens/CreateRainhead';
+import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
+import { Alert } from "react-native";
 
 const Stack = () => {
-  const { Navigator, Screen } = createStackNavigator();
+  const { Navigator, Screen } = createStackNavigator<FlashingParamsList>();
 
   return (
-    <Navigator initialRouteName={Routes.GUTTER_FLASHING}>
+    <Navigator initialRouteName={Routes.CREATE_EDIT_FLASHING}>
       <Screen
-        name={Routes.CREATE_FLASHING}
-        component={CreateFlashingScreen}
+        name={Routes.CREATE_EDIT_FLASHING}
+        component={CreateEditFlashingScreen}
         options={{
-          header: () => (
+          header: ({navigation, route}) => (
             <HeaderBox
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title="New Flashing"
+              leftIcon={<HeaderBackButton/>}
+              title={route.params?.idFlashing? "Edit Flashing":"New Flashing"}
             />
           ),
         }}
       />
       <Screen
-        name={Routes.GUTTER_FLASHING}
-        component={GutterFlashingScreen}
+        name={Routes.BOARD_FLASHING}
+        component={BoardFlashingScreen}
         options={{
-          header: () => (
-            <HeaderBox
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              rightIcon={<Icon as={CartIcon} />}
-              title="Gutter Flashing"
-            />
-          ),
-        }}
-      />
-      <Screen
-        name={Routes.DEMO}
-        component={DemoFlashingScreen}
-        options={{
-          header: () => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title="demo event"
-            />
-          ),
-        }}
-      />
-      <Screen
-        name={Routes.GUTTER_FLASHING_EXAMPLES}
-        component={GutterFlashingExamples}
-        options={{
-          header: () => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title={'Gutter Flashing'}
-            />
-          ),
+          header: ({navigation}) => {
+            const alertDelete = () =>
+              Alert.alert('Are you sure you want to continue? ', 'The data will not be saved.', [
+                {
+                  text: 'Cancel',
+                  style: 'cancel',
+                },
+                {text: 'Yes', onPress: () => {
+                    navigation.goBack()
+                  }},
+              ]);
+
+            return (
+              <HeaderBox
+                leftIcon={<HeaderBackButton customPressEvent={alertDelete}  />}
+                rightIcon={<Icon as={CartIcon} color="grayIcon" />}
+                title="Draw Flashing"
+              />
+            )
+          },
         }}
       />
       <Screen
         name={Routes.CREATE_RAINHEAD}
         component={CreateRainheadScreen}
         options={{
-          header: () => (
+          header: ({navigation}) => (
             <HeaderBox
               mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => null} />}
-              title={'New Rainhead'}
+              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
+              title='New Rainhead'
             />
           ),
         }}

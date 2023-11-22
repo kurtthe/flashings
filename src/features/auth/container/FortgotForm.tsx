@@ -7,6 +7,8 @@ import { useForgotPassword } from '@hooks/auth';
 import { useNavigation } from '@react-navigation/native';
 import { AuthStackProps } from '@features/auth/navigation/Stack.types';
 import { Routes } from '@features/auth/navigation/routes';
+import { Box, Text } from "@ui/components";
+import { SimpleButton } from "@components";
 
 const ForgotForm = () => {
   const navigation = useNavigation<AuthStackProps>();
@@ -24,17 +26,35 @@ const ForgotForm = () => {
   }, []);
 
   return (
-    <Formik
-      innerRef={formikRef}
-      initialValues={{
-        ...forms.forgot.initialValues,
-        email: forms.forgot.initialValues.email,
-      }}
-      initialErrors={forms.forgot.initialErrors}
-      validationSchema={forms.forgot.schema}
-      onSubmit={handleSubmit}>
-      <ForgotFormComponent />
-    </Formik>
+    <>
+      <Formik
+        innerRef={formikRef}
+        initialValues={{
+          ...forms.forgot.initialValues,
+          email: forms.forgot.initialValues.email,
+        }}
+        initialErrors={forms.forgot.initialErrors}
+        validationSchema={forms.forgot.schema}
+        onSubmit={handleSubmit}>
+        <ForgotFormComponent />
+      </Formik>
+
+      <Box flex={0.8} backgroundColor="white">
+          <SimpleButton
+            underlined
+            onPress={() => navigation.navigate(Routes.HELP_SUPPORT)}>
+            Need Help?
+          </SimpleButton>
+          <Box mt="s" flexDirection="column" justifyContent="center" alignItems="center">
+            <Text style={{ color: '#444857', fontSize: 15 }}>
+              Already remember your password?
+            </Text>
+            <SimpleButton onPress={() => navigation.navigate(Routes.LOGIN)}>
+              Login
+            </SimpleButton>
+          </Box>
+      </Box>
+    </>
   );
 };
 

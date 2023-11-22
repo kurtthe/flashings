@@ -9,9 +9,10 @@ import {
 } from '../screens';
 import HelpSupportScreen from '../screens/HelpSupport';
 import LearnHowToOpenScreen from '../screens/LearnHowToOpen';
+import { AuthParamsList } from "@features/auth/navigation/Stack.types";
 
 const Stack = () => {
-  const { Navigator, Screen } = createStackNavigator();
+  const { Navigator, Screen } = createStackNavigator<AuthParamsList>();
 
   return (
     <Navigator initialRouteName={Routes.LOGIN}>

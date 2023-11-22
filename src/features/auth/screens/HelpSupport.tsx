@@ -3,36 +3,23 @@ import {
   StyleSheet,
   Image,
   Dimensions,
-  TouchableWithoutFeedback,
-  KeyboardAvoidingView,
-  Keyboard,
-  Platform,
+  Linking,
+  Alert,
   View,
 } from 'react-native';
-import { Text, Button, Box } from '@ui/components';
-
-const { height, width } = Dimensions.get('screen');
-
-// import {
-//   widthPercentageToDP as wp,
-//   heightPercentageToDP as hp,
-// } from 'react-native-responsive-screen';
-
-const DismissKeyboard = ({ children }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
-const HelpSupportScreen = ({ navigation }) => {
-  const navigateTo = routeToGo => {
-    navigation.navigate(routeToGo);
-  };
+import { Text, Button, Box, KeyboardAvoidingBox } from "@ui/components";
+import DismissKeyboardPressable from "@components/forms/DismissKeyboardPressable";
+import { useNavigation } from "@react-navigation/native";
+const { width } = Dimensions.get('screen');
+import { formatPhone } from "@shared/helpers";
+const HelpSupportScreen = () => {
+  const navigation = useNavigation()
+  const numberPhone = "0399993333"
+  const emailAddress = "help@burdens.com.au"
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.container}>
-      <DismissKeyboard>
+    <KeyboardAvoidingBox flex={1}>
+      <DismissKeyboardPressable>
         <View style={styles.container}>
           <View style={styles.logoAndMainTextContainer}>
             <Image
@@ -52,15 +39,15 @@ const HelpSupportScreen = ({ navigation }) => {
               <Text style={[styles.infoTextStyle, { paddingBottom: 5 }]}>
                 Email
               </Text>
-              <Text style={styles.underlinedTextStyle}>
-                help@burdens.com.au
+              <Text onPress={()=> Linking.openURL(`mailto:${emailAddress}`)}  style={styles.underlinedTextStyle}>
+                {emailAddress}
               </Text>
             </View>
             <View>
-              <Text style={[styles.infoTextStyle, { paddingBottom: 5 }]}>
+              <Text  style={[styles.infoTextStyle, { paddingBottom: 5 }]}>
                 Phone number
               </Text>
-              <Text style={styles.underlinedTextStyle}>03 9999 3333</Text>
+              <Text onPress={()=> Linking.openURL(`tel:${numberPhone}`)} style={styles.underlinedTextStyle}>{formatPhone(numberPhone, {format: "NATIONAL"})}</Text>
             </View>
           </View>
           <Box flex={2} style={{ justifyContent: 'flex-end' }}>
@@ -69,8 +56,8 @@ const HelpSupportScreen = ({ navigation }) => {
             </Button>
           </Box>
         </View>
-      </DismissKeyboard>
-    </KeyboardAvoidingView>
+      </DismissKeyboardPressable>
+    </KeyboardAvoidingBox>
   );
 };
 

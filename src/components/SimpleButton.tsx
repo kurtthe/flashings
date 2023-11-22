@@ -40,6 +40,7 @@ const styles_btn_link = StyleSheet.create({
     fontFamily: 'montserrat-bold',
     fontSize: 15,
     textAlign: 'center',
+    fontWeight: 'bold',
   },
 });
 

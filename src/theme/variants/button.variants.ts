@@ -19,6 +19,7 @@ const buttonVariants = {
     backgroundColor: 'primaryBlue',
     color: 'white',
   },
+
   ghost: {},
   link: {
     textDecorationLine: 'underline',
@@ -39,12 +40,31 @@ const buttonVariants = {
     color: 'primaryBlue',
     borderWidth: 1,
     borderColor: 'black',
+    borderRadius: 'unset',
+    fontWeight: 'bold',
+  },
+  textSmall: {
+    backgroundColor: 'white',
+    fontSize: 10,
+    color: 'primaryBlue',
+    minHeight: 'auto',
+    px: 'xs',
+    py: 'xs',
+
   },
   small: {
     backgroundColor: 'primaryBlue',
     minHeight: 30,
     fontSize: 14,
     color: 'white',
+  },
+  smallWhite: {
+    px: "unset",
+    backgroundColor: 'white',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    color: 'black',
   },
   smallMenu: {
     minHeight: 30,
@@ -61,24 +81,21 @@ const buttonVariants = {
     borderColor: 'white',
     color: 'white',
   },
-  keyboard: {
-    width: 50,
+  delete: {
+    backgroundColor: 'error500',
+    color: 'white',
+  },
+  endType: {
+    width: 100,
     backgroundColor: 'input',
     borderWidth: 1,
     borderColor: 'buttonBorder',
-    height: 25,
+    height: 50,
     marginHorizontal: 'xs',
     marginTop: 's',
+    fontSize: 20
   },
-  keyboardBig: {
-    width: '92%',
-    backgroundColor: 'input',
-    borderWidth: 1,
-    borderColor: 'buttonBorder',
-    height: 25,
-    marginHorizontal: 'xs',
-    marginTop: 's',
-  },
+
 };
 
 export default buttonVariants;
