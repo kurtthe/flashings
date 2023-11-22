@@ -1,84 +1,123 @@
 import React from 'react';
 import { FieldInput } from '@components/forms';
 import { useFormikContext } from 'formik';
-import { CreateFormValues } from '@features/jobs/containers/types';
+import { CreateEditFormValues } from "@features/jobs/containers/types";
 import { Box, Button, Divider, Text } from '@ui/components';
+import { formKeys, forms, validatePhone } from "@features/jobs/constants";
+import { formatPhone } from "@shared/helpers";
+import { useAppDispatch } from "@hooks/useStore";
+import { actions } from '@store/jobs/actions';
+import { Alert } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { JobStackProps } from "@features/jobs/navigation/Stack.types";
+import { Routes } from "@features/jobs/navigation/routes";
 
-const CreateJobFormComponent = ({}) => {
-  const formik = useFormikContext<CreateFormValues>();
-  const { errors, isValid, isSubmitting, handleSubmit } = formik;
+type Props = {
+  labelButton: string;
+  jobId?: number;
+}
+const CreateEditJobFormComponent: React.FC<Props> = ({labelButton, jobId}) => {
+  const { isValid,  handleSubmit,  setFieldValue } = useFormikContext<CreateEditFormValues>();
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation<JobStackProps>()
+
+  const handleEndEditing = (text: string) => {
+    if (!text) return;
+    const value = text;
+    const numberInternational = value.includes('+')
+    const isValidPhoneNumber = validatePhone(value, !numberInternational? 'NATIONAL': 'INTERNATIONAL');
+
+    if (isValidPhoneNumber) {
+      const numberInternational = value.includes('+')
+      const phoneNumber = formatPhone(value, {format: numberInternational? 'INTERNATIONAL': 'NATIONAL'});
+      setFieldValue(formKeys.createEditJob.contactNumber, phoneNumber)
+    }
+  };
+
+  const alertDelete = () =>
+    Alert.alert('Are you sure delete this job?', '', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {text: 'Yes', onPress: () => {
+        if(!jobId) return
+        dispatch(actions.deleteJob({ idJob: jobId }))
+        navigation.navigate(Routes.ALL_JOBS)
+        }},
+    ]);
+
 
   return (
     <>
       <Box>
-        <Text variant="subheadSmall">Job Details</Text>
+        <Text variant="subheadSmallBold">Job Details</Text>
         <FieldInput
-          name="jobName"
-          placeholder="Job Name"
+          isRequired
+          name={formKeys.createEditJob.jobName}
+          placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.jobName]}
+          label={forms.createEditJob.labels[formKeys.createEditJob.jobName]}
           returnKeyType="next"
-          isDisabled={isSubmitting}
-          label="Job Name"
           mt="m"
         />
         <FieldInput
-          name="jobNumber"
-          placeholder="Job Number"
+          name={formKeys.createEditJob.jobNumber}
+          placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.jobNumber]}
+          label={forms.createEditJob.labels[formKeys.createEditJob.jobNumber]}
           returnKeyType="next"
-          isDisabled={isSubmitting}
-          label="Job Number"
           mt="m"
         />
         <FieldInput
-          name="siteAddress"
-          placeholder="Site Address"
+          name={formKeys.createEditJob.siteAddress}
+          placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.siteAddress]}
+          label={forms.createEditJob.labels[formKeys.createEditJob.siteAddress]}
           returnKeyType="next"
-          isDisabled={isSubmitting}
-          label="Site Address"
-          mt="m"
-        />
-        <FieldInput
-          name="fileUpload"
-          placeholder="File Upload"
-          returnKeyType="next"
-          isDisabled={isSubmitting}
-          label="File upload"
           mt="m"
         />
       </Box>
       <Divider my="l" />
-      <Text variant="subheadSmall">Contact Details</Text>
+      <Text variant="subheadSmallBold">Contact Details</Text>
       <FieldInput
-        name="contactName"
-        placeholder="Contact Name"
+        isRequired
+        name={formKeys.createEditJob.contactName}
+        placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.contactName]}
+        label={forms.createEditJob.labels[formKeys.createEditJob.contactName]}
         returnKeyType="next"
-        isDisabled={isSubmitting}
-        mt="m"
-        label="Contact Name"
-      />
-      <FieldInput
-        name="contactNumber"
-        placeholder="Contact Number"
-        returnKeyType="next"
-        isDisabled={isSubmitting}
-        label="Contact Number"
         mt="m"
       />
       <FieldInput
-        name="contactEmail"
-        placeholder="Contact Email"
+        isRequired
+        name={formKeys.createEditJob.contactNumber}
+        placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.contactNumber]}
+        label={forms.createEditJob.labels[formKeys.createEditJob.contactNumber]}
         returnKeyType="next"
-        isDisabled={isSubmitting}
-        label="Contact Email"
+        keyboardType="phone-pad"
+        inputMode="tel"
+        textContentType="telephoneNumber"
+        mt="m"
+        onEndEditing={(e) => handleEndEditing(e.nativeEvent.text)}
+      />
+      <FieldInput
+        isRequired
+        name={formKeys.createEditJob.contactEmail}
+        placeholder={forms.createEditJob.placeholders[formKeys.createEditJob.contactEmail]}
+        label={forms.createEditJob.labels[formKeys.createEditJob.contactEmail]}
+        returnKeyType="next"
         keyboardType="email-address"
         textContentType="emailAddress"
         autoCompleteType="email"
         mt="m"
       />
-      <Button mt="l" mb="xl" onPress={() => {}}>
-        Create Job
+      {jobId && (
+        <Button variant="delete" mt="l"  onPress={alertDelete}>
+          Delete
+        </Button>
+      )}
+      <Button mt="s" mb="xl" isDisabled={!isValid}  onPress={handleSubmit.bind(null, undefined)}>
+        {labelButton}
       </Button>
     </>
   );
 };
 
-export default CreateJobFormComponent;
+export default CreateEditJobFormComponent;

@@ -1,50 +1,28 @@
 import { Dimensions } from 'react-native';
 import { ReactElement } from 'react';
-
-export type COORDS_TYPE = {
-  point: LINE_TYPE;
-  sizeLine: string;
-};
-
-export type POINT_TYPE = [number, number];
+import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
+export const STEPS_BOARD: MODES_BOARD[] = ['draw', 'side','measurements', 'end_type', 'finish'];
 
 export type MAKE_LINE = {
   lines: LINE_TYPE[];
-  onPressLine: (numberLine: number) => void;
-  isDrawing?: boolean;
+  step: number;
   rightLinePaint?: boolean;
+  lineSelected: number
 };
 
 export type BUILD_LINE = {
   id: number;
   line: LINE_TYPE;
-  onPressLine: (numberLine: number) => void;
-  isDrawing?: boolean;
+  lineSelected: number;
+  step: number;
   rightLinePaint?: boolean;
 };
 export const SIZE_POINTER = 4;
 export const SIZE_POINTER_LAST = 8;
 export const widthScreen = Dimensions.get('screen').width;
-export const heightScreen = Dimensions.get('screen').height;
-type Boundaries = [number, number];
-export type ScaleFunction = (value: number) => number;
-
-export const rescale =
-  (from: Boundaries, to: Boundaries) =>
-  (scale: ScaleFunction): ScaleFunction => {
-    const scaledFrom = from.map(scale);
-    const ratio = (to[1] - to[0]) / (scaledFrom[1] - scaledFrom[0]);
-    return value => (scale(value) - scaledFrom[0]) * ratio + to[0];
-  };
+export const heightScreen = Dimensions.get('screen').height * 2;
 
 export const CIRCLE_RADIUS = 15;
-
-export type LINE_TYPE = {
-  points: POINT_TYPE[];
-  pending: number;
-  distance: number;
-  isLine: boolean;
-};
 
 export type DREW_LINE_TYPE = LINE_TYPE & {
   path: ReactElement | undefined;
@@ -53,6 +31,7 @@ export type DREW_LINE_TYPE = LINE_TYPE & {
 export type LINE_SELECTED = {
   sizeLine: number;
   numberLine: number;
+  angle: number | undefined;
 };
 export const LETTER_LINES = [
   'A',

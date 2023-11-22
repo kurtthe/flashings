@@ -11,7 +11,7 @@ function useFontStyle({
   }
   const customFontFamily = getCustomFontFamily(fontFamily, fontWeight);
   return {
-    fontFamily: customFontFamily || fontFamily,
+    fontFamily: customFontFamily ?? fontFamily,
     fontWeight: customFontFamily ? null : fontWeight,
   };
 }

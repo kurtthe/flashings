@@ -5,13 +5,16 @@ import {
 } from '@features/flashing/components/Grid/Grid.types';
 import { scaleBand } from 'd3-scale';
 import {
-  casesLineParallel,
-  LINE_TYPE,
-  POINT_TYPE,
-} from '@features/flashing/components';
+  casesLineParallel, STEPS_BOARD
+} from "@features/flashing/components";
 import { parse, round, serialize } from 'react-native-redash';
 import * as shape from 'd3-shape';
 import { isNaN } from "lodash";
+import {
+  LINE_TYPE,
+  MODES_BOARD,
+  POINT_TYPE,
+} from "@models";
 
 type ScaleColumnType = {
   domainData: string[];
@@ -88,9 +91,6 @@ export const calculateSizeLine = (
   return round(result, 0);
 };
 
-
-
-
 export const validateLineComplete = (lines: LINE_TYPE[]): boolean => {
   const lastLine = lines[lines.length - 1];
   return lastLine.points.length === 2;
@@ -144,7 +144,6 @@ const getPointParallel = ({line, offset, isRight}:{line: LINE_TYPE; offset: numb
       ? dataPendingNegative.someOnePointMajor[side]
       : dataPendingNegative.default[side];
   }
-
   return pointsLineParallel.default;
 }
 export const calculateParallelLines = (
@@ -186,46 +185,40 @@ export const calculateParallelLines = (
       if(!pointIntersectionPrevious || !pointIntersectionNext) return currentLineParallel
       return [pointIntersectionPrevious, pointIntersectionNext]
     }
-
     return currentLineParallel
   })
 };
 
-export const calculatePositionText = (
-  { pending, points }: LINE_TYPE,
-  offset: number = 0.5,
-  atPoint: boolean = false
+/**
+ * function to  calculate the point half between lines
+ * @param line
+ * this is the equation[(x1+x2)/2, (y1+y2)/2]
+ */
+export const calculatePointHalf = (
+  line: LINE_TYPE,
 ): POINT_TYPE => {
-  const isHorizontal = pending === 0;
-  const isVertical = 'Infinity' === `${pending}`;
 
-  const pointInit = points[0];
-  const pointFinal = points[1];
+  const x1 = line.points[0][0]
+  const x2 = line.points[1][0]
 
-  if(atPoint){
-    return [points[1][0] - offset * 25, points[1][1]]
-  }
+  const y1 = line.points[0][1]
+  const y2 = line.points[1][1]
 
-  if (isHorizontal) {
-    return [pointInit[0] + pointFinal[0] / 1.5, pointInit[1] - offset * 25];
-  }
-
-  if (isVertical) {
-    return [pointInit[0] - offset * 25, (pointInit[1] + pointFinal[1]) / 1.5];
-  }
-
-  return [
-    (pointInit[0] + pointFinal[0]) / 2 + offset * 25,
-    (pointInit[1] + pointFinal[1]) / 2 + offset * 25,
-  ];
+  const xPoint = (x1 + x2) / 2
+  const yPoint = (y1 + y2) / 2
+  return [round(xPoint, 0),round(yPoint, 0)]
 };
 
-export const buildPathLine = (points: LINE_TYPE['points']) => {
+export const positionEndLine = (line1: LINE_TYPE): POINT_TYPE=> {
+  return [line1.points[1][0]+5, line1.points[1][1]+5];
+}
+
+export const buildPathLine = (points: LINE_TYPE['points'], curseLine: shape.CurveFactory= shape.curveLinear ) => {
   const generatorLine = shape
     .line()
     .x(data => data[0])
     .y(data => data[1])
-    .curve(shape.curveLinear);
+    .curve(curseLine);
   return serialize(parse(generatorLine(points) as string));
 };
 
@@ -241,65 +234,67 @@ export const buildPathLineParallel = (points: LINE_TYPE['points']) => {
  * function calculate the  angle between two lines
  * ∠ = arctan((m2-m1)/(1+m1*m2))
  * */
-export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined)=> {
+export const calculateAngle = (firstLine: LINE_TYPE, secondLine: LINE_TYPE | undefined): number | undefined=> {
+
   if(!secondLine) return undefined
 
-  const m1 = firstLine.pending === Infinity ? 120 : firstLine.pending
-  const m2 = secondLine.pending  === Infinity ? 120 : secondLine.pending
+  const m1 = firstLine.pending === Infinity  || firstLine.pending  === -Infinity? 120 : firstLine.pending
+  const m2 = secondLine.pending  === Infinity || secondLine.pending  === -Infinity ? 120 : secondLine.pending
 
   const subtractionPending = m2 - m1
   const multiplePending = m2*m1
   const numerator = 1 + multiplePending
-  const result = subtractionPending / numerator
-  const angleRad = Math.atan(result)
+  const resultA = subtractionPending / numerator
+  const angleRad = Math.atan(resultA)
   let angleDeg = angleRad * 180 / Math.PI
 
   if(angleDeg <= 0){
     angleDeg = 180 - Math.abs(angleDeg)
   }
-  // console.log("internal angleDeg::", angleDeg)
-  // console.log("external angleDeg::", 180 - angleDeg)
-
-  return round(angleDeg, 0);
+  return round(angleDeg, 0)
 }
 
+export const createEquationOfLine = ({points, angle, pending}:{ points: LINE_TYPE["points"]; angle?: number; pending?:number
+}): string=> {
+  const x1 = points[0][0]
+  const y1 = points[0][1]
 
-const createEquationOfLine = (line: LINE_TYPE): string=> {
-  const x1 = line.points[0][0]
-  const y1 = line.points[0][1]
+  const thePending = angle? Math.tan(angle): pending ?? 0
 
-  const pendingMultiplyX1 = line.pending*(x1 * -1)
+  const pendingMultiplyX1 = thePending*(x1 * -1)
   const sumY1PendingMultiply = pendingMultiplyX1 + y1
 
-  return `${line.pending}x${sumY1PendingMultiply > 0 ? '+': ''}${sumY1PendingMultiply}`
+  return `${thePending}x${sumY1PendingMultiply > 0 ? '+': ''}${sumY1PendingMultiply}`
 }
 
 const resolveEqWithValueX = (eq: string, valueX: number)=>{
   const eqWithValueX = eq.replace('x', `*${valueX}`)
   return eval(eqWithValueX)
-
 }
 
 const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_TYPE | undefined):POINT_TYPE | null=>{
-
   if(!line2) return null;
-  if(line1.pending === Infinity && line2.pending === 0){
-    return [line1.points[0][0], line2.points[0][1]]
+
+  const eq1 = createEquationOfLine({points: line1.points, pending: line1.pending})
+  const eq2 = createEquationOfLine({points: line2.points, pending: line2.pending})
+
+  if(eq1.includes('Infinity')){
+    if(line2.pending === 0){
+      return [line1.points[0][0], line2.points[0][1]]
+    }
+    const yPoint = resolveEqWithValueX(eq2, line1.points[0][0])
+    return [line1.points[0][0], yPoint]
   }
 
-  if(line1.pending === -Infinity && line2.pending === 0){
-    return [line1.points[0][0], line2.points[0][1]]
+  if(eq2.includes('Infinity')){
+    return [line2.points[0][0], line1.points[1][1]]
   }
-
-  const eq1 = createEquationOfLine(line1)
-  const eq2 = createEquationOfLine(line2)
 
   const paramsEq1 = eq1.split('x')
   const paramsEq2 = eq2.split('x')
 
   const paramPending1 = parseFloat(paramsEq1[0])
   const paramPending2 = parseFloat(paramsEq2[0]) * -1
-
 
   const result = paramPending1 + paramPending2
 
@@ -316,4 +311,9 @@ const calculatePointsIntersectionBetweenLines = (line1: LINE_TYPE, line2: LINE_T
   const yPoint = resolveEqWithValueX(eq1, xPoint)
 
   return [xPoint, yPoint]
+}
+
+export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
+  if(nameStep === 'screen_shot') return 333
+  return STEPS_BOARD.findIndex((stepName)=> stepName === nameStep)
 }

@@ -4,7 +4,6 @@ import type { CircleProps } from 'react-native-svg';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedProps,
-  useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import {

@@ -1,4 +1,4 @@
-import {memo, useState} from 'react';
+import React from 'react';
 import {
   Animated,
   GestureResponderEvent,
@@ -18,7 +18,7 @@ import {
   TextProps as ShopifyRestyleTextProps,
   textRestyleFunctions,
 } from '@shopify/restyle';
-import {CustomFonts, useAppRestyle, useAppTheme} from '@theme';
+import {CustomFonts, useAppRestyle} from '@theme';
 
 import {useAsProp, useFontStyle} from '@ui/hooks';
 import {forwardRef} from '@ui/utils';
@@ -64,40 +64,17 @@ const restyleFunctions = composeRestyleFunctions([
 ]);
 
 const Text = forwardRef<TextProps, typeof RNText>(
-  (
-    {
-      as,
-      style,
-      onPress,
-      isDisabled,
-      onPressIn,
-      onPressOut,
-      isBlurred,
-      _dark,
-      _light,
-      ...rest
-    },
-    ref,
-  ) => {
-    const {
-      colors: {textPrimary},
-    } = useAppTheme();
+  ({ as, style, onPress, isDisabled, onPressIn, onPressOut, isBlurred, _dark, _light, ...rest }, ref) => {
     const TextComponent = useAsProp(RNText, as);
-    const [isHighlighted, setHighlighted] = useState(false);
+    const [isHighlighted, setHighlighted] = React.useState(false);
     const {
       style: [textStyle],
       ...props
-    } = useAppRestyle(restyleFunctions, {
-      variant: '',
-      ...rest,
-      ..._light,
-    });
+    } = useAppRestyle(restyleFunctions, { variant: '', ...rest, ..._light });
+    // @ts-ignore
     const fontStyle = useFontStyle(textStyle);
     const highlightedStyle = isHighlighted
-      ? {
-          backgroundColor: 'rgba(0,0,0,0.1)',
-          borderRadius: 4,
-        }
+      ? { backgroundColor: 'rgba(0,0,0,0.1)', borderRadius: 4 }
       : undefined;
     const handlePressIn = (ev: GestureResponderEvent) => {
       setHighlighted(true);
@@ -114,7 +91,7 @@ const Text = forwardRef<TextProps, typeof RNText>(
       <TextComponent
         {...props}
         ref={ref}
-        style={[textStyle, fontStyle, highlightedStyle, style]}
+        style={[fontStyle,textStyle,  highlightedStyle, style]}
         onPress={onPress}
         onPressIn={Platform.select({
           ios: onPressIn,
@@ -134,9 +111,5 @@ Text.defaultProps = {
   maxFontSizeMultiplier: 1.3,
 };
 
-export default memo(Text) as typeof Text;
+export default React.memo(Text) as typeof Text;
 
-const styles = StyleSheet.create({
-  blurView: StyleSheet.absoluteFillObject,
-  textShadow: {textShadowRadius: 5, textShadowOffset: {width: 0, height: 0}},
-});

@@ -47,15 +47,15 @@ type RestyleButtonProps = VariantProps<Theme, 'buttonVariants'> &
 
 export type ButtonProps = RestyleButtonProps &
   Omit<BaseButtonProps, 'disabled'> & {
-    children?: React.ReactText;
-    spinner?: React.ReactElement;
-    isLoading?: boolean;
-    isDisabled?: boolean;
-    isFullWidth?: boolean;
-    _disabled?: RestyleButtonProps & { _dark?: RestyleButtonProps };
-    _dark?: RestyleButtonProps;
-    _light?: RestyleButtonProps;
-  };
+  children?: React.ReactText;
+  spinner?: React.ReactElement;
+  isLoading?: boolean;
+  isDisabled?: boolean;
+  isFullWidth?: boolean;
+  _disabled?: RestyleButtonProps & { _dark?: RestyleButtonProps };
+  _dark?: RestyleButtonProps;
+  _light?: RestyleButtonProps;
+};
 
 const variant = createVariant({
   themeKey: 'buttonVariants',
@@ -76,12 +76,8 @@ const restyleFunctions = composeRestyleFunctions([
   variant,
 ]);
 
-const spacingStyleProperties = spacing.map(
-  ({ property }) => property as string,
-);
-const textStyleProperties = [color, ...typography].map(
-  ({ property }) => property as string,
-);
+const spacingStyleProperties = spacing.map(({ property }) => property as string);
+const textStyleProperties = [...color, ...typography].map(({ property }) => property as string);
 
 const Button = forwardRef<ButtonProps, typeof Pressable>(
   (
@@ -101,7 +97,6 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
     },
     ref,
   ) => {
-    const isDarkMode = false;
     const disabledStyle = {
       backgroundColor: buttonVariant === 'solid' ? 'disabled' : undefined,
       opacity: buttonVariant !== 'solid' ? 0.5 : 1,
@@ -112,7 +107,7 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
       alignSelf,
       ...(isDisabled && disabledStyle),
       ...rest,
-      ...(isDarkMode ? _dark : _light),
+      ..._light,
     });
     const fontStyle = useFontStyle(props.style[0] as TextStyle);
     const containerStyle = props.style[0];
@@ -124,10 +119,7 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
         if (textStyleProperties.indexOf(styleProperty) !== -1) {
           styleAcc.textStyle[styleProperty] = containerStyle[styleProperty];
           isValidStyle = false;
-        } else if (
-          styleProperty.startsWith('margin') &&
-          spacingStyleProperties.indexOf(styleProperty) !== -1
-        ) {
+        } else if (styleProperty.startsWith('margin') && spacingStyleProperties.indexOf(styleProperty) !== -1) {
           styleAcc.spacingStyle[styleProperty] = containerStyle[styleProperty];
           isValidStyle = false;
         } else if (styleProperty === 'borderRadius') {
@@ -138,10 +130,7 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
         }
         return styleAcc;
       },
-      { textStyle: {}, spacingStyle: {} } as Record<
-        'textStyle' | 'spacingStyle',
-        Record<string, any>
-      >,
+      { textStyle: {}, spacingStyle: {} } as Record<'textStyle' | 'spacingStyle', Record<string, any>>,
     );
 
     return (
@@ -152,28 +141,8 @@ const Button = forwardRef<ButtonProps, typeof Pressable>(
           style={[nextContainerStyle, style]}
           disabled={isDisabled}
           accessibilityState={{ disabled: isDisabled, busy: isLoading }}>
-          {isLoading &&
-            (spinner || (
-              <BaseSpinner
-                style={styles.spinner}
-                color={textStyle.color}
-                size="small"
-              />
-            ))}
-          <Text
-            maxFontSizeMultiplier={1.3}
-            style={[
-              textStyle,
-              fontStyle,
-              {
-                color:
-                  buttonVariant === 'solid' ||
-                  buttonVariant === 'small' ||
-                  buttonVariant === 'smallMenuActive'
-                    ? 'white'
-                    : 'black',
-              },
-            ]}>
+          {isLoading && (spinner || <BaseSpinner style={styles.spinner} color={textStyle.color} size="small" />)}
+          <Text maxFontSizeMultiplier={1.3} style={[fontStyle, textStyle]}>
             {children}
           </Text>
         </BaseButton>

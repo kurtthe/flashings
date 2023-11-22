@@ -13,14 +13,14 @@ type Props = Omit<IconButtonProps, 'icon'> & {
 const HeaderBackButton = ({
   variant = 'light',
   popToTop,
-  customPressEvent = () => {},
+  customPressEvent,
   ...props
 }: Props) => {
   const navigation = useNavigation();
   return (
     <IconButton
-      onPress={() => navigation.goBack()}
-      icon={<Icon as={BackIcon} />}
+      onPress={() => !customPressEvent? navigation.goBack() : customPressEvent()}
+      icon={<Icon as={BackIcon} color="base300" />}
       {...props}
     />
   );

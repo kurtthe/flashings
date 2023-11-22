@@ -9,6 +9,20 @@ type Props = {
   icon: React.ReactElement | React.ReactNode;
   children?: React.ReactNode;
   isDisabled?: boolean;
+  mt?:
+    | 'unset'
+    | '1px'
+    | 'xxs'
+    | 'xs'
+    | 's'
+    | 'm'
+    | 'l'
+    | 'xl'
+    | '2xl'
+    | '3xl'
+    | '4xl'
+    | '5xl'
+    | '6xl'
   ml?:
     | 'unset'
     | '1px'

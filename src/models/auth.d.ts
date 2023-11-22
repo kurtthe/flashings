@@ -1,5 +1,6 @@
 export type LOGIN_RESPONSE = {
   api_key: string;
+  company: string;
   user: {
     _links: string[];
     created_date: string;
@@ -25,4 +26,5 @@ export type AUTH_STATE_TYPE = {
   api_key: string | undefined;
   user: LOGIN_RESPONSE['user'] | undefined;
   isAuthenticated: boolean;
+  company: string | undefined;
 };

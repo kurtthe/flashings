@@ -5,7 +5,6 @@ import {
   Platform,
 } from 'react-native';
 import {BoxProps as RestyleBoxProps, createBox} from '@shopify/restyle';
-
 import type {Theme} from '@theme';
 
 export type KeyboardAvoidingBoxProps = React.PropsWithChildren<

@@ -12,9 +12,11 @@ import {
 } from '@features/flashing/utils';
 import {G, Rect} from 'react-native-svg';
 import {ScaleBand} from 'd3-scale';
+import { heightScreen } from "@features/flashing/components";
 
 export const renderLines = () => {
   const arrayGrid = Array.from({length: SIZE_GRID}, (_, i) => i.toString());
+
   const scaleXBar = ScaleXBar({
     domainData: arrayGrid,
     sizeScreen: WIDTH_SCREEN,
@@ -22,7 +24,7 @@ export const renderLines = () => {
 
   const scaleYBar = ScaleYBar({
     domainData: arrayGrid,
-    sizeScreen: HEIGHT_SCREEN,
+    sizeScreen: heightScreen,
   });
 
   return (
@@ -30,7 +32,7 @@ export const renderLines = () => {
       {renderLinesVerticals({
         domainData: arrayGrid,
         scaleXBar,
-        heightLine: HEIGHT_SCREEN,
+        heightLine: heightScreen,
       })}
       {renderLinesHorizontals({
         domainData: arrayGrid,
@@ -92,7 +94,7 @@ export const findCoordsNearest = (pointCoord: [number, number]) => {
 
   const scaleYBar = ScaleYBar({
     domainData: arrayGrid,
-    sizeScreen: HEIGHT_SCREEN,
+    sizeScreen: heightScreen,
   });
 
   const filterXCoords = arrayGrid.map(point =>

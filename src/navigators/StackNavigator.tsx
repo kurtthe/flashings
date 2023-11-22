@@ -1,8 +1,13 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 
-export const StackNavigator = ({routes, ...props}) => {
-  const Stack = createStackNavigator();
+type Props = {
+  initialRouteName: string;
+  routes: any[];
+  screenOptions: any
+}
+export const StackNavigator: React.FC<Props> = ({routes, ...props}) => {
+  const Stack = createStackNavigator ();
 
   return (
     <Stack.Navigator {...props}>

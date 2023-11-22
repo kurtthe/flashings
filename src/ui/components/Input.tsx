@@ -46,6 +46,8 @@ import type {
 } from '@shopify/restyle';
 import type { Theme } from '@theme';
 import { useCombinedRefs } from '@hooks/useCombinedRefs';
+import { useIsDarkMode } from "@theme/hooks";
+
 type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
   VariantProps<Theme, 'colors', 'placeholderTextColor'> &
   TypographyProps<Theme> &
@@ -72,6 +74,8 @@ type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
       | 'tel';
     label?: string | null;
     styleContent?: StyleProp<TextStyle>;
+    isRequired?: boolean;
+    suffix?: string;
   };
 export type InputProps = RestyleInputProps & {
   _dark?: RestyleInputProps;
@@ -105,12 +109,14 @@ const restyleFunctions = composeRestyleFunctions([
   //@ts-ignore temporaly fix ignore bad type issue
   variant,
 ]);
-const inputStyleProperties = [...typography, color].map(
+const inputStyleProperties = [...typography, ...color].map(
   ({ property }) => property as string,
 );
 const Input = forwardRef<InputProps, typeof TextInput>(
   (
     {
+      isRequired=false,
+      suffix ,
       value,
       label,
       isDisabled,
@@ -132,7 +138,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     ref,
   ) => {
     const BaseInputComponent = useAsProp(TextInput, as);
-    const isDarkMode = false;
+    const isDarkMode = useIsDarkMode();
     const internalRef = useRef<TextInput>(null);
 
     const [isFocused, setIsFocused] = useState(false);
@@ -176,10 +182,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     const handleExternalFocus = useCallback(() => {
       if (isFocusable) {
         //@ts-ignore ignore bad type related to input mask
-        if (as === TextInputMask) internalRef.current?.getElement()?.focus();
-        else {
-          internalRef.current?.focus();
-        }
+        internalRef.current?.focus();
       }
     }, [isFocusable]);
     const handleBlur = useCallback(
@@ -215,9 +218,11 @@ const Input = forwardRef<InputProps, typeof TextInput>(
       },
       [],
     );
+
+
     return (
       <Pressable
-        style={[styles.inputContainer, containerStyle, style]}
+        style={[styles.inputContainer,  style, {...containerStyle }]}
         onPress={handleExternalFocus}
         accessible={false}>
         <Box flexDirection="row" alignItems="center">
@@ -237,7 +242,9 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 }),
               }}>
               {label ?? placeholder}
+              {isRequired && <Text color="error500">*</Text>}
             </Text>
+
             <BaseInputComponent
               ref={refs}
               style={[
@@ -245,8 +252,8 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 inputStyle,
                 fontStyle,
                 {
-                  paddingTop: value || isFocused ? 17 : 0,
-                  fontWeight: isFocused ? '700' : '500',
+                  paddingTop: (value || isFocused) ? 17 : 0,
+                  fontWeight: (value || isFocused) ? '700' : '500',
                   paddingHorizontal: 0,
                 },
                 styleContent,
@@ -264,7 +271,12 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               onEndEditing={handleEndEditing}
             />
           </Box>
-          {rightIcon}
+          {suffix && <Box top={(value || isFocused)? 3 :8} right={5}>
+            <Text mt={label? "s": 'unset'} variant="bodyRegular" color="lightGray">{suffix}</Text>
+          </Box>}
+          {rightIcon && <Box top={(value || isFocused)? 7 :12} right={5}>
+            {rightIcon}
+          </Box>}
         </Box>
       </Pressable>
     );
@@ -282,12 +294,9 @@ const styles = StyleSheet.create({
     height: 60,
   },
   text: {
-    flexGrow: 1,
-    flexShrink: 1,
-    flexBasis: 'auto',
-    height: '100%',
     fontSize: 16,
     lineHeight: 20,
+    marginTop: 8,
   },
   inputLabel: {
     marginTop: 8,

@@ -13,12 +13,17 @@ export const loginService = async ({
     username,
     password,
   });
-  return Promise.resolve(loginResponse?.body);
+
+  const urlUserView = endPoints.getDataUser.replace(':id', loginResponse.body.user.id.toString())
+  const getDataCompany = await RequestService.get(urlUserView, { headers: {
+      'ttrak-key': loginResponse.body.api_key
+    }})
+  return Promise.resolve({...loginResponse.body, company: getDataCompany.headers['tradetrak-company']});
 };
 
 export const forgotPasswordService = async (email: string) => {
   if (!email) {
-    return Promise.reject('Email is required');
+    return Promise.reject(new Error('Email is required'));
   }
   const response = await RequestService.post(endPoints.forgotPassword, {
     username: email,

@@ -1,23 +1,28 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {
+  BackIcon,
   ClearIcon,
-  EditIcon,
   LibraryIcon,
   NextIcon,
-  UndoIcon,
-} from '@assets/icons';
-import {Box, Icon, IconButton, Text} from '@ui/components';
+  UndoIcon
+} from "@assets/icons";
+import { BaseTouchable, Box, Icon, IconProps, Text } from "@ui/components";
 
 type Props = {
   onUndo?: () => void;
-  onEdit?: () => void;
+  onBack?: () => void;
   onLibrary?: () => void;
   onEraser?: () => void;
   onNext?: () => void;
+  disabledBack?: boolean;
+  disabledUndo?: boolean;
+  disabledEraser?: boolean;
+  disabledLibrary?: boolean;
+  disabledNext?: boolean;
 };
 
-type IconMenuEditorProps = {
+type IconMenuEditorProps = IconProps &{
   nameIcon: any;
   onPress?: () => void;
   title?: string;
@@ -27,12 +32,18 @@ const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
   title,
   nameIcon,
   onPress,
+  disabled = true,
+  ...rest
 }) => (
-  <Box alignItems="center" justifyContent="center">
-    <IconButton
-      onPress={() => onPress && onPress()}
-      icon={<Icon as={nameIcon} />}
-    />
+  <Box
+    disabled={disabled}
+    p="m"
+    as={BaseTouchable}
+    alignItems="center"
+    justifyContent="center"
+    onPress={() => onPress && !disabled && onPress()}
+    >
+    <Icon as={nameIcon} {...rest} color={disabled? 'grayIcon': 'black'} />
     {title && (
       <Text mt="xs" variant="menuEditor">
         {title}
@@ -44,13 +55,18 @@ const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
 const MenuEditorComponent: React.FC<Props> = ({
   onNext,
   onLibrary,
-  onEdit,
+  onBack,
   onUndo,
   onEraser,
+  disabledBack= true,
+  disabledUndo=true,
+  disabledEraser=true,
+  disabledLibrary=true,
+  disabledNext=false
 }) => {
   return (
     <Box
-      py="l"
+      py="s"
       mb="xl"
       backgroundColor="white"
       position="absolute"
@@ -59,30 +75,38 @@ const MenuEditorComponent: React.FC<Props> = ({
       style={styles.shadow}>
       <Box px="m" style={styles.content}>
         <IconMenuEditor
+          disabled={disabledBack}
+          onPress={() => onBack && onBack()}
+          nameIcon={BackIcon}
+          title="Back"
+          color="black"
+          size={20}
+        />
+        <IconMenuEditor
+          disabled={disabledUndo}
           onPress={() => onUndo && onUndo()}
           nameIcon={UndoIcon}
           title="Undo"
         />
-
         <IconMenuEditor
           onPress={() => onEraser && onEraser()}
+          disabled={disabledEraser}
           nameIcon={ClearIcon}
           title="Clear"
+          size={22}
         />
         <IconMenuEditor
-          onPress={() => onEdit && onEdit()}
-          nameIcon={EditIcon}
-          title="Edit"
-        />
-        <IconMenuEditor
+          disabled={disabledLibrary}
           onPress={() => onLibrary && onLibrary()}
           nameIcon={LibraryIcon}
           title="Library"
         />
         <IconMenuEditor
+          disabled={disabledNext}
           onPress={() => onNext && onNext()}
           nameIcon={NextIcon}
           title="Next"
+          size={22}
         />
       </Box>
     </Box>

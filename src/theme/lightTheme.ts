@@ -67,7 +67,11 @@ const lightTheme = {
     chartCategory1: palette.base900,
     chartCategory2: palette.primary300,
     chartCategory3: palette.primary900,
-    lightGray: palette.lightGray
+    lightGray: palette.lightGray,
+    textGray: palette.textGray,
+    lightBlue: palette.lightBlue,
+    mustard: palette.mustard,
+    lightGray2: palette.lightGray2
   },
 };
 
