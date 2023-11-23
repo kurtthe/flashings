@@ -30,8 +30,8 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 			points: [[currentPointX - radiusEllipseX, currentPointY + 4]],
 			rotation: pending,
 			radius: {
-				x: radiusEllipseY,
-				y: radiusEllipseX,
+				x: radiusEllipseX,
+				y: radiusEllipseY,
 			}
 		}
 	}
