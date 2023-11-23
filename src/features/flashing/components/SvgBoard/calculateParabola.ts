@@ -4,6 +4,7 @@ import { calculateAngleAzimut } from "@features/flashing/components/SvgBoard/cal
 export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END_LINES, endPoints= false )=> {
 	const {points} = dataLine
 	const pending = calculateAngleAzimut(dataLine)
+	console.log("angle::azimut safety::", pending)
 	let radiusEllipseX = 2
 	let radiusEllipseY = 10
 
@@ -59,20 +60,20 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 		if(pointY1 > pointY2){
 			if(isStartLine){
 				return {
-					points: [[currentPointX - radiusEllipseX, currentPointY - radiusEllipseY]],
+					points: [[currentPointX - radiusEllipseX, currentPointY]],
 					rotation: pending,
 					radius: {
-						x: radiusEllipseX,
-						y: radiusEllipseY,
+						x: radiusEllipseY,
+						y: radiusEllipseX,
 					}
 				}
 			}
 			return {
-				points: [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseY]],
+				points: [[currentPointX + radiusEllipseX, currentPointY]],
 				rotation: pending,
 				radius: {
-					x: radiusEllipseX,
-					y: radiusEllipseY,
+					x: radiusEllipseY,
+					y: radiusEllipseX,
 				}
 			}
 		}
