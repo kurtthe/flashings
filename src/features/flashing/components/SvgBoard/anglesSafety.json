@@ -1,0 +1,17 @@
+[
+  {
+    "angle": "90",
+      "points": [["puntoX", "puntoY"]],
+      "radius": {
+        "x": "radiusEllipseY",
+        "y": "radiusEllipseX"
+      }
+  },{
+    "angle": "120",
+      "points": [["puntoX", "puntoY"]],
+      "radius": {
+        "x": "radiusEllipseY",
+        "y": "radiusEllipseX"
+      }
+  }
+]
