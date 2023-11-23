@@ -17,6 +17,23 @@
     }
   },
   {
+    "angle": "81",
+    "right": {
+      "points": [2, 2],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    },
+    "default": {
+      "points": [2, 0],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    }
+  },
+  {
     "angle": "-59",
     "right": {
       "points": [3, 0],
