@@ -3,7 +3,7 @@ import { calculateAngleAzimut } from "@features/flashing/components/SvgBoard/cal
 import AnglesSafety from './anglesSafety.json'
 export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END_LINES, endPoints= false )=> {
 	const {points} = dataLine
-	const pending = `${calculateAngleAzimut(dataLine)}`
+	const pending = calculateAngleAzimut(dataLine).toFixed()
 	let radiusEllipseX = 2
 	let radiusEllipseY = 10
 
@@ -18,7 +18,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 
 	const isStartLine = typeLine.includes('Start')? 'right': 'default'
 	const getDataForAngle = AnglesSafety.find((safeties)=> safeties.angle === pending)
-
+	console.log("================================:: =================================")
 	console.log("getDataForAngle::", getDataForAngle)
 	console.log("angle azimut::", pending)
 
@@ -38,10 +38,9 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	const radiusX = getDataForAngle[isStartLine].points[0]
 	const radiusY = getDataForAngle[isStartLine].points[1]
 
-	if(isStartLine === 'right'){
-		console.log("wow is right::")
+	if(isStartLine === 'default'){
 		return {
-			points: [[currentPointX + radiusX, currentPointY + radiusY]],
+			points: [[currentPointX + radiusX, endPoints? currentPointY - radiusY: currentPointY + radiusY]],
 			rotation: pending,
 			radius: {
 				x: getDataForAngle[isStartLine].radius.x,
@@ -51,7 +50,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	}
 
 	return {
-		points: [[currentPointX - radiusX, currentPointY + radiusY]],
+		points: [[currentPointX - radiusX, endPoints? currentPointY - radiusY: currentPointY + radiusY]],
 		rotation: pending,
 		radius: {
 			x: getDataForAngle[isStartLine].radius.x,
