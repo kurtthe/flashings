@@ -1,5 +1,22 @@
 [
   {
+    "angle": "-90",
+    "right": {
+      "points": [2, 0],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    },
+    "default": {
+      "points": [2, 0],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    }
+  },
+  {
     "angle": "90",
       "right": {
         "points": [2, 10],
