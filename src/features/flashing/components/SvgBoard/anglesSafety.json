@@ -1,5 +1,73 @@
 [
   {
+    "angle": "-69",
+    "right": {
+      "points": [3, 2],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    },
+    "default": {
+      "points": [3, -2],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    }
+  },
+  {
+    "angle": "-59",
+    "right": {
+      "points": [3, 0],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    },
+    "default": {
+      "points": [2, -2],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    }
+  },
+  {
+    "angle": "-8",
+    "right": {
+      "points": [2, 2],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    },
+    "default": {
+      "points": [3, -2],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    }
+  },
+  {
+    "angle": "-11",
+    "right": {
+      "points": [5, -1],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    },
+    "default": {
+      "points": [3, 2],
+      "radius": {
+        "x": 10,
+        "y": 2
+      }
+    }
+  },
+  {
     "angle": "-35",
     "right": {
       "points": [5, -1],
