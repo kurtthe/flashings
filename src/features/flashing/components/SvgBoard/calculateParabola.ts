@@ -1,9 +1,9 @@
 import { LINE_TYPE, TYPE_END_LINES } from "@models";
 import { calculateAngleAzimut } from "@features/flashing/components/SvgBoard/calculationsBreakSafety";
-
+import AnglesSafety from './anglesSafety.json'
 export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END_LINES, endPoints= false )=> {
 	const {points} = dataLine
-	const pending = calculateAngleAzimut(dataLine)
+	const pending = calculateAngleAzimut(dataLine).toFixed()
 	let radiusEllipseX = 2
 	let radiusEllipseY = 10
 
@@ -16,178 +16,45 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	const currentPointX = endPoints? pointX2: pointX1
 	const currentPointY = endPoints? pointY2: pointY1
 
-	const isHorizontal = pointY1 === pointY2;
-	const isVertical = pointX1 === pointX2;
-	const isStartLine = typeLine.includes('Start')
+	const isStartLine = typeLine.includes('Start')? 'right': 'default'
+	const getDataForAngle = AnglesSafety.find((safeties)=> safeties.angle === pending)
+	console.log("================================:: =================================")
+	console.log("getDataForAngle::", getDataForAngle)
+	console.log("angle azimut::", pending)
 
-	if(isHorizontal){
-		if(pointX2 > pointX1){
-			if(isStartLine){
-				return {
-					rotation: pending,
-					points: [[currentPointX + radiusEllipseX, currentPointY + radiusEllipseX]], radius: {
-						x: radiusEllipseY,
-						y: radiusEllipseX,
-					}}
-			}
-			return {
-				rotation: pending,
-				points:  [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseX]], radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX,
-				}}
-		}
-		if(isStartLine){
-			return {
-				rotation: pending,
-				points: [[currentPointX, currentPointY - radiusEllipseX]], radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX,
-				} }
-		}
+	console.log("endPoints::", endPoints)
+	console.log("isStartLine:", isStartLine)
+
+	if(!getDataForAngle){
 		return {
-			points: [[currentPointX, currentPointY + radiusEllipseX]],
+			points: [[currentPointX - radiusEllipseX, currentPointY + 4]],
 			rotation: pending,
 			radius: {
-				x: radiusEllipseY,
-				y: radiusEllipseX,
+				x: radiusEllipseX,
+				y: radiusEllipseY,
 			}
 		}
 	}
-// vertical
-	if(isVertical){
-		if(pointY1 > pointY2){
-			if(isStartLine){
-				return {
-					points: [[currentPointX - radiusEllipseX, currentPointY - radiusEllipseY]],
-					rotation: pending,
-					radius: {
-						x: radiusEllipseX,
-						y: radiusEllipseY,
-					}
-				}
-			}
-			return {
-				points: [[currentPointX + radiusEllipseX, currentPointY - radiusEllipseY]],
-				rotation: pending,
-				radius: {
-					x: radiusEllipseX,
-					y: radiusEllipseY,
-				}
-			}
-		}
+	const radiusX = getDataForAngle[isStartLine].points[0]
+	const radiusY = getDataForAngle[isStartLine].points[1]
 
-		if(isStartLine){
-			return {
-				points: [[currentPointX - radiusEllipseX, currentPointY ]],
-				radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX,
-				},
-				rotation: pending
-			}
-		}
+	if(isStartLine === 'default'){
 		return {
-			points: [[currentPointX + radiusEllipseX, currentPointY]],
+			points: [[currentPointX + radiusX, endPoints? currentPointY - radiusY: currentPointY + radiusY]],
 			rotation: pending,
 			radius: {
-				x: radiusEllipseY,
-				y: radiusEllipseX,
-			}
-		}
-	}
-
-	if (pending > 0) {
-		if(pointY1 > pointY2){
-			if(isStartLine){
-				return {
-					points: [[currentPointX, currentPointY]],
-					rotation: pending,
-					radius: {
-						x: radiusEllipseX,
-						y: radiusEllipseY,
-					}
-				}
-			}
-			return {
-				points: [[currentPointX, currentPointY]],
-				rotation: pending,
-				radius: {
-					x: radiusEllipseX,
-					y: radiusEllipseY,
-				}
-			}
-		}
-
-		if(isStartLine){
-			return {
-				points: [[currentPointX - radiusEllipseX, currentPointY +3]],
-				rotation: pending,
-				radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX,
-				}
-			}
-		}
-		return {
-			points: [[currentPointX + radiusEllipseX, currentPointY- 2]],
-			rotation: pending,
-			radius: {
-				x: radiusEllipseY,
-				y: radiusEllipseX,
-			}
-		}
-
-	}
-//pending negative
-	if (pending < 0) {
-		if(pointY1 > pointY2){
-			if(isStartLine){
-				return {
-					points: [[currentPointX, currentPointY + radiusEllipseY ]],
-					rotation: pending,
-					radius: {
-						x: radiusEllipseY,
-						y: radiusEllipseX,
-					}
-				}
-			}
-			return {
-				points: [[currentPointX, currentPointY - radiusEllipseY]],
-				rotation: pending,
-				radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX,
-				}
-			}
-		}
-
-		if(isStartLine){
-			return {
-				points: [[currentPointX - radiusEllipseX, currentPointY - radiusEllipseY]],
-				rotation: pending,
-				radius: {
-					x: radiusEllipseY,
-					y: radiusEllipseX,
-				}
-			}
-		}
-		return {
-			points: [[currentPointX, currentPointY + radiusEllipseY]],
-			rotation: pending,
-			radius: {
-				x: radiusEllipseY,
-				y: radiusEllipseX,
+				x: getDataForAngle[isStartLine].radius.x,
+				y: getDataForAngle[isStartLine].radius.y,
 			}
 		}
 	}
 
 	return {
-		points: [[currentPointX - radiusEllipseX, currentPointY + 4]],
+		points: [[currentPointX - radiusX, endPoints? currentPointY - radiusY: currentPointY + radiusY]],
 		rotation: pending,
 		radius: {
-			x: radiusEllipseY,
-			y: radiusEllipseX,
+			x: getDataForAngle[isStartLine].radius.x,
+			y: getDataForAngle[isStartLine].radius.y,
 		}
 	}
 }
