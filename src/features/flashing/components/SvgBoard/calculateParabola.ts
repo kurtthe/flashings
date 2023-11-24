@@ -40,7 +40,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 
 	if(isStartLine === 'default'){
 		return {
-			points: [[currentPointX + radiusX, endPoints? currentPointY - radiusY: currentPointY + radiusY]],
+			points: [[endPoints?currentPointX - radiusX :currentPointX + radiusX, endPoints? currentPointY - radiusY: currentPointY + radiusY]],
 			rotation: pending,
 			radius: {
 				x: getDataForAngle[isStartLine].radius.x,
@@ -50,7 +50,7 @@ export const calculatePointsParabola = (dataLine:LINE_TYPE,  typeLine : TYPE_END
 	}
 
 	return {
-		points: [[currentPointX - radiusX, endPoints? currentPointY - radiusY: currentPointY + radiusY]],
+		points: [[endPoints?currentPointX + radiusX :currentPointX - radiusX, endPoints? currentPointY - radiusY: currentPointY + radiusY]],
 		rotation: pending,
 		radius: {
 			x: getDataForAngle[isStartLine].radius.x,
