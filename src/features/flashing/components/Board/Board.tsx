@@ -147,6 +147,10 @@ const Board: React.FC<Props> = ({
   }
 
   const handleBackLineSelected = ()=>{
+    if(indexLineSelected === 0 && typeSelected === 'line'){
+      return changeStepBoard && changeStepBoard(getIndexOfStepForName('side'))
+    }
+
     const newIndex = indexLineSelected - 1
     if(newIndex < 0){
       setIndexLineSelected(0)
@@ -198,7 +202,6 @@ const Board: React.FC<Props> = ({
       {stepBoard === getIndexOfStepForName('finish') && <SectionsButton onSave={handleOnSave} onEdit={handleOnEdit} onEditEndType={handleOnEditEndType} />}
       {stepBoard === getIndexOfStepForName('measurements') && <Box height={heightMeasurement} position="absolute" width="100%" bottom={0}>
         <MeasurementLines
-          disabledPrevious={indexLineSelected === 0 && typeSelected === 'line'}
           onNext={handleNextLineSelected}
           onPrevious={handleBackLineSelected}
           typeSelected={typeSelected}

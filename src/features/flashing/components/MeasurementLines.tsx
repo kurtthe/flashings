@@ -16,7 +16,7 @@ type Props = {
   typeSelected: 'line' | 'angle';
   changeMode?: (newMode:number) => void;
 };
-const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onNext, onPrevious , disabledPrevious=true, changeMode}) => {
+const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onNext, onPrevious , disabledPrevious=false, changeMode}) => {
   const [measurement, setMeasurement] = React.useState(0);
   const inputRef = React.useRef<TextInput>(null)
 
