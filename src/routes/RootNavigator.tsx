@@ -1,14 +1,16 @@
 import React from 'react';
-import { PublicNavigator } from './PublicNavigator';
-import { PrivateNavigator } from '@routes/PrivateNavigator';
 import { useAppSelector } from '@hooks/useStore';
 import { isAuthenticatedSelector } from '@store/auth/selectors';
+import BaseSpinner from "@ui/components/BaseSpinner";
 
+const PublicNavigator = React.lazy(() => import('./PublicNavigator'));
+const PrivateNavigator = React.lazy(() => import('@routes/PrivateNavigator'));
 export const RootNavigator = () => {
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
 
-  if (isAuthenticated) {
-    return <PrivateNavigator />;
-  }
-  return <PublicNavigator />;
+  return (
+    <React.Suspense fallback={<BaseSpinner />}>
+      {isAuthenticated? <PrivateNavigator />: <PublicNavigator />}
+    </React.Suspense>
+  )
 };
