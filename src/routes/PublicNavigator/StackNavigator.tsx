@@ -3,7 +3,7 @@ import { StackNavigator } from '@navigators/index';
 import { routes as stackRoutes } from './routes';
 import { StackPublicDefinitions } from './types';
 
-let config = {
+const config = {
   routes: stackRoutes,
   initialRouteName: StackPublicDefinitions.AUTH,
 };
