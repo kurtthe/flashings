@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, FlatList } from "react-native";
-import { Box, Text, Button } from "@ui/components";
+import { Box, Text } from "@ui/components";
 import { Routes } from '@features/flashing/navigation/routes';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -90,14 +90,15 @@ const JobDetailsScreen = () => {
         )}
         ListFooterComponent={
           <SectionsButtonsJobsDetails
-            onPreview={()=> null}
+            onPreview={()=> navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUBMITTED})}
             onAddFlashing={() => onPressFooter(
               Routes.CREATE_EDIT_FLASHING,
               {
                 jobId: item.id,
                 jobName: item.name,
                 commonMaterial: getCommonMaterial()
-              })} />
+              })}
+          />
         }
       />
     </Box>

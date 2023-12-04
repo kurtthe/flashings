@@ -29,3 +29,4 @@ export { default as EndBreakRightIcon } from './endBreakRight.svg';
 export { default as EndBreakLeftIcon } from './endBreakLeft.svg';
 export { default as EndBreakLeft2Icon } from './endBreakLeft2.svg';
 export { default as EndBreakRight2Icon } from './endBreakRight2.svg';
+export { default as OrderSubmittedIcon } from './orderSubmitted.svg';
