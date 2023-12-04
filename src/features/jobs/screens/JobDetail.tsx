@@ -8,7 +8,7 @@ import {
   StackPrivateDefinitions, StackPrivateProps
 } from "@routes/PrivateNavigator";
 import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
-import {CardGutter} from "@features/jobs/components";
+import { CardGutter, SectionsButtonsJobsDetails } from "@features/jobs/components";
 import { useAppSelector } from "@hooks/useStore";
 import { jobData } from "@store/jobs/selectors";
 
@@ -89,14 +89,15 @@ const JobDetailsScreen = () => {
           />
         )}
         ListFooterComponent={
-          <Box mx="m" mb="xl" >
-            <Button
-              variant="outlineWhite"
-              mt="l"
-              onPress={() => onPressFooter(Routes.CREATE_EDIT_FLASHING, {jobId: item.id, jobName: item.name, commonMaterial: getCommonMaterial()})}>
-              + Add Flashing
-            </Button>
-          </Box>
+          <SectionsButtonsJobsDetails
+            onPreview={()=> null}
+            onAddFlashing={() => onPressFooter(
+              Routes.CREATE_EDIT_FLASHING,
+              {
+                jobId: item.id,
+                jobName: item.name,
+                commonMaterial: getCommonMaterial()
+              })} />
         }
       />
     </Box>
