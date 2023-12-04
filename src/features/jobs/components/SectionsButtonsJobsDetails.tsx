@@ -9,7 +9,7 @@ type Props = {
 const SectionsButtonsJobsDetails: React.FC<Props>= ({onPreview, onAddFlashing}) => {
 	return (
 		<>
-			<Box mx="m" mb="s" >
+			<Box mx="m" mb="s">
 				<Button
 					variant="outlineWhite"
 					mt="l"
@@ -17,7 +17,7 @@ const SectionsButtonsJobsDetails: React.FC<Props>= ({onPreview, onAddFlashing}) 
 					+ Add Flashing
 				</Button>
 			</Box>
-			<Box mx="m" mb="xl" >
+			<Box mx="m" mb="xl">
 				<Button
 					variant="solid"
 					onPress={onPreview}>
