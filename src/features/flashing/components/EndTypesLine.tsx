@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseTouchable, Box,  Icon, IconButton, Text } from "@ui/components";
+import { BaseTouchable, Box,  Icon, Text } from "@ui/components";
 import {
 	EndBreakLeft2Icon,
 	EndBreakLeftIcon, EndBreakRight2Icon,
@@ -67,8 +67,8 @@ const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine,  
 			<Box py="m" flexDirection="row" flexWrap="wrap">
 				<ButtonEndType title="None" fullWidth style={{height: 60}} active={validateTypeLine("none")} onPress={()=> handleClearLineType()}  />
 
-				<ButtonEndType title="Safety" active={validateTypeLine("safetyStart")} onPress={()=> handlePressButton('safetyStart')} icon={EndCurveLeftIcon}/>
-				<ButtonEndType title="Safety" active={validateTypeLine("safetyEnd")} onPress={()=> handlePressButton('safetyEnd')}  icon={EndCurveRightIcon}/>
+				<ButtonEndType title="Safety" active={validateTypeLine(`safety${typeLine === 'end'? '2': '1'}Left`)} onPress={()=> handlePressButton(`safety${typeLine === 'end'? '2': '1'}Left`)} icon={EndCurveLeftIcon}/>
+				<ButtonEndType title="Safety" active={validateTypeLine(`safety${typeLine === 'end'? '2': '1'}Right`)} onPress={()=> handlePressButton(`safety${typeLine === 'end'? '2': '1'}Right`)}  icon={EndCurveRightIcon}/>
 
 				<ButtonEndType title="Break" active={validateTypeLine("break2Start")} onPress={()=> handlePressButton('break2Start')}  icon={EndBreakLeft2Icon}/>
 				<ButtonEndType title="Break" active={validateTypeLine("break2End")} onPress={()=> handlePressButton('break2End')} icon={EndBreakRight2Icon}/>
