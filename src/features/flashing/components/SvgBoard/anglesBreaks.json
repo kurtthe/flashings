@@ -2,13 +2,13 @@
   {
     "default": "0",
     "angles": {
-      "none": "NaN",
-      "break2Start": 150,
-      "break2End": 230,
-      "break1Start": 50,
-      "break1End": 345,
-      "safetyEnd": 170,
-      "safetyStart": 190
+       "none": "NaN",
+       "break2Start": 150,
+       "break2End": 230,
+       "break1Start": 50,
+       "break1End": 345,
+       "safetyEnd": 350,
+       "safetyStart": 10
     }
  },
   {
@@ -19,8 +19,8 @@
        "break2End": 231,
        "break1Start": 51,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 351,
+       "safetyStart": 10
     }
  },
   {
@@ -31,8 +31,8 @@
        "break2End": 232,
        "break1Start": 52,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 352,
+       "safetyStart": 10
     }
  },
   {
@@ -43,8 +43,8 @@
        "break2End": 233,
        "break1Start": 53,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 353,
+       "safetyStart": 10
     }
  },
   {
@@ -55,8 +55,8 @@
        "break2End": 234,
        "break1Start": 54,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 354,
+       "safetyStart": 10
     }
  },
   {
@@ -67,8 +67,8 @@
        "break2End": 235,
        "break1Start": 55,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 355,
+       "safetyStart": 18
     }
  },
   {
@@ -79,8 +79,8 @@
        "break2End": 236,
        "break1Start": 56,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 356,
+       "safetyStart": 18
     }
  },
   {
@@ -91,8 +91,8 @@
        "break2End": 237,
        "break1Start": 57,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 357,
+       "safetyStart": 18
     }
  },
   {
@@ -103,20 +103,20 @@
        "break2End": 238,
        "break1Start": 58,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 358,
+       "safetyStart": 18
     }
  },
   {
     "default": "9",
     "angles": {
-      "none": "NaN",
-      "break2Start": 150,
-      "break2End": 239,
-      "break1Start": 59,
-      "break1End": 345,
-      "safetyEnd": 200,
-      "safetyStart": 175
+       "none": "NaN",
+       "break2Start": 150,
+       "break2End": 239,
+       "break1Start": 59,
+       "break1End": 345,
+       "safetyEnd": 359,
+       "safetyStart": 18
     }
  },
   {
@@ -127,8 +127,8 @@
        "break2End": 240,
        "break1Start": 60,
        "break1End": 345,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 0,
+       "safetyStart": 25
     }
  },
   {
@@ -139,8 +139,8 @@
        "break2End": 241,
        "break1Start": 61,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 1,
+       "safetyStart": 25
     }
  },
   {
@@ -151,8 +151,8 @@
        "break2End": 242,
        "break1Start": 62,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 2,
+       "safetyStart": 25
     }
  },
   {
@@ -163,8 +163,8 @@
        "break2End": 243,
        "break1Start": 63,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 1,
+       "safetyStart": 25
     }
  },
   {
@@ -175,8 +175,8 @@
        "break2End": 244,
        "break1Start": 64,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 2,
+       "safetyStart": 25
     }
  },
   {
@@ -187,8 +187,8 @@
        "break2End": 245,
        "break1Start": 65,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 2,
+       "safetyStart": 30
     }
  },
   {
@@ -199,8 +199,8 @@
        "break2End": 246,
        "break1Start": 66,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 1,
+       "safetyStart": 30
     }
  },
   {
@@ -211,8 +211,8 @@
        "break2End": 247,
        "break1Start": 67,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 2,
+       "safetyStart": 30
     }
  },
   {
@@ -223,8 +223,8 @@
        "break2End": 248,
        "break1Start": 68,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 3,
+       "safetyStart": 30
     }
  },
   {
@@ -235,8 +235,8 @@
        "break2End": 249,
        "break1Start": 69,
        "break1End": 350,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 4,
+       "safetyStart": 30
     }
  },
   {
@@ -247,8 +247,8 @@
        "break2End": 250,
        "break1Start": 70,
        "break1End": 0,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 5,
+       "safetyStart": 35
     }
  },
   {
@@ -259,8 +259,8 @@
        "break2End": 251,
        "break1Start": 71,
        "break1End": 0,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 6,
+       "safetyStart": 35
     }
  },
   {
@@ -271,8 +271,8 @@
        "break2End": 252,
        "break1Start": 72,
        "break1End": 0,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 7,
+       "safetyStart": 35
     }
  },
   {
@@ -283,8 +283,8 @@
        "break2End": 253,
        "break1Start": 73,
        "break1End": 0,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 8,
+       "safetyStart": 35
     }
  },
   {
@@ -295,8 +295,8 @@
        "break2End": 254,
        "break1Start": 74,
        "break1End": 0,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 9,
+       "safetyStart": 35
     }
  },
   {
@@ -307,8 +307,8 @@
        "break2End": 255,
        "break1Start": 75,
        "break1End": 0,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 10,
+       "safetyStart": 38
     }
  },
   {
@@ -319,8 +319,8 @@
        "break2End": 256,
        "break1Start": 76,
        "break1End": 4,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 11,
+       "safetyStart": 38
     }
  },
   {
@@ -331,8 +331,8 @@
        "break2End": 257,
        "break1Start": 77,
        "break1End": 4,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 12,
+       "safetyStart": 38
     }
  },
   {
@@ -343,8 +343,8 @@
        "break2End": 258,
        "break1Start": 78,
        "break1End": 4,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 13,
+       "safetyStart": 38
     }
  },
   {
@@ -355,8 +355,8 @@
        "break2End": 259,
        "break1Start": 79,
        "break1End": 4,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 14,
+       "safetyStart": 38
     }
  },
   {
@@ -367,8 +367,8 @@
        "break2End": 260,
        "break1Start": 80,
        "break1End": 4,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 15,
+       "safetyStart": 40
     }
  },
   {
@@ -379,8 +379,8 @@
        "break2End": 261,
        "break1Start": 81,
        "break1End": 4,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 16,
+       "safetyStart": 40
     }
  },
   {
@@ -391,8 +391,8 @@
        "break2End": 262,
        "break1Start": 82,
        "break1End": 4,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 17,
+       "safetyStart": 40
     }
  },
   {
@@ -403,8 +403,8 @@
        "break2End": 263,
        "break1Start": 83,
        "break1End": 4,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 18,
+       "safetyStart": 40
     }
  },
   {
@@ -415,8 +415,8 @@
        "break2End": 264,
        "break1Start": 84,
        "break1End": 7,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 19,
+       "safetyStart": 40
     }
  },
   {
@@ -427,8 +427,8 @@
        "break2End": 265,
        "break1Start": 85,
        "break1End": 7,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 20,
+       "safetyStart": 48
     }
  },
   {
@@ -439,8 +439,8 @@
        "break2End": 266,
        "break1Start": 86,
        "break1End": 7,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 21,
+       "safetyStart": 48
     }
  },
   {
@@ -451,8 +451,8 @@
        "break2End": 267,
        "break1Start": 87,
        "break1End": 7,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 22,
+       "safetyStart": 48
     }
  },
   {
@@ -463,8 +463,8 @@
        "break2End": 268,
        "break1Start": 88,
        "break1End": 7,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 23,
+       "safetyStart": 48
     }
  },
   {
@@ -475,8 +475,8 @@
        "break2End": 269,
        "break1Start": 89,
        "break1End": 7,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 24,
+       "safetyStart": 48
     }
  },
   {
@@ -487,8 +487,8 @@
        "break2End": 270,
        "break1Start": 90,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 25,
+       "safetyStart": 55
     }
  },
   {
@@ -499,8 +499,8 @@
        "break2End": 271,
        "break1Start": 91,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 26,
+       "safetyStart": 55
     }
  },
   {
@@ -511,8 +511,8 @@
        "break2End": 272,
        "break1Start": 92,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 27,
+       "safetyStart": 55
     }
  },
   {
@@ -523,8 +523,8 @@
        "break2End": 273,
        "break1Start": 93,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 28,
+       "safetyStart": 55
     }
  },
   {
@@ -534,7 +534,9 @@
        "break2Start": 170,
        "break2End": 274,
        "break1Start": 94,
-       "break1End": 10
+       "break1End": 10,
+       "safetyEnd": 29,
+       "safetyStart": 55
     }
  },
   {
@@ -545,8 +547,8 @@
        "break2End": 275,
        "break1Start": 95,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 30,
+       "safetyStart": 60
     }
  },
   {
@@ -557,8 +559,8 @@
        "break2End": 276,
        "break1Start": 96,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 31,
+       "safetyStart": 60
     }
  },
   {
@@ -569,8 +571,8 @@
        "break2End": 277,
        "break1Start": 97,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 32,
+       "safetyStart": 60
     }
  },
   {
@@ -581,8 +583,8 @@
        "break2End": 278,
        "break1Start": 98,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 33,
+       "safetyStart": 60
     }
  },
   {
@@ -593,8 +595,8 @@
        "break2End": 279,
        "break1Start": 99,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 34,
+       "safetyStart": 60
     }
  },
   {
@@ -605,8 +607,8 @@
        "break2End": 280,
        "break1Start": 100,
        "break1End": 10,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 35,
+       "safetyStart": 65
     }
  },
   {
@@ -617,8 +619,8 @@
        "break2End": 281,
        "break1Start": 101,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 36,
+       "safetyStart": 65
     }
  },
   {
@@ -629,8 +631,8 @@
        "break2End": 282,
        "break1Start": 102,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 37,
+       "safetyStart": 65
     }
  },
   {
@@ -641,8 +643,8 @@
        "break2End": 283,
        "break1Start": 103,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 38,
+       "safetyStart": 65
     }
  },
   {
@@ -653,8 +655,8 @@
        "break2End": 284,
        "break1Start": 104,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 39,
+       "safetyStart": 65
     }
  },
   {
@@ -665,8 +667,8 @@
        "break2End": 285,
        "break1Start": 105,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 40,
+       "safetyStart": 70
     }
  },
   {
@@ -677,8 +679,8 @@
        "break2End": 286,
        "break1Start": 106,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 41,
+       "safetyStart": 70
     }
  },
   {
@@ -689,8 +691,8 @@
        "break2End": 287,
        "break1Start": 107,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 42,
+       "safetyStart": 70
     }
  },
   {
@@ -701,8 +703,8 @@
        "break2End": 288,
        "break1Start": 108,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 43,
+       "safetyStart": 70
     }
  },
   {
@@ -713,8 +715,8 @@
        "break2End": 289,
        "break1Start": 109,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 44,
+       "safetyStart": 70
     }
  },
   {
@@ -725,8 +727,8 @@
        "break2End": 290,
        "break1Start": 110,
        "break1End": 15,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 45,
+       "safetyStart": 75
     }
  },
   {
@@ -737,8 +739,8 @@
        "break2End": 291,
        "break1Start": 111,
        "break1End": 20,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 46,
+       "safetyStart": 75
     }
  },
   {
@@ -749,8 +751,8 @@
        "break2End": 292,
        "break1Start": 112,
        "break1End": 20,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 47,
+       "safetyStart": 75
     }
  },
   {
@@ -761,8 +763,8 @@
        "break2End": 293,
        "break1Start": 113,
        "break1End": 20,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 48,
+       "safetyStart": 75
     }
  },
   {
@@ -773,8 +775,8 @@
        "break2End": 294,
        "break1Start": 114,
        "break1End": 20,
-      "safetyEnd": 22,
-      "safetyStart": 46
+       "safetyEnd": 49,
+       "safetyStart": 75
     }
  },
   {
@@ -784,8 +786,9 @@
        "break2Start": 190,
        "break2End": 295,
        "break1Start": 115,
-       "break1End": 25,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 25,
+       "safetyEnd": 50,
+       "safetyStart": 80
     }
  },
   {
@@ -795,8 +798,9 @@
        "break2Start": 190,
        "break2End": 296,
        "break1Start": 116,
-       "break1End": 25,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 25,
+       "safetyEnd": 51,
+       "safetyStart": 80
     }
  },
   {
@@ -806,8 +810,9 @@
        "break2Start": 190,
        "break2End": 297,
        "break1Start": 117,
-       "break1End": 25,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 25,
+       "safetyEnd": 52,
+       "safetyStart": 80
     }
  },
   {
@@ -817,8 +822,9 @@
        "break2Start": 190,
        "break2End": 298,
        "break1Start": 118,
-       "break1End": 25,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 25,
+       "safetyEnd": 53,
+       "safetyStart": 80
     }
  },
   {
@@ -828,8 +834,9 @@
        "break2Start": 190,
        "break2End": 299,
        "break1Start": 119,
-       "break1End": 25,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 25,
+       "safetyEnd": 54,
+       "safetyStart": 80
     }
  },
   {
@@ -839,8 +846,9 @@
        "break2Start": 195,
        "break2End": 300,
        "break1Start": 120,
-       "break1End": 25,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 25,
+       "safetyEnd": 55,
+       "safetyStart": 85
     }
  },
   {
@@ -850,8 +858,9 @@
        "break2Start": 195,
        "break2End": 301,
        "break1Start": 121,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 56,
+       "safetyStart": 85
     }
  },
   {
@@ -861,8 +870,9 @@
        "break2Start": 195,
        "break2End": 302,
        "break1Start": 122,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 57,
+       "safetyStart": 85
     }
  },
   {
@@ -872,8 +882,9 @@
        "break2Start": 195,
        "break2End": 303,
        "break1Start": 123,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 58,
+       "safetyStart": 85
     }
  },
   {
@@ -883,8 +894,9 @@
        "break2Start": 195,
        "break2End": 304,
        "break1Start": 124,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 59,
+       "safetyStart": 85
     }
  },
   {
@@ -894,8 +906,9 @@
        "break2Start": 200,
        "break2End": 305,
        "break1Start": 125,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 60,
+       "safetyStart": 90
     }
  },
   {
@@ -905,8 +918,9 @@
        "break2Start": 200,
        "break2End": 306,
        "break1Start": 126,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 61,
+       "safetyStart": 90
     }
  },
   {
@@ -916,8 +930,9 @@
        "break2Start": 200,
        "break2End": 307,
        "break1Start": 127,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 62,
+       "safetyStart": 90
     }
  },
   {
@@ -927,8 +942,9 @@
        "break2Start": 200,
        "break2End": 308,
        "break1Start": 128,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 63,
+       "safetyStart": 90
     }
  },
   {
@@ -938,8 +954,9 @@
        "break2Start": 200,
        "break2End": 309,
        "break1Start": 129,
-       "break1End": 30,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 30,
+       "safetyEnd": 64,
+       "safetyStart": 90
     }
  },
   {
@@ -949,8 +966,9 @@
        "break2Start": 215,
        "break2End": 310,
        "break1Start": 130,
-       "break1End": 35,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 35,
+       "safetyEnd": 65,
+       "safetyStart": 90
     }
  },
   {
@@ -960,8 +978,9 @@
        "break2Start": 215,
        "break2End": 311,
        "break1Start": 131,
-       "break1End": 35,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 35,
+       "safetyEnd": 67,
+       "safetyStart": 95
     }
  },
   {
@@ -971,8 +990,9 @@
        "break2Start": 215,
        "break2End": 312,
        "break1Start": 132,
-       "break1End": 35,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 35,
+       "safetyEnd": 69,
+       "safetyStart": 95
     }
  },
   {
@@ -982,8 +1002,9 @@
        "break2Start": 215,
        "break2End": 313,
        "break1Start": 133,
-       "break1End": 35,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 35,
+       "safetyEnd": 71,
+       "safetyStart": 95
     }
  },
   {
@@ -993,8 +1014,9 @@
        "break2Start": 215,
        "break2End": 314,
        "break1Start": 134,
-       "break1End": 35,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 35,
+       "safetyEnd": 73,
+       "safetyStart": 95
     }
  },
   {
@@ -1004,8 +1026,9 @@
        "break2Start": 220,
        "break2End": 315,
        "break1Start": 135,
-       "break1End": 35,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 35,
+       "safetyEnd": 75,
+       "safetyStart": 100
     }
  },
   {
@@ -1015,8 +1038,9 @@
        "break2Start": 220,
        "break2End": 316,
        "break1Start": 136,
-       "break1End": 40,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 40,
+       "safetyEnd": 76,
+       "safetyStart": 100
     }
  },
   {
@@ -1026,8 +1050,9 @@
        "break2Start": 220,
        "break2End": 317,
        "break1Start": 137,
-       "break1End": 40,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 40,
+       "safetyEnd": 77,
+       "safetyStart": 100
     }
  },
   {
@@ -1037,8 +1062,9 @@
        "break2Start": 220,
        "break2End": 318,
        "break1Start": 138,
-       "break1End": 40,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 40,
+       "safetyEnd": 78,
+       "safetyStart": 100
     }
  },
   {
@@ -1048,20 +1074,21 @@
        "break2Start": 220,
        "break2End": 319,
        "break1Start": 139,
-       "break1End": 40,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 40,
+       "safetyEnd": 79,
+       "safetyStart": 100
     }
  },
   {
     "default": "90",
     "angles": {
-      "none": "NaN",
-      "break2Start": 220,
-      "break2End": 320,
-      "break1Start": 140,
-      "break1End": 40,
-      "safetyEnd": 80,
-      "safetyStart": 100
+       "none": "NaN",
+       "break2Start": 220,
+       "break2End": 320,
+       "break1Start": 140,
+       "break1End": 40,
+       "safetyEnd": 80,
+       "safetyStart": 100
     }
  },
   {
@@ -1071,8 +1098,9 @@
        "break2Start": 41,
        "break2End": 145,
        "break1Start": 319,
-       "break1End": 221,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 221,
+       "safetyEnd": -80,
+       "safetyStart": -100
     }
  },
   {
@@ -1082,8 +1110,9 @@
        "break2Start": 41,
        "break2End": 145,
        "break1Start": 319,
-       "break1End": 221,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 221,
+       "safetyEnd": -79,
+       "safetyStart": -100
     }
  },
   {
@@ -1093,8 +1122,9 @@
        "break2Start": 42,
        "break2End": 145,
        "break1Start": 318,
-       "break1End": 222,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 222,
+       "safetyEnd": -78,
+       "safetyStart": -100
     }
  },
   {
@@ -1104,8 +1134,9 @@
        "break2Start": 43,
        "break2End": 145,
        "break1Start": 317,
-       "break1End": 223,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 223,
+       "safetyEnd": -77,
+       "safetyStart": -100
     }
  },
   {
@@ -1115,8 +1146,9 @@
        "break2Start": 44,
        "break2End": 145,
        "break1Start": 316,
-       "break1End": 224,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 224,
+       "safetyEnd": -76,
+       "safetyStart": -100
     }
  },
   {
@@ -1126,8 +1158,9 @@
        "break2Start": 45,
        "break2End": 145,
        "break1Start": 315,
-       "break1End": 225,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 225,
+       "safetyEnd": -75,
+       "safetyStart": -100
     }
  },
   {
@@ -1137,8 +1170,9 @@
        "break2Start": 46,
        "break2End": 150,
        "break1Start": 314,
-       "break1End": 226,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 226,
+       "safetyEnd": -74,
+       "safetyStart": -95
     }
  },
   {
@@ -1148,8 +1182,9 @@
        "break2Start": 47,
        "break2End": 155,
        "break1Start": 313,
-       "break1End": 227,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 227,
+       "safetyEnd": -73,
+       "safetyStart": -95
     }
  },
   {
@@ -1159,8 +1194,9 @@
        "break2Start": 48,
        "break2End": 155,
        "break1Start": 312,
-       "break1End": 228,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 228,
+       "safetyEnd": -72,
+       "safetyStart": -95
     }
  },
   {
@@ -1170,8 +1206,9 @@
        "break2Start": 49,
        "break2End": 155,
        "break1Start": 311,
-       "break1End": 229,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 229,
+       "safetyEnd": -71,
+       "safetyStart": -95
     }
  },
   {
@@ -1181,8 +1218,9 @@
        "break2Start": 50,
        "break2End": 155,
        "break1Start": 310,
-       "break1End": 230,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 230,
+       "safetyEnd": -70,
+       "safetyStart": -90
     }
  },
   {
@@ -1192,8 +1230,9 @@
        "break2Start": 51,
        "break2End": 160,
        "break1Start": 309,
-       "break1End": 231,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 231,
+       "safetyEnd": -69,
+       "safetyStart": -90
     }
  },
   {
@@ -1203,8 +1242,9 @@
        "break2Start": 52,
        "break2End": 160,
        "break1Start": 308,
-       "break1End": 232,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 232,
+       "safetyEnd": -68,
+       "safetyStart": -90
     }
  },
   {
@@ -1214,8 +1254,9 @@
        "break2Start": 53,
        "break2End": 160,
        "break1Start": 307,
-       "break1End": 233,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 233,
+       "safetyEnd": -67,
+       "safetyStart": -90
     }
  },
   {
@@ -1225,8 +1266,9 @@
        "break2Start": 54,
        "break2End": 160,
        "break1Start": 306,
-       "break1End": 234,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 234,
+       "safetyEnd": -66,
+       "safetyStart": -90
     }
  },
   {
@@ -1236,8 +1278,9 @@
        "break2Start": 55,
        "break2End": 160,
        "break1Start": 305,
-       "break1End": 235,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 235,
+       "safetyEnd": -65,
+       "safetyStart": -90
     }
  },
   {
@@ -1247,8 +1290,9 @@
        "break2Start": 56,
        "break2End": 170,
        "break1Start": 304,
-       "break1End": 236,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 236,
+       "safetyEnd": -64,
+       "safetyStart": -85
     }
  },
   {
@@ -1258,8 +1302,9 @@
        "break2Start": 57,
        "break2End": 170,
        "break1Start": 303,
-       "break1End": 237,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 237,
+       "safetyEnd": -63,
+       "safetyStart": -85
     }
  },
   {
@@ -1269,8 +1314,9 @@
        "break2Start": 58,
        "break2End": 170,
        "break1Start": 302,
-       "break1End": 238,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 238,
+       "safetyEnd": -62,
+       "safetyStart": -85
     }
  },
   {
@@ -1280,8 +1326,9 @@
        "break2Start": 59,
        "break2End": 170,
        "break1Start": 301,
-       "break1End": 239,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 239,
+       "safetyEnd": -61,
+       "safetyStart": -85
     }
  },
   {
@@ -1291,8 +1338,9 @@
        "break2Start": 60,
        "break2End": 170,
        "break1Start": 300,
-       "break1End": 240,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 240,
+       "safetyEnd": -60,
+       "safetyStart": -85
     }
  },
   {
@@ -1302,8 +1350,9 @@
        "break2Start": 61,
        "break2End": 280,
        "break1Start": 0,
-       "break1End": 241,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 241,
+       "safetyEnd": -59,
+       "safetyStart": -80
     }
  },
   {
@@ -1313,8 +1362,9 @@
        "break2Start": 62,
        "break2End": 280,
        "break1Start": 0,
-       "break1End": 242,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 242,
+       "safetyEnd": -58,
+       "safetyStart": -80
     }
  },
   {
@@ -1324,8 +1374,9 @@
        "break2Start": 63,
        "break2End": 280,
        "break1Start": 0,
-       "break1End": 243,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 243,
+       "safetyEnd": -57,
+       "safetyStart": -80
     }
  },
   {
@@ -1335,8 +1386,9 @@
        "break2Start": 64,
        "break2End": 280,
        "break1Start": 0,
-       "break1End": 244,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 244,
+       "safetyEnd": -56,
+       "safetyStart": -80
     }
  },
   {
@@ -1346,8 +1398,9 @@
        "break2Start": 65,
        "break2End": 280,
        "break1Start": 0,
-       "break1End": 245,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 245,
+       "safetyEnd": -55,
+       "safetyStart": -80
     }
  },
   {
@@ -1357,8 +1410,9 @@
        "break2Start": 66,
        "break2End": 265,
        "break1Start": 0,
-       "break1End": 246,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 246,
+       "safetyEnd": -54,
+       "safetyStart": -75
     }
  },
   {
@@ -1368,8 +1422,9 @@
        "break2Start": 67,
        "break2End": 265,
        "break1Start": 0,
-       "break1End": 247,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 247,
+       "safetyEnd": -53,
+       "safetyStart": -75
     }
  },
   {
@@ -1379,8 +1434,9 @@
        "break2Start": 68,
        "break2End": 265,
        "break1Start": 0,
-       "break1End": 248,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 248,
+       "safetyEnd": -52,
+       "safetyStart": -75
     }
  },
   {
@@ -1390,8 +1446,9 @@
        "break2Start": 69,
        "break2End": 265,
        "break1Start": 0,
-       "break1End": 249,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 249,
+       "safetyEnd": -51,
+       "safetyStart": -75
     }
  },
   {
@@ -1401,8 +1458,9 @@
        "break2Start": 70,
        "break2End": 265,
        "break1Start": 0,
-       "break1End": 250,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 250,
+       "safetyEnd": -50,
+       "safetyStart": -75
     }
  },
   {
@@ -1412,8 +1470,9 @@
        "break2Start": 71,
        "break2End": 220,
        "break1Start": 5,
-       "break1End": 251,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 251,
+       "safetyEnd": -49,
+       "safetyStart": -70
     }
  },
   {
@@ -1423,8 +1482,9 @@
        "break2Start": 72,
        "break2End": 220,
        "break1Start": 5,
-       "break1End": 252,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 252,
+       "safetyEnd": -48,
+       "safetyStart": -70
     }
  },
   {
@@ -1434,8 +1494,9 @@
        "break2Start": 73,
        "break2End": 220,
        "break1Start": 5,
-       "break1End": 253,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 253,
+       "safetyEnd": -47,
+       "safetyStart": -70
     }
  },
   {
@@ -1445,8 +1506,9 @@
        "break2Start": 74,
        "break2End": 220,
        "break1Start": 5,
-       "break1End": 254,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 254,
+       "safetyEnd": -46,
+       "safetyStart": -70
     }
  },
   {
@@ -1456,8 +1518,9 @@
        "break2Start": 75,
        "break2End": 210,
        "break1Start": 5,
-       "break1End": 255,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 255,
+       "safetyEnd": -45,
+       "safetyStart": -70
     }
  },
   {
@@ -1467,8 +1530,9 @@
        "break2Start": 76,
        "break2End": 210,
        "break1Start": 10,
-       "break1End": 256,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 256,
+       "safetyEnd": -44,
+       "safetyStart": -65
     }
  },
   {
@@ -1478,8 +1542,9 @@
        "break2Start": 77,
        "break2End": 210,
        "break1Start": 10,
-       "break1End": 257,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 257,
+       "safetyEnd": -43,
+       "safetyStart": -65
     }
  },
   {
@@ -1489,8 +1554,9 @@
        "break2Start": 78,
        "break2End": 210,
        "break1Start": 10,
-       "break1End": 258,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 258,
+       "safetyEnd": -42,
+       "safetyStart": -65
     }
  },
   {
@@ -1500,80 +1566,81 @@
        "break2Start": 79,
        "break2End": 210,
        "break1Start": 10,
-       "break1End": 259,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 259,
+       "safetyEnd": -41,
+       "safetyStart": -65
     }
  },
   {
     "default": "-50",
     "angles": {
-      "none": "NaN",
-      "break2Start": 80,
-      "break2End": 210,
-      "break1Start": 10,
-      "break1End": 260,
-      "safetyEnd": 150,
-      "safetyStart": 120
+       "none": "NaN",
+       "break2Start": 80,
+       "break2End": 210,
+       "break1Start": 10,
+       "break1End": 260,
+       "safetyEnd": -40,
+       "safetyStart": -65
     }
  },
   {
     "default": "-49",
     "angles": {
-      "none": "NaN",
-      "break2Start": 81,
-      "break2End": 210,
-      "break1Start": 15,
-      "break1End": 261,
-      "safetyEnd": 150,
-      "safetyStart": 120
+       "none": "NaN",
+       "break2Start": 81,
+       "break2End": 210,
+       "break1Start": 15,
+       "break1End": 261,
+       "safetyEnd": -39,
+       "safetyStart": -60
     }
  },
   {
     "default": "-48",
     "angles": {
-      "none": "NaN",
-      "break2Start": 82,
-      "break2End": 210,
-      "break1Start": 15,
-      "break1End": 262,
-      "safetyEnd": 150,
-      "safetyStart": 120
+       "none": "NaN",
+       "break2Start": 82,
+       "break2End": 210,
+       "break1Start": 15,
+       "break1End": 262,
+       "safetyEnd": -38,
+       "safetyStart": -60
     }
  },
   {
     "default": "-47",
     "angles": {
-      "none": "NaN",
-      "break2Start": 83,
-      "break2End": 210,
-      "break1Start": 15,
-      "break1End": 263,
-      "safetyEnd": 150,
-      "safetyStart": 120
+       "none": "NaN",
+       "break2Start": 83,
+       "break2End": 210,
+       "break1Start": 15,
+       "break1End": 263,
+       "safetyEnd": -37,
+       "safetyStart": -60
     }
  },
   {
     "default": "-46",
     "angles": {
-      "none": "NaN",
-      "break2Start": 84,
-      "break2End": 210,
-      "break1Start": 15,
-      "break1End": 264,
-      "safetyEnd": 150,
-      "safetyStart": 120
+       "none": "NaN",
+       "break2Start": 84,
+       "break2End": 210,
+       "break1Start": 15,
+       "break1End": 264,
+       "safetyEnd": -36,
+       "safetyStart": -60
     }
  },
   {
     "default": "-45",
     "angles": {
-      "none": "NaN",
-      "break2Start": 85,
-      "break2End": 200,
-      "break1Start": 15,
-      "break1End": 265,
-      "safetyEnd": 150,
-      "safetyStart": 170
+       "none": "NaN",
+       "break2Start": 85,
+       "break2End": 200,
+       "break1Start": 15,
+       "break1End": 265,
+       "safetyEnd": -35,
+       "safetyStart": -60
     }
  },
   {
@@ -1583,8 +1650,9 @@
        "break2Start": 86,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 266,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 266,
+       "safetyEnd": -34,
+       "safetyStart": -55
     }
  },
   {
@@ -1594,8 +1662,9 @@
        "break2Start": 87,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 267,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 267,
+       "safetyEnd": -33,
+       "safetyStart": -55
     }
  },
   {
@@ -1605,8 +1674,9 @@
        "break2Start": 88,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 268,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 268,
+       "safetyEnd": -32,
+       "safetyStart": -55
     }
  },
   {
@@ -1616,8 +1686,9 @@
        "break2Start": 89,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 269,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 269,
+       "safetyEnd": -31,
+       "safetyStart": -55
     }
  },
   {
@@ -1627,8 +1698,9 @@
        "break2Start": 90,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 270,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 270,
+       "safetyEnd": -30,
+       "safetyStart": -55
     }
  },
   {
@@ -1638,8 +1710,9 @@
        "break2Start": 91,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 271,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 271,
+       "safetyEnd": -29,
+       "safetyStart": -48
     }
  },
   {
@@ -1649,8 +1722,9 @@
        "break2Start": 92,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 272,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 272,
+       "safetyEnd": -28,
+       "safetyStart": -48
     }
  },
   {
@@ -1660,8 +1734,9 @@
        "break2Start": 93,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 273,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 273,
+       "safetyEnd": -27,
+       "safetyStart": -48
     }
  },
   {
@@ -1671,8 +1746,9 @@
        "break2Start": 94,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 274,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 274,
+       "safetyEnd": -26,
+       "safetyStart": -48
     }
  },
   {
@@ -1682,8 +1758,9 @@
        "break2Start": 95,
        "break2End": 200,
        "break1Start": 20,
-       "break1End": 275,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 275,
+       "safetyEnd": -25,
+       "safetyStart": -48
     }
  },
   {
@@ -1693,8 +1770,9 @@
        "break2Start": 96,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 276,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 276,
+       "safetyEnd": -24,
+       "safetyStart": -40
     }
  },
   {
@@ -1704,8 +1782,9 @@
        "break2Start": 97,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 277,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 277,
+       "safetyEnd": -23,
+       "safetyStart": -40
     }
  },
   {
@@ -1715,8 +1794,9 @@
        "break2Start": 98,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 278,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 278,
+       "safetyEnd": -22,
+       "safetyStart": -40
     }
  },
   {
@@ -1726,8 +1806,9 @@
        "break2Start": 99,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 279,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 279,
+       "safetyEnd": -21,
+       "safetyStart": -40
     }
  },
   {
@@ -1737,8 +1818,9 @@
        "break2Start": 100,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 280,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 280,
+       "safetyEnd": -20,
+       "safetyStart": -40
     }
  },
   {
@@ -1748,20 +1830,21 @@
        "break2Start": 101,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 281,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 281,
+       "safetyEnd": -19,
+       "safetyStart": -38
     }
  },
   {
     "default": "-28",
     "angles": {
-      "none": "NaN",
-      "break2Start": 102,
-      "break2End": 195,
-      "break1Start": 25,
-      "break1End": 282,
-      "safetyEnd": 140,
-      "safetyStart": 165
+       "none": "NaN",
+       "break2Start": 102,
+       "break2End": 195,
+       "break1Start": 25,
+       "break1End": 282,
+       "safetyEnd": -18,
+       "safetyStart": -38
     }
  },
   {
@@ -1771,8 +1854,9 @@
        "break2Start": 103,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 283,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 283,
+       "safetyEnd": -17,
+       "safetyStart": -38
     }
  },
   {
@@ -1782,8 +1866,9 @@
        "break2Start": 104,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 284,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 284,
+       "safetyEnd": -16,
+       "safetyStart": -38
     }
  },
   {
@@ -1793,8 +1878,9 @@
        "break2Start": 105,
        "break2End": 195,
        "break1Start": 25,
-       "break1End": 285,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 285,
+       "safetyEnd": -15,
+       "safetyStart": -38
     }
  },
   {
@@ -1804,8 +1890,9 @@
        "break2Start": 106,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 286,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 286,
+       "safetyEnd": -14,
+       "safetyStart": -35
     }
  },
   {
@@ -1815,8 +1902,9 @@
        "break2Start": 107,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 287,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 287,
+       "safetyEnd": -13,
+       "safetyStart": -35
     }
  },
   {
@@ -1826,8 +1914,9 @@
        "break2Start": 108,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 288,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 288,
+       "safetyEnd": -12,
+       "safetyStart": -35
     }
  },
   {
@@ -1837,8 +1926,9 @@
        "break2Start": 109,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 289,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 289,
+       "safetyEnd": -11,
+       "safetyStart": -35
     }
  },
   {
@@ -1848,8 +1938,9 @@
        "break2Start": 110,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 290,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 290,
+       "safetyEnd": -10,
+       "safetyStart": -35
     }
  },
   {
@@ -1859,8 +1950,9 @@
        "break2Start": 111,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 291,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 291,
+       "safetyEnd": -9,
+       "safetyStart": -30
     }
  },
   {
@@ -1870,8 +1962,9 @@
        "break2Start": 112,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 292,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 292,
+       "safetyEnd": -8,
+       "safetyStart": -30
     }
  },
   {
@@ -1881,20 +1974,21 @@
        "break2Start": 113,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 293,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 293,
+       "safetyEnd": -7,
+       "safetyStart": -30
     }
  },
   {
     "default": "-16",
     "angles": {
-      "none": "NaN",
-      "break2Start": 114,
-      "break2End": 190,
-      "break1Start": 30,
-      "break1End": 294,
-      "safetyEnd": 155,
-      "safetyStart": 175
+       "none": "NaN",
+       "break2Start": 114,
+       "break2End": 190,
+       "break1Start": 30,
+       "break1End": 294,
+       "safetyEnd": -6,
+       "safetyStart": -30
     }
  },
   {
@@ -1904,8 +1998,9 @@
        "break2Start": 115,
        "break2End": 190,
        "break1Start": 30,
-       "break1End": 295,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 295,
+       "safetyEnd": -5,
+       "safetyStart": -30
     }
  },
   {
@@ -1915,8 +2010,9 @@
        "break2Start": 116,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 296,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 296,
+       "safetyEnd": -4,
+       "safetyStart": -25
     }
  },
   {
@@ -1926,8 +2022,9 @@
        "break2Start": 117,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 297,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 297,
+       "safetyEnd": -3,
+       "safetyStart": -25
     }
  },
   {
@@ -1937,8 +2034,9 @@
        "break2Start": 118,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 298,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 298,
+       "safetyEnd": -2,
+       "safetyStart": -25
     }
  },
   {
@@ -1948,8 +2046,9 @@
        "break2Start": 119,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 299,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 299,
+       "safetyEnd": -1,
+       "safetyStart": -25
     }
  },
   {
@@ -1959,8 +2058,9 @@
        "break2Start": 120,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 300,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 300,
+       "safetyEnd": 0,
+       "safetyStart": -25
     }
  },
   {
@@ -1970,20 +2070,21 @@
        "break2Start": 121,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 301,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 301,
+       "safetyEnd": 1,
+       "safetyStart": -18
     }
  },
   {
     "default": "-8",
     "angles": {
-      "none": "NaN",
-      "break2Start": 122,
-      "break2End": 185,
-      "break1Start": 35,
-      "break1End": 302,
-      "safetyEnd": 185,
-      "safetyStart": 160
+       "none": "NaN",
+       "break2Start": 122,
+       "break2End": 185,
+       "break1Start": 35,
+       "break1End": 302,
+       "safetyEnd": 2,
+       "safetyStart": -18
     }
  },
   {
@@ -1993,8 +2094,9 @@
        "break2Start": 123,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 303,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 303,
+       "safetyEnd": 3,
+       "safetyStart": -18
     }
  },
   {
@@ -2004,8 +2106,9 @@
        "break2Start": 124,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 304,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 304,
+       "safetyEnd": 4,
+       "safetyStart": -18
     }
  },
   {
@@ -2015,8 +2118,9 @@
        "break2Start": 125,
        "break2End": 185,
        "break1Start": 35,
-       "break1End": 305,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 305,
+       "safetyEnd": 5,
+       "safetyStart": -18
     }
  },
   {
@@ -2026,8 +2130,9 @@
        "break2Start": 126,
        "break2End": 180,
        "break1Start": 40,
-       "break1End": 306,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 306,
+       "safetyEnd": 6,
+       "safetyStart": -10
     }
  },
   {
@@ -2037,8 +2142,9 @@
        "break2Start": 127,
        "break2End": 180,
        "break1Start": 40,
-       "break1End": 307,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 307,
+       "safetyEnd": 7,
+       "safetyStart": -10
     }
  },
   {
@@ -2048,8 +2154,9 @@
        "break2Start": 128,
        "break2End": 180,
        "break1Start": 40,
-       "break1End": 308,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 308,
+       "safetyEnd": 8,
+       "safetyStart": -10
     }
  },
   {
@@ -2059,8 +2166,9 @@
        "break2Start": 129,
        "break2End": 180,
        "break1Start": 40,
-       "break1End": 309,"safetyEnd": 22,
-      "safetyStart": 46
+       "break1End": 309,
+       "safetyEnd": 9,
+       "safetyStart": -10
     }
  }
  ]
