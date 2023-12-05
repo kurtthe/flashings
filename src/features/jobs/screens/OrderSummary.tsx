@@ -23,9 +23,7 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 		const storesAsRadioButton = storesToOption(stores)
 		setOptionsStore(storesAsRadioButton)
 	}, [stores])
-	const handleChange = ()=> {
-
-	}
+	const handleChange = ()=> null
 
 	return (
 	<Box p="m" style={styles.container}>

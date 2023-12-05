@@ -1,8 +1,8 @@
-export const baseURL = 'https://api.trak.co';
+export const baseURL = 'https://api.trak.co/';
 
 export const endPoints = {
-  login: `/login`,
-  forgotPassword: `/reset-password`,
-  getDataUser: `/users/:id`,
-  getStores: `/burdens/stores`,
+  login: `${baseURL}login`,
+  forgotPassword: `${baseURL}reset-password`,
+  getDataUser: `${baseURL}users/:id`,
+  getStores: `${baseURL}burdens/stores`,
 };
