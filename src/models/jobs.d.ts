@@ -52,3 +52,19 @@ export type JOB_DATA= JOB_DATA_COMMON & {
 }
 
 export type JOB_EDIT = JOB_DATA_COMMON
+
+export type STORE = {
+  id: number;
+  store_id: number;
+  name: string;
+  lat_lng: string;
+  address: string;
+  phone_number: string;
+  email: string;
+  manager: string;
+  manager_email: string;
+  opening_hours: Array<{
+    title: string,
+    time: string
+  }>
+}
