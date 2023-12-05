@@ -54,6 +54,8 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES): nu
 		}
 	}
 
+	console.log("angleAzimut ==>", angleAzimut)
+
 	return parseInt(`${dataAngles.angles[typeLine]}`)
 
 }
