@@ -5,7 +5,7 @@ import { Box, Button } from "@ui/components";
 const OrderSummaryScreen = () => {
 
 	return (
-	<Box>
+	<Box p="m">
 		<Button variant="solidWhite">Shared</Button>
 	</Box>
 	)

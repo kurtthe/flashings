@@ -90,7 +90,7 @@ const JobDetailsScreen = () => {
         )}
         ListFooterComponent={
           <SectionsButtonsJobsDetails
-            onPreview={()=> navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUBMITTED})}
+            onPreview={()=> navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY})}
             onAddFlashing={() => onPressFooter(
               Routes.CREATE_EDIT_FLASHING,
               {
