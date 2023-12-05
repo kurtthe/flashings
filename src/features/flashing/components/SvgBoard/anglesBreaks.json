@@ -919,8 +919,12 @@
        "break2End": 306,
        "break1Start": 126,
        "break1End": 30,
-       "safetyEnd": 61,
-       "safetyStart": 90
+
+      "safety1Right": 90,
+      "safety1Left": 61,
+
+      "safety2Right": 270,
+      "safety2Left": 240
     }
  },
   {
