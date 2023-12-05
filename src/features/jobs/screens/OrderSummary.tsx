@@ -1,19 +1,31 @@
 import React from 'react';
-import { Box, Button } from "@ui/components";
+import { Box, Button, OptionsType, SelectInput } from "@ui/components";
 import Pdf from 'react-native-pdf';
 import { StyleSheet } from "react-native";
 import { useGetStores } from "@hooks/jobs";
+import { storesToOption } from "@features/jobs/utils";
 
 type Props = {
 	urlPdf: string;
 }
 const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
+	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const {data: stores } = useGetStores();
 
 	const source = {
 		uri: 'https://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf',
 		cache: true,
 	};
+
+	React.useEffect(()=> {
+		if(!stores) return;
+
+		const storesAsRadioButton = storesToOption(stores)
+		setOptionsStore(storesAsRadioButton)
+	}, [stores])
+	const handleChange = ()=> {
+
+	}
 
 	return (
 	<Box p="m" style={styles.container}>
@@ -47,7 +59,11 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 			color="black"
 		>Shared</Button>
 
-
+		<SelectInput
+			options={optionsStore}
+			onChange={handleChange}
+			label="Select a store"
+		/>
 		<Button
 			my="m"
 			variant="solid"
