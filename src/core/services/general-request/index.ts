@@ -5,13 +5,22 @@ import axios, {
 } from 'axios';
 import { GeneralRequestInterface } from './general-request.type';
 import handleErrors from './handleErrors';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { baseURL } from "@shared/endPoints";
+
 class GeneralRequestService implements GeneralRequestInterface {
   static instance: GeneralRequestService;
   private httpService;
-  private tokeAuth: string | undefined;
 
   constructor() {
-    this.httpService = axios;
+    this.httpService = axios.create({
+      baseURL: baseURL,
+      timeout: 2500,
+    });
+
+    this.getToken().then(data => {
+      this.httpService.defaults.headers.common['ttrak-key'] = data
+    });
   }
   static getInstance() {
     if (!GeneralRequestService.instance) {
@@ -30,7 +39,6 @@ class GeneralRequestService implements GeneralRequestInterface {
           any,
           AxiosResponse<TypeResult>
         >(endpoint, {
-          headers: { 'ttrak-key': this.tokeAuth || '' },
           ...options,
         });
         resolve({
@@ -60,7 +68,6 @@ class GeneralRequestService implements GeneralRequestInterface {
         >(endpoint, data, {
           headers: {
             ...headersPetition,
-            'ttrak-key': this.tokeAuth || '',
           },
         });
         resolve({
@@ -83,11 +90,7 @@ class GeneralRequestService implements GeneralRequestInterface {
         const response = await this.httpService.put<
           TypeData,
           AxiosResponse<TypeResult>
-        >(endpoint, data, {
-          headers: {
-            'ttrak-key': this.tokeAuth || '',
-          },
-        });
+        >(endpoint, data);
         resolve({
           body: response.data as TypeResult,
           headers: response.headers,
@@ -111,6 +114,12 @@ class GeneralRequestService implements GeneralRequestInterface {
           AxiosResponse<TypeResult & { api_key: string }>
         >(endpoint, data);
 
+        this.saverToken<TypeResult>({
+          ...(response.data as TypeResult),
+          companyName: '',
+          api_key: response.data.api_key,
+        });
+
         resolve({
           body: response.data as TypeResult,
           headers: response.headers,
@@ -120,6 +129,26 @@ class GeneralRequestService implements GeneralRequestInterface {
         reject(err);
       }
     });
+  }
+
+  private async saverToken<TypeData>(
+    data: TypeData & {api_key: string; companyName: string},
+  ) {
+    if (data) {
+      this.httpService.defaults.headers.common['ttrak-key'] = data.api_key;
+      await AsyncStorage.setItem('data_user', JSON.stringify(data));
+    }
+  }
+
+  private async getToken(): Promise<string | undefined> {
+    try {
+      const data = await AsyncStorage.getItem('data_user');
+      if (!data) return undefined;
+      const dataParse = JSON.parse(data);
+      return dataParse.api_key;
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
 
