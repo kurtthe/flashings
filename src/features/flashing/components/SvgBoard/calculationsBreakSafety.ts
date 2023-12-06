@@ -9,9 +9,9 @@ const equationResultAzimuth = {
 	'4': '360-angle'
 }
 
-const changeTheTypeLine = (typeLine: TYPE_END_LINES_BREAK): TYPE_END_LINES_BREAK=> {
+const changeTheTypeLine = (typeLine: TYPE_END_LINES): TYPE_END_LINES=> {
 	const has1 = typeLine.includes('1')
-	return (has1? typeLine.replace('1','2'): typeLine.replace('2','1')) as TYPE_END_LINES_BREAK
+	return (has1? typeLine.replace('1','2'): typeLine.replace('2','1')) as TYPE_END_LINES
 }
 export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): POINT_TYPE[]=> {
 	const x1: number = points[0];
@@ -26,7 +26,7 @@ export const calculateTypeLine = ({points, angle}: BREAK_END_START_LINE_TYPE): P
 
 	return [[x1,y1], [x2,y2]]
 }
-export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES_BREAK): number => {
+export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES): number => {
 	const angleAzimut = parseInt(calculateAngleAzimut(line))
 
 	const pointX1 = line.points[0][0];

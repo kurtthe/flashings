@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, FlatList } from "react-native";
-import { Box, Text, Button } from "@ui/components";
+import { Box, Text } from "@ui/components";
 import { Routes } from '@features/flashing/navigation/routes';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -8,9 +8,12 @@ import {
   StackPrivateDefinitions, StackPrivateProps
 } from "@routes/PrivateNavigator";
 import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
-import {CardGutter} from "@features/jobs/components";
+import { CardGutter, SectionsButtonsJobsDetails } from "@features/jobs/components";
 import { useAppSelector } from "@hooks/useStore";
 import { jobData } from "@store/jobs/selectors";
+import { useAddDataJob } from "@hooks/jobs";
+import { mapDataJobToDataPetition } from "@features/jobs/utils";
+import Alert from "@services/general-request/alert";
 
 
 const JobDetailsScreen = () => {
@@ -19,7 +22,12 @@ const JobDetailsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { jobId } = route.params;
   const item = useAppSelector((state) => jobData(state, jobId));
-
+  const { mutate: createJob, isLoading } = useAddDataJob({
+    onSuccess: (data) => {
+      Alert.show("API response", JSON.stringify(data))
+      navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY})
+    },
+  });
   const getCommonMaterial = (): number| null => {
     if(!item || item.flashings.length < 1) return null
 
@@ -89,14 +97,22 @@ const JobDetailsScreen = () => {
           />
         )}
         ListFooterComponent={
-          <Box mx="m" mb="xl" >
-            <Button
-              variant="outlineWhite"
-              mt="l"
-              onPress={() => onPressFooter(Routes.CREATE_EDIT_FLASHING, {jobId: item.id, jobName: item.name, commonMaterial: getCommonMaterial()})}>
-              + Add Flashing
-            </Button>
-          </Box>
+          <SectionsButtonsJobsDetails
+            loadingPreview={isLoading}
+            showPreview={item.flashings.length > 0}
+            disabledAddFlashing={item.flashings.length === 6}
+            onPreview={()=> createJob({
+              dataJobAndFlashing: mapDataJobToDataPetition(item)
+            })
+            }
+            onAddFlashing={() => onPressFooter(
+              Routes.CREATE_EDIT_FLASHING,
+              {
+                jobId: item.id,
+                jobName: item.name,
+                commonMaterial: getCommonMaterial()
+              })}
+          />
         }
       />
     </Box>
