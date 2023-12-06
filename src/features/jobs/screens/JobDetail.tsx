@@ -11,6 +11,11 @@ import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
 import { CardGutter, SectionsButtonsJobsDetails } from "@features/jobs/components";
 import { useAppSelector } from "@hooks/useStore";
 import { jobData } from "@store/jobs/selectors";
+import { useLogin } from "@hooks/auth";
+import { actions as authActions } from "@store/auth/actions";
+import { LOGIN_RESPONSE } from "@models";
+import { useAddDataJob } from "@hooks/jobs";
+import { mapDataJobToDataPetition } from "@features/jobs/utils";
 
 
 const JobDetailsScreen = () => {
@@ -19,7 +24,11 @@ const JobDetailsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { jobId } = route.params;
   const item = useAppSelector((state) => jobData(state, jobId));
-
+  const { mutate: createJob, isLoading } = useAddDataJob({
+    onSuccess: () => {
+      navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY})
+    },
+  });
   const getCommonMaterial = (): number| null => {
     if(!item || item.flashings.length < 1) return null
 
@@ -90,7 +99,12 @@ const JobDetailsScreen = () => {
         )}
         ListFooterComponent={
           <SectionsButtonsJobsDetails
-            onPreview={()=> navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY})}
+            loadingPreview={isLoading}
+            disabledAddFlashing={item.flashings.length === 6}
+            onPreview={()=> createJob({
+              dataJobAndFlashing: mapDataJobToDataPetition(item)
+            })
+            }
             onAddFlashing={() => onPressFooter(
               Routes.CREATE_EDIT_FLASHING,
               {

@@ -3,14 +3,17 @@ import { Box, Button } from "@ui/components";
 
 
 type Props = {
+	loadingPreview?: boolean;
 	onPreview: () => void;
 	onAddFlashing: () => void;
+	disabledAddFlashing?: boolean
 }
-const SectionsButtonsJobsDetails: React.FC<Props>= ({onPreview, onAddFlashing}) => {
+const SectionsButtonsJobsDetails: React.FC<Props>= ({ onPreview, onAddFlashing, disabledAddFlashing=false, loadingPreview=false}) => {
 	return (
 		<>
 			<Box mx="m" mb="s">
 				<Button
+					disabled={disabledAddFlashing}
 					variant="outlineWhite"
 					mt="l"
 					onPress={onAddFlashing}>
@@ -19,6 +22,7 @@ const SectionsButtonsJobsDetails: React.FC<Props>= ({onPreview, onAddFlashing}) 
 			</Box>
 			<Box mx="m" mb="xl">
 				<Button
+					isLoading={loadingPreview}
 					variant="solid"
 					onPress={onPreview}>
 					Preview
