@@ -1,7 +1,13 @@
 import React from 'react';
 import { createStackNavigator } from "@react-navigation/stack";
 import { Routes } from "./routes";
-import { AllJobsScreen, JobDetailsScreen, CreateEditJobScreen } from '../screens';
+import {
+  AllJobsScreen,
+  JobDetailsScreen,
+  CreateEditJobScreen,
+  OrderSubmittedScreen,
+  OrderSummaryScreen
+} from "../screens";
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import {  EditIcon,  ProfileIcon } from "@assets/icons";
 import IconButton from '@ui/components/IconButton';
@@ -60,6 +66,28 @@ const Stack = () => {
               leftIcon={<HeaderBackButton />}
               title={route.params?.jobId? 'Edit Job': 'New Job'}
             />
+          ),
+        }}
+      />
+      <Screen
+        key={Routes.ORDER_SUBMITTED}
+        name={Routes.ORDER_SUBMITTED}
+        component={OrderSubmittedScreen}
+        options={{
+          header: () => null,
+        }}
+      />
+      <Screen
+        key={Routes.ORDER_SUMMARY}
+        name={Routes.ORDER_SUMMARY}
+        component={OrderSummaryScreen}
+        options={{
+          header: () => (
+          <HeaderBox
+            mb="s"
+            leftIcon={<HeaderBackButton />}
+            title="Order Summary"
+          />
           ),
         }}
       />
