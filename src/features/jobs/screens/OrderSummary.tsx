@@ -43,13 +43,7 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 				console.log(`Link pressed: ${uri}`);
 			}}
 		/>
-		<Button
-			variant="solidWhite"
-			borderRadius="unset"
-			borderWidth={1}
-			color="black"
-			my="s"
-		>Print</Button>
+
 		<Button
 			variant="solidWhite"
 			borderRadius="unset"

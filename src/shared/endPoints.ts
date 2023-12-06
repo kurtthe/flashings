@@ -5,4 +5,5 @@ export const endPoints = {
   forgotPassword: `${baseURL}reset-password`,
   getDataUser: `${baseURL}users/:id`,
   getStores: `${baseURL}burdens/stores`,
+  createJobAndFlashing: "https://dash-stage.paperplane.app/generate"
 };

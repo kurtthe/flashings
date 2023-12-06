@@ -8,6 +8,7 @@ import { FlatList } from "react-native";
 import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
 import { useNavigation } from "@react-navigation/native";
 import { Routes } from "@features/flashing/navigation/routes";
+import { getBends, getGirth } from "@features/jobs/utils";
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
@@ -34,31 +35,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
     return material
   }
 
-  const getGirth = () =>{
-    const sizeLines = data.dataLines.map((lineInfo)=> lineInfo.distance)
-    let breaksAdd = 0
-    if(data.startType !== "none"){
-      breaksAdd += 15
-    }
-    if(data.endType !== "none"){
-      breaksAdd += 15
-    }
-    return sizeLines.reduce((a, b) => a + b, 0) + breaksAdd
-  }
 
-  const getBends = ()=>{
-    const pointers = data.dataLines.map((lineInfo)=> lineInfo.points)
-    let addTo = 0
-    if(data.startType !== "none"){
-      addTo += 1
-    }
-    if(data.endType !== "none"){
-      addTo += 1
-    }
-
-    const lengthPoint = (pointers.length -1) + addTo
-    return lengthPoint ?? 0
-  }
 
   const handleEditFlashing = ()=> {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {
@@ -115,7 +92,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
             <Box  flexDirection="row" alignItems="flex-start" justifyContent="flex-start">
               {renderFlashingLengths()}
             </Box>
-            <Text variant="bodySmallRegular">{getBends()} Bend Girth - {`${getGirth()}mm`}</Text>
+            <Text variant="bodySmallRegular">{getBends(data)} Bend Girth - {`${getGirth(data)}mm`}</Text>
           </Box>
         </Box>
       </Card>
