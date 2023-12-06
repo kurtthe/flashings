@@ -11,11 +11,9 @@ import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
 import { CardGutter, SectionsButtonsJobsDetails } from "@features/jobs/components";
 import { useAppSelector } from "@hooks/useStore";
 import { jobData } from "@store/jobs/selectors";
-import { useLogin } from "@hooks/auth";
-import { actions as authActions } from "@store/auth/actions";
-import { LOGIN_RESPONSE } from "@models";
 import { useAddDataJob } from "@hooks/jobs";
 import { mapDataJobToDataPetition } from "@features/jobs/utils";
+import Alert from "@services/general-request/alert";
 
 
 const JobDetailsScreen = () => {
@@ -25,7 +23,8 @@ const JobDetailsScreen = () => {
   const { jobId } = route.params;
   const item = useAppSelector((state) => jobData(state, jobId));
   const { mutate: createJob, isLoading } = useAddDataJob({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      Alert.show("API response", JSON.stringify(data))
       navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY})
     },
   });
@@ -100,6 +99,7 @@ const JobDetailsScreen = () => {
         ListFooterComponent={
           <SectionsButtonsJobsDetails
             loadingPreview={isLoading}
+            showPreview={item.flashings.length > 0}
             disabledAddFlashing={item.flashings.length === 6}
             onPreview={()=> createJob({
               dataJobAndFlashing: mapDataJobToDataPetition(item)

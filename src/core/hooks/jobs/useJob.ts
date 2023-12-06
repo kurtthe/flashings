@@ -14,7 +14,6 @@ export const useAddJob = ({ onSuccess, onSettled, onError }: DATA_HOOK) => {
 export const useGetStores = (): UseQueryResult<STORE[], any> => useQuery({
 	queryFn: () => getStores(),
 	queryKey: [queryKey.get_stores],
-	cacheTime: 30 * 60 * 1000,
 })
 
 
