@@ -173,10 +173,12 @@ const BoardContainer = () => {
 
   const handleSave = ()=>{
     (async ()=> {
+      if(!refViewShot.current) return;
+
       const dataFlashing = route.params.data
       const idJob = route.params?.jobId
       // @ts-ignore
-      const resultViewShot = await refViewShot.current?.capture();
+      const resultViewShot = await refViewShot.current.capture();
 
       dispatch(flashingActions.addEditFlashing({
         idJob,
@@ -202,7 +204,12 @@ const BoardContainer = () => {
   return (
     <>
       {stepBoard !== getIndexOfStepForName('screen_shot') &&  <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />}
-      <ViewShot ref={refViewShot} options={{ fileName: `flashing-shot${Math.random()}`, format: "png",  quality: 0.9, result: 'base64' }}>
+      <ViewShot
+        ref={refViewShot}
+        options={{ fileName: `flashing-shot${Math.random()}`, quality: 0.9, result: 'base64' }}
+        captureMode="mount"
+        onCaptureFailure={(error)=> Alert.show('Error for preview', error.message) }
+      >
       <BoardComponent
         rightLinePaint={blueLineIsRight}
         lines={lines}
