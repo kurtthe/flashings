@@ -13,7 +13,7 @@ type Props = {
 }
 const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
-	const {data: stores } = useGetStores();
+	const {data: stores, refetch } = useGetStores();
 	const navigation = useNavigation<JobStackProps>()
 
 	const source = {
@@ -22,7 +22,10 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 	};
 
 	React.useEffect(()=> {
-		if(!stores) return;
+		if(!stores) {
+			refetch().catch((error)=> console.log("error::", error));
+			return;
+		}
 
 		const storesAsRadioButton = storesToOption(stores)
 		setOptionsStore(storesAsRadioButton)
@@ -49,13 +52,11 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 				console.log(`Link pressed: ${uri}`);
 			}}
 		/>
-
 		<Button
-			variant="solidWhite"
+			variant="outlineWhite"
 			borderRadius="unset"
-			borderWidth={1}
-			color="black"
-		>Shared</Button>
+			mb="m"
+		>Share</Button>
 
 		<SelectInput
 			options={optionsStore}
@@ -63,6 +64,7 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 			label="Select a store"
 		/>
 		<Button
+			isDisabled={!stores?.length}
 			onPress={()=> navigation.navigate(RoutesJob.ORDER_SUBMITTED)}
 			my="m"
 			variant="solid"

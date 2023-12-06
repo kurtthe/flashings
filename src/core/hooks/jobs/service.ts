@@ -10,6 +10,7 @@ export const jobService = (dataJob:JOB_DATA ): Promise<JOB_DATA> => {
 
 export const getStores = async (): Promise<STORE[]>=> {
 	const response = await RequestService.get<STORE_RESPONSE>(endPoints.getStores)
+	console.log("response::", response)
 	return Promise.resolve(response.body.locations)
 }
 

@@ -28,10 +28,3 @@ export const getDataFlashing = createSelector(jobsSelector,
 		}
 		return dataJob.flashings.find(flashing => flashing.id === dataSelect.idFlashing)
 })
-
-export const getDataForPetition = createSelector(jobsSelector,
-	(_:any, idJob?: number) => idJob,
-	(state, idJob) => {
-		if(!idJob) return undefined
-		return state.jobs.find((job) => job.id === idJob);
-	});
