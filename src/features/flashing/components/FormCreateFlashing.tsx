@@ -1,17 +1,16 @@
 import React from 'react';
 import { FieldInput, FieldSelect } from "@components/forms";
-import { Button, Box, ScrollBox, IconButton, Icon, OptionsType } from "@ui/components";
+import { Button, Box, ScrollBox, IconButton, Icon, Text } from "@ui/components";
 import { FieldArray, useFormikContext } from "formik";
 import { AddFlashingFormValues } from "@features/flashing/constants";
 import { TrashIcon } from "@assets/icons";
-import { actions, actions as flashingActions } from "@store/jobs/actions";
+import { actions as flashingActions } from "@store/jobs/actions";
 import { useAppDispatch } from "@hooks/useStore";
 import { FLASHINGS_DATA } from "@models";
 import { useNavigation } from "@react-navigation/native";
 import { FlashingStackProps } from "@features/flashing/navigation/Stack.types";
 import { dataMaterials } from "@store/jobs/mocks";
 import { Alert } from "react-native";
-import { Routes } from "@features/jobs/navigation/routes";
 
 type Props = {
 	labelButton: string;
@@ -84,7 +83,8 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 					          {
 						          values.flashingLengths?.map((_, index, arrayLengths)=> (
 							          <React.Fragment key={`row-length-${index}`} >
-								          <Box flexDirection="row" mt="l"  justifyContent="space-between" mb="unset" >
+								          <Box flexDirection="row" alignItems="center" mt="l"  justifyContent="space-between" mb="unset" >
+									          {arrayLengths.length > 1 && <Text variant="bodyFooterBold">{index + 1}</Text>}
 									          <FieldInput
 										          name={`flashingLengths.${index}.qty`}
 										          label="Qty"
@@ -98,13 +98,14 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 										          suffix="mm"
 										          keyboardType="numeric"
 									          />
-									          {arrayLengths.length > 1 && <IconButton mt="m" icon={<Icon as={TrashIcon}  />} onPress={()=> arrayHelpers.remove(index)} />}
+									          {arrayLengths.length > 1 && <IconButton mt="unset" icon={<Icon as={TrashIcon}  />} onPress={()=> arrayHelpers.remove(index)} />}
 								          </Box>
 							          </React.Fragment>
 						          ))
 					          }
 				          </ScrollBox>
 									<Button
+										isDisabled={values.flashingLengths?.length === 8}
 										variant="outlineWhite"
 										mt="2xl"
 										onPress={() =>

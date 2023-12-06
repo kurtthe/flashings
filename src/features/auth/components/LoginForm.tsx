@@ -27,7 +27,6 @@ const LoginFormComponent = () => {
   }, []);
 
   const errorMessage = errors.submit ?? '';
-
   return (
     <Box px="m" backgroundColor="white">
       <FieldInput
