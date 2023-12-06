@@ -4,6 +4,9 @@ import Pdf from 'react-native-pdf';
 import { StyleSheet } from "react-native";
 import { useGetStores } from "@hooks/jobs";
 import { storesToOption } from "@features/jobs/utils";
+import { useNavigation } from "@react-navigation/native";
+import { JobStackProps } from "@features/jobs/navigation/Stack.types";
+import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
 
 type Props = {
 	urlPdf: string;
@@ -11,9 +14,10 @@ type Props = {
 const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const {data: stores } = useGetStores();
+	const navigation = useNavigation<JobStackProps>()
 
 	const source = {
-		uri: 'https://s29.q4cdn.com/175625835/files/doc_downloads/test.pdf',
+		uri: 'https://files-staging.paperplane.app/0bfb57d0-3700-4792-bf84-3ebfa66c5c3c.pdf',
 		cache: true,
 	};
 
@@ -28,6 +32,8 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 	return (
 	<Box p="m" style={styles.container}>
 		<Pdf
+			minScale={1.5}
+			maxScale={2}
 			source={source}
 			style={styles.pdf}
 			onLoadComplete={(numberOfPages,filePath) => {
@@ -57,6 +63,7 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 			label="Select a store"
 		/>
 		<Button
+			onPress={()=> navigation.navigate(RoutesJob.ORDER_SUBMITTED)}
 			my="m"
 			variant="solid"
 		>Send to store</Button>
