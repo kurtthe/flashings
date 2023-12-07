@@ -74,3 +74,15 @@ export type STORE = {
     time: string
   }>
 }
+
+export type RESPONSE_CREATE_AND_FLASHING = {
+  response:{
+    id:string;
+    url: string;
+    status: string;
+    file_name:string;
+    done:boolean,
+    object:string;
+  },
+  status: string;
+}
