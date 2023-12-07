@@ -13,7 +13,6 @@ import { useAppSelector } from "@hooks/useStore";
 import { jobData } from "@store/jobs/selectors";
 import { useAddDataJob } from "@hooks/jobs";
 import { mapDataJobToDataPetition } from "@features/jobs/utils";
-import Alert from "@services/general-request/alert";
 
 
 const JobDetailsScreen = () => {
@@ -24,8 +23,9 @@ const JobDetailsScreen = () => {
   const item = useAppSelector((state) => jobData(state, jobId));
   const { mutate: createJob, isLoading } = useAddDataJob({
     onSuccess: (data) => {
-      Alert.show("API response", JSON.stringify(data))
-      navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY})
+      navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY, params: {
+        responseApi: JSON.stringify(data)
+        }})
     },
   });
   const getCommonMaterial = (): number| null => {

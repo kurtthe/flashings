@@ -1,14 +1,13 @@
 import React from 'react';
 import { Box, Button, Card, CardProps, Text } from "@ui/components";
-import { FLASHINGS_DATA, MATERIALS } from "@models";
-import { dataMaterials } from "@store/jobs/mocks";
+import { FLASHINGS_DATA } from "@models";
 import PreviewFlashing from "@features/flashing/components/PreviewFlashing";
 import ModalAddLengths from "@features/jobs/components/ModalAddLengths";
 import { FlatList } from "react-native";
 import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
 import { useNavigation } from "@react-navigation/native";
 import { Routes } from "@features/flashing/navigation/routes";
-import { getBends, getGirth } from "@features/jobs/utils";
+import { getBends, getGirth, getMaterial } from "@features/jobs/utils";
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
@@ -18,23 +17,6 @@ type Props = CardProps & {
 const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest})=>{
   const [visibleModalLength, setVisibleModalLength] = React.useState(false)
   const navigation = useNavigation<StackPrivateProps>()
-  const getMaterial = (idMaterial: number): MATERIALS => {
-
-    const material = dataMaterials.find((item)=> item.id === idMaterial)
-    if(!material) {
-      return {
-        id: 1,
-        value: 'galvanised',
-        label: 'Galvanised',
-        bgColor: '#a7aaaf',
-        textColor: 'black',
-        bold: false,
-        disabled: false,
-      };
-    }
-    return material
-  }
-
 
 
   const handleEditFlashing = ()=> {
@@ -87,7 +69,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
           <Box>
             <Text variant="bodyLabelTextfield" fontWeight="bold" color="black" >Description</Text>
             <Text variant="bodySmallRegular" style={{textTransform: 'capitalize'}}>
-              0.55 Colorbond, {getMaterial(data.colourMaterial).label}
+              0.55 Colorbond {getMaterial(data.colourMaterial).label}
             </Text>
             <Box  flexDirection="row" alignItems="flex-start" justifyContent="flex-start">
               {renderFlashingLengths()}
