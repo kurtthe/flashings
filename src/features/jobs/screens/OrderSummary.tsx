@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box, Button, OptionsType, SelectInput } from "@ui/components";
+import { Box, Button, OptionsType, SelectInput, Text } from "@ui/components";
 import Pdf from 'react-native-pdf';
 import { StyleSheet } from "react-native";
 import { useGetStores } from "@hooks/jobs";
 import { storesToOption } from "@features/jobs/utils";
-import { useNavigation } from "@react-navigation/native";
-import { JobStackProps } from "@features/jobs/navigation/Stack.types";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
 import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
 
 type Props = {
@@ -15,6 +15,7 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const {data: stores, refetch } = useGetStores();
 	const navigation = useNavigation<JobStackProps>()
+	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
 
 	const source = {
 		uri: 'https://files-staging.paperplane.app/0bfb57d0-3700-4792-bf84-3ebfa66c5c3c.pdf',
@@ -31,6 +32,8 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 		setOptionsStore(storesAsRadioButton)
 	}, [stores])
 	const handleChange = ()=> null
+
+	console.log("route.params.responseApi::",route.params.responseApi)
 
 	return (
 	<Box p="m" style={styles.container}>
@@ -52,6 +55,7 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 				console.log(`Link pressed: ${uri}`);
 			}}
 		/>
+		<Text>{route.params.responseApi}</Text>
 		<Button
 			variant="outlineWhite"
 			borderRadius="unset"
