@@ -1,9 +1,10 @@
-export const baseURL = 'https://api.trak.co/';
+export const baseURL = 'https://api.trak.co';
 
 export const endPoints = {
-  login: `${baseURL}login`,
-  forgotPassword: `${baseURL}reset-password`,
-  getDataUser: `${baseURL}users/:id`,
-  getStores: `${baseURL}burdens/stores`,
-  createJobAndFlashing: "https://dash-stage.paperplane.app/generate"
+  login: `/login`,
+  forgotPassword: `/reset-password`,
+  getDataUser: `/users/:id`,
+  getStores: `/burdens/stores`,
+  createJobAndFlashing: "https://dash-stage.paperplane.app/generate",
+  getBalance: `/burdens/balance`,
 };
