@@ -1,4 +1,4 @@
-import { JOB_DATA, STORE, STORE_RESPONSE } from "@models";
+import { JOB_DATA, RESPONSE_CREATE_AND_FLASHING, STORE, STORE_RESPONSE } from "@models";
 import { endPoints } from "@shared/endPoints";
 import { RequestService } from '@services/index';
 import axios from "axios";
@@ -14,10 +14,9 @@ export const getStores = async (): Promise<STORE[]>=> {
 	return Promise.resolve(response.body.locations)
 }
 
-export const createJobAndFlashings = async ({ dataJobAndFlashing }: {dataJobAndFlashing:any}):Promise<any> => {
+export const createJobAndFlashings = async ({ dataJobAndFlashing }: {dataJobAndFlashing:any}):Promise<RESPONSE_CREATE_AND_FLASHING> => {
 	const credentials = '53eAdpfCR3ZPfHJthoUxWNA7:';
 	const base64Credentials = Buffer.from(credentials).toString('base64');
-	console.log("dataJobAndFlashing::", JSON.stringify(dataJobAndFlashing))
 	const response = await axios.post(endPoints.createJobAndFlashing, {
 		template_id: "BLAN946943",
 		data: dataJobAndFlashing

@@ -7,20 +7,23 @@ import { storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
 import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
+import { RESPONSE_CREATE_AND_FLASHING } from "@models";
 
-type Props = {
-	urlPdf: string;
-}
-const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
+const OrderSummaryScreen: React.FC = () => {
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const {data: stores, refetch } = useGetStores();
 	const navigation = useNavigation<JobStackProps>()
 	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
-
+	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
 	const source = {
-		uri: 'https://files-staging.paperplane.app/0bfb57d0-3700-4792-bf84-3ebfa66c5c3c.pdf',
+		uri: `https://files-staging.paperplane.app/${urlIdPdf}`,
 		cache: true,
 	};
+
+	React.useEffect(()=> {
+		const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(route.params.responseApi)
+		setUrlIdPdf(parseJSON.response.file_name)
+	}, [route.params.responseApi])
 
 	React.useEffect(()=> {
 		if(!stores) {
@@ -33,7 +36,6 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 	}, [stores])
 	const handleChange = ()=> null
 
-	console.log("route.params.responseApi::",route.params.responseApi)
 
 	return (
 	<Box p="m" style={styles.container}>
@@ -55,7 +57,7 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 				console.log(`Link pressed: ${uri}`);
 			}}
 		/>
-		<Text>{route.params.responseApi}</Text>
+		<Text>{urlIdPdf}</Text>
 		<Button
 			variant="outlineWhite"
 			borderRadius="unset"
@@ -82,7 +84,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 	},
 	pdf: {
-		flex:0.8,
+		flex:0.9,
 	}
 });
 export default OrderSummaryScreen
