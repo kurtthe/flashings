@@ -1,6 +1,7 @@
 /* @ts-ignore */
-import { FLASHINGS_DATA, JOB_DATA, STORE } from "@models";
+import { FLASHINGS_DATA, JOB_DATA, MATERIALS, STORE } from "@models";
 import { OptionsType } from "@ui/components";
+import { dataMaterials } from "@store/jobs/mocks";
 
 export const storesToOption = (data:STORE[]): OptionsType[] => {
 	return data.map((store) => ({
@@ -43,9 +44,9 @@ const mapLengthsInputs = (data: FLASHINGS_DATA['flashingLengths'], numberFlashin
 	const dataMapped = {}
 	data.forEach((dataLengths, index)=> {
 		// @ts-ignore
-		dataMapped[`flash_${numberFlashing}_${index}_qty`] = dataLengths.qty;
+		dataMapped[`flash_${numberFlashing}_${index+1}_qty`] = dataLengths.qty;
 		// @ts-ignore
-		dataMapped[`flash_${numberFlashing}_${index}_length`] = dataLengths.length;
+		dataMapped[`flash_${numberFlashing}_${index+1}_length`] = dataLengths.length;
 	})
 
 	return dataMapped
@@ -56,17 +57,17 @@ const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
 
 	flashings.forEach((dataFlashing, index)=> {
 		// @ts-ignore
-		dataMapped[`flashing_name_${index + 1}`]= dataFlashing.name
+		dataMapped[`flashing_name_${index + 1}`]= dataFlashing.name=== "" ? `Flashing ${index + 1}`: dataFlashing.name
 		// @ts-ignore
-		dataMapped[`material_name_${index + 1}`]= dataFlashing.colourMaterial
+		dataMapped[`material_${index + 1}`]= `0.55 Colorbond ${getMaterial(dataFlashing.colourMaterial).label}`
 		// @ts-ignore
-		dataMapped[`girth_${index + 1}`]= getBends(flashings[index])
+		dataMapped[`girth_${index + 1}`]= `${getGirth(flashings[index])}mm`
 		// @ts-ignore
 		dataMapped[`folds_${index + 1}`]= getBends(flashings[index])
 		// @ts-ignore
 		dataMapped[`flash_${index + 1}_image`]= "base64imagedata"
 
-		dataMapped = {...dataMapped, ...mapLengthsInputs(dataFlashing.flashingLengths, index)}
+		dataMapped = {...dataMapped, ...mapLengthsInputs(dataFlashing.flashingLengths, index + 1)}
 	})
 
 	return dataMapped
@@ -85,4 +86,22 @@ export const mapDataJobToDataPetition = (dataJob:JOB_DATA, )=> {
 		phone: dataJob.contact.number,
 		...restData
 	}
+}
+
+
+export const getMaterial = (idMaterial: number): MATERIALS => {
+
+	const material = dataMaterials.find((item)=> item.id === idMaterial)
+	if(!material) {
+		return {
+			id: 1,
+			value: 'galvanised',
+			label: 'Galvanised',
+			bgColor: '#a7aaaf',
+			textColor: 'black',
+			bold: false,
+			disabled: false,
+		};
+	}
+	return material
 }

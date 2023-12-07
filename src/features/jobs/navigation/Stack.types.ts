@@ -7,7 +7,9 @@ export type JobsStackParamsList = {
   };
   [Routes.ALL_JOBS]: undefined;
   [Routes.ORDER_SUBMITTED]: undefined;
-  [Routes.ORDER_SUMMARY]: undefined;
+  [Routes.ORDER_SUMMARY]: {
+    responseApi: string;
+  };
   [Routes.JOB_DETAILS]: {
     jobId: number;
     jobName?: string;
