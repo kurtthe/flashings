@@ -17,7 +17,7 @@ export const getStores = async (): Promise<STORE[]>=> {
 export const createJobAndFlashings = async ({ dataJobAndFlashing }: {dataJobAndFlashing:any}):Promise<any> => {
 	const credentials = '53eAdpfCR3ZPfHJthoUxWNA7:';
 	const base64Credentials = Buffer.from(credentials).toString('base64');
-
+	console.log("dataJobAndFlashing::", JSON.stringify(dataJobAndFlashing))
 	const response = await axios.post(endPoints.createJobAndFlashing, {
 		template_id: "BLAN946943",
 		data: dataJobAndFlashing
