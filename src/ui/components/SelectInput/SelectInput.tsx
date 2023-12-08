@@ -15,8 +15,8 @@ import {
   View,
   ViewStyle,
   Pressable,
-  Text,
-} from 'react-native';
+  Text, Keyboard
+} from "react-native";
 import {Portal} from 'react-native-paper-portal';
 import {Icon} from '@ui/components';
 import {DownIcon, UpIcon} from '@assets/icons';
@@ -228,6 +228,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       setVisible(!visible);
 
       if (!visible) {
+        Keyboard.dismiss()
         onFocus && onFocus();
       } else {
         inputRef.current?.blur();

@@ -1,13 +1,16 @@
 import React from 'react';
 import { Box, Button, OptionsType, SelectInput, Text } from "@ui/components";
 import Pdf from 'react-native-pdf';
-import { ActivityIndicator, StyleSheet } from "react-native";
+import { ActivityIndicator, Platform, StyleSheet } from "react-native";
 import { useGetStores } from "@hooks/jobs";
 import { storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
 import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
 import { RESPONSE_CREATE_AND_FLASHING } from "@models";
+import { downloadFile, getDownloadPermissionAndroid } from "@shared/utils";
+import RNFetchBlob from "rn-fetch-blob";
+import Alert from "@services/general-request/alert";
 
 const OrderSummaryScreen: React.FC = () => {
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
@@ -15,6 +18,7 @@ const OrderSummaryScreen: React.FC = () => {
 	const navigation = useNavigation<JobStackProps>()
 	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
 	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
+	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
 	const [isLoading, setIsLoading] = React.useState(true)
 
 	React.useEffect(()=>{
@@ -25,8 +29,24 @@ const OrderSummaryScreen: React.FC = () => {
 	React.useEffect(()=> {
 		if(isLoading) return;
 		const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(route.params.responseApi)
-		setUrlIdPdf(parseJSON.response.file_name)
+		const fileName = parseJSON.response.file_name
+		setUrlIdPdf(`https://files-staging.paperplane.app/${fileName}`)
 	}, [route.params.responseApi, isLoading])
+
+	React.useEffect(()=> {
+		if(!urlIdPdf) return
+
+		(async ()=> {
+			if (Platform.OS === 'android') {
+				const setPermission = await getDownloadPermissionAndroid()
+				if(setPermission){
+					await downloadFile(urlIdPdf, route.params.responseApi)
+				}
+			}else {
+				await downloadFile(urlIdPdf, route.params.responseApi)
+			}
+		})()
+	}, [urlIdPdf, route.params.responseApi])
 
 	React.useEffect(()=> {
 		if(!stores) {
@@ -40,6 +60,11 @@ const OrderSummaryScreen: React.FC = () => {
 	const handleChange = ()=> null
 
 	console.log("urlIdPdf::", urlIdPdf)
+
+	const downloadFile = async (url: string, name: string) => {
+		const responseFile = await downloadFile(url, name)
+		console.log("responseFile::", responseFile)
+	}
 
 	if(!urlIdPdf || isLoading){
 		return (
@@ -56,7 +81,7 @@ const OrderSummaryScreen: React.FC = () => {
 			minScale={1.5}
 			maxScale={3}
 			source={{
-				uri: `https://files-staging.paperplane.app/${urlIdPdf}`,
+				uri: urlIdPdf,
 			}}
 			style={styles.pdf}
 			onLoadComplete={(numberOfPages,filePath) => {
@@ -72,7 +97,6 @@ const OrderSummaryScreen: React.FC = () => {
 				console.log(`Link pressed: ${uri}`);
 			}}
 		/>
-		<Text>{urlIdPdf}</Text>
 		<Button
 			variant="outlineWhite"
 			borderRadius="unset"
@@ -99,7 +123,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 	},
 	pdf: {
-		flex:0.9,
+		flex:0.95,
 	}
 });
 export default OrderSummaryScreen
