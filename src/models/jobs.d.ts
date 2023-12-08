@@ -74,3 +74,34 @@ export type STORE = {
     time: string
   }>
 }
+
+export type RESPONSE_CREATE_AND_FLASHING = {
+  response:{
+    id:string;
+    url: string;
+    status: string;
+    file_name:string;
+    done:boolean,
+    object:string;
+  },
+  status: string;
+}
+
+export type RESPONSE_COMPANY_ACCOUNT = {
+  company: string;
+  account: string
+}
+
+export type RESPONSE_BALANCE = {
+  id: number;
+  company_id: number;
+  updated: string;
+  current: string;
+  thirty_day: string;
+  sixty_day: string;
+  ninety_day: string;
+  one_twenty_day: string;
+  overdue: string;
+  total: string;
+  client_number: string;
+}

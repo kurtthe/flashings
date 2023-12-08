@@ -1,26 +1,35 @@
 import React from 'react';
-import { Box, Button, OptionsType, SelectInput, Text } from "@ui/components";
+import { Box, Button, OptionsType, SelectInput } from "@ui/components";
 import Pdf from 'react-native-pdf';
-import { StyleSheet } from "react-native";
+import { ActivityIndicator,  StyleSheet } from "react-native";
 import { useGetStores } from "@hooks/jobs";
 import { storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
 import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
-
-type Props = {
-	urlPdf: string;
-}
-const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
+import { RESPONSE_CREATE_AND_FLASHING } from "@models";
+import Share from 'react-native-share';
+const OrderSummaryScreen: React.FC = () => {
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const {data: stores, refetch } = useGetStores();
 	const navigation = useNavigation<JobStackProps>()
 	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
+	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
+	const [isLoading, setIsLoading] = React.useState(true)
 
-	const source = {
-		uri: 'https://files-staging.paperplane.app/0bfb57d0-3700-4792-bf84-3ebfa66c5c3c.pdf',
-		cache: true,
-	};
+	React.useEffect(()=>{
+		const timeout = setTimeout(()=> setIsLoading(false), 10000)
+		return ()=> {clearTimeout(timeout)}
+	},  [isLoading])
+
+	React.useEffect(()=> {
+		if(isLoading) return;
+		const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(route.params.responseApi)
+		const fileName = parseJSON.response.file_name
+		setUrlIdPdf(`https://files-staging.paperplane.app/${fileName}`)
+	}, [route.params.responseApi, isLoading])
+
+
 
 	React.useEffect(()=> {
 		if(!stores) {
@@ -33,19 +42,43 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 	}, [stores])
 	const handleChange = ()=> null
 
-	console.log("route.params.responseApi::",route.params.responseApi)
+	const handleShare = ()=> {
+		Share.open({
+			url: urlIdPdf,
+			type: 'pdf',
+			showAppsToView: true
+		})
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				err && console.log(err);
+			});
+	}
+
+	if(!urlIdPdf || isLoading){
+		return (
+			<Box flex={1} alignItems="center" justifyContent="center">
+				<ActivityIndicator/>
+			</Box>
+		);
+	}
+
 
 	return (
 	<Box p="m" style={styles.container}>
 		<Pdf
 			minScale={1.5}
-			maxScale={2}
-			source={source}
+			maxScale={3}
+			source={{
+				uri: urlIdPdf,
+			}}
 			style={styles.pdf}
 			onLoadComplete={(numberOfPages,filePath) => {
 				console.log(`Number of pages: ${numberOfPages}`);
+				console.log("filePath::", filePath)
 			}}
-			onPageChanged={(page,numberOfPages) => {
+			onPageChanged={(page) => {
 				console.log(`Current page: ${page}`);
 			}}
 			onError={(error) => {
@@ -55,8 +88,8 @@ const OrderSummaryScreen: React.FC<Props> = ({urlPdf}) => {
 				console.log(`Link pressed: ${uri}`);
 			}}
 		/>
-		<Text>{route.params.responseApi}</Text>
 		<Button
+			onPress={handleShare}
 			variant="outlineWhite"
 			borderRadius="unset"
 			mb="m"
@@ -82,7 +115,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 	},
 	pdf: {
-		flex:0.8,
+		flex:0.95,
 	}
 });
 export default OrderSummaryScreen
