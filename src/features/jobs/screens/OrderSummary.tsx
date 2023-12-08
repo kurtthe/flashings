@@ -1,24 +1,20 @@
 import React from 'react';
-import { Box, Button, OptionsType, SelectInput, Text } from "@ui/components";
+import { Box, Button, OptionsType, SelectInput } from "@ui/components";
 import Pdf from 'react-native-pdf';
-import { ActivityIndicator, Platform, StyleSheet } from "react-native";
+import { ActivityIndicator,  StyleSheet } from "react-native";
 import { useGetStores } from "@hooks/jobs";
 import { storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
 import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
 import { RESPONSE_CREATE_AND_FLASHING } from "@models";
-import { downloadFile, getDownloadPermissionAndroid } from "@shared/utils";
-import RNFetchBlob from "rn-fetch-blob";
-import Alert from "@services/general-request/alert";
-
+import Share from 'react-native-share';
 const OrderSummaryScreen: React.FC = () => {
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const {data: stores, refetch } = useGetStores();
 	const navigation = useNavigation<JobStackProps>()
 	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
 	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
-	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
 	const [isLoading, setIsLoading] = React.useState(true)
 
 	React.useEffect(()=>{
@@ -33,20 +29,7 @@ const OrderSummaryScreen: React.FC = () => {
 		setUrlIdPdf(`https://files-staging.paperplane.app/${fileName}`)
 	}, [route.params.responseApi, isLoading])
 
-	React.useEffect(()=> {
-		if(!urlIdPdf) return
 
-		(async ()=> {
-			if (Platform.OS === 'android') {
-				const setPermission = await getDownloadPermissionAndroid()
-				if(setPermission){
-					await downloadFile(urlIdPdf, route.params.responseApi)
-				}
-			}else {
-				await downloadFile(urlIdPdf, route.params.responseApi)
-			}
-		})()
-	}, [urlIdPdf, route.params.responseApi])
 
 	React.useEffect(()=> {
 		if(!stores) {
@@ -59,11 +42,18 @@ const OrderSummaryScreen: React.FC = () => {
 	}, [stores])
 	const handleChange = ()=> null
 
-	console.log("urlIdPdf::", urlIdPdf)
-
-	const downloadFile = async (url: string, name: string) => {
-		const responseFile = await downloadFile(url, name)
-		console.log("responseFile::", responseFile)
+	const handleShare = ()=> {
+		Share.open({
+			url: urlIdPdf,
+			type: 'pdf',
+			showAppsToView: true
+		})
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((err) => {
+				err && console.log(err);
+			});
 	}
 
 	if(!urlIdPdf || isLoading){
@@ -86,8 +76,9 @@ const OrderSummaryScreen: React.FC = () => {
 			style={styles.pdf}
 			onLoadComplete={(numberOfPages,filePath) => {
 				console.log(`Number of pages: ${numberOfPages}`);
+				console.log("filePath::", filePath)
 			}}
-			onPageChanged={(page,numberOfPages) => {
+			onPageChanged={(page) => {
 				console.log(`Current page: ${page}`);
 			}}
 			onError={(error) => {
@@ -98,6 +89,7 @@ const OrderSummaryScreen: React.FC = () => {
 			}}
 		/>
 		<Button
+			onPress={handleShare}
 			variant="outlineWhite"
 			borderRadius="unset"
 			mb="m"
