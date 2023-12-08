@@ -202,13 +202,11 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
 
     const _renderListTop = useCallback(() => {
       return (
-        <View style={styles.flexShrink}>
+        <View style={[styles.flexShrink, {flexShrink: 1}]}>
           <FlatList
             {...flatListProps}
-            keyboardShouldPersistTaps="handled"
             ref={refList}
             data={options}
-            inverted
             renderItem={_renderItem}
             keyExtractor={(_item, index) => `option-top${index}`}
             showsVerticalScrollIndicator={showsVerticalScrollIndicator}
@@ -242,7 +240,6 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
           <View style={styles.flexShrink}>
             <FlatList
               {...flatListProps}
-              keyboardShouldPersistTaps="handled"
               ref={refList}
               data={options}
               renderItem={_renderItem}
@@ -266,7 +263,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
             dropdownPosition === 'auto'
               ? bottom < 250
               : dropdownPosition === 'top';
-          let topHeight = isTopPosition ? top - height : top;
+          let topHeight = isTopPosition ? (top - height) : top;
           const keyboardStyle: ViewStyle = {};
 
           if (!portal) {
