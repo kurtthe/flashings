@@ -1,5 +1,5 @@
 /* @ts-ignore */
-import { FLASHINGS_DATA, JOB_DATA, MATERIALS, STORE } from "@models";
+import { FLASHINGS_DATA, JOB_DATA, MATERIALS, RESPONSE_COMPANY_ACCOUNT, STORE } from "@models";
 import { OptionsType } from "@ui/components";
 import { dataMaterials } from "@store/jobs/mocks";
 
@@ -65,19 +65,17 @@ const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
 		// @ts-ignore
 		dataMapped[`folds_${index + 1}`]= getBends(flashings[index])
 		// @ts-ignore
-		dataMapped[`flash_${index + 1}_image`]= "base64imagedata"
+		dataMapped[`flash_${index + 1}_image`]= dataFlashing.imgPreview
 
 		dataMapped = {...dataMapped, ...mapLengthsInputs(dataFlashing.flashingLengths, index + 1)}
 	})
-
 	return dataMapped
-
 }
-export const mapDataJobToDataPetition = (dataJob:JOB_DATA, )=> {
+export const mapDataJobToDataPetition = (dataJob:JOB_DATA, dataAccountCompany: RESPONSE_COMPANY_ACCOUNT )=> {
 	const restData = mapDataFlashing(dataJob.flashings)
 	return {
-		company_name: "Roman Plumbing",
-		burdens_acount_no: "1234",
+		company_name: dataAccountCompany.company,
+		burdens_acount_no: dataAccountCompany.account,
 		job_name: dataJob.name,
 		site_address: dataJob.address,
 		job_number: dataJob.number,

@@ -11,7 +11,7 @@ import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
 import { CardGutter, SectionsButtonsJobsDetails } from "@features/jobs/components";
 import { useAppSelector } from "@hooks/useStore";
 import { jobData } from "@store/jobs/selectors";
-import { useAddDataJob } from "@hooks/jobs";
+import { useAddDataJob, useGetAccountAndCompany } from "@hooks/jobs";
 import { mapDataJobToDataPetition } from "@features/jobs/utils";
 
 
@@ -21,6 +21,7 @@ const JobDetailsScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { jobId } = route.params;
   const item = useAppSelector((state) => jobData(state, jobId));
+  const {data: dataAccountCompany} = useGetAccountAndCompany()
   const { mutate: createJob, isLoading } = useAddDataJob({
     onSuccess: (data) => {
       navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY, params: {
@@ -63,7 +64,9 @@ const JobDetailsScreen = () => {
     });
   };
 
-  if(!item){
+  console.log("dataAccountCompany::", dataAccountCompany)
+
+  if(!item || !dataAccountCompany){
     return (
       <Box flex={1} alignItems="center" justifyContent="center">
         <ActivityIndicator/>
@@ -102,7 +105,7 @@ const JobDetailsScreen = () => {
             showPreview={item.flashings.length > 0}
             disabledAddFlashing={item.flashings.length === 6}
             onPreview={()=> createJob({
-              dataJobAndFlashing: mapDataJobToDataPetition(item)
+              dataJobAndFlashing: mapDataJobToDataPetition(item, dataAccountCompany)
             })
             }
             onAddFlashing={() => onPressFooter(
