@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, OptionsType, SelectInput, Text } from "@ui/components";
 import Pdf from 'react-native-pdf';
-import { StyleSheet } from "react-native";
+import { ActivityIndicator, StyleSheet } from "react-native";
 import { useGetStores } from "@hooks/jobs";
 import { storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -15,15 +15,18 @@ const OrderSummaryScreen: React.FC = () => {
 	const navigation = useNavigation<JobStackProps>()
 	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
 	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
-	const source = {
-		uri: `https://files-staging.paperplane.app/${urlIdPdf}`,
-		cache: true,
-	};
+	const [isLoading, setIsLoading] = React.useState(true)
+
+	React.useEffect(()=>{
+		const timeout = setTimeout(()=> setIsLoading(false), 10000)
+		return ()=> {clearTimeout(timeout)}
+	},  [isLoading])
 
 	React.useEffect(()=> {
+		if(isLoading) return;
 		const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(route.params.responseApi)
 		setUrlIdPdf(parseJSON.response.file_name)
-	}, [route.params.responseApi])
+	}, [route.params.responseApi, isLoading])
 
 	React.useEffect(()=> {
 		if(!stores) {
@@ -36,13 +39,25 @@ const OrderSummaryScreen: React.FC = () => {
 	}, [stores])
 	const handleChange = ()=> null
 
+	console.log("urlIdPdf::", urlIdPdf)
+
+	if(!urlIdPdf || isLoading){
+		return (
+			<Box flex={1} alignItems="center" justifyContent="center">
+				<ActivityIndicator/>
+			</Box>
+		);
+	}
+
 
 	return (
 	<Box p="m" style={styles.container}>
 		<Pdf
 			minScale={1.5}
-			maxScale={2}
-			source={source}
+			maxScale={3}
+			source={{
+				uri: `https://files-staging.paperplane.app/${urlIdPdf}`,
+			}}
 			style={styles.pdf}
 			onLoadComplete={(numberOfPages,filePath) => {
 				console.log(`Number of pages: ${numberOfPages}`);
