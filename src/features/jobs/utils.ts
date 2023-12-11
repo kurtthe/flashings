@@ -53,11 +53,10 @@ const mapLengthsInputs = (data: FLASHINGS_DATA['flashingLengths'], numberFlashin
 	return dataMapped
 }
 
-const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
+const mapDataFlashing = async (flashings: FLASHINGS_DATA[]) => {
 	let dataMapped = {}
-	
-	flashings.forEach(async(dataFlashing, index)=> {
 
+	for (const [index, dataFlashing] of flashings.entries()) {
 		const dataB64Preview =  await imageToBase64(dataFlashing.imgPreview)
 		// @ts-ignore
 		dataMapped[`flashing_name_${index + 1}`]= dataFlashing.name=== "" ? `Flashing ${index + 1}`: dataFlashing.name
@@ -68,10 +67,10 @@ const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
 		// @ts-ignore
 		dataMapped[`folds_${index + 1}`]= getBends(flashings[index])
 		// @ts-ignore
-		dataMapped[`flash_${index + 1}_image`]=
+		dataMapped[`flash_${index + 1}_image`]=`data:image/jpeg;base64,${dataB64Preview}`
 
 		dataMapped = {...dataMapped, ...mapLengthsInputs(dataFlashing.flashingLengths, index + 1)}
-	})
+	}
 	return dataMapped
 }
 export const mapDataJobToDataPetition = (dataJob:JOB_DATA, dataAccountCompany: RESPONSE_COMPANY_ACCOUNT )=> {
