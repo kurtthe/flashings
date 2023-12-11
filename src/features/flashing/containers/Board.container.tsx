@@ -29,6 +29,8 @@ import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavig
 import { jobData } from "@store/jobs/selectors";
 import { isAndroid } from "@shared/platform";
 import { useKeyboardVisibility } from "@hooks/useKeyboardVisibility";
+import alert from '@services/general-request/alert';
+import { isBase64 } from '@shared/utils';
 
 
 const BoardContainer = () => {
@@ -178,27 +180,33 @@ const BoardContainer = () => {
       const dataFlashing = route.params.data
       const idJob = route.params?.jobId
       // @ts-ignore
-      const resultViewShot = await refViewShot.current.capture();
+      refViewShot.current.capture().then((uriScreen)=>{
+        console.log("urlScreenShot", uriScreen)
+        dispatch(flashingActions.addEditFlashing({
+          idJob,
+          flashing: {
+            ...dataFlashing,
+            dataLines: lines,
+            parallelRight:blueLineIsRight,
+            angles: anglesLines,
+            endType: endTypeLine,
+            startType:startTypeLine,
+            imgPreview: uriScreen
+          }}));
+  
+        navigation.navigate(StackPrivateDefinitions.JOBS, {
+          screen: RoutesJobs.JOB_DETAILS,
+          params: {
+            jobId: idJob,
+            jobName: dataJob?.name
+          }
+        });
+      }).catch((error)=>{
+        console.log("error: screenshot", error)
+        alert.show("Error", "Snapshot failed")
+      })
 
-      dispatch(flashingActions.addEditFlashing({
-        idJob,
-        flashing: {
-          ...dataFlashing,
-          dataLines: lines,
-          parallelRight:blueLineIsRight,
-          angles: anglesLines,
-          endType: endTypeLine,
-          startType:startTypeLine,
-          imgPreview: resultViewShot
-        }}));
-
-      navigation.navigate(StackPrivateDefinitions.JOBS, {
-        screen: RoutesJobs.JOB_DETAILS,
-        params: {
-          jobId: idJob,
-          jobName: dataJob?.name
-        }
-      });
+     
     })()
   }
   return (
@@ -206,7 +214,7 @@ const BoardContainer = () => {
       {stepBoard !== getIndexOfStepForName('screen_shot') &&  <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />}
       <ViewShot
         ref={refViewShot}
-        options={{ fileName: `flashing-shot${Math.random()}`, quality: 0.9, result: 'base64' }}
+        options={{ fileName: `flashing-shot${Math.random()}`, quality: 0.9 }}
         captureMode="mount"
         onCaptureFailure={(error)=> Alert.show('Error for preview', error.message) }
       >
