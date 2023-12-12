@@ -53,12 +53,12 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
 
   return (
     <>
-      <Card flexDirection="row" alignItems="flex-start" justifyContent="space-between" {...rest}>
-        <Box  width='40%'>
-          <Text  mb="xs" variant="bodyBold" >{data.name !== '' ? data.name: 'Flashing'}</Text>
+      <Card pb="unset" flexDirection="row" alignItems="flex-start" justifyContent="space-between" {...rest}>
+        <Box  width='50%'>
+          <Text mb="m" variant="bodyBold" >{data.name !== '' ? data.name: 'Flashing'}</Text>
           <PreviewFlashing imgPreview={data.imgPreview} dataFlashing={data}/>
         </Box>
-        <Box width='50%'>
+        <Box width='45%'>
           <Box
             flexDirection='row'
             justifyContent='flex-start'
