@@ -12,8 +12,12 @@ export const storesToOption = (data:STORE[]): OptionsType[] => {
 		textColor: "black",
 		bold: false,
 		disabled: false,
-	}));
+	})).sort(sortByNameAsc)
 };
+
+const sortByNameAsc = (x: OptionsType, y: OptionsType)=> {
+	return x.label.localeCompare(y.label)
+}
 
 export const getGirth = (data: FLASHINGS_DATA) =>{
 	const sizeLines = data.dataLines.map((lineInfo)=> lineInfo.distance)

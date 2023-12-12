@@ -37,6 +37,7 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES): nu
 
 	const isHorizontal = pointY1 === pointY2;
 	const isVertical = pointX1 === pointX2;
+	const pendingIsPositive = line.pending > 0
 
 	const dataAngles =  anglesBreaks.find((angleB)=> angleB.default === angleAzimut.toString())
 	console.log("typeLine::", typeLine)
@@ -55,8 +56,19 @@ export const getAngleForTheLine = (line:LINE_TYPE, typeLine: TYPE_END_LINES): nu
 		}
 	}
 
-	return parseInt(`${dataAngles.angles[typeLine]}`)
+	if(pendingIsPositive){
+		if(pointY1 > pointY2){
+			return parseInt(`${dataAngles.angles[changeTheTypeLine(typeLine)]}`)
+		}
+	}
 
+	if(!pendingIsPositive){
+		if(pointY1 > pointY2){
+			return parseInt(`${dataAngles.angles[changeTheTypeLine(typeLine)]}`)
+		}
+	}
+
+	return parseInt(`${dataAngles.angles[typeLine]}`)
 }
 export const calculateAngleAzimut = (lineData: LINE_TYPE)=>{
 	const coordinatesM = lineData.points[0];
