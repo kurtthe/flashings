@@ -214,7 +214,7 @@ const BoardContainer = () => {
       {stepBoard !== getIndexOfStepForName('screen_shot') &&  <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />}
       <ViewShot
         ref={refViewShot}
-        options={{ fileName: `flashing-shot${Math.random()}`,width: 130, height: 100, quality: 0.9 }}
+        options={{ fileName: `flashing-shot${Math.random()}`, quality: 0.9 }}
         captureMode="mount"
         onCaptureFailure={(error)=> Alert.show('Error for preview', error.message) }
       >
