@@ -43,7 +43,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       itemTextStyle,
       options,
       label: labelField,
-      maxHeight = 190,
+      maxHeight = 500,
       disable = false,
       renderItem,
       onFocus,
@@ -237,7 +237,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
     const _renderListBottom = useCallback(() => {
       return (
         <TouchableWithoutFeedback>
-          <View style={styles.flexShrink}>
+          <View style={[styles.flexShrink, {flexShrink: 1}]}>
             <FlatList
               {...flatListProps}
               ref={refList}
