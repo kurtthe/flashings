@@ -61,9 +61,9 @@ const mapDataFlashing = async (flashings: FLASHINGS_DATA[]) => {
 		// @ts-ignore
 		dataMapped[`flashing_name_${index + 1}`]= dataFlashing.name=== "" ? `Flashing ${index + 1}`: dataFlashing.name
 		// @ts-ignore
-		dataMapped[`material_${index + 1}`]= `0.55 Colorbond ${getMaterial(dataFlashing.colourMaterial).label}`
+		dataMapped[`material_${index + 1}`]= `0.55 Colorbond ${getMaterial(dataFlashing.colourMaterial).value}`
 		// @ts-ignore
-		dataMapped[`girth_${index + 1}`]= `${getGirth(flashings[index])}mm`
+		dataMapped[`girth_${index + 1}`]= `${getGirth(flashings[index])} mm`
 		// @ts-ignore
 		dataMapped[`folds_${index + 1}`]= getBends(flashings[index])
 		// @ts-ignore
