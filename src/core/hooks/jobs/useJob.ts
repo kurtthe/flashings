@@ -28,4 +28,5 @@ export const useAddDataJob = ({ onSuccess, onSettled, onError }: DATA_HOOK)=> {
 export const useGetAccountAndCompany = (): UseQueryResult<RESPONSE_COMPANY_ACCOUNT, any> => useQuery({
 	queryFn: ()=> getCompanyAndAccount(),
 	queryKey: [queryKey.get_accounts_company],
+	cacheTime: 3600 * 60 * 1000
 })

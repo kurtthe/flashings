@@ -1,10 +1,7 @@
 import React from 'react';
-import Svg, { Path as PathComponent } from "react-native-svg";
 import { FLASHINGS_DATA } from "@models";
-import { buildLinesForPreview } from "@features/flashing/components/PreviewFlashing/utils";
-import { Path, serialize } from "react-native-redash";
 import { Box } from "@ui/components";
-import { Dimensions, Image, TouchableOpacity } from "react-native";
+import { Image, TouchableOpacity } from "react-native";
 import { ModalBottom, ModalBottomRef } from '@components';
 import { BoardComponent } from "@features/flashing/components";
 import { calculateAngle, getIndexOfStepForName } from "@features/flashing/utils";
@@ -34,8 +31,10 @@ const PreviewFlashing: React.FC<Props> = ({ imgPreview, dataFlashing,width=120, 
 
 	return (
 		<>
-			<TouchableOpacity onPress={() => modalBottomRef.current?.show()}>
-				{imgPreview && <Image resizeMode="contain" source={{ uri: imgPreview }} width={130} height={100} />}
+			<TouchableOpacity onPress={() => modalBottomRef.current?.show()} >
+				{imgPreview && <Image resizeMode="contain" source={{ uri: imgPreview }} width={120} height={92} style={{
+					transform: [{ scale: 2}],
+				}} />}
 			</TouchableOpacity>
 
 			<ModalBottom
