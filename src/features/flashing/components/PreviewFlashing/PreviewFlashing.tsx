@@ -16,14 +16,8 @@ type Props = {
 	dataFlashing: FLASHINGS_DATA;
 }
 const PreviewFlashing: React.FC<Props> = ({ imgPreview, dataFlashing,width=120, height=92,}) => {
-	const [pathLines, setPathLines ] = React.useState<Path | null>(null)
 	const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
 	const modalBottomRef = React.useRef<ModalBottomRef>();
-
-	React.useEffect(() => {
-		const makingLines = buildLinesForPreview(dataFlashing.dataLines, width, height);
-		setPathLines(makingLines)
-	}, [dataFlashing.dataLines]);
 
 	React.useEffect(()=>{
 
@@ -41,7 +35,7 @@ const PreviewFlashing: React.FC<Props> = ({ imgPreview, dataFlashing,width=120, 
 	return (
 		<>
 			<TouchableOpacity onPress={() => modalBottomRef.current?.show()}>
-				{imgPreview && <Image resizeMode="stretch" source={{ uri: imgPreview }} width={120} height={92} />}
+				{imgPreview && <Image resizeMode="contain" source={{ uri: imgPreview }} width={130} height={100} />}
 			</TouchableOpacity>
 
 			<ModalBottom

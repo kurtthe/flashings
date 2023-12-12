@@ -104,9 +104,12 @@ const JobDetailsScreen = () => {
             loadingPreview={isLoading}
             showPreview={item.flashings.length > 0}
             disabledAddFlashing={item.flashings.length === 6}
-            onPreview={()=> createJob({
-              dataJobAndFlashing: mapDataJobToDataPetition(item, dataAccountCompany)
-            })
+            onPreview={async ()=> {
+              const dataMapped = await mapDataJobToDataPetition(item, dataAccountCompany)
+              createJob({
+                dataJobAndFlashing: dataMapped
+              })
+            }
             }
             onAddFlashing={() => onPressFooter(
               Routes.CREATE_EDIT_FLASHING,
