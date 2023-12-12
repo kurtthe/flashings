@@ -25,7 +25,8 @@ const JobDetailsScreen = () => {
   const { mutate: createJob, isLoading } = useAddDataJob({
     onSuccess: (data) => {
       navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY, params: {
-        responseApi: JSON.stringify(data)
+        responseApi: JSON.stringify(data),
+        jobName: item?.name ?? 'Job Name'
         }})
     },
   });

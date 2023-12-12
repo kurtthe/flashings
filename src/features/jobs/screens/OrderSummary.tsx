@@ -15,6 +15,7 @@ const OrderSummaryScreen: React.FC = () => {
 	const navigation = useNavigation<JobStackProps>()
 	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
 	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
+	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
 	const [isLoading, setIsLoading] = React.useState(true)
 
 	React.useEffect(()=>{
@@ -30,7 +31,6 @@ const OrderSummaryScreen: React.FC = () => {
 	}, [route.params.responseApi, isLoading])
 
 
-
 	React.useEffect(()=> {
 		if(!stores) {
 			refetch().catch((error)=> console.log("error::", error));
@@ -44,9 +44,11 @@ const OrderSummaryScreen: React.FC = () => {
 
 	const handleShare = ()=> {
 		Share.open({
-			url: urlIdPdf,
+			title: "Share PDF flashing",
+			url: urlPdfLocal,
 			type: 'pdf',
-			showAppsToView: true
+			filename: `${route.params.jobName}.pdf`,
+			showAppsToView: true,
 		})
 			.then((res) => {
 				console.log(res);
@@ -77,6 +79,7 @@ const OrderSummaryScreen: React.FC = () => {
 			onLoadComplete={(numberOfPages,filePath) => {
 				console.log(`Number of pages: ${numberOfPages}`);
 				console.log("filePath::", filePath)
+				setUrlPdfLocal(filePath)
 			}}
 			onPageChanged={(page) => {
 				console.log(`Current page: ${page}`);

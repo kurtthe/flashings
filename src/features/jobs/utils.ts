@@ -5,15 +5,19 @@ import { dataMaterials } from "@store/jobs/mocks";
 import { imageToBase64 } from "@shared/utils";
 
 export const storesToOption = (data:STORE[]): OptionsType[] => {
-	return data.map((store) => ({
+	return data.sort(sortByNameAsc).map((store) => ({
 		value: store.id,
 		label: store.name,
 		bgColor: '#fff',
 		textColor: "black",
 		bold: false,
 		disabled: false,
-	}));
+	}))
 };
+
+const sortByNameAsc = (x: STORE, y: STORE)=> {
+		return ((x.name > y.name) ? 0 : ((x.name < y.name) ? 1 : -1));
+}
 
 export const getGirth = (data: FLASHINGS_DATA) =>{
 	const sizeLines = data.dataLines.map((lineInfo)=> lineInfo.distance)
