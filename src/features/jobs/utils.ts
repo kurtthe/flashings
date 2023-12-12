@@ -5,18 +5,18 @@ import { dataMaterials } from "@store/jobs/mocks";
 import { imageToBase64 } from "@shared/utils";
 
 export const storesToOption = (data:STORE[]): OptionsType[] => {
-	return data.sort(sortByNameAsc).map((store) => ({
+	return data.map((store) => ({
 		value: store.id,
 		label: store.name,
 		bgColor: '#fff',
 		textColor: "black",
 		bold: false,
 		disabled: false,
-	}))
+	})).sort(sortByNameAsc)
 };
 
-const sortByNameAsc = (x: STORE, y: STORE)=> {
-		return ((x.name > y.name) ? 0 : ((x.name < y.name) ? 1 : -1));
+const sortByNameAsc = (x: OptionsType, y: OptionsType)=> {
+	return x.label.localeCompare(y.label)
 }
 
 export const getGirth = (data: FLASHINGS_DATA) =>{
