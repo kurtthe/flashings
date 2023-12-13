@@ -70,19 +70,17 @@ const OrderSummaryScreen: React.FC = () => {
 	return (
 	<Box p="m" style={styles.container}>
 		<Pdf
+			trustAllCerts={false}
 			minScale={1.5}
 			maxScale={3}
 			source={{
 				uri: urlIdPdf,
+				cache: true,
 			}}
 			style={styles.pdf}
 			onLoadComplete={(numberOfPages,filePath) => {
 				console.log(`Number of pages: ${numberOfPages}`);
-				console.log("filePath::", filePath)
 				setUrlPdfLocal(filePath)
-			}}
-			onPageChanged={(page) => {
-				console.log(`Current page: ${page}`);
 			}}
 			onError={(error) => {
 				console.log(error);
