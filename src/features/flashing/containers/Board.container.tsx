@@ -30,7 +30,7 @@ import { jobData } from "@store/jobs/selectors";
 import { isAndroid } from "@shared/platform";
 import { useKeyboardVisibility } from "@hooks/useKeyboardVisibility";
 import alert from '@services/general-request/alert';
-import { isBase64 } from '@shared/utils';
+import { imageToBase64, isBase64 } from "@shared/utils";
 
 
 const BoardContainer = () => {
@@ -46,7 +46,7 @@ const BoardContainer = () => {
   const [endTypeLine, setEndTypeLine] = React.useState<TYPE_END_LINES>('none')
 
   const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
-  const refViewShot = React.useRef<ViewShot>(null);
+  const refViewShot = React.useRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({})
 
   React.useEffect(()=>{
@@ -180,8 +180,10 @@ const BoardContainer = () => {
       const dataFlashing = route.params.data
       const idJob = route.params?.jobId
       // @ts-ignore
-      refViewShot.current.capture().then((uriScreen)=>{
+      refViewShot.current.capture().then(async (uriScreen)=>{
         console.log("urlScreenShot", uriScreen)
+        const dataB64Preview =  await imageToBase64(uriScreen)
+
         dispatch(flashingActions.addEditFlashing({
           idJob,
           flashing: {
@@ -191,7 +193,7 @@ const BoardContainer = () => {
             angles: anglesLines,
             endType: endTypeLine,
             startType:startTypeLine,
-            imgPreview: uriScreen
+            imgPreview: `data:image/png;base64,${dataB64Preview}`
           }}));
 
         navigation.navigate(StackPrivateDefinitions.JOBS, {
@@ -239,6 +241,7 @@ const BoardContainer = () => {
         (
           <MenuEditorComponent
             disabledBack={stepBoard === getIndexOfStepForName("draw")}
+            disabledNext={stepBoard === getIndexOfStepForName("finish")}
             disabledUndo={lines.length === 0 || stepBoard !== getIndexOfStepForName("draw")}
             disabledEraser={lines.length === 0}
             disabledLibrary={true}
