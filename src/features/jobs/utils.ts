@@ -57,11 +57,10 @@ const mapLengthsInputs = (data: FLASHINGS_DATA['flashingLengths'], numberFlashin
 	return dataMapped
 }
 
-const mapDataFlashing = async (flashings: FLASHINGS_DATA[]) => {
+const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
 	let dataMapped = {}
 
 	for (const [index, dataFlashing] of flashings.entries()) {
-		const dataB64Preview =  await imageToBase64(dataFlashing.imgPreview)
 		// @ts-ignore
 		dataMapped[`flashing_name_${index + 1}`]= dataFlashing.name=== "" ? `Flashing ${index + 1}`: dataFlashing.name
 		// @ts-ignore
@@ -71,27 +70,25 @@ const mapDataFlashing = async (flashings: FLASHINGS_DATA[]) => {
 		// @ts-ignore
 		dataMapped[`folds_${index + 1}`]= getBends(flashings[index])
 		// @ts-ignore
-		dataMapped[`flash_${index + 1}_image`]=`data:image/jpeg;base64,${dataB64Preview}`
-
+		dataMapped[`flash_${index + 1}_image`]= dataFlashing.imgPreview
 		dataMapped = {...dataMapped, ...mapLengthsInputs(dataFlashing.flashingLengths, index + 1)}
 	}
 	return dataMapped
 }
 export const mapDataJobToDataPetition = (dataJob:JOB_DATA, dataAccountCompany: RESPONSE_COMPANY_ACCOUNT )=> {
-	return new Promise(async (resolve)=> {
-		const restData = await mapDataFlashing(dataJob.flashings)
-		resolve({
-			company_name: dataAccountCompany.company,
-			burdens_acount_no: dataAccountCompany.account,
-			job_name: dataJob.name,
-			site_address: dataJob.address,
-			job_number: dataJob.number,
-			name: dataJob.contact.name,
-			email: dataJob.contact.email,
-			phone: dataJob.contact.number,
-			...restData
-		})
-	})
+	const restData = mapDataFlashing(dataJob.flashings)
+
+	return {
+		company_name: dataAccountCompany.company,
+		burdens_acount_no: dataAccountCompany.account,
+		job_name: dataJob.name,
+		site_address: dataJob.address,
+		job_number: dataJob.number,
+		name: dataJob.contact.name,
+		email: dataJob.contact.email,
+		phone: dataJob.contact.number,
+		...restData
+	}
 }
 
 
