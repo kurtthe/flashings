@@ -32,9 +32,9 @@ const PreviewFlashing: React.FC<Props> = ({ imgPreview, dataFlashing,width=120, 
 	return (
 		<>
 			<TouchableOpacity onPress={() => modalBottomRef.current?.show()} >
-				{imgPreview && <Image resizeMode="contain" source={{ uri: imgPreview }} width={120} height={150} style={{
+				{imgPreview && <Image resizeMode="contain" source={{ uri: imgPreview }} width={90} height={200} style={{
 					transform: [{ scale: 2}],
-					top:70,
+					top:5,
 					left:25
 				}} />}
 			</TouchableOpacity>
