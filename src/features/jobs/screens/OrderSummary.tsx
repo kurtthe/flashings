@@ -2,35 +2,45 @@ import React from 'react';
 import { Box, Button, OptionsType, SelectInput } from "@ui/components";
 import Pdf from 'react-native-pdf';
 import { ActivityIndicator,  StyleSheet } from "react-native";
-import { useCreateMaterial, useGetStores, useGetSupplier } from "@hooks/jobs";
+import { useCreateMaterial, useGetStores, useGetSupplier, useSendToStore } from "@hooks/jobs";
 import { buildDataMaterialOrder, storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
 import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
-import { RESPONSE_CREATE_AND_FLASHING, RESPONSE_MATERIAL_ORDER } from "@models";
+import { RESPONSE_CREATE_AND_FLASHING, RESPONSE_MATERIAL_ORDER, STORE } from "@models";
 import Share from 'react-native-share';
-import { useAppDispatch } from "@hooks/useStore";
+import { useAppDispatch, useAppSelector } from "@hooks/useStore";
 import { actions as jobActions } from "@store/jobs/actions";
 import { formatDate } from "@shared/utils/formatDate";
+import { dataUserSelector } from "@store/auth/selectors";
 
 const OrderSummaryScreen: React.FC = () => {
 	const dispatch = useAppDispatch();
+	const dataUser = useAppSelector(dataUserSelector);
 
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
 	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [idOrder, setIdOrder] = React.useState<number | undefined>(undefined)
+	const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>()
 
 	const {data: stores, refetch } = useGetStores();
-	const {data: dataSupplier} = useGetSupplier()
+	const {data: dataSupplier, isLoading: loadingSupplier} = useGetSupplier()
 
 	const { mutate: createMaterialOrder, } = useCreateMaterial({
 		onSuccess: (data) => {
+			if(!data) return;
 			const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number
 			const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id
+			console.log("orderId::",orderId)
 			dispatch(jobActions.orderSent({idJob: route.params.jobId, orderNumber}))
 			setIdOrder(orderId)
+		},
+	});
+	const { mutate: sharedMaterialOrder, } = useSendToStore({
+		onSuccess: () => {
+			navigation.navigate(RoutesJob.ORDER_SUBMITTED)
 		},
 	});
 
@@ -60,10 +70,13 @@ const OrderSummaryScreen: React.FC = () => {
 	}, [stores])
 
 	React.useEffect(()=> {
-		if(!dataSupplier || !urlIdPdf) return
 		handleCreateMaterialOrder()
 	}, [dataSupplier, urlIdPdf])
-	const handleChange = ()=> null
+	const handleChange = (itemStore: OptionsType)=> {
+		const dataStore = stores?.find((sItemStore)=> itemStore.value === sItemStore.id)
+		if(!dataStore) return
+		setStoreSelected(dataStore)
+	}
 	const handleCreateMaterialOrder = ()=> {
 		if(!dataSupplier || !urlIdPdf) return
 
@@ -100,14 +113,25 @@ const OrderSummaryScreen: React.FC = () => {
 			});
 	}
 
-	if(!urlIdPdf || isLoading){
+	const handleSendToStore = ()=> {
+		if (!idOrder || !storeSelected || !dataUser) return
+
+		sharedMaterialOrder({
+			dataShared: {
+				emails: [storeSelected.email, `${dataUser.email}`],
+				message: 'Thanks for your Flashings order - it has been received by our team for review and processing. An email notification will be sent to the account owner when it has been processed by the store. Please contact us at 03 9703 8400. Thank you, the Burdens Flashing App Team.',
+				idOrder
+			}
+		})
+	}
+
+	if(!urlIdPdf || isLoading || loadingSupplier){
 		return (
 			<Box flex={1} alignItems="center" justifyContent="center">
 				<ActivityIndicator/>
 			</Box>
 		);
 	}
-
 
 	return (
 	<Box p="m" style={styles.container}>
@@ -144,8 +168,8 @@ const OrderSummaryScreen: React.FC = () => {
 			label="Select a store"
 		/>
 		<Button
-			isDisabled={!stores?.length || !idOrder}
-			onPress={()=> navigation.navigate(RoutesJob.ORDER_SUBMITTED)}
+			isDisabled={!stores?.length || !idOrder || !storeSelected}
+			onPress={()=> handleSendToStore() }
 			my="m"
 			variant="solid"
 		>Send to store</Button>

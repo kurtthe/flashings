@@ -154,6 +154,16 @@ export type DATA_MATERIAL_ORDER = {
   sections: Array<{items: SECTIONS_MATERIAL_ORDER[]}>
 }
 
+export type SHARED_DATA_MATERIAL_ORDER = {
+  emails: string[];
+  message: string;
+}
+
+export type RESPONSE_SHARED_DATA_MATERIAL_ORDER = {
+  message: string;
+  share_url: string;
+}
+
 type ITEM_SECTION_RESPONSE_MATERIAL_ORDER =  {
   description: string;
   product_id: null,
