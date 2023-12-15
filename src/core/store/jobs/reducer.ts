@@ -3,6 +3,7 @@ import { persistReducer } from 'redux-persist';
 import { JOB_STATE } from "@models";
 import { actions } from './actions';
 import { persistConfigFlashings } from "@store/config";
+import { number } from "yup";
 
 const INITIAL_STATE: JOB_STATE = {
     jobs: [],
@@ -84,6 +85,11 @@ const flashingReducer = createReducer(INITIAL_STATE, builder => {
         if(!jobToMove) return
         state.jobs = state.jobs.filter((job)=> jobId !== job.id)
         state.jobsArchive = [...state.jobsArchive, jobToMove]
+    });
+
+    builder.addCase(actions.orderSent, (state, action)=>{
+        const { idJob: jobId, orderNumber } = action.payload
+        state.jobs = state.jobs.map((job)=> ({...job, sendOrder: job.id === jobId ? orderNumber: undefined}))
     });
 
     builder.addCase(actions.deleteJob, (state, action)=> {

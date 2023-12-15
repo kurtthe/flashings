@@ -24,10 +24,13 @@ const JobDetailsScreen = () => {
   const {data: dataAccountCompany} = useGetAccountAndCompany()
   const { mutate: createJob, isLoading } = useAddDataJob({
     onSuccess: (data) => {
+      if(!item) return ;
       navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY, params: {
         responseApi: JSON.stringify(data),
-        jobName: item?.name ?? 'Job Name'
-        }})
+        jobName: item.name,
+        jobId: item.id,
+        jobAddress: item.address
+      }})
     },
   });
   const getCommonMaterial = (): number| null => {
@@ -54,9 +57,7 @@ const JobDetailsScreen = () => {
         maxCount = count;
       }
     }
-
     return mostFrequentElement;
-
   }
   const onPressFooter = (routeToGo: Routes, params= {}) => {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {
@@ -64,8 +65,6 @@ const JobDetailsScreen = () => {
       params
     });
   };
-
-  console.log("dataAccountCompany::", dataAccountCompany)
 
   if(!item || !dataAccountCompany){
     return (
@@ -86,6 +85,7 @@ const JobDetailsScreen = () => {
           { item.contact.name && <Text variant="bodyBold"  my="xxs">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>}
           {item.contact.email && <Text variant="bodyBold"  my="xxs">Contact Email: <Text variant="bodyRegular">{item.contact.email}</Text></Text>}
           {item.contact.number && <Text variant="bodyBold"  my="xxs">Contact Phone: <Text variant="bodyRegular">{item.contact.number}</Text></Text>}
+          {item.sendOrder && <Text  variant="bodyBold"  my="s">Material Order: <Text variant="bodyRegular">{item.sendOrder}</Text></Text>}
         </Box>
       </Box>
       <FlatList
