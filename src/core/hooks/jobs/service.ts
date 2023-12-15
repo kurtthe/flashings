@@ -60,11 +60,10 @@ export const createMaterialOrder = async ({material}:{ material: DATA_MATERIAL_O
 }
 
 export const sendToStore = async ({dataShared}:{ dataShared: {idOrder: number} & SHARED_DATA_MATERIAL_ORDER }): Promise<RESPONSE_SHARED_DATA_MATERIAL_ORDER> => {
-	const url = endPoints.shareMaterialOrder.replace(':id', '')
+	const url = endPoints.shareMaterialOrder.replace(':id', `${dataShared.idOrder}`)
 	const response = await RequestService.post<RESPONSE_SHARED_DATA_MATERIAL_ORDER,SHARED_DATA_MATERIAL_ORDER>(url, {emails: dataShared.emails, message: dataShared.message})
 	return Promise.resolve(response.body)
 }
-
 
 export const queryKey = {
 	get_stores: 'get_stores',

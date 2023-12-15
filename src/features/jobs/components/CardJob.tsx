@@ -34,19 +34,20 @@ const CardJobComponent: React.FC<Props> = ({ job, isArchived }) => {
       <Text variant="menuEditor">Job Address: {job.address}</Text>
       <Box
         mt="s"
-        justifyContent="flex-end"
+        justifyContent="space-between"
         alignItems="center"
         flexDirection="row">
+        {job.sendOrder && <Text  variant="bodyBold"  my="s">MO: <Text variant="bodyRegular">{job.sendOrder}</Text></Text>}
 
-        <Button variant="smallWhite" onPress={handleToggleArchive}>{!isArchived ?"Archive": "Unarchive"}</Button>
-        <View style={{ marginHorizontal: 12 }} />
-        <Button
-          variant="small"
-          onPress={() =>
-            navigation.navigate(Routes.JOB_DETAILS, { jobId: job.id, jobName: job.name})
-          }>
-          View Job
-        </Button>
+        <Box flexDirection="row" alignItems="center">
+          <Button variant="smallWhite" onPress={handleToggleArchive}>{!isArchived ?"Archive": "Unarchive"}</Button>
+          <View style={{ marginHorizontal: 12 }} />
+          <Button
+            variant="small"
+            onPress={() => navigation.navigate(Routes.JOB_DETAILS, { jobId: job.id, jobName: job.name})}>
+            View Job
+          </Button>
+        </Box>
       </Box>
     </Card>
   );

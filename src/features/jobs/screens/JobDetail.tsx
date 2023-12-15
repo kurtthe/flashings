@@ -85,6 +85,7 @@ const JobDetailsScreen = () => {
           { item.contact.name && <Text variant="bodyBold"  my="xxs">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>}
           {item.contact.email && <Text variant="bodyBold"  my="xxs">Contact Email: <Text variant="bodyRegular">{item.contact.email}</Text></Text>}
           {item.contact.number && <Text variant="bodyBold"  my="xxs">Contact Phone: <Text variant="bodyRegular">{item.contact.number}</Text></Text>}
+          {item.sendOrder && <Text  variant="bodyBold"  my="s">Material Order: <Text variant="bodyRegular">{item.sendOrder}</Text></Text>}
         </Box>
       </Box>
       <FlatList
