@@ -1,8 +1,9 @@
 /* @ts-ignore */
-import { FLASHINGS_DATA, JOB_DATA, MATERIALS, RESPONSE_COMPANY_ACCOUNT, STORE } from "@models";
+import { DATA_MATERIAL_ORDER, FLASHINGS_DATA, JOB_DATA, MATERIALS, RESPONSE_COMPANY_ACCOUNT, STORE } from "@models";
 import { OptionsType } from "@ui/components";
 import { dataMaterials } from "@store/jobs/mocks";
 import { imageToBase64 } from "@shared/utils";
+import { DATA_BUILD_MATERIAL_ORDER } from "@features/jobs/types";
 
 export const storesToOption = (data:STORE[]): OptionsType[] => {
 	return data.map((store) => ({
@@ -108,3 +109,27 @@ export const getMaterial = (idMaterial: number): MATERIALS => {
 	}
 	return material
 }
+
+export const buildDataMaterialOrder = (data: DATA_BUILD_MATERIAL_ORDER): DATA_MATERIAL_ORDER=> ({
+	...data,
+	status: "Draft",
+	tax_exclusive: true,
+	sections: [
+		{
+			items: [
+				{
+					description: "Flashing Order Per Attached Drawing Price TBD",
+					quantity: "0.01",
+					units: "ea",
+					cost: "0.01",
+					tax: [
+						{
+							name: "GST",
+							rate: 10
+						}
+					]
+				}
+			]
+		}
+	],
+})

@@ -51,6 +51,7 @@ const JobFormContainer = () => {
       if(!jobId){
         dispatch(actions.addJob({job: { ...dataJob,
             id: idJob,
+            sendOrder: undefined,
             flashings: [],
             rain_heads: [],
             sumbs: []
