@@ -6,7 +6,7 @@ import {
 	getStores,
 	getSupplier,
 	jobService,
-	queryKey
+	queryKey, sendToStore
 } from "./service";
 import { DATA_HOOK, RESPONSE_COMPANY_ACCOUNT, STORE, SUPPLIER } from "@models";
 
@@ -36,9 +36,16 @@ export const useGetSupplier = (): UseQueryResult<SUPPLIER, any> => useQuery({
 	queryKey: [queryKey.get_supplier],
 })
 
-
 export const useCreateMaterial = ({ onSuccess, onSettled, onError }: DATA_HOOK)=> {
 	return useMutation(createMaterialOrder, {
+		onSettled,
+		onSuccess,
+		onError,
+	});
+}
+
+export const useSendToStore = ({ onSuccess, onSettled, onError }: DATA_HOOK)=> {
+	return useMutation(sendToStore, {
 		onSettled,
 		onSuccess,
 		onError,

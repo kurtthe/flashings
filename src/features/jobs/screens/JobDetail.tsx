@@ -57,9 +57,7 @@ const JobDetailsScreen = () => {
         maxCount = count;
       }
     }
-
     return mostFrequentElement;
-
   }
   const onPressFooter = (routeToGo: Routes, params= {}) => {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {
@@ -67,8 +65,6 @@ const JobDetailsScreen = () => {
       params
     });
   };
-
-  console.log("dataAccountCompany::", dataAccountCompany)
 
   if(!item || !dataAccountCompany){
     return (
