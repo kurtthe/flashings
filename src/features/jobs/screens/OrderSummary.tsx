@@ -35,7 +35,7 @@ const OrderSummaryScreen: React.FC = () => {
 			const jobId = route.params.jobId;
 			const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number
 			const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id
-			dispatch(jobActions.orderSent({idJob: jobId, orderNumber }));
+			dispatch(jobActions.orderSent({idJob: jobId, orderNumber: `${orderNumber}`.trim() }));
 			setIdOfOrder(orderId)
 		}})
 	const { mutate: sharedMaterialOrder, isLoading: loadingSharedMaterial, } = useSendToStore({

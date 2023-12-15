@@ -28,7 +28,7 @@ const OrderSubmittedScreen = () => {
 				/>
 				<Box px="m" height={550} alignItems="center" justifyContent="center">
 					<Icon as={OrderSubmittedIcon} size={116} />
-					<Text mb="s"  variant="subheadBold" fontWeight="400" textAlign="center">Order submitted MO{orderNUmber}</Text>
+					<Text mb="s"  variant="subheadBold" fontWeight="400" textAlign="center">Order submitted{"\n"} MO{orderNUmber}</Text>
 					<Text mt="xs" variant="bodyRegular" color="textGray" textAlign="center">Thank you for your ordering, please wait  for a minute.</Text>
 				</Box>
 				<Button
