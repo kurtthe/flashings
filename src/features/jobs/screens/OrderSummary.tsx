@@ -2,21 +2,40 @@ import React from 'react';
 import { Box, Button, OptionsType, SelectInput } from "@ui/components";
 import Pdf from 'react-native-pdf';
 import { ActivityIndicator,  StyleSheet } from "react-native";
-import { useGetStores } from "@hooks/jobs";
-import { storesToOption } from "@features/jobs/utils";
+import { useCreateMaterial, useGetStores, useGetSupplier } from "@hooks/jobs";
+import { buildDataMaterialOrder, storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
 import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
-import { RESPONSE_CREATE_AND_FLASHING } from "@models";
+import { RESPONSE_CREATE_AND_FLASHING, RESPONSE_MATERIAL_ORDER } from "@models";
 import Share from 'react-native-share';
+import { useAppDispatch } from "@hooks/useStore";
+import { actions as jobActions } from "@store/jobs/actions";
+import { formatDate } from "@shared/utils/formatDate";
+
 const OrderSummaryScreen: React.FC = () => {
+	const dispatch = useAppDispatch();
+
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
-	const {data: stores, refetch } = useGetStores();
-	const navigation = useNavigation<JobStackProps>()
-	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
 	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
 	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
-	const [isLoading, setIsLoading] = React.useState(true)
+	const [isLoading, setIsLoading] = React.useState(true);
+	const [idOrder, setIdOrder] = React.useState<number | undefined>(undefined)
+
+	const {data: stores, refetch } = useGetStores();
+	const {data: dataSupplier} = useGetSupplier()
+
+	const { mutate: createMaterialOrder, } = useCreateMaterial({
+		onSuccess: (data) => {
+			const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number
+			const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id
+			dispatch(jobActions.orderSent({idJob: route.params.jobId, orderNumber}))
+			setIdOrder(orderId)
+		},
+	});
+
+	const navigation = useNavigation<JobStackProps>()
+	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
 
 	React.useEffect(()=>{
 		const timeout = setTimeout(()=> setIsLoading(false), 20000)
@@ -30,7 +49,6 @@ const OrderSummaryScreen: React.FC = () => {
 		setUrlIdPdf(`https://files-staging.paperplane.app/${fileName}`)
 	}, [route.params.responseApi, isLoading])
 
-
 	React.useEffect(()=> {
 		if(!stores) {
 			refetch().catch((error)=> console.log("error::", error));
@@ -40,7 +58,31 @@ const OrderSummaryScreen: React.FC = () => {
 		const storesAsRadioButton = storesToOption(stores)
 		setOptionsStore(storesAsRadioButton)
 	}, [stores])
+
+	React.useEffect(()=> {
+		if(!dataSupplier || !urlIdPdf) return
+		handleCreateMaterialOrder()
+	}, [dataSupplier, urlIdPdf])
 	const handleChange = ()=> null
+	const handleCreateMaterialOrder = ()=> {
+		if(!dataSupplier || !urlIdPdf) return
+
+		const jobName = route.params.jobName
+		const jobNumber = route.params.jobId
+		const jobAddress = route.params.jobAddress
+
+		const currentDate = formatDate(new Date())
+		const dataMaterial = buildDataMaterialOrder({name: jobName,
+			supplier: dataSupplier.id,
+			issued_on: currentDate,
+			description: `Job Name: ${jobName} - Job Number: ${jobNumber} - Job Address: ${jobAddress}`,
+			attachments: [{
+				name: `${jobName}.pdf`,
+				link: urlIdPdf
+			}]
+			})
+		createMaterialOrder({material: dataMaterial})
+	}
 
 	const handleShare = ()=> {
 		Share.open({
@@ -102,7 +144,7 @@ const OrderSummaryScreen: React.FC = () => {
 			label="Select a store"
 		/>
 		<Button
-			isDisabled={!stores?.length}
+			isDisabled={!stores?.length || !idOrder}
 			onPress={()=> navigation.navigate(RoutesJob.ORDER_SUBMITTED)}
 			my="m"
 			variant="solid"

@@ -21,3 +21,4 @@ export const imageToBase64 = async (urlImage?: string) =>{
   if(!urlImage) return ''
   return await RNFS.readFile(urlImage, 'base64')
 }
+
