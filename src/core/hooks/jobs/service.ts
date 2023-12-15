@@ -1,10 +1,11 @@
 import {
+	DATA_MATERIAL_ORDER,
 	JOB_DATA,
 	RESPONSE_BALANCE,
 	RESPONSE_COMPANY_ACCOUNT,
-	RESPONSE_CREATE_AND_FLASHING,
+	RESPONSE_CREATE_AND_FLASHING, RESPONSE_MATERIAL_ORDER,
 	STORE,
-	STORE_RESPONSE
+	STORE_RESPONSE, SUPPLIER
 } from "@models";
 import { endPoints } from "@shared/endPoints";
 import { RequestService } from '@services/index';
@@ -46,7 +47,22 @@ export const getCompanyAndAccount = async (): Promise<RESPONSE_COMPANY_ACCOUNT> 
 		account
 	}
 }
+
+export const getSupplier = async (): Promise<SUPPLIER> => {
+	const response = await RequestService.get<SUPPLIER>(endPoints.getSupplier)
+	return Promise.resolve(response.body)
+}
+
+export const createMaterialOrder = async ({material}:{ material: DATA_MATERIAL_ORDER }): Promise<RESPONSE_MATERIAL_ORDER> => {
+	const response = await RequestService.put<RESPONSE_MATERIAL_ORDER,{data: DATA_MATERIAL_ORDER}>(endPoints.createMaterialOrder, {data: material})
+	return Promise.resolve(response.body)
+}
+
+
 export const queryKey = {
 	get_stores: 'get_stores',
-	get_accounts_company: 'get_accounts_company'
+	get_accounts_company: 'get_accounts_company',
+	get_supplier: 'get_supplier',
 }
+
+

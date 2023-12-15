@@ -24,10 +24,13 @@ const JobDetailsScreen = () => {
   const {data: dataAccountCompany} = useGetAccountAndCompany()
   const { mutate: createJob, isLoading } = useAddDataJob({
     onSuccess: (data) => {
+      if(!item) return ;
       navigation.navigate(StackPrivateDefinitions.JOBS, { screen: RoutesJobs.ORDER_SUMMARY, params: {
         responseApi: JSON.stringify(data),
-        jobName: item?.name ?? 'Job Name'
-        }})
+        jobName: item.name,
+        jobId: item.id,
+        jobAddress: item.address
+      }})
     },
   });
   const getCommonMaterial = (): number| null => {

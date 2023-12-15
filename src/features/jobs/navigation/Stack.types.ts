@@ -10,6 +10,8 @@ export type JobsStackParamsList = {
   [Routes.ORDER_SUMMARY]: {
     responseApi: string;
     jobName: string;
+    jobId: number;
+    jobAddress: string;
   };
   [Routes.JOB_DETAILS]: {
     jobId: number;
