@@ -181,7 +181,6 @@ const BoardContainer = () => {
       const idJob = route.params?.jobId
       // @ts-ignore
       refViewShot.current.capture().then(async (uriScreen)=>{
-        console.log("urlScreenShot", uriScreen)
         const dataB64Preview =  await imageToBase64(uriScreen)
 
         dispatch(flashingActions.addEditFlashing({

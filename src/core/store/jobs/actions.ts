@@ -11,5 +11,6 @@ export const actions = {
     deleteFlashing: createAction<{idJob: number; idFlashing: number}>('jobs/delete/flashing'),
     changeArchive: createAction<{idJob: number}>('jobs/archive/flashing'),
     changeUnArchive: createAction<{idJob: number}>('jobs/unarchive/flashing'),
+    orderSent: createAction<{idJob: number, orderNumber: string | undefined}>('jobs/order/sent'),
     addLengthJob: createAction<{idJob: number, idFlashing: number, dataLength: FLASHING_LENGTHS}>('jobs/add/length/flashing'),
 }
