@@ -10,42 +10,42 @@ import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
 import { RESPONSE_CREATE_AND_FLASHING, RESPONSE_MATERIAL_ORDER, STORE } from "@models";
 import Share from 'react-native-share';
 import { useAppDispatch, useAppSelector } from "@hooks/useStore";
-import { actions as jobActions } from "@store/jobs/actions";
 import { formatDate } from "@shared/utils/formatDate";
 import { dataUserSelector } from "@store/auth/selectors";
+import { actions as jobActions } from "@store/jobs/actions";
 
 const OrderSummaryScreen: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const dataUser = useAppSelector(dataUserSelector);
 
+	const navigation = useNavigation<JobStackProps>()
+	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
+
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
 	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
 	const [isLoading, setIsLoading] = React.useState(true);
-	const [idOrder, setIdOrder] = React.useState<number | undefined>(undefined)
+	const [idOfOrder, setIdOfOrder] = React.useState<number | undefined>()
 	const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>()
 
 	const {data: stores, refetch } = useGetStores();
 	const {data: dataSupplier, isLoading: loadingSupplier} = useGetSupplier()
 
-	const { mutate: createMaterialOrder, } = useCreateMaterial({
-		onSuccess: (data) => {
-			if(!data) return;
+	const {mutate: doMaterialOrder}= useCreateMaterial({onSuccess: (data)=> {
+			const jobId = route.params.jobId;
 			const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number
 			const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id
-			console.log("orderId::",orderId)
-			dispatch(jobActions.orderSent({idJob: route.params.jobId, orderNumber}))
-			setIdOrder(orderId)
-		},
-	});
-	const { mutate: sharedMaterialOrder, } = useSendToStore({
+			dispatch(jobActions.orderSent({idJob: jobId, orderNumber }));
+			setIdOfOrder(orderId)
+		}})
+	const { mutate: sharedMaterialOrder, isLoading: loadingSharedMaterial, } = useSendToStore({
 		onSuccess: () => {
-			navigation.navigate(RoutesJob.ORDER_SUBMITTED)
+			const jobId = route.params.jobId;
+			navigation.navigate(RoutesJob.ORDER_SUBMITTED, {jobId})
 		},
 	});
 
-	const navigation = useNavigation<JobStackProps>()
-	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
+
 
 	React.useEffect(()=>{
 		const timeout = setTimeout(()=> setIsLoading(false), 20000)
@@ -70,8 +70,13 @@ const OrderSummaryScreen: React.FC = () => {
 	}, [stores])
 
 	React.useEffect(()=> {
-		handleCreateMaterialOrder()
-	}, [dataSupplier, urlIdPdf])
+		if(!urlIdPdf) return
+		const delayCreateMaterialOrder = setTimeout(() => handleCreateMaterialOrder(), 2000)
+		return ()=> {
+			clearTimeout(delayCreateMaterialOrder)
+		}
+	}, [urlIdPdf])
+
 	const handleChange = (itemStore: OptionsType)=> {
 		const dataStore = stores?.find((sItemStore)=> itemStore.value === sItemStore.id)
 		if(!dataStore) return
@@ -92,9 +97,10 @@ const OrderSummaryScreen: React.FC = () => {
 			attachments: [{
 				name: `${jobName}.pdf`,
 				link: urlIdPdf
-			}]
-			})
-		createMaterialOrder({material: dataMaterial})
+			}],
+
+		})
+		doMaterialOrder({material: dataMaterial})
 	}
 
 	const handleShare = ()=> {
@@ -114,13 +120,12 @@ const OrderSummaryScreen: React.FC = () => {
 	}
 
 	const handleSendToStore = ()=> {
-		if (!idOrder || !storeSelected || !dataUser) return
-
+		if (!storeSelected || !dataUser || !idOfOrder) return
 		sharedMaterialOrder({
 			dataShared: {
-				emails: [storeSelected.email, `${dataUser.email}`],
+				emails: [storeSelected.email, `${dataUser.email}`, 'mat@digitalbasis.com.au'],
 				message: 'Thanks for your Flashings order - it has been received by our team for review and processing. An email notification will be sent to the account owner when it has been processed by the store. Please contact us at 03 9703 8400. Thank you, the Burdens Flashing App Team.',
-				idOrder
+				idOrder: idOfOrder
 			}
 		})
 	}
@@ -168,7 +173,8 @@ const OrderSummaryScreen: React.FC = () => {
 			label="Select a store"
 		/>
 		<Button
-			isDisabled={!stores?.length || !idOrder || !storeSelected}
+			isLoading={loadingSharedMaterial}
+			isDisabled={!stores?.length || !storeSelected || !idOfOrder}
 			onPress={()=> handleSendToStore() }
 			my="m"
 			variant="solid"

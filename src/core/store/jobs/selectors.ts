@@ -28,3 +28,11 @@ export const getDataFlashing = createSelector(jobsSelector,
 		}
 		return dataJob.flashings.find(flashing => flashing.id === dataSelect.idFlashing)
 })
+
+export const getOrderNumber =  createSelector(jobsSelector,
+	(_:any, idJob?: number) => idJob,
+	(state, idJob) => {
+		if(!idJob) return undefined
+		const dataJob =  state.jobs.find((job) => job.id === idJob);
+		return dataJob? dataJob.sendOrder: undefined;
+	});

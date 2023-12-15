@@ -15,7 +15,6 @@ class GeneralRequestService implements GeneralRequestInterface {
   constructor() {
     this.httpService = axios.create({
       baseURL: baseURL,
-      timeout: 2500,
     });
 
     this.getToken().then(data => {
@@ -91,13 +90,13 @@ class GeneralRequestService implements GeneralRequestInterface {
           TypeData,
           AxiosResponse<TypeResult>
         >(endpoint, data);
+
         resolve({
           body: response.data as TypeResult,
           headers: response.headers,
         });
       } catch (err) {
         handleErrors.manage(err);
-        console.log('error post', err);
         reject(err);
       }
     });
