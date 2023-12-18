@@ -91,10 +91,10 @@ const JobDetailsScreen = () => {
           {item.contact.email && <Text variant="bodyBold"  my="xxs">Contact Email: <Text variant="bodyRegular">{item.contact.email}</Text></Text>}
           {item.contact.number && <Text variant="bodyBold"  my="xxs">Contact Phone: <Text variant="bodyRegular">{item.contact.number}</Text></Text>}
 
-          {item.orderData && <Text  variant="bodyBold"  my="xxs">Order sent: <Text variant="bodyRegular">{item.orderData.orderNumber}</Text></Text>}
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">Order Sent: <Text variant="bodyRegular">{item.orderData.orderNumber}</Text></Text>}
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Store: <Text variant="bodyRegular">{item.orderData.store}</Text></Text>}
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Date Order Sent: <Text variant="bodyRegular">{item.orderData.date}</Text></Text>}
-          {item.orderData && <Text  variant="bodyBold"  my="xxs">View PDF: <Text onPress={handleOpenLink} variant="subheadMediumLink">View PDF</Text></Text>}
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">View PDF: <Text onPress={handleOpenLink} variant="subheadMediumLink">(Press Here)</Text></Text>}
         </Box>
       </Box>
       <FlatList
