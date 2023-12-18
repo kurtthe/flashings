@@ -37,7 +37,7 @@ const CardJobComponent: React.FC<Props> = ({ job, isArchived }) => {
         justifyContent="space-between"
         alignItems="center"
         flexDirection="row">
-        {job.sendOrder && <Text  variant="bodyBold"  my="s">Sent: <Text variant="bodyRegular">{job.sendOrder}</Text></Text>}
+        {job.orderData && <Text  variant="bodyBold"  my="s">Sent: <Text variant="bodyRegular">{job.orderData.orderNumber}</Text></Text>}
 
         <Box flexDirection="row" alignItems="center">
           <Button variant="smallWhite" onPress={handleToggleArchive}>{!isArchived ?"Archive": "Unarchive"}</Button>

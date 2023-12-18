@@ -1,5 +1,5 @@
 export const baseURL = 'https://api.trak.co';
-
+export const baseUrlPDF = "https://files-staging.paperplane.app/"
 export const endPoints = {
   login: `/login`,
   forgotPassword: `/reset-password`,
