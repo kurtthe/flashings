@@ -29,7 +29,7 @@ const OrderSubmittedScreen = () => {
 				<Box px="m" height={550} alignItems="center" justifyContent="center">
 					<Icon as={OrderSubmittedIcon} size={116} />
 					<Text mb="s"  variant="subheadBold" fontWeight="400" textAlign="center">Order submitted{"\n"} MO{orderNUmber}</Text>
-					<Text mt="xs" variant="bodyRegular" color="textGray" textAlign="center">Thank you for your ordering, please wait  for a minute.</Text>
+					<Text mt="xs" variant="bodyRegular" color="textGray" textAlign="center">Thank you for your order. It has been sent to store for processing. If you have any queries, please contact us.</Text>
 				</Box>
 				<Button
 					onPress={()=> navigation.navigate(RoutesJobs.ALL_JOBS)}
