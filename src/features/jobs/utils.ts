@@ -52,7 +52,7 @@ const mapLengthsInputs = (data: FLASHINGS_DATA['flashingLengths'], numberFlashin
 		// @ts-ignore
 		dataMapped[`flash_${numberFlashing}_${index+1}_qty`] = dataLengths.qty;
 		// @ts-ignore
-		dataMapped[`flash_${numberFlashing}_${index+1}_length`] = dataLengths.length;
+		dataMapped[`flash_${numberFlashing}_${index+1}_length`] = `${dataLengths.length} mm`;
 	})
 
 	return dataMapped
