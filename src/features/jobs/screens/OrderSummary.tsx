@@ -7,12 +7,13 @@ import { buildDataMaterialOrder, storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
 import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
-import { RESPONSE_CREATE_AND_FLASHING, RESPONSE_MATERIAL_ORDER, STORE } from "@models";
+import { ORDER_TYPE_STORE, RESPONSE_CREATE_AND_FLASHING, RESPONSE_MATERIAL_ORDER, STORE } from "@models";
 import Share from 'react-native-share';
 import { useAppDispatch, useAppSelector } from "@hooks/useStore";
 import { formatDate } from "@shared/utils/formatDate";
 import { dataUserSelector } from "@store/auth/selectors";
 import { actions as jobActions } from "@store/jobs/actions";
+import { baseUrlPDF } from "@shared/endPoints";
 
 const OrderSummaryScreen: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -35,7 +36,15 @@ const OrderSummaryScreen: React.FC = () => {
 			const jobId = route.params.jobId;
 			const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number
 			const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id
-			dispatch(jobActions.orderSent({idJob: jobId, orderNumber: `${orderNumber}`.trim() }));
+
+			const dataOrder:ORDER_TYPE_STORE ={
+				orderNumber: `${orderNumber}`.trim(),
+				urlPdf: urlIdPdf ?? '',
+				store: storeSelected? storeSelected.name: '',
+				date: formatDate(new Date())
+			}
+
+			dispatch(jobActions.orderSent({idJob: jobId, dataOrder }));
 			setIdOfOrder(orderId)
 		}})
 	const { mutate: sharedMaterialOrder, isLoading: loadingSharedMaterial, } = useSendToStore({
@@ -44,7 +53,6 @@ const OrderSummaryScreen: React.FC = () => {
 			navigation.navigate(RoutesJob.ORDER_SUBMITTED, {jobId})
 		},
 	});
-
 
 
 	React.useEffect(()=>{
@@ -56,7 +64,7 @@ const OrderSummaryScreen: React.FC = () => {
 		if(isLoading) return;
 		const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(route.params.responseApi)
 		const fileName = parseJSON.response.file_name
-		setUrlIdPdf(`https://files-staging.paperplane.app/${fileName}`)
+		setUrlIdPdf(`${baseUrlPDF}${fileName}`)
 	}, [route.params.responseApi, isLoading])
 
 	React.useEffect(()=> {
