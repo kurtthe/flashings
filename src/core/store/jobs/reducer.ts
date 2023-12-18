@@ -88,8 +88,8 @@ const flashingReducer = createReducer(INITIAL_STATE, builder => {
     });
 
     builder.addCase(actions.orderSent, (state, action)=>{
-        const { idJob: jobId, orderNumber } = action.payload
-        state.jobs = state.jobs.map((job)=> ({...job, sendOrder: job.id === jobId ? orderNumber: undefined}))
+        const { idJob: jobId, dataOrder: data } = action.payload
+        state.jobs = state.jobs.map((job)=> ({...job, orderData: job.id === jobId ? data: job.orderData}))
     });
 
     builder.addCase(actions.deleteJob, (state, action)=> {

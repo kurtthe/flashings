@@ -46,7 +46,7 @@ type JOB_DATA_COMMON = {
 
 export type JOB_DATA= JOB_DATA_COMMON & {
   id: number;
-  sendOrder: string | undefined;
+  orderData: ORDER_TYPE_STORE | undefined;
   flashings: FLASHINGS_DATA[];
   rain_heads: RAIN_HEAD[];
   sumbs: SUMB[];
@@ -252,4 +252,11 @@ export type RESPONSE_MATERIAL_ORDER = {
     expense_total: string;
     burdens_store_location_id: string;
   },
+}
+
+export type ORDER_TYPE_STORE = {
+  orderNumber: string;
+  urlPdf: string;
+  store: string;
+  date: string;
 }

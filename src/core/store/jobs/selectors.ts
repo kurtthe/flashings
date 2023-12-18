@@ -34,5 +34,5 @@ export const getOrderNumber =  createSelector(jobsSelector,
 	(state, idJob) => {
 		if(!idJob) return undefined
 		const dataJob =  state.jobs.find((job) => job.id === idJob);
-		return dataJob? dataJob.sendOrder: undefined;
+		return dataJob? dataJob.orderData?.orderNumber: undefined;
 	});
