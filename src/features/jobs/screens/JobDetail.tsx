@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, FlatList } from "react-native";
+import { ActivityIndicator, FlatList, Linking } from "react-native";
 import { Box, Text } from "@ui/components";
 import { Routes } from '@features/flashing/navigation/routes';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
@@ -66,6 +66,11 @@ const JobDetailsScreen = () => {
     });
   };
 
+  const handleOpenLink = () => {
+    if(!item || !item.orderData) return;
+    Linking.openURL(item.orderData.urlPdf).catch((err)=> console.log("error opening URL:", err))
+  }
+
   if(!item || !dataAccountCompany){
     return (
       <Box flex={1} alignItems="center" justifyContent="center">
@@ -85,7 +90,11 @@ const JobDetailsScreen = () => {
           { item.contact.name && <Text variant="bodyBold"  my="xxs">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>}
           {item.contact.email && <Text variant="bodyBold"  my="xxs">Contact Email: <Text variant="bodyRegular">{item.contact.email}</Text></Text>}
           {item.contact.number && <Text variant="bodyBold"  my="xxs">Contact Phone: <Text variant="bodyRegular">{item.contact.number}</Text></Text>}
-          {item.sendOrder && <Text  variant="bodyBold"  my="s">Material Order: <Text variant="bodyRegular">{item.sendOrder}</Text></Text>}
+
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">Order sent: <Text variant="bodyRegular">{item.orderData.orderNumber}</Text></Text>}
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">Store: <Text variant="bodyRegular">{item.orderData.store}</Text></Text>}
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">Date Order Sent: <Text variant="bodyRegular">{item.orderData.date}</Text></Text>}
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">View PDF: <Text onPress={handleOpenLink} variant="subheadMediumLink">View PDF</Text></Text>}
         </Box>
       </Box>
       <FlatList
@@ -105,10 +114,9 @@ const JobDetailsScreen = () => {
             loadingPreview={isLoading}
             showPreview={item.flashings.length > 0}
             disabledAddFlashing={item.flashings.length === 6}
-            onPreview={async ()=> {
-              const dataMapped = await mapDataJobToDataPetition(item, dataAccountCompany)
+            onPreview={()=> {
               createJob({
-                dataJobAndFlashing: dataMapped
+                dataJobAndFlashing: mapDataJobToDataPetition(item, dataAccountCompany)
               })
             }
             }
