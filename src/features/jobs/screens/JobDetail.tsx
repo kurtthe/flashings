@@ -86,15 +86,17 @@ const JobDetailsScreen = () => {
           <Text variant="subheadSmallBold" mb="s">Job Details</Text>
           <Text variant="bodyBold" my="xxs">Job Name: <Text variant="bodyRegular">{item.name}</Text></Text>
           <Text variant="bodyBold"  my="xxs">Site Address: <Text variant="bodyRegular">{item.address}</Text> </Text>
-          <Text variant="bodyBold" my="xxs">Job # <Text variant="bodyRegular">{item.number}</Text></Text>
+          <Text variant="bodyBold" my="xxs">Job #: <Text variant="bodyRegular">{item.number}</Text></Text>
           { item.contact.name && <Text variant="bodyBold"  my="xxs">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>}
           {item.contact.email && <Text variant="bodyBold"  my="xxs">Contact Email: <Text variant="bodyRegular">{item.contact.email}</Text></Text>}
           {item.contact.number && <Text variant="bodyBold"  my="xxs">Contact Phone: <Text variant="bodyRegular">{item.contact.number}</Text></Text>}
 
-          {item.orderData && <Text  variant="bodyBold"  my="xxs">Order Sent: <Text variant="bodyRegular">{item.orderData.orderNumber}</Text></Text>}
+          {item.orderData && <Text  variant="subheadSmallBold"  my="s">Order Sent</Text>}
+
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">Order Number: <Text variant="bodyRegular">{item.orderData.orderNumber}</Text></Text>}
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Store: <Text variant="bodyRegular">{item.orderData.store}</Text></Text>}
-          {item.orderData && <Text  variant="bodyBold"  my="xxs">Date Order Sent: <Text variant="bodyRegular">{item.orderData.date}</Text></Text>}
-          {item.orderData && <Text  variant="bodyBold"  my="xxs">View PDF: <Text onPress={handleOpenLink} variant="subheadMediumLink">(Press Here)</Text></Text>}
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">Sent: <Text variant="bodyRegular">{item.orderData.date}</Text></Text>}
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">PDF: <Text onPress={handleOpenLink} variant="subheadMediumLink">View PDF</Text></Text>}
         </Box>
       </Box>
       <FlatList
