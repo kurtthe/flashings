@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Button, OptionsType, SelectInput } from "@ui/components";
 import Pdf from 'react-native-pdf';
-import { ActivityIndicator,  StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 import { useCreateMaterial, useGetStores, useGetSupplier, useSendToStore } from "@hooks/jobs";
 import { buildDataMaterialOrder, storesToOption } from "@features/jobs/utils";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -14,6 +14,7 @@ import { formatDate } from "@shared/utils/formatDate";
 import { dataUserSelector } from "@store/auth/selectors";
 import { actions as jobActions } from "@store/jobs/actions";
 import { baseUrlPDF } from "@shared/endPoints";
+import Loading from "@components/Loading";
 
 const OrderSummaryScreen: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -41,7 +42,7 @@ const OrderSummaryScreen: React.FC = () => {
 				orderNumber: `${orderNumber}`.trim(),
 				urlPdf: urlIdPdf ?? '',
 				store: storeSelected? storeSelected.name: '',
-				date: formatDate(new Date())
+				date: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss")
 			}
 
 			dispatch(jobActions.orderSent({idJob: jobId, dataOrder }));
@@ -131,12 +132,16 @@ const OrderSummaryScreen: React.FC = () => {
 		if (!storeSelected || !dataUser || !idOfOrder) return
 		sharedMaterialOrder({
 			dataShared: {
-				emails: [storeSelected.email, `${dataUser.email}`, "burdens.orders@tradetrak.com.au",
-"matt.celima@burdens.com.au",
-"owenm@trak.co",
-"markm@trak.co",
-"mat@digitalbasis.com.au",
-"jeff@digitalbasis.com"],
+				emails: [
+					storeSelected.email,
+					`${dataUser.email}`,
+					"burdens.orders@tradetrak.com.au",
+					"matt.celima@burdens.com.au",
+					"owenm@trak.co",
+					"markm@trak.co",
+					"mat@digitalbasis.com.au",
+					"jeff@digitalbasis.com"
+				],
 				message: 'Thanks for your Flashings order - it has been received by our team for review and processing. An email notification will be sent to the account owner when it has been processed by the store. Please contact us at 03 9703 8400. Thank you, the Burdens Flashing App Team.',
 				idOrder: idOfOrder
 			}
@@ -145,9 +150,7 @@ const OrderSummaryScreen: React.FC = () => {
 
 	if(!urlIdPdf || isLoading || loadingSupplier){
 		return (
-			<Box flex={1} alignItems="center" justifyContent="center">
-				<ActivityIndicator/>
-			</Box>
+			<Loading title="Creating your Flashing Drawing" />
 		);
 	}
 

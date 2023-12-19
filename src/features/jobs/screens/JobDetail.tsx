@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, FlatList, Linking } from "react-native";
-import { Box, Text } from "@ui/components";
+import { Box, ScrollBox, Text } from "@ui/components";
 import { Routes } from '@features/flashing/navigation/routes';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -80,7 +80,7 @@ const JobDetailsScreen = () => {
   }
 
   return (
-    <Box flex={1} backgroundColor="white">
+    <ScrollBox flex={1} backgroundColor="white">
       <Box p="m">
         <Box>
           <Text variant="subheadSmallBold" mb="s">Job Details</Text>
@@ -100,6 +100,7 @@ const JobDetailsScreen = () => {
         </Box>
       </Box>
       <FlatList
+        scrollEnabled={false}
         contentContainerStyle={{paddingVertical: 10}}
         data={item.flashings}
         showsVerticalScrollIndicator={false}
@@ -132,7 +133,7 @@ const JobDetailsScreen = () => {
           />
         }
       />
-    </Box>
+    </ScrollBox>
   );
 };
 
