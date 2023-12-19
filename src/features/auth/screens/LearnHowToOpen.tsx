@@ -59,7 +59,7 @@ const LearnHowToOpenScreen: React.FC<PropsLearnHowToOpen> = ({ navigation }) => 
                   Email
                 </Text>
                 <Text style={styles.underlinedTextStyle}>
-                  help@burdens.com.au
+                  ar@burdens.com.au
                 </Text>
               </View>
               <View>

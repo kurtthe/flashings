@@ -31,7 +31,7 @@
 		00E356EE1AD99517003FC87E /* flashingsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = flashingsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* flashingsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = flashingsTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* flashings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flashings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Flashings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flashings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = flashings/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = flashings/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = flashings/Images.xcassets; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* flashings.app */,
+				13B07F961A680F5B00A75B9A /* Flashings.app */,
 				00E356EE1AD99517003FC87E /* flashingsTests.xctest */,
 			);
 			name = Products;
@@ -194,7 +194,7 @@
 			);
 			name = flashings;
 			productName = flashings;
-			productReference = 13B07F961A680F5B00A75B9A /* flashings.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Flashings.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -489,7 +489,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = DS2YBYQ2RA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = flashings/Info.plist;
@@ -506,7 +506,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.burdens.Flashing;
-				PRODUCT_NAME = flashings;
+				PRODUCT_NAME = Flashings;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -523,7 +523,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_TEAM = DS2YBYQ2RA;
 				INFOPLIST_FILE = flashings/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Burdens Flashing Designer";
@@ -539,7 +539,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.burdens.Flashing;
-				PRODUCT_NAME = flashings;
+				PRODUCT_NAME = Flashings;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

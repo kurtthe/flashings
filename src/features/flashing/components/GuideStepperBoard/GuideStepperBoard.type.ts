@@ -22,7 +22,7 @@ export type VALUE_ACTIONS = {
 export const guideSteps: GUIDE_STEP[] = [
 	{
 		title: 'Draw Points',
-		description: 'When finished press Next',
+		description: 'Don’t draw safety folds or breaks  /n  When finished press Next',
 		action: undefined,
 	},
 	{

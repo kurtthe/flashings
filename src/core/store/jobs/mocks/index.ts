@@ -238,8 +238,8 @@ export const dataMaterials: MATERIALS[] = [
   },
   {
     id: 27,
-    value: 'Basalt (Matt) Finish)',
-    label: 'Basalt® (Matt) Finish)',
+    value: 'Basalt (Matt Finish)',
+    label: 'Basalt® (Matt Finish)',
     bgColor: '#5f615d',
     textColor: 'black',
     bold: false,
@@ -247,8 +247,8 @@ export const dataMaterials: MATERIALS[] = [
   },
   {
     id: 28,
-    value: 'Bluegum (Matt) Finish)',
-    label: 'Bluegum® (Matt) Finish)',
+    value: 'Bluegum (Matt Finish)',
+    label: 'Bluegum® (Matt Finish)',
     bgColor: '#979b9b',
     textColor: 'black',
     bold: false,
@@ -256,8 +256,8 @@ export const dataMaterials: MATERIALS[] = [
   },
   {
     id: 29,
-    value: 'Dune (Matt) Finish)',
-    label: 'Dune® (Matt) Finish)',
+    value: 'Dune (Matt Finish)',
+    label: 'Dune® (Matt Finish)',
     bgColor: '#bcb4a8',
     textColor: 'black',
     bold: false,
@@ -265,8 +265,8 @@ export const dataMaterials: MATERIALS[] = [
   },
   {
     id: 30,
-    value: 'Monument (Matt) Finish)',
-    label: 'Monument® (Matt) Finish)',
+    value: 'Monument (Matt Finish)',
+    label: 'Monument® (Matt Finish)',
     bgColor: '#2a2e2a',
     textColor: 'white',
     bold: false,
@@ -274,8 +274,8 @@ export const dataMaterials: MATERIALS[] = [
   },
   {
     id: 31,
-    value: 'Shale Grey (Matt) Finish)',
-    label: 'Shale Grey™ (Matt) Finish)',
+    value: 'Shale Grey (Matt Finish)',
+    label: 'Shale Grey™ (Matt Finish)',
     bgColor: '#c6c9c4',
     textColor: 'black',
     bold: false,
@@ -284,7 +284,7 @@ export const dataMaterials: MATERIALS[] = [
   {
     id: 32,
     value: 'Surfmist',
-    label: 'Surfmist® (Matt) Finish)',
+    label: 'Surfmist® (Matt Finish)',
     bgColor: '#eae9e0',
     textColor: 'black',
     bold: false,

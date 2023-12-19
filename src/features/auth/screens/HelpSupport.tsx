@@ -14,8 +14,8 @@ const { width } = Dimensions.get('screen');
 import { formatPhone } from "@shared/helpers";
 const HelpSupportScreen = () => {
   const navigation = useNavigation()
-  const numberPhone = "0399993333"
-  const emailAddress = "help@burdens.com.au"
+  const numberPhone = "0397038400"
+  const emailAddress = "ar@burdens.com.au"
 
   return (
     <KeyboardAvoidingBox flex={1}>

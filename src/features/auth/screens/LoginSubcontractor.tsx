@@ -43,7 +43,7 @@ const LoginSubcontractorScreen = ({ navigation }) => {
               source={require('@assets/logo/MainLogo.png')}
             />
             <Text style={styles.mainTextStyle}>
-              Welcome Back,{'\n'}
+              Welcome back,{'\n'}
               Please sign in with your code
             </Text>
           </View>
