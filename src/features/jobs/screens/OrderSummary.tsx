@@ -131,7 +131,12 @@ const OrderSummaryScreen: React.FC = () => {
 		if (!storeSelected || !dataUser || !idOfOrder) return
 		sharedMaterialOrder({
 			dataShared: {
-				emails: [storeSelected.email, `${dataUser.email}`, 'mat@digitalbasis.com.au'],
+				emails: [storeSelected.email, `${dataUser.email}`, "burdens.orders@tradetrak.com.au",
+"matt.celima@burdens.com.au",
+"owenm@trak.co",
+"markm@trak.co",
+"mat@digitalbasis.com.au",
+"jeff@digitalbasis.com"],
 				message: 'Thanks for your Flashings order - it has been received by our team for review and processing. An email notification will be sent to the account owner when it has been processed by the store. Please contact us at 03 9703 8400. Thank you, the Burdens Flashing App Team.',
 				idOrder: idOfOrder
 			}
