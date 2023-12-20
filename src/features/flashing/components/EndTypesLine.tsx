@@ -22,9 +22,9 @@ const ButtonEndType = (
 	{title: string; icon?: any, fullWidth?:boolean; style?: ViewStyle; onPress?: ()=> void; active?: boolean}
 )=> {
 	return (
-		<BaseTouchable onPress={()=> onPress && onPress()} my="xs" mx="s" backgroundColor={active? "lightBlue" : "transparent"} style={[styles.button, fullWidth && {width: '95%'}, style]}>
+		<BaseTouchable onPress={()=> onPress && onPress()} my="xxs" mx="s" backgroundColor={active? "lightBlue" : "transparent"} style={[styles.button, fullWidth && {width: '95%'}, style]}>
 			<Text textAlign={!icon? 'center': 'left'} variant="bodyRegular" mx="s">{title}</Text>
-			{icon && <Icon as={icon} size={40} color="grayIcon" />}
+			{icon && <Icon as={icon} size={30} color="grayIcon" />}
 		</BaseTouchable>
 	);
 }
@@ -59,14 +59,15 @@ const EndTypesLine: React.FC<Props> = ({changeStartTypeLine,changeEndTypeLine,  
 
 	return (
 		<Box flex={1} backgroundColor="white" p="m">
-			<Text variant="bodyBold" mx="s">End Type</Text>
-			<Box flexDirection="row" pt="s" mx="s" mt="s" justifyContent="center">
-				<Text fontWeight="600" fontSize={18} mr="s" variant={typeLine === 'start' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('start')}>Start</Text>
-				<Text fontWeight="600" fontSize={18} variant={typeLine === 'end' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('end')}>End</Text>
+			<Box flexDirection="row" pt="s" mx="s" alignItems="center" justifyContent="space-between">
+				<Text variant="bodyBold" >End Type</Text>
+				<Box flexDirection="row">
+					<Text fontWeight="600" fontSize={18} mr="s" variant={typeLine === 'start' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('start')}>Start</Text>
+					<Text fontWeight="600" fontSize={18} variant={typeLine === 'end' ? "typeJobActive" :"typeJob"} onPress={() => setTypeLine('end')}>End</Text>
+				</Box>
 			</Box>
 			<Box py="m" flexDirection="row" flexWrap="wrap">
-				<ButtonEndType title="None" fullWidth style={{height: 60}} active={validateTypeLine("none")} onPress={()=> handleClearLineType()}  />
-
+				<ButtonEndType title="None" fullWidth style={{height: 40}} active={validateTypeLine("none")} onPress={()=> handleClearLineType()}  />
 				<ButtonEndType title="Safety" active={validateTypeLine(`safety${typeLine === 'end'? '2': '1'}Left`)} onPress={()=> handlePressButton(`safety${typeLine === 'end'? '2': '1'}Left`)} icon={EndCurveLeftIcon}/>
 				<ButtonEndType title="Safety" active={validateTypeLine(`safety${typeLine === 'end'? '2': '1'}Right`)} onPress={()=> handlePressButton(`safety${typeLine === 'end'? '2': '1'}Right`)}  icon={EndCurveRightIcon}/>
 
