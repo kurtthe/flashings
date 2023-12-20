@@ -15,6 +15,7 @@ import { dataUserSelector } from "@store/auth/selectors";
 import { actions as jobActions } from "@store/jobs/actions";
 import { baseUrlPDF } from "@shared/endPoints";
 import Loading from "@components/Loading";
+import PDFShared from "@features/jobs/containers/PDFShared";
 
 const OrderSummaryScreen: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -25,7 +26,6 @@ const OrderSummaryScreen: React.FC = () => {
 
 	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
 	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
-	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [idOfOrder, setIdOfOrder] = React.useState<number | undefined>()
 	const [orderNumber, setOrderNumber] = React.useState<string | undefined>()
@@ -116,22 +116,6 @@ const OrderSummaryScreen: React.FC = () => {
 		doMaterialOrder({material: dataMaterial})
 	}
 
-	const handleShare = ()=> {
-		Share.open({
-			title: "Share PDF flashing",
-			url: urlPdfLocal,
-			type: 'pdf',
-			filename: `${route.params.jobName}.pdf`,
-			showAppsToView: true,
-		})
-			.then((res) => {
-				console.log(res);
-			})
-			.catch((err) => {
-				err && console.log(err);
-			});
-	}
-
 	const handleSendToStore = ()=> {
 		if (!storeSelected || !dataUser || !idOfOrder) return
 		sharedMaterialOrder({
@@ -160,33 +144,7 @@ const OrderSummaryScreen: React.FC = () => {
 
 	return (
 	<Box p="m" style={styles.container}>
-		<Pdf
-			trustAllCerts={false}
-			minScale={1.5}
-			maxScale={3}
-			source={{
-				uri: urlIdPdf,
-				cache: true,
-			}}
-			style={styles.pdf}
-			onLoadComplete={(numberOfPages,filePath) => {
-				console.log(`Number of pages: ${numberOfPages}`);
-				setUrlPdfLocal(filePath)
-			}}
-			onError={(error) => {
-				console.log(error);
-			}}
-			onPressLink={(uri) => {
-				console.log(`Link pressed: ${uri}`);
-			}}
-		/>
-		<Button
-			onPress={handleShare}
-			variant="outlineWhite"
-			borderRadius="unset"
-			mb="m"
-		>Share</Button>
-
+		<PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
 		<SelectInput
 			options={optionsStore}
 			onChange={handleChange}
@@ -207,8 +165,5 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'flex-start',
 	},
-	pdf: {
-		flex:0.95,
-	}
 });
 export default OrderSummaryScreen
