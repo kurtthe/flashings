@@ -7,9 +7,9 @@ type Props = {
 }
 const Loading: React.FC<Props> = ({title}) => {
 	return (
-		<Box flex={1} alignItems="center" justifyContent="center" backgroundColor="white">
-			<Image source={require("@assets/images/loading-wheel.gif")} width={150} height={100}  />
-			{title && <Text variant="subheadBold">{title}</Text>}
+		<Box flex={0.9} alignItems="center" justifyContent="center" backgroundColor="white">
+			<Image source={require("@assets/images/loading.gif")}  />
+			{title && <Text mt="4xl" variant="subheadBold">{title}</Text>}
 		</Box>
 	)
 }
