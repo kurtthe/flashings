@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, FlatList, Linking } from "react-native";
-import { Box, ScrollBox, Text } from "@ui/components";
+import { Box, Icon, IconButton, ScrollBox, Text } from "@ui/components";
 import { Routes } from '@features/flashing/navigation/routes';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
@@ -13,9 +13,13 @@ import { useAppSelector } from "@hooks/useStore";
 import { jobData } from "@store/jobs/selectors";
 import { useAddDataJob, useGetAccountAndCompany } from "@hooks/jobs";
 import { mapDataJobToDataPetition } from "@features/jobs/utils";
+import { ModalBottom, ModalBottomRef } from "@components";
+import PDFShared from "@features/jobs/containers/PDFShared";
+import { CloseIcon } from "@assets/icons";
 
 
 const JobDetailsScreen = () => {
+  const modalBottomRef = React.useRef<ModalBottomRef>();
   const navigation = useNavigation<StackPrivateProps>();
   const route = useRoute<RouteProp<JobsStackParamsList, RoutesJobs.JOB_DETAILS>>();
   const [modalVisible, setModalVisible] = useState(false);
@@ -80,6 +84,8 @@ const JobDetailsScreen = () => {
   }
 
   return (
+    <>
+
     <ScrollBox flex={1} backgroundColor="white">
       <Box p="m">
         <Box>
@@ -94,7 +100,7 @@ const JobDetailsScreen = () => {
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Order Number: <Text variant="bodyRegular">{item.orderData.orderNumber}</Text></Text>}
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Store: <Text variant="bodyRegular">{item.orderData.store}</Text></Text>}
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Sent: <Text variant="bodyRegular">{item.orderData.date}</Text></Text>}
-          {item.orderData && <Text  variant="bodyBold"  my="xxs">PDF: <Text onPress={handleOpenLink} variant="subheadMediumLink">View PDF</Text></Text>}
+          {item.orderData && <Text  variant="bodyBold"  my="xxs">PDF: <Text onPress={() => modalBottomRef.current?.show()} variant="subheadMediumLink">View PDF</Text></Text>}
         </Box>
       </Box>
       <FlatList
@@ -132,6 +138,22 @@ const JobDetailsScreen = () => {
         }
       />
     </ScrollBox>
+
+      <ModalBottom
+        backdropClosesSheet={true}
+        ref={modalBottomRef}
+        height={800}
+        draggable={false}
+      >
+        <Box p="m" justifyContent="flex-start" flex={1}>
+          <Box width="100%" alignItems="flex-end">
+            <IconButton icon={<Icon as={CloseIcon} color="base300" />} onPress={()=> modalBottomRef.current?.hide()} />
+          </Box>
+          <PDFShared shareSmall urlIdPdf={item.orderData?item.orderData.urlPdf : '' } namePdf={item.name ?? ''} />
+        </Box>
+      </ModalBottom>
+    </>
+
   );
 };
 
