@@ -78,7 +78,7 @@ const MeasurementLines: React.FC<Props> = ({ onDone, dataLine, typeSelected, onN
                 ref={inputRef}
                 inputMode="numeric"
                 keyboardType="numeric"
-                style={[{textAlign: 'center', height: 30, width: 80, backgroundColor: 'white'}, isAndroid && {padding: 10, height: 40}]}
+                style={[{textAlign: 'center', height: 30, width: 80, backgroundColor: 'white', color: '#000'}, isAndroid && {padding: 10, height: 40}]}
                 value={`${isNaN(measurement)? '0': measurement}`}
                 onChangeText={(newText: string)=> {
                   const baseValue = typeSelected === 'line'? dataLine?.sizeLine: dataLine?.angle

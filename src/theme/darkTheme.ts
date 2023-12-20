@@ -5,7 +5,7 @@ import themeCore from '@theme/theme.core';
 
 const darkTheme = {
 	...themeCore,
-	dark: false,
+	dark: true,
 	colors: {
 		...themeCore.colors,
 		// TODO: cleanup theme colors
@@ -56,7 +56,7 @@ const darkTheme = {
 		selectBorder: palette.base100,
 		textPlaceholder: palette.base400,
 		//	included for compatibility
-		base0: palette.base0,
+		base0: palette.base900,
 		base900: palette.base900,
 		disabled: Color(palette.primary500).alpha(0.4).rgb().string(),
 		lavender: palette.lavender,
