@@ -28,6 +28,7 @@ const OrderSummaryScreen: React.FC = () => {
 	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
 	const [isLoading, setIsLoading] = React.useState(true);
 	const [idOfOrder, setIdOfOrder] = React.useState<number | undefined>()
+	const [orderNumber, setOrderNumber] = React.useState<string | undefined>()
 	const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>()
 
 	const {data: stores, refetch } = useGetStores();
@@ -35,9 +36,16 @@ const OrderSummaryScreen: React.FC = () => {
 
 	const {mutate: doMaterialOrder}= useCreateMaterial({onSuccess: (data)=> {
 			if(!storeSelected) return;
-			const jobId = route.params.jobId;
 			const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number
 			const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id
+			setOrderNumber(orderNumber)
+			setIdOfOrder(orderId)
+		}})
+
+	const { mutate: sharedMaterialOrder, isLoading: loadingSharedMaterial, } = useSendToStore({
+		onSuccess: () => {
+			if(!storeSelected) return;
+			const jobId = route.params.jobId;
 
 			const dataOrder:ORDER_TYPE_STORE ={
 				orderNumber: `${orderNumber}`.trim(),
@@ -46,14 +54,7 @@ const OrderSummaryScreen: React.FC = () => {
 				date: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss")
 			}
 
-			console.log("≠≠≠≠≠≠≠≠dataOrder::", dataOrder)
-
 			dispatch(jobActions.orderSent({idJob: jobId, dataOrder }));
-			setIdOfOrder(orderId)
-		}})
-	const { mutate: sharedMaterialOrder, isLoading: loadingSharedMaterial, } = useSendToStore({
-		onSuccess: () => {
-			const jobId = route.params.jobId;
 			navigation.navigate(RoutesJob.ORDER_SUBMITTED, {jobId})
 		},
 	});
