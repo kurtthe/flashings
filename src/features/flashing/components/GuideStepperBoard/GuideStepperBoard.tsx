@@ -40,7 +40,7 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onFinish, step,onChangeOp
 
 	return (
 		<Box style={styles.container} width="100%" p="m">
-			<Card variant="guide" p="s">
+			<Card variant="guide" p="s" width="70%">
 				<Text variant="bodyBold" textAlign="center">{title}</Text>
 				{description && <Text variant="bodyRegular" textAlign="center">{description}</Text>}
 			</Card>

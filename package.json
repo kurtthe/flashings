@@ -32,6 +32,7 @@
     "formik": "^2.4.2",
     "libphonenumber-js": "^1.10.39",
     "lodash": "^4.17.21",
+    "lottie-react-native": "^6.4.1",
     "metro-config": "^0.77.0",
     "patch-package": "^8.0.0",
     "react": "18.2.0",

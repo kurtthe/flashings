@@ -210,7 +210,7 @@ const Board: React.FC<Props> = ({
           changeMode={changeStepBoard}
         />
       </Box>}
-      {stepBoard === getIndexOfStepForName('end_type') && (<Box height={480} position="absolute" width="100%" bottom={0}>
+      {stepBoard === getIndexOfStepForName('end_type') && (<Box height={380} position="absolute" width="100%" bottom={0}>
         <Box
           as={BaseTouchable}
           onPress={()=> {
