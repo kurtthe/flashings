@@ -90,9 +90,7 @@ const JobDetailsScreen = () => {
           { item.contact.name && <Text variant="bodyBold"  my="xxs">Contact Name: <Text variant="bodyRegular">{item.contact.name}</Text></Text>}
           {item.contact.email && <Text variant="bodyBold"  my="xxs">Contact Email: <Text variant="bodyRegular">{item.contact.email}</Text></Text>}
           {item.contact.number && <Text variant="bodyBold"  my="xxs">Contact Phone: <Text variant="bodyRegular">{item.contact.number}</Text></Text>}
-
-          {item.orderData && <Text  variant="subheadSmallBold"  my="s">Order Sent</Text>}
-
+          {item.orderData && <Text  variant="subheadSmallBold"  my="xs">Order Sent</Text>}
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Order Number: <Text variant="bodyRegular">{item.orderData.orderNumber}</Text></Text>}
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Store: <Text variant="bodyRegular">{item.orderData.store}</Text></Text>}
           {item.orderData && <Text  variant="bodyBold"  my="xxs">Sent: <Text variant="bodyRegular">{item.orderData.date}</Text></Text>}

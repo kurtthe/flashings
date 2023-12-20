@@ -46,6 +46,8 @@ const OrderSummaryScreen: React.FC = () => {
 				date: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss")
 			}
 
+			console.log("≠≠≠≠≠≠≠≠dataOrder::", dataOrder)
+
 			dispatch(jobActions.orderSent({idJob: jobId, dataOrder }));
 			setIdOfOrder(orderId)
 		}})
