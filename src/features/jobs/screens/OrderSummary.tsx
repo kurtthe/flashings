@@ -35,9 +35,9 @@ const OrderSummaryScreen: React.FC = () => {
 	const {data: dataSupplier, isLoading: loadingSupplier} = useGetSupplier()
 
 	const {mutate: doMaterialOrder}= useCreateMaterial({onSuccess: (data)=> {
-			if(!storeSelected) return;
 			const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number
 			const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id
+
 			setOrderNumber(orderNumber)
 			setIdOfOrder(orderId)
 		}})
