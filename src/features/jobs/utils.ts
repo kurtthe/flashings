@@ -2,8 +2,8 @@
 import { DATA_MATERIAL_ORDER, FLASHINGS_DATA, JOB_DATA, MATERIALS, RESPONSE_COMPANY_ACCOUNT, STORE } from "@models";
 import { OptionsType } from "@ui/components";
 import { dataMaterials } from "@store/jobs/mocks";
-import { imageToBase64 } from "@shared/utils";
 import { DATA_BUILD_MATERIAL_ORDER } from "@features/jobs/types";
+import { formatDate } from "@shared/utils/formatDate";
 
 export const storesToOption = (data:STORE[]): OptionsType[] => {
 	return data.map((store) => ({
@@ -88,6 +88,7 @@ export const mapDataJobToDataPetition = (dataJob:JOB_DATA, dataAccountCompany: R
 		name: dataJob.contact.name,
 		email: dataJob.contact.email,
 		phone: dataJob.contact.number,
+		order_date: formatDate(new Date(), "YYYY-MM-DD"),
 		...restData
 	}
 }
