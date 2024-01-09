@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, FlatList, Linking } from "react-native";
+import { ActivityIndicator, FlatList } from "react-native";
 import { Box, Icon, IconButton, ScrollBox, Text } from "@ui/components";
 import { Routes } from '@features/flashing/navigation/routes';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
@@ -69,11 +69,6 @@ const JobDetailsScreen = () => {
       params
     });
   };
-
-  const handleOpenLink = () => {
-    if(!item || !item.orderData) return;
-    Linking.openURL(item.orderData.urlPdf).catch((err)=> console.log("error opening URL:", err))
-  }
 
   if(!item || !dataAccountCompany){
     return (
