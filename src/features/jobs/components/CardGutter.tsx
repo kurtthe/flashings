@@ -40,7 +40,7 @@ const CardGutterComponent: React.FC<Props> = ({data, onAddLength, jobId, ...rest
               <Text variant="bodySmallRegular">
                 {item.length}mm x {item.qty}
               </Text>
-              {(data.flashingLengths.length ===  (index +1)) && <Button variant="textSmall" onPress={() => setVisibleModalLength(true)}>
+              {(data.flashingLengths.length ===  (index +1)) && <Button isDisabled={data.flashingLengths.length > 7} variant="textSmall" onPress={() => data.flashingLengths.length > 7? null: setVisibleModalLength(true)}>
                 +ADD LENGTH
               </Button>
               }
