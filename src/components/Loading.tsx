@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Text } from "@ui/components";
-import { Image } from "react-native";
+import { lotties } from "@assets/lotties";
+import LottieView from 'lottie-react-native';
 
 type Props = {
 	title?: string;
@@ -8,9 +9,9 @@ type Props = {
 const Loading: React.FC<Props> = ({title}) => {
 	return (
 		<Box flex={1} alignItems="center" justifyContent="center" backgroundColor="white">
-			<Box mb="2xl" alignItems="center">
-				<Image source={require("@assets/images/loading.gif")}  />
-				{title && <Text textAlign="center" mt="4xl" variant="subheadBold">{title}</Text>}
+			<Box mb="6xl" alignItems="center">
+				<LottieView source={lotties.loading} autoPlay loop style={{ width: 300, height: 300}}  />
+				{title && <Text textAlign="center"  variant="subheadBold">{title}</Text>}
 			</Box>
 		</Box>
 	)

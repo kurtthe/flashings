@@ -3,6 +3,7 @@ import Pdf from "react-native-pdf";
 import { Button, Icon, IconButton } from "@ui/components";
 import Share from "react-native-share";
 import { ShareIcon } from "@assets/icons";
+import { isAndroid } from "@shared/platform";
 
 type Props = {
 	urlIdPdf: string;
@@ -10,11 +11,11 @@ type Props = {
 	shareSmall?: boolean;
 }
 const PDFShared: React.FC<Props> = ({namePdf, urlIdPdf, shareSmall}) => {
-	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>()
+	const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>();
 	const handleShare = ()=> {
 		Share.open({
 			title: "Share PDF flashing",
-			url: urlPdfLocal,
+			url: isAndroid? urlIdPdf: urlPdfLocal,
 			type: 'pdf',
 			filename: `${namePdf}.pdf`,
 			showAppsToView: true,
