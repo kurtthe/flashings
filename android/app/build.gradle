@@ -78,8 +78,8 @@ android {
         applicationId "com.flashings"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
-        versionName "11.0"
+        versionCode 12
+        versionName "12.0"
     }
     signingConfigs {
         debug {
