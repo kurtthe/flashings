@@ -29,7 +29,8 @@ export const createJobAndFlashings = async ({ dataJobAndFlashing }: {dataJobAndF
 	const credentials = '53eAdpfCR3ZPfHJthoUxWNA7:';
 	const base64Credentials = Buffer.from(credentials).toString('base64');
 	const response = await axios.post(endPoints.createJobAndFlashing, {
-		template_id: "BLAN946943",
+		template_id: "BLAN309970",
+		landscape: true,
 		data: dataJobAndFlashing
 	}, {
 		headers: {
