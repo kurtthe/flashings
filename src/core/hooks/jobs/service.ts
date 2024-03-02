@@ -25,11 +25,25 @@ export const getStores = async (): Promise<STORE[]>=> {
 	return Promise.resolve(response.body.locations)
 }
 
-export const createJobAndFlashings = async ({ dataJobAndFlashing }: {dataJobAndFlashing:any}):Promise<RESPONSE_CREATE_AND_FLASHING> => {
+export const createJobAndFlashings = async ({ dataJobAndFlashing, howManyFlashings=1 }: {dataJobAndFlashing:any, howManyFlashings?:number}):Promise<RESPONSE_CREATE_AND_FLASHING> => {
+	let template_id = "BLAN309970"
+
+	console.log("howManyFlashings::", howManyFlashings)
+
+	if(howManyFlashings >= 4 && howManyFlashings <=6){
+		template_id = "BLAN321701"
+	}else if(howManyFlashings >= 7 && howManyFlashings <= 9){
+		template_id = "BLAN935154"
+	}else if(howManyFlashings >= 10 && howManyFlashings <= 12){
+		template_id = "BLAN823895"
+	}else if(howManyFlashings >= 13 && howManyFlashings <= 15){
+		template_id = "BLAN384760"
+	}
+
 	const credentials = '53eAdpfCR3ZPfHJthoUxWNA7:';
 	const base64Credentials = Buffer.from(credentials).toString('base64');
 	const response = await axios.post(endPoints.createJobAndFlashing, {
-		template_id: "BLAN309970",
+		template_id: template_id,
 		landscape: true,
 		data: dataJobAndFlashing
 	}, {
