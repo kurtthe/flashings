@@ -118,7 +118,8 @@ const JobDetailsScreen = () => {
             disabledAddFlashing={item.flashings.length === 6}
             onPreview={()=> {
               createJob({
-                dataJobAndFlashing: mapDataJobToDataPetition(item, dataAccountCompany)
+                dataJobAndFlashing: mapDataJobToDataPetition(item, dataAccountCompany),
+                howManyFlashings: item.flashings.length
               })
             }
             }
