@@ -105,7 +105,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({labelButton, idJob, dataF
 					          }
 				          </ScrollBox>
 									<Button
-										isDisabled={values.flashingLengths?.length === 15}
+										isDisabled={values.flashingLengths?.length === 8}
 										variant="outlineWhite"
 										mt="2xl"
 										onPress={() =>

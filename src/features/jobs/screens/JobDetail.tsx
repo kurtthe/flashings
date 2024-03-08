@@ -115,7 +115,7 @@ const JobDetailsScreen = () => {
           <SectionsButtonsJobsDetails
             loadingPreview={isLoading}
             showPreview={item.flashings.length > 0}
-            disabledAddFlashing={item.flashings.length === 6}
+            disabledAddFlashing={item.flashings.length === 15}
             onPreview={()=> {
               createJob({
                 dataJobAndFlashing: mapDataJobToDataPetition(item, dataAccountCompany),
