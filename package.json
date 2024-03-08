@@ -13,6 +13,7 @@
     "ios:dev": "concurrently --raw 'react-native run-ios --no-packager --simulator=\"iPhone 14 Pro\"' 'yarn start'",
     "android:dev": "concurrently --raw \"react-native run-android --no-packager\" \"yarn start\"",
     "compile": "tsc --incremental --tsBuildInfoFile ../../.build-cache/mobile.tsbuildinfo",
+    "android:build": "npx react-native build-android --mode=release",
     "postinstall": "patch-package"
   },
   "dependencies": {
