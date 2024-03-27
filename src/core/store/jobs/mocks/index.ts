@@ -1,4 +1,4 @@
-import {  MATERIALS } from "@models";
+import { MATERIALS } from '@models';
 
 export const dataMaterials: MATERIALS[] = [
   {
@@ -18,7 +18,6 @@ export const dataMaterials: MATERIALS[] = [
     textColor: 'black',
     bold: false,
     disabled: false,
-
   },
   {
     id: 3,
@@ -58,7 +57,7 @@ export const dataMaterials: MATERIALS[] = [
   },
   {
     id: 7,
-    value: 'Cottage green',
+    value: 'Cottage Green',
     label: 'Cottage Green®',
     bgColor: '#344c3d',
     textColor: 'white',
@@ -289,5 +288,5 @@ export const dataMaterials: MATERIALS[] = [
     textColor: 'black',
     bold: false,
     disabled: false,
-  }
+  },
 ];
