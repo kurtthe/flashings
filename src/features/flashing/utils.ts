@@ -236,14 +236,6 @@ export const calculatePointHalf = (line: LINE_TYPE): POINT_TYPE => {
   return [round(xPoint, 0), round(yPoint, 0)];
 };
 
-export const positionEndLine = (line1: LINE_TYPE): POINT_TYPE => {
-  return [line1.points[1][0] + 5, line1.points[1][1] + 5];
-};
-
-export const positionAngleRect = (line1: LINE_TYPE): POINT_TYPE => {
-  return [line1.points[1][0] + 5, line1.points[1][1] + 5];
-};
-
 export const buildPathLine = (
   points: LINE_TYPE['points'],
   curseLine: shape.CurveFactory = shape.curveLinear,

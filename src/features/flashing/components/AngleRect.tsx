@@ -3,15 +3,16 @@ import { Rect } from 'react-native-svg';
 type Props = {
   positionX: number;
   positionY: number;
+  size?: number;
 };
 
-const AngleRect: React.FC<Props> = ({ positionY, positionX }) => {
+const AngleRect: React.FC<Props> = ({ positionY, positionX, size = 15 }) => {
   return (
     <Rect
       x={positionX}
       y={positionY}
-      width={15}
-      height={15}
+      width={size}
+      height={size}
       fill="white"
       stroke="black"
     />

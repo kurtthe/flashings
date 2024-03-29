@@ -1,8 +1,11 @@
 import React from 'react';
 import { LINE_TYPE } from '@models';
-import { positionAngleRect, positionEndLine } from '@features/flashing/utils';
 import AngleRect from '@features/flashing/components/AngleRect';
 import TextSvg from '@features/flashing/components/TextSvg';
+import {
+  getPositionRectAngle,
+  getPositionTextAngle,
+} from '@features/flashing/components/Angle/utils';
 
 type Props = {
   id: any;
@@ -22,16 +25,19 @@ const AngleComponent: React.FC<Props> = ({
   if (!visible) return null;
 
   if (angle === 90) {
-    const angleRectPosition = positionAngleRect(line);
+    const sizeRect = 15;
+
+    const angleRectPosition = getPositionRectAngle({ line, sizeRect });
     return (
       <AngleRect
+        size={sizeRect}
         positionX={angleRectPosition[0]}
         positionY={angleRectPosition[1]}
       />
     );
   }
 
-  const positionTextAngle = positionEndLine(line);
+  const positionTextAngle = getPositionTextAngle(line);
   return (
     <TextSvg
       id={id}
