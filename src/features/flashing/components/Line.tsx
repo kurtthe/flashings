@@ -4,12 +4,10 @@ import {
   buildPathLine,
   calculatePointHalf,
   getIndexOfStepForName,
-  positionAngleRect,
-  positionEndLine,
 } from '@features/flashing/utils';
 import { G, Path as PathComponent } from 'react-native-svg';
 import TextSvg from '@features/flashing/components/TextSvg';
-import AngleComponent from '@features/flashing/components/Angle';
+import AngleComponent from '@features/flashing/components/Angle/Angle';
 
 type Props = BUILD_LINE & {
   angle: number;
