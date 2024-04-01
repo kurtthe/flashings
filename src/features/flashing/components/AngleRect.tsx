@@ -4,9 +4,17 @@ type Props = {
   positionX: number;
   positionY: number;
   size?: number;
+  color?: string;
+  borderWidth?: number;
 };
 
-const AngleRect: React.FC<Props> = ({ positionY, positionX, size = 15 }) => {
+const AngleRect: React.FC<Props> = ({
+  positionY,
+  positionX,
+  size = 15,
+  color = 'black',
+  borderWidth = 1,
+}) => {
   return (
     <Rect
       x={positionX}
@@ -14,7 +22,8 @@ const AngleRect: React.FC<Props> = ({ positionY, positionX, size = 15 }) => {
       width={size}
       height={size}
       fill="white"
-      stroke="black"
+      stroke={color}
+      strokeWidth={borderWidth}
     />
   );
 };
