@@ -23,7 +23,7 @@ export const drawLines = ({
 }): DREW_LINE_TYPE[] => {
   if (lines.length < 1) return [];
 
-  return lines.map((line, index) => {
+  return lines.map((line, index, arrayLines) => {
     return {
       ...line,
       path:

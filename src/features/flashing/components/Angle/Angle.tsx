@@ -27,7 +27,10 @@ const AngleComponent: React.FC<Props> = ({
   if (angle === 90) {
     const sizeRect = 15;
 
-    const angleRectPosition = getPositionRectAngle({ line, sizeRect });
+    const angleRectPosition = getPositionRectAngle({
+      line,
+      sizeRect,
+    });
     return (
       <AngleRect
         size={sizeRect}
