@@ -18,8 +18,25 @@ export const getPositionRectAngle = ({
   const pointY1 = points[0][1];
   const pointY2 = points[1][1];
 
-  const dataY = pointY1 > pointY2 ? pointY1 + sizeRect : pointY2 - sizeRect;
-  const dataX = pointX2 > pointX1 ? pointX2 - sizeRect : pointX1 + sizeRect;
+  const isHorizontal = pointY1 === pointY2;
+  const isVertical = pointX1 === pointX2;
+
+  const dataY = pointY2;
+  const dataX = pointX2 > pointX1 ? pointX2 : pointX1;
+
+  if (isHorizontal) {
+    if (pointX1 > pointX2) {
+      return [dataX, dataY + sizeRect];
+    }
+    return [dataX - sizeRect, dataY - sizeRect];
+  }
+
+  if (isVertical) {
+    if (pointY1 > pointY2) {
+      return [dataX, dataY];
+    }
+    return [dataX, dataY - sizeRect];
+  }
 
   return [dataX, dataY];
 };
