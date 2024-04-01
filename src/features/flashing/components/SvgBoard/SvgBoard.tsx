@@ -56,7 +56,7 @@ const SvgBoard: React.FC<Props> = ({
       {!removeGrid && <GridComponent />}
       {renderTypeEndStartLines()}
       {graphs.map(({ points, path: LineComponent, isLine }, index) => (
-        <React.Fragment key={`${Math.random()}`}>
+        <React.Fragment key={`graphs-${index}-${Math.random()}`}>
           {pathParallel && (
             <PathComponent
               d={serialize(pathParallel)}
@@ -69,7 +69,6 @@ const SvgBoard: React.FC<Props> = ({
           {LineComponent}
           {isDraw && (
             <PointerComponent
-              key={`first-point-line${index}`}
               cx={points[0][0]}
               cy={points[0][1]}
               r={SIZE_POINTER}
@@ -82,10 +81,9 @@ const SvgBoard: React.FC<Props> = ({
             <>
               {graphs.length - 1 === index && !isDraw ? null : (
                 <PointerComponent
-                  key={`second-point-line${index}`}
                   cx={points[1][0]}
                   cy={points[1][1]}
-                  r={SIZE_POINTER}
+                  r={isDraw ? SIZE_POINTER : 0}
                   fill={colorPointer}
                   strokeWidth={borderWidth}
                   stroke={colorBorderPointer}
