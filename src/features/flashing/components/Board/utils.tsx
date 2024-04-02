@@ -37,6 +37,7 @@ export const drawLines = ({
               rightLinePaint,
               typeSelected,
               angle: anglesLines[index],
+              nextLine: arrayLines[index + 1],
             }}
           />
         ) : undefined,

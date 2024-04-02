@@ -13,6 +13,7 @@ type Props = {
   line: LINE_TYPE;
   isSelected: boolean;
   visible: boolean;
+  nextLine?: LINE_TYPE;
 };
 const AngleComponent: React.FC<Props> = ({
   id,
@@ -20,6 +21,7 @@ const AngleComponent: React.FC<Props> = ({
   angle,
   line,
   isSelected,
+  nextLine,
 }) => {
   const colorSelected = '#DEA000';
   if (!visible) return null;
@@ -30,6 +32,7 @@ const AngleComponent: React.FC<Props> = ({
     const angleRectPosition = getPositionRectAngle({
       line,
       sizeRect,
+      nextLine,
     });
     return (
       <AngleRect
