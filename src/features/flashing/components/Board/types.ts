@@ -1,13 +1,19 @@
 import { Dimensions } from 'react-native';
 import { ReactElement } from 'react';
-import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from "@models";
-export const STEPS_BOARD: MODES_BOARD[] = ['draw', 'side','measurements', 'end_type', 'finish'];
+import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from '@models';
+export const STEPS_BOARD: MODES_BOARD[] = [
+  'draw',
+  'side',
+  'measurements',
+  'end_type',
+  'finish',
+];
 
 export type MAKE_LINE = {
   lines: LINE_TYPE[];
   step: number;
   rightLinePaint?: boolean;
-  lineSelected: number
+  lineSelected: number;
 };
 
 export type BUILD_LINE = {
@@ -16,6 +22,7 @@ export type BUILD_LINE = {
   lineSelected: number;
   step: number;
   rightLinePaint?: boolean;
+  nextLine?: LINE_TYPE;
 };
 export const SIZE_POINTER = 4;
 export const SIZE_POINTER_LAST = 8;

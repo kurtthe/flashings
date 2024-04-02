@@ -1,32 +1,43 @@
 import React from 'react';
-import { Rect, Text } from "react-native-svg";
+import { Rect, Text } from 'react-native-svg';
 
 type Props = {
-  positionTextX : number;
-  positionTextY : number;
+  positionTextX: number;
+  positionTextY: number;
   positionTextXRect?: number;
   positionTextYRect?: number;
   id: number;
   textValue: string;
   fontSize?: number;
   colorLabel?: string;
-}
+};
 
-const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX, positionTextY, textValue,  id, positionTextXRect, positionTextYRect}) => {
+const TextSvg: React.FC<Props> = ({
+  fontSize = 14,
+  colorLabel = '#000',
+  positionTextX,
+  positionTextY,
+  textValue,
+  id,
+  positionTextXRect,
+  positionTextYRect,
+}) => {
   const [textWidth, setTextWidth] = React.useState(30);
 
   return (
     <>
-      {(positionTextXRect && positionTextYRect) && <Rect
-        width={textWidth}
-        height={fontSize + 3}
-        origin={`${positionTextX}, ${positionTextY}`}
-        fill="#fff"
-        y={positionTextYRect}
-        x={positionTextXRect}
-        rx={0}
-        ry={0}
-      />}
+      {positionTextXRect && positionTextYRect && (
+        <Rect
+          width={textWidth}
+          height={fontSize + 3}
+          origin={`${positionTextX}, ${positionTextY}`}
+          fill="#fff"
+          y={positionTextYRect}
+          x={positionTextXRect}
+          rx={0}
+          ry={0}
+        />
+      )}
       <Text
         onLayout={event => {
           setTextWidth(event.nativeEvent.layout.width + 8);
@@ -40,6 +51,6 @@ const TextSvg: React.FC<Props> = ({fontSize=14, colorLabel="#000", positionTextX
         {textValue}
       </Text>
     </>
-  )
-}
-export default  TextSvg
+  );
+};
+export default TextSvg;
