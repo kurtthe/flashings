@@ -4,10 +4,10 @@ import {
   buildPathLine,
   calculatePointHalf,
   getIndexOfStepForName,
-  positionEndLine,
 } from '@features/flashing/utils';
 import { G, Path as PathComponent } from 'react-native-svg';
 import TextSvg from '@features/flashing/components/TextSvg';
+import AngleComponent from '@features/flashing/components/Angle/Angle';
 
 type Props = BUILD_LINE & {
   angle: number;
@@ -20,9 +20,9 @@ const LineMadeComponent: React.FC<Props> = ({
   id,
   angle,
   typeSelected = 'line',
+  nextLine,
 }) => {
   const positionText = calculatePointHalf(line);
-  const positionTextAngle = positionEndLine(line);
   const measurementIndex = getIndexOfStepForName('measurements');
   const previewIndex = getIndexOfStepForName('preview');
   const isMeasurements = step === measurementIndex;
@@ -39,19 +39,16 @@ const LineMadeComponent: React.FC<Props> = ({
         strokeWidth={lineIsSelected && isMeasurements ? 2 : 1}
         stroke={lineIsSelected && isMeasurements ? colorSelected : '#000'}
       />
-      {(step >= measurementIndex || previewIndex === step) && angle > 0 && (
-        <TextSvg
-          id={id}
-          colorLabel={
-            angleIsSelected && isMeasurements ? colorSelected : '#000'
-          }
-          positionTextYRect={positionTextAngle[1] - 13}
-          positionTextXRect={positionTextAngle[0] + 5}
-          positionTextX={positionTextAngle[0] + 20}
-          positionTextY={positionTextAngle[1]}
-          textValue={`${angle}°`}
-        />
-      )}
+      <AngleComponent
+        id={`angleLine${id}`}
+        visible={
+          (step >= measurementIndex || previewIndex === step) && angle > 0
+        }
+        angle={angle}
+        line={line}
+        isSelected={angleIsSelected && isMeasurements}
+        nextLine={nextLine}
+      />
       {(step >= measurementIndex ||
         (previewIndex === step && !!line.distance)) && (
         <TextSvg
