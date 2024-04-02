@@ -46,15 +46,25 @@ export const getPositionRectAngle = ({
   }
 
   if (isHorizontal) {
-    const lastPointNextLine = nextPoints[1][1];
+    const lastPointNextLineX = nextPoints[1][0];
+    const lastPointNextLineY = nextPoints[1][1];
     const isToRight = pointX2 > pointX1;
 
     let dataPositionX = isToRight ? dataX - sizeRect : dataX;
     let dataPositionY = dataY;
 
-    if (pointY2 > lastPointNextLine) {
+    if (pointY2 > lastPointNextLineY) {
       dataPositionY = dataPositionY - sizeRect;
     }
+
+    if (pointX2 === lastPointNextLineX) {
+      dataPositionX = lastPointNextLineX;
+    }
+
+    if (pointX2 > pointX1) {
+      dataPositionX = lastPointNextLineX - sizeRect;
+    }
+
     return [dataPositionX, dataPositionY];
   }
 
