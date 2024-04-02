@@ -20,6 +20,7 @@ const LineMadeComponent: React.FC<Props> = ({
   id,
   angle,
   typeSelected = 'line',
+  nextLine,
 }) => {
   const positionText = calculatePointHalf(line);
   const measurementIndex = getIndexOfStepForName('measurements');
@@ -39,13 +40,14 @@ const LineMadeComponent: React.FC<Props> = ({
         stroke={lineIsSelected && isMeasurements ? colorSelected : '#000'}
       />
       <AngleComponent
-        id={id}
+        id={`angleLine${id}`}
         visible={
           (step >= measurementIndex || previewIndex === step) && angle > 0
         }
         angle={angle}
         line={line}
         isSelected={angleIsSelected && isMeasurements}
+        nextLine={nextLine}
       />
       {(step >= measurementIndex ||
         (previewIndex === step && !!line.distance)) && (

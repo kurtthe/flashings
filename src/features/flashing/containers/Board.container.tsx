@@ -1,78 +1,83 @@
 import React from 'react';
-import ViewShot from "react-native-view-shot";
+import ViewShot from 'react-native-view-shot';
 import {
   BoardComponent,
   LINE_SELECTED,
-  MenuEditorComponent
-} from "@features/flashing/components";
+  MenuEditorComponent,
+} from '@features/flashing/components';
 import {
   calculateAngle,
   calculatePending,
-  calculateSizeLine, getIndexOfStepForName,
+  calculateSizeLine,
+  getIndexOfStepForName,
   getLastPoint,
-  validateLineComplete
-} from "@features/flashing/utils";
-import GuideStepperBoardComponent from "@features/flashing/components/GuideStepperBoard";
-import Alert from "@services/general-request/alert";
+  validateLineComplete,
+} from '@features/flashing/utils';
+import GuideStepperBoardComponent from '@features/flashing/components/GuideStepperBoard';
+import Alert from '@services/general-request/alert';
 import {
   TYPE_ACTIONS_STEP,
-  VALUE_ACTIONS
-} from "@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type";
-import { LINE_TYPE,  POINT_TYPE, TYPE_END_LINES } from "@models";
-import { useAppDispatch, useAppSelector } from "@hooks/useStore";
-import { actions as flashingActions } from "@store/jobs/actions";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import {Routes as RoutesJobs } from "@features/jobs/navigation/routes";
-import {Routes as RoutesFlashing } from "@features/flashing/navigation/routes";
-import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
-import { StackPrivateDefinitions, StackPrivateProps } from "@routes/PrivateNavigator";
-import { jobData } from "@store/jobs/selectors";
-import { isAndroid } from "@shared/platform";
-import { useKeyboardVisibility } from "@hooks/useKeyboardVisibility";
+  VALUE_ACTIONS,
+} from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
+import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from '@models';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import { actions as flashingActions } from '@store/jobs/actions';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
+import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
+import { FlashingParamsList } from '@features/flashing/navigation/Stack.types';
+import {
+  StackPrivateDefinitions,
+  StackPrivateProps,
+} from '@routes/PrivateNavigator';
+import { jobData } from '@store/jobs/selectors';
+import { isAndroid } from '@shared/platform';
+import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
 import alert from '@services/general-request/alert';
-import { imageToBase64, isBase64 } from "@shared/utils";
-
+import { imageToBase64, isBase64 } from '@shared/utils';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
-  const navigation  = useNavigation<StackPrivateProps>()
-  const route = useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
+  const navigation = useNavigation<StackPrivateProps>();
+  const route =
+    useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
 
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
-  const [stepBoard, setStepBoard] = React.useState(0)
+  const [stepBoard, setStepBoard] = React.useState(0);
   const [blueLineIsRight, setBlueLineIsRight] = React.useState(true);
-  const [startTypeLine, setStartTypeLine] = React.useState<TYPE_END_LINES>('none')
-  const [endTypeLine, setEndTypeLine] = React.useState<TYPE_END_LINES>('none')
+  const [startTypeLine, setStartTypeLine] =
+    React.useState<TYPE_END_LINES>('none');
+  const [endTypeLine, setEndTypeLine] = React.useState<TYPE_END_LINES>('none');
 
-  const dataJob = useAppSelector((state) => jobData(state, route.params?.jobId));
-  const refViewShot = React.useRef<ViewShot>();
-  const showKeyboard = useKeyboardVisibility({})
+  const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
+  const refViewShot = React.createRef<ViewShot>();
+  const showKeyboard = useKeyboardVisibility({});
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     const dataFlashing = route.params.data;
-    if(dataFlashing.dataLines.length > 0){
+    if (dataFlashing.dataLines.length > 0) {
       setLines(dataFlashing.dataLines);
       setBlueLineIsRight(dataFlashing.parallelRight);
       setStartTypeLine(dataFlashing.startType);
       setEndTypeLine(dataFlashing.endType);
       return;
     }
-    setLines([])
-  }, [route.params.data])
+    setLines([]);
+  }, [route.params.data]);
 
-  React.useEffect(()=> {
-    setAnglesLines([])
-    if(lines.length < 2) return
+  React.useEffect(() => {
+    setAnglesLines([]);
+    if (lines.length < 2) return;
 
-    const newAngles = lines.map((line, index, arrayLines)=> {
-      if(!anglesLines[index]){
-        return calculateAngle(line, arrayLines[index + 1])?? 0
+    const newAngles = lines.map((line, index, arrayLines) => {
+      if (!anglesLines[index]) {
+        return calculateAngle(line, arrayLines[index + 1]) ?? 0;
       }
-      return anglesLines[index]
-    })
-    setAnglesLines(newAngles)
-  }, [lines, lines.length])
+      return anglesLines[index];
+    });
+    setAnglesLines(newAngles);
+  }, [lines, lines.length]);
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -87,10 +92,10 @@ const BoardContainer = () => {
     const lineComplete = validateLineComplete(lines);
     const lastPoint = getLastPoint(lines);
 
-    const validAddNewPoint = lines.find((line)=> {
-      return JSON.stringify(line.points[0]) === JSON.stringify(newPoint)
-    })
-    if(validAddNewPoint) return
+    const validAddNewPoint = lines.find(line => {
+      return JSON.stringify(line.points[0]) === JSON.stringify(newPoint);
+    });
+    if (validAddNewPoint) return;
 
     const dataLine: LINE_TYPE = {
       points: [lastPoint, newPoint],
@@ -108,30 +113,30 @@ const BoardContainer = () => {
   const handleUndo = () => {
     const newPointCoordinates = lines.slice(0, -1);
     const newAngles = anglesLines.slice(0, -1);
-    if(newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine){
-      setStepBoard(getIndexOfStepForName('draw'))
+    if (newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine) {
+      setStepBoard(getIndexOfStepForName('draw'));
     }
     setLines(newPointCoordinates);
-    setAnglesLines(newAngles)
+    setAnglesLines(newAngles);
   };
 
   const handleBack = () => {
     const newStep = stepBoard - 1;
-    if(newStep < 0) return;
-    setStepBoard(newStep)
+    if (newStep < 0) return;
+    setStepBoard(newStep);
   };
 
   const handleNext = () => {
-    if(stepBoard === getIndexOfStepForName('finish')){
-      handleSave()
-      return
+    if (stepBoard === getIndexOfStepForName('finish')) {
+      handleSave();
+      return;
     }
 
-    if(lines.length === 0 || !lines[0].isLine){
-      return Alert.show("Please draw a line", "")
+    if (lines.length === 0 || !lines[0].isLine) {
+      return Alert.show('Please draw a line', '');
     }
-    const newStep = stepBoard + 1
-    setStepBoard(newStep)
+    const newStep = stepBoard + 1;
+    setStepBoard(newStep);
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
     const linesUpdated = lines.map((line, index) => {
@@ -147,110 +152,123 @@ const BoardContainer = () => {
   };
 
   const handleClear = () => {
-    setStartTypeLine("none")
-    setEndTypeLine("none")
+    setStartTypeLine('none');
+    setEndTypeLine('none');
     setLines([]);
-    setAnglesLines([])
-    setStepBoard(getIndexOfStepForName('draw'))
+    setAnglesLines([]);
+    setStepBoard(getIndexOfStepForName('draw'));
   };
 
   const finishSteps = () => {
     console.log('on finish steps::');
-  }
+  };
 
-  const changeSettingsBoard = (newSettings: VALUE_ACTIONS) =>{
-    const sideBlueLine = newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase()
+  const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
+    const sideBlueLine =
+      newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
     setBlueLineIsRight(sideBlueLine === 'right');
-  }
+  };
 
-  const handleUpdateAngle = (newAngle:number, positionAngle:number) => {
+  const handleUpdateAngle = (newAngle: number, positionAngle: number) => {
     const anglesUpdated = anglesLines.map((angle, index) => {
-      if(index === positionAngle ){
-        return newAngle
+      if (index === positionAngle) {
+        return newAngle;
       }
-      return angle
-    })
+      return angle;
+    });
     setAnglesLines(anglesUpdated);
-  }
+  };
 
-  const handleSave = ()=>{
-    (async ()=> {
-      if(!refViewShot.current) return;
+  const handleSave = () => {
+    (async () => {
+      if (!refViewShot.current) return;
 
-      const dataFlashing = route.params.data
-      const idJob = route.params?.jobId
+      const dataFlashing = route.params.data;
+      const idJob = route.params?.jobId;
       // @ts-ignore
-      refViewShot.current.capture().then(async (uriScreen)=>{
-        const dataB64Preview =  await imageToBase64(uriScreen)
+      refViewShot.current
+        .capture()
+        .then(async uriScreen => {
+          const dataB64Preview = await imageToBase64(uriScreen);
 
-        dispatch(flashingActions.addEditFlashing({
-          idJob,
-          flashing: {
-            ...dataFlashing,
-            dataLines: lines,
-            parallelRight:blueLineIsRight,
-            angles: anglesLines,
-            endType: endTypeLine,
-            startType:startTypeLine,
-            imgPreview: `data:image/png;base64,${dataB64Preview}`
-          }}));
+          dispatch(
+            flashingActions.addEditFlashing({
+              idJob,
+              flashing: {
+                ...dataFlashing,
+                dataLines: lines,
+                parallelRight: blueLineIsRight,
+                angles: anglesLines,
+                endType: endTypeLine,
+                startType: startTypeLine,
+                imgPreview: `data:image/png;base64,${dataB64Preview}`,
+              },
+            }),
+          );
 
-        navigation.navigate(StackPrivateDefinitions.JOBS, {
-          screen: RoutesJobs.JOB_DETAILS,
-          params: {
-            jobId: idJob,
-            jobName: dataJob?.name
-          }
+          navigation.navigate(StackPrivateDefinitions.JOBS, {
+            screen: RoutesJobs.JOB_DETAILS,
+            params: {
+              jobId: idJob,
+              jobName: dataJob?.name,
+            },
+          });
+        })
+        .catch(error => {
+          console.log('error: screenshot', error);
+          alert.show('Error', 'Snapshot failed');
         });
-      }).catch((error)=>{
-        console.log("error: screenshot", error)
-        alert.show("Error", "Snapshot failed")
-      })
-
-
-    })()
-  }
+    })();
+  };
   return (
     <>
-      {stepBoard !== getIndexOfStepForName('screen_shot') &&  <GuideStepperBoardComponent step={stepBoard} onFinish={finishSteps} onChangeOption={changeSettingsBoard} />}
+      {stepBoard !== getIndexOfStepForName('screen_shot') && (
+        <GuideStepperBoardComponent
+          step={stepBoard}
+          onFinish={finishSteps}
+          onChangeOption={changeSettingsBoard}
+        />
+      )}
       <ViewShot
         ref={refViewShot}
         options={{ fileName: `flashing-shot${Math.random()}`, quality: 0.9 }}
         captureMode="mount"
-        onCaptureFailure={(error)=> Alert.show('Error for preview', error.message) }
-      >
-      <BoardComponent
-        rightLinePaint={blueLineIsRight}
-        lines={lines}
-        changeStepBoard={setStepBoard}
-        onAddPoint={handleAddPoint}
-        onUpdatePoint={handleUpdatePoint}
-        onSave={handleSave}
-        stepBoard={stepBoard}
-        angles={anglesLines}
-        updateAngle={handleUpdateAngle}
-        startTypeLine={startTypeLine}
-        endTypeLine={endTypeLine}
-        changeStartTypeLine={setStartTypeLine}
-        changeEndTypeLine={setEndTypeLine}
-      />
+        onCaptureFailure={error =>
+          Alert.show('Error for preview', error.message)
+        }>
+        <BoardComponent
+          rightLinePaint={blueLineIsRight}
+          lines={lines}
+          changeStepBoard={setStepBoard}
+          onAddPoint={handleAddPoint}
+          onUpdatePoint={handleUpdatePoint}
+          onSave={handleSave}
+          stepBoard={stepBoard}
+          angles={anglesLines}
+          updateAngle={handleUpdateAngle}
+          startTypeLine={startTypeLine}
+          endTypeLine={endTypeLine}
+          changeStartTypeLine={setStartTypeLine}
+          changeEndTypeLine={setEndTypeLine}
+        />
       </ViewShot>
-      {isAndroid && showKeyboard && stepBoard === getIndexOfStepForName("measurements")?
-        null:
-        (
-          <MenuEditorComponent
-            disabledBack={stepBoard === getIndexOfStepForName("draw")}
-            disabledNext={stepBoard === getIndexOfStepForName("finish")}
-            disabledUndo={lines.length === 0 || stepBoard !== getIndexOfStepForName("draw")}
-            disabledEraser={lines.length === 0}
-            disabledLibrary={true}
-            onUndo={handleUndo}
-            onBack={handleBack}
-            onNext={handleNext}
-            onEraser={handleClear}
-          />
-        )
-      }
+      {isAndroid &&
+      showKeyboard &&
+      stepBoard === getIndexOfStepForName('measurements') ? null : (
+        <MenuEditorComponent
+          disabledBack={stepBoard === getIndexOfStepForName('draw')}
+          disabledNext={stepBoard === getIndexOfStepForName('finish')}
+          disabledUndo={
+            lines.length === 0 || stepBoard !== getIndexOfStepForName('draw')
+          }
+          disabledEraser={lines.length === 0}
+          disabledLibrary={true}
+          onUndo={handleUndo}
+          onBack={handleBack}
+          onNext={handleNext}
+          onEraser={handleClear}
+        />
+      )}
     </>
   );
 };

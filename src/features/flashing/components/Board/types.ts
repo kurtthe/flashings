@@ -22,6 +22,7 @@ export type BUILD_LINE = {
   lineSelected: number;
   step: number;
   rightLinePaint?: boolean;
+  nextLine?: LINE_TYPE;
 };
 export const SIZE_POINTER = 4;
 export const SIZE_POINTER_LAST = 8;
