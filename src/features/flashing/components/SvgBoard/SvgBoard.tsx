@@ -41,6 +41,7 @@ const SvgBoard: React.FC<Props> = ({
   const isDraw = step === getIndexOfStepForName('draw');
 
   const renderTypeEndStartLines = () => {
+    if (graphs.length <= 0 || !graphs[0].isLine) return null;
     return getEndStartTypeLine({
       typeEnd: typeEndLine,
       typeStart: typeStartLine,
