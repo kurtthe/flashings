@@ -41,12 +41,12 @@ const SvgBoard: React.FC<Props> = ({
   const isDraw = step === getIndexOfStepForName('draw');
 
   const renderTypeEndStartLines = () => {
-    if (graphs.length < 2) return null;
+    if (graphs.length <= 0 || !graphs[0].isLine) return null;
     return getEndStartTypeLine({
       typeEnd: typeEndLine,
       typeStart: typeStartLine,
       lineStart: graphs[0],
-      lineEnd: graphs[graphs.length - 1],
+      lineEnd: graphs.length < 2 ? graphs[0] : graphs[graphs.length - 1],
       isRightBlueLine: isRight,
     });
   };
