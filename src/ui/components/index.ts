@@ -9,7 +9,6 @@ export { default as Box } from './Box';
 export type { ScrollBoxProps } from './ScrollBox';
 export { default as ScrollBox } from './ScrollBox';
 export { default as HeaderBox } from './HeaderBox';
-export { default as AppStatusBar } from './AppStatusBar';
 export type { KeyboardAvoidingBoxProps } from './KeyboardAvoidingBox';
 export { default as KeyboardAvoidingBox } from './KeyboardAvoidingBox';
 export { default as HeaderBackButton } from './HeaderBackButton';
@@ -27,7 +26,5 @@ export type { BaseTouchableProps } from './BaseTouchable';
 export { default as BaseTouchable } from './BaseTouchable';
 export type { CardProps } from './Card';
 export { default as Card } from './Card';
-export {default as SelectInput} from './SelectInput/SelectInput';
-export type { SelectInputProps, OptionsType} from './SelectInput';
-export {default as ScreenHeaderBox} from './HeaderBox'
-export type {ScreenHeaderBoxProps} from './HeaderBox'
+export { default as SelectInput } from './SelectInput/SelectInput';
+export type { SelectInputProps, OptionsType } from './SelectInput';

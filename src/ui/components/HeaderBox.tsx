@@ -1,19 +1,20 @@
 import * as React from 'react';
-import { Platform, StyleSheet } from "react-native";
+import { Platform, StyleSheet } from 'react-native';
 import {
   SafeAreaInsetsContext,
   SafeAreaView,
 } from 'react-native-safe-area-context';
-import {Box, BoxProps, Text} from '@ui/components';
+import Box, { BoxProps } from '@ui/components/Box';
+import Text from '@ui/components/Text';
 
 export type ScreenHeaderBoxProps = BoxProps & {
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
   title?: string;
-  maxLength?:number
+  maxLength?: number;
 };
 
-const ScreenHeaderBox = ({
+const HeaderBox = ({
   leftIcon,
   rightIcon,
   style,
@@ -24,7 +25,7 @@ const ScreenHeaderBox = ({
   <SafeAreaInsetsContext.Consumer>
     {insets => (
       <SafeAreaView
-        style={[{flex: 0, backgroundColor: 'white'}, styles.shadow]}>
+        style={[{ flex: 0, backgroundColor: 'white' }, styles.shadow]}>
         <Box
           accessibilityRole="toolbar"
           flexDirection="row"
@@ -34,13 +35,23 @@ const ScreenHeaderBox = ({
           mt="m"
           backgroundColor="white"
           {...rest}
-          style={[styles.container, { marginTop: (insets?.top ?? 0) + Platform.select({ ios: -20, default: 24 }), paddingVertical: Platform.select({android:15, ios: 0})}, style]}>
+          style={[
+            styles.container,
+            {
+              marginTop:
+                (insets?.top ?? 0) + Platform.select({ ios: -20, default: 24 }),
+              paddingVertical: Platform.select({ android: 15, ios: 0 }),
+            },
+            style,
+          ]}>
           {title && !leftIcon ? <Box px="m" /> : leftIcon}
-          {title && <Text numberOfLines={1}  variant="subheadLargeBold">
-            {(title.length < maxLength || !maxLength)
+          {title && (
+            <Text numberOfLines={1} variant="subheadLargeBold">
+              {title.length < maxLength || !maxLength
                 ? `${title}`
                 : `${title.substring(0, maxLength)}...`}
-          </Text>}
+            </Text>
+          )}
           {title && !rightIcon ? <Box px="m" /> : rightIcon}
         </Box>
       </SafeAreaView>
@@ -63,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScreenHeaderBox;
+export default React.memo(HeaderBox);

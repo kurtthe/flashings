@@ -15,15 +15,19 @@ import {
   View,
   ViewStyle,
   Pressable,
-  Text, Keyboard
-} from "react-native";
-import {Portal} from 'react-native-paper-portal';
-import {Icon} from '@ui/components';
-import {DownIcon, UpIcon} from '@assets/icons';
-import { OptionsType, SelectInputProps } from "@ui/components/SelectInput/SelectInput.types";
-import { makeStyles } from "@ui/components/SelectInput/SelectInput.styles";
-import { isAndroid } from "@shared/platform";
-import { ColorThemeValue } from "@ui/components/SvgBox";
+  Text,
+  Keyboard,
+} from 'react-native';
+import { Portal } from 'react-native-paper-portal';
+import { DownIcon, UpIcon } from '@assets/icons';
+import {
+  OptionsType,
+  SelectInputProps,
+} from '@ui/components/SelectInput/SelectInput.types';
+import { makeStyles } from '@ui/components/SelectInput/SelectInput.styles';
+import { isAndroid } from '@shared/platform';
+import { ColorThemeValue } from '@ui/components/SvgBox';
+import Icon from '@ui/components/Icon';
 
 const defaultProps = {
   activeColor: '#F6F7F8',
@@ -72,8 +76,8 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
     const [labelColor, setLabelColor] = React.useState<string | undefined>(
       undefined,
     );
-    const {width: W, height: H} = Dimensions.get('window');
-    const styles = makeStyles(isAndroid)
+    const { width: W, height: H } = Dimensions.get('window');
+    const styles = makeStyles(isAndroid);
     React.useEffect(() => {
       const optionValue = options.find(
         item => item.value.toString() === value || item.label === value,
@@ -97,7 +101,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
     }, [W]);
 
     useImperativeHandle(currentRef, () => {
-      return {open: eventOpen, close: eventClose};
+      return { open: eventOpen, close: eventClose };
     });
 
     const eventOpen = () => {
@@ -158,13 +162,13 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
     );
 
     const _renderItem = useCallback(
-      ({item, index}: {item: OptionsType; index: number}) => {
+      ({ item, index }: { item: OptionsType; index: number }) => {
         if (renderItems) {
           const children = renderItems(item, index);
           return (
             <Pressable
               onPress={() => {
-                if(item.disabled) return;
+                if (item.disabled) return;
 
                 onSelect(item);
                 setLabelColor(undefined);
@@ -177,13 +181,23 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
         return (
           <Pressable
             onPress={() => {
-              if(item.disabled) return;
+              if (item.disabled) return;
 
               onSelect(item);
               setLabelColor(undefined);
             }}>
-            <View style={[styles.dropdownItem, {backgroundColor: item.bgColor}]}>
-              <Text style={[styles.dropdownTextStyles, {color: item.textColor, fontWeight: item.bold? 'bold': 'normal'}]}>{item.label}</Text>
+            <View
+              style={[styles.dropdownItem, { backgroundColor: item.bgColor }]}>
+              <Text
+                style={[
+                  styles.dropdownTextStyles,
+                  {
+                    color: item.textColor,
+                    fontWeight: item.bold ? 'bold' : 'normal',
+                  },
+                ]}>
+                {item.label}
+              </Text>
             </View>
           </Pressable>
         );
@@ -202,7 +216,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
 
     const _renderListTop = useCallback(() => {
       return (
-        <View style={[styles.flexShrink, {flexShrink: 1}]}>
+        <View style={[styles.flexShrink, { flexShrink: 1 }]}>
           <FlatList
             {...flatListProps}
             ref={refList}
@@ -226,7 +240,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       setVisible(!visible);
 
       if (!visible) {
-        Keyboard.dismiss()
+        Keyboard.dismiss();
         onFocus && onFocus();
       } else {
         inputRef.current?.blur();
@@ -237,7 +251,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
     const _renderListBottom = useCallback(() => {
       return (
         <TouchableWithoutFeedback>
-          <View style={[styles.flexShrink, {flexShrink: 1}]}>
+          <View style={[styles.flexShrink, { flexShrink: 1 }]}>
             <FlatList
               {...flatListProps}
               ref={refList}
@@ -256,14 +270,14 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
 
     const _renderModal = useCallback(() => {
       if (visible && position) {
-        const {w, top, bottom, left, height} = position;
+        const { w, top, bottom, left, height } = position;
         if (w && top && bottom) {
-          const styleVertical: ViewStyle = {left: left, maxHeight: maxHeight};
+          const styleVertical: ViewStyle = { left: left, maxHeight: maxHeight };
           const isTopPosition =
             dropdownPosition === 'auto'
               ? bottom < 250
               : dropdownPosition === 'top';
-          let topHeight = isTopPosition ? (top - height) : top;
+          let topHeight = isTopPosition ? top - height : top;
           const keyboardStyle: ViewStyle = {};
 
           if (!portal) {
@@ -273,7 +287,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                   style={StyleSheet.flatten([
                     styles.container,
                     styleVertical,
-                    {left: 0, top: 5, marginBottom: 15},
+                    { left: 0, top: 5, marginBottom: 15 },
                   ])}>
                   {_renderListBottom()}
                 </View>
@@ -287,7 +301,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                 <View
                   style={StyleSheet.flatten([
                     styles.flex1,
-                    {backgroundColor: backgroundColor},
+                    { backgroundColor: backgroundColor },
                     keyboardStyle,
                   ])}>
                   <View
@@ -301,7 +315,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                     {isTopPosition && (
                       <View
                         style={StyleSheet.flatten([
-                          {width: w},
+                          { width: w },
                           styles.container,
                           containerStyle,
                           styleVertical,
@@ -314,7 +328,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                     {!isTopPosition && (
                       <View
                         style={StyleSheet.flatten([
-                          {width: w},
+                          { width: w },
                           styles.container,
                           containerStyle,
                           styleVertical,
@@ -354,25 +368,31 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
         ref={ref}
         onLayout={_measure}>
         <Pressable style={styles.contentInput} onPress={() => showOrClose()}>
-            <TextInput
-              style={[
-                styles.input,
-                inputStyles,
-                {
-                  backgroundColor: currentValue?.bgColor && currentValue?.bgColor,
-                  color: currentValue?.textColor ? currentValue?.textColor : '#8F94AE',
-                  fontWeight: currentValue?.bold ? 'bold' : 'normal'
-                }
-              ]}
-              value={`${currentValue?.label ?? labelField}`}
-              editable={search}
-              onPressIn={() => showOrClose()}
-            />
-            <Icon
-              as={visible ? DownIcon : UpIcon}
-              style={{alignSelf: 'center', position: 'absolute', right: 10}}
-              color={currentValue?.textColor? currentValue?.textColor as ColorThemeValue: 'black'}
-            />
+          <TextInput
+            style={[
+              styles.input,
+              inputStyles,
+              {
+                backgroundColor: currentValue?.bgColor && currentValue?.bgColor,
+                color: currentValue?.textColor
+                  ? currentValue?.textColor
+                  : '#8F94AE',
+                fontWeight: currentValue?.bold ? 'bold' : 'normal',
+              },
+            ]}
+            value={`${currentValue?.label ?? labelField}`}
+            editable={search}
+            onPressIn={() => showOrClose()}
+          />
+          <Icon
+            as={visible ? DownIcon : UpIcon}
+            style={{ alignSelf: 'center', position: 'absolute', right: 10 }}
+            color={
+              currentValue?.textColor
+                ? (currentValue?.textColor as ColorThemeValue)
+                : 'black'
+            }
+          />
         </Pressable>
         {_renderModal()}
       </View>
@@ -382,5 +402,3 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
 
 DropdownComponent.defaultProps = defaultProps;
 export default DropdownComponent;
-
-
