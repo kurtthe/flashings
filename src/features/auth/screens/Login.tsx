@@ -1,16 +1,15 @@
 import React from 'react';
 import { StyleSheet, Image } from 'react-native';
-import { Text, Box, KeyboardAvoidingBox, ScreenHeaderBox } from "@ui/components";
+import { Text, Box, KeyboardAvoidingBox, HeaderBox } from '@ui/components';
 import LoginForm from '@features/auth/container/LoginForm';
-import DismissKeyboardPressable from "@components/forms/DismissKeyboardPressable";
+import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
 
 const LoginScreen = () => {
-
   return (
     <KeyboardAvoidingBox flex={1}>
-      <ScreenHeaderBox />
+      <HeaderBox />
       <DismissKeyboardPressable>
-      <Box px="m" flex={0.8} backgroundColor="white" >
+        <Box px="m" flex={0.8} backgroundColor="white">
           <Image
             style={styles.mainLogo}
             source={require('@assets/logo/MainLogo.png')}
@@ -19,11 +18,11 @@ const LoginScreen = () => {
             Welcome back,{'\n'}
             Please sign in with your account
           </Text>
-      </Box>
-      <LoginForm />
+        </Box>
+        <LoginForm />
       </DismissKeyboardPressable>
     </KeyboardAvoidingBox>
-);
+  );
 };
 
 const styles = StyleSheet.create({
