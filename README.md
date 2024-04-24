@@ -18,3 +18,9 @@ yarn ios:dev
 # using run for ios
 yarn android:dev s
 ```
+# Error 
+```shell
+Called object type 'facebook::flipper::SocketCertificateProvider' (aka 'int') is not a function or function pointer
+```
+### fix it here
+https://github.com/facebook/react-native/issues/43335#issuecomment-1980285308
