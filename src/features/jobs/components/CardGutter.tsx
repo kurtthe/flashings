@@ -3,14 +3,12 @@ import { Box, Button, Card, CardProps, Text } from '@ui/components';
 import { FLASHINGS_DATA } from '@models';
 import ModalAddLengths from '@features/jobs/components/ModalAddLengths';
 import { FlatList } from 'react-native';
-import {
-  StackPrivateDefinitions,
-  StackPrivateProps,
-} from '@routes/PrivateNavigator';
+
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@features/flashing/navigation/routes';
 import { getBends, getGirth, getMaterial } from '@features/jobs/utils';
 import PreviewFlashing from '@features/flashing/components/PreviewFlashing/PreviewFlashing';
+import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;

@@ -21,10 +21,6 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
 import { FlashingParamsList } from '@features/flashing/navigation/Stack.types';
-import {
-  StackPrivateDefinitions,
-  StackPrivateProps,
-} from '@routes/PrivateNavigator';
 import { jobData } from '@store/jobs/selectors';
 import { isAndroid } from '@shared/platform';
 import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
@@ -33,6 +29,7 @@ import { imageToBase64 } from '@shared/utils';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
 import MenuEditorComponent from '../components/MenuEditor';
+import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
