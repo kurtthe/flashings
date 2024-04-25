@@ -3,9 +3,10 @@ import { createReducer } from '@reduxjs/toolkit';
 import { actions } from '@store/templates/actions';
 import { persistReducer } from 'redux-persist';
 import { persistConfigFlashings } from '@store/config';
+import { dataTemplate } from '@store/templates/mock/templates';
 
 const INITIAL_STATE: TEMPLATE_STATE_TYPE = {
-  templates: [],
+  templates: [...dataTemplate],
 };
 
 const templateReducer = createReducer(INITIAL_STATE, builder => {
