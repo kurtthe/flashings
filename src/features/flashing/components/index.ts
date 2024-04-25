@@ -1,4 +1,3 @@
-export * from './PreviewFlashing';
 export * from './SvgBoard';
 
 export { default as MenuEditorComponent } from './MenuEditor';
