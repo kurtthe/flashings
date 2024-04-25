@@ -51,12 +51,13 @@ const LineMadeComponent: React.FC<Props> = ({
       />
       {(step >= measurementIndex ||
         (previewIndex === step && !!line.distance)) && (
-        <TextSvg
-          id={id}
-          positionTextX={positionText[0]}
-          positionTextY={positionText[1] + 15}
-          textValue={`${line.distance}mm`}
-        />
+        <></>
+        // <TextSvg
+        //   id={id}
+        //   positionTextX={positionText[0]}
+        //   positionTextY={positionText[1] + 15}
+        //   textValue={`${line.distance}mm`}
+        // />
       )}
     </G>
   );
