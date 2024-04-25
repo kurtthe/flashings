@@ -1,11 +1,6 @@
 import React from 'react';
 import ViewShot from 'react-native-view-shot';
 import {
-  BoardComponent,
-  LINE_SELECTED,
-  MenuEditorComponent,
-} from '@features/flashing/components';
-import {
   calculateAngle,
   calculatePending,
   calculateSizeLine,
@@ -34,7 +29,10 @@ import { jobData } from '@store/jobs/selectors';
 import { isAndroid } from '@shared/platform';
 import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
 import alert from '@services/general-request/alert';
-import { imageToBase64, isBase64 } from '@shared/utils';
+import { imageToBase64 } from '@shared/utils';
+import { LINE_SELECTED } from '@features/flashing/components/Board/types';
+import Board from '@features/flashing/components/Board/Board';
+import MenuEditorComponent from '../components/MenuEditor';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -236,7 +234,7 @@ const BoardContainer = () => {
         onCaptureFailure={error =>
           Alert.show('Error for preview', error.message)
         }>
-        <BoardComponent
+        <Board
           rightLinePaint={blueLineIsRight}
           lines={lines}
           changeStepBoard={setStepBoard}

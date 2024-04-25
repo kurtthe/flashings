@@ -4,11 +4,14 @@ import {
   PADDING_BARS,
 } from '@features/flashing/components/Grid/Grid.types';
 import { scaleBand } from 'd3-scale';
-import { casesLineParallel, STEPS_BOARD } from '@features/flashing/components';
 import { parse, round, serialize } from 'react-native-redash';
 import * as shape from 'd3-shape';
 import { isNaN } from 'lodash';
 import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from '@models';
+import {
+  casesLineParallel,
+  STEPS_BOARD,
+} from '@features/flashing/components/Board/types';
 
 type ScaleColumnType = {
   domainData: string[];

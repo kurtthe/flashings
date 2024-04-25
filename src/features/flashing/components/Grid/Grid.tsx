@@ -1,4 +1,4 @@
-import {renderLines} from '@features/flashing/components/Grid/Grid.utils';
+import { renderLines } from './Grid.utils';
 
 const GridComponent = () => {
   return renderLines();

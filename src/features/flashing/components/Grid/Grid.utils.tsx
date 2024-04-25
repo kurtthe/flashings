@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  COLOR_GRID,
-  SIZE_GRID,
-  WIDTH_SCREEN,
-} from '@features/flashing/components/Grid/Grid.types';
+import { COLOR_GRID, SIZE_GRID, WIDTH_SCREEN } from './Grid.types';
 import {
   findClosestNumber,
   ScaleXBar,
