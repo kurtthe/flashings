@@ -1,18 +1,18 @@
 import React from 'react';
-import { createStackNavigator } from "@react-navigation/stack";
-import { Routes } from "./routes";
+import { createStackNavigator } from '@react-navigation/stack';
+import { Routes } from './routes';
 import {
   AllJobsScreen,
   JobDetailsScreen,
   CreateEditJobScreen,
   OrderSubmittedScreen,
-  OrderSummaryScreen
-} from "../screens";
+  OrderSummaryScreen,
+} from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
-import {  EditIcon,  ProfileIcon } from "@assets/icons";
+import { EditIcon, ProfileIcon } from '@assets/icons';
 import IconButton from '@ui/components/IconButton';
-import { JobsStackParamsList } from "@features/jobs/navigation/Stack.types";
-import { StackPrivateDefinitions } from "@routes/PrivateNavigator";
+import { JobsStackParamsList } from '@features/jobs/navigation/Stack.types';
+import { StackPrivateDefinitions } from '@models/navigation';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<JobsStackParamsList>();
@@ -24,11 +24,13 @@ const Stack = () => {
         name={Routes.ALL_JOBS}
         component={AllJobsScreen}
         options={{
-          header: ({navigation}) => (
+          header: ({ navigation }) => (
             <HeaderBox
               rightIcon={
                 <IconButton
-                  onPress={()=> navigation.navigate(StackPrivateDefinitions.PROFILE)}
+                  onPress={() =>
+                    navigation.navigate(StackPrivateDefinitions.PROFILE)
+                  }
                   icon={<Icon as={ProfileIcon} color="black" />}
                 />
               }
@@ -43,14 +45,29 @@ const Stack = () => {
         name={Routes.JOB_DETAILS}
         component={JobDetailsScreen}
         options={{
-          header: ({navigation, route}  ) => (
+          header: ({ navigation, route }) => (
             <HeaderBox
               maxLength={15}
-              leftIcon={<HeaderBackButton customPressEvent={() => navigation.navigate(Routes.ALL_JOBS)} />}
-              rightIcon={ <IconButton icon={<Icon as={EditIcon} color="black" />} onPress={()=> navigation.navigate(Routes.CREATE_EDIT_JOB, {
-                jobId: route.params?.jobId,
-              })} />}
-              title={route.params?.jobName ?? ''}
+              leftIcon={
+                <HeaderBackButton
+                  customPressEvent={() => navigation.navigate(Routes.ALL_JOBS)}
+                />
+              }
+              rightIcon={
+                <IconButton
+                  icon={<Icon as={EditIcon} color="black" />}
+                  onPress={() =>
+                    navigation.navigate(Routes.CREATE_EDIT_JOB, {
+                      // @ts-ignore
+                      jobId: route.params?.jobId,
+                    })
+                  }
+                />
+              }
+              title={
+                // @ts-ignore
+                route.params?.jobName ?? ''
+              }
             />
           ),
         }}
@@ -60,11 +77,14 @@ const Stack = () => {
         name={Routes.CREATE_EDIT_JOB}
         component={CreateEditJobScreen}
         options={{
-          header: ({ route}) => (
+          header: ({ route }) => (
             <HeaderBox
               mb="s"
               leftIcon={<HeaderBackButton />}
-              title={route.params?.jobId? 'Edit Job': 'New Job'}
+              title={
+                // @ts-ignore
+                route.params?.jobId ? 'Edit Job' : 'New Job'
+              }
             />
           ),
         }}
@@ -83,11 +103,11 @@ const Stack = () => {
         component={OrderSummaryScreen}
         options={{
           header: () => (
-          <HeaderBox
-            mb="s"
-            leftIcon={<HeaderBackButton />}
-            title="Order Summary"
-          />
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton />}
+              title="Order Summary"
+            />
           ),
         }}
       />
