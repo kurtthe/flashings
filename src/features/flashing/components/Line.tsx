@@ -1,5 +1,4 @@
 import React from 'react';
-import { BUILD_LINE } from '@features/flashing/components/Board';
 import {
   buildPathLine,
   calculatePointHalf,
@@ -8,6 +7,7 @@ import {
 import { G, Path as PathComponent } from 'react-native-svg';
 import TextSvg from '@features/flashing/components/TextSvg';
 import AngleComponent from '@features/flashing/components/Angle/Angle';
+import { BUILD_LINE } from '@features/flashing/components/Board/types';
 
 type Props = BUILD_LINE & {
   angle: number;
