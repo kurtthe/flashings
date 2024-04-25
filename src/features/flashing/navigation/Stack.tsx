@@ -5,6 +5,7 @@ import {
   BoardFlashingScreen,
   CreateEditFlashingScreen,
   CreateRainheadScreen,
+  TemplatesScreen,
 } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
@@ -77,6 +78,23 @@ const Stack = () => {
                 />
               }
               title="New Rainhead"
+            />
+          ),
+        }}
+      />
+      <Screen
+        name={Routes.LIST_TEMPLATES}
+        component={TemplatesScreen}
+        options={{
+          header: ({ navigation }) => (
+            <HeaderBox
+              mb="s"
+              leftIcon={
+                <HeaderBackButton
+                  customPressEvent={() => navigation.goBack()}
+                />
+              }
+              title="Templates"
             />
           ),
         }}

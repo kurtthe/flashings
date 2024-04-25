@@ -1,13 +1,13 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   BackIcon,
   ClearIcon,
   LibraryIcon,
   NextIcon,
-  UndoIcon
-} from "@assets/icons";
-import { BaseTouchable, Box, Icon, IconProps, Text } from "@ui/components";
+  UndoIcon,
+} from '@assets/icons';
+import { BaseTouchable, Box, Icon, IconProps, Text } from '@ui/components';
 
 type Props = {
   onUndo?: () => void;
@@ -22,7 +22,7 @@ type Props = {
   disabledNext?: boolean;
 };
 
-type IconMenuEditorProps = IconProps &{
+type IconMenuEditorProps = IconProps & {
   nameIcon: any;
   onPress?: () => void;
   title?: string;
@@ -41,9 +41,8 @@ const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
     as={BaseTouchable}
     alignItems="center"
     justifyContent="center"
-    onPress={() => onPress && !disabled && onPress()}
-    >
-    <Icon as={nameIcon} {...rest} color={disabled? 'grayIcon': 'black'} />
+    onPress={() => onPress && !disabled && onPress()}>
+    <Icon as={nameIcon} {...rest} color={disabled ? 'grayIcon' : 'black'} />
     {title && (
       <Text mt="xs" variant="menuEditor">
         {title}
@@ -58,11 +57,11 @@ const MenuEditorComponent: React.FC<Props> = ({
   onBack,
   onUndo,
   onEraser,
-  disabledBack= true,
-  disabledUndo=true,
-  disabledEraser=true,
-  disabledLibrary=true,
-  disabledNext=false
+  disabledBack = true,
+  disabledUndo = true,
+  disabledEraser = true,
+  disabledLibrary = false,
+  disabledNext = false,
 }) => {
   return (
     <Box

@@ -154,6 +154,11 @@ const BoardContainer = () => {
     setStepBoard(getIndexOfStepForName('draw'));
   };
 
+  const handleLibrary = () => {
+    // @ts-ignore
+    navigation.navigate(RoutesFlashing.LIST_TEMPLATES);
+  };
+
   const finishSteps = () => {
     console.log('on finish steps::');
   };
@@ -262,11 +267,11 @@ const BoardContainer = () => {
             lines.length === 0 || stepBoard !== getIndexOfStepForName('draw')
           }
           disabledEraser={lines.length === 0}
-          disabledLibrary={true}
           onUndo={handleUndo}
           onBack={handleBack}
           onNext={handleNext}
           onEraser={handleClear}
+          onLibrary={handleLibrary}
         />
       )}
     </>
