@@ -174,6 +174,10 @@ const BoardContainer = () => {
     setAnglesLines(anglesUpdated);
   };
 
+  const onCapture = React.useCallback((uriScreen: string) => {
+    console.log('do something with ', uriScreen);
+  }, []);
+
   const handleSave = () => {
     (async () => {
       if (!refViewShot.current) return;
@@ -226,6 +230,7 @@ const BoardContainer = () => {
       )}
       <ViewShot
         ref={refViewShot}
+        onCapture={() => null}
         options={{ fileName: `flashing-shot${Math.random()}`, quality: 0.9 }}
         captureMode="mount"
         onCaptureFailure={error =>
