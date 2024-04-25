@@ -5,11 +5,11 @@ import {
   BoardFlashingScreen,
   CreateEditFlashingScreen,
   CreateRainheadScreen,
-} from "../screens";
+} from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
-import { FlashingParamsList } from "@features/flashing/navigation/Stack.types";
-import { Alert } from "react-native";
+import { FlashingParamsList } from '@features/flashing/navigation/Stack.types';
+import { Alert } from 'react-native';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<FlashingParamsList>();
@@ -20,10 +20,13 @@ const Stack = () => {
         name={Routes.CREATE_EDIT_FLASHING}
         component={CreateEditFlashingScreen}
         options={{
-          header: ({navigation, route}) => (
+          header: ({ navigation, route }) => (
             <HeaderBox
-              leftIcon={<HeaderBackButton/>}
-              title={route.params?.idFlashing? "Edit Flashing":"New Flashing"}
+              leftIcon={<HeaderBackButton />}
+              title={
+                // @ts-ignore
+                route.params?.idFlashing ? 'Edit Flashing' : 'New Flashing'
+              }
             />
           ),
         }}
@@ -32,25 +35,32 @@ const Stack = () => {
         name={Routes.BOARD_FLASHING}
         component={BoardFlashingScreen}
         options={{
-          header: ({navigation}) => {
+          header: ({ navigation }) => {
             const alertDelete = () =>
-              Alert.alert('Are you sure you want to continue? ', 'The data will not be saved.', [
-                {
-                  text: 'Cancel',
-                  style: 'cancel',
-                },
-                {text: 'Yes', onPress: () => {
-                    navigation.goBack()
-                  }},
-              ]);
+              Alert.alert(
+                'Are you sure you want to continue? ',
+                'The data will not be saved.',
+                [
+                  {
+                    text: 'Cancel',
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'Yes',
+                    onPress: () => {
+                      navigation.goBack();
+                    },
+                  },
+                ],
+              );
 
             return (
               <HeaderBox
-                leftIcon={<HeaderBackButton customPressEvent={alertDelete}  />}
+                leftIcon={<HeaderBackButton customPressEvent={alertDelete} />}
                 rightIcon={<Icon as={CartIcon} color="grayIcon" />}
                 title="Draw Flashing"
               />
-            )
+            );
           },
         }}
       />
@@ -58,11 +68,15 @@ const Stack = () => {
         name={Routes.CREATE_RAINHEAD}
         component={CreateRainheadScreen}
         options={{
-          header: ({navigation}) => (
+          header: ({ navigation }) => (
             <HeaderBox
               mb="s"
-              leftIcon={<HeaderBackButton customPressEvent={() => navigation.goBack()} />}
-              title='New Rainhead'
+              leftIcon={
+                <HeaderBackButton
+                  customPressEvent={() => navigation.goBack()}
+                />
+              }
+              title="New Rainhead"
             />
           ),
         }}
