@@ -14,14 +14,19 @@ import ErrorMessage from './ErrorMessage';
 
 import type { InputProps } from '@ui/components';
 import type { ComponentWithAs } from '@ui/types';
-import { isNaN } from "lodash";
+import { isNaN } from 'lodash';
 
-export type Props = InputProps &
-  {suffix?: string}&
-  Pick<FieldConfig<any>, 'name' | 'type' | 'validate' | 'value'> & {
+export type Props = InputProps & { suffix?: string } & Pick<
+    FieldConfig<any>,
+    'name' | 'type' | 'validate' | 'value'
+  > & {
     label?: string;
     styleInput?: StyleProp<TextStyle>;
-    isClearButtonModeIcon?: 'while-editing' | 'never' | 'unless-editing' | 'always';
+    isClearButtonModeIcon?:
+      | 'while-editing'
+      | 'never'
+      | 'unless-editing'
+      | 'always';
     styleContent?: StyleProp<TextStyle>;
   };
 
@@ -42,7 +47,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
     ref,
   ) => {
     const [field, meta] = useField({ name, validate, value, defaultValue });
-    const { style: containerStyle={}, ...passedProps } = useAppRestyle(
+    const { style: containerStyle = {}, ...passedProps } = useAppRestyle(
       restyleFunctionsField,
       rest,
     );
@@ -69,8 +74,10 @@ const FieldInput = forwardRef<typeof Input, Props>(
           name={name}
           onBlur={handleBlur}
           onChangeText={handleChangeText}
-          defaultValue={meta.initialValue}
-          value={isNaN(field.value)? undefined: field.value?.toString()}
+          defaultValue={
+            isNaN(meta.initialValue) ? '' : meta.initialValue?.toString()
+          }
+          value={isNaN(field.value) ? '' : field.value?.toString()}
           isInvalid={isInvalid}
           clearButtonMode={isClearButtonModeIcon ?? 'while-editing'}
           styleContent={styleContent}
