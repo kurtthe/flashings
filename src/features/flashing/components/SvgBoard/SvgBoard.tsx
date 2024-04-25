@@ -1,7 +1,6 @@
-import { GridComponent } from '@features/flashing/components';
+import React from 'react';
 import PointerComponent from '@features/flashing/components/Pointer';
 import Svg, { Path as PathComponent } from 'react-native-svg';
-import React from 'react';
 import { Path, serialize } from 'react-native-redash';
 import { getIndexOfStepForName } from '@features/flashing/utils';
 import { TYPE_END_LINES } from '@models';
@@ -12,6 +11,7 @@ import {
   SIZE_POINTER,
   widthScreen,
 } from '@features/flashing/components/Board/types';
+import GridComponent from '@features/flashing/components/Grid/Grid';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -96,4 +96,4 @@ const SvgBoard: React.FC<Props> = ({
     </Svg>
   );
 };
-export default SvgBoard;
+export default React.memo(SvgBoard);
