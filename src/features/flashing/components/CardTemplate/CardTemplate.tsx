@@ -12,18 +12,18 @@ const CardTemplate: React.FC<Props> = ({ template }) => {
   };
 
   return (
-    <Card>
+    <Card borderWidth={1} flex={0.5} mt="s">
       <BaseTouchable onPress={onCardTemplate}>
         <Image
           resizeMode="contain"
           source={{
-            uri: 'https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg',
+            uri: template.imgPreview,
           }}
-          width={90}
-          height={250}
+          width={100}
+          height={200}
           style={{
             transform: [{ scale: 2 }],
-            top: 15,
+            top: 60,
             left: 25,
           }}
         />

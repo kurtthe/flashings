@@ -17,6 +17,7 @@ const TemplatesContainer = () => {
       data={templatesData}
       keyExtractor={(item, index) => `${index}_template-card-${item.id}`}
       renderItem={_renderItems}
+      numColumns={2}
     />
   );
 };
