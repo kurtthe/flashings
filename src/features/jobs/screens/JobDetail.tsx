@@ -82,8 +82,6 @@ const JobDetailsScreen = () => {
     );
   }
 
-  console.log('[[item.flashings]]::', JSON.stringify(item.flashings[0]));
-
   return (
     <>
       <ScrollBox flex={1} backgroundColor="white">
