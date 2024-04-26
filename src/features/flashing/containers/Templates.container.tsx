@@ -14,6 +14,9 @@ const TemplatesContainer = () => {
 
   return (
     <FlatList
+      contentContainerStyle={{
+        paddingVertical: 25,
+      }}
       data={templatesData}
       keyExtractor={(item, index) => `${index}_template-card-${item.id}`}
       renderItem={_renderItems}

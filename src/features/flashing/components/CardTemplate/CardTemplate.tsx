@@ -12,22 +12,24 @@ const CardTemplate: React.FC<Props> = ({ template }) => {
   };
 
   return (
-    <Card borderWidth={1} flex={0.5} mt="s">
+    <Card borderWidth={1} width="46%" mx="s">
       <BaseTouchable onPress={onCardTemplate}>
         <Image
           resizeMode="contain"
           source={{
             uri: template.imgPreview,
           }}
-          width={100}
-          height={200}
+          width={110}
+          height={180}
           style={{
-            transform: [{ scale: 2 }],
-            top: 60,
-            left: 25,
+            transform: [{ scale: 1.8 }],
+            top: 15,
+            left: 15,
           }}
         />
-        <Text variant="subheadSmall">{template.name}</Text>
+        <Text mx="s" mt="s" variant="bodyBold">
+          {template.name}
+        </Text>
       </BaseTouchable>
     </Card>
   );
