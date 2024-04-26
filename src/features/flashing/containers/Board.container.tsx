@@ -68,6 +68,7 @@ const BoardContainer = () => {
     setLoading(true);
 
     setDataBoard({
+      ...dataBoard,
       lines: templateChose.dataLines,
       blueLineIsRight: templateChose.parallelRight,
       startTypeLine: templateChose.startType,
@@ -269,8 +270,6 @@ const BoardContainer = () => {
   };
 
   if (loading) return <Loading />;
-
-  console.log('dataBoard::[]', JSON.stringify(dataBoard));
 
   return (
     <>
