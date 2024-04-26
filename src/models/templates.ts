@@ -13,4 +13,5 @@ export type TemplateType = {
 
 export type TEMPLATE_STATE_TYPE = {
   templates: TemplateType[];
+  templateSelected: number | null;
 };

@@ -5,10 +5,12 @@ import { Image } from 'react-native';
 
 type Props = {
   template: TemplateType;
+  onTemplate: (templateId: number) => void;
 };
-const CardTemplate: React.FC<Props> = ({ template }) => {
+const CardTemplate: React.FC<Props> = ({ template, onTemplate }) => {
   const onCardTemplate = () => {
     console.log('onCardTemplate::');
+    onTemplate(template.id);
   };
 
   return (
