@@ -9,7 +9,7 @@ const TemplatesContainer = () => {
   const templatesData = useAppSelector(state => templatesList(state));
 
   const _renderItems = ({ item }: { item: TemplateType }) => {
-    return <CardTemplate template={item} onTemplate={() => null} />;
+    return <CardTemplate template={item} />;
   };
 
   return (

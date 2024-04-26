@@ -2,15 +2,17 @@ import React from 'react';
 import { TemplateType } from '@models/templates';
 import { BaseTouchable, Card, Text } from '@ui/components';
 import { Image } from 'react-native';
+import { useAppDispatch } from '@hooks/useStore';
+import { actions as templateActions } from '@store/templates/actions';
 
 type Props = {
   template: TemplateType;
-  onTemplate: (templateId: number) => void;
 };
-const CardTemplate: React.FC<Props> = ({ template, onTemplate }) => {
+const CardTemplate: React.FC<Props> = ({ template }) => {
+  const dispatch = useAppDispatch();
+
   const onCardTemplate = () => {
-    console.log('onCardTemplate::');
-    onTemplate(template.id);
+    dispatch(templateActions.templateSelected({ idTemplate: template.id }));
   };
 
   return (

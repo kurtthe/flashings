@@ -30,12 +30,14 @@ import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
 import MenuEditorComponent from '../components/MenuEditor';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
+import { templateSelected } from '@store/templates/selectors';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<StackPrivateProps>();
   const route =
     useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
+  const templateChose = useAppSelector(state => templateSelected(state));
 
   const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
   const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
@@ -48,6 +50,16 @@ const BoardContainer = () => {
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const refViewShot = React.createRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
+
+  React.useEffect(() => {
+    if (!templateChose) return;
+
+    setAnglesLines(templateChose.angles);
+    setBlueLineIsRight(templateChose.parallelRight);
+    setStartTypeLine(templateChose.startType);
+    setEndTypeLine(templateChose.endType);
+    setLines(templateChose.dataLines);
+  }, [templateChose]);
 
   React.useEffect(() => {
     const dataFlashing = route.params.data;
