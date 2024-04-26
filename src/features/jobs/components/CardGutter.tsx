@@ -9,6 +9,11 @@ import { Routes } from '@features/flashing/navigation/routes';
 import { getBends, getGirth, getMaterial } from '@features/jobs/utils';
 import PreviewFlashing from '@features/flashing/components/PreviewFlashing/PreviewFlashing';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
+import { useAppDispatch } from '@hooks/useStore';
+import { TemplateType } from '@models/templates';
+import { actions as templateActions } from '@store/templates/actions';
+import { getRandomInt } from '@shared/utils';
+import alertService from '@services/general-request/alert';
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
@@ -21,6 +26,8 @@ const CardGutterComponent: React.FC<Props> = ({
   jobId,
   ...rest
 }) => {
+  const dispatch = useAppDispatch();
+
   const [visibleModalLength, setVisibleModalLength] = React.useState(false);
   const navigation = useNavigation<StackPrivateProps>();
 
@@ -29,6 +36,22 @@ const CardGutterComponent: React.FC<Props> = ({
       screen: Routes.CREATE_EDIT_FLASHING,
       params: { jobId: jobId, idFlashing: data.id },
     });
+  };
+
+  const handleSaveAsTemplate = () => {
+    const dataTemplate: TemplateType = {
+      id: getRandomInt(100, 200),
+      dataLines: data.dataLines,
+      angles: data.angles,
+      parallelRight: data.parallelRight,
+      name: data.name ?? 'Flashing',
+      endType: data.endType,
+      startType: data.startType,
+      imgPreview: data.imgPreview,
+    };
+
+    dispatch(templateActions.addTemplate({ template: dataTemplate }));
+    alertService.show('Success!', 'The flashing save as template.');
   };
 
   const renderFlashingLengths = () => {
@@ -85,6 +108,13 @@ const CardGutterComponent: React.FC<Props> = ({
               onPress={handleEditFlashing}
               variant="linkTextSmall">
               Edit
+            </Text>
+            <Text
+              mx="s"
+              lineHeight={18}
+              onPress={handleSaveAsTemplate}
+              variant="linkTextSmall">
+              Save as template
             </Text>
           </Box>
           <Box>
