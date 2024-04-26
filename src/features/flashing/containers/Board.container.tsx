@@ -31,6 +31,8 @@ import Board from '@features/flashing/components/Board/Board';
 import MenuEditorComponent from '../components/MenuEditor';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import { templateSelected } from '@store/templates/selectors';
+import Loading from '@components/Loading';
+import { actions as templateActions } from '@store/templates/actions';
 
 type StateDataBoard = {
   lines: LINE_TYPE[];
@@ -55,6 +57,7 @@ const BoardContainer = () => {
     endTypeLine: 'none',
   });
   const [stepBoard, setStepBoard] = React.useState(0);
+  const [loading, setLoading] = React.useState(false);
 
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const refViewShot = React.createRef<ViewShot>();
@@ -62,6 +65,8 @@ const BoardContainer = () => {
 
   React.useEffect(() => {
     if (!templateChose) return;
+    setLoading(true);
+
     setDataBoard({
       lines: templateChose.dataLines,
       blueLineIsRight: templateChose.parallelRight,
@@ -69,6 +74,17 @@ const BoardContainer = () => {
       endTypeLine: templateChose.endType,
       anglesLines: templateChose.angles,
     });
+
+    setStepBoard(getIndexOfStepForName('draw'));
+
+    const delay = setTimeout(() => {
+      dispatch(templateActions.templateSelected({ idTemplate: null }));
+      setLoading(false);
+    }, 5000);
+
+    return () => {
+      clearTimeout(delay);
+    };
   }, [templateChose]);
 
   React.useEffect(() => {
@@ -251,6 +267,11 @@ const BoardContainer = () => {
         });
     })();
   };
+
+  if (loading) return <Loading />;
+
+  console.log('dataBoard::[]', JSON.stringify(dataBoard));
+
   return (
     <>
       {stepBoard !== getIndexOfStepForName('screen_shot') && (
@@ -310,4 +331,4 @@ const BoardContainer = () => {
   );
 };
 
-export default BoardContainer;
+export default React.memo(BoardContainer);
