@@ -52,8 +52,6 @@ export const drawParallelLines = (
   if (!lines.length || lines[0].points.length <= 1) {
     return null;
   }
-  console.log('lines::{drawParallelLines}', JSON.stringify(lines));
-  //const allPoints = calculateParallelLines(lines, rightLinePaint);
-  //return buildPathLineParallel(allPoints.flat(1));
-  return null;
+  const allPoints = calculateParallelLines(lines, rightLinePaint);
+  return buildPathLineParallel(allPoints.flat(1));
 };
