@@ -156,10 +156,8 @@ export const calculateParallelLines = (
   isRight: boolean = true,
 ): POINT_TYPE[][] => {
   const offset = 10;
-
   return lines.map((line, index, arrayLines): POINT_TYPE[] => {
     const currentLineParallel = getPointParallel({ line, isRight, offset });
-
     const previousLine = arrayLines[index - 1];
     const nextLine = arrayLines[index + 1];
 
@@ -296,7 +294,7 @@ export const calculateAngle = (
 export const createEquationOfLine = ({
   points,
   angle,
-  pending,
+  pending = 0,
 }: {
   points: LINE_TYPE['points'];
   angle?: number;
@@ -305,7 +303,7 @@ export const createEquationOfLine = ({
   const x1 = points[0][0];
   const y1 = points[0][1];
 
-  const thePending = angle ? Math.tan(angle) : pending ?? 0;
+  const thePending = angle ? Math.tan(angle) : pending;
 
   const pendingMultiplyX1 = thePending * (x1 * -1);
   const sumY1PendingMultiply = pendingMultiplyX1 + y1;
@@ -366,7 +364,6 @@ const calculatePointsIntersectionBetweenLines = (
   }
 
   const yPoint = resolveEqWithValueX(eq1, xPoint);
-
   return [xPoint, yPoint];
 };
 

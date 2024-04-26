@@ -81,7 +81,7 @@ const BoardContainer = () => {
     const delay = setTimeout(() => {
       dispatch(templateActions.templateSelected({ idTemplate: null }));
       setLoading(false);
-    }, 5000);
+    }, 2000);
 
     return () => {
       clearTimeout(delay);

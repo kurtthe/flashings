@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@store';
+import { TemplateType } from '@models/templates';
 
 const templatesSelector = (state: RootState) => state.templates;
 
