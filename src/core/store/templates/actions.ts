@@ -3,7 +3,8 @@ import { TemplateType } from '@models/templates';
 
 export const actions = {
   addTemplate: createAction<{ template: TemplateType }>('template/add'),
-  removeTemplate: createAction<{ idTemplate: string }>('template/remove'),
+  removeTemplate: createAction<{ idTemplate: number }>('template/remove'),
+  templateSelected: createAction<{ idTemplate: number }>('template/selected'),
   editTemplate: createAction<{ idTemplate: string; data: TemplateType }>(
     'template/edit',
   ),

@@ -7,12 +7,17 @@ import { dataTemplate } from '@store/templates/mock/templates';
 
 const INITIAL_STATE: TEMPLATE_STATE_TYPE = {
   templates: [...dataTemplate],
+  templateSelected: null,
 };
 
 const templateReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.addTemplate, (state, action) => {
     const { template } = action.payload;
     state.templates = [...state.templates, template];
+  });
+  builder.addCase(actions.templateSelected, (state, action) => {
+    const { idTemplate } = action.payload;
+    state.templateSelected = idTemplate;
   });
 });
 
