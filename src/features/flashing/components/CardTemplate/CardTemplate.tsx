@@ -4,15 +4,18 @@ import { BaseTouchable, Card, Text } from '@ui/components';
 import { Image } from 'react-native';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as templateActions } from '@store/templates/actions';
+import { useNavigation } from '@react-navigation/native';
 
 type Props = {
   template: TemplateType;
 };
 const CardTemplate: React.FC<Props> = ({ template }) => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation();
 
   const onCardTemplate = () => {
     dispatch(templateActions.templateSelected({ idTemplate: template.id }));
+    navigation.goBack();
   };
 
   return (
