@@ -2,7 +2,7 @@ export type POINT_TYPE = [number, number];
 
 export type LINE_TYPE = {
   points: POINT_TYPE[];
-  pending: number | null;
+  pending: number;
   distance: number;
   isLine: boolean;
   letterLine?: string;
