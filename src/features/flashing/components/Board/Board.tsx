@@ -3,25 +3,36 @@ import { TouchableOpacity, GestureResponderEvent } from 'react-native';
 import {
   DREW_LINE_TYPE,
   heightScreen,
-  LINE_SELECTED, STEPS_BOARD,
-  widthScreen
-} from "./types";
+  LINE_SELECTED,
+  STEPS_BOARD,
+  widthScreen,
+} from './types';
 import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
-import { drawLines, drawParallelLines } from "@features/flashing/components/Board/utils";
+import {
+  drawLines,
+  drawParallelLines,
+} from '@features/flashing/components/Board/utils';
 import { Path } from 'react-native-redash';
-import SectionsButton from "@features/flashing/components/SectionsButton";
-import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from "@models";
-import { isNaN } from "lodash";
-import { BaseTouchable, Box, Icon, KeyboardAvoidingBox, ScrollBox } from "@ui/components";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { EndTypesLineComponent, SvgBoard } from "@features/flashing/components";
-import { getIndexOfStepForName } from "@features/flashing/utils";
-import { CompleteEditMeasurementsIcon } from "@assets/icons";
-import { isAndroid } from "@shared/platform";
-import { useKeyboardVisibility } from "@hooks/useKeyboardVisibility";
+import SectionsButton from '@features/flashing/components/SectionsButton';
+import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from '@models';
+import { isNaN } from 'lodash';
+import {
+  BaseTouchable,
+  Box,
+  Icon,
+  KeyboardAvoidingBox,
+  ScrollBox,
+} from '@ui/components';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { getIndexOfStepForName } from '@features/flashing/utils';
+import { CompleteEditMeasurementsIcon } from '@assets/icons';
+import { isAndroid } from '@shared/platform';
+import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
+import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
+import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 
 type Props = {
   lines: LINE_TYPE[];
@@ -30,15 +41,15 @@ type Props = {
   onSave?: () => void;
   width?: number;
   height?: number;
-  changeStepBoard?: (newStep:number) => void;
+  changeStepBoard?: (newStep: number) => void;
   stepBoard: number;
   rightLinePaint: boolean;
   angles?: number[];
-  updateAngle?: (newAngle:number, positionAngle:number) => void;
+  updateAngle?: (newAngle: number, positionAngle: number) => void;
   startTypeLine?: TYPE_END_LINES;
   endTypeLine?: TYPE_END_LINES;
-  changeStartTypeLine?: (newType:TYPE_END_LINES ) => void;
-  changeEndTypeLine?: (newType:TYPE_END_LINES ) => void;
+  changeStartTypeLine?: (newType: TYPE_END_LINES) => void;
+  changeEndTypeLine?: (newType: TYPE_END_LINES) => void;
 };
 
 const Board: React.FC<Props> = ({
@@ -51,27 +62,29 @@ const Board: React.FC<Props> = ({
   changeStepBoard,
   rightLinePaint,
   onSave,
-  angles=[],
+  angles = [],
   updateAngle,
   changeStartTypeLine,
   changeEndTypeLine,
-  startTypeLine="none",
-  endTypeLine= "none"
+  startTypeLine = 'none',
+  endTypeLine = 'none',
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
     LINE_SELECTED | undefined
   >();
-  const [pathParallel, setPathParallel] = React.useState<Path | null>(null)
-  const [indexLineSelected, setIndexLineSelected] = React.useState(0)
-  const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>('line')
-  const [heightMeasurement, setHeightMeasurement] = React.useState(350)
+  const [pathParallel, setPathParallel] = React.useState<Path | null>(null);
+  const [indexLineSelected, setIndexLineSelected] = React.useState(0);
+  const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
+    'line',
+  );
+  const [heightMeasurement, setHeightMeasurement] = React.useState(350);
 
   useKeyboardVisibility({
-    onKeyboardDidShow: ()=> setHeightMeasurement(isAndroid? 70: 350),
-    onKeyboardDidHide: ()=> setHeightMeasurement(200)
-  })
+    onKeyboardDidShow: () => setHeightMeasurement(isAndroid ? 70 : 350),
+    onKeyboardDidHide: () => setHeightMeasurement(200),
+  });
 
   const isDrawing = STEPS_BOARD[stepBoard] === 'draw';
 
@@ -84,31 +97,38 @@ const Board: React.FC<Props> = ({
       rightLinePaint,
       lineSelected: indexLineSelected,
       typeSelected,
-      anglesLines: angles
+      anglesLines: angles,
     });
-    setPathParallel(drawParallelLines(lines, rightLinePaint))
+    setPathParallel(drawParallelLines(lines, rightLinePaint));
     setGraphs(makingLines);
-  }, [lines, stepBoard, rightLinePaint, indexLineSelected, typeSelected, angles]);
+  }, [
+    lines,
+    stepBoard,
+    rightLinePaint,
+    indexLineSelected,
+    typeSelected,
+    angles,
+  ]);
 
-  React.useEffect(()=>{
-    if(STEPS_BOARD[stepBoard] === "finish" ) {
-      modalBottomRef.current?.hide()
+  React.useEffect(() => {
+    if (STEPS_BOARD[stepBoard] === 'finish') {
+      modalBottomRef.current?.hide();
     }
     setPointSelected({
       numberLine: indexLineSelected,
       sizeLine: lines[indexLineSelected]?.distance ?? 0,
       angle: angles[indexLineSelected],
     });
-    modalBottomRef.current?.show()
-  }, [stepBoard, indexLineSelected, graphs])
+    modalBottomRef.current?.show();
+  }, [stepBoard, indexLineSelected, graphs]);
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
-    if (!pointSelected ) return;
+    if (!pointSelected) return;
 
-    if(isNaN(newSize)) return
+    if (isNaN(newSize)) return;
 
-    if(sizeType === 'angle'){
-      updateAngle && updateAngle(newSize, indexLineSelected)
+    if (sizeType === 'angle') {
+      updateAngle && updateAngle(newSize, indexLineSelected);
       return;
     }
     onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
@@ -124,123 +144,142 @@ const Board: React.FC<Props> = ({
     onAddPoint && onAddPoint([newPosition.x, newPosition.y]);
   };
 
-  const handleNextLineSelected = ()=>{
+  const handleNextLineSelected = () => {
+    const newIndex = indexLineSelected + 1;
+    const lengthLine = lines.length - 1;
 
-    const newIndex = indexLineSelected + 1
-    const lengthLine = lines.length - 1
-
-    if(newIndex > lengthLine){
-      return changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'))
+    if (newIndex > lengthLine) {
+      return (
+        changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'))
+      );
     }
 
-    if(newIndex > lengthLine){
-      setIndexLineSelected(lengthLine)
-      setTypeSelected('line')
-      return
+    if (newIndex > lengthLine) {
+      setIndexLineSelected(lengthLine);
+      setTypeSelected('line');
+      return;
     }
-      if(typeSelected === 'angle') {
-        setIndexLineSelected(newIndex);
-        setTypeSelected("line");
-        return
-      }
-      setTypeSelected('angle')
-  }
-
-  const handleBackLineSelected = ()=>{
-    if(indexLineSelected === 0 && typeSelected === 'line'){
-      return changeStepBoard && changeStepBoard(getIndexOfStepForName('side'))
+    if (typeSelected === 'angle') {
+      setIndexLineSelected(newIndex);
+      setTypeSelected('line');
+      return;
     }
+    setTypeSelected('angle');
+  };
 
-    const newIndex = indexLineSelected - 1
-    if(newIndex < 0){
-      setIndexLineSelected(0)
+  const handleBackLineSelected = () => {
+    if (indexLineSelected === 0 && typeSelected === 'line') {
+      return changeStepBoard && changeStepBoard(getIndexOfStepForName('side'));
     }
 
-    if(typeSelected === "angle"){
-      setTypeSelected("line");
-      return
+    const newIndex = indexLineSelected - 1;
+    if (newIndex < 0) {
+      setIndexLineSelected(0);
     }
 
-    if(typeSelected === 'line'){
-      setTypeSelected('angle')
-      setIndexLineSelected(newIndex)
+    if (typeSelected === 'angle') {
+      setTypeSelected('line');
+      return;
     }
-  }
 
-  const handleOnSave = ()=> {
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('screen_shot'))
-    onSave && onSave()
-  }
-  const handleOnEdit = ()=> {
+    if (typeSelected === 'line') {
+      setTypeSelected('angle');
+      setIndexLineSelected(newIndex);
+    }
+  };
+
+  const handleOnSave = () => {
+    changeStepBoard && changeStepBoard(getIndexOfStepForName('screen_shot'));
+    onSave && onSave();
+  };
+  const handleOnEdit = () => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('measurements'));
-    setIndexLineSelected(0)
-  }
-  const handleOnEditEndType = ()=> {
+    setIndexLineSelected(0);
+  };
+  const handleOnEditEndType = () => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'));
-  }
+  };
 
   return (
     <>
-    <ScrollBox as={KeyboardAwareScrollView} showsVerticalScrollIndicator={false}>
-      <KeyboardAvoidingBox>
-        <TouchableOpacity activeOpacity={1} onPress={handlePointer} >
-          <GestureHandlerRootView>
-            <SvgBoard
-              removeGrid={stepBoard === getIndexOfStepForName('screen_shot')}
-              isRight={rightLinePaint}
-              typeEndLine={endTypeLine}
-              typeStartLine={startTypeLine}
-              step={stepBoard}
-              height={heightScreen}
-              graphs={graphs}
-              pathParallel={pathParallel}
-            />
-          </GestureHandlerRootView>
-        </TouchableOpacity>
-      </KeyboardAvoidingBox>
-    </ScrollBox>
-      {stepBoard === getIndexOfStepForName('finish') && <SectionsButton onSave={handleOnSave} onEdit={handleOnEdit} onEditEndType={handleOnEditEndType} />}
-      {stepBoard === getIndexOfStepForName('measurements') && <Box height={heightMeasurement} position="absolute" width="100%" bottom={0}>
-        <MeasurementLines
-          onNext={handleNextLineSelected}
-          onPrevious={handleBackLineSelected}
-          typeSelected={typeSelected}
-          onDone={handleDoneSize}
-          dataLine={pointSelected}
-          changeMode={changeStepBoard}
+      <ScrollBox
+        as={KeyboardAwareScrollView}
+        showsVerticalScrollIndicator={false}>
+        <KeyboardAvoidingBox>
+          <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
+            <GestureHandlerRootView>
+              <SvgBoard
+                removeGrid={stepBoard === getIndexOfStepForName('screen_shot')}
+                isRight={rightLinePaint}
+                typeEndLine={endTypeLine}
+                typeStartLine={startTypeLine}
+                step={stepBoard}
+                height={heightScreen}
+                graphs={graphs}
+                pathParallel={pathParallel}
+              />
+            </GestureHandlerRootView>
+          </TouchableOpacity>
+        </KeyboardAvoidingBox>
+      </ScrollBox>
+      {stepBoard === getIndexOfStepForName('finish') && (
+        <SectionsButton
+          onSave={handleOnSave}
+          onEdit={handleOnEdit}
+          onEditEndType={handleOnEditEndType}
         />
-      </Box>}
-      {stepBoard === getIndexOfStepForName('end_type') && (<Box height={380} position="absolute" width="100%" bottom={0}>
+      )}
+      {stepBoard === getIndexOfStepForName('measurements') && (
         <Box
-          as={BaseTouchable}
-          onPress={()=> {
-            changeStepBoard && changeStepBoard(getIndexOfStepForName('finish'))
-          }}
+          height={heightMeasurement}
           position="absolute"
-          bottom="100%"
-          right="0%"
-          backgroundColor="white"
-          p="xs"
-          style={{zIndex: 1, shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.5,
-            shadowRadius: 5,
-            shadowColor: 'lightGray',
-            borderTopLeftRadius: 5,
-            borderBottomLeftRadius: 5,
-          }}>
-          <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
+          width="100%"
+          bottom={0}>
+          <MeasurementLines
+            onNext={handleNextLineSelected}
+            onPrevious={handleBackLineSelected}
+            typeSelected={typeSelected}
+            onDone={handleDoneSize}
+            dataLine={pointSelected}
+            changeMode={changeStepBoard}
+          />
         </Box>
+      )}
+      {stepBoard === getIndexOfStepForName('end_type') && (
+        <Box height={380} position="absolute" width="100%" bottom={0}>
+          <Box
+            as={BaseTouchable}
+            onPress={() => {
+              changeStepBoard &&
+                changeStepBoard(getIndexOfStepForName('finish'));
+            }}
+            position="absolute"
+            bottom="100%"
+            right="0%"
+            backgroundColor="white"
+            p="xs"
+            style={{
+              zIndex: 1,
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 0.5,
+              shadowRadius: 5,
+              shadowColor: 'lightGray',
+              borderTopLeftRadius: 5,
+              borderBottomLeftRadius: 5,
+            }}>
+            <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
+          </Box>
 
-        <EndTypesLineComponent
-          changeStartTypeLine={changeStartTypeLine}
-          changeEndTypeLine={changeEndTypeLine}
-          startTypeLine={startTypeLine}
-          endTypeLine={endTypeLine}
-        />
-      </Box>)
-      }
+          <EndTypesLineComponent
+            changeStartTypeLine={changeStartTypeLine}
+            changeEndTypeLine={changeEndTypeLine}
+            startTypeLine={startTypeLine}
+            endTypeLine={endTypeLine}
+          />
+        </Box>
+      )}
     </>
   );
 };
 
-export default Board;
+export default React.memo(Board);

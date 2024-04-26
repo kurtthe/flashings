@@ -1,11 +1,6 @@
 import React from 'react';
 import ViewShot from 'react-native-view-shot';
 import {
-  BoardComponent,
-  LINE_SELECTED,
-  MenuEditorComponent,
-} from '@features/flashing/components';
-import {
   calculateAngle,
   calculatePending,
   calculateSizeLine,
@@ -26,73 +21,115 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
 import { FlashingParamsList } from '@features/flashing/navigation/Stack.types';
-import {
-  StackPrivateDefinitions,
-  StackPrivateProps,
-} from '@routes/PrivateNavigator';
 import { jobData } from '@store/jobs/selectors';
 import { isAndroid } from '@shared/platform';
 import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
 import alert from '@services/general-request/alert';
-import { imageToBase64, isBase64 } from '@shared/utils';
+import { imageToBase64 } from '@shared/utils';
+import { LINE_SELECTED } from '@features/flashing/components/Board/types';
+import Board from '@features/flashing/components/Board/Board';
+import MenuEditorComponent from '../components/MenuEditor';
+import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
+import { templateSelected } from '@store/templates/selectors';
+import Loading from '@components/Loading';
+import { actions as templateActions } from '@store/templates/actions';
+
+type StateDataBoard = {
+  lines: LINE_TYPE[];
+  anglesLines: number[];
+  blueLineIsRight: boolean;
+  startTypeLine: TYPE_END_LINES;
+  endTypeLine: TYPE_END_LINES;
+};
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<StackPrivateProps>();
   const route =
     useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
+  const templateChose = useAppSelector(state => templateSelected(state));
 
-  const [lines, setLines] = React.useState<LINE_TYPE[]>([]);
-  const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
+  const [dataBoard, setDataBoard] = React.useState<StateDataBoard>({
+    lines: [],
+    anglesLines: [],
+    blueLineIsRight: true,
+    startTypeLine: 'none',
+    endTypeLine: 'none',
+  });
   const [stepBoard, setStepBoard] = React.useState(0);
-  const [blueLineIsRight, setBlueLineIsRight] = React.useState(true);
-  const [startTypeLine, setStartTypeLine] =
-    React.useState<TYPE_END_LINES>('none');
-  const [endTypeLine, setEndTypeLine] = React.useState<TYPE_END_LINES>('none');
+  const [loading, setLoading] = React.useState(false);
 
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const refViewShot = React.createRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
 
   React.useEffect(() => {
+    if (!templateChose) return;
+    setLoading(true);
+
+    setDataBoard({
+      ...dataBoard,
+      lines: templateChose.dataLines,
+      blueLineIsRight: templateChose.parallelRight,
+      startTypeLine: templateChose.startType,
+      endTypeLine: templateChose.endType,
+      anglesLines: templateChose.angles,
+    });
+
+    setStepBoard(getIndexOfStepForName('draw'));
+
+    const delay = setTimeout(() => {
+      dispatch(templateActions.templateSelected({ idTemplate: null }));
+      setLoading(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(delay);
+    };
+  }, [templateChose]);
+
+  React.useEffect(() => {
     const dataFlashing = route.params.data;
     if (dataFlashing.dataLines.length > 0) {
-      setLines(dataFlashing.dataLines);
-      setBlueLineIsRight(dataFlashing.parallelRight);
-      setStartTypeLine(dataFlashing.startType);
-      setEndTypeLine(dataFlashing.endType);
+      setDataBoard({
+        ...dataBoard,
+        lines: dataFlashing.dataLines,
+        blueLineIsRight: dataFlashing.parallelRight,
+        startTypeLine: dataFlashing.startType,
+        endTypeLine: dataFlashing.endType,
+      });
       return;
     }
-    setLines([]);
+    setDataBoard({ ...dataBoard, lines: [] });
   }, [route.params.data]);
 
   React.useEffect(() => {
-    setAnglesLines([]);
-    if (lines.length < 2) return;
+    setDataBoard({ ...dataBoard, anglesLines: [] });
+    if (dataBoard.lines.length < 2) return;
 
-    const newAngles = lines.map((line, index, arrayLines) => {
-      if (!anglesLines[index]) {
+    const newAngles = dataBoard.lines.map((line, index, arrayLines) => {
+      if (!dataBoard.anglesLines[index]) {
         return calculateAngle(line, arrayLines[index + 1]) ?? 0;
       }
-      return anglesLines[index];
+      return dataBoard.anglesLines[index];
     });
-    setAnglesLines(newAngles);
-  }, [lines, lines.length]);
+    setDataBoard({ ...dataBoard, anglesLines: newAngles });
+  }, [dataBoard.lines, dataBoard.lines.length]);
   const handleAddPoint = (newPoint: POINT_TYPE) => {
-    if (lines.length < 1) {
+    if (dataBoard.lines.length < 1) {
       const dataLine: LINE_TYPE = {
         points: [newPoint],
         pending: 0,
         distance: 0,
         isLine: false,
       };
-      return setLines([dataLine]);
+      return setDataBoard({ ...dataBoard, lines: [dataLine] });
     }
 
-    const lineComplete = validateLineComplete(lines);
-    const lastPoint = getLastPoint(lines);
+    const lineComplete = validateLineComplete(dataBoard.lines);
+    const lastPoint = getLastPoint(dataBoard.lines);
 
-    const validAddNewPoint = lines.find(line => {
+    const validAddNewPoint = dataBoard.lines.find(line => {
       return JSON.stringify(line.points[0]) === JSON.stringify(newPoint);
     });
     if (validAddNewPoint) return;
@@ -105,19 +142,22 @@ const BoardContainer = () => {
     };
 
     if (!lineComplete) {
-      return setLines([dataLine]);
+      return setDataBoard({ ...dataBoard, lines: [dataLine] });
     }
-    setLines(prevState => [...prevState, dataLine]);
+    setDataBoard({ ...dataBoard, lines: [...dataBoard.lines, dataLine] });
   };
 
   const handleUndo = () => {
-    const newPointCoordinates = lines.slice(0, -1);
-    const newAngles = anglesLines.slice(0, -1);
+    const newPointCoordinates = dataBoard.lines.slice(0, -1);
+    const newAngles = dataBoard.anglesLines.slice(0, -1);
     if (newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine) {
       setStepBoard(getIndexOfStepForName('draw'));
     }
-    setLines(newPointCoordinates);
-    setAnglesLines(newAngles);
+    setDataBoard({
+      ...dataBoard,
+      lines: newPointCoordinates,
+      anglesLines: newAngles,
+    });
   };
 
   const handleBack = () => {
@@ -132,14 +172,14 @@ const BoardContainer = () => {
       return;
     }
 
-    if (lines.length === 0 || !lines[0].isLine) {
+    if (dataBoard.lines.length === 0 || !dataBoard.lines[0].isLine) {
       return Alert.show('Please draw a line', '');
     }
     const newStep = stepBoard + 1;
     setStepBoard(newStep);
   };
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
-    const linesUpdated = lines.map((line, index) => {
+    const linesUpdated = dataBoard.lines.map((line, index) => {
       if (dataLine.numberLine === index) {
         return {
           ...line,
@@ -148,15 +188,23 @@ const BoardContainer = () => {
       }
       return line;
     });
-    setLines(linesUpdated);
+    setDataBoard({ ...dataBoard, lines: linesUpdated });
   };
 
   const handleClear = () => {
-    setStartTypeLine('none');
-    setEndTypeLine('none');
-    setLines([]);
-    setAnglesLines([]);
+    setDataBoard({
+      startTypeLine: 'none',
+      endTypeLine: 'none',
+      lines: [],
+      anglesLines: [],
+      blueLineIsRight: true,
+    });
     setStepBoard(getIndexOfStepForName('draw'));
+  };
+
+  const handleLibrary = () => {
+    // @ts-ignore
+    navigation.navigate(RoutesFlashing.LIST_TEMPLATES);
   };
 
   const finishSteps = () => {
@@ -166,17 +214,17 @@ const BoardContainer = () => {
   const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
     const sideBlueLine =
       newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
-    setBlueLineIsRight(sideBlueLine === 'right');
+    setDataBoard({ ...dataBoard, blueLineIsRight: sideBlueLine === 'right' });
   };
 
   const handleUpdateAngle = (newAngle: number, positionAngle: number) => {
-    const anglesUpdated = anglesLines.map((angle, index) => {
+    const anglesUpdated = dataBoard.anglesLines.map((angle, index) => {
       if (index === positionAngle) {
         return newAngle;
       }
       return angle;
     });
-    setAnglesLines(anglesUpdated);
+    setDataBoard({ ...dataBoard, anglesLines: anglesUpdated });
   };
 
   const handleSave = () => {
@@ -196,11 +244,11 @@ const BoardContainer = () => {
               idJob,
               flashing: {
                 ...dataFlashing,
-                dataLines: lines,
-                parallelRight: blueLineIsRight,
-                angles: anglesLines,
-                endType: endTypeLine,
-                startType: startTypeLine,
+                dataLines: dataBoard.lines,
+                parallelRight: dataBoard.blueLineIsRight,
+                angles: dataBoard.anglesLines,
+                endType: dataBoard.endTypeLine,
+                startType: dataBoard.startTypeLine,
                 imgPreview: `data:image/png;base64,${dataB64Preview}`,
               },
             }),
@@ -220,6 +268,9 @@ const BoardContainer = () => {
         });
     })();
   };
+
+  if (loading) return <Loading />;
+
   return (
     <>
       {stepBoard !== getIndexOfStepForName('screen_shot') && (
@@ -231,25 +282,30 @@ const BoardContainer = () => {
       )}
       <ViewShot
         ref={refViewShot}
+        onCapture={() => null}
         options={{ fileName: `flashing-shot${Math.random()}`, quality: 0.9 }}
         captureMode="mount"
         onCaptureFailure={error =>
           Alert.show('Error for preview', error.message)
         }>
-        <BoardComponent
-          rightLinePaint={blueLineIsRight}
-          lines={lines}
+        <Board
+          rightLinePaint={dataBoard.blueLineIsRight}
+          lines={dataBoard.lines}
           changeStepBoard={setStepBoard}
           onAddPoint={handleAddPoint}
           onUpdatePoint={handleUpdatePoint}
           onSave={handleSave}
           stepBoard={stepBoard}
-          angles={anglesLines}
+          angles={dataBoard.anglesLines}
           updateAngle={handleUpdateAngle}
-          startTypeLine={startTypeLine}
-          endTypeLine={endTypeLine}
-          changeStartTypeLine={setStartTypeLine}
-          changeEndTypeLine={setEndTypeLine}
+          startTypeLine={dataBoard.startTypeLine}
+          endTypeLine={dataBoard.endTypeLine}
+          changeStartTypeLine={newValue =>
+            setDataBoard({ ...dataBoard, startTypeLine: newValue })
+          }
+          changeEndTypeLine={newValue =>
+            setDataBoard({ ...dataBoard, endTypeLine: newValue })
+          }
         />
       </ViewShot>
       {isAndroid &&
@@ -259,18 +315,19 @@ const BoardContainer = () => {
           disabledBack={stepBoard === getIndexOfStepForName('draw')}
           disabledNext={stepBoard === getIndexOfStepForName('finish')}
           disabledUndo={
-            lines.length === 0 || stepBoard !== getIndexOfStepForName('draw')
+            dataBoard.lines.length === 0 ||
+            stepBoard !== getIndexOfStepForName('draw')
           }
-          disabledEraser={lines.length === 0}
-          disabledLibrary={true}
+          disabledEraser={dataBoard.lines.length === 0}
           onUndo={handleUndo}
           onBack={handleBack}
           onNext={handleNext}
           onEraser={handleClear}
+          onLibrary={handleLibrary}
         />
       )}
     </>
   );
 };
 
-export default BoardContainer;
+export default React.memo(BoardContainer);

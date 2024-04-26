@@ -1,16 +1,15 @@
 import React from 'react';
 import { StyleSheet, Image } from 'react-native';
-import { Text, Box,  KeyboardAvoidingBox, ScreenHeaderBox } from "@ui/components";
+import { Text, Box, KeyboardAvoidingBox, HeaderBox } from '@ui/components';
 import ForgotForm from '@features/auth/container/FortgotForm';
-import DismissKeyboardPressable from "@components/forms/DismissKeyboardPressable";
+import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
 
 const ForgotPasswordScreen = () => {
-
   return (
     <KeyboardAvoidingBox flex={1}>
-      <ScreenHeaderBox />
+      <HeaderBox />
       <DismissKeyboardPressable>
-      <Box backgroundColor="white" flex={0.5} px="m">
+        <Box backgroundColor="white" flex={0.5} px="m">
           <Image
             style={styles.mainLogo}
             source={require('@assets/logo/MainLogo.png')}
@@ -21,9 +20,9 @@ const ForgotPasswordScreen = () => {
           <Text style={styles.infoTextStyle}>
             Enter the form to send you an email for changes the password
           </Text>
-      </Box>
+        </Box>
 
-      <ForgotForm />
+        <ForgotForm />
       </DismissKeyboardPressable>
     </KeyboardAvoidingBox>
   );

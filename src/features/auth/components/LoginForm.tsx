@@ -4,12 +4,12 @@ import { useFormikContext } from 'formik';
 import { EyeIcon, EyeOffIcon } from '@assets/icons';
 
 import { ErrorMessage, FieldInput } from '@components/forms';
-import { Box, Button, Icon, IconButton } from "@ui/components";
+import { Box, Button, Icon, IconButton } from '@ui/components';
 import { LoginFormValues } from '@features/auth/container/types';
-import { ForgotButton } from '@features/auth/components';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@features/auth/navigation/routes';
 import { AuthStackProps } from '@features/auth/navigation/Stack.types';
+import ForgotButton from '@features/auth/components/ForgotButton';
 
 const LoginFormComponent = () => {
   const navigation = useNavigation<AuthStackProps>();
@@ -64,7 +64,7 @@ const LoginFormComponent = () => {
         }
         label="Password"
       />
-      <Box alignSelf="flex-end" >
+      <Box alignSelf="flex-end">
         <ForgotButton
           onPress={() => navigation.navigate(Routes.FORGOT_PASSWORD)}>
           Forgot Password?

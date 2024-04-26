@@ -28,7 +28,6 @@ import {
 } from '@shopify/restyle';
 import { useAppRestyle } from '@theme';
 
-import { Box, Text } from '@ui/components';
 import { useAsProp, useFontStyle } from '@ui/hooks';
 import { forwardRef, getKeys } from '@ui/utils';
 
@@ -46,7 +45,9 @@ import type {
 } from '@shopify/restyle';
 import type { Theme } from '@theme';
 import { useCombinedRefs } from '@hooks/useCombinedRefs';
-import { useIsDarkMode } from "@theme/hooks";
+import { useIsDarkMode } from '@theme/hooks';
+import Box from '@ui/components/Box';
+import Text from '@ui/components/Text';
 
 type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
   VariantProps<Theme, 'colors', 'placeholderTextColor'> &
@@ -115,8 +116,8 @@ const inputStyleProperties = [...typography, ...color].map(
 const Input = forwardRef<InputProps, typeof TextInput>(
   (
     {
-      isRequired=false,
-      suffix ,
+      isRequired = false,
+      suffix,
       value,
       label,
       isDisabled,
@@ -219,10 +220,9 @@ const Input = forwardRef<InputProps, typeof TextInput>(
       [],
     );
 
-
     return (
       <Pressable
-        style={[styles.inputContainer,  style, {...containerStyle }]}
+        style={[styles.inputContainer, style, { ...containerStyle }]}
         onPress={handleExternalFocus}
         accessible={false}>
         <Box flexDirection="row" alignItems="center">
@@ -252,8 +252,8 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 inputStyle,
                 fontStyle,
                 {
-                  paddingTop: (value || isFocused) ? 17 : 0,
-                  fontWeight: (value || isFocused) ? '700' : '500',
+                  paddingTop: value || isFocused ? 17 : 0,
+                  fontWeight: value || isFocused ? '700' : '500',
                   paddingHorizontal: 0,
                 },
                 styleContent,
@@ -271,12 +271,21 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               onEndEditing={handleEndEditing}
             />
           </Box>
-          {suffix && <Box top={(value || isFocused)? 3 :8} right={5}>
-            <Text mt={label? "s": 'unset'} variant="bodyRegular" color="lightGray">{suffix}</Text>
-          </Box>}
-          {rightIcon && <Box top={(value || isFocused)? 7 :12} right={5}>
-            {rightIcon}
-          </Box>}
+          {suffix && (
+            <Box top={value || isFocused ? 3 : 8} right={5}>
+              <Text
+                mt={label ? 's' : 'unset'}
+                variant="bodyRegular"
+                color="lightGray">
+                {suffix}
+              </Text>
+            </Box>
+          )}
+          {rightIcon && (
+            <Box top={value || isFocused ? 7 : 12} right={5}>
+              {rightIcon}
+            </Box>
+          )}
         </Box>
       </Pressable>
     );

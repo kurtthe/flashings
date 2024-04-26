@@ -44,6 +44,7 @@ export const drawLines = ({
     };
   });
 };
+
 export const drawParallelLines = (
   lines: LINE_TYPE[],
   rightLinePaint = true,

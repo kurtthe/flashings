@@ -1,8 +1,7 @@
-import { StackPrivateDefinitions } from './types';
-
 import { FlashingStack } from '@features/flashing';
 import { JobStack } from '@features/jobs';
-import { ProfileStack } from "@features/profile";
+import { ProfileStack } from '@features/profile';
+import { StackPrivateDefinitions } from '@models/navigation';
 
 export const routes = {
   [StackPrivateDefinitions.FLASHING]: {
