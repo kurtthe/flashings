@@ -89,9 +89,10 @@ const BoardContainer = () => {
   }, [templateChose]);
 
   React.useEffect(() => {
+    setLoading(true);
     const dataFlashing = route.params.data;
     if (dataFlashing.dataLines.length > 0) {
-      console.log('getting the data::');
+      console.log('getting the data::', JSON.stringify(dataFlashing));
       setDataBoard({
         ...dataBoard,
         lines: dataFlashing.dataLines,
@@ -99,10 +100,22 @@ const BoardContainer = () => {
         startTypeLine: dataFlashing.startType,
         endTypeLine: dataFlashing.endType,
       });
-    } else setDataBoard({ ...dataBoard, lines: [] });
+    } else {
+      console.log('??? else params');
+      setDataBoard({ ...dataBoard, lines: [] });
+    }
+
+    const delay = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => {
+      clearTimeout(delay);
+    };
   }, [route.params.data]);
 
   React.useEffect(() => {
+    console.log('effect===>dataBoard.lines', JSON.stringify(dataBoard));
+
     setDataBoard({ ...dataBoard, anglesLines: [] });
     if (dataBoard.lines.length < 2) return;
 
