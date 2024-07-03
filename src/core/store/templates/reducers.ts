@@ -6,7 +6,7 @@ import { persistConfigFlashings } from '@store/config';
 import { dataTemplate } from '@store/templates/mock/templates';
 
 const INITIAL_STATE: TEMPLATE_STATE_TYPE = {
-  templates: [...dataTemplate],
+  templates: [],
   templateSelected: null,
 };
 

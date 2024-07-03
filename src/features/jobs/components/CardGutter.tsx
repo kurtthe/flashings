@@ -8,15 +8,8 @@ import { Routes } from '@features/flashing/navigation/routes';
 import { getBends, getGirth, getMaterial } from '@features/jobs/utils';
 import PreviewFlashing from '@features/flashing/components/PreviewFlashing/PreviewFlashing';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
-import { useAppDispatch } from '@hooks/useStore';
-import { TemplateType } from '@models/templates';
-import { actions as templateActions } from '@store/templates/actions';
-import { getRandomInt } from '@shared/utils';
-import alertService from '@services/general-request/alert';
-import {
-  ModalAddLengths,
-  ModalNameTemplate,
-} from '@features/jobs/components/index';
+import ModalAddLengths from '@features/jobs/components/ModalAddLengths';
+import ModalNameTemplate from '@features/jobs/components/ModalNameTemplate';
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
