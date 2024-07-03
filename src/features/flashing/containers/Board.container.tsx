@@ -91,6 +91,7 @@ const BoardContainer = () => {
   React.useEffect(() => {
     const dataFlashing = route.params.data;
     if (dataFlashing.dataLines.length > 0) {
+      console.log('getting the data::');
       setDataBoard({
         ...dataBoard,
         lines: dataFlashing.dataLines,
@@ -98,9 +99,7 @@ const BoardContainer = () => {
         startTypeLine: dataFlashing.startType,
         endTypeLine: dataFlashing.endType,
       });
-      return;
-    }
-    setDataBoard({ ...dataBoard, lines: [] });
+    } else setDataBoard({ ...dataBoard, lines: [] });
   }, [route.params.data]);
 
   React.useEffect(() => {
@@ -115,6 +114,7 @@ const BoardContainer = () => {
     });
     setDataBoard({ ...dataBoard, anglesLines: newAngles });
   }, [dataBoard.lines, dataBoard.lines.length]);
+
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (dataBoard.lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -192,6 +192,7 @@ const BoardContainer = () => {
   };
 
   const handleClear = () => {
+    console.log('onClear=>');
     setDataBoard({
       startTypeLine: 'none',
       endTypeLine: 'none',
@@ -270,6 +271,8 @@ const BoardContainer = () => {
   };
 
   if (loading) return <Loading />;
+
+  console.log('dataBoard==>', JSON.stringify(dataBoard));
 
   return (
     <>
