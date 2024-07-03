@@ -10,7 +10,7 @@ import { FLASHINGS_DATA } from '@models';
 type Props = {
   visible: boolean;
   onClose: () => void;
-  data: FLASHINGS_DATA;
+  data: FLASHINGS_DATA | TemplateType;
 };
 const ModalNameTemplate: React.FC<Props> = ({ visible, data, onClose }) => {
   const dispatch = useAppDispatch();

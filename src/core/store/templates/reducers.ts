@@ -19,6 +19,13 @@ const templateReducer = createReducer(INITIAL_STATE, builder => {
     const { idTemplate } = action.payload;
     state.templateSelected = idTemplate;
   });
+  builder.addCase(actions.removeTemplate, (state, action) => {
+    const { idTemplate } = action.payload;
+
+    state.templates = state.templates.filter(
+      templateItem => templateItem.id !== idTemplate,
+    );
+  });
 });
 
 export type TemplateState = ReturnType<typeof templateReducer>;
