@@ -22,7 +22,7 @@ const LineMadeComponent: React.FC<Props> = ({
   typeSelected = 'line',
   nextLine,
 }) => {
-  const positionText = calculatePointHalf(line);
+  const positionText = calculatePointHalf(line.points);
   const measurementIndex = getIndexOfStepForName('measurements');
   const previewIndex = getIndexOfStepForName('preview');
   const isMeasurements = step === measurementIndex;
@@ -49,15 +49,6 @@ const LineMadeComponent: React.FC<Props> = ({
         isSelected={angleIsSelected && isMeasurements}
         nextLine={nextLine}
       />
-      {(step >= measurementIndex ||
-        (previewIndex === step && !!line.distance)) && (
-        <TextSvg
-          id={id}
-          positionTextX={positionText[0]}
-          positionTextY={positionText[1] + 15}
-          textValue={`${line.distance}mm`}
-        />
-      )}
     </G>
   );
 };

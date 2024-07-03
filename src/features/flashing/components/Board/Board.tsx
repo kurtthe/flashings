@@ -14,6 +14,7 @@ import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import {
   drawLines,
   drawParallelLines,
+  positionTextLabels,
 } from '@features/flashing/components/Board/utils';
 import { Path } from 'react-native-redash';
 import SectionsButton from '@features/flashing/components/SectionsButton';
@@ -75,6 +76,9 @@ const Board: React.FC<Props> = ({
     LINE_SELECTED | undefined
   >();
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null);
+  const [pointsForLabel, setPointsForLabel] = React.useState<
+    null | POINT_TYPE[][]
+  >(null);
   const [indexLineSelected, setIndexLineSelected] = React.useState(0);
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
     'line',
@@ -100,6 +104,7 @@ const Board: React.FC<Props> = ({
       anglesLines: angles,
     });
     setPathParallel(drawParallelLines(lines, rightLinePaint));
+    setPointsForLabel(positionTextLabels(lines, !rightLinePaint));
     setGraphs(makingLines);
   }, [
     lines,
@@ -217,6 +222,7 @@ const Board: React.FC<Props> = ({
                 height={heightScreen}
                 graphs={graphs}
                 pathParallel={pathParallel}
+                pointsForLabel={pointsForLabel}
               />
             </GestureHandlerRootView>
           </TouchableOpacity>

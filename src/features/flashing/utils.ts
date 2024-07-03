@@ -222,15 +222,15 @@ export const calculateParallelLines = (
 
 /**
  * function to  calculate the point half between lines
- * @param line
+ * @param points
  * this is the equation[(x1+x2)/2, (y1+y2)/2]
  */
-export const calculatePointHalf = (line: LINE_TYPE): POINT_TYPE => {
-  const x1 = line.points[0][0];
-  const x2 = line.points[1][0];
+export const calculatePointHalf = (points: LINE_TYPE['points']): POINT_TYPE => {
+  const x1 = points[0][0];
+  const x2 = points[1][0];
 
-  const y1 = line.points[0][1];
-  const y2 = line.points[1][1];
+  const y1 = points[0][1];
+  const y2 = points[1][1];
 
   const xPoint = (x1 + x2) / 2;
   const yPoint = (y1 + y2) / 2;
