@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Button, Card, CardProps, Text } from '@ui/components';
 import { FLASHINGS_DATA } from '@models';
-import ModalAddLengths from '@features/jobs/components/ModalAddLengths';
 import { FlatList } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
@@ -14,6 +13,10 @@ import { TemplateType } from '@models/templates';
 import { actions as templateActions } from '@store/templates/actions';
 import { getRandomInt } from '@shared/utils';
 import alertService from '@services/general-request/alert';
+import {
+  ModalAddLengths,
+  ModalNameTemplate,
+} from '@features/jobs/components/index';
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
@@ -26,9 +29,9 @@ const CardGutterComponent: React.FC<Props> = ({
   jobId,
   ...rest
 }) => {
-  const dispatch = useAppDispatch();
-
   const [visibleModalLength, setVisibleModalLength] = React.useState(false);
+  const [visibleModalNameTemplate, setVisibleModalNameTemplate] =
+    React.useState(false);
   const navigation = useNavigation<StackPrivateProps>();
 
   const handleEditFlashing = () => {
@@ -36,22 +39,6 @@ const CardGutterComponent: React.FC<Props> = ({
       screen: Routes.CREATE_EDIT_FLASHING,
       params: { jobId: jobId, idFlashing: data.id },
     });
-  };
-
-  const handleSaveAsTemplate = () => {
-    const dataTemplate: TemplateType = {
-      id: getRandomInt(100, 200),
-      dataLines: data.dataLines,
-      angles: data.angles,
-      parallelRight: data.parallelRight,
-      name: data.name ?? 'Flashing',
-      endType: data.endType,
-      startType: data.startType,
-      imgPreview: data.imgPreview,
-    };
-
-    dispatch(templateActions.addTemplate({ template: dataTemplate }));
-    alertService.show('Success!', 'The flashing save as template.');
   };
 
   const renderFlashingLengths = () => {
@@ -112,9 +99,9 @@ const CardGutterComponent: React.FC<Props> = ({
             <Text
               mx="s"
               lineHeight={18}
-              onPress={handleSaveAsTemplate}
+              onPress={() => setVisibleModalNameTemplate(true)}
               variant="linkTextSmall">
-              Save as template
+              Save as Template
             </Text>
           </Box>
           <Box>
@@ -143,6 +130,12 @@ const CardGutterComponent: React.FC<Props> = ({
         jobId={jobId}
         visible={visibleModalLength}
         onClose={() => setVisibleModalLength(false)}
+      />
+
+      <ModalNameTemplate
+        visible={visibleModalNameTemplate}
+        onClose={() => setVisibleModalNameTemplate(false)}
+        data={data}
       />
     </>
   );
