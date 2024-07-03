@@ -62,7 +62,7 @@ const CardTemplate: React.FC<Props> = ({ template }) => {
             pt="s">
             <IconButton
               icon={<Icon as={EditIcon} size={20} color="black" />}
-              onPress={() => null}
+              onPress={() => setVisibleModalNameTemplate(true)}
             />
             <IconButton
               icon={
@@ -83,6 +83,7 @@ const CardTemplate: React.FC<Props> = ({ template }) => {
         visible={visibleModalNameTemplate}
         onClose={() => setVisibleModalNameTemplate(false)}
         data={template}
+        edit
       />
     </>
   );

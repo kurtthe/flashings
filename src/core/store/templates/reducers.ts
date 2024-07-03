@@ -26,6 +26,14 @@ const templateReducer = createReducer(INITIAL_STATE, builder => {
       templateItem => templateItem.id !== idTemplate,
     );
   });
+
+  builder.addCase(actions.renameTemplate, (state, action) => {
+    const { idTemplate, newName } = action.payload;
+    state.templates = state.templates.map(templateItem => ({
+      ...templateItem,
+      name: templateItem.id === idTemplate ? newName : templateItem.name,
+    }));
+  });
 });
 
 export type TemplateState = ReturnType<typeof templateReducer>;
