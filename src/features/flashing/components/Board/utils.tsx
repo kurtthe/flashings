@@ -55,3 +55,13 @@ export const drawParallelLines = (
   const allPoints = calculateParallelLines(lines, rightLinePaint);
   return buildPathLineParallel(allPoints.flat(1));
 };
+
+export const positionTextLabels = (
+  lines: LINE_TYPE[],
+  rightLinePaint = true,
+) => {
+  if (!lines.length || lines[0].points.length <= 1) {
+    return null;
+  }
+  return calculateParallelLines(lines, rightLinePaint);
+};

@@ -48,10 +48,10 @@ const AngleComponent: React.FC<Props> = ({
     <TextSvg
       id={id}
       colorLabel={isSelected ? colorSelected : '#000'}
-      positionTextYRect={positionTextAngle[1] - 13}
+      positionTextYRect={positionTextAngle[1] - 3}
       positionTextXRect={positionTextAngle[0] + 5}
       positionTextX={positionTextAngle[0] + 20}
-      positionTextY={positionTextAngle[1]}
+      positionTextY={positionTextAngle[1] + 10}
       textValue={`${angle}°`}
     />
   );

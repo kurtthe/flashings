@@ -68,7 +68,6 @@ const BoardContainer = () => {
     setLoading(true);
 
     setDataBoard({
-      ...dataBoard,
       lines: templateChose.dataLines,
       blueLineIsRight: templateChose.parallelRight,
       startTypeLine: templateChose.startType,
@@ -86,25 +85,41 @@ const BoardContainer = () => {
     return () => {
       clearTimeout(delay);
     };
-  }, [templateChose]);
+  }, [templateChose, dispatch]);
 
   React.useEffect(() => {
+    if (!route.params?.data) return;
+    setLoading(true);
+
     const dataFlashing = route.params.data;
     if (dataFlashing.dataLines.length > 0) {
       setDataBoard({
-        ...dataBoard,
         lines: dataFlashing.dataLines,
         blueLineIsRight: dataFlashing.parallelRight,
         startTypeLine: dataFlashing.startType,
         endTypeLine: dataFlashing.endType,
+        anglesLines: [],
       });
-      return;
+    } else {
+      setDataBoard({
+        lines: [],
+        anglesLines: [],
+        blueLineIsRight: true,
+        startTypeLine: 'none',
+        endTypeLine: 'none',
+      });
     }
-    setDataBoard({ ...dataBoard, lines: [] });
+
+    const delay = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => {
+      clearTimeout(delay);
+    };
   }, [route.params.data]);
 
   React.useEffect(() => {
-    setDataBoard({ ...dataBoard, anglesLines: [] });
     if (dataBoard.lines.length < 2) return;
 
     const newAngles = dataBoard.lines.map((line, index, arrayLines) => {
@@ -113,8 +128,13 @@ const BoardContainer = () => {
       }
       return dataBoard.anglesLines[index];
     });
-    setDataBoard({ ...dataBoard, anglesLines: newAngles });
-  }, [dataBoard.lines, dataBoard.lines.length]);
+
+    setDataBoard(prevState => ({
+      ...prevState,
+      anglesLines: newAngles,
+    }));
+  }, [dataBoard.lines]);
+
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (dataBoard.lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -178,6 +198,7 @@ const BoardContainer = () => {
     const newStep = stepBoard + 1;
     setStepBoard(newStep);
   };
+
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
     const linesUpdated = dataBoard.lines.map((line, index) => {
       if (dataLine.numberLine === index) {
