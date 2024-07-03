@@ -10,9 +10,15 @@ import { FLASHINGS_DATA } from '@models';
 type Props = {
   visible: boolean;
   onClose: () => void;
-  data: FLASHINGS_DATA;
+  data: FLASHINGS_DATA | TemplateType;
+  edit?: boolean;
 };
-const ModalNameTemplate: React.FC<Props> = ({ visible, data, onClose }) => {
+const ModalNameTemplate: React.FC<Props> = ({
+  visible,
+  data,
+  onClose,
+  edit = false,
+}) => {
   const dispatch = useAppDispatch();
   const [nameTemplate, setNameTemplate] = React.useState<string>('');
 
@@ -22,19 +28,31 @@ const ModalNameTemplate: React.FC<Props> = ({ visible, data, onClose }) => {
   }, [data.name]);
 
   const handleSaveAsTemplate = () => {
-    const dataTemplate: TemplateType = {
-      id: getRandomInt(100, 200),
-      dataLines: data.dataLines,
-      angles: data.angles,
-      parallelRight: data.parallelRight,
-      name: nameTemplate,
-      endType: data.endType,
-      startType: data.startType,
-      imgPreview: data.imgPreview,
-    };
+    if (edit) {
+      dispatch(
+        templateActions.renameTemplate({
+          idTemplate: data.id,
+          newName: nameTemplate,
+        }),
+      );
+    } else {
+      dispatch(
+        templateActions.addTemplate({
+          template: {
+            id: getRandomInt(100, 200),
+            dataLines: data.dataLines,
+            angles: data.angles,
+            parallelRight: data.parallelRight,
+            name: nameTemplate,
+            endType: data.endType,
+            startType: data.startType,
+            imgPreview: data.imgPreview,
+          },
+        }),
+      );
+      alertService.show('Success!', 'The flashing save as template.');
+    }
 
-    dispatch(templateActions.addTemplate({ template: dataTemplate }));
-    alertService.show('Success!', 'The flashing save as template.');
     onClose();
   };
 

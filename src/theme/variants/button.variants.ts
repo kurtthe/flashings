@@ -50,7 +50,6 @@ const buttonVariants = {
     minHeight: 'auto',
     px: 'xs',
     py: 'xs',
-
   },
   small: {
     backgroundColor: 'primaryBlue',
@@ -58,8 +57,14 @@ const buttonVariants = {
     fontSize: 14,
     color: 'white',
   },
+  smallDelete: {
+    backgroundColor: 'error500',
+    minHeight: 30,
+    fontSize: 14,
+    color: 'white',
+  },
   smallWhite: {
-    px: "unset",
+    px: 'unset',
     backgroundColor: 'white',
     fontSize: 14,
     textDecorationLine: 'underline',
@@ -93,9 +98,8 @@ const buttonVariants = {
     height: 50,
     marginHorizontal: 'xs',
     marginTop: 's',
-    fontSize: 20
+    fontSize: 20,
   },
-
 };
 
 export default buttonVariants;

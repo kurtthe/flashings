@@ -10,4 +10,7 @@ export const actions = {
   editTemplate: createAction<{ idTemplate: string; data: TemplateType }>(
     'template/edit',
   ),
+  renameTemplate: createAction<{ idTemplate: number; newName: string }>(
+    'template/rename',
+  ),
 };

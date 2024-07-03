@@ -6,7 +6,7 @@ import { persistConfigFlashings } from '@store/config';
 import { dataTemplate } from '@store/templates/mock/templates';
 
 const INITIAL_STATE: TEMPLATE_STATE_TYPE = {
-  templates: [...dataTemplate],
+  templates: [],
   templateSelected: null,
 };
 
@@ -18,6 +18,21 @@ const templateReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.templateSelected, (state, action) => {
     const { idTemplate } = action.payload;
     state.templateSelected = idTemplate;
+  });
+  builder.addCase(actions.removeTemplate, (state, action) => {
+    const { idTemplate } = action.payload;
+
+    state.templates = state.templates.filter(
+      templateItem => templateItem.id !== idTemplate,
+    );
+  });
+
+  builder.addCase(actions.renameTemplate, (state, action) => {
+    const { idTemplate, newName } = action.payload;
+    state.templates = state.templates.map(templateItem => ({
+      ...templateItem,
+      name: templateItem.id === idTemplate ? newName : templateItem.name,
+    }));
   });
 });
 
