@@ -22,7 +22,6 @@ const LineMadeComponent: React.FC<Props> = ({
   typeSelected = 'line',
   nextLine,
 }) => {
-  const positionText = calculatePointHalf(line.points);
   const measurementIndex = getIndexOfStepForName('measurements');
   const previewIndex = getIndexOfStepForName('preview');
   const isMeasurements = step === measurementIndex;
