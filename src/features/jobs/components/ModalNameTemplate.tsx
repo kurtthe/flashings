@@ -16,6 +16,11 @@ const ModalNameTemplate: React.FC<Props> = ({ visible, data, onClose }) => {
   const dispatch = useAppDispatch();
   const [nameTemplate, setNameTemplate] = React.useState<string>('');
 
+  React.useEffect(() => {
+    if (!data.name) return;
+    setNameTemplate(data.name);
+  }, [data.name]);
+
   const handleSaveAsTemplate = () => {
     const dataTemplate: TemplateType = {
       id: getRandomInt(100, 200),
@@ -30,6 +35,7 @@ const ModalNameTemplate: React.FC<Props> = ({ visible, data, onClose }) => {
 
     dispatch(templateActions.addTemplate({ template: dataTemplate }));
     alertService.show('Success!', 'The flashing save as template.');
+    onClose();
   };
 
   return (
@@ -46,15 +52,16 @@ const ModalNameTemplate: React.FC<Props> = ({ visible, data, onClose }) => {
             label="Template name"
             onChangeText={text => setNameTemplate(text)}
             value={nameTemplate}
-            style={{ width: 150 }}
+            style={{ width: 300 }}
             mr="s"
             isRequired
           />
           <Box
             flexDirection="row"
             alignItems="center"
-            justifyContent="space-between">
-            <Button variant="delete" onPress={() => onClose?.()}>
+            justifyContent="space-between"
+            py="m">
+            <Button variant="delete" onPress={() => onClose()}>
               Cancel
             </Button>
             <Button onPress={handleSaveAsTemplate}>Save</Button>
