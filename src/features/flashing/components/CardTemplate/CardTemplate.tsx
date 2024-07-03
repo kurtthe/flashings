@@ -1,10 +1,19 @@
 import React from 'react';
 import { TemplateType } from '@models/templates';
-import { BaseTouchable, Box, Button, Card, Text } from '@ui/components';
+import {
+  BaseTouchable,
+  Box,
+  Button,
+  Card,
+  Icon,
+  IconButton,
+  Text,
+} from '@ui/components';
 import { Image } from 'react-native';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as templateActions } from '@store/templates/actions';
 import { useNavigation } from '@react-navigation/native';
+import { DeleteIcon, EditIcon, TrashIcon } from '@assets/icons';
 
 type Props = {
   template: TemplateType;
@@ -43,13 +52,22 @@ const CardTemplate: React.FC<Props> = ({ template }) => {
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
-          py="m">
-          <Button variant="delete" onPress={() => null}>
-            Delete
-          </Button>
-          <Button variant="small" onPress={() => null}>
-            Rename
-          </Button>
+          pt="s">
+          <IconButton
+            icon={<Icon as={EditIcon} size={20} color="black" />}
+            onPress={() => null}
+          />
+          <IconButton
+            icon={
+              <Icon
+                as={TrashIcon}
+                size={28}
+                stroke="error500"
+                color="error500"
+              />
+            }
+            onPress={() => null}
+          />
         </Box>
       </>
     </Card>
