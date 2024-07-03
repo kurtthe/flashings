@@ -28,10 +28,10 @@ const TextSvg: React.FC<Props> = ({
     <>
       {positionTextXRect && positionTextYRect && (
         <Rect
-          width={textWidth}
+          width={textWidth + 10}
           height={fontSize + 3}
           origin={`${positionTextX}, ${positionTextY}`}
-          fill="#fff"
+          fill="white"
           y={positionTextYRect}
           x={positionTextXRect}
           rx={0}

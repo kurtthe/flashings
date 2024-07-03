@@ -20,12 +20,14 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, step, label }) => {
       <TextSvg
         id={Math.random()}
         positionTextX={newPoints[0]}
-        positionTextY={newPoints[1]}
+        positionTextY={newPoints[1] + 10}
+        positionTextXRect={newPoints[0] - label.length * 5}
+        positionTextYRect={newPoints[1] - 5}
         textValue={label}
       />
     );
   }
-  console.log('coordinates==>{}', coordinates);
+
   return null;
 };
 
