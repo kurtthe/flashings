@@ -39,12 +39,7 @@ const Stack = () => {
         options={{
           header: ({ navigation }) => (
             <HeaderBox
-              rightIcon={
-                <IconButton
-                  onPress={() => navigation.navigate(Routes.PROFILE)}
-                  icon={<Icon as={ProfileIcon} color="black" />}
-                />
-              }
+              leftIcon={<HeaderBackButton />}
               title="Manage templates"
             />
           ),
