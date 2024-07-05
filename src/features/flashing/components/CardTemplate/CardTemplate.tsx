@@ -8,7 +8,7 @@ import {
   IconButton,
   Text,
 } from '@ui/components';
-import { Image } from 'react-native';
+import { Alert, Image } from 'react-native';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as templateActions } from '@store/templates/actions';
 import { useNavigation } from '@react-navigation/native';
@@ -36,9 +36,19 @@ const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
     navigation.goBack();
   };
 
-  const onRemoveTemplate = () => {
-    dispatch(templateActions.removeTemplate({ idTemplate: template.id }));
-  };
+  const alertDelete = () =>
+    Alert.alert('Are you sure delete this template?', '', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => {
+          dispatch(templateActions.removeTemplate({ idTemplate: template.id }));
+        },
+      },
+    ]);
 
   const showOrHideTemplate = () => {
     if (template.isHide) {
@@ -99,7 +109,7 @@ const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
                     color="error500"
                   />
                 }
-                onPress={onRemoveTemplate}
+                onPress={alertDelete}
               />
             </Box>
           )}
