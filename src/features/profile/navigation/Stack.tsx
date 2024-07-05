@@ -41,9 +41,7 @@ const Stack = () => {
             <HeaderBox
               rightIcon={
                 <IconButton
-                  onPress={() =>
-                    navigation.navigate(StackPrivateDefinitions.PROFILE)
-                  }
+                  onPress={() => navigation.navigate(Routes.PROFILE)}
                   icon={<Icon as={ProfileIcon} color="black" />}
                 />
               }
