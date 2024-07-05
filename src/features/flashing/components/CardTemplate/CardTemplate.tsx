@@ -100,17 +100,19 @@ const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
                 }
                 onPress={showOrHideTemplate}
               />
-              <IconButton
-                icon={
-                  <Icon
-                    as={TrashIcon}
-                    size={28}
-                    stroke="error500"
-                    color="error500"
-                  />
-                }
-                onPress={alertDelete}
-              />
+              {template.availableDelete && (
+                <IconButton
+                  icon={
+                    <Icon
+                      as={TrashIcon}
+                      size={28}
+                      stroke="error500"
+                      color="error500"
+                    />
+                  }
+                  onPress={alertDelete}
+                />
+              )}
             </Box>
           )}
         </>

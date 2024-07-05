@@ -4,6 +4,7 @@ export const dataTemplate: TemplateType[] = [
   {
     id: 1,
     isHide: false,
+    availableDelete: false,
     name: 'Flat Apron',
     angles: [90, 90, 0],
     dataLines: [
@@ -43,6 +44,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 2,
+    availableDelete: false,
     isHide: false,
     name: 'Pitch Apron',
     angles: [90, 45, 0],
@@ -84,6 +86,7 @@ export const dataTemplate: TemplateType[] = [
   {
     id: 3,
     isHide: false,
+    availableDelete: false,
     name: 'Boundary Flash',
     angles: [90, 90, 90, 90, 0],
     dataLines: [
@@ -142,6 +145,7 @@ export const dataTemplate: TemplateType[] = [
   {
     id: 4,
     isHide: false,
+    availableDelete: false,
     name: 'Box Gutter Flashing',
     angles: [123, 124, 0],
     dataLines: [
@@ -182,6 +186,7 @@ export const dataTemplate: TemplateType[] = [
   {
     id: 5,
     isHide: false,
+    availableDelete: false,
     name: 'Box Gutter Flat',
     angles: [90, 90, 0],
     dataLines: [
@@ -222,6 +227,7 @@ export const dataTemplate: TemplateType[] = [
   {
     id: 6,
     isHide: false,
+    availableDelete: false,
     name: 'Parapet Flat',
     angles: [90, 90, 0],
     dataLines: [
@@ -262,6 +268,7 @@ export const dataTemplate: TemplateType[] = [
   {
     id: 7,
     isHide: false,
+    availableDelete: false,
     name: 'Barge',
     angles: [90, 0],
     dataLines: [
@@ -293,6 +300,7 @@ export const dataTemplate: TemplateType[] = [
   {
     id: 8,
     isHide: false,
+    availableDelete: false,
     name: 'Z Flashing',
     angles: [90, 90, 0],
     dataLines: [
@@ -333,6 +341,7 @@ export const dataTemplate: TemplateType[] = [
   {
     id: 9,
     isHide: false,
+    availableDelete: false,
     name: 'Transfer Flashing',
     angles: [70, 0],
     dataLines: [

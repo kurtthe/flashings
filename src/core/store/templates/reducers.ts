@@ -13,7 +13,10 @@ const INITIAL_STATE: TEMPLATE_STATE_TYPE = {
 const templateReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.addTemplate, (state, action) => {
     const { template } = action.payload;
-    state.templates = [...state.templates, { ...template, isHide: false }];
+    state.templates = [
+      ...state.templates,
+      { ...template, isHide: false, availableDelete: true },
+    ];
   });
   builder.addCase(actions.templateSelected, (state, action) => {
     const { idTemplate } = action.payload;
