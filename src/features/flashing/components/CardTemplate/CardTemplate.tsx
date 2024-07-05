@@ -17,8 +17,9 @@ import ModalNameTemplate from '@features/jobs/components/ModalNameTemplate';
 
 type Props = {
   template: TemplateType;
+  showActions?: boolean;
 };
-const CardTemplate: React.FC<Props> = ({ template }) => {
+const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const [visibleModalNameTemplate, setVisibleModalNameTemplate] =
@@ -55,27 +56,29 @@ const CardTemplate: React.FC<Props> = ({ template }) => {
               {template.name}
             </Text>
           </BaseTouchable>
-          <Box
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
-            pt="s">
-            <IconButton
-              icon={<Icon as={EditIcon} size={20} color="black" />}
-              onPress={() => setVisibleModalNameTemplate(true)}
-            />
-            <IconButton
-              icon={
-                <Icon
-                  as={TrashIcon}
-                  size={28}
-                  stroke="error500"
-                  color="error500"
-                />
-              }
-              onPress={onRemoveTemplate}
-            />
-          </Box>
+          {showActions && (
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+              pt="s">
+              <IconButton
+                icon={<Icon as={EditIcon} size={20} color="black" />}
+                onPress={() => setVisibleModalNameTemplate(true)}
+              />
+              <IconButton
+                icon={
+                  <Icon
+                    as={TrashIcon}
+                    size={28}
+                    stroke="error500"
+                    color="error500"
+                  />
+                }
+                onPress={onRemoveTemplate}
+              />
+            </Box>
+          )}
         </>
       </Card>
 

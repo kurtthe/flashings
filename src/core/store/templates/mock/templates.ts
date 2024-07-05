@@ -3,6 +3,7 @@ import { TemplateType } from '@models/templates';
 export const dataTemplate: TemplateType[] = [
   {
     id: 1,
+    isHide: false,
     name: 'Flat Apron',
     angles: [90, 90, 0],
     dataLines: [
@@ -42,6 +43,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 2,
+    isHide: false,
     name: 'Pitch Apron',
     angles: [90, 45, 0],
     dataLines: [
@@ -81,6 +83,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 3,
+    isHide: false,
     name: 'Boundary Flash',
     angles: [90, 90, 90, 90, 0],
     dataLines: [
@@ -138,6 +141,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 4,
+    isHide: false,
     name: 'Box Gutter Flashing',
     angles: [123, 124, 0],
     dataLines: [
@@ -177,6 +181,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 5,
+    isHide: false,
     name: 'Box Gutter Flat',
     angles: [90, 90, 0],
     dataLines: [
@@ -216,6 +221,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 6,
+    isHide: false,
     name: 'Parapet Flat',
     angles: [90, 90, 0],
     dataLines: [
@@ -255,6 +261,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 7,
+    isHide: false,
     name: 'Barge',
     angles: [90, 0],
     dataLines: [
@@ -285,6 +292,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 8,
+    isHide: false,
     name: 'Z Flashing',
     angles: [90, 90, 0],
     dataLines: [
@@ -324,6 +332,7 @@ export const dataTemplate: TemplateType[] = [
   },
   {
     id: 9,
+    isHide: false,
     name: 'Transfer Flashing',
     angles: [70, 0],
     dataLines: [
