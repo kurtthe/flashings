@@ -19,6 +19,7 @@ const DataUser = () => {
         Logout
       </Button>
       <Button
+        variant="outlineWhite"
         mx="m"
         mb="m"
         onPress={() => navigation.navigate(Routes.MANAGE_TEMPLATE)}>
