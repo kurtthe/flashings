@@ -9,6 +9,7 @@ export type TemplateType = {
   endType: TYPE_END_LINES;
   startType: TYPE_END_LINES;
   imgPreview: string | undefined;
+  isHide: boolean;
 };
 
 export type TEMPLATE_STATE_TYPE = {
