@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { FieldConfig, useField } from 'formik';
 
 import {
@@ -10,8 +10,7 @@ import {
   Text,
 } from '@ui/components';
 import ErrorMessage from './ErrorMessage';
-
-import type { ComponentWithAs } from '@ui/types';
+import { isAndroid } from '@shared/platform';
 
 type Props = Omit<SelectInputProps, 'onChange'> &
   Pick<FieldConfig, 'name' | 'value'> & {
@@ -20,7 +19,6 @@ type Props = Omit<SelectInputProps, 'onChange'> &
     label: string;
     onChange?: (item: any, prev: any) => void;
   };
-const isAndroid = Platform.OS === 'android';
 const FieldSelect = ({
   options,
   name,
@@ -30,7 +28,7 @@ const FieldSelect = ({
   isRequired,
   ...rest
 }: Props) => {
-  const [field, meta, helpers] = useField<number>(name);
+  const [field, meta, helpers] = useField(name);
   const isInvalid = Boolean(meta.touched && meta.error);
 
   const handleChange = React.useCallback(
@@ -80,7 +78,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(FieldSelect) as ComponentWithAs<
-  typeof SelectInput,
-  Props
->;
+export default FieldSelect;
