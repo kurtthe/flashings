@@ -49,7 +49,7 @@ import { useIsDarkMode } from '@theme/hooks';
 import Box from '@ui/components/Box';
 import Text from '@ui/components/Text';
 
-type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
+export type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
   VariantProps<Theme, 'colors', 'placeholderTextColor'> &
   TypographyProps<Theme> &
   ColorProps<Theme> &
@@ -93,7 +93,7 @@ const inputSelectionColor = createRestyleFunction({
   themeKey: 'colors',
   property: 'selectionColor',
 });
-const restyleFunctions = composeRestyleFunctions([
+export const restyleFunctions = composeRestyleFunctions([
   color,
   opacity,
   backgroundColor,
