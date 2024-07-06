@@ -1,6 +1,5 @@
 import React from 'react';
-import { Box, Button, OptionsType, SelectInput } from '@ui/components';
-import Pdf from 'react-native-pdf';
+import { Box, OptionsType } from '@ui/components';
 import { StyleSheet } from 'react-native';
 import {
   useCreateMaterial,
@@ -8,7 +7,7 @@ import {
   useGetSupplier,
   useSendToStore,
 } from '@hooks/jobs';
-import { buildDataMaterialOrder, storesToOption } from '@features/jobs/utils';
+import { buildDataMaterialOrder } from '@features/jobs/utils';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import {
   JobsStackParamsList,
@@ -21,7 +20,6 @@ import {
   RESPONSE_MATERIAL_ORDER,
   STORE,
 } from '@models';
-import Share from 'react-native-share';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { formatDate } from '@shared/utils/formatDate';
 import { dataUserSelector } from '@store/auth/selectors';
@@ -29,7 +27,7 @@ import { actions as jobActions } from '@store/jobs/actions';
 import { baseUrlPDF } from '@shared/endPoints';
 import Loading from '@components/Loading';
 import PDFShared from '@features/jobs/containers/PDFShared';
-import FieldInputDateTime from '@components/forms/FieldInputDateTime';
+import OrderForm from '@features/jobs/containers/OrderForm';
 
 const OrderSummaryScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -39,7 +37,6 @@ const OrderSummaryScreen: React.FC = () => {
   const route =
     useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>();
 
-  const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const [urlIdPdf, setUrlIdPdf] = React.useState<string>();
   const [isLoading, setIsLoading] = React.useState(true);
   const [idOfOrder, setIdOfOrder] = React.useState<number | undefined>();
@@ -92,16 +89,6 @@ const OrderSummaryScreen: React.FC = () => {
     const fileName = parseJSON.response.file_name;
     setUrlIdPdf(`${baseUrlPDF}${fileName}`);
   }, [route.params.responseApi, isLoading]);
-
-  React.useEffect(() => {
-    if (!stores) {
-      refetch().catch(error => console.log('error::', error));
-      return;
-    }
-
-    const storesAsRadioButton = storesToOption(stores);
-    setOptionsStore(storesAsRadioButton);
-  }, [stores]);
 
   React.useEffect(() => {
     if (!urlIdPdf) return;
@@ -172,20 +159,7 @@ const OrderSummaryScreen: React.FC = () => {
   return (
     <Box p="m" style={styles.container}>
       <PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
-      <SelectInput
-        options={optionsStore}
-        onChange={handleChange}
-        label="Select a store"
-      />
-      <FieldInputDateTime label="Date" typeFormat="date" name="" />
-      <Button
-        isLoading={loadingSharedMaterial}
-        isDisabled={!stores?.length || !storeSelected || !idOfOrder}
-        onPress={() => handleSendToStore()}
-        my="m"
-        variant="solid">
-        Send to store
-      </Button>
+      <OrderForm />
     </Box>
   );
 };

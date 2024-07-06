@@ -1,16 +1,21 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { formKeys, forms } from '../constants';
+import { forms } from '../constants';
+import CreateOrderForm from '@features/jobs/components/CreateOrderForm';
+import { CreateOrderFormValues } from '@features/jobs/containers/types';
 
-type Props = {};
 const OrderForm = () => {
-  const handleSubmit = React.useCallback(() => {}, []);
+  const handleSubmit = React.useCallback((values: CreateOrderFormValues) => {
+    console.log('OrderForm ==>', values);
+  }, []);
 
   return (
     <Formik
       enableReinitialize
       initialValues={forms.createOrder}
-      onSubmit={handleSubmit}></Formik>
+      onSubmit={handleSubmit}>
+      <CreateOrderForm />
+    </Formik>
   );
 };
 export default OrderForm;

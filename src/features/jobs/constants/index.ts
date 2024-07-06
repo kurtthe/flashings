@@ -7,14 +7,6 @@ import {
   formKeysOrders,
 } from '@features/jobs/constants/order';
 
-export const customValidationMessages = {
-  createEditJob: {
-    email: {
-      email: 'Invalid email address',
-    },
-  },
-};
-
 export const formKeys = {
   createEditJob: formKeysJobs,
   createOrder: formKeysOrders,
