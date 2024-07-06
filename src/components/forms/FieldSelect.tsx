@@ -44,7 +44,7 @@ const FieldSelect = ({
   return (
     <Box>
       <SelectInput
-        value={field.value.toString()}
+        value={field.value?.toString()}
         options={options}
         onChange={handleChange}
         label={label}

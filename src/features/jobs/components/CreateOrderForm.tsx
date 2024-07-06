@@ -24,20 +24,22 @@ const CreateOrderForm = () => {
     setOptionsStore(storesAsRadioButton);
   }, [stores]);
 
+  console.log('==>[optionsStore]', JSON.stringify(optionsStore));
+
   return (
     <>
       <Box>
         <FieldSelect
           name={formKeys.createOrder.store}
           options={optionsStore}
-          label={forms.createEditJob.labels[formKeys.createOrder.store]}
+          label={forms.createOrder.labels[formKeys.createOrder.store]}
         />
         <FieldInput
           name={formKeys.createOrder.comments}
           placeholder={
-            forms.createEditJob.placeholders[formKeys.createOrder.comments]
+            forms.createOrder.placeholders[formKeys.createOrder.comments]
           }
-          label={forms.createEditJob.labels[formKeys.createOrder.comments]}
+          label={forms.createOrder.labels[formKeys.createOrder.comments]}
           returnKeyType="next"
           mt="m"
         />
