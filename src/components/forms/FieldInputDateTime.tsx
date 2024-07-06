@@ -1,16 +1,14 @@
 import React from 'react';
 import { FieldConfig, useField } from 'formik';
-import { Box } from '@ui/components';
+import { Box, type InputProps } from '@ui/components';
 import InputDate from '@components/InputDate';
 import InputTime from '@components/InputTime';
 
-export type Props = Pick<FieldConfig<any>, 'name' | 'value'> & {
-  label: string;
-  isRequired?: boolean;
-  typeFormat?: 'date' | 'time' | 'datetime';
-  defaultValue?: string;
-  onChangeText?: (newText: string) => void;
-};
+export type Props = InputProps &
+  Pick<FieldConfig<any>, 'name' | 'value'> & {
+    label: string;
+    typeFormat?: 'date' | 'time' | 'datetime';
+  };
 
 const FieldInputDateTime: React.FC<Props> = ({
   label,
@@ -20,6 +18,7 @@ const FieldInputDateTime: React.FC<Props> = ({
   defaultValue,
   onChangeText,
   isRequired = false,
+  ...rest
 }) => {
   const [field, meta] = useField({ name, value, defaultValue });
 
@@ -33,7 +32,8 @@ const FieldInputDateTime: React.FC<Props> = ({
       <InputDate
         label={label}
         isRequired={isRequired}
-        onChange={handleChangeText}
+        onChangeText={handleChangeText}
+        {...rest}
       />
     );
   }
@@ -43,7 +43,8 @@ const FieldInputDateTime: React.FC<Props> = ({
       <InputTime
         label={label}
         isRequired={isRequired}
-        onChange={handleChangeText}
+        onChangeText={handleChangeText}
+        {...rest}
       />
     );
   }

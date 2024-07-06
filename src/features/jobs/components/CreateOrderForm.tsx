@@ -6,6 +6,7 @@ import { formKeys, forms } from '@features/jobs/constants';
 import { FieldInput, FieldSelect } from '@components/forms';
 import { useGetStores } from '@hooks/jobs';
 import { storesToOption } from '@features/jobs/utils';
+import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 
 const CreateOrderForm = () => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
@@ -24,8 +25,6 @@ const CreateOrderForm = () => {
     setOptionsStore(storesAsRadioButton);
   }, [stores]);
 
-  console.log('==>[optionsStore]', JSON.stringify(optionsStore));
-
   return (
     <>
       <Box>
@@ -42,6 +41,14 @@ const CreateOrderForm = () => {
           label={forms.createOrder.labels[formKeys.createOrder.comments]}
           returnKeyType="next"
           mt="m"
+        />
+        <FieldInputDateTime
+          typeFormat="date"
+          name={formKeys.createOrder.date}
+          placeholder={
+            forms.createOrder.placeholders[formKeys.createOrder.date]
+          }
+          label={forms.createOrder.labels[formKeys.createOrder.date]}
         />
       </Box>
       <Button

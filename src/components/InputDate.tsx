@@ -1,18 +1,19 @@
 import React from 'react';
-import { Box, Input } from '@ui/components';
-import MaskInput from 'react-native-mask-input';
+import { Box, Input, type InputProps } from '@ui/components';
+import MaskInput from '@components/MaskInput';
+import { Masks } from 'react-native-mask-input';
 
-type Props = {
-  onChange?: (text: string) => void;
-  placeholder?: string;
+type Props = InputProps & {
   label: string;
-  isRequired: boolean;
 };
 
-const InputDate: React.FC<Props> = ({ label }) => {
+const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
   return (
-    <Box>
-      <Input as={MaskInput} />
+    <Box my="m">
+      <MaskInput
+        mask={Masks.DATE_DDMMYYYY}
+        onChangeText={newText => onChangeText?.(newText)}
+      />
     </Box>
   );
 };

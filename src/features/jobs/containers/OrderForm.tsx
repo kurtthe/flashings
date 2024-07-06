@@ -12,7 +12,7 @@ const OrderForm = () => {
   return (
     <Formik
       enableReinitialize
-      initialValues={forms.createOrder}
+      initialValues={forms.createOrder.initialValues}
       onSubmit={handleSubmit}>
       <CreateOrderForm />
     </Formik>

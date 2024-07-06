@@ -38,6 +38,7 @@ const FieldSelect = ({
     },
     [helpers, onChange],
   );
+  if (!options) return null;
 
   return (
     <Box>

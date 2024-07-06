@@ -1,18 +1,15 @@
 import React from 'react';
-import { Box, Input } from '@ui/components';
+import { Box, Input, type InputProps } from '@ui/components';
 import MaskInput from 'react-native-mask-input';
 
-type Props = {
-  onChange?: (text: string) => void;
-  placeholder?: string;
+type Props = InputProps & {
   label?: string;
-  isRequired?: boolean;
 };
 
-const InputTime: React.FC<Props> = () => {
+const InputTime: React.FC<Props> = ({ ...rest }) => {
   return (
     <Box>
-      <Input as={MaskInput} />
+      <Input as={MaskInput} {...rest} />
     </Box>
   );
 };
