@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, OptionsType, SelectInput } from '@ui/components';
+import { Box, Button, OptionsType } from '@ui/components';
 import { useFormikContext } from 'formik';
 import { CreateOrderFormValues } from '@features/jobs/containers/types';
 import { formKeys, forms } from '@features/jobs/constants';
