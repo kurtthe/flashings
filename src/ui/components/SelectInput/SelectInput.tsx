@@ -187,7 +187,10 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
               setLabelColor(undefined);
             }}>
             <View
-              style={[styles.dropdownItem, { backgroundColor: item.bgColor }]}>
+              style={[
+                styles.dropdownItem,
+                { backgroundColor: item?.bgColor ?? 'white' },
+              ]}>
               <Text
                 style={[
                   styles.dropdownTextStyles,

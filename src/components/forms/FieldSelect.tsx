@@ -11,6 +11,7 @@ import {
 } from '@ui/components';
 import ErrorMessage from './ErrorMessage';
 import { isAndroid } from '@shared/platform';
+import { palette } from '@theme';
 
 type Props = Omit<SelectInputProps, 'onChange'> &
   Pick<FieldConfig, 'name' | 'value'> & {
@@ -49,6 +50,7 @@ const FieldSelect = ({
         label={label}
         isRequired={isRequired}
         {...rest}
+        style={{ backgroundColor: 'white' }}
       />
       <Box style={styles.labelContainer}>
         <Text variant="subheadLight" fontSize={14}>
@@ -66,11 +68,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 8,
     top: 7,
-  },
-  containerStyle: {
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingVertical: 8,
   },
   selectedTextStyle: {
     height: isAndroid ? 40 : 'auto',

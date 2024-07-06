@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Input, type InputProps } from '@ui/components';
+import { Box, type InputProps } from '@ui/components';
 import MaskInput from '@components/MaskInput';
 import { Masks } from 'react-native-mask-input';
 
@@ -13,6 +13,7 @@ const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
       <MaskInput
         mask={Masks.DATE_DDMMYYYY}
         onChangeText={newText => onChangeText?.(newText)}
+        {...rest}
       />
     </Box>
   );

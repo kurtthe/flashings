@@ -6,19 +6,13 @@ import {
   Pressable,
   StyleSheet,
   Animated,
-  TextStyle,
-  TextInputProps,
 } from 'react-native';
 import MaskInput, { MaskInputProps } from 'react-native-mask-input';
 import { useCombinedRefs } from '@hooks/useCombinedRefs';
-import { Box, InputProps } from '@ui/components';
+import { Box } from '@ui/components';
 import Text from '@ui/components/Text';
-import { useFontStyle } from '@ui/hooks';
-import { getKeys } from '@ui/utils';
-import { color, typography } from '@shopify/restyle';
-import { useAppRestyle } from '@theme';
-import { restyleFunctions, RestyleInputProps } from '@ui/components/Input';
-import { useIsDarkMode } from '@theme/hooks';
+import { RestyleInputProps } from '@ui/components/Input';
+import { palette } from '@theme';
 
 type Props = RestyleInputProps &
   MaskInputProps & {
@@ -27,10 +21,6 @@ type Props = RestyleInputProps &
     placeholder?: string;
     isRequired?: boolean;
   };
-
-const inputStyleProperties = [...typography, ...color].map(
-  ({ property }) => property as string,
-);
 
 const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
   (
@@ -49,33 +39,7 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
   ) => {
     const [currentValue, setCurrentValue] = React.useState<string>();
     const internalRef = React.createRef<TextInput>();
-    const labelAnimationRef = useRef(
-      new Animated.Value(!!value ? 1 : 0),
-    ).current;
     const refs = useCombinedRefs(internalRef, ref);
-
-    const {
-      style: [{ selectionColor, ...containerStyle }],
-      ...props
-    } = useAppRestyle<
-      InputProps,
-      Pick<TextInputProps, 'placeholderTextColor' | 'selectionColor'>
-    >(restyleFunctions, {
-      variant: inputVariant,
-      ...rest,
-    });
-
-    const fontStyle = useFontStyle(containerStyle as TextStyle);
-    const inputStyle = getKeys(containerStyle).reduce(
-      (styleAcc, styleProperty) => {
-        if (inputStyleProperties.indexOf(styleProperty) !== -1) {
-          styleAcc[styleProperty] = containerStyle[styleProperty];
-          delete containerStyle[styleProperty];
-        }
-        return styleAcc;
-      },
-      {} as Record<string, any>,
-    );
 
     const handleBlur = React.useCallback(
       (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -109,14 +73,8 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
               position="absolute"
               color="grey400"
               style={{
-                top: labelAnimationRef.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [18, 7],
-                }),
-                fontSize: labelAnimationRef.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [16, 14],
-                }),
+                top: 10,
+                fontSize: 14,
               }}>
               {label ?? placeholder}
               {isRequired && <Text color="error500">*</Text>}
@@ -127,11 +85,8 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
               onChangeText={text => handleChangeText(text)}
               onBlur={handleBlur}
               onFocus={handleFocus}
-              {...props}
               style={[
                 styles.text,
-                fontStyle,
-                inputStyle,
                 {
                   paddingTop: value ? 17 : 0,
                   fontWeight: value ? '700' : '500',
@@ -150,12 +105,18 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
 const styles = StyleSheet.create({
   inputContainer: {
     width: '100%',
+    paddingHorizontal: 20,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    borderColor: palette.base100,
+    borderWidth: 1,
     height: 60,
   },
   text: {
     fontSize: 16,
     lineHeight: 20,
     marginTop: 8,
+    height: '100%',
   },
   inputLabel: {
     marginTop: 8,
