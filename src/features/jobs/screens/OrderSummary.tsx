@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, OptionsType } from '@ui/components';
+import { OptionsType, ScrollBox } from '@ui/components';
 import { StyleSheet } from 'react-native';
 import {
   useCreateMaterial,
@@ -157,16 +157,13 @@ const OrderSummaryScreen: React.FC = () => {
   }
 
   return (
-    <Box p="m" style={styles.container}>
-      <PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
-      <OrderForm />
-    </Box>
+    <ScrollBox p="m" flex={1}>
+      <>
+        <PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
+        <OrderForm />
+      </>
+    </ScrollBox>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-  },
-});
+
 export default OrderSummaryScreen;
