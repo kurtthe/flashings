@@ -1,5 +1,5 @@
 import React from 'react';
-import { OptionsType, ScrollBox } from '@ui/components';
+import { Box, OptionsType, ScrollBox } from '@ui/components';
 import { StyleSheet } from 'react-native';
 import {
   useCreateMaterial,
@@ -28,6 +28,7 @@ import { baseUrlPDF } from '@shared/endPoints';
 import Loading from '@components/Loading';
 import PDFShared from '@features/jobs/containers/PDFShared';
 import OrderForm from '@features/jobs/containers/OrderForm';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const OrderSummaryScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -157,11 +158,15 @@ const OrderSummaryScreen: React.FC = () => {
   }
 
   return (
-    <ScrollBox p="m" flex={1}>
-      <>
+    <ScrollBox
+      as={KeyboardAwareScrollView}
+      keyboardShouldPersistTaps="handled"
+      enableOnAndroid
+      showsVerticalScrollIndicator={false}>
+      <Box p="m" flex={1}>
         <PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
         <OrderForm />
-      </>
+      </Box>
     </ScrollBox>
   );
 };

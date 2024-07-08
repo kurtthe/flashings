@@ -12,6 +12,7 @@ const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
     <Box my="m">
       <MaskInput
         mask={Masks.DATE_DDMMYYYY}
+        keyboardType="numeric"
         onChangeText={newText => onChangeText?.(newText)}
         {...rest}
       />
