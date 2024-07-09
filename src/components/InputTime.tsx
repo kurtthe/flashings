@@ -20,7 +20,6 @@ const InputTime: React.FC<Props> = ({ onChangeText, ...rest }) => {
   const formatted = 'HH:mm ';
 
   const handleConfirm = (time: any) => {
-    console.log('==>date{}', typeof time);
     const dateText = formatDate(time, formatted);
     setSelectedDateText(dateText);
     showOrHideDatePicker(false);
