@@ -15,7 +15,7 @@ import { formatDate } from '@shared/utils/formatDate';
 export const storesToOption = (data: STORE[]): OptionsType[] => {
   return data
     .map(store => ({
-      value: store.id,
+      value: store.id?.toString(),
       label: store.name,
       bgColor: '#fff',
       textColor: 'black',

@@ -74,7 +74,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
           label="Colour/Material"
           name="material"
           options={dataMaterials.map(material => ({
-            value: material.id,
+            value: material.id.toString(),
             label: material.label,
             bgColor: material.bgColor,
             textColor: material.textColor,

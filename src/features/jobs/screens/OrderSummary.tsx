@@ -104,7 +104,7 @@ const OrderSummaryScreen: React.FC = () => {
 
   const handleChange = (itemStore: OptionsType) => {
     const dataStore = stores?.find(
-      sItemStore => itemStore.value === sItemStore.id,
+      sItemStore => itemStore.value === sItemStore.id.toString(),
     );
     if (!dataStore) return;
     setStoreSelected(dataStore);

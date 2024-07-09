@@ -10,7 +10,7 @@ import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 
 const optionsDeliveryOrPickUp: OptionsType[] = [
   {
-    value: 2,
+    value: 'delivery',
     label: 'Delivery',
     bgColor: '#ffffff',
     textColor: 'black',
@@ -18,7 +18,7 @@ const optionsDeliveryOrPickUp: OptionsType[] = [
     disabled: false,
   },
   {
-    value: 1,
+    value: 'pickUp',
     label: 'Pick up',
     bgColor: '#ffffff',
     textColor: 'black',
@@ -48,12 +48,14 @@ const CreateOrderForm = () => {
     <>
       <Box>
         <FieldSelect
+          isRequired
           name={formKeys.createOrder.store}
           options={optionsStore}
           label={forms.createOrder.labels[formKeys.createOrder.store]}
         />
 
         <FieldInputDateTime
+          isRequired
           typeFormat="date"
           name={formKeys.createOrder.date}
           placeholder={
@@ -63,6 +65,7 @@ const CreateOrderForm = () => {
           returnKeyType="next"
         />
         <FieldSelect
+          isRequired
           name={formKeys.createOrder.deliveryOrPickUp}
           options={optionsDeliveryOrPickUp}
           label={
@@ -71,6 +74,7 @@ const CreateOrderForm = () => {
         />
         {values[formKeys.createOrder.deliveryOrPickUp] === 1 ? (
           <FieldInputDateTime
+            isRequired
             typeFormat="time"
             name={formKeys.createOrder.time}
             placeholder={
@@ -81,6 +85,7 @@ const CreateOrderForm = () => {
           />
         ) : (
           <FieldInput
+            isRequired
             name={formKeys.createOrder.address}
             placeholder={
               forms.createOrder.placeholders[formKeys.createOrder.address]

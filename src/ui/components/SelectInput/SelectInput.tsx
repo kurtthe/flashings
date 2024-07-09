@@ -65,6 +65,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
       search = false,
       value = '',
       portal = true,
+      isRequired,
     } = props;
     const ref = useRef<View>(null);
     const refList = useRef<FlatList>(null);
@@ -80,7 +81,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
     const styles = makeStyles(isAndroid);
     React.useEffect(() => {
       const optionValue = options.find(
-        item => item.value.toString() === value || item.label === value,
+        item => item.value === value || item.label === value,
       );
       if (!optionValue) return;
       setCurrentValue(optionValue);
@@ -383,7 +384,9 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
                 fontWeight: currentValue?.bold ? 'bold' : 'normal',
               },
             ]}
-            value={`${currentValue?.label ?? labelField}`}
+            value={`${currentValue?.label ?? labelField}${
+              isRequired && !currentValue?.label ? '*' : ''
+            }`}
             editable={search}
             onPressIn={() => showOrClose()}
           />

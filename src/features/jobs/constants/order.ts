@@ -13,7 +13,7 @@ export const createOrderProperties = {
   initialValues: {
     [formKeysOrders.store]: '',
     [formKeysOrders.date]: '',
-    [formKeysOrders.deliveryOrPickUp]: '',
+    [formKeysOrders.deliveryOrPickUp]: 'delivery',
     [formKeysOrders.time]: '',
     [formKeysOrders.comments]: '',
     [formKeysOrders.address]: '',
