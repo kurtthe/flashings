@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Icon, IconButton, type InputProps } from '@ui/components';
+import { Box, type InputProps } from '@ui/components';
 import MaskInput from '@components/MaskInput';
 import { Masks } from 'react-native-mask-input';
 import DateTimePicker from 'react-native-modal-datetime-picker';

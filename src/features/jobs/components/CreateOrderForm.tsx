@@ -78,12 +78,12 @@ const CreateOrderForm = () => {
         />
         {values[formKeys.createOrder.deliveryOrPickUp] === 1 && (
           <FieldInputDateTime
-            typeFormat="date"
-            name={formKeys.createOrder.date}
+            typeFormat="time"
+            name={formKeys.createOrder.time}
             placeholder={
-              forms.createOrder.placeholders[formKeys.createOrder.date]
+              forms.createOrder.placeholders[formKeys.createOrder.time]
             }
-            label={forms.createOrder.labels[formKeys.createOrder.date]}
+            label={forms.createOrder.labels[formKeys.createOrder.time]}
           />
         )}
       </Box>
