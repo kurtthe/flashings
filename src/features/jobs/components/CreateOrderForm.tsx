@@ -76,7 +76,7 @@ const CreateOrderForm = () => {
             forms.createOrder.labels[formKeys.createOrder.deliveryOrPickUp]
           }
         />
-        {values[formKeys.createOrder.deliveryOrPickUp] === 1 && (
+        {values[formKeys.createOrder.deliveryOrPickUp] === 1 ? (
           <FieldInputDateTime
             typeFormat="time"
             name={formKeys.createOrder.time}
@@ -84,6 +84,16 @@ const CreateOrderForm = () => {
               forms.createOrder.placeholders[formKeys.createOrder.time]
             }
             label={forms.createOrder.labels[formKeys.createOrder.time]}
+          />
+        ) : (
+          <FieldInput
+            name={formKeys.createOrder.address}
+            placeholder={
+              forms.createOrder.placeholders[formKeys.createOrder.address]
+            }
+            label={forms.createOrder.labels[formKeys.createOrder.address]}
+            returnKeyType="next"
+            mt="m"
           />
         )}
       </Box>
