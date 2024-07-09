@@ -30,7 +30,7 @@ const FieldSelect = ({
   ...rest
 }: Props) => {
   const [field, meta, helpers] = useField(name);
-  const isInvalid = Boolean(meta.error);
+  const isInvalid = Boolean(meta.touched && meta.error);
 
   const handleChange = React.useCallback(
     (item: OptionsType) => {

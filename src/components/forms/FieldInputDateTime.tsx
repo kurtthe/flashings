@@ -1,6 +1,6 @@
 import React from 'react';
 import { FieldConfig, useField } from 'formik';
-import { type InputProps } from '@ui/components';
+import { Box, type InputProps } from '@ui/components';
 import InputDate from '@components/InputDate';
 import InputTime from '@components/InputTime';
 import ErrorMessage from '@components/forms/ErrorMessage';
@@ -22,7 +22,7 @@ const FieldInputDateTime: React.FC<Props> = ({
   ...rest
 }) => {
   const [field, meta] = useField({ name, value, defaultValue });
-  const isInvalid = Boolean(meta.error);
+  const isInvalid = Boolean(meta.touched && meta.error);
 
   const handleChangeText = (text: string) => {
     onChangeText?.(text);
@@ -30,7 +30,7 @@ const FieldInputDateTime: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <Box my="m">
       {typeFormat === 'date' ? (
         <InputDate
           label={label}
@@ -47,7 +47,7 @@ const FieldInputDateTime: React.FC<Props> = ({
         />
       )}
       {isInvalid && <ErrorMessage>{meta.error}</ErrorMessage>}
-    </>
+    </Box>
   );
 };
 

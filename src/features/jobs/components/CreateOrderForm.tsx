@@ -31,7 +31,7 @@ const CreateOrderForm = () => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const { data: stores, refetch } = useGetStores();
 
-  const { isValid, handleSubmit, values, errors } =
+  const { isValid, handleSubmit, values } =
     useFormikContext<CreateOrderFormValues>();
 
   React.useEffect(() => {
@@ -43,6 +43,8 @@ const CreateOrderForm = () => {
     const storesAsRadioButton = storesToOption(stores);
     setOptionsStore(storesAsRadioButton);
   }, [stores]);
+
+  if (!optionsStore.length) return null;
 
   return (
     <>
@@ -56,8 +58,8 @@ const CreateOrderForm = () => {
 
         <FieldInputDateTime
           isRequired
-          typeFormat="date"
           name={formKeys.createOrder.date}
+          typeFormat="date"
           placeholder={
             forms.createOrder.placeholders[formKeys.createOrder.date]
           }
@@ -94,7 +96,7 @@ const CreateOrderForm = () => {
             }
             label={forms.createOrder.labels[formKeys.createOrder.address]}
             returnKeyType="next"
-            mt="m"
+            my="m"
           />
         )}
 
@@ -105,7 +107,6 @@ const CreateOrderForm = () => {
           }
           label={forms.createOrder.labels[formKeys.createOrder.comments]}
           returnKeyType="next"
-          mt="m"
           multiline
         />
       </Box>

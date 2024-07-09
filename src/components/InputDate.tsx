@@ -22,6 +22,7 @@ const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
     const dateText = formatDate(date, formatted);
     setSelectedDateText(dateText);
     showOrHideDatePicker(false);
+    onChangeText?.(dateText);
   };
 
   const showOrHideDatePicker = (show: boolean = true) => {
@@ -30,7 +31,7 @@ const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
 
   return (
     <>
-      <Box mt="m" flexDirection="row">
+      <Box flexDirection="row">
         <MaskInput
           value={selectedDateText}
           onFocus={() => setIsDatePickerVisible(true)}
