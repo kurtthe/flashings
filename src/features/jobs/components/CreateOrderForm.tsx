@@ -31,7 +31,7 @@ const CreateOrderForm = () => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const { data: stores, refetch } = useGetStores();
 
-  const { isValid, handleSubmit, values } =
+  const { isValid, handleSubmit, values, errors } =
     useFormikContext<CreateOrderFormValues>();
 
   React.useEffect(() => {
@@ -43,6 +43,10 @@ const CreateOrderForm = () => {
     const storesAsRadioButton = storesToOption(stores);
     setOptionsStore(storesAsRadioButton);
   }, [stores]);
+
+  console.log('==>isValid[] =', isValid);
+  console.log('==>values[] =', JSON.stringify(values));
+  console.log('==>errors[] =', JSON.stringify(errors));
 
   return (
     <>
@@ -72,7 +76,7 @@ const CreateOrderForm = () => {
             forms.createOrder.labels[formKeys.createOrder.deliveryOrPickUp]
           }
         />
-        {values[formKeys.createOrder.deliveryOrPickUp] === 1 ? (
+        {values[formKeys.createOrder.deliveryOrPickUp] === 'pickUp' ? (
           <FieldInputDateTime
             isRequired
             typeFormat="time"
