@@ -19,8 +19,8 @@ export const createOrderProperties = {
     [formKeysOrders.address]: '',
   },
   initialErrors: {
-    [formKeysOrders.store]: '',
-    [formKeysOrders.date]: '',
+    [formKeysOrders.store]: 'Store is required.',
+    [formKeysOrders.date]: 'Date is required.',
     [formKeysOrders.deliveryOrPickUp]: '',
     [formKeysOrders.time]: '',
     [formKeysOrders.comments]: '',

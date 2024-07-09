@@ -16,7 +16,9 @@ const OrderForm = () => {
       <DismissKeyboardPressable>
         <Formik
           enableReinitialize
+          initialErrors={forms.createOrder.initialErrors}
           initialValues={forms.createOrder.initialValues}
+          validationSchema={forms.createOrder.schema}
           onSubmit={handleSubmit}>
           <CreateOrderForm />
         </Formik>
