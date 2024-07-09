@@ -44,10 +44,6 @@ const CreateOrderForm = () => {
     setOptionsStore(storesAsRadioButton);
   }, [stores]);
 
-  console.log('==>isValid[] =', isValid);
-  console.log('==>values[] =', JSON.stringify(values));
-  console.log('==>errors[] =', JSON.stringify(errors));
-
   return (
     <>
       <Box>
@@ -68,6 +64,7 @@ const CreateOrderForm = () => {
           label={forms.createOrder.labels[formKeys.createOrder.date]}
           returnKeyType="next"
         />
+
         <FieldSelect
           isRequired
           name={formKeys.createOrder.deliveryOrPickUp}
@@ -76,6 +73,7 @@ const CreateOrderForm = () => {
             forms.createOrder.labels[formKeys.createOrder.deliveryOrPickUp]
           }
         />
+
         {values[formKeys.createOrder.deliveryOrPickUp] === 'pickUp' ? (
           <FieldInputDateTime
             isRequired

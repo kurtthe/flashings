@@ -30,7 +30,7 @@ const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
 
   return (
     <>
-      <Box my="m" flexDirection="row">
+      <Box mt="m" flexDirection="row">
         <MaskInput
           value={selectedDateText}
           onFocus={() => setIsDatePickerVisible(true)}

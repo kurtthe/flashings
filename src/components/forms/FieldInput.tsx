@@ -50,7 +50,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
       restyleFunctionsField,
       rest,
     );
-    const isInvalid = Boolean(meta.touched && meta.error);
+    const isInvalid = Boolean(meta.error);
 
     const handleBlur = useCallback(
       (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {

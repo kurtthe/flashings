@@ -46,23 +46,9 @@ export const createOrderProperties = {
     [formKeysOrders.store]: Yup.string().required('Store is required.'),
     [formKeysOrders.date]: Yup.string().required('Date is required.'),
     [formKeysOrders.comments]: Yup.string(),
+    [formKeysOrders.time]: Yup.string(),
     [formKeysOrders.deliveryOrPickUp]: Yup.mixed()
       .oneOf(['delivery', 'pickup'])
-      .required('Delivery or Pick is required.'),
-    [formKeysOrders.time]: Yup.string().when(formKeysOrders.deliveryOrPickUp, {
-      // @ts-ignore
-      is: 'pickup',
-      then: Yup.string().required('Time is required for pickup.'),
-      otherwise: Yup.string().notRequired(),
-    }),
-    [formKeysOrders.address]: Yup.string().when(
-      formKeysOrders.deliveryOrPickUp,
-      {
-        // @ts-ignore
-        is: 'delivery',
-        then: Yup.string().required('Address is required for delivery.'),
-        otherwise: Yup.string().notRequired(),
-      },
-    ),
+      .required('Delivery or Pickup is required.'),
   }),
 };
