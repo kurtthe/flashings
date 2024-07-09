@@ -68,6 +68,7 @@ const CreateOrderForm = () => {
             forms.createOrder.placeholders[formKeys.createOrder.date]
           }
           label={forms.createOrder.labels[formKeys.createOrder.date]}
+          returnKeyType="next"
         />
         <FieldSelect
           name={formKeys.createOrder.deliveryOrPickUp}
@@ -84,6 +85,7 @@ const CreateOrderForm = () => {
               forms.createOrder.placeholders[formKeys.createOrder.time]
             }
             label={forms.createOrder.labels[formKeys.createOrder.time]}
+            returnKeyType="next"
           />
         ) : (
           <FieldInput

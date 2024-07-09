@@ -9,7 +9,7 @@ type Props = InputProps & {
   label: string;
 };
 
-const TIME_MASK = [/\d/, /\d/, ':', /\d/, /\d/];
+const TIME_MASK = [/[0-2]/, /\d/, ':', /[0-5]/, /\d/];
 
 const InputTime: React.FC<Props> = ({ onChangeText, ...rest }) => {
   const [isTimePickerVisible, setIsTimePickerVisible] = React.useState(false);
