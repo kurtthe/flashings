@@ -52,15 +52,7 @@ const CreateOrderForm = () => {
           options={optionsStore}
           label={forms.createOrder.labels[formKeys.createOrder.store]}
         />
-        <FieldInput
-          name={formKeys.createOrder.comments}
-          placeholder={
-            forms.createOrder.placeholders[formKeys.createOrder.comments]
-          }
-          label={forms.createOrder.labels[formKeys.createOrder.comments]}
-          returnKeyType="next"
-          mt="m"
-        />
+
         <FieldInputDateTime
           typeFormat="date"
           name={formKeys.createOrder.date}
@@ -98,6 +90,17 @@ const CreateOrderForm = () => {
             mt="m"
           />
         )}
+
+        <FieldInput
+          name={formKeys.createOrder.comments}
+          placeholder={
+            forms.createOrder.placeholders[formKeys.createOrder.comments]
+          }
+          label={forms.createOrder.labels[formKeys.createOrder.comments]}
+          returnKeyType="next"
+          mt="m"
+          multiline
+        />
       </Box>
       <Button
         my="m"

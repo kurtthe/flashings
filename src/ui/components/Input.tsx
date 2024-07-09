@@ -222,7 +222,14 @@ const Input = forwardRef<InputProps, typeof TextInput>(
 
     return (
       <Pressable
-        style={[styles.inputContainer, style, { ...containerStyle }]}
+        style={StyleSheet.flatten([
+          styles.inputContainer,
+          style,
+          { ...containerStyle },
+          rest.multiline && {
+            height: 200,
+          },
+        ])}
         onPress={handleExternalFocus}
         accessible={false}>
         <Box flexDirection="row" alignItems="center">
