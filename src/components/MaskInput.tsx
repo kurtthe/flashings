@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import MaskInput, { MaskInputProps } from 'react-native-mask-input';
 import { useCombinedRefs } from '@hooks/useCombinedRefs';
-import { Box } from '@ui/components';
+import { Box, Icon, IconButton } from '@ui/components';
 import Text from '@ui/components/Text';
 import { RestyleInputProps } from '@ui/components/Input';
 import { palette } from '@theme';
@@ -20,6 +20,8 @@ type Props = RestyleInputProps &
     label: string;
     placeholder?: string;
     isRequired?: boolean;
+    icon?: any;
+    onIcon?: () => void;
   };
 
 const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
@@ -33,6 +35,8 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
       variant: inputVariant = undefined,
       placeholder,
       isRequired,
+      icon,
+      onIcon,
       ...rest
     },
     ref,
@@ -96,6 +100,12 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
               {...rest}
             />
           </Box>
+          {icon && (
+            <IconButton
+              icon={<Icon as={icon} size={32} />}
+              onPress={() => onIcon?.()}
+            />
+          )}
         </Box>
       </Pressable>
     );

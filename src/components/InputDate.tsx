@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, type InputProps } from '@ui/components';
+import { Box, Icon, IconButton, type InputProps } from '@ui/components';
 import MaskInput from '@components/MaskInput';
 import { Masks } from 'react-native-mask-input';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { formatDate } from '@shared/utils/formatDate';
+import { CalendarIcon } from '@assets/icons';
 
 type Props = InputProps & {
   label: string;
@@ -29,12 +30,15 @@ const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
 
   return (
     <>
-      <Box my="m">
+      <Box my="m" flexDirection="row">
         <MaskInput
           value={selectedDateText}
           onFocus={() => setIsDatePickerVisible(true)}
           mask={Masks.DATE_DDMMYYYY}
-          keyboardType="numeric"
+          keyboardType="number-pad"
+          inputMode="numeric"
+          icon={CalendarIcon}
+          onIcon={() => showOrHideDatePicker(true)}
           onChangeText={newText => {
             setSelectedDateText(newText);
             onChangeText?.(newText);

@@ -31,3 +31,5 @@ export { default as EndBreakLeft2Icon } from './endBreakLeft2.svg';
 export { default as EndBreakRight2Icon } from './endBreakRight2.svg';
 export { default as OrderSubmittedIcon } from './orderSubmitted.svg';
 export { default as ShareIcon } from './shared.svg';
+export { default as TimeIcon } from './time.svg';
+export { default as CalendarIcon } from './calendar.svg';
