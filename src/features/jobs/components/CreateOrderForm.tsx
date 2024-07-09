@@ -8,11 +8,30 @@ import { useGetStores } from '@hooks/jobs';
 import { storesToOption } from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 
+const optionsDeliveryOrPickUp: OptionsType[] = [
+  {
+    value: 2,
+    label: 'Delivery',
+    bgColor: '#ffffff',
+    textColor: 'black',
+    bold: false,
+    disabled: false,
+  },
+  {
+    value: 1,
+    label: 'Pick up',
+    bgColor: '#ffffff',
+    textColor: 'black',
+    bold: false,
+    disabled: false,
+  },
+];
+
 const CreateOrderForm = () => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const { data: stores, refetch } = useGetStores();
 
-  const { isValid, handleSubmit, setFieldValue } =
+  const { isValid, handleSubmit, values } =
     useFormikContext<CreateOrderFormValues>();
 
   React.useEffect(() => {
@@ -50,6 +69,23 @@ const CreateOrderForm = () => {
           }
           label={forms.createOrder.labels[formKeys.createOrder.date]}
         />
+        <FieldSelect
+          name={formKeys.createOrder.deliveryOrPickUp}
+          options={optionsDeliveryOrPickUp}
+          label={
+            forms.createOrder.labels[formKeys.createOrder.deliveryOrPickUp]
+          }
+        />
+        {values[formKeys.createOrder.deliveryOrPickUp] === 1 && (
+          <FieldInputDateTime
+            typeFormat="date"
+            name={formKeys.createOrder.date}
+            placeholder={
+              forms.createOrder.placeholders[formKeys.createOrder.date]
+            }
+            label={forms.createOrder.labels[formKeys.createOrder.date]}
+          />
+        )}
       </Box>
       <Button
         my="m"
