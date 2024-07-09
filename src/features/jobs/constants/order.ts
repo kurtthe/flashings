@@ -3,17 +3,19 @@ import * as Yup from 'yup';
 export const formKeysOrders = {
   store: 'store',
   date: 'date',
-  deliveryOrPickUp: 'delivery',
+  deliveryOrPickUp: 'deliveryOrPickUp',
   time: 'time',
   comments: 'comments',
   address: 'address',
 };
 
+export const optionsDelivery = ['delivery', 'pickup'];
+
 export const createOrderProperties = {
   initialValues: {
     [formKeysOrders.store]: '',
     [formKeysOrders.date]: '',
-    [formKeysOrders.deliveryOrPickUp]: 'delivery',
+    [formKeysOrders.deliveryOrPickUp]: optionsDelivery[0], // Default to 'delivery'
     [formKeysOrders.time]: '',
     [formKeysOrders.comments]: '',
     [formKeysOrders.address]: '',
@@ -46,9 +48,29 @@ export const createOrderProperties = {
     [formKeysOrders.store]: Yup.string().required('Store is required.'),
     [formKeysOrders.date]: Yup.string().required('Date is required.'),
     [formKeysOrders.comments]: Yup.string(),
-    [formKeysOrders.time]: Yup.string(),
     [formKeysOrders.deliveryOrPickUp]: Yup.mixed()
-      .oneOf(['delivery', 'pickup'])
+      .oneOf(optionsDelivery)
       .required('Delivery or Pickup is required.'),
+
+    [formKeysOrders.time]: Yup.string().when(
+      formKeysOrders.deliveryOrPickUp,
+      (values, schemaTime) => {
+        // @ts-ignore
+        if (values[formKeysOrders.deliveryOrPickUp] === optionsDelivery[1]) {
+          return schemaTime.required('Time is required.');
+        }
+        return schemaTime.notRequired();
+      },
+    ),
+    [formKeysOrders.address]: Yup.string().when(
+      formKeysOrders.deliveryOrPickUp,
+      (values, schemaTime) => {
+        // @ts-ignore
+        if (values[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]) {
+          return schemaTime.required('Address is required.');
+        }
+        return schemaTime.notRequired();
+      },
+    ),
   }),
 };

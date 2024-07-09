@@ -7,10 +7,11 @@ import { FieldInput, FieldSelect } from '@components/forms';
 import { useGetStores } from '@hooks/jobs';
 import { storesToOption } from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
+import { optionsDelivery } from '@features/jobs/constants/order';
 
 const optionsDeliveryOrPickUp: OptionsType[] = [
   {
-    value: 'delivery',
+    value: optionsDelivery[0],
     label: 'Delivery',
     bgColor: '#ffffff',
     textColor: 'black',
@@ -18,7 +19,7 @@ const optionsDeliveryOrPickUp: OptionsType[] = [
     disabled: false,
   },
   {
-    value: 'pickUp',
+    value: optionsDelivery[1],
     label: 'Pick up',
     bgColor: '#ffffff',
     textColor: 'black',
@@ -31,7 +32,7 @@ const CreateOrderForm = () => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const { data: stores, refetch } = useGetStores();
 
-  const { isValid, handleSubmit, values } =
+  const { isValid, handleSubmit, values, errors } =
     useFormikContext<CreateOrderFormValues>();
 
   React.useEffect(() => {
@@ -45,6 +46,9 @@ const CreateOrderForm = () => {
   }, [stores]);
 
   if (!optionsStore.length) return null;
+
+  console.log('==>[errors]', JSON.stringify(errors));
+  console.log('==>[isValid]', isValid);
 
   return (
     <>
@@ -76,7 +80,8 @@ const CreateOrderForm = () => {
           }
         />
 
-        {values[formKeys.createOrder.deliveryOrPickUp] === 'pickUp' ? (
+        {values[formKeys.createOrder.deliveryOrPickUp] ===
+        optionsDelivery[1] ? (
           <FieldInputDateTime
             isRequired
             typeFormat="time"
