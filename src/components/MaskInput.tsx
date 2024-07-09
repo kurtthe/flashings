@@ -88,8 +88,8 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
               style={[
                 styles.text,
                 {
-                  paddingTop: value ? 17 : 0,
-                  fontWeight: value ? '700' : '500',
+                  paddingTop: 17,
+                  fontWeight: '700',
                   paddingHorizontal: 0,
                 },
               ]}
@@ -115,7 +115,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     lineHeight: 20,
-    marginTop: 8,
     height: '100%',
   },
   inputLabel: {

@@ -35,7 +35,10 @@ const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
           onFocus={() => setIsDatePickerVisible(true)}
           mask={Masks.DATE_DDMMYYYY}
           keyboardType="numeric"
-          onChangeText={newText => onChangeText?.(newText)}
+          onChangeText={newText => {
+            setSelectedDateText(newText);
+            onChangeText?.(newText);
+          }}
           {...rest}
         />
       </Box>
