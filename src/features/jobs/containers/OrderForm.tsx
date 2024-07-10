@@ -35,8 +35,6 @@ const OrderForm: React.FC<Props> = ({
   jobId,
   urlIdPdf,
 }) => {
-  const formikRef = React.useRef<FormikProps<CreateOrderFormValues>>(null);
-
   const dispatch = useAppDispatch();
   const navigation = useNavigation<JobStackProps>();
   const dataUser = useAppSelector(dataUserSelector);
@@ -58,17 +56,19 @@ const OrderForm: React.FC<Props> = ({
 
         if (!storeSelected) return;
 
-        sharedMaterialOrder({
-          dataShared: {
-            emails: [
-              storeSelected.email,
-              `${dataUser.email}`,
-              ...config.emailsToShared,
-            ],
-            message: config.messageToShared,
-            idOrder: orderId,
-          },
-        });
+        setTimeout(() => {
+          sharedMaterialOrder({
+            dataShared: {
+              emails: [
+                storeSelected.email,
+                `${dataUser.email}`,
+                ...config.emailsToShared,
+              ],
+              message: config.messageToShared,
+              idOrder: orderId,
+            },
+          });
+        }, 500);
       },
     });
 
@@ -100,8 +100,6 @@ const OrderForm: React.FC<Props> = ({
       );
       if (!dataStoreSelected) return;
       setStoreSelected(dataStoreSelected);
-
-      if (!storeSelected) return;
 
       const dataMaterial = buildDataMaterialOrder({
         name: jobName,
