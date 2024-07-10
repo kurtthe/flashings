@@ -41,6 +41,7 @@ const OrderForm: React.FC<Props> = ({
   jobAddress,
   jobId,
   responseApi,
+  setUrlPdf,
 }) => {
   const formikRef = React.useRef<FormikProps<CreateOrderFormValues>>(null);
 
@@ -54,7 +55,7 @@ const OrderForm: React.FC<Props> = ({
   const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>();
   const [idOfOrder, setIdOfOrder] = React.useState<number | undefined>();
   const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
-  const [urlIdPdf, setUrlIdPdf] = React.useState<string>();
+  const [_urlIdPdf, _setUrlIdPdf] = React.useState<string>();
   const [isLoading, setIsLoading] = React.useState(true);
 
   const { mutate: doMaterialOrder } = useCreateMaterial({
@@ -73,7 +74,7 @@ const OrderForm: React.FC<Props> = ({
 
       const dataOrder: ORDER_TYPE_STORE = {
         orderNumber: `${orderNumber}`.trim(),
-        urlPdf: urlIdPdf ?? '',
+        urlPdf: _urlIdPdf ?? '',
         store: storeSelected.name,
         date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
       };
@@ -94,11 +95,12 @@ const OrderForm: React.FC<Props> = ({
     if (isLoading) return;
     const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(responseApi);
     const fileName = parseJSON.response.file_name;
-    setUrlIdPdf(`${baseUrlPDF}${fileName}`);
+    _setUrlIdPdf(`${baseUrlPDF}${fileName}`);
   }, [responseApi, isLoading]);
 
   React.useEffect(() => {
-    if (!urlIdPdf) return;
+    if (!_urlIdPdf) return;
+    setUrlPdf(_urlIdPdf);
     const delayCreateMaterialOrder = setTimeout(
       () => _handleCreateMaterialOrder(),
       2000,
@@ -106,10 +108,10 @@ const OrderForm: React.FC<Props> = ({
     return () => {
       clearTimeout(delayCreateMaterialOrder);
     };
-  }, [urlIdPdf]);
+  }, [_urlIdPdf]);
 
   const _handleCreateMaterialOrder = React.useCallback(() => {
-    if (!dataSupplier || !urlIdPdf || !formikRef.current || !dataUser) return;
+    if (!dataSupplier || !_urlIdPdf || !formikRef.current || !dataUser) return;
 
     const values = formikRef.current.values;
     if (!values) return;
@@ -123,7 +125,7 @@ const OrderForm: React.FC<Props> = ({
       attachments: [
         {
           name: `${jobName}.pdf`,
-          link: urlIdPdf,
+          link: _urlIdPdf,
         },
       ],
       delivery_instructions: {
@@ -137,11 +139,11 @@ const OrderForm: React.FC<Props> = ({
     });
 
     doMaterialOrder({ material: dataMaterial });
-  }, [stores, dataUser, urlIdPdf, dataSupplier]);
+  }, [stores, dataUser, _urlIdPdf, dataSupplier]);
 
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
-      if (!dataSupplier || !urlIdPdf || !values || !dataUser || !idOfOrder)
+      if (!dataSupplier || !_urlIdPdf || !values || !dataUser || !idOfOrder)
         return;
 
       const dataStoreSelected = stores?.find(
