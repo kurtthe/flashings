@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  buildPathLine,
-  calculatePointHalf,
-  getIndexOfStepForName,
-} from '@features/flashing/utils';
+import { buildPathLine, getIndexOfStepForName } from '@features/flashing/utils';
 import { G, Path as PathComponent } from 'react-native-svg';
-import TextSvg from '@features/flashing/components/TextSvg';
 import AngleComponent from '@features/flashing/components/Angle/Angle';
 import { BUILD_LINE } from '@features/flashing/components/Board/types';
 
