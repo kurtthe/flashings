@@ -45,84 +45,55 @@ const OrderForm: React.FC<Props> = ({
   const { data: dataSupplier } = useGetSupplier();
 
   const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>();
-  const [idOfOrder, setIdOfOrder] = React.useState<number | undefined>();
   const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
-  const [, _setUrlIdPdf] = React.useState<string>();
 
-  const { mutate: doMaterialOrder } = useCreateMaterial({
-    onSuccess: data => {
-      const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number;
-      const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id;
+  const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
+    useCreateMaterial({
+      onSuccess: data => {
+        const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order
+          .order_number;
+        const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id;
+        console.log('doMaterialOrder==>', orderId);
+        setOrderNumber(orderNumber);
 
-      setOrderNumber(orderNumber);
-      setIdOfOrder(orderId);
-    },
-  });
+        if (!storeSelected) return;
 
-  const { mutate: sharedMaterialOrder } = useSendToStore({
-    onSuccess: () => {
-      if (!storeSelected) return;
-
-      const dataOrder: ORDER_TYPE_STORE = {
-        orderNumber: `${orderNumber}`.trim(),
-        urlPdf: urlIdPdf ?? '',
-        store: storeSelected.name,
-        date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
-      };
-
-      dispatch(jobActions.orderSent({ idJob: jobId, dataOrder }));
-      navigation.navigate(RoutesJob.ORDER_SUBMITTED, { jobId });
-    },
-  });
-
-  React.useEffect(() => {
-    if (!urlIdPdf) return;
-    console.log('===>_urlIdPdf', urlIdPdf);
-    const delayCreateMaterialOrder = setTimeout(
-      () => _handleCreateMaterialOrder(),
-      2000,
-    );
-    return () => {
-      clearTimeout(delayCreateMaterialOrder);
-    };
-  }, [urlIdPdf]);
-
-  const _handleCreateMaterialOrder = React.useCallback(() => {
-    if (!dataSupplier || !urlIdPdf || !formikRef.current || !dataUser) return;
-
-    const values = formikRef.current.values;
-    if (!values) return;
-
-    const dataMaterial = buildDataMaterialOrder({
-      name: jobName,
-      supplier: dataSupplier.id,
-      issued_on: values[formKeys.createOrder.date],
-      notes: values[formKeys.createOrder.comments],
-      description: `Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
-      attachments: [
-        {
-          name: `${jobName}.pdf`,
-          link: urlIdPdf,
-        },
-      ],
-      delivery_instructions: {
-        delivery: values[formKeys.createOrder.deliveryOrPickUp],
-        location: values[formKeys.createOrder.address],
-        contact_name: `${dataUser.first_name} ${dataUser.last_name}`,
-        contact_number: dataUser.phone_number,
-        date: values[formKeys.createOrder.date],
-        time: values[formKeys.createOrder.time],
+        sharedMaterialOrder({
+          dataShared: {
+            emails: [
+              storeSelected.email,
+              `${dataUser.email}`,
+              ...config.emailsToShared,
+            ],
+            message: config.messageToShared,
+            idOrder: orderId,
+          },
+        });
       },
     });
 
-    doMaterialOrder({ material: dataMaterial });
-  }, [stores, dataUser, urlIdPdf, dataSupplier]);
+  const { mutate: sharedMaterialOrder, isLoading: isLoadinghandleShare } =
+    useSendToStore({
+      onSuccess: () => {
+        if (!storeSelected) return;
+
+        const dataOrder: ORDER_TYPE_STORE = {
+          orderNumber: `${orderNumber}`.trim(),
+          urlPdf: urlIdPdf ?? '',
+          store: storeSelected.name,
+          date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+        };
+
+        dispatch(jobActions.orderSent({ idJob: jobId, dataOrder }));
+        navigation.navigate(RoutesJob.ORDER_SUBMITTED, { jobId });
+      },
+    });
 
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
-      if (!dataSupplier || !urlIdPdf || !values || !dataUser || !idOfOrder)
-        return;
+      if (!dataSupplier || !urlIdPdf || !values || !dataUser) return;
 
+      console.log('=> Submit=>');
       const dataStoreSelected = stores?.find(
         itemStore =>
           values[formKeys.createOrder.store] === itemStore.id.toString(),
@@ -131,19 +102,32 @@ const OrderForm: React.FC<Props> = ({
       setStoreSelected(dataStoreSelected);
 
       if (!storeSelected) return;
-      sharedMaterialOrder({
-        dataShared: {
-          emails: [
-            storeSelected.email,
-            `${dataUser.email}`,
-            ...config.emailsToShared,
-          ],
-          message: config.messageToShared,
-          idOrder: idOfOrder,
+
+      const dataMaterial = buildDataMaterialOrder({
+        name: jobName,
+        supplier: dataSupplier.id,
+        issued_on: values[formKeys.createOrder.date],
+        notes: values[formKeys.createOrder.comments],
+        description: `Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
+        attachments: [
+          {
+            name: `${jobName}.pdf`,
+            link: urlIdPdf,
+          },
+        ],
+        delivery_instructions: {
+          delivery: values[formKeys.createOrder.deliveryOrPickUp],
+          location: values[formKeys.createOrder.address],
+          contact_name: `${dataUser.first_name} ${dataUser.last_name}`,
+          contact_number: dataUser.phone_number,
+          date: values[formKeys.createOrder.date],
+          time: values[formKeys.createOrder.time],
         },
       });
+
+      doMaterialOrder({ material: dataMaterial });
     },
-    [stores],
+    [dataSupplier, urlIdPdf, dataUser],
   );
 
   return (
@@ -155,7 +139,9 @@ const OrderForm: React.FC<Props> = ({
           initialValues={forms.createOrder.initialValues}
           validationSchema={forms.createOrder.schema}
           onSubmit={handleSubmit}>
-          <CreateOrderForm />
+          <CreateOrderForm
+            isLoading={isLoadinghandleShare || loadingMaterialOrder}
+          />
         </Formik>
       </DismissKeyboardPressable>
     </KeyboardAvoidingBox>

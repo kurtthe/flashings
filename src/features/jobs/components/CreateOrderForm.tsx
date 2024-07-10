@@ -28,11 +28,14 @@ const optionsDeliveryOrPickUp: OptionsType[] = [
   },
 ];
 
-const CreateOrderForm = () => {
+type Props = {
+  isLoading: boolean;
+};
+const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const { data: stores, refetch } = useGetStores();
 
-  const { isValid, handleSubmit, values, errors } =
+  const { isValid, handleSubmit, values } =
     useFormikContext<CreateOrderFormValues>();
 
   React.useEffect(() => {
@@ -108,14 +111,14 @@ const CreateOrderForm = () => {
             forms.createOrder.placeholders[formKeys.createOrder.comments]
           }
           label={forms.createOrder.labels[formKeys.createOrder.comments]}
-          returnKeyType="next"
           multiline
         />
       </Box>
       <Button
         my="m"
         variant="solid"
-        isDisabled={!isValid}
+        isDisabled={!isValid || isLoading}
+        isLoading={isLoading}
         onPress={handleSubmit.bind(null, undefined)}>
         Send to store
       </Button>
