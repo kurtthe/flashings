@@ -36,6 +36,9 @@ const OrderSummaryScreen: React.FC = () => {
     return <Loading title="Creating your Flashing Drawing" />;
   }
 
+  console.log('=>urlIdPdf::', urlIdPdf);
+  console.log('=>route.params.jobName::', route.params.jobName);
+
   return (
     <ScrollBox
       as={KeyboardAwareScrollView}
