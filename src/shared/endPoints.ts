@@ -1,4 +1,4 @@
-import { config } from '@env';
+import { config } from '@env/config';
 
 export const baseURL = config.baseUrl;
 export const baseUrlPDF = config.baseUrlPdf;

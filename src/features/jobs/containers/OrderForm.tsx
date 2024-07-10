@@ -26,7 +26,7 @@ import { JobStackProps } from '@features/jobs/navigation/Stack.types';
 import { buildDataMaterialOrder } from '@features/jobs/utils/orders';
 import { dataUserSelector } from '@store/auth/selectors';
 import { baseUrlPDF } from '@shared/endPoints';
-import { config } from '@env';
+import { config } from '@env/config';
 
 type Props = {
   jobName: string;

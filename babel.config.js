@@ -8,7 +8,6 @@ module.exports = function (api) {
         {
           root: ['./'],
           alias: {
-            '@env': './env',
             '@features': './src/features',
             '@assets': './src/assets',
             '@navigation': './src/navigation',
@@ -24,6 +23,7 @@ module.exports = function (api) {
             '@core': './src/core',
             '@theme': './src/theme',
             '@ui': './src/ui',
+            '@env': './env',
           },
         },
       ],
