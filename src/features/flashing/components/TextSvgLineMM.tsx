@@ -14,8 +14,16 @@ type Props = {
 
 const TextSvgLineMM: React.FC<Props> = ({ coordinates, step, label }) => {
   const measurementIndex = getIndexOfStepForName('measurements');
+  const previewIndex = getIndexOfStepForName('preview');
+  const screenShotIndex = getIndexOfStepForName('screen_shot');
+
   const newPoints = calculatePointHalf(coordinates);
-  if (step >= measurementIndex) {
+
+  const shouldRenderTextSvg =
+    (step >= measurementIndex || step === previewIndex) &&
+    step !== screenShotIndex;
+
+  if (shouldRenderTextSvg) {
     return (
       <TextSvg
         id={Math.random()}
