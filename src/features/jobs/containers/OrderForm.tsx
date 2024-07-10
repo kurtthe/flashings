@@ -51,7 +51,6 @@ const OrderForm: React.FC<Props> = ({
         const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order
           .order_number;
         const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id;
-        console.log('doMaterialOrder==>', orderId);
         setOrderNumber(orderNumber);
 
         if (!storeSelected) return;
@@ -93,7 +92,6 @@ const OrderForm: React.FC<Props> = ({
     (values: CreateOrderFormValues) => {
       if (!dataSupplier || !urlIdPdf || !values || !dataUser) return;
 
-      console.log('=> Submit=>');
       const dataStoreSelected = stores?.find(
         itemStore =>
           values[formKeys.createOrder.store] === itemStore.id.toString(),
