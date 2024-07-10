@@ -102,7 +102,9 @@ const OrderForm: React.FC<Props> = ({
       const dataMaterial = buildDataMaterialOrder({
         name: jobName,
         supplier: dataSupplier.id,
+        // @ts-ignore
         issued_on: values[formKeys.createOrder.date],
+        // @ts-ignore
         notes: values[formKeys.createOrder.comments],
         description: `Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
         attachments: [
@@ -112,11 +114,16 @@ const OrderForm: React.FC<Props> = ({
           },
         ],
         delivery_instructions: {
+          // @ts-ignore
           delivery: values[formKeys.createOrder.deliveryOrPickUp],
+          // @ts-ignore
           location: values[formKeys.createOrder.address],
           contact_name: `${dataUser.first_name} ${dataUser.last_name}`,
+          // @ts-ignore
           contact_number: dataUser.phone_number,
+          // @ts-ignore
           date: values[formKeys.createOrder.date],
+          // @ts-ignore
           time: values[formKeys.createOrder.time],
         },
       });
