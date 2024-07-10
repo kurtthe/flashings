@@ -8,10 +8,10 @@ module.exports = function (api) {
         {
           root: ['./'],
           alias: {
+            '@env': './env',
             '@features': './src/features',
             '@assets': './src/assets',
             '@navigation': './src/navigation',
-            '@environment': './src/environment',
             '@navigators': './src/navigators',
             '@routes': './src/routes',
             '@contexts': './src/contexts',

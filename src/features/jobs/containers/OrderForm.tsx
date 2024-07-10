@@ -26,6 +26,7 @@ import { JobStackProps } from '@features/jobs/navigation/Stack.types';
 import { buildDataMaterialOrder } from '@features/jobs/utils/orders';
 import { dataUserSelector } from '@store/auth/selectors';
 import { baseUrlPDF } from '@shared/endPoints';
+import { config } from '@env';
 
 type Props = {
   jobName: string;
@@ -140,7 +141,8 @@ const OrderForm: React.FC<Props> = ({
 
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
-      if (!dataSupplier || !urlIdPdf || !values) return;
+      if (!dataSupplier || !urlIdPdf || !values || !dataUser || !idOfOrder)
+        return;
 
       const dataStoreSelected = stores?.find(
         itemStore =>
@@ -148,6 +150,19 @@ const OrderForm: React.FC<Props> = ({
       );
       if (!dataStoreSelected) return;
       setStoreSelected(dataStoreSelected);
+
+      if (!storeSelected) return;
+      sharedMaterialOrder({
+        dataShared: {
+          emails: [
+            storeSelected.email,
+            `${dataUser.email}`,
+            ...config.emailsToShared,
+          ],
+          message: config.messageToShared,
+          idOrder: idOfOrder,
+        },
+      });
     },
     [stores],
   );
