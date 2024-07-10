@@ -7,14 +7,32 @@ import Loading from '@components/Loading';
 import PDFShared from '@features/jobs/containers/PDFShared';
 import OrderForm from '@features/jobs/containers/OrderForm';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { RESPONSE_CREATE_AND_FLASHING } from '@models';
+import { baseUrlPDF } from '@shared/endPoints';
 
 const OrderSummaryScreen: React.FC = () => {
   const route =
     useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>();
-
+  const [isLoading, setIsLoading] = React.useState(true);
   const [urlIdPdf, setUrlIdPdf] = React.useState<string>();
 
-  if (!urlIdPdf) {
+  React.useEffect(() => {
+    const timeout = setTimeout(() => setIsLoading(false), 20000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isLoading]);
+
+  React.useEffect(() => {
+    if (isLoading) return;
+    const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(
+      route.params.responseApi,
+    );
+    const fileName = parseJSON.response.file_name;
+    setUrlIdPdf(`${baseUrlPDF}${fileName}`);
+  }, [route.params.responseApi, isLoading]);
+
+  if (!urlIdPdf || isLoading) {
     return <Loading title="Creating your Flashing Drawing" />;
   }
 
@@ -27,8 +45,7 @@ const OrderSummaryScreen: React.FC = () => {
       <Box p="m" flex={1}>
         <PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
         <OrderForm
-          setUrlPdf={setUrlIdPdf}
-          responseApi={route.params.responseApi}
+          urlIdPdf={urlIdPdf}
           jobId={route.params.jobId}
           jobName={route.params.jobName}
           jobAddress={route.params.jobAddress}

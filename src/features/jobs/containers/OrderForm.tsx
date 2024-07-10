@@ -11,12 +11,7 @@ import {
   useGetSupplier,
   useSendToStore,
 } from '@hooks/jobs';
-import {
-  ORDER_TYPE_STORE,
-  RESPONSE_CREATE_AND_FLASHING,
-  RESPONSE_MATERIAL_ORDER,
-  STORE,
-} from '@models';
+import { ORDER_TYPE_STORE, RESPONSE_MATERIAL_ORDER, STORE } from '@models';
 import { formatDate } from '@shared/utils/formatDate';
 import { actions as jobActions } from '@store/jobs/actions';
 import { Routes as RoutesJob } from '@features/jobs/navigation/routes';
@@ -25,23 +20,20 @@ import { useNavigation } from '@react-navigation/native';
 import { JobStackProps } from '@features/jobs/navigation/Stack.types';
 import { buildDataMaterialOrder } from '@features/jobs/utils/orders';
 import { dataUserSelector } from '@store/auth/selectors';
-import { baseUrlPDF } from '@shared/endPoints';
 import { config } from '@env/config';
 
 type Props = {
   jobName: string;
   jobAddress: string;
   jobId: number;
-  setUrlPdf: (newUrl: string) => void;
-  responseApi: string;
+  urlIdPdf: string;
 };
 
 const OrderForm: React.FC<Props> = ({
   jobName,
   jobAddress,
   jobId,
-  responseApi,
-  setUrlPdf,
+  urlIdPdf,
 }) => {
   const formikRef = React.useRef<FormikProps<CreateOrderFormValues>>(null);
 
@@ -50,13 +42,12 @@ const OrderForm: React.FC<Props> = ({
   const dataUser = useAppSelector(dataUserSelector);
 
   const { data: stores } = useGetStores();
-  const { data: dataSupplier, isLoading: loadingSupplier } = useGetSupplier();
+  const { data: dataSupplier } = useGetSupplier();
 
   const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>();
   const [idOfOrder, setIdOfOrder] = React.useState<number | undefined>();
   const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
-  const [_urlIdPdf, _setUrlIdPdf] = React.useState<string>();
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [, _setUrlIdPdf] = React.useState<string>();
 
   const { mutate: doMaterialOrder } = useCreateMaterial({
     onSuccess: data => {
@@ -74,7 +65,7 @@ const OrderForm: React.FC<Props> = ({
 
       const dataOrder: ORDER_TYPE_STORE = {
         orderNumber: `${orderNumber}`.trim(),
-        urlPdf: _urlIdPdf ?? '',
+        urlPdf: urlIdPdf ?? '',
         store: storeSelected.name,
         date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
       };
@@ -85,22 +76,8 @@ const OrderForm: React.FC<Props> = ({
   });
 
   React.useEffect(() => {
-    const timeout = setTimeout(() => setIsLoading(false), 20000);
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [isLoading]);
-
-  React.useEffect(() => {
-    if (isLoading) return;
-    const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(responseApi);
-    const fileName = parseJSON.response.file_name;
-    _setUrlIdPdf(`${baseUrlPDF}${fileName}`);
-  }, [responseApi, isLoading]);
-
-  React.useEffect(() => {
-    if (!_urlIdPdf) return;
-    setUrlPdf(_urlIdPdf);
+    if (!urlIdPdf) return;
+    console.log('===>_urlIdPdf', urlIdPdf);
     const delayCreateMaterialOrder = setTimeout(
       () => _handleCreateMaterialOrder(),
       2000,
@@ -108,10 +85,10 @@ const OrderForm: React.FC<Props> = ({
     return () => {
       clearTimeout(delayCreateMaterialOrder);
     };
-  }, [_urlIdPdf]);
+  }, [urlIdPdf]);
 
   const _handleCreateMaterialOrder = React.useCallback(() => {
-    if (!dataSupplier || !_urlIdPdf || !formikRef.current || !dataUser) return;
+    if (!dataSupplier || !urlIdPdf || !formikRef.current || !dataUser) return;
 
     const values = formikRef.current.values;
     if (!values) return;
@@ -125,7 +102,7 @@ const OrderForm: React.FC<Props> = ({
       attachments: [
         {
           name: `${jobName}.pdf`,
-          link: _urlIdPdf,
+          link: urlIdPdf,
         },
       ],
       delivery_instructions: {
@@ -139,11 +116,11 @@ const OrderForm: React.FC<Props> = ({
     });
 
     doMaterialOrder({ material: dataMaterial });
-  }, [stores, dataUser, _urlIdPdf, dataSupplier]);
+  }, [stores, dataUser, urlIdPdf, dataSupplier]);
 
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
-      if (!dataSupplier || !_urlIdPdf || !values || !dataUser || !idOfOrder)
+      if (!dataSupplier || !urlIdPdf || !values || !dataUser || !idOfOrder)
         return;
 
       const dataStoreSelected = stores?.find(
@@ -168,10 +145,6 @@ const OrderForm: React.FC<Props> = ({
     },
     [stores],
   );
-
-  if (loadingSupplier) {
-    return null;
-  }
 
   return (
     <KeyboardAvoidingBox flex={1}>
