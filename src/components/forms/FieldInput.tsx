@@ -18,7 +18,7 @@ import { isNaN } from 'lodash';
 
 export type Props = InputProps & { suffix?: string } & Pick<
     FieldConfig<any>,
-    'name' | 'type' | 'validate' | 'value'
+    'name' | 'type' | 'value'
   > & {
     label?: string;
     styleInput?: StyleProp<TextStyle>;
@@ -34,7 +34,6 @@ const FieldInput = forwardRef<typeof Input, Props>(
   (
     {
       name,
-      validate,
       value,
       defaultValue,
       onBlur,
@@ -46,12 +45,12 @@ const FieldInput = forwardRef<typeof Input, Props>(
     },
     ref,
   ) => {
-    const [field, meta] = useField({ name, validate, value, defaultValue });
+    const [field, meta] = useField({ name, value, defaultValue });
     const { style: containerStyle = {}, ...passedProps } = useAppRestyle(
       restyleFunctionsField,
       rest,
     );
-    const isInvalid = Boolean(meta.touched && meta.error);
+    const isInvalid = Boolean(meta.error);
 
     const handleBlur = useCallback(
       (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {

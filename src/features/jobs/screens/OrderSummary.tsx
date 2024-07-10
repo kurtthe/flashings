@@ -1,169 +1,61 @@
 import React from 'react';
-import { Box, Button, OptionsType, SelectInput } from "@ui/components";
-import Pdf from 'react-native-pdf';
-import { StyleSheet } from "react-native";
-import { useCreateMaterial, useGetStores, useGetSupplier, useSendToStore } from "@hooks/jobs";
-import { buildDataMaterialOrder, storesToOption } from "@features/jobs/utils";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { JobsStackParamsList, JobStackProps } from "@features/jobs/navigation/Stack.types";
-import { Routes as RoutesJob } from "@features/jobs/navigation/routes";
-import { ORDER_TYPE_STORE, RESPONSE_CREATE_AND_FLASHING, RESPONSE_MATERIAL_ORDER, STORE } from "@models";
-import Share from 'react-native-share';
-import { useAppDispatch, useAppSelector } from "@hooks/useStore";
-import { formatDate } from "@shared/utils/formatDate";
-import { dataUserSelector } from "@store/auth/selectors";
-import { actions as jobActions } from "@store/jobs/actions";
-import { baseUrlPDF } from "@shared/endPoints";
-import Loading from "@components/Loading";
-import PDFShared from "@features/jobs/containers/PDFShared";
+import { Box, ScrollBox } from '@ui/components';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { JobsStackParamsList } from '@features/jobs/navigation/Stack.types';
+import { Routes as RoutesJob } from '@features/jobs/navigation/routes';
+import Loading from '@components/Loading';
+import PDFShared from '@features/jobs/containers/PDFShared';
+import OrderForm from '@features/jobs/containers/OrderForm';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { RESPONSE_CREATE_AND_FLASHING } from '@models';
+import { baseUrlPDF } from '@shared/endPoints';
 
 const OrderSummaryScreen: React.FC = () => {
-	const dispatch = useAppDispatch();
-	const dataUser = useAppSelector(dataUserSelector);
+  const route =
+    useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>();
+  const [isLoading, setIsLoading] = React.useState(true);
+  const [urlIdPdf, setUrlIdPdf] = React.useState<string>();
 
-	const navigation = useNavigation<JobStackProps>()
-	const route = useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>()
+  React.useEffect(() => {
+    const timeout = setTimeout(() => setIsLoading(false), 20000);
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isLoading]);
 
-	const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([])
-	const [urlIdPdf, setUrlIdPdf] = React.useState<string>()
-	const [isLoading, setIsLoading] = React.useState(true);
-	const [idOfOrder, setIdOfOrder] = React.useState<number | undefined>()
-	const [orderNumber, setOrderNumber] = React.useState<string | undefined>()
-	const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>()
+  React.useEffect(() => {
+    if (isLoading) return;
+    const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(
+      route.params.responseApi,
+    );
+    const fileName = parseJSON.response.file_name;
+    setUrlIdPdf(`${baseUrlPDF}${fileName}`);
+  }, [route.params.responseApi, isLoading]);
 
-	const {data: stores, refetch } = useGetStores();
-	const {data: dataSupplier, isLoading: loadingSupplier} = useGetSupplier()
+  if (!urlIdPdf || isLoading) {
+    return <Loading title="Creating your Flashing Drawing" />;
+  }
 
-	const {mutate: doMaterialOrder}= useCreateMaterial({onSuccess: (data)=> {
-			const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order.order_number
-			const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id
+  console.log('=>urlIdPdf::', urlIdPdf);
+  console.log('=>route.params.jobName::', route.params.jobName);
 
-			setOrderNumber(orderNumber)
-			setIdOfOrder(orderId)
-		}})
+  return (
+    <ScrollBox
+      as={KeyboardAwareScrollView}
+      keyboardShouldPersistTaps="handled"
+      enableOnAndroid
+      showsVerticalScrollIndicator={false}>
+      <Box p="m" flex={1}>
+        <PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
+        <OrderForm
+          urlIdPdf={urlIdPdf}
+          jobId={route.params.jobId}
+          jobName={route.params.jobName}
+          jobAddress={route.params.jobAddress}
+        />
+      </Box>
+    </ScrollBox>
+  );
+};
 
-	const { mutate: sharedMaterialOrder, isLoading: loadingSharedMaterial, } = useSendToStore({
-		onSuccess: () => {
-			if(!storeSelected) return;
-			const jobId = route.params.jobId;
-
-			const dataOrder:ORDER_TYPE_STORE ={
-				orderNumber: `${orderNumber}`.trim(),
-				urlPdf: urlIdPdf ?? '',
-				store: storeSelected.name,
-				date: formatDate(new Date(), "YYYY-MM-DD HH:mm:ss")
-			}
-
-			dispatch(jobActions.orderSent({idJob: jobId, dataOrder }));
-			navigation.navigate(RoutesJob.ORDER_SUBMITTED, {jobId})
-		},
-	});
-
-
-	React.useEffect(()=>{
-		const timeout = setTimeout(()=> setIsLoading(false), 20000)
-		return ()=> {clearTimeout(timeout)}
-	},  [isLoading])
-
-	React.useEffect(()=> {
-		if(isLoading) return;
-		const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(route.params.responseApi)
-		const fileName = parseJSON.response.file_name
-		setUrlIdPdf(`${baseUrlPDF}${fileName}`)
-	}, [route.params.responseApi, isLoading])
-
-	React.useEffect(()=> {
-		if(!stores) {
-			refetch().catch((error)=> console.log("error::", error));
-			return;
-		}
-
-		const storesAsRadioButton = storesToOption(stores)
-		setOptionsStore(storesAsRadioButton)
-	}, [stores])
-
-	React.useEffect(()=> {
-		if(!urlIdPdf) return
-		const delayCreateMaterialOrder = setTimeout(() => handleCreateMaterialOrder(), 2000)
-		return ()=> {
-			clearTimeout(delayCreateMaterialOrder)
-		}
-	}, [urlIdPdf])
-
-	const handleChange = (itemStore: OptionsType)=> {
-		const dataStore = stores?.find((sItemStore)=> itemStore.value === sItemStore.id)
-		if(!dataStore) return
-		setStoreSelected(dataStore)
-	}
-	const handleCreateMaterialOrder = ()=> {
-		if(!dataSupplier || !urlIdPdf) return
-
-		const jobName = route.params.jobName
-		const jobNumber = route.params.jobId
-		const jobAddress = route.params.jobAddress
-
-		const currentDate = formatDate(new Date())
-		const dataMaterial = buildDataMaterialOrder({name: jobName,
-			supplier: dataSupplier.id,
-			issued_on: currentDate,
-			description: `Job Name: ${jobName} - Job Number: ${jobNumber} - Job Address: ${jobAddress}`,
-			attachments: [{
-				name: `${jobName}.pdf`,
-				link: urlIdPdf
-			}],
-
-		})
-		doMaterialOrder({material: dataMaterial})
-	}
-
-	const handleSendToStore = ()=> {
-		if (!storeSelected || !dataUser || !idOfOrder) return
-		sharedMaterialOrder({
-			dataShared: {
-				emails: [
-					storeSelected.email,
-					`${dataUser.email}`,
-					"burdens.orders@tradetrak.com.au",
-					"matt.celima@burdens.com.au",
-					"owenm@trak.co",
-					"markm@trak.co",
-					"mat@digitalbasis.com.au",
-					"jeff@digitalbasis.com"
-				],
-				message: 'Thanks for your Flashings order - it has been received by our team for review and processing. An email notification will be sent to the account owner when it has been processed by the store. Please contact us at 03 9703 8400. Thank you, the Burdens Flashing App Team.',
-				idOrder: idOfOrder
-			}
-		})
-	}
-
-	if(!urlIdPdf || isLoading || loadingSupplier){
-		return (
-			<Loading title="Creating your Flashing Drawing" />
-		);
-	}
-
-	return (
-	<Box p="m" style={styles.container}>
-		<PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
-		<SelectInput
-			options={optionsStore}
-			onChange={handleChange}
-			label="Select a store"
-		/>
-		<Button
-			isLoading={loadingSharedMaterial}
-			isDisabled={!stores?.length || !storeSelected || !idOfOrder}
-			onPress={()=> handleSendToStore() }
-			my="m"
-			variant="solid"
-		>Send to store</Button>
-	</Box>
-	)
-}
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'flex-start',
-	},
-});
-export default OrderSummaryScreen
+export default OrderSummaryScreen;

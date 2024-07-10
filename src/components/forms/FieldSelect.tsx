@@ -1,22 +1,35 @@
 import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { FieldConfig, useField } from 'formik';
 
-import { Box,  SelectInput, SelectInputProps, OptionsType, Text } from '@ui/components';
+import {
+  Box,
+  SelectInput,
+  SelectInputProps,
+  OptionsType,
+  Text,
+} from '@ui/components';
 import ErrorMessage from './ErrorMessage';
-
-import type { ComponentWithAs } from '@ui/types';
+import { isAndroid } from '@shared/platform';
+import { palette } from '@theme';
 
 type Props = Omit<SelectInputProps, 'onChange'> &
-  Pick<FieldConfig, 'name' | 'type' | 'validate' | 'value'> & {
-  name: string;
-  initialValue?: string;
-  label: string;
-  onChange?: (item: any, prev: any) => void;
-};
-const isAndroid = Platform.OS === 'android';
-const FieldSelect = ({ options, name, onChange, onBlur, label, isRequired, ...rest }: Props) => {
-  const [field, meta, helpers] = useField<number>(name);
+  Pick<FieldConfig, 'name' | 'value'> & {
+    name: string;
+    initialValue?: string;
+    label: string;
+    onChange?: (item: any, prev: any) => void;
+  };
+const FieldSelect = ({
+  options,
+  name,
+  onChange,
+  onBlur,
+  label,
+  isRequired,
+  ...rest
+}: Props) => {
+  const [field, meta, helpers] = useField(name);
   const isInvalid = Boolean(meta.touched && meta.error);
 
   const handleChange = React.useCallback(
@@ -26,21 +39,23 @@ const FieldSelect = ({ options, name, onChange, onBlur, label, isRequired, ...re
     },
     [helpers, onChange],
   );
+  if (!options) return null;
 
   return (
     <Box>
       <SelectInput
-        value={field.value.toString()}
+        value={field.value?.toString()}
         options={options}
         onChange={handleChange}
         label={label}
         isRequired={isRequired}
         {...rest}
+        style={{ backgroundColor: 'white' }}
       />
       <Box style={styles.labelContainer}>
         <Text variant="subheadLight" fontSize={14}>
           {options.length !== 0 && field.value ? label : ''}
-          {field.value && isRequired ? <Text color="error500">*</Text>: null}
+          {field.value && isRequired ? <Text color="error500">*</Text> : null}
         </Text>
       </Box>
       {isInvalid && <ErrorMessage>{meta.error}</ErrorMessage>}
@@ -54,11 +69,6 @@ const styles = StyleSheet.create({
     left: 8,
     top: 7,
   },
-  containerStyle: {
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingVertical: 8,
-  },
   selectedTextStyle: {
     height: isAndroid ? 40 : 'auto',
     paddingTop: 17,
@@ -66,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(FieldSelect) as ComponentWithAs<typeof SelectInput, Props>;
+export default FieldSelect;

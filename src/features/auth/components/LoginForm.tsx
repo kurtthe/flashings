@@ -10,13 +10,16 @@ import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@features/auth/navigation/routes';
 import { AuthStackProps } from '@features/auth/navigation/Stack.types';
 import ForgotButton from '@features/auth/components/ForgotButton';
-
-const LoginFormComponent = () => {
+type Props = {
+  isLoading?: boolean;
+};
+const LoginFormComponent: React.FC<Props> = ({ isLoading }) => {
   const navigation = useNavigation<AuthStackProps>();
   const formik = useFormikContext<LoginFormValues>();
   const { errors, isValid, isSubmitting, handleSubmit } = formik;
   const passwordInputRef = React.useRef<TextInput>(null);
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
+  const loading = isSubmitting || isLoading;
 
   const togglePassword = React.useCallback(
     () => setSecureTextEntry(prevState => !prevState),
@@ -77,8 +80,8 @@ const LoginFormComponent = () => {
         </ErrorMessage>
         <Button
           onPress={handleSubmit.bind(null, undefined)}
-          isLoading={isSubmitting}
-          isDisabled={!isValid || isSubmitting}>
+          isLoading={loading}
+          isDisabled={!isValid || loading}>
           Log In
         </Button>
       </Box>

@@ -4,6 +4,8 @@ import { TemplateType } from '@models/templates';
 export const actions = {
   addTemplate: createAction<{ template: TemplateType }>('template/add'),
   removeTemplate: createAction<{ idTemplate: number }>('template/remove'),
+  hideTemplate: createAction<{ idTemplate: number }>('template/hide'),
+  showTemplate: createAction<{ idTemplate: number }>('template/show'),
   templateSelected: createAction<{ idTemplate: number | null }>(
     'template/selected',
   ),

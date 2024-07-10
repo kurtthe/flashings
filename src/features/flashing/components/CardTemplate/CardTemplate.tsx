@@ -8,17 +8,24 @@ import {
   IconButton,
   Text,
 } from '@ui/components';
-import { Image } from 'react-native';
+import { Alert, Image } from 'react-native';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as templateActions } from '@store/templates/actions';
 import { useNavigation } from '@react-navigation/native';
-import { DeleteIcon, EditIcon, TrashIcon } from '@assets/icons';
+import {
+  DeleteIcon,
+  EditIcon,
+  EyeIcon,
+  EyeOffIcon,
+  TrashIcon,
+} from '@assets/icons';
 import ModalNameTemplate from '@features/jobs/components/ModalNameTemplate';
 
 type Props = {
   template: TemplateType;
+  showActions?: boolean;
 };
-const CardTemplate: React.FC<Props> = ({ template }) => {
+const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const [visibleModalNameTemplate, setVisibleModalNameTemplate] =
@@ -29,8 +36,26 @@ const CardTemplate: React.FC<Props> = ({ template }) => {
     navigation.goBack();
   };
 
-  const onRemoveTemplate = () => {
-    dispatch(templateActions.removeTemplate({ idTemplate: template.id }));
+  const alertDelete = () =>
+    Alert.alert('Are you sure delete this template?', '', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Yes',
+        onPress: () => {
+          dispatch(templateActions.removeTemplate({ idTemplate: template.id }));
+        },
+      },
+    ]);
+
+  const showOrHideTemplate = () => {
+    if (template.isHide) {
+      dispatch(templateActions.showTemplate({ idTemplate: template.id }));
+    } else {
+      dispatch(templateActions.hideTemplate({ idTemplate: template.id }));
+    }
   };
 
   return (
@@ -55,27 +80,41 @@ const CardTemplate: React.FC<Props> = ({ template }) => {
               {template.name}
             </Text>
           </BaseTouchable>
-          <Box
-            flexDirection="row"
-            alignItems="center"
-            justifyContent="space-between"
-            pt="s">
-            <IconButton
-              icon={<Icon as={EditIcon} size={20} color="black" />}
-              onPress={() => setVisibleModalNameTemplate(true)}
-            />
-            <IconButton
-              icon={
-                <Icon
-                  as={TrashIcon}
-                  size={28}
-                  stroke="error500"
-                  color="error500"
+          {showActions && (
+            <Box
+              flexDirection="row"
+              alignItems="center"
+              justifyContent="space-between"
+              pt="s">
+              <IconButton
+                icon={<Icon as={EditIcon} size={20} color="black" />}
+                onPress={() => setVisibleModalNameTemplate(true)}
+              />
+              <IconButton
+                icon={
+                  <Icon
+                    as={template.isHide ? EyeIcon : EyeOffIcon}
+                    size={25}
+                    color="black"
+                  />
+                }
+                onPress={showOrHideTemplate}
+              />
+              {template.availableDelete && (
+                <IconButton
+                  icon={
+                    <Icon
+                      as={TrashIcon}
+                      size={28}
+                      stroke="error500"
+                      color="error500"
+                    />
+                  }
+                  onPress={alertDelete}
                 />
-              }
-              onPress={onRemoveTemplate}
-            />
-          </Box>
+              )}
+            </Box>
+          )}
         </>
       </Card>
 

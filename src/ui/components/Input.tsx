@@ -49,7 +49,7 @@ import { useIsDarkMode } from '@theme/hooks';
 import Box from '@ui/components/Box';
 import Text from '@ui/components/Text';
 
-type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
+export type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
   VariantProps<Theme, 'colors', 'placeholderTextColor'> &
   TypographyProps<Theme> &
   ColorProps<Theme> &
@@ -93,7 +93,7 @@ const inputSelectionColor = createRestyleFunction({
   themeKey: 'colors',
   property: 'selectionColor',
 });
-const restyleFunctions = composeRestyleFunctions([
+export const restyleFunctions = composeRestyleFunctions([
   color,
   opacity,
   backgroundColor,
@@ -222,7 +222,14 @@ const Input = forwardRef<InputProps, typeof TextInput>(
 
     return (
       <Pressable
-        style={[styles.inputContainer, style, { ...containerStyle }]}
+        style={StyleSheet.flatten([
+          styles.inputContainer,
+          style,
+          { ...containerStyle },
+          rest.multiline && {
+            height: 200,
+          },
+        ])}
         onPress={handleExternalFocus}
         accessible={false}>
         <Box flexDirection="row" alignItems="center">
