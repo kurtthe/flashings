@@ -5,7 +5,7 @@ import { FlatList } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@features/flashing/navigation/routes';
-import { getBends, getGirth, getMaterial } from '@features/jobs/utils';
+import { getBends, getGirth, getMaterial } from '@features/jobs/utils/utils';
 import PreviewFlashing from '@features/flashing/components/PreviewFlashing/PreviewFlashing';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import ModalAddLengths from '@features/jobs/components/ModalAddLengths';

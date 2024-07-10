@@ -47,9 +47,6 @@ const CreateOrderForm = () => {
 
   if (!optionsStore.length) return null;
 
-  console.log('==>[errors]', JSON.stringify(errors));
-  console.log('==>[isValid]', isValid);
-
   return (
     <>
       <Box>
