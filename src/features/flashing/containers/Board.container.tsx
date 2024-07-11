@@ -251,7 +251,7 @@ const BoardContainer = () => {
     setDataBoard({ ...dataBoard, anglesLines: anglesUpdated });
   };
 
-  const handleSave = (redirect = true) => {
+  const handleSave = () => {
     (async () => {
       if (!refViewShot.current) return;
 
@@ -278,15 +278,13 @@ const BoardContainer = () => {
             }),
           );
 
-          if (redirect) {
-            navigation.navigate(StackPrivateDefinitions.JOBS, {
-              screen: RoutesJobs.JOB_DETAILS,
-              params: {
-                jobId: idJob,
-                jobName: dataJob?.name,
-              },
-            });
-          }
+          navigation.navigate(StackPrivateDefinitions.JOBS, {
+            screen: RoutesJobs.JOB_DETAILS,
+            params: {
+              jobId: idJob,
+              jobName: dataJob?.name,
+            },
+          });
         })
         .catch(error => {
           console.log('error: screenshot', error);

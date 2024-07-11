@@ -40,7 +40,7 @@ type Props = {
   lines: LINE_TYPE[];
   onAddPoint?: (newPoint: POINT_TYPE) => void;
   onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
-  onSave?: (redirect?: boolean) => void;
+  onSave?: () => void;
   width?: number;
   height?: number;
   changeStepBoard?: (newStep: number) => void;
@@ -198,9 +198,9 @@ const Board: React.FC<Props> = ({
     }
   };
 
-  const handleOnSave = (redirect = true) => {
+  const handleOnSave = () => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('screen_shot'));
-    onSave?.(redirect);
+    onSave?.();
   };
   const handleOnEdit = () => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('measurements'));
@@ -211,8 +211,7 @@ const Board: React.FC<Props> = ({
   };
 
   const handleOnTapered = () => {
-    handleOnSave(false);
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('tapered'));
+    changeStepBoard?.(getIndexOfStepForName('tapered'));
   };
 
   return (
@@ -224,10 +223,7 @@ const Board: React.FC<Props> = ({
           <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
             <GestureHandlerRootView>
               <SvgBoard
-                removeGrid={
-                  stepBoard === getIndexOfStepForName('screen_shot') ||
-                  stepBoard === getIndexOfStepForName('tapered')
-                }
+                removeGrid={stepBoard === getIndexOfStepForName('screen_shot')}
                 isRight={rightLinePaint}
                 typeEndLine={endTypeLine}
                 typeStartLine={startTypeLine}
