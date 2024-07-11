@@ -32,6 +32,9 @@ const TaperedLines: React.FC<Props> = ({
   const inputRef = React.useRef<TextInput>(null);
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
 
+  console.log('==>jobId[]', jobId);
+  console.log('==>idFlashingToCreate[]', idFlashingToCreate);
+
   const dataFlashing = useAppSelector(state =>
     getDataFlashing(state, {
       idJob: jobId,
@@ -49,23 +52,28 @@ const TaperedLines: React.FC<Props> = ({
   }, []);
 
   React.useEffect(() => {
-    if (dataFlashing) {
-      setFlashingData({
-        ...dataFlashing,
-        tapered: {
-          front: dataFlashing.dataLines,
-          back: dataFlashing.dataLines,
-        },
-      });
-    }
+    console.log('?>dataFlashing useEffect', JSON.stringify(dataFlashing));
+
+    if (!dataFlashing) return;
+
+    setFlashingData({
+      ...dataFlashing,
+      tapered: {
+        front: dataFlashing.dataLines,
+        back: dataFlashing.dataLines,
+      },
+    });
   }, [dataFlashing]);
 
   const handleNext = () => {};
   const handlePrevious = () => {};
+  console.log('==>TaperedLines');
 
   if (!flashingData) {
     return null;
   }
+
+  console.log('==>flashingData', JSON.stringify(flashingData));
 
   return (
     <Box height={heightMeasurement} position="absolute" width="100%" bottom={0}>

@@ -53,6 +53,7 @@ type Props = {
   changeStartTypeLine?: (newType: TYPE_END_LINES) => void;
   changeEndTypeLine?: (newType: TYPE_END_LINES) => void;
   idFlashingToCreate?: number;
+  onBeforeTapered?: () => void;
   jobId?: number;
 };
 
@@ -74,6 +75,7 @@ const Board: React.FC<Props> = ({
   changeEndTypeLine,
   startTypeLine = 'none',
   endTypeLine = 'none',
+  onBeforeTapered,
 }) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
@@ -212,6 +214,7 @@ const Board: React.FC<Props> = ({
 
   const handleOnTapered = () => {
     changeStepBoard?.(getIndexOfStepForName('tapered'));
+    onBeforeTapered?.();
   };
 
   return (
@@ -264,18 +267,12 @@ const Board: React.FC<Props> = ({
       )}
 
       {stepBoard === getIndexOfStepForName('tapered') && (
-        <Box
-          height={heightMeasurement}
-          position="absolute"
-          width="100%"
-          bottom={0}>
-          <TaperedLines
-            idFlashingToCreate={idFlashingToCreate}
-            jobId={jobId}
-            setTypeSelected={setTypeSelected}
-            setPointSelected={setPointSelected}
-          />
-        </Box>
+        <TaperedLines
+          idFlashingToCreate={idFlashingToCreate}
+          jobId={jobId}
+          setTypeSelected={setTypeSelected}
+          setPointSelected={setPointSelected}
+        />
       )}
 
       {stepBoard === getIndexOfStepForName('end_type') && (

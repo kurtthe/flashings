@@ -235,6 +235,26 @@ const BoardContainer = () => {
     console.log('on finish steps::');
   };
 
+  const onSaveWithOutImage = () => {
+    const idJob = route.params?.jobId;
+    const dataFlashing = route.params.data;
+
+    dispatch(
+      flashingActions.addEditFlashing({
+        idJob,
+        flashing: {
+          ...dataFlashing,
+          dataLines: dataBoard.lines,
+          parallelRight: dataBoard.blueLineIsRight,
+          angles: dataBoard.anglesLines,
+          endType: dataBoard.endTypeLine,
+          startType: dataBoard.startTypeLine,
+          imgPreview: undefined,
+        },
+      }),
+    );
+  };
+
   const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
     const sideBlueLine =
       newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
@@ -326,6 +346,7 @@ const BoardContainer = () => {
           updateAngle={handleUpdateAngle}
           startTypeLine={dataBoard.startTypeLine}
           endTypeLine={dataBoard.endTypeLine}
+          onBeforeTapered={onSaveWithOutImage}
           changeStartTypeLine={newValue =>
             setDataBoard({ ...dataBoard, startTypeLine: newValue })
           }
