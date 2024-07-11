@@ -34,8 +34,6 @@ const LineMadeComponent: React.FC<Props> = ({
     (step >= measurementIndex || previewIndex === step) &&
     screenShotIndex !== step;
 
-  console.log('==<showAngleText', showAngleText);
-
   const colorSelected = '#DEA000';
   const isLineSelected = lineSelected === id && typeSelected === 'line';
   const isAngleSelected = lineSelected === id && typeSelected === 'angle';

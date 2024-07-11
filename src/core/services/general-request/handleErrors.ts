@@ -1,6 +1,7 @@
 import alertService from './alert';
 
 class HandleErrors {
+  //@ts-ignore
   manage(error) {
     if (error.response?.status === 0) {
       this.showAlertOffline();
@@ -23,7 +24,7 @@ class HandleErrors {
     this.showError(error.response);
   }
 
-  showError(appError:any, title = 'Alert!', message?: string) {
+  showError(appError: any, title = 'Alert!', message?: string) {
     const description = message ? message : appError.data.message;
     alertService.show(title, description);
   }
