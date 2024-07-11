@@ -7,15 +7,27 @@ import { getDataFlashing } from '@store/jobs/selectors';
 import { BackArrowIcon, NextArrowIcon } from '@assets/icons';
 import { TextInput } from 'react-native';
 import { FLASHINGS_DATA } from '@models';
+import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 
 type Props = {
   idFlashingToCreate?: number;
   jobId?: any;
+  setTypeSelected: (newValue: 'line' | 'angle') => void;
+  setPointSelected: (newValue: LINE_SELECTED | undefined) => void;
 };
 
-const TaperedLines: React.FC<Props> = ({ idFlashingToCreate, jobId }) => {
+const TaperedLines: React.FC<Props> = ({
+  idFlashingToCreate,
+  jobId,
+  setTypeSelected,
+  setPointSelected,
+}) => {
   const [disabledPrevious, setDisabledPrevious] = React.useState(false);
   const [flashingData, setFlashingData] = React.useState<FLASHINGS_DATA>();
+  const [lineSelectedFront, setLineSelectedFront] = React.useState();
+  const [lineSelectedBack, setLineSelectedBack] = React.useState();
+  const [indexSelectedFront, setIndexSelectedFront] = React.useState(0);
+  const [indexSelectedBack, setIndexSelectedBack] = React.useState(0);
 
   const inputRef = React.useRef<TextInput>(null);
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
@@ -31,6 +43,10 @@ const TaperedLines: React.FC<Props> = ({ idFlashingToCreate, jobId }) => {
     onKeyboardDidShow: () => setHeightMeasurement(isAndroid ? 70 : 350),
     onKeyboardDidHide: () => setHeightMeasurement(200),
   });
+
+  React.useEffect(() => {
+    setTypeSelected('line');
+  }, []);
 
   React.useEffect(() => {
     if (dataFlashing) {

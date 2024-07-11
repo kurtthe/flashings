@@ -199,15 +199,15 @@ const Board: React.FC<Props> = ({
   };
 
   const handleOnSave = () => {
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('screen_shot'));
+    changeStepBoard?.(getIndexOfStepForName('screen_shot'));
     onSave?.();
   };
   const handleOnEdit = () => {
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('measurements'));
+    changeStepBoard?.(getIndexOfStepForName('measurements'));
     setIndexLineSelected(0);
   };
   const handleOnEditEndType = () => {
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'));
+    changeStepBoard?.(getIndexOfStepForName('end_type'));
   };
 
   const handleOnTapered = () => {
@@ -269,7 +269,12 @@ const Board: React.FC<Props> = ({
           position="absolute"
           width="100%"
           bottom={0}>
-          <TaperedLines idFlashingToCreate={idFlashingToCreate} jobId={jobId} />
+          <TaperedLines
+            idFlashingToCreate={idFlashingToCreate}
+            jobId={jobId}
+            setTypeSelected={setTypeSelected}
+            setPointSelected={setPointSelected}
+          />
         </Box>
       )}
 
