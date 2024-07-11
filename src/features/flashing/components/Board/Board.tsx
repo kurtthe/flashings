@@ -53,6 +53,7 @@ type Props = {
   changeStartTypeLine?: (newType: TYPE_END_LINES) => void;
   changeEndTypeLine?: (newType: TYPE_END_LINES) => void;
   idFlashingToCreate?: number;
+  jobId?: number;
 };
 
 const Board: React.FC<Props> = ({
@@ -67,6 +68,7 @@ const Board: React.FC<Props> = ({
   onSave,
   angles = [],
   idFlashingToCreate,
+  jobId,
   updateAngle,
   changeStartTypeLine,
   changeEndTypeLine,
@@ -198,7 +200,7 @@ const Board: React.FC<Props> = ({
 
   const handleOnSave = (redirect = true) => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('screen_shot'));
-    onSave && onSave(redirect);
+    onSave?.(redirect);
   };
   const handleOnEdit = () => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('measurements'));
@@ -239,6 +241,7 @@ const Board: React.FC<Props> = ({
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton
           onTapered={handleOnTapered}
+          disabledTapered={!jobId || !idFlashingToCreate}
           onSave={handleOnSave}
           onEdit={handleOnEdit}
           onEditEndType={handleOnEditEndType}
@@ -267,7 +270,7 @@ const Board: React.FC<Props> = ({
           position="absolute"
           width="100%"
           bottom={0}>
-          <TaperedLines idFlashingToCreate={idFlashingToCreate} />
+          <TaperedLines idFlashingToCreate={idFlashingToCreate} jobId={jobId} />
         </Box>
       )}
 

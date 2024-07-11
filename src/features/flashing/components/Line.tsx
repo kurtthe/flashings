@@ -28,11 +28,14 @@ const LineMadeComponent: React.FC<Props> = ({
     [],
   );
 
-  const isMeasurements = step === measurementIndex;
+  const _showAngleText = useMemo(() => {
+    return (
+      (step >= measurementIndex || previewIndex === step) &&
+      screenShotIndex !== step
+    );
+  }, [step]);
 
-  const showAngleText =
-    (step >= measurementIndex || previewIndex === step) &&
-    screenShotIndex !== step;
+  const isMeasurements = step === measurementIndex;
 
   const colorSelected = '#DEA000';
   const isLineSelected = lineSelected === id && typeSelected === 'line';
@@ -46,7 +49,7 @@ const LineMadeComponent: React.FC<Props> = ({
         strokeWidth={isLineSelected && isMeasurements ? 2 : 1}
         stroke={isLineSelected && isMeasurements ? colorSelected : '#000'}
       />
-      {showAngleText && angle > 0 && (
+      {_showAngleText && angle > 0 && (
         <AngleComponent
           id={`angleLine${id}`}
           angle={angle}

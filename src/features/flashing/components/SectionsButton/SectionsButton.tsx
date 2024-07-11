@@ -8,6 +8,7 @@ type Props = {
   onEdit: () => void;
   onEditEndType: () => void;
   onTapered: () => void;
+  disabledTapered?: boolean;
 };
 
 const widthStandard = 160;
@@ -17,6 +18,7 @@ const SectionsButton: React.FC<Props> = ({
   onEdit,
   onEditEndType,
   onTapered,
+  disabledTapered = false,
 }) => {
   return (
     <Box
@@ -46,6 +48,7 @@ const SectionsButton: React.FC<Props> = ({
       </BaseTouchable>
 
       <BaseTouchable
+        disabled={disabledTapered}
         onPress={onTapered}
         m="s"
         width={widthStandard}

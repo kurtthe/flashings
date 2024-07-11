@@ -72,11 +72,13 @@ const SvgBoard: React.FC<Props> = ({
             )}
             {LineComponent}
             {pointsForLabel && (
-              <TextSvgLineMM
-                coordinates={pointsForLabel[index]}
-                step={step}
-                label={distance.toString()}
-              />
+              <>
+                <TextSvgLineMM
+                  coordinates={pointsForLabel[index]}
+                  step={step}
+                  label={distance.toString()}
+                />
+              </>
             )}
 
             {isDraw && (

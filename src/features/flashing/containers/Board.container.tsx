@@ -58,9 +58,8 @@ const BoardContainer = () => {
   });
   const [stepBoard, setStepBoard] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
-  const [idFlashingToCreate, setIdFlashingToCreate] = React.useState<
-    number | undefined
-  >();
+  const [idFlashingToCreate, setIdFlashingToCreate] =
+    React.useState<number>(NaN);
 
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const refViewShot = React.createRef<ViewShot>();
@@ -296,7 +295,7 @@ const BoardContainer = () => {
     })();
   };
 
-  if (loading) return <Loading />;
+  if (loading || !dataJob) return <Loading />;
 
   return (
     <>
@@ -316,6 +315,7 @@ const BoardContainer = () => {
           Alert.show('Error for preview', error.message)
         }>
         <Board
+          jobId={dataJob?.id}
           idFlashingToCreate={idFlashingToCreate}
           rightLinePaint={dataBoard.blueLineIsRight}
           lines={dataBoard.lines}
