@@ -14,6 +14,7 @@ type Props = {
   jobId?: any;
   setTypeSelected: (newValue: 'line' | 'angle') => void;
   setPointSelected: (newValue: LINE_SELECTED | undefined) => void;
+  setIndexLineSelected: (newIndex: number) => void;
 };
 
 const TaperedLines: React.FC<Props> = ({
@@ -21,6 +22,7 @@ const TaperedLines: React.FC<Props> = ({
   jobId,
   setTypeSelected,
   setPointSelected,
+  setIndexLineSelected,
 }) => {
   const [disabledPrevious, setDisabledPrevious] = React.useState(false);
   const [flashingData, setFlashingData] = React.useState<FLASHINGS_DATA>();
@@ -31,9 +33,6 @@ const TaperedLines: React.FC<Props> = ({
 
   const inputRef = React.useRef<TextInput>(null);
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
-
-  console.log('==>jobId[]', jobId);
-  console.log('==>idFlashingToCreate[]', idFlashingToCreate);
 
   const dataFlashing = useAppSelector(state =>
     getDataFlashing(state, {
@@ -52,8 +51,6 @@ const TaperedLines: React.FC<Props> = ({
   }, []);
 
   React.useEffect(() => {
-    console.log('?>dataFlashing useEffect', JSON.stringify(dataFlashing));
-
     if (!dataFlashing) return;
 
     setFlashingData({
@@ -67,13 +64,10 @@ const TaperedLines: React.FC<Props> = ({
 
   const handleNext = () => {};
   const handlePrevious = () => {};
-  console.log('==>TaperedLines');
 
   if (!flashingData) {
     return null;
   }
-
-  console.log('==>flashingData', JSON.stringify(flashingData));
 
   return (
     <Box height={heightMeasurement} position="absolute" width="100%" bottom={0}>

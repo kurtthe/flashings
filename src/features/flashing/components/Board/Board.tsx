@@ -181,7 +181,7 @@ const Board: React.FC<Props> = ({
 
   const handleBackLineSelected = () => {
     if (indexLineSelected === 0 && typeSelected === 'line') {
-      return changeStepBoard && changeStepBoard(getIndexOfStepForName('side'));
+      return changeStepBoard?.(getIndexOfStepForName('side'));
     }
 
     const newIndex = indexLineSelected - 1;
@@ -272,6 +272,7 @@ const Board: React.FC<Props> = ({
           jobId={jobId}
           setTypeSelected={setTypeSelected}
           setPointSelected={setPointSelected}
+          setIndexLineSelected={setIndexLineSelected}
         />
       )}
 
