@@ -45,6 +45,7 @@ const CreateFlashingContainer = () => {
           endType: dataFlashing ? dataFlashing.endType : 'none',
           startType: dataFlashing ? dataFlashing.startType : 'none',
           imgPreview: undefined,
+          tapered: undefined,
         },
         jobId: route.params.jobId,
       });

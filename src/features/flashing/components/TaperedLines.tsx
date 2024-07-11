@@ -6,6 +6,7 @@ import { useAppSelector } from '@hooks/useStore';
 import { getDataFlashing } from '@store/jobs/selectors';
 import { BackArrowIcon, NextArrowIcon } from '@assets/icons';
 import { TextInput } from 'react-native';
+import { FLASHINGS_DATA } from '@models';
 
 type Props = {
   idFlashingToCreate?: number;
@@ -14,24 +15,39 @@ type Props = {
 
 const TaperedLines: React.FC<Props> = ({ idFlashingToCreate, jobId }) => {
   const [disabledPrevious, setDisabledPrevious] = React.useState(false);
+  const [flashingData, setFlashingData] = React.useState<FLASHINGS_DATA>();
+
+  const inputRef = React.useRef<TextInput>(null);
+  const [heightMeasurement, setHeightMeasurement] = React.useState(350);
+
   const dataFlashing = useAppSelector(state =>
     getDataFlashing(state, {
       idJob: jobId,
       idFlashing: idFlashingToCreate,
     }),
   );
-  const inputRef = React.useRef<TextInput>(null);
-  const [heightMeasurement, setHeightMeasurement] = React.useState(350);
 
   useKeyboardVisibility({
     onKeyboardDidShow: () => setHeightMeasurement(isAndroid ? 70 : 350),
     onKeyboardDidHide: () => setHeightMeasurement(200),
   });
 
+  React.useEffect(() => {
+    if (dataFlashing) {
+      setFlashingData({
+        ...dataFlashing,
+        tapered: {
+          front: dataFlashing.dataLines,
+          back: dataFlashing.dataLines,
+        },
+      });
+    }
+  }, [dataFlashing]);
+
   const handleNext = () => {};
   const handlePrevious = () => {};
 
-  if (!dataFlashing) {
+  if (!flashingData) {
     return null;
   }
 
