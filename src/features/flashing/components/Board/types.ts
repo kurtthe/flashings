@@ -8,6 +8,7 @@ export const STEPS_BOARD: MODES_BOARD[] = [
   'end_type',
   'finish',
   'preview',
+  'tapered',
 ];
 
 export type MAKE_LINE = {

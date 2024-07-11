@@ -15,12 +15,7 @@ type Props = {
   imgPreview: string | undefined;
   dataFlashing: FLASHINGS_DATA;
 };
-const PreviewFlashing: React.FC<Props> = ({
-  imgPreview,
-  dataFlashing,
-  width = 120,
-  height = 92,
-}) => {
+const PreviewFlashing: React.FC<Props> = ({ imgPreview, dataFlashing }) => {
   const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
   const modalBottomRef = React.useRef<ModalBottomRef>();
 

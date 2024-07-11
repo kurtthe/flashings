@@ -34,12 +34,13 @@ import { isAndroid } from '@shared/platform';
 import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
+import TaperedLines from '@features/flashing/components/TaperedLines';
 
 type Props = {
   lines: LINE_TYPE[];
   onAddPoint?: (newPoint: POINT_TYPE) => void;
   onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
-  onSave?: () => void;
+  onSave?: (redirect?: boolean) => void;
   width?: number;
   height?: number;
   changeStepBoard?: (newStep: number) => void;
@@ -51,6 +52,7 @@ type Props = {
   endTypeLine?: TYPE_END_LINES;
   changeStartTypeLine?: (newType: TYPE_END_LINES) => void;
   changeEndTypeLine?: (newType: TYPE_END_LINES) => void;
+  idFlashingToCreate?: number;
 };
 
 const Board: React.FC<Props> = ({
@@ -64,6 +66,7 @@ const Board: React.FC<Props> = ({
   rightLinePaint,
   onSave,
   angles = [],
+  idFlashingToCreate,
   updateAngle,
   changeStartTypeLine,
   changeEndTypeLine,
@@ -193,9 +196,9 @@ const Board: React.FC<Props> = ({
     }
   };
 
-  const handleOnSave = () => {
+  const handleOnSave = (redirect = true) => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('screen_shot'));
-    onSave && onSave();
+    onSave && onSave(redirect);
   };
   const handleOnEdit = () => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('measurements'));
@@ -203,6 +206,11 @@ const Board: React.FC<Props> = ({
   };
   const handleOnEditEndType = () => {
     changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'));
+  };
+
+  const handleOnTapered = () => {
+    handleOnSave(false);
+    changeStepBoard && changeStepBoard(getIndexOfStepForName('tapered'));
   };
 
   return (
@@ -230,6 +238,7 @@ const Board: React.FC<Props> = ({
       </ScrollBox>
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton
+          onTapered={handleOnTapered}
           onSave={handleOnSave}
           onEdit={handleOnEdit}
           onEditEndType={handleOnEditEndType}
@@ -251,6 +260,17 @@ const Board: React.FC<Props> = ({
           />
         </Box>
       )}
+
+      {stepBoard === getIndexOfStepForName('tapered') && (
+        <Box
+          height={heightMeasurement}
+          position="absolute"
+          width="100%"
+          bottom={0}>
+          <TaperedLines idFlashingToCreate={idFlashingToCreate} />
+        </Box>
+      )}
+
       {stepBoard === getIndexOfStepForName('end_type') && (
         <Box height={380} position="absolute" width="100%" bottom={0}>
           <Box

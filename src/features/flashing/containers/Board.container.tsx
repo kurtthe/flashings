@@ -58,11 +58,13 @@ const BoardContainer = () => {
   });
   const [stepBoard, setStepBoard] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
+  const [idFlashingToCreate, setIdFlashingToCreate] = React.useState<
+    number | undefined
+  >();
 
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const refViewShot = React.createRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
-
   React.useEffect(() => {
     if (!templateChose) return;
     setLoading(true);
@@ -92,6 +94,8 @@ const BoardContainer = () => {
     setLoading(true);
 
     const dataFlashing = route.params.data;
+
+    setIdFlashingToCreate(dataFlashing.id);
     if (dataFlashing.dataLines.length > 0) {
       setDataBoard({
         lines: dataFlashing.dataLines,
@@ -248,7 +252,7 @@ const BoardContainer = () => {
     setDataBoard({ ...dataBoard, anglesLines: anglesUpdated });
   };
 
-  const handleSave = () => {
+  const handleSave = (redirect = true) => {
     (async () => {
       if (!refViewShot.current) return;
 
@@ -275,13 +279,15 @@ const BoardContainer = () => {
             }),
           );
 
-          navigation.navigate(StackPrivateDefinitions.JOBS, {
-            screen: RoutesJobs.JOB_DETAILS,
-            params: {
-              jobId: idJob,
-              jobName: dataJob?.name,
-            },
-          });
+          if (redirect) {
+            navigation.navigate(StackPrivateDefinitions.JOBS, {
+              screen: RoutesJobs.JOB_DETAILS,
+              params: {
+                jobId: idJob,
+                jobName: dataJob?.name,
+              },
+            });
+          }
         })
         .catch(error => {
           console.log('error: screenshot', error);
@@ -310,6 +316,7 @@ const BoardContainer = () => {
           Alert.show('Error for preview', error.message)
         }>
         <Board
+          idFlashingToCreate={idFlashingToCreate}
           rightLinePaint={dataBoard.blueLineIsRight}
           lines={dataBoard.lines}
           changeStepBoard={setStepBoard}

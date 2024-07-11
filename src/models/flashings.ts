@@ -30,7 +30,8 @@ export type MODES_BOARD =
   | 'finish'
   | 'preview'
   | 'end_type'
-  | 'screen_shot';
+  | 'screen_shot'
+  | 'tapered';
 export type TYPE_END_LINES =
   | 'none'
   | 'safety1Right'
