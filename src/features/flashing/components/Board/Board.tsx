@@ -224,7 +224,10 @@ const Board: React.FC<Props> = ({
           <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
             <GestureHandlerRootView>
               <SvgBoard
-                removeGrid={stepBoard === getIndexOfStepForName('screen_shot')}
+                removeGrid={
+                  stepBoard === getIndexOfStepForName('screen_shot') ||
+                  stepBoard === getIndexOfStepForName('tapered')
+                }
                 isRight={rightLinePaint}
                 typeEndLine={endTypeLine}
                 typeStartLine={startTypeLine}
