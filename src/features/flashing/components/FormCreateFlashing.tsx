@@ -138,31 +138,33 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
           )}
         />
       </Box>
-      <Button
-        isDisabled={!isValid || !values.material}
-        onPress={handleSubmit.bind(null, undefined)}
-        isLoading={isSubmitting}>
-        {labelButton}
-      </Button>
+      <Box mb="m">
+        <Button
+          isDisabled={!isValid || !values.material}
+          onPress={handleSubmit.bind(null, undefined)}
+          isLoading={isSubmitting}>
+          {labelButton}
+        </Button>
 
-      {showButtonUpdate && (
-        <>
-          <Button
-            mt="s"
-            isDisabled={!isValid || !values.material}
-            isLoading={isSubmitting}
-            onPress={() => handleUpdateDeleteFlashing()}>
-            Update Flashing
-          </Button>
-          <Button
-            variant="delete"
-            mt="s"
-            isLoading={isSubmitting}
-            onPress={() => alertDelete()}>
-            Delete Flashing
-          </Button>
-        </>
-      )}
+        {showButtonUpdate && (
+          <>
+            <Button
+              mt="s"
+              isDisabled={!isValid || !values.material}
+              isLoading={isSubmitting}
+              onPress={() => handleUpdateDeleteFlashing()}>
+              Update Flashing
+            </Button>
+            <Button
+              variant="delete"
+              mt="s"
+              isLoading={isSubmitting}
+              onPress={() => alertDelete()}>
+              Delete Flashing
+            </Button>
+          </>
+        )}
+      </Box>
     </Box>
   );
 };
