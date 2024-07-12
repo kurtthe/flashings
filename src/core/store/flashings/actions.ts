@@ -13,4 +13,5 @@ export const actions = {
   updateFlashingDraft: createAction<{
     dataFlashing: FLASHINGS_DATA;
   }>('updateDraft/flashing'),
+  clear: createAction('clear/flashing'),
 };

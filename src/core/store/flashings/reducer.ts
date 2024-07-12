@@ -35,6 +35,11 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
     const { dataFlashing } = action.payload;
     state.flashingDraft = { ...state.flashingDraft, ...dataFlashing };
   });
+  builder.addCase(actions.clear, (state, action) => {
+    state.flashingDraft = undefined;
+    state.stepIndex = 0;
+    state.sideTapered = 'front';
+  });
 });
 
 export default flashingsReducer;
