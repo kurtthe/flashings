@@ -12,7 +12,7 @@ export const actions = {
     jobId: number;
   }>('addDraft/flashing'),
   updateFlashingDraft: createAction<{
-    dataFlashing: FLASHINGS_DATA;
+    dataFlashing: Partial<FLASHINGS_DATA>;
   }>('updateDraft/flashing'),
   changeStartTypeLine: createAction<{ newType: TYPE_END_LINES }>(
     'changeStartTypeLine/flashing',

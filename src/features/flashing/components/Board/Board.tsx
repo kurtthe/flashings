@@ -36,10 +36,9 @@ import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import TaperedLines from '@features/flashing/components/TaperedLines';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getStep } from '@store/flashings/selectors';
+import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
 
 type Props = {
-  lines: LINE_TYPE[];
   onAddPoint?: (newPoint: POINT_TYPE) => void;
   onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
   onSave?: () => void;
@@ -62,6 +61,9 @@ const Board: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const stepBoard = useAppSelector(state => getStep(state));
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
 
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
@@ -86,39 +88,45 @@ const Board: React.FC<Props> = ({
   const isDrawing = STEPS_BOARD[stepBoard] === 'draw';
 
   React.useEffect(() => {
+    if (!flashingDataDraft) return;
     const makingLines = drawLines({
-      lines,
+      lines: flashingDataDraft.dataLines,
       widthGraph: width,
       heightGraph: height,
       step: stepBoard,
-      rightLinePaint,
+      rightLinePaint: flashingDataDraft.parallelRight,
       lineSelected: indexLineSelected,
       typeSelected,
       anglesLines: angles,
     });
-    setPathParallel(drawParallelLines(lines, rightLinePaint));
-    setPointsForLabel(positionTextLabels(lines, !rightLinePaint));
+    setPathParallel(
+      drawParallelLines(
+        flashingDataDraft.dataLines,
+        flashingDataDraft.parallelRight,
+      ),
+    );
+    setPointsForLabel(
+      positionTextLabels(
+        flashingDataDraft.dataLines,
+        !flashingDataDraft.parallelRight,
+      ),
+    );
     setGraphs(makingLines);
-  }, [
-    lines,
-    stepBoard,
-    rightLinePaint,
-    indexLineSelected,
-    typeSelected,
-    angles,
-  ]);
+  }, [flashingDataDraft]);
 
   React.useEffect(() => {
+    if (!flashingDataDraft) return;
+
     if (STEPS_BOARD[stepBoard] === 'finish') {
       modalBottomRef.current?.hide();
     }
     setPointSelected({
       numberLine: indexLineSelected,
-      sizeLine: lines[indexLineSelected]?.distance ?? 0,
+      sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
       angle: angles[indexLineSelected],
     });
     modalBottomRef.current?.show();
-  }, [stepBoard, indexLineSelected, graphs]);
+  }, [stepBoard, indexLineSelected, graphs, flashingDataDraft?.dataLines]);
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
     if (!pointSelected) return;
@@ -143,13 +151,12 @@ const Board: React.FC<Props> = ({
   };
 
   const handleNextLineSelected = () => {
+    if (!flashingDataDraft) return;
     const newIndex = indexLineSelected + 1;
-    const lengthLine = lines.length - 1;
+    const lengthLine = flashingDataDraft.dataLines.length - 1;
 
     if (newIndex > lengthLine) {
-      return (
-        changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'))
-      );
+      return changeStepBoard(getIndexOfStepForName('end_type'));
     }
 
     if (newIndex > lengthLine) {
