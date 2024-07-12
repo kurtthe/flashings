@@ -16,7 +16,7 @@ import {
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
 import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from '@models';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { actions as flashingActions } from '@store/jobs/actions';
+import { actions as jobActions } from '@store/jobs/actions';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
@@ -31,8 +31,10 @@ import Board from '@features/flashing/components/Board/Board';
 import MenuEditorComponent from '../components/MenuEditor';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import { templateSelected } from '@store/templates/selectors';
+import { getDataFlashingDraft } from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import { actions as templateActions } from '@store/templates/actions';
+import { actions as flashingActions } from '@store/flashings/actions';
 
 type StateDataBoard = {
   lines: LINE_TYPE[];
@@ -48,6 +50,10 @@ const BoardContainer = () => {
   const route =
     useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
   const templateChose = useAppSelector(state => templateSelected(state));
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
+  const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
 
   const [dataBoard, setDataBoard] = React.useState<StateDataBoard>({
     lines: [],
@@ -61,7 +67,6 @@ const BoardContainer = () => {
   const [idFlashingToCreate, setIdFlashingToCreate] =
     React.useState<number>(NaN);
 
-  const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const refViewShot = React.createRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
   React.useEffect(() => {
@@ -89,18 +94,16 @@ const BoardContainer = () => {
   }, [templateChose, dispatch]);
 
   React.useEffect(() => {
-    if (!route.params?.data) return;
+    if (!flashingDataDraft) return;
     setLoading(true);
 
-    const dataFlashing = route.params.data;
-
-    setIdFlashingToCreate(dataFlashing.id);
-    if (dataFlashing.dataLines.length > 0) {
+    setIdFlashingToCreate(flashingDataDraft.id);
+    if (flashingDataDraft.dataLines.length > 0) {
       setDataBoard({
-        lines: dataFlashing.dataLines,
-        blueLineIsRight: dataFlashing.parallelRight,
-        startTypeLine: dataFlashing.startType,
-        endTypeLine: dataFlashing.endType,
+        lines: flashingDataDraft.dataLines,
+        blueLineIsRight: flashingDataDraft.parallelRight,
+        startTypeLine: flashingDataDraft.startType,
+        endTypeLine: flashingDataDraft.endType,
         anglesLines: [],
       });
     } else {
@@ -120,7 +123,7 @@ const BoardContainer = () => {
     return () => {
       clearTimeout(delay);
     };
-  }, [route.params.data]);
+  }, [flashingDataDraft]);
 
   React.useEffect(() => {
     if (dataBoard.lines.length < 2) return;
@@ -235,26 +238,6 @@ const BoardContainer = () => {
     console.log('on finish steps::');
   };
 
-  const onSaveWithOutImage = () => {
-    const idJob = route.params?.jobId;
-    const dataFlashing = route.params.data;
-
-    dispatch(
-      flashingActions.addEditFlashing({
-        idJob,
-        flashing: {
-          ...dataFlashing,
-          dataLines: dataBoard.lines,
-          parallelRight: dataBoard.blueLineIsRight,
-          angles: dataBoard.anglesLines,
-          endType: dataBoard.endTypeLine,
-          startType: dataBoard.startTypeLine,
-          imgPreview: undefined,
-        },
-      }),
-    );
-  };
-
   const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
     const sideBlueLine =
       newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
@@ -271,23 +254,23 @@ const BoardContainer = () => {
     setDataBoard({ ...dataBoard, anglesLines: anglesUpdated });
   };
 
-  const handleSave = () => {
+  const handleSave = React.useCallback(() => {
     (async () => {
       if (!refViewShot.current) return;
 
-      const dataFlashing = route.params.data;
       const idJob = route.params?.jobId;
       // @ts-ignore
       refViewShot.current
         .capture()
         .then(async uriScreen => {
           const dataB64Preview = await imageToBase64(uriScreen);
+          if (!flashingDataDraft) return alert.show('Error saving flashing.');
 
           dispatch(
-            flashingActions.addEditFlashing({
+            jobActions.addEditFlashing({
               idJob,
               flashing: {
-                ...dataFlashing,
+                ...flashingDataDraft,
                 dataLines: dataBoard.lines,
                 parallelRight: dataBoard.blueLineIsRight,
                 angles: dataBoard.anglesLines,
@@ -311,9 +294,9 @@ const BoardContainer = () => {
           alert.show('Error', 'Snapshot failed');
         });
     })();
-  };
+  }, [flashingDataDraft]);
 
-  if (loading || !dataJob) return <Loading />;
+  if (loading || !dataJob || !flashingDataDraft) return <Loading />;
 
   return (
     <>
@@ -346,7 +329,6 @@ const BoardContainer = () => {
           updateAngle={handleUpdateAngle}
           startTypeLine={dataBoard.startTypeLine}
           endTypeLine={dataBoard.endTypeLine}
-          onBeforeTapered={onSaveWithOutImage}
           changeStartTypeLine={newValue =>
             setDataBoard({ ...dataBoard, startTypeLine: newValue })
           }

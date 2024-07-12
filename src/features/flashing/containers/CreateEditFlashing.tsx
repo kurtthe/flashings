@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, KeyboardAvoidingBox } from '@ui/components';
+import { KeyboardAvoidingBox } from '@ui/components';
 import { Routes as RoutesFlashing, Routes } from '../navigation/routes';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import {
@@ -11,10 +11,12 @@ import { FormCreateFlashingComponent } from '@features/flashing/components';
 import { Formik, FormikProps } from 'formik';
 import { getRandomInt } from '@shared/utils';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
-import { useAppSelector } from '@hooks/useStore';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { getDataFlashing } from '@store/jobs/selectors';
+import { actions as flashingActions } from '@store/flashings/actions';
 
 const CreateFlashingContainer = () => {
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<FlashingStackProps>();
   const route =
     useRoute<
@@ -32,23 +34,25 @@ const CreateFlashingContainer = () => {
     async (values: AddFlashingFormValues) => {
       const { name, material, flashingLengths } = values;
       if (!flashingLengths) return;
-
-      navigation.navigate(Routes.BOARD_FLASHING, {
-        data: {
-          id: dataFlashing ? dataFlashing.id : getRandomInt(1, 500),
-          name,
-          flashingLengths,
-          colourMaterial: material,
-          dataLines: dataFlashing ? dataFlashing.dataLines : [],
-          parallelRight: dataFlashing ? dataFlashing.parallelRight : true,
-          angles: dataFlashing ? dataFlashing.angles : [],
-          endType: dataFlashing ? dataFlashing.endType : 'none',
-          startType: dataFlashing ? dataFlashing.startType : 'none',
-          imgPreview: undefined,
-          tapered: undefined,
-        },
-        jobId: route.params.jobId,
-      });
+      dispatch(
+        flashingActions.addFlashingDraft({
+          dataFlashing: {
+            id: dataFlashing ? dataFlashing.id : getRandomInt(1, 500),
+            name,
+            flashingLengths,
+            colourMaterial: material,
+            dataLines: dataFlashing ? dataFlashing.dataLines : [],
+            parallelRight: dataFlashing ? dataFlashing.parallelRight : true,
+            angles: dataFlashing ? dataFlashing.angles : [],
+            endType: dataFlashing ? dataFlashing.endType : 'none',
+            startType: dataFlashing ? dataFlashing.startType : 'none',
+            imgPreview: undefined,
+            tapered: undefined,
+          },
+          jobId: route.params.jobId,
+        }),
+      );
+      navigation.navigate(Routes.BOARD_FLASHING, { jobId: route.params.jobId });
     },
     [],
   );
