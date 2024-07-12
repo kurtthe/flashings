@@ -13,50 +13,55 @@ import {
 } from '@features/flashing/components/Board/types';
 import GridComponent from '@features/flashing/components/Grid/Grid';
 import TextSvgLineMM from '../TextSvgLineMM';
+import { useAppSelector } from '@hooks/useStore';
+import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
   pathParallel: Path | null;
   pointsForLabel: null | POINT_TYPE[][];
-  step: number;
   height?: number;
   width?: number;
-  typeEndLine: TYPE_END_LINES;
-  typeStartLine: TYPE_END_LINES;
-  isRight: boolean;
-  removeGrid?: boolean;
 };
 const SvgBoard: React.FC<Props> = ({
   graphs = [],
-  step,
   pathParallel,
   width = widthScreen,
   height = heightScreen,
-  typeEndLine,
-  typeStartLine,
-  isRight,
-  removeGrid,
+
   pointsForLabel,
 }) => {
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
+  const stepBoard = useAppSelector(state => getStep(state));
+
   const colorPointer = '#8F94AE';
   const colorBorderPointer = '#000000';
   const borderWidth = 1;
-  const isDraw = step === getIndexOfStepForName('draw');
+
+  const _removeGrid = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('screen_shot');
+  }, []);
+  const _isDraw = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('draw');
+  }, [stepBoard]);
 
   const renderTypeEndStartLines = () => {
-    if (graphs.length <= 0 || !graphs[0].isLine) return null;
+    if (graphs.length <= 0 || !graphs[0].isLine || !flashingDataDraft)
+      return null;
     return getEndStartTypeLine({
-      typeEnd: typeEndLine,
-      typeStart: typeStartLine,
+      typeEnd: flashingDataDraft.endType,
+      typeStart: flashingDataDraft.startType,
       lineStart: graphs[0],
       lineEnd: graphs.length < 2 ? graphs[0] : graphs[graphs.length - 1],
-      isRightBlueLine: isRight,
+      isRightBlueLine: flashingDataDraft.parallelRight,
     });
   };
 
   return (
     <Svg width={width} height={height}>
-      {!removeGrid && <GridComponent />}
+      {!_removeGrid && <GridComponent />}
       {renderTypeEndStartLines()}
       {graphs.map(
         ({ points, path: LineComponent, isLine, distance }, index) => (
@@ -75,13 +80,13 @@ const SvgBoard: React.FC<Props> = ({
               <>
                 <TextSvgLineMM
                   coordinates={pointsForLabel[index]}
-                  step={step}
+                  step={stepBoard}
                   label={distance.toString()}
                 />
               </>
             )}
 
-            {isDraw && (
+            {_isDraw && (
               <PointerComponent
                 cx={points[0][0]}
                 cy={points[0][1]}
@@ -93,11 +98,11 @@ const SvgBoard: React.FC<Props> = ({
             )}
             {isLine && (
               <>
-                {graphs.length - 1 === index && !isDraw ? null : (
+                {graphs.length - 1 === index && !_isDraw ? null : (
                   <PointerComponent
                     cx={points[1][0]}
                     cy={points[1][1]}
-                    r={isDraw ? SIZE_POINTER : 0}
+                    r={_isDraw ? SIZE_POINTER : 0}
                     fill={colorPointer}
                     strokeWidth={borderWidth}
                     stroke={colorBorderPointer}

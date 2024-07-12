@@ -36,7 +36,9 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
 
   builder.addCase(actions.updateFlashingDraft, (state, action) => {
     const { dataFlashing } = action.payload;
-    state.flashingDraft = { ...state.flashingDraft, ...dataFlashing };
+    const previousState = state.flashingDraft;
+    if (!previousState) return;
+    state.flashingDraft = { ...previousState, ...dataFlashing };
   });
   builder.addCase(actions.changeEndTypeLine, (state, action) => {
     const { newType } = action.payload;

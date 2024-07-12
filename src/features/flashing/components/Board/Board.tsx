@@ -18,7 +18,7 @@ import {
 } from '@features/flashing/components/Board/utils';
 import { Path } from 'react-native-redash';
 import SectionsButton from '@features/flashing/components/SectionsButton';
-import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from '@models';
+import { POINT_TYPE } from '@models';
 import { isNaN } from 'lodash';
 import {
   BaseTouchable,
@@ -37,6 +37,7 @@ import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import TaperedLines from '@features/flashing/components/TaperedLines';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import { actions as flashingActions } from '@store/flashings/actions';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -156,7 +157,9 @@ const Board: React.FC<Props> = ({
     const lengthLine = flashingDataDraft.dataLines.length - 1;
 
     if (newIndex > lengthLine) {
-      return changeStepBoard(getIndexOfStepForName('end_type'));
+      dispatch(
+        flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
+      );
     }
 
     if (newIndex > lengthLine) {
@@ -174,7 +177,9 @@ const Board: React.FC<Props> = ({
 
   const handleBackLineSelected = () => {
     if (indexLineSelected === 0 && typeSelected === 'line') {
-      return changeStepBoard?.(getIndexOfStepForName('side'));
+      return dispatch(
+        flashingActions.changeStep({ step: getIndexOfStepForName('side') }),
+      );
     }
 
     const newIndex = indexLineSelected - 1;
@@ -194,19 +199,31 @@ const Board: React.FC<Props> = ({
   };
 
   const handleOnSave = () => {
-    changeStepBoard?.(getIndexOfStepForName('screen_shot'));
+    dispatch(
+      flashingActions.changeStep({
+        step: getIndexOfStepForName('screen_shot'),
+      }),
+    );
     onSave?.();
   };
   const handleOnEdit = () => {
-    changeStepBoard?.(getIndexOfStepForName('measurements'));
+    dispatch(
+      flashingActions.changeStep({
+        step: getIndexOfStepForName('measurements'),
+      }),
+    );
     setIndexLineSelected(0);
   };
   const handleOnEditEndType = () => {
-    changeStepBoard?.(getIndexOfStepForName('end_type'));
+    dispatch(
+      flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
+    );
   };
 
   const handleOnTapered = () => {
-    changeStepBoard?.(getIndexOfStepForName('tapered'));
+    dispatch(
+      flashingActions.changeStep({ step: getIndexOfStepForName('tapered') }),
+    );
     onBeforeTapered?.();
   };
 
@@ -219,11 +236,6 @@ const Board: React.FC<Props> = ({
           <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
             <GestureHandlerRootView>
               <SvgBoard
-                removeGrid={stepBoard === getIndexOfStepForName('screen_shot')}
-                isRight={rightLinePaint}
-                typeEndLine={endTypeLine}
-                typeStartLine={startTypeLine}
-                step={stepBoard}
                 height={heightScreen}
                 graphs={graphs}
                 pathParallel={pathParallel}
@@ -236,7 +248,6 @@ const Board: React.FC<Props> = ({
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton
           onTapered={handleOnTapered}
-          disabledTapered={!jobId || !idFlashingToCreate}
           onSave={handleOnSave}
           onEdit={handleOnEdit}
           onEditEndType={handleOnEditEndType}
@@ -254,15 +265,12 @@ const Board: React.FC<Props> = ({
             typeSelected={typeSelected}
             onDone={handleDoneSize}
             dataLine={pointSelected}
-            changeMode={changeStepBoard}
           />
         </Box>
       )}
 
       {stepBoard === getIndexOfStepForName('tapered') && (
         <TaperedLines
-          idFlashingToCreate={idFlashingToCreate}
-          jobId={jobId}
           setTypeSelected={setTypeSelected}
           setPointSelected={setPointSelected}
           setIndexLineSelected={setIndexLineSelected}
@@ -274,8 +282,11 @@ const Board: React.FC<Props> = ({
           <Box
             as={BaseTouchable}
             onPress={() => {
-              changeStepBoard &&
-                changeStepBoard(getIndexOfStepForName('finish'));
+              dispatch(
+                flashingActions.changeStep({
+                  step: getIndexOfStepForName('finish'),
+                }),
+              );
             }}
             position="absolute"
             bottom="100%"
@@ -294,12 +305,7 @@ const Board: React.FC<Props> = ({
             <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
           </Box>
 
-          <EndTypesLineComponent
-            changeStartTypeLine={changeStartTypeLine}
-            changeEndTypeLine={changeEndTypeLine}
-            startTypeLine={startTypeLine}
-            endTypeLine={endTypeLine}
-          />
+          <EndTypesLineComponent />
         </Box>
       )}
     </>
