@@ -31,7 +31,7 @@ import Board from '@features/flashing/components/Board/Board';
 import MenuEditorComponent from '../components/MenuEditor';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import { templateSelected } from '@store/templates/selectors';
-import { getDataFlashingDraft } from '@store/flashings/selectors';
+import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import { actions as templateActions } from '@store/templates/actions';
 import { actions as flashingActions } from '@store/flashings/actions';
@@ -53,8 +53,8 @@ const BoardContainer = () => {
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
+  const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
-
   const [dataBoard, setDataBoard] = React.useState<StateDataBoard>({
     lines: [],
     anglesLines: [],
@@ -62,7 +62,6 @@ const BoardContainer = () => {
     startTypeLine: 'none',
     endTypeLine: 'none',
   });
-  const [stepBoard, setStepBoard] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
   const [idFlashingToCreate, setIdFlashingToCreate] =
     React.useState<number>(NaN);
@@ -80,8 +79,6 @@ const BoardContainer = () => {
       endTypeLine: templateChose.endType,
       anglesLines: templateChose.angles,
     });
-
-    setStepBoard(getIndexOfStepForName('draw'));
 
     const delay = setTimeout(() => {
       dispatch(templateActions.templateSelected({ idTemplate: null }));
@@ -141,6 +138,10 @@ const BoardContainer = () => {
     }));
   }, [dataBoard.lines]);
 
+  const _changeStep = React.useCallback((newIndexStep: number) => {
+    dispatch(flashingActions.changeStep({ step: newIndexStep }));
+  }, []);
+
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (dataBoard.lines.length < 1) {
       const dataLine: LINE_TYPE = {
@@ -177,7 +178,7 @@ const BoardContainer = () => {
     const newPointCoordinates = dataBoard.lines.slice(0, -1);
     const newAngles = dataBoard.anglesLines.slice(0, -1);
     if (newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine) {
-      setStepBoard(getIndexOfStepForName('draw'));
+      _changeStep(getIndexOfStepForName('draw'));
     }
     setDataBoard({
       ...dataBoard,
@@ -189,7 +190,7 @@ const BoardContainer = () => {
   const handleBack = () => {
     const newStep = stepBoard - 1;
     if (newStep < 0) return;
-    setStepBoard(newStep);
+    _changeStep(newStep);
   };
 
   const handleNext = () => {
@@ -202,7 +203,7 @@ const BoardContainer = () => {
       return Alert.show('Please draw a line', '');
     }
     const newStep = stepBoard + 1;
-    setStepBoard(newStep);
+    _changeStep(newStep);
   };
 
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
@@ -226,7 +227,7 @@ const BoardContainer = () => {
       anglesLines: [],
       blueLineIsRight: true,
     });
-    setStepBoard(getIndexOfStepForName('draw'));
+    _changeStep(getIndexOfStepForName('draw'));
   };
 
   const handleLibrary = () => {
@@ -316,25 +317,11 @@ const BoardContainer = () => {
           Alert.show('Error for preview', error.message)
         }>
         <Board
-          jobId={dataJob?.id}
-          idFlashingToCreate={idFlashingToCreate}
-          rightLinePaint={dataBoard.blueLineIsRight}
-          lines={dataBoard.lines}
-          changeStepBoard={setStepBoard}
           onAddPoint={handleAddPoint}
           onUpdatePoint={handleUpdatePoint}
           onSave={handleSave}
-          stepBoard={stepBoard}
           angles={dataBoard.anglesLines}
           updateAngle={handleUpdateAngle}
-          startTypeLine={dataBoard.startTypeLine}
-          endTypeLine={dataBoard.endTypeLine}
-          changeStartTypeLine={newValue =>
-            setDataBoard({ ...dataBoard, startTypeLine: newValue })
-          }
-          changeEndTypeLine={newValue =>
-            setDataBoard({ ...dataBoard, endTypeLine: newValue })
-          }
         />
       </ViewShot>
       {isAndroid &&

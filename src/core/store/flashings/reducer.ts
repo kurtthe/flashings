@@ -38,6 +38,18 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
     const { dataFlashing } = action.payload;
     state.flashingDraft = { ...state.flashingDraft, ...dataFlashing };
   });
+  builder.addCase(actions.changeEndTypeLine, (state, action) => {
+    const { newType } = action.payload;
+    const previousState = state.flashingDraft;
+    if (!previousState) return;
+    state.flashingDraft = { ...previousState, endType: newType };
+  });
+  builder.addCase(actions.changeStartTypeLine, (state, action) => {
+    const { newType } = action.payload;
+    const previousState = state.flashingDraft;
+    if (!previousState) return;
+    state.flashingDraft = { ...previousState, startType: newType };
+  });
   builder.addCase(actions.clear, (state, action) => {
     state.jobId = undefined;
     state.flashingDraft = undefined;

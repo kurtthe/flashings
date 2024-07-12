@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { SIDE_TAPERED_TYPES } from '@store/flashings/reducer';
-import { FLASHINGS_DATA } from '@models';
+import { FLASHINGS_DATA, TYPE_END_LINES } from '@models';
 
 export const actions = {
   changeSideTapered: createAction<{ side: SIDE_TAPERED_TYPES }>(
@@ -14,5 +14,11 @@ export const actions = {
   updateFlashingDraft: createAction<{
     dataFlashing: FLASHINGS_DATA;
   }>('updateDraft/flashing'),
+  changeStartTypeLine: createAction<{ newType: TYPE_END_LINES }>(
+    'changeStartTypeLine/flashing',
+  ),
+  changeEndTypeLine: createAction<{ newType: TYPE_END_LINES }>(
+    'changeEndTypeLine/flashing',
+  ),
   clear: createAction('clear/flashing'),
 };

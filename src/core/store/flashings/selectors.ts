@@ -1,6 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '@store';
-import { FLASHINGS_DATA } from '@models';
 
 const flashingSelector = (state: RootState) => state.flashing;
 

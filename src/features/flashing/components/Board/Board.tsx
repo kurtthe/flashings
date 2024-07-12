@@ -35,6 +35,8 @@ import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import TaperedLines from '@features/flashing/components/TaperedLines';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import { getStep } from '@store/flashings/selectors';
 
 type Props = {
   lines: LINE_TYPE[];
@@ -43,40 +45,24 @@ type Props = {
   onSave?: () => void;
   width?: number;
   height?: number;
-  changeStepBoard?: (newStep: number) => void;
-  stepBoard: number;
-  rightLinePaint: boolean;
   angles?: number[];
   updateAngle?: (newAngle: number, positionAngle: number) => void;
-  startTypeLine?: TYPE_END_LINES;
-  endTypeLine?: TYPE_END_LINES;
-  changeStartTypeLine?: (newType: TYPE_END_LINES) => void;
-  changeEndTypeLine?: (newType: TYPE_END_LINES) => void;
-  idFlashingToCreate?: number;
   onBeforeTapered?: () => void;
-  jobId?: number;
 };
 
 const Board: React.FC<Props> = ({
-  lines,
   onUpdatePoint,
   onAddPoint,
   width = widthScreen,
   height = heightScreen,
-  stepBoard = 0,
-  changeStepBoard,
-  rightLinePaint,
   onSave,
   angles = [],
-  idFlashingToCreate,
-  jobId,
   updateAngle,
-  changeStartTypeLine,
-  changeEndTypeLine,
-  startTypeLine = 'none',
-  endTypeLine = 'none',
   onBeforeTapered,
 }) => {
+  const dispatch = useAppDispatch();
+  const stepBoard = useAppSelector(state => getStep(state));
+
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
