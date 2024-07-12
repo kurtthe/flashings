@@ -14,7 +14,7 @@ import {
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
-import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from '@models';
+import { LINE_TYPE, POINT_TYPE } from '@models';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { actions as jobActions } from '@store/jobs/actions';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
@@ -35,14 +35,6 @@ import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import { actions as templateActions } from '@store/templates/actions';
 import { actions as flashingActions } from '@store/flashings/actions';
-
-type StateDataBoard = {
-  lines: LINE_TYPE[];
-  anglesLines: number[];
-  blueLineIsRight: boolean;
-  startTypeLine: TYPE_END_LINES;
-  endTypeLine: TYPE_END_LINES;
-};
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -302,6 +294,8 @@ const BoardContainer = () => {
               },
             }),
           );
+
+          dispatch(flashingActions.clear());
 
           navigation.navigate(StackPrivateDefinitions.JOBS, {
             screen: RoutesJobs.JOB_DETAILS,
