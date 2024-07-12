@@ -8,12 +8,14 @@ type initialStateType = {
   sideTapered: SIDE_TAPERED_TYPES;
   stepIndex: number;
   flashingDraft: FLASHINGS_DATA | undefined;
+  jobId: number | undefined;
 };
 
 const INITIAL_STATE: initialStateType = {
   sideTapered: 'front',
   stepIndex: 0,
   flashingDraft: undefined,
+  jobId: undefined,
 };
 
 const flashingsReducer = createReducer(INITIAL_STATE, builder => {
@@ -27,8 +29,9 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
   });
 
   builder.addCase(actions.addFlashingDraft, (state, action) => {
-    const { dataFlashing } = action.payload;
+    const { dataFlashing, jobId } = action.payload;
     state.flashingDraft = dataFlashing;
+    state.jobId = jobId;
   });
 
   builder.addCase(actions.updateFlashingDraft, (state, action) => {
@@ -36,6 +39,7 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
     state.flashingDraft = { ...state.flashingDraft, ...dataFlashing };
   });
   builder.addCase(actions.clear, (state, action) => {
+    state.jobId = undefined;
     state.flashingDraft = undefined;
     state.stepIndex = 0;
     state.sideTapered = 'front';

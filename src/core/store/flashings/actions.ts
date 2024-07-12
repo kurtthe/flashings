@@ -7,9 +7,10 @@ export const actions = {
     'changeSideTapered/flashing',
   ),
   changeStep: createAction<{ step: number }>('changeStep/flashing'),
-  addFlashingDraft: createAction<{ dataFlashing: FLASHINGS_DATA }>(
-    'addDraft/flashing',
-  ),
+  addFlashingDraft: createAction<{
+    dataFlashing: FLASHINGS_DATA;
+    jobId: number;
+  }>('addDraft/flashing'),
   updateFlashingDraft: createAction<{
     dataFlashing: FLASHINGS_DATA;
   }>('updateDraft/flashing'),
