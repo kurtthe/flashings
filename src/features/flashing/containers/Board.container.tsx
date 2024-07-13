@@ -47,11 +47,10 @@ const BoardContainer = () => {
   );
   const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
-
   const [loading, setLoading] = React.useState(false);
-
   const refViewShot = React.createRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
+
   React.useEffect(() => {
     if (!templateChose) return;
     setLoading(true);
@@ -173,29 +172,6 @@ const BoardContainer = () => {
     );
   };
 
-  const handleBack = () => {
-    const newStep = stepBoard - 1;
-    if (newStep < 0) return;
-    _changeStep(newStep);
-  };
-
-  const handleNext = () => {
-    if (!flashingDataDraft) return;
-    if (stepBoard === getIndexOfStepForName('finish')) {
-      handleSave();
-      return;
-    }
-
-    if (
-      flashingDataDraft.dataLines.length === 0 ||
-      !flashingDataDraft.dataLines[0].isLine
-    ) {
-      return Alert.show('Please draw a line', '');
-    }
-    const newStep = stepBoard + 1;
-    _changeStep(newStep);
-  };
-
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
     if (!flashingDataDraft) return;
     const linesUpdated = flashingDataDraft.dataLines.map((line, index) => {
@@ -214,26 +190,6 @@ const BoardContainer = () => {
         },
       }),
     );
-  };
-
-  const handleClear = () => {
-    dispatch(
-      flashingActions.updateFlashingDraft({
-        dataFlashing: {
-          startType: 'none',
-          endType: 'none',
-          dataLines: [],
-          angles: [],
-          parallelRight: true,
-        },
-      }),
-    );
-    _changeStep(getIndexOfStepForName('draw'));
-  };
-
-  const handleLibrary = () => {
-    // @ts-ignore
-    navigation.navigate(RoutesFlashing.LIST_TEMPLATES);
   };
 
   const finishSteps = () => {
@@ -342,20 +298,7 @@ const BoardContainer = () => {
       {isAndroid &&
       showKeyboard &&
       stepBoard === getIndexOfStepForName('measurements') ? null : (
-        <MenuEditorComponent
-          disabledBack={stepBoard === getIndexOfStepForName('draw')}
-          disabledNext={stepBoard === getIndexOfStepForName('finish')}
-          disabledUndo={
-            flashingDataDraft.dataLines.length === 0 ||
-            stepBoard !== getIndexOfStepForName('draw')
-          }
-          disabledEraser={flashingDataDraft.dataLines.length === 0}
-          onUndo={handleUndo}
-          onBack={handleBack}
-          onNext={handleNext}
-          onEraser={handleClear}
-          onLibrary={handleLibrary}
-        />
+        <MenuEditorComponent onUndo={handleUndo} onSave={handleSave} />
       )}
     </>
   );

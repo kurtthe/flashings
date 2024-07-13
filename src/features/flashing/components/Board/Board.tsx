@@ -204,7 +204,7 @@ const Board: React.FC<Props> = ({
         step: getIndexOfStepForName('screen_shot'),
       }),
     );
-    onSave?.();
+    onSave && onSave();
   };
   const handleOnEdit = () => {
     dispatch(

@@ -8,18 +8,18 @@ import {
   UndoIcon,
 } from '@assets/icons';
 import { BaseTouchable, Box, Icon, IconProps, Text } from '@ui/components';
+import { getIndexOfStepForName } from '@features/flashing/utils';
+import Alert from '@services/general-request/alert';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import { actions as flashingActions } from '@store/flashings/actions';
+import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
+import { useNavigation } from '@react-navigation/native';
+import { StackPrivateProps } from '@models/navigation';
 
 type Props = {
   onUndo?: () => void;
-  onBack?: () => void;
-  onLibrary?: () => void;
-  onEraser?: () => void;
-  onNext?: () => void;
-  disabledBack?: boolean;
-  disabledUndo?: boolean;
-  disabledEraser?: boolean;
-  disabledLibrary?: boolean;
-  disabledNext?: boolean;
+  onSave: () => void;
 };
 
 type IconMenuEditorProps = IconProps & {
@@ -51,18 +51,84 @@ const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
   </Box>
 );
 
-const MenuEditorComponent: React.FC<Props> = ({
-  onNext,
-  onLibrary,
-  onBack,
-  onUndo,
-  onEraser,
-  disabledBack = true,
-  disabledUndo = true,
-  disabledEraser = true,
-  disabledLibrary = false,
-  disabledNext = false,
-}) => {
+const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation<StackPrivateProps>();
+
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
+  const stepBoard = useAppSelector(state => getStep(state));
+  // states of buttons
+  const _disabledBack = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('draw');
+  }, [stepBoard]);
+
+  const _disabledNext = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('finish');
+  }, [stepBoard]);
+
+  const _disabledUndo = React.useMemo(() => {
+    if (!flashingDataDraft) return true;
+
+    return (
+      flashingDataDraft.dataLines.length === 0 ||
+      stepBoard !== getIndexOfStepForName('draw')
+    );
+  }, [flashingDataDraft?.dataLines, stepBoard]);
+
+  const _disabledEraser = React.useMemo(() => {
+    if (!flashingDataDraft) return true;
+    return flashingDataDraft.dataLines.length === 0;
+  }, [flashingDataDraft?.dataLines]);
+
+  const _changeStep = React.useCallback((newIndexStep: number) => {
+    dispatch(flashingActions.changeStep({ step: newIndexStep }));
+  }, []);
+
+  const handleClear = () => {
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          startType: 'none',
+          endType: 'none',
+          dataLines: [],
+          angles: [],
+          parallelRight: true,
+        },
+      }),
+    );
+    _changeStep(getIndexOfStepForName('draw'));
+  };
+
+  const handleNext = () => {
+    if (!flashingDataDraft) return;
+    if (stepBoard === getIndexOfStepForName('finish')) {
+      onSave();
+      return;
+    }
+
+    if (
+      flashingDataDraft.dataLines.length === 0 ||
+      !flashingDataDraft.dataLines[0].isLine
+    ) {
+      return Alert.show('Please draw a line', '');
+    }
+    const newStep = stepBoard + 1;
+    _changeStep(newStep);
+  };
+
+  const handleLibrary = () => {
+    // @ts-ignore
+    navigation.navigate(RoutesFlashing.LIST_TEMPLATES);
+  };
+
+  const handleBack = () => {
+    const newStep = stepBoard - 1;
+    if (newStep < 0) return;
+    _changeStep(newStep);
+  };
+
   return (
     <Box
       py="s"
@@ -74,35 +140,34 @@ const MenuEditorComponent: React.FC<Props> = ({
       style={styles.shadow}>
       <Box px="m" style={styles.content}>
         <IconMenuEditor
-          disabled={disabledBack}
-          onPress={() => onBack && onBack()}
+          disabled={_disabledBack}
+          onPress={handleBack}
           nameIcon={BackIcon}
           title="Back"
           color="black"
           size={20}
         />
         <IconMenuEditor
-          disabled={disabledUndo}
+          disabled={_disabledUndo}
           onPress={() => onUndo && onUndo()}
           nameIcon={UndoIcon}
           title="Undo"
         />
         <IconMenuEditor
-          onPress={() => onEraser && onEraser()}
-          disabled={disabledEraser}
+          onPress={handleClear}
+          disabled={_disabledEraser}
           nameIcon={ClearIcon}
           title="Clear"
           size={22}
         />
         <IconMenuEditor
-          disabled={disabledLibrary}
-          onPress={() => onLibrary && onLibrary()}
+          onPress={handleLibrary}
           nameIcon={LibraryIcon}
           title="Library"
         />
         <IconMenuEditor
-          disabled={disabledNext}
-          onPress={() => onNext && onNext()}
+          disabled={_disabledNext}
+          onPress={handleNext}
           nameIcon={NextIcon}
           title="Next"
           size={22}
