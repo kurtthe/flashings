@@ -7,7 +7,7 @@ import {
   NextIcon,
   UndoIcon,
 } from '@assets/icons';
-import { BaseTouchable, Box, Icon, IconProps, Text } from '@ui/components';
+import { Box } from '@ui/components';
 import { getIndexOfStepForName } from '@features/flashing/utils';
 import Alert from '@services/general-request/alert';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
@@ -16,40 +16,12 @@ import { actions as flashingActions } from '@store/flashings/actions';
 import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { StackPrivateProps } from '@models/navigation';
+import IconMenuEditor from '@features/flashing/components/MenuEditor/IconMenuEditor';
 
 type Props = {
   onUndo?: () => void;
   onSave: () => void;
 };
-
-type IconMenuEditorProps = IconProps & {
-  nameIcon: any;
-  onPress?: () => void;
-  title?: string;
-};
-
-const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
-  title,
-  nameIcon,
-  onPress,
-  disabled = true,
-  ...rest
-}) => (
-  <Box
-    disabled={disabled}
-    p="m"
-    as={BaseTouchable}
-    alignItems="center"
-    justifyContent="center"
-    onPress={() => onPress && !disabled && onPress()}>
-    <Icon as={nameIcon} {...rest} color={disabled ? 'grayIcon' : 'black'} />
-    {title && (
-      <Text mt="xs" variant="menuEditor">
-        {title}
-      </Text>
-    )}
-  </Box>
-);
 
 const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
   const dispatch = useAppDispatch();

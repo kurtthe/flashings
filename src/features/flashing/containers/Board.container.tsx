@@ -28,13 +28,13 @@ import alert from '@services/general-request/alert';
 import { imageToBase64 } from '@shared/utils';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
-import MenuEditorComponent from '../components/MenuEditor';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import { templateSelected } from '@store/templates/selectors';
 import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import { actions as templateActions } from '@store/templates/actions';
 import { actions as flashingActions } from '@store/flashings/actions';
+import { MenuEditorComponent } from '@features/flashing/components';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
