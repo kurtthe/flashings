@@ -45,7 +45,6 @@ type Props = {
   onSave?: () => void;
   width?: number;
   height?: number;
-  angles?: number[];
   updateAngle?: (newAngle: number, positionAngle: number) => void;
   onBeforeTapered?: () => void;
 };
@@ -56,7 +55,6 @@ const Board: React.FC<Props> = ({
   width = widthScreen,
   height = heightScreen,
   onSave,
-  angles = [],
   updateAngle,
   onBeforeTapered,
 }) => {
@@ -98,7 +96,7 @@ const Board: React.FC<Props> = ({
       rightLinePaint: flashingDataDraft.parallelRight,
       lineSelected: indexLineSelected,
       typeSelected,
-      anglesLines: angles,
+      anglesLines: flashingDataDraft.angles,
     });
     setPathParallel(
       drawParallelLines(
@@ -124,7 +122,7 @@ const Board: React.FC<Props> = ({
     setPointSelected({
       numberLine: indexLineSelected,
       sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
-      angle: angles[indexLineSelected],
+      angle: flashingDataDraft.angles[indexLineSelected],
     });
     modalBottomRef.current?.show();
   }, [stepBoard, indexLineSelected, graphs, flashingDataDraft?.dataLines]);
