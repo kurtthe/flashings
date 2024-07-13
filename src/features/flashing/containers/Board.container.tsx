@@ -111,6 +111,7 @@ const BoardContainer = () => {
         distance: 0,
         isLine: false,
       };
+
       dispatch(
         flashingActions.updateFlashingDraft({
           dataFlashing: {
@@ -224,9 +225,9 @@ const BoardContainer = () => {
     );
   };
 
-  const handleSave = React.useCallback(() => {
+  const handleSave = () => {
     (async () => {
-      if (!refViewShot.current) return;
+      if (!refViewShot.current || !flashingDataDraft) return;
 
       const idJob = route.params?.jobId;
       // @ts-ignore
@@ -234,7 +235,6 @@ const BoardContainer = () => {
         .capture()
         .then(async uriScreen => {
           const dataB64Preview = await imageToBase64(uriScreen);
-          if (!flashingDataDraft) return alert.show('Error saving flashing.');
 
           dispatch(
             jobActions.addEditFlashing({
@@ -266,7 +266,7 @@ const BoardContainer = () => {
           alert.show('Error', 'Snapshot failed');
         });
     })();
-  }, [flashingDataDraft]);
+  };
 
   if (loading || !dataJob || !flashingDataDraft) return <Loading />;
 

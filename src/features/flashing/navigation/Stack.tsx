@@ -53,7 +53,7 @@ const Stack = () => {
                     text: 'Yes',
                     onPress: () => {
                       navigation.goBack();
-                      dispatch(flashingActions.changeStep({ step: 0 }));
+                      dispatch(flashingActions.clear());
                     },
                   },
                 ],

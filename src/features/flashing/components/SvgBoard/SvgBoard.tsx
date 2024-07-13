@@ -42,7 +42,7 @@ const SvgBoard: React.FC<Props> = ({
 
   const _removeGrid = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('screen_shot');
-  }, []);
+  }, [stepBoard]);
   const _isDraw = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('draw');
   }, [stepBoard]);
