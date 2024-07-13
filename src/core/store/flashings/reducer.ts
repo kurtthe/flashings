@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { actions } from '@store/flashings/actions';
 import { FLASHINGS_DATA } from '@models';
+import { stat } from 'react-native-fs';
 
 export type SIDE_TAPERED_TYPES = 'front' | 'back';
 
@@ -29,9 +30,12 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
   });
 
   builder.addCase(actions.addFlashingDraft, (state, action) => {
-    const { dataFlashing, jobId } = action.payload;
+    const { dataFlashing, jobId, step } = action.payload;
     state.flashingDraft = dataFlashing;
     state.jobId = jobId;
+    if (step) {
+      state.stepIndex = step;
+    }
   });
 
   builder.addCase(actions.updateFlashingDraft, (state, action) => {

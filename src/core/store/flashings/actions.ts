@@ -10,6 +10,7 @@ export const actions = {
   addFlashingDraft: createAction<{
     dataFlashing: FLASHINGS_DATA;
     jobId: number;
+    step?: number;
   }>('addDraft/flashing'),
   updateFlashingDraft: createAction<{
     dataFlashing: Partial<FLASHINGS_DATA>;
