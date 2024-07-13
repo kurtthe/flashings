@@ -3,7 +3,7 @@ import PointerComponent from '@features/flashing/components/Pointer';
 import Svg, { Path as PathComponent } from 'react-native-svg';
 import { Path, serialize } from 'react-native-redash';
 import { getIndexOfStepForName } from '@features/flashing/utils';
-import { POINT_TYPE, TYPE_END_LINES } from '@models';
+import { POINT_TYPE } from '@models';
 import { getEndStartTypeLine } from '@features/flashing/components/SvgBoard/utils';
 import {
   DREW_LINE_TYPE,
@@ -43,6 +43,7 @@ const SvgBoard: React.FC<Props> = ({
   const _removeGrid = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('screen_shot');
   }, [stepBoard]);
+
   const _isDraw = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('draw');
   }, [stepBoard]);
