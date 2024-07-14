@@ -123,7 +123,7 @@ const Board: React.FC<Props> = ({
       angle: flashingDataDraft.angles[indexLineSelected],
     });
     modalBottomRef.current?.show();
-  }, [stepBoard, indexLineSelected, graphs, flashingDataDraft?.dataLines]);
+  }, [stepBoard, indexLineSelected, flashingDataDraft?.dataLines]);
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
     if (!pointSelected) return;
@@ -135,19 +135,6 @@ const Board: React.FC<Props> = ({
       return;
     }
     onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
-  };
-
-  const handleDoneSizeTapered = (newSize: number) => {
-    if (!pointSelected) return;
-
-    if (isNaN(newSize)) return;
-    onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
-
-    dispatch(
-      flashingActions.changeStep({
-        step: getIndexOfStepForName('save_tapered'),
-      }),
-    );
   };
 
   const handlePointer = (event: GestureResponderEvent) => {
@@ -183,6 +170,10 @@ const Board: React.FC<Props> = ({
       return;
     }
     setTypeSelected('angle');
+  };
+
+  const handleDoneSizeTapered = (newSize: number) => {
+    console.log('newSize', newSize);
   };
 
   const handleNextLineSelectedTapered = () => {
@@ -256,6 +247,7 @@ const Board: React.FC<Props> = ({
     );
     onSave && onSave();
   };
+
   const handleOnEdit = () => {
     dispatch(
       flashingActions.changeStep({
@@ -264,6 +256,7 @@ const Board: React.FC<Props> = ({
     );
     setIndexLineSelected(0);
   };
+
   const handleOnEditEndType = () => {
     dispatch(
       flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
@@ -272,8 +265,8 @@ const Board: React.FC<Props> = ({
 
   const handleOnTapered = () => {
     if (!flashingDataDraft) return;
-    setTypeSelected('line');
     setIndexLineSelected(0);
+    setTypeSelected('line');
 
     dispatch(
       flashingActions.updateFlashingDraft({

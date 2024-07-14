@@ -1,34 +1,24 @@
 import React from 'react';
 import { BaseTouchable, Box, Divider, Icon, Text } from '@ui/components';
 import { isNaN } from 'lodash';
-import {
-  BackArrowIcon,
-  CompleteEditMeasurementsIcon,
-  NextArrowIcon,
-} from '@assets/icons';
+import { BackArrowIcon, NextArrowIcon } from '@assets/icons';
 import { TextInput } from 'react-native';
-import { getIndexOfStepForName } from '@features/flashing/utils';
 import { isAndroid } from '@shared/platform';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import { useAppDispatch } from '@hooks/useStore';
-import { actions as flashingActions } from '@store/flashings/actions';
 
 type Props = {
   onDone: (sizeLine: number) => void;
   dataLine?: LINE_SELECTED;
   onNext?: () => void;
   onPrevious?: () => void;
-  disabledPrevious?: boolean;
 };
 const TaperedLines: React.FC<Props> = ({
   onDone,
   dataLine,
   onNext,
   onPrevious,
-  disabledPrevious = false,
 }) => {
-  const dispatch = useAppDispatch();
-
   const [measurement, setMeasurement] = React.useState(0);
   const inputRef = React.useRef<TextInput>(null);
 
@@ -45,7 +35,6 @@ const TaperedLines: React.FC<Props> = ({
   };
 
   const handlePrevious = () => {
-    if (disabledPrevious) return;
     handleDone(`${measurement}`);
     onPrevious && onPrevious();
   };
@@ -61,16 +50,8 @@ const TaperedLines: React.FC<Props> = ({
           flexDirection="row"
           alignItems="center"
           justifyContent="space-around">
-          <Box
-            disabled={disabledPrevious}
-            as={BaseTouchable}
-            onPress={handlePrevious}>
-            <Icon
-              opacity={disabledPrevious ? 0.3 : 1}
-              color="black"
-              as={BackArrowIcon}
-              size={22}
-            />
+          <Box as={BaseTouchable} onPress={handlePrevious}>
+            <Icon color="black" as={BackArrowIcon} size={22} />
           </Box>
 
           <Text variant="subheadSecondary">Length</Text>

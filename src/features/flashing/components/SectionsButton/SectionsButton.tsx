@@ -20,6 +20,8 @@ const SectionsButton: React.FC<Props> = ({
   onTapered,
   disabledTapered = false,
 }) => {
+  const isOnlySave = !onEdit && !onEditEndType && !onTapered;
+
   return (
     <Box
       p="m"
@@ -30,7 +32,7 @@ const SectionsButton: React.FC<Props> = ({
       flexDirection="row"
       flexWrap="wrap"
       alignItems="center"
-      justifyContent="space-between">
+      justifyContent={isOnlySave ? 'center' : 'space-between'}>
       {onEdit && (
         <BaseTouchable
           onPress={onEdit}

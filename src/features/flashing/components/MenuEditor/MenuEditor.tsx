@@ -37,7 +37,10 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
   }, [stepBoard]);
 
   const _disabledNext = React.useMemo(() => {
-    return stepBoard === getIndexOfStepForName('finish');
+    return (
+      stepBoard === getIndexOfStepForName('finish') ||
+      stepBoard === getIndexOfStepForName('save_tapered')
+    );
   }, [stepBoard]);
 
   const _disabledUndo = React.useMemo(() => {
@@ -75,8 +78,8 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
 
   const handleNext = () => {
     if (!flashingDataDraft) return;
-    if (stepBoard === getIndexOfStepForName('finish')) {
-      onSave();
+    if (stepBoard === getIndexOfStepForName('tapered')) {
+      _changeStep(getIndexOfStepForName('save_tapered'));
       return;
     }
 
@@ -96,6 +99,10 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
   };
 
   const handleBack = () => {
+    if (stepBoard === getIndexOfStepForName('tapered')) {
+      _changeStep(getIndexOfStepForName('finish'));
+      return;
+    }
     const newStep = stepBoard - 1;
     if (newStep < 0) return;
     _changeStep(newStep);
