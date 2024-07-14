@@ -12,7 +12,6 @@ import { getStep } from '@store/flashings/selectors';
 import { getIndexOfStepForName } from '@features/flashing/utils';
 
 type Props = {
-  step: number;
   onFinish: () => void;
   onChangeOption?: (newValue: VALUE_ACTIONS) => void;
 };
@@ -20,53 +19,58 @@ type Props = {
 const heightScreen = Dimensions.get('screen').height;
 const GuideStepperBoardComponent: React.FC<Props> = ({
   onFinish,
-  step,
   onChangeOption,
 }) => {
   const stepBoard = useAppSelector(state => getStep(state));
 
-  const [{ action, description, title }, setDataStep] =
-    React.useState<GUIDE_STEP>(guideSteps[step]);
+  const [dataStep, setDataStep] = React.useState<GUIDE_STEP>();
   const [optionSelected, setOptionSelected] = React.useState<VALUE_ACTIONS>({
-    [TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE]: action?.defaultOption ?? 'right',
-    [TYPE_ACTIONS_STEP.SIDE_TAPERED]: action?.defaultOption ?? 'front',
+    [TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE]:
+      dataStep?.action?.defaultOption ?? 'right',
+    [TYPE_ACTIONS_STEP.SIDE_TAPERED]:
+      dataStep?.action?.defaultOption ?? 'front',
   });
 
   React.useEffect(() => {
     const lengthSteps = guideSteps.length;
-    const newDataStep =
-      guideSteps[step >= lengthSteps ? lengthSteps - 1 : step];
-
+    const newDataStep = guideSteps.find(
+      itemStep => itemStep.step === stepBoard,
+    );
+    if (!newDataStep) return;
     setDataStep(newDataStep);
-    step >= lengthSteps && onFinish();
-  }, [step, guideSteps]);
+    stepBoard >= lengthSteps && onFinish();
+  }, [stepBoard, guideSteps]);
 
-  const handleChangeOptionAction = (
-    keyValue: TYPE_ACTIONS_STEP,
-    newValue: string,
-  ) => {
+  const handleChangeOptionAction = (newValue: string) => {
+    const keyValue = dataStep?.action?.key;
+    if (!keyValue) return false;
+
     setOptionSelected({ ...optionSelected, [keyValue]: newValue });
     onChangeOption &&
       onChangeOption({ ...optionSelected, [keyValue]: newValue });
   };
 
-  const isOptionSelected = (keyValue: TYPE_ACTIONS_STEP, option: string) => {
+  const isOptionSelected = (option: string) => {
+    const keyValue = dataStep?.action?.key;
+    if (!keyValue) return false;
     return option === optionSelected[keyValue];
   };
+
+  if (!dataStep) return null;
 
   return (
     <Box style={styles.container} width="100%" p="m">
       <Card variant="guide" p="s" width="70%">
         <Text variant="bodyBold" textAlign="center">
-          {title}
+          {dataStep.title}
         </Text>
-        {description && (
+        {dataStep.description && (
           <Text variant="bodyRegular" textAlign="center">
-            {description}
+            {dataStep.description}
           </Text>
         )}
       </Card>
-      {action && (
+      {dataStep.action && (
         <Box
           top={
             stepBoard === getIndexOfStepForName('tapered')
@@ -75,27 +79,27 @@ const GuideStepperBoardComponent: React.FC<Props> = ({
           }>
           <Card my="s" p="xs">
             <Box>
-              {action.title && (
+              {dataStep.action.title && (
                 <>
-                  <Text textAlign="center">{action.title}</Text>
+                  <Text textAlign="center">{dataStep.action.title}</Text>
                   <Divider my="s" />
                 </>
               )}
               <Box flexDirection="row" justifyContent="space-around">
-                {action.options.map((option, index) => (
+                {dataStep.action.options.map((option, index) => (
                   <Button
                     key={`button-option-action-${index}`}
                     m="xs"
                     variant={
-                      isOptionSelected(action.key, option.toLowerCase())
+                      isOptionSelected(option.toLowerCase())
                         ? 'smallMenuActive'
                         : 'smallMenu'
                     }
                     onPress={() =>
-                      handleChangeOptionAction(action.key, option.toLowerCase())
+                      handleChangeOptionAction(option.toLowerCase())
                     }
                     backgroundColor={
-                      isOptionSelected(action.key, option.toLowerCase())
+                      isOptionSelected(option.toLowerCase())
                         ? 'primaryBlue'
                         : 'white'
                     }>

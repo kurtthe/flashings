@@ -274,7 +274,6 @@ const BoardContainer = () => {
     <>
       {stepBoard !== getIndexOfStepForName('screen_shot') && (
         <GuideStepperBoardComponent
-          step={stepBoard}
           onFinish={finishSteps}
           onChangeOption={changeSettingsBoard}
         />
