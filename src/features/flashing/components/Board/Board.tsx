@@ -46,7 +46,6 @@ type Props = {
   width?: number;
   height?: number;
   updateAngle?: (newAngle: number, positionAngle: number) => void;
-  onBeforeTapered?: () => void;
 };
 
 const Board: React.FC<Props> = ({
@@ -56,7 +55,6 @@ const Board: React.FC<Props> = ({
   height = heightScreen,
   onSave,
   updateAngle,
-  onBeforeTapered,
 }) => {
   const dispatch = useAppDispatch();
   const stepBoard = useAppSelector(state => getStep(state));
@@ -138,6 +136,20 @@ const Board: React.FC<Props> = ({
     }
     onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
   };
+
+  const handleDoneSizeTapered = (newSize: number) => {
+    if (!pointSelected) return;
+
+    if (isNaN(newSize)) return;
+    onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
+
+    dispatch(
+      flashingActions.changeStep({
+        step: getIndexOfStepForName('save_tapered'),
+      }),
+    );
+  };
+
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
 
@@ -171,6 +183,35 @@ const Board: React.FC<Props> = ({
       return;
     }
     setTypeSelected('angle');
+  };
+
+  const handleNextLineSelectedTapered = () => {
+    if (!flashingDataDraft) return;
+    const newIndex = indexLineSelected + 1;
+    const lengthLine = flashingDataDraft.dataLines.length - 1;
+
+    if (newIndex > lengthLine) {
+      dispatch(
+        flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
+      );
+      setIndexLineSelected(lengthLine);
+      return;
+    }
+    setIndexLineSelected(newIndex);
+  };
+
+  const handleBackLineSelectedTapered = () => {
+    if (indexLineSelected === 0) {
+      return dispatch(
+        flashingActions.changeStep({ step: getIndexOfStepForName('side') }),
+      );
+    }
+
+    const newIndex = indexLineSelected - 1;
+    if (newIndex < 0) {
+      setIndexLineSelected(0);
+    }
+    setIndexLineSelected(newIndex);
   };
 
   const handleBackLineSelected = () => {
@@ -219,10 +260,21 @@ const Board: React.FC<Props> = ({
   };
 
   const handleOnTapered = () => {
+    if (!flashingDataDraft) return;
+    setTypeSelected('line');
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          tapered: {
+            front: flashingDataDraft.dataLines,
+            back: flashingDataDraft.dataLines,
+          },
+        },
+      }),
+    );
     dispatch(
       flashingActions.changeStep({ step: getIndexOfStepForName('tapered') }),
     );
-    onBeforeTapered?.();
   };
 
   return (
@@ -269,10 +321,15 @@ const Board: React.FC<Props> = ({
 
       {stepBoard === getIndexOfStepForName('tapered') && (
         <TaperedLines
-          setTypeSelected={setTypeSelected}
-          setPointSelected={setPointSelected}
-          setIndexLineSelected={setIndexLineSelected}
+          onNext={handleNextLineSelectedTapered}
+          onPrevious={handleBackLineSelectedTapered}
+          onDone={handleDoneSizeTapered}
+          dataLine={pointSelected}
         />
+      )}
+
+      {stepBoard === getIndexOfStepForName('save_tapered') && (
+        <SectionsButton onSave={handleOnSave} />
       )}
 
       {stepBoard === getIndexOfStepForName('end_type') && (

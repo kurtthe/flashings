@@ -37,7 +37,8 @@ export type MODES_BOARD =
   | 'preview'
   | 'end_type'
   | 'screen_shot'
-  | 'tapered';
+  | 'tapered'
+  | 'save_tapered';
 export type TYPE_END_LINES =
   | 'none'
   | 'safety1Right'

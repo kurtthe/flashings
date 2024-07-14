@@ -291,7 +291,6 @@ const BoardContainer = () => {
           onAddPoint={handleAddPoint}
           onUpdatePoint={handleUpdatePoint}
           onSave={handleSave}
-          angles={flashingDataDraft.angles}
           updateAngle={handleUpdateAngle}
         />
       </ViewShot>

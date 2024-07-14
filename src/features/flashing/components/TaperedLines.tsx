@@ -1,76 +1,88 @@
 import React from 'react';
 import { BaseTouchable, Box, Divider, Icon, Text } from '@ui/components';
-import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
-import { isAndroid } from '@shared/platform';
-import { useAppSelector } from '@hooks/useStore';
-import { getDataFlashing } from '@store/jobs/selectors';
-import { BackArrowIcon, NextArrowIcon } from '@assets/icons';
+import { isNaN } from 'lodash';
+import {
+  BackArrowIcon,
+  CompleteEditMeasurementsIcon,
+  NextArrowIcon,
+} from '@assets/icons';
 import { TextInput } from 'react-native';
-import { FLASHINGS_DATA } from '@models';
+import { getIndexOfStepForName } from '@features/flashing/utils';
+import { isAndroid } from '@shared/platform';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
+import { useAppDispatch } from '@hooks/useStore';
+import { actions as flashingActions } from '@store/flashings/actions';
 
 type Props = {
-  idFlashingToCreate?: number;
-  jobId?: any;
-  setTypeSelected: (newValue: 'line' | 'angle') => void;
-  setPointSelected: (newValue: LINE_SELECTED | undefined) => void;
-  setIndexLineSelected: (newIndex: number) => void;
+  onDone: (sizeLine: number) => void;
+  dataLine?: LINE_SELECTED;
+  onNext?: () => void;
+  onPrevious?: () => void;
+  disabledPrevious?: boolean;
 };
-
 const TaperedLines: React.FC<Props> = ({
-  idFlashingToCreate,
-  jobId,
-  setTypeSelected,
-  setPointSelected,
-  setIndexLineSelected,
+  onDone,
+  dataLine,
+  onNext,
+  onPrevious,
+  disabledPrevious = false,
 }) => {
-  const [disabledPrevious, setDisabledPrevious] = React.useState(false);
-  const [flashingData, setFlashingData] = React.useState<FLASHINGS_DATA>();
-  const [lineSelectedFront, setLineSelectedFront] = React.useState();
-  const [lineSelectedBack, setLineSelectedBack] = React.useState();
-  const [indexSelectedFront, setIndexSelectedFront] = React.useState(0);
-  const [indexSelectedBack, setIndexSelectedBack] = React.useState(0);
+  const dispatch = useAppDispatch();
 
+  const [measurement, setMeasurement] = React.useState(0);
   const inputRef = React.useRef<TextInput>(null);
-  const [heightMeasurement, setHeightMeasurement] = React.useState(350);
-
-  const dataFlashing = useAppSelector(state =>
-    getDataFlashing(state, {
-      idJob: jobId,
-      idFlashing: idFlashingToCreate,
-    }),
-  );
-
-  useKeyboardVisibility({
-    onKeyboardDidShow: () => setHeightMeasurement(isAndroid ? 70 : 350),
-    onKeyboardDidHide: () => setHeightMeasurement(200),
-  });
 
   React.useEffect(() => {
-    setTypeSelected('line');
-  }, []);
+    if (!dataLine) return;
+    inputRef.current?.focus();
+    setMeasurement(dataLine.sizeLine);
+  }, [dataLine, dataLine?.sizeLine]);
 
-  React.useEffect(() => {
-    if (!dataFlashing) return;
+  const handleDone = (newSizeLine: string) => {
+    const size = parseInt(newSizeLine, 10);
+    setMeasurement(size);
+    onDone(size);
+  };
 
-    setFlashingData({
-      ...dataFlashing,
-      tapered: {
-        front: dataFlashing.dataLines,
-        back: dataFlashing.dataLines,
-      },
-    });
-  }, [dataFlashing]);
+  const handlePrevious = () => {
+    if (disabledPrevious) return;
+    handleDone(`${measurement}`);
+    onPrevious && onPrevious();
+  };
 
-  const handleNext = () => {};
-  const handlePrevious = () => {};
-
-  if (!flashingData) {
-    return null;
-  }
-
+  const handleNext = () => {
+    handleDone(`${measurement}`);
+    onNext && onNext();
+  };
   return (
-    <Box height={heightMeasurement} position="absolute" width="100%" bottom={0}>
+    <>
+      <Box
+        as={BaseTouchable}
+        onPress={() => {
+          handleDone(`${measurement}`);
+          dispatch(
+            flashingActions.changeStep({
+              step: getIndexOfStepForName('end_type'),
+            }),
+          );
+        }}
+        position="absolute"
+        bottom="105%"
+        right="0%"
+        backgroundColor="white"
+        p="xs"
+        style={{
+          zIndex: 1,
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.5,
+          shadowRadius: 5,
+          shadowColor: 'lightGray',
+          borderTopLeftRadius: 5,
+          borderBottomLeftRadius: 5,
+        }}>
+        <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
+      </Box>
+
       <Box p="s" backgroundColor="white">
         <Box
           flexDirection="row"
@@ -104,8 +116,16 @@ const TaperedLines: React.FC<Props> = ({
                 },
                 isAndroid && { padding: 10, height: 40 },
               ]}
-              value={'0'}
-              onChangeText={(newText: string) => null}
+              value={`${isNaN(measurement) ? '0' : measurement}`}
+              onChangeText={(newText: string) => {
+                const newCharacters = newText.split(
+                  dataLine?.sizeLine?.toString() ?? '',
+                );
+                if (newCharacters.length > 1) {
+                  return setMeasurement(parseInt(newCharacters[1], 10));
+                }
+                setMeasurement(parseInt(newText, 10));
+              }}
             />
             <Text variant="bodyBold">mm</Text>
           </Box>
@@ -116,7 +136,7 @@ const TaperedLines: React.FC<Props> = ({
         </Box>
         <Divider my="s" />
       </Box>
-    </Box>
+    </>
   );
 };
 
