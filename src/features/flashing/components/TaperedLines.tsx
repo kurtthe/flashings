@@ -4,22 +4,33 @@ import { isNaN } from 'lodash';
 import { BackArrowIcon, NextArrowIcon } from '@assets/icons';
 import { TextInput } from 'react-native';
 import { isAndroid } from '@shared/platform';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
-import { useAppDispatch } from '@hooks/useStore';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+} from '@store/flashings/selectors';
 
 type Props = {
   onDone: (sizeLine: number) => void;
-  dataLine?: LINE_SELECTED;
   onNext?: () => void;
   onPrevious?: () => void;
 };
-const TaperedLines: React.FC<Props> = ({
-  onDone,
-  dataLine,
-  onNext,
-  onPrevious,
-}) => {
+const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
+  const dispatch = useAppDispatch();
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
+  const isFront = useAppSelector(state => getSideTapered(state));
+
+  const [pointSelected, setPointSelected] = React.useState<
+    LINE_SELECTED | undefined
+  >();
   const [measurement, setMeasurement] = React.useState(0);
+  const [dataLine, setDataLine] = React.useState<LINE_SELECTED>();
+  const [indexLineSelectedFront, setIndexLineSelectedFront] = React.useState(0);
+  const [indexLineSelectedBack, setIndexLineSelectedBack] = React.useState(0);
+
   const inputRef = React.useRef<TextInput>(null);
 
   React.useEffect(() => {

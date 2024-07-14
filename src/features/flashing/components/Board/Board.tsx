@@ -4,12 +4,10 @@ import {
   DREW_LINE_TYPE,
   heightScreen,
   LINE_SELECTED,
-  STEPS_BOARD,
   widthScreen,
 } from './types';
 import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import {
   drawLines,
@@ -62,7 +60,6 @@ const Board: React.FC<Props> = ({
     getDataFlashingDraft(state),
   );
 
-  const modalBottomRef = React.useRef<ModalBottomRef>();
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
     LINE_SELECTED | undefined
@@ -82,7 +79,7 @@ const Board: React.FC<Props> = ({
     onKeyboardDidHide: () => setHeightMeasurement(200),
   });
 
-  const isDrawing = STEPS_BOARD[stepBoard] === 'draw';
+  const isDrawing = stepBoard === getIndexOfStepForName('draw');
 
   React.useEffect(() => {
     if (!flashingDataDraft) return;
@@ -114,15 +111,11 @@ const Board: React.FC<Props> = ({
   React.useEffect(() => {
     if (!flashingDataDraft) return;
 
-    if (STEPS_BOARD[stepBoard] === 'finish') {
-      modalBottomRef.current?.hide();
-    }
     setPointSelected({
       numberLine: indexLineSelected,
       sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
       angle: flashingDataDraft.angles[indexLineSelected],
     });
-    modalBottomRef.current?.show();
   }, [stepBoard, indexLineSelected, flashingDataDraft?.dataLines]);
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
@@ -335,7 +328,6 @@ const Board: React.FC<Props> = ({
             onNext={handleNextLineSelectedTapered}
             onPrevious={handleBackLineSelectedTapered}
             onDone={handleDoneSizeTapered}
-            dataLine={pointSelected}
           />
         </Box>
       )}

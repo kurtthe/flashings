@@ -12,5 +12,5 @@ export const getStep = createSelector(flashingSelector, state => {
 });
 
 export const getSideTapered = createSelector(flashingSelector, state => {
-  return state.sideTapered;
+  return state.sideTaperedFront;
 });
