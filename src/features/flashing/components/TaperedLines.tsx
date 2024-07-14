@@ -56,33 +56,6 @@ const TaperedLines: React.FC<Props> = ({
   };
   return (
     <>
-      <Box
-        as={BaseTouchable}
-        onPress={() => {
-          handleDone(`${measurement}`);
-          dispatch(
-            flashingActions.changeStep({
-              step: getIndexOfStepForName('end_type'),
-            }),
-          );
-        }}
-        position="absolute"
-        bottom="105%"
-        right="0%"
-        backgroundColor="white"
-        p="xs"
-        style={{
-          zIndex: 1,
-          shadowOffset: { width: 0, height: 0 },
-          shadowOpacity: 0.5,
-          shadowRadius: 5,
-          shadowColor: 'lightGray',
-          borderTopLeftRadius: 5,
-          borderBottomLeftRadius: 5,
-        }}>
-        <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
-      </Box>
-
       <Box p="s" backgroundColor="white">
         <Box
           flexDirection="row"

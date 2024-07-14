@@ -192,7 +192,9 @@ const Board: React.FC<Props> = ({
 
     if (newIndex > lengthLine) {
       dispatch(
-        flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
+        flashingActions.changeStep({
+          step: getIndexOfStepForName('save_tapered'),
+        }),
       );
       setIndexLineSelected(lengthLine);
       return;
@@ -202,9 +204,17 @@ const Board: React.FC<Props> = ({
 
   const handleBackLineSelectedTapered = () => {
     if (indexLineSelected === 0) {
-      return dispatch(
-        flashingActions.changeStep({ step: getIndexOfStepForName('side') }),
+      dispatch(
+        flashingActions.changeStep({ step: getIndexOfStepForName('finish') }),
       );
+      dispatch(
+        flashingActions.updateFlashingDraft({
+          dataFlashing: {
+            tapered: undefined,
+          },
+        }),
+      );
+      return;
     }
 
     const newIndex = indexLineSelected - 1;
@@ -320,12 +330,18 @@ const Board: React.FC<Props> = ({
       )}
 
       {stepBoard === getIndexOfStepForName('tapered') && (
-        <TaperedLines
-          onNext={handleNextLineSelectedTapered}
-          onPrevious={handleBackLineSelectedTapered}
-          onDone={handleDoneSizeTapered}
-          dataLine={pointSelected}
-        />
+        <Box
+          height={heightMeasurement}
+          position="absolute"
+          width="100%"
+          bottom={0}>
+          <TaperedLines
+            onNext={handleNextLineSelectedTapered}
+            onPrevious={handleBackLineSelectedTapered}
+            onDone={handleDoneSizeTapered}
+            dataLine={pointSelected}
+          />
+        </Box>
       )}
 
       {stepBoard === getIndexOfStepForName('save_tapered') && (
