@@ -1,19 +1,16 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { actions } from '@store/flashings/actions';
 import { FLASHINGS_DATA } from '@models';
-import { stat } from 'react-native-fs';
-
-export type SIDE_TAPERED_TYPES = 'front' | 'back';
 
 type initialStateType = {
-  sideTapered: SIDE_TAPERED_TYPES;
+  sideTaperedFront: boolean;
   stepIndex: number;
   flashingDraft: FLASHINGS_DATA | undefined;
   jobId: number | undefined;
 };
 
 const INITIAL_STATE: initialStateType = {
-  sideTapered: 'front',
+  sideTaperedFront: true,
   stepIndex: 0,
   flashingDraft: undefined,
   jobId: undefined,
@@ -21,8 +18,8 @@ const INITIAL_STATE: initialStateType = {
 
 const flashingsReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.changeSideTapered, (state, action) => {
-    const { side } = action.payload;
-    state.sideTapered = side;
+    const { isFront } = action.payload;
+    state.sideTaperedFront = isFront;
   });
   builder.addCase(actions.changeStep, (state, action) => {
     const { step } = action.payload;
@@ -60,7 +57,7 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
     state.jobId = undefined;
     state.flashingDraft = undefined;
     state.stepIndex = 0;
-    state.sideTapered = 'front';
+    state.sideTaperedFront = true;
   });
 });
 

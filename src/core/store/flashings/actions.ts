@@ -1,9 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
-import { SIDE_TAPERED_TYPES } from '@store/flashings/reducer';
 import { FLASHINGS_DATA, TYPE_END_LINES } from '@models';
 
 export const actions = {
-  changeSideTapered: createAction<{ side: SIDE_TAPERED_TYPES }>(
+  changeSideTapered: createAction<{ isFront: boolean }>(
     'changeSideTapered/flashing',
   ),
   changeStep: createAction<{ step: number }>('changeStep/flashing'),
