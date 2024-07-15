@@ -13,8 +13,8 @@ import {
 
 type Props = {
   onDone: (sizeLine: number) => void;
-  onNext?: () => void;
-  onPrevious?: () => void;
+  onNext: (newIndexSelected: number) => void;
+  onPrevious: (newIndexSelected: number) => void;
 };
 const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
   const dispatch = useAppDispatch();
@@ -33,6 +33,8 @@ const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
 
   const inputRef = React.useRef<TextInput>(null);
 
+  React.useEffect(() => {}, [isFront, dataLine]);
+
   React.useEffect(() => {
     if (!dataLine) return;
     inputRef.current?.focus();
@@ -45,15 +47,44 @@ const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
     onDone(size);
   };
 
+  const _onMoveLine = React.useCallback(
+    (indexNextOrBack: number) => {
+      if (!flashingDataDraft) return;
+
+      if (indexNextOrBack >= flashingDataDraft.dataLines.length) {
+        indexNextOrBack = flashingDataDraft.dataLines.length - 1;
+      }
+
+      if (isFront) {
+        setIndexLineSelectedFront(indexNextOrBack);
+      } else {
+        setIndexLineSelectedBack(indexNextOrBack);
+      }
+
+      handleDone(`${measurement}`);
+    },
+    [flashingDataDraft],
+  );
+
   const handlePrevious = () => {
+    const newIndexSelected = isFront
+      ? indexLineSelectedFront
+      : indexLineSelectedBack;
+
+    _onMoveLine(newIndexSelected - 1);
     handleDone(`${measurement}`);
-    onPrevious && onPrevious();
+    onPrevious(newIndexSelected - 1);
   };
 
   const handleNext = () => {
-    handleDone(`${measurement}`);
-    onNext && onNext();
+    const newIndexSelected = isFront
+      ? indexLineSelectedFront
+      : indexLineSelectedBack;
+
+    _onMoveLine(newIndexSelected + 1);
+    onNext(newIndexSelected);
   };
+
   return (
     <>
       <Box p="s" backgroundColor="white">

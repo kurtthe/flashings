@@ -169,22 +169,9 @@ const Board: React.FC<Props> = ({
     console.log('newSize', newSize);
   };
 
-  const handleNextLineSelectedTapered = () => {
+  const handleNextLineSelectedTapered = (newIndexSelected: number) => {
     if (!flashingDataDraft) return;
-
-    const newIndex = indexLineSelected + 1;
-    const lengthLine = flashingDataDraft.dataLines.length - 1;
-
-    if (newIndex > lengthLine) {
-      setIndexLineSelected(lengthLine);
-      dispatch(
-        flashingActions.changeStep({
-          step: getIndexOfStepForName('save_tapered'),
-        }),
-      );
-      return;
-    }
-    setIndexLineSelected(newIndex);
+    setIndexLineSelected(newIndexSelected);
   };
 
   const handleBackLineSelectedTapered = () => {
