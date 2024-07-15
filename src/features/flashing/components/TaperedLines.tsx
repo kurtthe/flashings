@@ -33,7 +33,9 @@ const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
 
   const inputRef = React.useRef<TextInput>(null);
 
-  React.useEffect(() => {}, [isFront, dataLine]);
+  React.useEffect(() => {
+    if (!dataLine) return;
+  }, [isFront, dataLine, indexLineSelectedFront, indexLineSelectedBack]);
 
   React.useEffect(() => {
     if (!dataLine) return;

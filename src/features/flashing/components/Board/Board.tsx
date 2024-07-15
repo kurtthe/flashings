@@ -34,7 +34,11 @@ import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import TaperedLines from '@features/flashing/components/TaperedLines';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import { actions as flashingActions } from '@store/flashings/actions';
 
 type Props = {
@@ -68,10 +72,15 @@ const Board: React.FC<Props> = ({
   const [pointsForLabel, setPointsForLabel] = React.useState<
     null | POINT_TYPE[][]
   >(null);
+
   const [indexLineSelected, setIndexLineSelected] = React.useState(0);
+  const [indexLineSelectedTapered, setIndexLineSelectedTapered] =
+    React.useState(0);
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
     'line',
   );
+  const isFront = useAppSelector(state => getSideTapered(state));
+
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
 
   useKeyboardVisibility({
@@ -117,6 +126,38 @@ const Board: React.FC<Props> = ({
       angle: flashingDataDraft.angles[indexLineSelected],
     });
   }, [stepBoard, indexLineSelected, flashingDataDraft?.dataLines]);
+
+  React.useEffect(() => {
+    if (
+      !flashingDataDraft ||
+      !flashingDataDraft.tapered?.front ||
+      !flashingDataDraft.tapered?.back
+    )
+      return;
+
+    if (isFront) {
+      setPointSelected({
+        numberLine: indexLineSelected,
+        sizeLine:
+          flashingDataDraft.tapered.front[indexLineSelectedTapered]?.distance ??
+          0,
+        angle: flashingDataDraft.angles[indexLineSelectedTapered],
+      });
+      return;
+    }
+
+    setPointSelected({
+      numberLine: indexLineSelected,
+      sizeLine:
+        flashingDataDraft.tapered.back[indexLineSelectedTapered]?.distance ?? 0,
+      angle: flashingDataDraft.angles[indexLineSelectedTapered],
+    });
+  }, [
+    stepBoard,
+    indexLineSelectedTapered,
+    flashingDataDraft?.tapered,
+    isFront,
+  ]);
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
     if (!pointSelected) return;
@@ -171,29 +212,12 @@ const Board: React.FC<Props> = ({
 
   const handleNextLineSelectedTapered = (newIndexSelected: number) => {
     if (!flashingDataDraft) return;
-    setIndexLineSelected(newIndexSelected);
+    setIndexLineSelectedTapered(newIndexSelected);
   };
 
-  const handleBackLineSelectedTapered = () => {
-    if (indexLineSelected === 0) {
-      dispatch(
-        flashingActions.changeStep({ step: getIndexOfStepForName('finish') }),
-      );
-      dispatch(
-        flashingActions.updateFlashingDraft({
-          dataFlashing: {
-            tapered: undefined,
-          },
-        }),
-      );
-      return;
-    }
-
-    const newIndex = indexLineSelected - 1;
-    if (newIndex < 0) {
-      setIndexLineSelected(0);
-    }
-    setIndexLineSelected(newIndex);
+  const handleBackLineSelectedTapered = (newIndexSelected: number) => {
+    if (!flashingDataDraft) return;
+    setIndexLineSelectedTapered(newIndexSelected);
   };
 
   const handleBackLineSelected = () => {
