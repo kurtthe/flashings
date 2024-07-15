@@ -34,8 +34,13 @@ import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import TaperedLines from '@features/flashing/components/TaperedLines';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import { actions as flashingActions } from '@store/flashings/actions';
+import { useSelector } from 'react-redux';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -55,6 +60,7 @@ const Board: React.FC<Props> = ({
   updateAngle,
 }) => {
   const dispatch = useAppDispatch();
+  const isFront = useSelector(getSideTapered);
   const stepBoard = useAppSelector(state => getStep(state));
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
@@ -108,6 +114,27 @@ const Board: React.FC<Props> = ({
     );
     setGraphs(makingLines);
   }, [flashingDataDraft]);
+
+  React.useEffect(() => {
+    if (!flashingDataDraft) return;
+    if (flashingDataDraft.tapered) {
+      setPointSelected({
+        numberLine: indexLineSelected,
+        sizeLine:
+          flashingDataDraft.tapered[isFront ? 'front' : 'back'][
+            indexLineSelected
+          ].distance,
+        angle: 0,
+      });
+      return;
+    }
+
+    setPointSelected({
+      numberLine: indexLineSelected,
+      sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
+      angle: flashingDataDraft.angles[indexLineSelected],
+    });
+  }, [stepBoard, indexLineSelected, graphs, isFront]);
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
     if (!pointSelected) return;
