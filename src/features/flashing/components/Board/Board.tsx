@@ -34,11 +34,7 @@ import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import TaperedLines from '@features/flashing/components/TaperedLines';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import {
-  getDataFlashingDraft,
-  getSideTapered,
-  getStep,
-} from '@store/flashings/selectors';
+import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
 import { actions as flashingActions } from '@store/flashings/actions';
 
 type Props = {
@@ -74,13 +70,9 @@ const Board: React.FC<Props> = ({
   >(null);
 
   const [indexLineSelected, setIndexLineSelected] = React.useState(0);
-  const [indexLineSelectedTapered, setIndexLineSelectedTapered] =
-    React.useState(0);
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
     'line',
   );
-  const isFront = useAppSelector(state => getSideTapered(state));
-
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
 
   useKeyboardVisibility({
@@ -164,18 +156,14 @@ const Board: React.FC<Props> = ({
     setTypeSelected('angle');
   };
 
-  const handleDoneSizeTapered = (newSize: number) => {
-    console.log('newSize done', newSize);
-  };
-
   const handleNextLineSelectedTapered = (newIndexSelected: number) => {
     if (!flashingDataDraft) return;
-    setIndexLineSelectedTapered(newIndexSelected);
+    setIndexLineSelected(newIndexSelected);
   };
 
   const handleBackLineSelectedTapered = (newIndexSelected: number) => {
     if (!flashingDataDraft) return;
-    setIndexLineSelectedTapered(newIndexSelected);
+    setIndexLineSelected(newIndexSelected);
   };
 
   const handleBackLineSelected = () => {
@@ -296,7 +284,6 @@ const Board: React.FC<Props> = ({
           <TaperedLines
             onNext={handleNextLineSelectedTapered}
             onPrevious={handleBackLineSelectedTapered}
-            onDone={handleDoneSizeTapered}
           />
         </Box>
       )}

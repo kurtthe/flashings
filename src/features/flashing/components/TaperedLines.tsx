@@ -10,14 +10,15 @@ import {
   getDataFlashingDraft,
   getSideTapered,
 } from '@store/flashings/selectors';
+import { actions as flashingActions } from '@store/flashings/actions';
 
 type Props = {
-  onDone: (sizeLine: number) => void;
   onNext: (newIndexSelected: number) => void;
   onPrevious: (newIndexSelected: number) => void;
 };
-const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
+const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
   const dispatch = useAppDispatch();
+
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
@@ -27,16 +28,15 @@ const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
     LINE_SELECTED | undefined
   >();
   const [measurement, setMeasurement] = React.useState(0);
-  const [dataLine, setDataLine] = React.useState<LINE_SELECTED>();
   const [indexLineSelectedFront, setIndexLineSelectedFront] = React.useState(0);
   const [indexLineSelectedBack, setIndexLineSelectedBack] = React.useState(0);
 
   const inputRef = React.useRef<TextInput>(null);
 
   React.useEffect(() => {
-    if (!dataLine) return;
+    if (!pointSelected) return;
     inputRef.current?.focus();
-    setMeasurement(dataLine.sizeLine);
+    setMeasurement(pointSelected.sizeLine);
   }, [pointSelected, pointSelected?.sizeLine]);
 
   React.useEffect(() => {
@@ -75,16 +75,31 @@ const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
     isFront,
   ]);
 
-  React.useEffect(() => {
-    if (!dataLine) return;
-    inputRef.current?.focus();
-    setMeasurement(dataLine.sizeLine);
-  }, [dataLine, dataLine?.sizeLine]);
-
   const handleDone = (newSizeLine: string) => {
+    if (!pointSelected || !flashingDataDraft || !flashingDataDraft.tapered)
+      return;
     const size = parseInt(newSizeLine, 10);
     setMeasurement(size);
-    onDone(size);
+
+    const updatedTapered = {
+      ...flashingDataDraft.tapered,
+      [isFront ? 'front' : 'back']: flashingDataDraft.tapered[
+        isFront ? 'front' : 'back'
+      ].map((item, index) =>
+        index === (isFront ? indexLineSelectedFront : indexLineSelectedBack)
+          ? { ...item, distance: size }
+          : item,
+      ),
+    };
+
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          ...flashingDataDraft,
+          tapered: updatedTapered,
+        },
+      }),
+    );
   };
 
   const _onMoveLine = React.useCallback(
@@ -125,6 +140,10 @@ const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
     onNext(newIndexSelected);
   };
 
+  console.log('==>measurement tapered', measurement);
+
+  if (!pointSelected) return null;
+
   return (
     <>
       <Box p="s" backgroundColor="white">
@@ -155,7 +174,7 @@ const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
               value={`${isNaN(measurement) ? '0' : measurement}`}
               onChangeText={(newText: string) => {
                 const newCharacters = newText.split(
-                  dataLine?.sizeLine?.toString() ?? '',
+                  pointSelected?.sizeLine?.toString() ?? '',
                 );
                 if (newCharacters.length > 1) {
                   return setMeasurement(parseInt(newCharacters[1], 10));
