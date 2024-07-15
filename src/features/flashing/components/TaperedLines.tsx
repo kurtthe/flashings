@@ -35,7 +35,45 @@ const TaperedLines: React.FC<Props> = ({ onDone, onNext, onPrevious }) => {
 
   React.useEffect(() => {
     if (!dataLine) return;
-  }, [isFront, dataLine, indexLineSelectedFront, indexLineSelectedBack]);
+    inputRef.current?.focus();
+    setMeasurement(dataLine.sizeLine);
+  }, [pointSelected, pointSelected?.sizeLine]);
+
+  React.useEffect(() => {
+    if (
+      !flashingDataDraft ||
+      !flashingDataDraft.tapered?.front ||
+      !flashingDataDraft.tapered?.back
+    )
+      return;
+
+    const indexLineSelectedTapered = isFront
+      ? indexLineSelectedFront
+      : indexLineSelectedBack;
+
+    if (isFront) {
+      setPointSelected({
+        numberLine: indexLineSelectedTapered,
+        sizeLine:
+          flashingDataDraft.tapered.front[indexLineSelectedTapered]?.distance ??
+          0,
+        angle: flashingDataDraft.angles[indexLineSelectedTapered],
+      });
+      return;
+    }
+
+    setPointSelected({
+      numberLine: indexLineSelectedTapered,
+      sizeLine:
+        flashingDataDraft.tapered.back[indexLineSelectedTapered]?.distance ?? 0,
+      angle: flashingDataDraft.angles[indexLineSelectedTapered],
+    });
+  }, [
+    indexLineSelectedBack,
+    indexLineSelectedFront,
+    flashingDataDraft?.tapered,
+    isFront,
+  ]);
 
   React.useEffect(() => {
     if (!dataLine) return;

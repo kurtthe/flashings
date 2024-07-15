@@ -117,48 +117,6 @@ const Board: React.FC<Props> = ({
     setGraphs(makingLines);
   }, [flashingDataDraft]);
 
-  React.useEffect(() => {
-    if (!flashingDataDraft) return;
-
-    setPointSelected({
-      numberLine: indexLineSelected,
-      sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
-      angle: flashingDataDraft.angles[indexLineSelected],
-    });
-  }, [stepBoard, indexLineSelected, flashingDataDraft?.dataLines]);
-
-  React.useEffect(() => {
-    if (
-      !flashingDataDraft ||
-      !flashingDataDraft.tapered?.front ||
-      !flashingDataDraft.tapered?.back
-    )
-      return;
-
-    if (isFront) {
-      setPointSelected({
-        numberLine: indexLineSelected,
-        sizeLine:
-          flashingDataDraft.tapered.front[indexLineSelectedTapered]?.distance ??
-          0,
-        angle: flashingDataDraft.angles[indexLineSelectedTapered],
-      });
-      return;
-    }
-
-    setPointSelected({
-      numberLine: indexLineSelected,
-      sizeLine:
-        flashingDataDraft.tapered.back[indexLineSelectedTapered]?.distance ?? 0,
-      angle: flashingDataDraft.angles[indexLineSelectedTapered],
-    });
-  }, [
-    stepBoard,
-    indexLineSelectedTapered,
-    flashingDataDraft?.tapered,
-    isFront,
-  ]);
-
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
     if (!pointSelected) return;
 
@@ -207,7 +165,7 @@ const Board: React.FC<Props> = ({
   };
 
   const handleDoneSizeTapered = (newSize: number) => {
-    console.log('newSize', newSize);
+    console.log('newSize done', newSize);
   };
 
   const handleNextLineSelectedTapered = (newIndexSelected: number) => {
