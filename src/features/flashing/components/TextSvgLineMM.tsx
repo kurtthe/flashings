@@ -49,7 +49,7 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
       ].distance.toString();
     }
     return '0';
-  }, [flashingDataDraft, isMeasurement, isTapered]);
+  }, [flashingDataDraft, isMeasurement, isTapered, isFront, index]);
 
   const newPoints = calculatePointHalf(coordinates);
 

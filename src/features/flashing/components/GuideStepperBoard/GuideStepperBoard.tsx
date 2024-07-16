@@ -41,13 +41,12 @@ const GuideStepperBoardComponent: React.FC<Props> = ({
   }, [isFront]);
 
   React.useEffect(() => {
-    const lengthSteps = guideSteps.length;
     const newDataStep = guideSteps.find(
       itemStep => itemStep.step === stepBoard,
     );
-    if (!newDataStep) return;
+    if (!newDataStep) return setDataStep(undefined);
+
     setDataStep(newDataStep);
-    stepBoard >= lengthSteps && onFinish();
   }, [stepBoard, guideSteps]);
 
   const handleChangeOptionAction = (newValue: string) => {

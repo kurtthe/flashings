@@ -11,6 +11,7 @@ import {
   getSideTapered,
 } from '@store/flashings/selectors';
 import { actions as flashingActions } from '@store/flashings/actions';
+import { getIndexOfStepForName } from '@features/flashing/utils';
 
 type Props = {
   onChangeIndexSelected: (newIndexSelected: number) => void;
@@ -31,8 +32,8 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
 
   React.useEffect(() => {
     if (isFront) {
-      setIndexLineSelectedFront(0);
-    } else setIndexLineSelectedBack(0);
+      setIndexLineSelectedBack(0);
+    } else setIndexLineSelectedFront(0);
 
     onChangeIndexSelected(0);
   }, [isFront]);
@@ -111,10 +112,19 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
   };
 
   const handleMoveLine = (newIndex: number) => {
-    console.log('==>handleMoveLine[]', newIndex);
+    if (!flashingDataDraft) return;
+    const maxIndex = flashingDataDraft.dataLines.length - 1;
+
     if (isFront) {
       setIndexLineSelectedFront(newIndex);
     } else {
+      if (newIndex >= maxIndex) {
+        dispatch(
+          flashingActions.changeStep({
+            step: getIndexOfStepForName('save_tapered'),
+          }),
+        );
+      }
       setIndexLineSelectedBack(newIndex);
     }
 
