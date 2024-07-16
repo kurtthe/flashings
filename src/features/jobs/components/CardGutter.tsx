@@ -31,14 +31,6 @@ const CardGutterComponent: React.FC<Props> = ({
     });
   };
 
-  const _title = React.useMemo(() => {
-    const previousTitle = data.name !== '' ? data.name : 'Flashing';
-    if (data.tapered) {
-      return previousTitle + '(Tapered)';
-    }
-    return previousTitle;
-  }, [data.name, data.tapered]);
-
   return (
     <>
       <Card
@@ -49,7 +41,13 @@ const CardGutterComponent: React.FC<Props> = ({
         {...rest}>
         <Box width="50%">
           <Text mb="m" variant="bodyBold">
-            {_title}
+            {data.name !== '' ? data.name : 'Flashing'}
+            {data.tapered && (
+              <Text fontStyle="italic" fontWeight="300">
+                {' '}
+                Tapered
+              </Text>
+            )}
           </Text>
           {data.tapered ? (
             <>
