@@ -91,11 +91,22 @@ const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
     if (!flashingDataDraft) return;
 
     const maxIndex = flashingDataDraft.dataLines.length - 1;
+
     newIndex = Math.min(newIndex, maxIndex);
 
     if (isFront) {
+      if (maxIndex === newIndex) {
+        console.log('change to back ');
+        dispatch(flashingActions.changeSideTapered({ isFront: false }));
+        return;
+      }
       setIndexLineSelectedFront(newIndex);
     } else {
+      if (newIndex === 0) {
+        console.log('change to front ');
+        dispatch(flashingActions.changeSideTapered({ isFront: true }));
+        return;
+      }
       setIndexLineSelectedBack(newIndex);
     }
 

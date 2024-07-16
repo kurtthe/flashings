@@ -182,16 +182,6 @@ const Board: React.FC<Props> = ({
     setTypeSelected('angle');
   };
 
-  const handleNextLineSelectedTapered = (newIndexSelected: number) => {
-    if (!flashingDataDraft) return;
-    setIndexLineSelected(newIndexSelected);
-  };
-
-  const handleBackLineSelectedTapered = (newIndexSelected: number) => {
-    if (!flashingDataDraft) return;
-    setIndexLineSelected(newIndexSelected);
-  };
-
   const handleBackLineSelected = () => {
     if (indexLineSelected === 0 && typeSelected === 'line') {
       return dispatch(
@@ -308,8 +298,8 @@ const Board: React.FC<Props> = ({
           width="100%"
           bottom={0}>
           <TaperedLines
-            onNext={handleNextLineSelectedTapered}
-            onPrevious={handleBackLineSelectedTapered}
+            onNext={setIndexLineSelected}
+            onPrevious={setIndexLineSelected}
           />
         </Box>
       )}
