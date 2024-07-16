@@ -8,8 +8,9 @@ import {
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
 import { useAppSelector } from '@hooks/useStore';
-import { getStep } from '@store/flashings/selectors';
+import { getSideTapered, getStep } from '@store/flashings/selectors';
 import { getIndexOfStepForName } from '@features/flashing/utils';
+import { useSelector } from 'react-redux';
 
 type Props = {
   onFinish: () => void;
@@ -22,6 +23,7 @@ const GuideStepperBoardComponent: React.FC<Props> = ({
   onChangeOption,
 }) => {
   const stepBoard = useAppSelector(state => getStep(state));
+  const isFront = useSelector(getSideTapered);
 
   const [dataStep, setDataStep] = React.useState<GUIDE_STEP>();
   const [optionSelected, setOptionSelected] = React.useState<VALUE_ACTIONS>({
@@ -30,6 +32,13 @@ const GuideStepperBoardComponent: React.FC<Props> = ({
     [TYPE_ACTIONS_STEP.SIDE_TAPERED]:
       dataStep?.action?.defaultOption ?? 'front',
   });
+
+  React.useEffect(() => {
+    setOptionSelected({
+      ...optionSelected,
+      [TYPE_ACTIONS_STEP.SIDE_TAPERED]: isFront ? 'front' : 'back',
+    });
+  }, [isFront]);
 
   React.useEffect(() => {
     const lengthSteps = guideSteps.length;
