@@ -116,14 +116,15 @@ const Board: React.FC<Props> = ({
 
   React.useEffect(() => {
     if (!flashingDataDraft) return;
+
     if (flashingDataDraft.tapered) {
       setPointSelected({
         numberLine: indexLineSelected,
         sizeLine:
           flashingDataDraft.tapered[isFront ? 'front' : 'back'][
             indexLineSelected
-          ].distance,
-        angle: 0,
+          ]?.distance,
+        angle: flashingDataDraft.angles[indexLineSelected],
       });
       return;
     }

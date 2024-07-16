@@ -87,26 +87,26 @@ const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
     );
   };
 
-  const handleMoveLine = (newIndex: number) => {
-    if (!flashingDataDraft) return;
-
+  const _validateIndexLine = (newIndexParams: number) => {
+    if (!flashingDataDraft) return 0;
+    let newIndex = newIndexParams;
     const maxIndex = flashingDataDraft.dataLines.length - 1;
 
-    newIndex = Math.min(newIndex, maxIndex);
+    if (newIndex > maxIndex) {
+      return maxIndex;
+    }
 
+    if (newIndex < 0) {
+      return 0;
+    }
+
+    return newIndex;
+  };
+
+  const handleMoveLine = (newIndex: number) => {
     if (isFront) {
-      if (maxIndex === newIndex) {
-        console.log('change to back ');
-        dispatch(flashingActions.changeSideTapered({ isFront: false }));
-        return;
-      }
       setIndexLineSelectedFront(newIndex);
     } else {
-      if (newIndex === 0) {
-        console.log('change to front ');
-        dispatch(flashingActions.changeSideTapered({ isFront: true }));
-        return;
-      }
       setIndexLineSelectedBack(newIndex);
     }
 
@@ -117,16 +117,21 @@ const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
     const newIndexSelected = isFront
       ? indexLineSelectedFront
       : indexLineSelectedBack;
-    handleMoveLine(newIndexSelected - 1);
-    onPrevious(newIndexSelected - 1);
+
+    const newIndexPreview = _validateIndexLine(newIndexSelected - 1);
+
+    handleMoveLine(newIndexPreview);
+    onPrevious(newIndexPreview);
   };
 
   const handleNext = () => {
     const newIndexSelected = isFront
       ? indexLineSelectedFront
       : indexLineSelectedBack;
-    handleMoveLine(newIndexSelected + 1);
-    onNext(newIndexSelected);
+
+    const newIndexPreview = _validateIndexLine(newIndexSelected + 1);
+    handleMoveLine(newIndexPreview);
+    onNext(newIndexPreview);
   };
 
   if (!pointSelected) return null;

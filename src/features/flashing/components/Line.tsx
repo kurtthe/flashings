@@ -27,7 +27,7 @@ const LineMadeComponent: React.FC<Props> = ({
     [],
   );
   const isTapered = useMemo(
-    () => step === getIndexOfStepForName('measurements'),
+    () => step === getIndexOfStepForName('tapered'),
     [],
   );
   const previewIndex = useMemo(() => getIndexOfStepForName('preview'), []);
@@ -46,7 +46,6 @@ const LineMadeComponent: React.FC<Props> = ({
 
   const _lineSelected = React.useMemo(() => {
     const isLineSelected = lineSelected === id && typeSelected === 'line';
-
     return isLineSelected && (isMeasurements || isTapered);
   }, [isTapered, isMeasurements, id, lineSelected, typeSelected]);
 
