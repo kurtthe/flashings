@@ -1,11 +1,10 @@
-import { FLASHINGS_DATA,  RAIN_HEAD, SUMB } from "@models/flashings";
-
+import { FLASHINGS_DATA, RAIN_HEAD, SUMB } from '@models/flashings';
 
 export type JOB_GUTTER = {
-  "id": number,
-  "title": string,
-  "job_flasing": JOB_FLASHING[],
-}
+  id: number;
+  title: string;
+  job_flasing: JOB_FLASHING[];
+};
 
 type JOB_FLASHING = {
   id: number;
@@ -13,9 +12,9 @@ type JOB_FLASHING = {
   width: string;
   high: string;
   canAddLength: boolean;
-  depth:string;
+  depth: string;
   img: number;
-}
+};
 
 export type MATERIALS = {
   id: number;
@@ -30,35 +29,35 @@ export type MATERIALS = {
 export type JOB_STATE = {
   jobs: JOB_DATA[];
   jobsArchive: JOB_DATA[];
-}
+};
 
 type JOB_DATA_COMMON = {
   name?: string;
   number?: string;
   address?: string;
   file_upload?: string;
-  contact:{
+  contact: {
     name?: string;
     number?: string;
-    email?:string
-  }
-}
+    email?: string;
+  };
+};
 
-export type JOB_DATA= JOB_DATA_COMMON & {
+export type JOB_DATA = JOB_DATA_COMMON & {
   id: number;
   orderData: ORDER_TYPE_STORE | undefined;
   flashings: FLASHINGS_DATA[];
   rain_heads: RAIN_HEAD[];
   sumbs: SUMB[];
-}
+};
 
-export type JOB_EDIT = JOB_DATA_COMMON
+export type JOB_EDIT = JOB_DATA_COMMON;
 
 export type STORE_RESPONSE = {
   id: number;
   name: string;
-  locations: STORE[]
-}
+  locations: STORE[];
+};
 
 export type STORE = {
   id: number;
@@ -71,27 +70,27 @@ export type STORE = {
   manager: string;
   manager_email: string;
   opening_hours: Array<{
-    title: string,
-    time: string
-  }>
-}
+    title: string;
+    time: string;
+  }>;
+};
 
 export type RESPONSE_CREATE_AND_FLASHING = {
-  response:{
-    id:string;
+  response: {
+    id: string;
     url: string;
     status: string;
-    file_name:string;
-    done:boolean,
-    object:string;
-  },
+    file_name: string;
+    done: boolean;
+    object: string;
+  };
   status: string;
-}
+};
 
 export type RESPONSE_COMPANY_ACCOUNT = {
   company: string;
-  account: string
-}
+  account: string;
+};
 
 export type RESPONSE_BALANCE = {
   id: number;
@@ -105,7 +104,7 @@ export type RESPONSE_BALANCE = {
   overdue: string;
   total: string;
   client_number: string;
-}
+};
 
 export type SUPPLIER = {
   id: number;
@@ -123,25 +122,25 @@ export type SUPPLIER = {
   primary_contact_id: number;
   state: string;
   country: string;
-}
+};
 
-type ATTACHMENTS_MATERIAL_ORDER= {
+type ATTACHMENTS_MATERIAL_ORDER = {
   name: string;
   link: string;
-}
+};
 
-type SECTIONS_MATERIAL_ORDER= {
-  "description": string;
-  "quantity": string;
-  "units": string;
-  "cost": string;
-  "tax": [
-  {
-    "name": "GST",
-    "rate": 10
-  }
-]
-}
+type SECTIONS_MATERIAL_ORDER = {
+  description: string;
+  quantity: string;
+  units: string;
+  cost: string;
+  tax: [
+    {
+      name: 'GST';
+      rate: 10;
+    },
+  ];
+};
 
 export type DATA_MATERIAL_ORDER = {
   name: string;
@@ -151,22 +150,22 @@ export type DATA_MATERIAL_ORDER = {
   status: string;
   tax_exclusive: boolean;
   attachments: ATTACHMENTS_MATERIAL_ORDER[];
-  sections: Array<{items: SECTIONS_MATERIAL_ORDER[]}>
-}
+  sections: Array<{ items: SECTIONS_MATERIAL_ORDER[] }>;
+};
 
 export type SHARED_DATA_MATERIAL_ORDER = {
   emails: string[];
   message: string;
-}
+};
 
 export type RESPONSE_SHARED_DATA_MATERIAL_ORDER = {
   message: string;
   share_url: string;
-}
+};
 
-type ITEM_SECTION_RESPONSE_MATERIAL_ORDER =  {
+type ITEM_SECTION_RESPONSE_MATERIAL_ORDER = {
   description: string;
-  product_id: null,
+  product_id: null;
   quantity: string;
   units: string;
   unit_price: string;
@@ -186,7 +185,7 @@ type ITEM_SECTION_RESPONSE_MATERIAL_ORDER =  {
   discount_total: string;
   margin: string;
   margin_total: string;
-}
+};
 
 type SECTION_RESPONSE_MATERIAL_ORDER = {
   name: string;
@@ -203,60 +202,68 @@ type SECTION_RESPONSE_MATERIAL_ORDER = {
   hide_line_margin: number;
   hide_line_discount: number;
   hide_line_total: number;
-  "margin_total": string;
-  "discount_total": string;
-  "sub_total": string;
-  "tax_total": string;
-  "total": string;
+  margin_total: string;
+  discount_total: string;
+  sub_total: string;
+  tax_total: string;
+  total: string;
   create_sub_job: number;
-  "sub_job_type": string;
-  "sub_job_status": string;
-  "cost_centre_id": string;
-  "items": ITEM_SECTION_RESPONSE_MATERIAL_ORDER[]
-}
-
+  sub_job_type: string;
+  sub_job_status: string;
+  cost_centre_id: string;
+  items: ITEM_SECTION_RESPONSE_MATERIAL_ORDER[];
+};
 
 export type RESPONSE_MATERIAL_ORDER = {
   order: {
     id: number;
-    type:string;
-    order_number:string;
-    name:string;
-    status:string;
-    description:string;
-    notes:string;
+    type: string;
+    order_number: string;
+    name: string;
+    status: string;
+    description: string;
+    notes: string;
     job_id: string;
     supplier_id: number;
     created_date: string;
     updated_date: string;
-    issued_on:string;
-    sub_total:string;
-    tax_total:string;
-    total_amount:string;
+    issued_on: string;
+    sub_total: string;
+    tax_total: string;
+    total_amount: string;
     tax_exclusive: number;
     structure: {
-      id:number;
-      show_summary:number;
-      hide_summary_prices:number;
-      hide_total:number;
-      hide_links:number;
-      show_sku:number;
-      show_discount:number;
-      margin_total:string;
-      discount_total:string;
-      sub_total:string;
-      tax_total:string;
-      total:string;
-      "sections": SECTION_RESPONSE_MATERIAL_ORDER[];
-    },
+      id: number;
+      show_summary: number;
+      hide_summary_prices: number;
+      hide_total: number;
+      hide_links: number;
+      show_sku: number;
+      show_discount: number;
+      margin_total: string;
+      discount_total: string;
+      sub_total: string;
+      tax_total: string;
+      total: string;
+      sections: SECTION_RESPONSE_MATERIAL_ORDER[];
+    };
     expense_total: string;
     burdens_store_location_id: string;
-  },
-}
+  };
+};
 
 export type ORDER_TYPE_STORE = {
   orderNumber: string;
   urlPdf: string;
   store: string;
   date: string;
-}
+};
+
+export type ORDER_VALIDATIONS_TYPES = {
+  index: number;
+  prompt: string;
+  mask: string;
+  length: string;
+  unique: string;
+  default: string;
+};
