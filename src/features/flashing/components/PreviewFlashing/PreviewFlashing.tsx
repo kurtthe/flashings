@@ -65,13 +65,20 @@ const PreviewFlashing: React.FC<Props> = ({
 
   return (
     <>
-      <TouchableOpacity onPress={handleShowPreview}>
+      <TouchableOpacity
+        onPress={handleShowPreview}
+        style={{
+          borderWidth: 1,
+          borderColor: 'lightgray',
+          marginVertical: 5,
+          borderRadius: 5,
+        }}>
         {imgPreview && (
           <Image
             resizeMode="contain"
             source={{ uri: imgPreview }}
             width={90}
-            height={250}
+            height={100}
             style={{
               transform: [{ scale: 2 }],
               top: 15,
