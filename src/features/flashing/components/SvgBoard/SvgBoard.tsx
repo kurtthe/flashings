@@ -64,56 +64,53 @@ const SvgBoard: React.FC<Props> = ({
     <Svg width={width} height={height}>
       {!_removeGrid && <GridComponent />}
       {renderTypeEndStartLines()}
-      {graphs.map(
-        ({ points, path: LineComponent, isLine, distance }, index) => (
-          <React.Fragment key={`graphs-${index}-${Math.random()}`}>
-            {pathParallel && (
-              <PathComponent
-                d={serialize(pathParallel)}
-                stroke={'#0056FF'}
-                strokeDasharray={10}
-                strokeWidth={1}
-                fill="transparent"
+      {graphs.map(({ points, path: LineComponent, isLine }, index) => (
+        <React.Fragment key={`graphs-${index}-${Math.random()}`}>
+          {pathParallel && (
+            <PathComponent
+              d={serialize(pathParallel)}
+              stroke={'#0056FF'}
+              strokeDasharray={10}
+              strokeWidth={1}
+              fill="transparent"
+            />
+          )}
+          {LineComponent}
+          {pointsForLabel && (
+            <>
+              <TextSvgLineMM
+                coordinates={pointsForLabel[index]}
+                index={index}
               />
-            )}
-            {LineComponent}
-            {pointsForLabel && (
-              <>
-                <TextSvgLineMM
-                  coordinates={pointsForLabel[index]}
-                  step={stepBoard}
-                  label={distance.toString()}
-                />
-              </>
-            )}
+            </>
+          )}
 
-            {_isDraw && (
-              <PointerComponent
-                cx={points[0][0]}
-                cy={points[0][1]}
-                r={SIZE_POINTER}
-                fill={colorPointer}
-                strokeWidth={borderWidth}
-                stroke={colorBorderPointer}
-              />
-            )}
-            {isLine && (
-              <>
-                {graphs.length - 1 === index && !_isDraw ? null : (
-                  <PointerComponent
-                    cx={points[1][0]}
-                    cy={points[1][1]}
-                    r={_isDraw ? SIZE_POINTER : 0}
-                    fill={colorPointer}
-                    strokeWidth={borderWidth}
-                    stroke={colorBorderPointer}
-                  />
-                )}
-              </>
-            )}
-          </React.Fragment>
-        ),
-      )}
+          {_isDraw && (
+            <PointerComponent
+              cx={points[0][0]}
+              cy={points[0][1]}
+              r={SIZE_POINTER}
+              fill={colorPointer}
+              strokeWidth={borderWidth}
+              stroke={colorBorderPointer}
+            />
+          )}
+          {isLine && (
+            <>
+              {graphs.length - 1 === index && !_isDraw ? null : (
+                <PointerComponent
+                  cx={points[1][0]}
+                  cy={points[1][1]}
+                  r={_isDraw ? SIZE_POINTER : 0}
+                  fill={colorPointer}
+                  strokeWidth={borderWidth}
+                  stroke={colorBorderPointer}
+                />
+              )}
+            </>
+          )}
+        </React.Fragment>
+      ))}
     </Svg>
   );
 };

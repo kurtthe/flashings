@@ -112,7 +112,7 @@ const Board: React.FC<Props> = ({
       ),
     );
     setGraphs(makingLines);
-  }, [flashingDataDraft]);
+  }, [flashingDataDraft, indexLineSelected]);
 
   React.useEffect(() => {
     if (!flashingDataDraft) return;

@@ -5,23 +5,56 @@ import {
   getIndexOfStepForName,
 } from '@features/flashing/utils';
 import TextSvg from '@features/flashing/components/TextSvg';
+import { useAppSelector } from '@hooks/useStore';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
+import { useSelector } from 'react-redux';
 
 type Props = {
   coordinates: POINT_TYPE[];
-  step: number;
-  label: string;
+  index: number;
 };
 
-const TextSvgLineMM: React.FC<Props> = ({ coordinates, step, label }) => {
-  const measurementIndex = getIndexOfStepForName('measurements');
-  const previewIndex = getIndexOfStepForName('preview');
-  const screenShotIndex = getIndexOfStepForName('screen_shot');
+const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
+  const step = useAppSelector(state => getStep(state));
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
+  const isFront = useSelector(getSideTapered);
+
+  const isMeasurement = React.useMemo(() => {
+    return step === getIndexOfStepForName('measurements');
+  }, [step]);
+  const isTapered = React.useMemo(() => {
+    return step === getIndexOfStepForName('tapered');
+  }, [step]);
+  const isPreview = React.useMemo(() => {
+    return step === getIndexOfStepForName('preview');
+  }, [step]);
+  const isScreenShot = React.useMemo(() => {
+    return step === getIndexOfStepForName('screen_shot');
+  }, [step]);
+
+  const label = React.useMemo(() => {
+    if (!flashingDataDraft) return '0';
+    if (isMeasurement) {
+      return flashingDataDraft.dataLines[index].distance.toString();
+    }
+    if (isTapered && flashingDataDraft.tapered) {
+      return flashingDataDraft.tapered[isFront ? 'front' : 'back'][
+        index
+      ].distance.toString();
+    }
+    return '0';
+  }, [flashingDataDraft, isMeasurement, isTapered]);
 
   const newPoints = calculatePointHalf(coordinates);
 
   const shouldRenderTextSvg =
-    (step >= measurementIndex || step === previewIndex) &&
-    step !== screenShotIndex;
+    (isMeasurement || isPreview || isTapered) && !isScreenShot;
 
   if (shouldRenderTextSvg) {
     return (
