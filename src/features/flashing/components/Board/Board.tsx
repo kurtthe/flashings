@@ -94,7 +94,6 @@ const Board: React.FC<Props> = ({
       lines: flashingDataDraft.dataLines,
       widthGraph: width,
       heightGraph: height,
-      step: stepBoard,
       rightLinePaint: flashingDataDraft.parallelRight,
       lineSelected: indexLineSelected,
       typeSelected,

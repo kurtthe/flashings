@@ -3,6 +3,8 @@ import { buildPathLine, getIndexOfStepForName } from '@features/flashing/utils';
 import { G, Path as PathComponent } from 'react-native-svg';
 import AngleComponent from '@features/flashing/components/Angle/Angle';
 import { BUILD_LINE } from '@features/flashing/components/Board/types';
+import { useAppSelector } from '@hooks/useStore';
+import { getStep } from '@store/flashings/selectors';
 
 type Props = BUILD_LINE & {
   angle: number;
@@ -12,14 +14,20 @@ type Props = BUILD_LINE & {
 const LineMadeComponent: React.FC<Props> = ({
   line,
   lineSelected,
-  step,
   id,
   angle,
   typeSelected = 'line',
   nextLine,
 }) => {
-  const measurementIndex = useMemo(
-    () => getIndexOfStepForName('measurements'),
+  const step = useAppSelector(state => getStep(state));
+  const colorSelected = '#DEA000';
+
+  const isMeasurements = useMemo(
+    () => step === getIndexOfStepForName('measurements'),
+    [],
+  );
+  const isTapered = useMemo(
+    () => step === getIndexOfStepForName('measurements'),
     [],
   );
   const previewIndex = useMemo(() => getIndexOfStepForName('preview'), []);
@@ -30,31 +38,37 @@ const LineMadeComponent: React.FC<Props> = ({
 
   const _showAngleText = useMemo(() => {
     return (
-      (step >= measurementIndex || previewIndex === step) &&
-      screenShotIndex !== step
+      (isMeasurements || previewIndex === step) &&
+      screenShotIndex !== step &&
+      !isTapered
     );
   }, [step]);
 
-  const isMeasurements = step === measurementIndex;
+  const _lineSelected = React.useMemo(() => {
+    const isLineSelected = lineSelected === id && typeSelected === 'line';
 
-  const colorSelected = '#DEA000';
-  const isLineSelected = lineSelected === id && typeSelected === 'line';
-  const isAngleSelected = lineSelected === id && typeSelected === 'angle';
+    return isLineSelected && (isMeasurements || isTapered);
+  }, [isTapered, isMeasurements, id, lineSelected, typeSelected]);
+
+  const isAngleSelected = React.useMemo(() => {
+    const validationType = lineSelected === id && typeSelected === 'angle';
+    return validationType && isMeasurements;
+  }, [lineSelected, id, typeSelected]);
 
   return (
     <G key={`groupPath${id}`}>
       <PathComponent
         key={`normalLine${id}`}
         d={buildPathLine(line.points)}
-        strokeWidth={isLineSelected && isMeasurements ? 2 : 1}
-        stroke={isLineSelected && isMeasurements ? colorSelected : '#000'}
+        strokeWidth={_lineSelected ? 2 : 1}
+        stroke={_lineSelected ? colorSelected : '#000'}
       />
       {_showAngleText && angle > 0 && (
         <AngleComponent
           id={`angleLine${id}`}
           angle={angle}
           line={line}
-          isSelected={isAngleSelected && isMeasurements}
+          isSelected={isAngleSelected}
           nextLine={nextLine}
         />
       )}
