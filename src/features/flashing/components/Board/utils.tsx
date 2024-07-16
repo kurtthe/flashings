@@ -11,7 +11,6 @@ import { LINE_TYPE } from '@models';
 export const drawLines = ({
   lines,
   lineSelected,
-  step = 0,
   rightLinePaint = true,
   typeSelected,
   anglesLines,
@@ -33,7 +32,6 @@ export const drawLines = ({
               id: index,
               line,
               lineSelected,
-              step,
               rightLinePaint,
               typeSelected,
               angle: anglesLines[index],

@@ -11,9 +11,12 @@ import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { CartIcon } from '@assets/icons';
 import { FlashingParamsList } from '@features/flashing/navigation/Stack.types';
 import { Alert } from 'react-native';
+import { useAppDispatch } from '@hooks/useStore';
+import { actions as flashingActions } from '@store/flashings/actions';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<FlashingParamsList>();
+  const dispatch = useAppDispatch();
 
   return (
     <Navigator initialRouteName={Routes.CREATE_EDIT_FLASHING}>
@@ -50,6 +53,7 @@ const Stack = () => {
                     text: 'Yes',
                     onPress: () => {
                       navigation.goBack();
+                      dispatch(flashingActions.clear());
                     },
                   },
                 ],

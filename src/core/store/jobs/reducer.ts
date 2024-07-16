@@ -9,7 +9,7 @@ const INITIAL_STATE: JOB_STATE = {
   jobsArchive: [],
 };
 
-const flashingReducer = createReducer(INITIAL_STATE, builder => {
+const jobsReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.addJob, (state, action) => {
     const { job } = action.payload;
     state.jobs = [...state.jobs, job];
@@ -129,9 +129,9 @@ const flashingReducer = createReducer(INITIAL_STATE, builder => {
   });
 });
 
-export type FlashingState = ReturnType<typeof flashingReducer>;
-const persistFlashingReducer = persistReducer<FlashingState>(
+export type JobState = ReturnType<typeof jobsReducer>;
+const persistJobReducer = persistReducer<JobState>(
   persistConfigFlashings,
-  flashingReducer,
+  jobsReducer,
 );
-export default persistFlashingReducer;
+export default persistJobReducer;

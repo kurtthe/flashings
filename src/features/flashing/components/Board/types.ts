@@ -7,11 +7,13 @@ export const STEPS_BOARD: MODES_BOARD[] = [
   'measurements',
   'end_type',
   'finish',
+  'preview',
+  'tapered',
+  'save_tapered',
 ];
 
 export type MAKE_LINE = {
   lines: LINE_TYPE[];
-  step: number;
   rightLinePaint?: boolean;
   lineSelected: number;
 };
@@ -20,12 +22,10 @@ export type BUILD_LINE = {
   id: number;
   line: LINE_TYPE;
   lineSelected: number;
-  step: number;
   rightLinePaint?: boolean;
   nextLine?: LINE_TYPE;
 };
 export const SIZE_POINTER = 4;
-export const SIZE_POINTER_LAST = 8;
 export const widthScreen = Dimensions.get('screen').width;
 export const heightScreen = Dimensions.get('screen').height * 2;
 

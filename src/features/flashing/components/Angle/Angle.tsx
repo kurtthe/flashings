@@ -12,19 +12,16 @@ type Props = {
   angle: number;
   line: LINE_TYPE;
   isSelected: boolean;
-  visible: boolean;
   nextLine?: LINE_TYPE;
 };
 const AngleComponent: React.FC<Props> = ({
   id,
-  visible,
   angle,
   line,
   isSelected,
   nextLine,
 }) => {
   const colorSelected = '#DEA000';
-  if (!visible) return null;
 
   if (angle === 90) {
     const sizeRect = 15;

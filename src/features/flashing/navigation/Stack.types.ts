@@ -1,6 +1,5 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Routes } from './routes';
-import { FLASHINGS_DATA } from '@models';
 
 export type FlashingParamsList = {
   [Routes.CREATE_EDIT_FLASHING]: {
@@ -9,7 +8,6 @@ export type FlashingParamsList = {
     commonMaterial?: number;
   };
   [Routes.BOARD_FLASHING]: {
-    data: FLASHINGS_DATA;
     jobId: number;
   };
   [Routes.DEMO]: undefined;

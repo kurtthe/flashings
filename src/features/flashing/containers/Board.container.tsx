@@ -14,9 +14,9 @@ import {
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
-import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from '@models';
+import { LINE_TYPE, POINT_TYPE } from '@models';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { actions as flashingActions } from '@store/jobs/actions';
+import { actions as jobActions } from '@store/jobs/actions';
 import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
 import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
@@ -28,19 +28,13 @@ import alert from '@services/general-request/alert';
 import { imageToBase64 } from '@shared/utils';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
-import MenuEditorComponent from '../components/MenuEditor';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import { templateSelected } from '@store/templates/selectors';
+import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import { actions as templateActions } from '@store/templates/actions';
-
-type StateDataBoard = {
-  lines: LINE_TYPE[];
-  anglesLines: number[];
-  blueLineIsRight: boolean;
-  startTypeLine: TYPE_END_LINES;
-  endTypeLine: TYPE_END_LINES;
-};
+import { actions as flashingActions } from '@store/flashings/actions';
+import { MenuEditorComponent } from '@features/flashing/components';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -48,34 +42,29 @@ const BoardContainer = () => {
   const route =
     useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
   const templateChose = useAppSelector(state => templateSelected(state));
-
-  const [dataBoard, setDataBoard] = React.useState<StateDataBoard>({
-    lines: [],
-    anglesLines: [],
-    blueLineIsRight: true,
-    startTypeLine: 'none',
-    endTypeLine: 'none',
-  });
-  const [stepBoard, setStepBoard] = React.useState(0);
-  const [loading, setLoading] = React.useState(false);
-
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
+  const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
+  const [loading, setLoading] = React.useState(false);
   const refViewShot = React.createRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
 
   React.useEffect(() => {
     if (!templateChose) return;
     setLoading(true);
-
-    setDataBoard({
-      lines: templateChose.dataLines,
-      blueLineIsRight: templateChose.parallelRight,
-      startTypeLine: templateChose.startType,
-      endTypeLine: templateChose.endType,
-      anglesLines: templateChose.angles,
-    });
-
-    setStepBoard(getIndexOfStepForName('draw'));
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          dataLines: templateChose.dataLines,
+          parallelRight: templateChose.parallelRight,
+          startType: templateChose.startType,
+          endType: templateChose.endType,
+          angles: templateChose.angles,
+        },
+      }),
+    );
 
     const delay = setTimeout(() => {
       dispatch(templateActions.templateSelected({ idTemplate: null }));
@@ -88,68 +77,55 @@ const BoardContainer = () => {
   }, [templateChose, dispatch]);
 
   React.useEffect(() => {
-    if (!route.params?.data) return;
-    setLoading(true);
+    if (!flashingDataDraft) return;
+    if (flashingDataDraft.dataLines.length < 2) return;
 
-    const dataFlashing = route.params.data;
-    if (dataFlashing.dataLines.length > 0) {
-      setDataBoard({
-        lines: dataFlashing.dataLines,
-        blueLineIsRight: dataFlashing.parallelRight,
-        startTypeLine: dataFlashing.startType,
-        endTypeLine: dataFlashing.endType,
-        anglesLines: [],
-      });
-    } else {
-      setDataBoard({
-        lines: [],
-        anglesLines: [],
-        blueLineIsRight: true,
-        startTypeLine: 'none',
-        endTypeLine: 'none',
-      });
-    }
+    const newAngles = flashingDataDraft.dataLines.map(
+      (line, index, arrayLines) => {
+        if (!flashingDataDraft.angles[index]) {
+          return calculateAngle(line, arrayLines[index + 1]) ?? 0;
+        }
+        return flashingDataDraft.angles[index];
+      },
+    );
 
-    const delay = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          angles: newAngles,
+        },
+      }),
+    );
+  }, [flashingDataDraft?.dataLines]);
 
-    return () => {
-      clearTimeout(delay);
-    };
-  }, [route.params.data]);
-
-  React.useEffect(() => {
-    if (dataBoard.lines.length < 2) return;
-
-    const newAngles = dataBoard.lines.map((line, index, arrayLines) => {
-      if (!dataBoard.anglesLines[index]) {
-        return calculateAngle(line, arrayLines[index + 1]) ?? 0;
-      }
-      return dataBoard.anglesLines[index];
-    });
-
-    setDataBoard(prevState => ({
-      ...prevState,
-      anglesLines: newAngles,
-    }));
-  }, [dataBoard.lines]);
+  const _changeStep = React.useCallback((newIndexStep: number) => {
+    dispatch(flashingActions.changeStep({ step: newIndexStep }));
+  }, []);
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
-    if (dataBoard.lines.length < 1) {
+    if (!flashingDataDraft) return;
+    if (flashingDataDraft.dataLines.length < 1) {
       const dataLine: LINE_TYPE = {
         points: [newPoint],
         pending: 0,
         distance: 0,
         isLine: false,
       };
-      return setDataBoard({ ...dataBoard, lines: [dataLine] });
+
+      dispatch(
+        flashingActions.updateFlashingDraft({
+          dataFlashing: {
+            dataLines: [dataLine],
+          },
+        }),
+      );
+      return;
     }
 
-    const lineComplete = validateLineComplete(dataBoard.lines);
-    const lastPoint = getLastPoint(dataBoard.lines);
+    const lineComplete = validateLineComplete(flashingDataDraft.dataLines);
+    const lastPoint = getLastPoint(flashingDataDraft.dataLines);
 
-    const validAddNewPoint = dataBoard.lines.find(line => {
+    const validAddNewPoint = flashingDataDraft.dataLines.find(line => {
       return JSON.stringify(line.points[0]) === JSON.stringify(newPoint);
     });
     if (validAddNewPoint) return;
@@ -162,45 +138,44 @@ const BoardContainer = () => {
     };
 
     if (!lineComplete) {
-      return setDataBoard({ ...dataBoard, lines: [dataLine] });
+      dispatch(
+        flashingActions.updateFlashingDraft({
+          dataFlashing: {
+            dataLines: [dataLine],
+          },
+        }),
+      );
+      return;
     }
-    setDataBoard({ ...dataBoard, lines: [...dataBoard.lines, dataLine] });
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          dataLines: [...flashingDataDraft.dataLines, dataLine],
+        },
+      }),
+    );
   };
 
   const handleUndo = () => {
-    const newPointCoordinates = dataBoard.lines.slice(0, -1);
-    const newAngles = dataBoard.anglesLines.slice(0, -1);
+    if (!flashingDataDraft) return;
+    const newPointCoordinates = flashingDataDraft.dataLines.slice(0, -1);
+    const newAngles = flashingDataDraft.angles.slice(0, -1);
     if (newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine) {
-      setStepBoard(getIndexOfStepForName('draw'));
+      _changeStep(getIndexOfStepForName('draw'));
     }
-    setDataBoard({
-      ...dataBoard,
-      lines: newPointCoordinates,
-      anglesLines: newAngles,
-    });
-  };
-
-  const handleBack = () => {
-    const newStep = stepBoard - 1;
-    if (newStep < 0) return;
-    setStepBoard(newStep);
-  };
-
-  const handleNext = () => {
-    if (stepBoard === getIndexOfStepForName('finish')) {
-      handleSave();
-      return;
-    }
-
-    if (dataBoard.lines.length === 0 || !dataBoard.lines[0].isLine) {
-      return Alert.show('Please draw a line', '');
-    }
-    const newStep = stepBoard + 1;
-    setStepBoard(newStep);
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          dataLines: newPointCoordinates,
+          angles: newAngles,
+        },
+      }),
+    );
   };
 
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
-    const linesUpdated = dataBoard.lines.map((line, index) => {
+    if (!flashingDataDraft) return;
+    const linesUpdated = flashingDataDraft.dataLines.map((line, index) => {
       if (dataLine.numberLine === index) {
         return {
           ...line,
@@ -209,23 +184,13 @@ const BoardContainer = () => {
       }
       return line;
     });
-    setDataBoard({ ...dataBoard, lines: linesUpdated });
-  };
-
-  const handleClear = () => {
-    setDataBoard({
-      startTypeLine: 'none',
-      endTypeLine: 'none',
-      lines: [],
-      anglesLines: [],
-      blueLineIsRight: true,
-    });
-    setStepBoard(getIndexOfStepForName('draw'));
-  };
-
-  const handleLibrary = () => {
-    // @ts-ignore
-    navigation.navigate(RoutesFlashing.LIST_TEMPLATES);
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          dataLines: linesUpdated,
+        },
+      }),
+    );
   };
 
   const finishSteps = () => {
@@ -233,26 +198,48 @@ const BoardContainer = () => {
   };
 
   const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
+    if (stepBoard === getIndexOfStepForName('tapered')) {
+      const sideTapered =
+        newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
+      dispatch(
+        flashingActions.changeSideTapered({
+          isFront: sideTapered === 'front',
+        }),
+      );
+      return;
+    }
+
     const sideBlueLine =
       newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
-    setDataBoard({ ...dataBoard, blueLineIsRight: sideBlueLine === 'right' });
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          parallelRight: sideBlueLine === 'right',
+        },
+      }),
+    );
   };
 
   const handleUpdateAngle = (newAngle: number, positionAngle: number) => {
-    const anglesUpdated = dataBoard.anglesLines.map((angle, index) => {
+    const anglesUpdated = flashingDataDraft?.angles.map((angle, index) => {
       if (index === positionAngle) {
         return newAngle;
       }
       return angle;
     });
-    setDataBoard({ ...dataBoard, anglesLines: anglesUpdated });
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          angles: anglesUpdated,
+        },
+      }),
+    );
   };
 
   const handleSave = () => {
     (async () => {
-      if (!refViewShot.current) return;
+      if (!refViewShot.current || !flashingDataDraft) return;
 
-      const dataFlashing = route.params.data;
       const idJob = route.params?.jobId;
       // @ts-ignore
       refViewShot.current
@@ -261,19 +248,21 @@ const BoardContainer = () => {
           const dataB64Preview = await imageToBase64(uriScreen);
 
           dispatch(
-            flashingActions.addEditFlashing({
+            jobActions.addEditFlashing({
               idJob,
               flashing: {
-                ...dataFlashing,
-                dataLines: dataBoard.lines,
-                parallelRight: dataBoard.blueLineIsRight,
-                angles: dataBoard.anglesLines,
-                endType: dataBoard.endTypeLine,
-                startType: dataBoard.startTypeLine,
+                ...flashingDataDraft,
+                dataLines: flashingDataDraft.dataLines,
+                parallelRight: flashingDataDraft.parallelRight,
+                angles: flashingDataDraft.angles,
+                endType: flashingDataDraft.endType,
+                startType: flashingDataDraft.startType,
                 imgPreview: `data:image/png;base64,${dataB64Preview}`,
               },
             }),
           );
+
+          dispatch(flashingActions.clear());
 
           navigation.navigate(StackPrivateDefinitions.JOBS, {
             screen: RoutesJobs.JOB_DETAILS,
@@ -290,13 +279,12 @@ const BoardContainer = () => {
     })();
   };
 
-  if (loading) return <Loading />;
+  if (loading || !dataJob || !flashingDataDraft) return <Loading />;
 
   return (
     <>
       {stepBoard !== getIndexOfStepForName('screen_shot') && (
         <GuideStepperBoardComponent
-          step={stepBoard}
           onFinish={finishSteps}
           onChangeOption={changeSettingsBoard}
         />
@@ -310,42 +298,16 @@ const BoardContainer = () => {
           Alert.show('Error for preview', error.message)
         }>
         <Board
-          rightLinePaint={dataBoard.blueLineIsRight}
-          lines={dataBoard.lines}
-          changeStepBoard={setStepBoard}
           onAddPoint={handleAddPoint}
           onUpdatePoint={handleUpdatePoint}
           onSave={handleSave}
-          stepBoard={stepBoard}
-          angles={dataBoard.anglesLines}
           updateAngle={handleUpdateAngle}
-          startTypeLine={dataBoard.startTypeLine}
-          endTypeLine={dataBoard.endTypeLine}
-          changeStartTypeLine={newValue =>
-            setDataBoard({ ...dataBoard, startTypeLine: newValue })
-          }
-          changeEndTypeLine={newValue =>
-            setDataBoard({ ...dataBoard, endTypeLine: newValue })
-          }
         />
       </ViewShot>
       {isAndroid &&
       showKeyboard &&
       stepBoard === getIndexOfStepForName('measurements') ? null : (
-        <MenuEditorComponent
-          disabledBack={stepBoard === getIndexOfStepForName('draw')}
-          disabledNext={stepBoard === getIndexOfStepForName('finish')}
-          disabledUndo={
-            dataBoard.lines.length === 0 ||
-            stepBoard !== getIndexOfStepForName('draw')
-          }
-          disabledEraser={dataBoard.lines.length === 0}
-          onUndo={handleUndo}
-          onBack={handleBack}
-          onNext={handleNext}
-          onEraser={handleClear}
-          onLibrary={handleLibrary}
-        />
+        <MenuEditorComponent onUndo={handleUndo} onSave={handleSave} />
       )}
     </>
   );

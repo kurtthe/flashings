@@ -4,12 +4,10 @@ import {
   DREW_LINE_TYPE,
   heightScreen,
   LINE_SELECTED,
-  STEPS_BOARD,
   widthScreen,
 } from './types';
 import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { ModalBottomRef } from '@components';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import {
   drawLines,
@@ -18,7 +16,7 @@ import {
 } from '@features/flashing/components/Board/utils';
 import { Path } from 'react-native-redash';
 import SectionsButton from '@features/flashing/components/SectionsButton';
-import { LINE_TYPE, POINT_TYPE, TYPE_END_LINES } from '@models';
+import { POINT_TYPE } from '@models';
 import { isNaN } from 'lodash';
 import {
   BaseTouchable,
@@ -34,43 +32,40 @@ import { isAndroid } from '@shared/platform';
 import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
+import TaperedLines from '@features/flashing/components/TaperedLines';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
+import { actions as flashingActions } from '@store/flashings/actions';
+import { useSelector } from 'react-redux';
 
 type Props = {
-  lines: LINE_TYPE[];
   onAddPoint?: (newPoint: POINT_TYPE) => void;
   onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
   onSave?: () => void;
   width?: number;
   height?: number;
-  changeStepBoard?: (newStep: number) => void;
-  stepBoard: number;
-  rightLinePaint: boolean;
-  angles?: number[];
   updateAngle?: (newAngle: number, positionAngle: number) => void;
-  startTypeLine?: TYPE_END_LINES;
-  endTypeLine?: TYPE_END_LINES;
-  changeStartTypeLine?: (newType: TYPE_END_LINES) => void;
-  changeEndTypeLine?: (newType: TYPE_END_LINES) => void;
 };
 
 const Board: React.FC<Props> = ({
-  lines,
   onUpdatePoint,
   onAddPoint,
   width = widthScreen,
   height = heightScreen,
-  stepBoard = 0,
-  changeStepBoard,
-  rightLinePaint,
   onSave,
-  angles = [],
   updateAngle,
-  changeStartTypeLine,
-  changeEndTypeLine,
-  startTypeLine = 'none',
-  endTypeLine = 'none',
 }) => {
-  const modalBottomRef = React.useRef<ModalBottomRef>();
+  const dispatch = useAppDispatch();
+  const isFront = useSelector(getSideTapered);
+  const stepBoard = useAppSelector(state => getStep(state));
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
+
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
     LINE_SELECTED | undefined
@@ -79,6 +74,7 @@ const Board: React.FC<Props> = ({
   const [pointsForLabel, setPointsForLabel] = React.useState<
     null | POINT_TYPE[][]
   >(null);
+
   const [indexLineSelected, setIndexLineSelected] = React.useState(0);
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
     'line',
@@ -90,42 +86,55 @@ const Board: React.FC<Props> = ({
     onKeyboardDidHide: () => setHeightMeasurement(200),
   });
 
-  const isDrawing = STEPS_BOARD[stepBoard] === 'draw';
+  const isDrawing = stepBoard === getIndexOfStepForName('draw');
 
   React.useEffect(() => {
+    if (!flashingDataDraft) return;
     const makingLines = drawLines({
-      lines,
+      lines: flashingDataDraft.dataLines,
       widthGraph: width,
       heightGraph: height,
-      step: stepBoard,
-      rightLinePaint,
+      rightLinePaint: flashingDataDraft.parallelRight,
       lineSelected: indexLineSelected,
       typeSelected,
-      anglesLines: angles,
+      anglesLines: flashingDataDraft.angles,
     });
-    setPathParallel(drawParallelLines(lines, rightLinePaint));
-    setPointsForLabel(positionTextLabels(lines, !rightLinePaint));
+    setPathParallel(
+      drawParallelLines(
+        flashingDataDraft.dataLines,
+        flashingDataDraft.parallelRight,
+      ),
+    );
+    setPointsForLabel(
+      positionTextLabels(
+        flashingDataDraft.dataLines,
+        !flashingDataDraft.parallelRight,
+      ),
+    );
     setGraphs(makingLines);
-  }, [
-    lines,
-    stepBoard,
-    rightLinePaint,
-    indexLineSelected,
-    typeSelected,
-    angles,
-  ]);
+  }, [flashingDataDraft, indexLineSelected]);
 
   React.useEffect(() => {
-    if (STEPS_BOARD[stepBoard] === 'finish') {
-      modalBottomRef.current?.hide();
+    if (!flashingDataDraft) return;
+
+    if (flashingDataDraft.tapered) {
+      setPointSelected({
+        numberLine: indexLineSelected,
+        sizeLine:
+          flashingDataDraft.tapered[isFront ? 'front' : 'back'][
+            indexLineSelected
+          ]?.distance,
+        angle: flashingDataDraft.angles[indexLineSelected],
+      });
+      return;
     }
+
     setPointSelected({
       numberLine: indexLineSelected,
-      sizeLine: lines[indexLineSelected]?.distance ?? 0,
-      angle: angles[indexLineSelected],
+      sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
+      angle: flashingDataDraft.angles[indexLineSelected],
     });
-    modalBottomRef.current?.show();
-  }, [stepBoard, indexLineSelected, graphs]);
+  }, [stepBoard, indexLineSelected, graphs, isFront]);
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
     if (!pointSelected) return;
@@ -138,6 +147,7 @@ const Board: React.FC<Props> = ({
     }
     onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
   };
+
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
 
@@ -150,12 +160,13 @@ const Board: React.FC<Props> = ({
   };
 
   const handleNextLineSelected = () => {
+    if (!flashingDataDraft) return;
     const newIndex = indexLineSelected + 1;
-    const lengthLine = lines.length - 1;
+    const lengthLine = flashingDataDraft.dataLines.length - 1;
 
     if (newIndex > lengthLine) {
-      return (
-        changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'))
+      dispatch(
+        flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
       );
     }
 
@@ -174,7 +185,9 @@ const Board: React.FC<Props> = ({
 
   const handleBackLineSelected = () => {
     if (indexLineSelected === 0 && typeSelected === 'line') {
-      return changeStepBoard && changeStepBoard(getIndexOfStepForName('side'));
+      return dispatch(
+        flashingActions.changeStep({ step: getIndexOfStepForName('side') }),
+      );
     }
 
     const newIndex = indexLineSelected - 1;
@@ -194,15 +207,47 @@ const Board: React.FC<Props> = ({
   };
 
   const handleOnSave = () => {
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('screen_shot'));
+    dispatch(
+      flashingActions.changeStep({
+        step: getIndexOfStepForName('screen_shot'),
+      }),
+    );
     onSave && onSave();
   };
+
   const handleOnEdit = () => {
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('measurements'));
+    dispatch(
+      flashingActions.changeStep({
+        step: getIndexOfStepForName('measurements'),
+      }),
+    );
     setIndexLineSelected(0);
   };
+
   const handleOnEditEndType = () => {
-    changeStepBoard && changeStepBoard(getIndexOfStepForName('end_type'));
+    dispatch(
+      flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
+    );
+  };
+
+  const handleOnTapered = () => {
+    if (!flashingDataDraft) return;
+    setIndexLineSelected(0);
+    setTypeSelected('line');
+
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          tapered: {
+            front: flashingDataDraft.dataLines,
+            back: flashingDataDraft.dataLines,
+          },
+        },
+      }),
+    );
+    dispatch(
+      flashingActions.changeStep({ step: getIndexOfStepForName('tapered') }),
+    );
   };
 
   return (
@@ -214,11 +259,6 @@ const Board: React.FC<Props> = ({
           <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
             <GestureHandlerRootView>
               <SvgBoard
-                removeGrid={stepBoard === getIndexOfStepForName('screen_shot')}
-                isRight={rightLinePaint}
-                typeEndLine={endTypeLine}
-                typeStartLine={startTypeLine}
-                step={stepBoard}
                 height={heightScreen}
                 graphs={graphs}
                 pathParallel={pathParallel}
@@ -230,6 +270,7 @@ const Board: React.FC<Props> = ({
       </ScrollBox>
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton
+          onTapered={handleOnTapered}
           onSave={handleOnSave}
           onEdit={handleOnEdit}
           onEditEndType={handleOnEditEndType}
@@ -247,17 +288,34 @@ const Board: React.FC<Props> = ({
             typeSelected={typeSelected}
             onDone={handleDoneSize}
             dataLine={pointSelected}
-            changeMode={changeStepBoard}
           />
         </Box>
       )}
+
+      {stepBoard === getIndexOfStepForName('tapered') && (
+        <Box
+          height={heightMeasurement}
+          position="absolute"
+          width="100%"
+          bottom={0}>
+          <TaperedLines onChangeIndexSelected={setIndexLineSelected} />
+        </Box>
+      )}
+
+      {stepBoard === getIndexOfStepForName('save_tapered') && (
+        <SectionsButton onSave={handleOnSave} />
+      )}
+
       {stepBoard === getIndexOfStepForName('end_type') && (
         <Box height={380} position="absolute" width="100%" bottom={0}>
           <Box
             as={BaseTouchable}
             onPress={() => {
-              changeStepBoard &&
-                changeStepBoard(getIndexOfStepForName('finish'));
+              dispatch(
+                flashingActions.changeStep({
+                  step: getIndexOfStepForName('finish'),
+                }),
+              );
             }}
             position="absolute"
             bottom="100%"
@@ -276,12 +334,7 @@ const Board: React.FC<Props> = ({
             <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
           </Box>
 
-          <EndTypesLineComponent
-            changeStartTypeLine={changeStartTypeLine}
-            changeEndTypeLine={changeEndTypeLine}
-            startTypeLine={startTypeLine}
-            endTypeLine={endTypeLine}
-          />
+          <EndTypesLineComponent />
         </Box>
       )}
     </>

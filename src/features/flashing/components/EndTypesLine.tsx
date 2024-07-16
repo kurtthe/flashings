@@ -10,13 +10,10 @@ import {
 } from '@assets/icons';
 import { StyleSheet, ViewStyle } from 'react-native';
 import { TYPE_END_LINES } from '@models';
-
-type Props = {
-  changeStartTypeLine?: (startType: TYPE_END_LINES) => void;
-  changeEndTypeLine?: (endType: TYPE_END_LINES) => void;
-  startTypeLine: TYPE_END_LINES;
-  endTypeLine: TYPE_END_LINES;
-};
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import { getDataFlashingDraft } from '@store/flashings/selectors';
+import { actions as flashingActions } from '@store/flashings/actions';
+import { getIndexOfStepForName } from '@features/flashing/utils';
 
 const ButtonEndType = ({
   title,
@@ -47,34 +44,65 @@ const ButtonEndType = ({
     </BaseTouchable>
   );
 };
-const EndTypesLineComponent: React.FC<Props> = ({
-  changeStartTypeLine,
-  changeEndTypeLine,
-  startTypeLine = 'none',
-  endTypeLine = 'none',
-}) => {
+const EndTypesLineComponent = ({}) => {
+  const dispatch = useAppDispatch();
+  const flashingDataDraft = useAppSelector(state =>
+    getDataFlashingDraft(state),
+  );
+
   const [currentValueStartSelected, setCurrentValueStartSelected] =
-    React.useState<TYPE_END_LINES>(startTypeLine);
+    React.useState<TYPE_END_LINES>('none');
   const [currentValueEndSelected, setCurrentValueEndSelected] =
-    React.useState<TYPE_END_LINES>(endTypeLine);
+    React.useState<TYPE_END_LINES>('none');
   const [typeLine, setTypeLine] = React.useState<'start' | 'end'>('start');
+
+  React.useEffect(() => {
+    if (!flashingDataDraft) return;
+    setCurrentValueStartSelected(flashingDataDraft.startType);
+    setCurrentValueEndSelected(flashingDataDraft.endType);
+  }, [flashingDataDraft?.endType, flashingDataDraft?.startType]);
+
   const handlePressButton = (label: TYPE_END_LINES = 'none') => {
     if (typeLine === 'start') {
-      changeStartTypeLine && changeStartTypeLine(label);
+      dispatch(
+        flashingActions.updateFlashingDraft({
+          dataFlashing: {
+            startType: label,
+          },
+        }),
+      );
       setCurrentValueStartSelected(label);
       return;
     }
-    changeEndTypeLine && changeEndTypeLine(label);
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          endType: label,
+        },
+      }),
+    );
     setCurrentValueEndSelected(label);
   };
   const handleClearLineType = () => {
     if (typeLine === 'start') {
       setCurrentValueStartSelected('none');
-      changeStartTypeLine && changeStartTypeLine('none');
+      dispatch(
+        flashingActions.updateFlashingDraft({
+          dataFlashing: {
+            startType: 'none',
+          },
+        }),
+      );
       return;
     }
     setCurrentValueEndSelected('none');
-    changeEndTypeLine && changeEndTypeLine('none');
+    dispatch(
+      flashingActions.updateFlashingDraft({
+        dataFlashing: {
+          endType: 'none',
+        },
+      }),
+    );
   };
   const validateTypeLine = (typeLineStartEnd: TYPE_END_LINES) => {
     if (typeLine === 'start') {

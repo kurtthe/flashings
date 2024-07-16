@@ -10,6 +10,8 @@ import { TextInput } from 'react-native';
 import { getIndexOfStepForName } from '@features/flashing/utils';
 import { isAndroid } from '@shared/platform';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
+import { useAppDispatch } from '@hooks/useStore';
+import { actions as flashingActions } from '@store/flashings/actions';
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -18,7 +20,6 @@ type Props = {
   onPrevious?: () => void;
   disabledPrevious?: boolean;
   typeSelected: 'line' | 'angle';
-  changeMode?: (newMode: number) => void;
 };
 const MeasurementLines: React.FC<Props> = ({
   onDone,
@@ -27,8 +28,9 @@ const MeasurementLines: React.FC<Props> = ({
   onNext,
   onPrevious,
   disabledPrevious = false,
-  changeMode,
 }) => {
+  const dispatch = useAppDispatch();
+
   const [measurement, setMeasurement] = React.useState(0);
   const inputRef = React.useRef<TextInput>(null);
 
@@ -61,7 +63,11 @@ const MeasurementLines: React.FC<Props> = ({
         as={BaseTouchable}
         onPress={() => {
           handleDone(`${measurement}`);
-          changeMode && changeMode(getIndexOfStepForName('end_type'));
+          dispatch(
+            flashingActions.changeStep({
+              step: getIndexOfStepForName('end_type'),
+            }),
+          );
         }}
         position="absolute"
         bottom="105%"

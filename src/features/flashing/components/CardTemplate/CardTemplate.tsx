@@ -12,13 +12,7 @@ import { Alert, Image } from 'react-native';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as templateActions } from '@store/templates/actions';
 import { useNavigation } from '@react-navigation/native';
-import {
-  DeleteIcon,
-  EditIcon,
-  EyeIcon,
-  EyeOffIcon,
-  TrashIcon,
-} from '@assets/icons';
+import { EditIcon, EyeIcon, EyeOffIcon, TrashIcon } from '@assets/icons';
 import ModalNameTemplate from '@features/jobs/components/ModalNameTemplate';
 
 type Props = {

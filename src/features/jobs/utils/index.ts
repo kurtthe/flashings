@@ -29,8 +29,15 @@ const sortByNameAsc = (x: OptionsType, y: OptionsType) => {
   return x.label.localeCompare(y.label);
 };
 
-export const getGirth = (data: FLASHINGS_DATA) => {
-  const sizeLines = data.dataLines.map(lineInfo => lineInfo.distance);
+export const getGirth = (
+  data: FLASHINGS_DATA,
+  sideTapered?: 'front' | 'back',
+) => {
+  let sizeLines = data.dataLines.map(lineInfo => lineInfo.distance);
+
+  if (data.tapered && sideTapered) {
+    data.tapered[sideTapered].map(lineInfo => lineInfo.distance);
+  }
   let breaksAdd = 0;
   if (data.startType !== 'none') {
     breaksAdd += 10;
@@ -43,6 +50,7 @@ export const getGirth = (data: FLASHINGS_DATA) => {
 
 export const getBends = (data: FLASHINGS_DATA) => {
   const pointers = data.dataLines.map(lineInfo => lineInfo.points);
+
   let addTo = 0;
   if (data.startType !== 'none') {
     const valueToAdd = data.startType.includes('safety') ? 2 : 1;
