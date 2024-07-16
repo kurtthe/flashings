@@ -13,11 +13,10 @@ import {
 import { actions as flashingActions } from '@store/flashings/actions';
 
 type Props = {
-  onNext: (newIndexSelected: number) => void;
-  onPrevious: (newIndexSelected: number) => void;
+  onChangeIndexSelected: (newIndexSelected: number) => void;
 };
 
-const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
+const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
   const dispatch = useDispatch();
   const flashingDataDraft = useSelector(getDataFlashingDraft);
   const isFront = useSelector(getSideTapered);
@@ -29,6 +28,14 @@ const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
   const [indexLineSelectedFront, setIndexLineSelectedFront] = useState(0);
   const [indexLineSelectedBack, setIndexLineSelectedBack] = useState(0);
   const inputRef = useRef<TextInput>(null);
+
+  React.useEffect(() => {
+    if (isFront) {
+      setIndexLineSelectedFront(0);
+    } else setIndexLineSelectedBack(0);
+
+    onChangeIndexSelected(0);
+  }, [isFront]);
 
   useEffect(() => {
     if (pointSelected) {
@@ -104,6 +111,7 @@ const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
   };
 
   const handleMoveLine = (newIndex: number) => {
+    console.log('==>handleMoveLine[]', newIndex);
     if (isFront) {
       setIndexLineSelectedFront(newIndex);
     } else {
@@ -121,7 +129,7 @@ const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
     const newIndexPreview = _validateIndexLine(newIndexSelected - 1);
 
     handleMoveLine(newIndexPreview);
-    onPrevious(newIndexPreview);
+    onChangeIndexSelected(newIndexPreview);
   };
 
   const handleNext = () => {
@@ -131,7 +139,7 @@ const TaperedLines: React.FC<Props> = ({ onNext, onPrevious }) => {
 
     const newIndexPreview = _validateIndexLine(newIndexSelected + 1);
     handleMoveLine(newIndexPreview);
-    onNext(newIndexPreview);
+    onChangeIndexSelected(newIndexPreview);
   };
 
   if (!pointSelected) return null;

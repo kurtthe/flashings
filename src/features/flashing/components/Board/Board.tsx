@@ -298,10 +298,7 @@ const Board: React.FC<Props> = ({
           position="absolute"
           width="100%"
           bottom={0}>
-          <TaperedLines
-            onNext={setIndexLineSelected}
-            onPrevious={setIndexLineSelected}
-          />
+          <TaperedLines onChangeIndexSelected={setIndexLineSelected} />
         </Box>
       )}
 
