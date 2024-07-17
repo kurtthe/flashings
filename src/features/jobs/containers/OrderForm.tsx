@@ -126,6 +126,7 @@ const OrderForm: React.FC<Props> = ({
           // @ts-ignore
           time: values[formKeys.createOrder.time],
         },
+        burdens_data: values[formKeys.createOrder.burdens_data],
       });
 
       doMaterialOrder({ material: dataMaterial });
