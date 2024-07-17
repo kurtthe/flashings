@@ -272,8 +272,8 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               selectTextOnFocus={true}
               textAlignVertical="center" // make align consistent across platforms
               {...props}
-              value={value !== '' ? value : placeholder}
-              placeholder={''}
+              value={value}
+              placeholder={placeholder}
               onBlur={handleBlur}
               onFocus={handleFocus}
               onEndEditing={handleEndEditing}

@@ -61,8 +61,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
     ).catch(err => console.log('error::', err));
   }, [dataFieldsOrderValidations]);
 
-  console.log('===>values', JSON.stringify(values));
-
   if (!optionsStore.length) return null;
 
   return (
@@ -79,9 +77,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           isRequired
           name={formKeys.createOrder.date}
           typeFormat="date"
-          placeholder={
-            forms.createOrder.placeholders[formKeys.createOrder.date]
-          }
           label={forms.createOrder.labels[formKeys.createOrder.date]}
           returnKeyType="next"
         />
@@ -101,9 +96,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
             isRequired
             typeFormat="time"
             name={formKeys.createOrder.time}
-            placeholder={
-              forms.createOrder.placeholders[formKeys.createOrder.time]
-            }
             label={forms.createOrder.labels[formKeys.createOrder.time]}
             returnKeyType="next"
           />
@@ -111,9 +103,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           <FieldInput
             isRequired
             name={formKeys.createOrder.address}
-            placeholder={
-              forms.createOrder.placeholders[formKeys.createOrder.address]
-            }
             label={forms.createOrder.labels[formKeys.createOrder.address]}
             returnKeyType="next"
             my="s"
@@ -141,9 +130,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
 
         <FieldInput
           name={formKeys.createOrder.comments}
-          placeholder={
-            forms.createOrder.placeholders[formKeys.createOrder.comments]
-          }
           label={forms.createOrder.labels[formKeys.createOrder.comments]}
           multiline
         />
