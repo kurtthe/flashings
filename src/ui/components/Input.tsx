@@ -247,6 +247,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                   inputRange: [0, 1],
                   outputRange: [16, 14],
                 }),
+                textTransform: 'capitalize',
               }}>
               {label ?? placeholder}
               {isRequired && <Text color="error500">*</Text>}
