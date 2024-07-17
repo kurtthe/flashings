@@ -12,4 +12,5 @@ export const endPoints = {
   getSupplier: `/burdens/supplier`,
   createMaterialOrder: `/material-orders`,
   shareMaterialOrder: `/material-orders/:id/share`,
+  orderValidations: `/burdens/validation-rules`,
 };
