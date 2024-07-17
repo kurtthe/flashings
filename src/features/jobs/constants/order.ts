@@ -29,7 +29,6 @@ export const createOrderProperties = {
     [formKeysOrders.time]: '',
     [formKeysOrders.comments]: '',
     [formKeysOrders.address]: '',
-    [formKeysOrders.burdens_data]: '',
   },
   labels: {
     [formKeysOrders.store]: 'Store',
@@ -39,14 +38,7 @@ export const createOrderProperties = {
     [formKeysOrders.comments]: 'Comments',
     [formKeysOrders.address]: 'Address',
   },
-  placeholders: {
-    [formKeysOrders.store]: 'Store',
-    [formKeysOrders.date]: 'Date',
-    [formKeysOrders.deliveryOrPickUp]: 'Delivery or Pickup',
-    [formKeysOrders.time]: 'PickUp time',
-    [formKeysOrders.comments]: 'Comments',
-    [formKeysOrders.address]: 'Address for delivery',
-  },
+  placeholders: {},
   schema: Yup.object({
     [formKeysOrders.store]: Yup.string().required('Store is required.'),
     [formKeysOrders.date]: Yup.string().required('Date is required.'),

@@ -249,7 +249,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 }),
                 textTransform: 'capitalize',
               }}>
-              {label ?? placeholder}
+              {label}
               {isRequired && <Text color="error500">*</Text>}
             </Text>
 
@@ -272,7 +272,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               selectTextOnFocus={true}
               textAlignVertical="center" // make align consistent across platforms
               {...props}
-              value={value}
+              value={value !== '' ? value : placeholder}
               placeholder={''}
               onBlur={handleBlur}
               onFocus={handleFocus}
