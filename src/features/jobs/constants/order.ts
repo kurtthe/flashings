@@ -7,6 +7,7 @@ export const formKeysOrders = {
   time: 'time',
   comments: 'comments',
   address: 'address',
+  burdens_data: 'burdens_data',
 };
 
 export const optionsDelivery = ['delivery', 'pickup'];
@@ -19,6 +20,7 @@ export const createOrderProperties = {
     [formKeysOrders.time]: '',
     [formKeysOrders.comments]: '',
     [formKeysOrders.address]: '',
+    [formKeysOrders.burdens_data]: [],
   },
   initialErrors: {
     [formKeysOrders.store]: 'Store is required.',
@@ -27,6 +29,7 @@ export const createOrderProperties = {
     [formKeysOrders.time]: '',
     [formKeysOrders.comments]: '',
     [formKeysOrders.address]: '',
+    [formKeysOrders.burdens_data]: '',
   },
   labels: {
     [formKeysOrders.store]: 'Store',
@@ -71,6 +74,12 @@ export const createOrderProperties = {
         }
         return schemaTime.notRequired();
       },
+    ),
+    [formKeysOrders.burdens_data]: Yup.array().of(
+      Yup.object().shape({
+        index: Yup.number(),
+        value: Yup.string(),
+      }),
     ),
   }),
 };

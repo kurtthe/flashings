@@ -1,10 +1,10 @@
 import React from 'react';
 import { Box, Button, OptionsType } from '@ui/components';
-import { useFormikContext } from 'formik';
+import { FieldArray, useFormikContext } from 'formik';
 import { CreateOrderFormValues } from '@features/jobs/containers/types';
 import { formKeys, forms } from '@features/jobs/constants';
 import { FieldInput, FieldSelect } from '@components/forms';
-import { useGetStores } from '@hooks/jobs';
+import { useGetOrderValidations, useGetStores } from '@hooks/jobs';
 import { storesToOption } from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 import { optionsDelivery } from '@features/jobs/constants/order';
@@ -34,8 +34,9 @@ type Props = {
 const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const { data: stores, refetch } = useGetStores();
+  const { data: dataFields } = useGetOrderValidations();
 
-  const { isValid, handleSubmit, values } =
+  const { isValid, handleSubmit, values, setFieldValue } =
     useFormikContext<CreateOrderFormValues>();
 
   React.useEffect(() => {
@@ -47,6 +48,14 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
     const storesAsRadioButton = storesToOption(stores);
     setOptionsStore(storesAsRadioButton);
   }, [stores]);
+
+  React.useEffect(() => {
+    if (!dataFields || !dataFields.length) return;
+    setFieldValue(
+      formKeys.createOrder.burdens_data,
+      dataFields.map(item => ({ index: item.index, values: item.default })),
+    ).catch(err => console.log('error::', err));
+  }, [dataFields]);
 
   if (!optionsStore.length) return null;
 
@@ -104,6 +113,26 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
             my="m"
           />
         )}
+        <FieldArray
+          name={formKeys.createOrder.burdens_data}
+          render={() => (
+            <>
+              {/*@ts-ignore*/}
+              {values[formKeys.createOrder.burdens_data].map((_, index) => (
+                <FieldInput
+                  isRequired
+                  name={`${formKeys.createOrder.burdens_data}.${index}.value`}
+                  placeholder={
+                    forms.createOrder.placeholders[formKeys.createOrder.address]
+                  }
+                  label={forms.createOrder.labels[formKeys.createOrder.address]}
+                  returnKeyType="next"
+                  my="m"
+                />
+              ))}
+            </>
+          )}
+        />
 
         <FieldInput
           name={formKeys.createOrder.comments}
