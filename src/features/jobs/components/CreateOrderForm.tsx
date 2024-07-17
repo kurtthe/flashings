@@ -110,29 +110,28 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
             }
             label={forms.createOrder.labels[formKeys.createOrder.address]}
             returnKeyType="next"
-            my="m"
+            my="s"
           />
         )}
-        <FieldArray
-          name={formKeys.createOrder.burdens_data}
-          render={() => (
-            <>
-              {/*@ts-ignore*/}
-              {values[formKeys.createOrder.burdens_data].map((_, index) => (
-                <FieldInput
-                  isRequired
-                  name={`${formKeys.createOrder.burdens_data}.${index}.value`}
-                  placeholder={
-                    forms.createOrder.placeholders[formKeys.createOrder.address]
-                  }
-                  label={forms.createOrder.labels[formKeys.createOrder.address]}
-                  returnKeyType="next"
-                  my="m"
-                />
-              ))}
-            </>
-          )}
-        />
+        {dataFields && (
+          <FieldArray
+            name={formKeys.createOrder.burdens_data}
+            render={() => (
+              <>
+                {/*@ts-ignore*/}
+                {values[formKeys.createOrder.burdens_data].map((_, index) => (
+                  <FieldInput
+                    isRequired
+                    name={`${formKeys.createOrder.burdens_data}.${index}.value`}
+                    placeholder={dataFields[index].prompt}
+                    label={dataFields[index].prompt}
+                    my="s"
+                  />
+                ))}
+              </>
+            )}
+          />
+        )}
 
         <FieldInput
           name={formKeys.createOrder.comments}
