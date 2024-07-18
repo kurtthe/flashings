@@ -78,7 +78,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           name={formKeys.createOrder.date}
           typeFormat="date"
           label={forms.createOrder.labels[formKeys.createOrder.date]}
-          returnKeyType="next"
         />
 
         <FieldSelect
