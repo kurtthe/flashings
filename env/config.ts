@@ -9,6 +9,5 @@ export const config = {
     'mat@digitalbasis.com.au',
     'jeff@digitalbasis.com',
   ],
-  messageToShared:
-    'Thanks for your Flashings order - it has been received by our team for review and processing. An email notification will be sent to the account owner when it has been processed by the store. Please contact us at 03 9703 8400. Thank you, the Burdens Flashing App Team.',
+  messageToShared: 'Thanks for your Flashings order',
 };

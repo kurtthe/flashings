@@ -45,6 +45,7 @@ const OrderForm: React.FC<Props> = ({
 
   const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>();
   const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
+  const [messageEmail, setMessageEmail] = React.useState<string>('');
 
   const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
     useCreateMaterial({
@@ -64,7 +65,7 @@ const OrderForm: React.FC<Props> = ({
                 `${dataUser.email}`,
                 ...config.emailsToShared,
               ],
-              message: config.messageToShared,
+              message: messageEmail,
               idOrder: orderId,
             },
           });
@@ -131,11 +132,23 @@ const OrderForm: React.FC<Props> = ({
         burdens_data: values[formKeys.createOrder.burdens_data],
       });
 
-      console.log('==>dataMaterial[]', JSON.stringify(dataMaterial));
+      setMessageEmail(`${config.messageToShared} 
+              Store: ${dataStoreSelected.name}
+              Date: ${formattedDateString}
+              Delivery or pickup: ${
+                values[formKeys.createOrder.deliveryOrPickUp]
+              }
+              ${
+                values[formKeys.createOrder.deliveryOrPickUp] === 'delivery'
+                  ? `Address: ${values[formKeys.createOrder.address]}`
+                  : `Time: ${values[formKeys.createOrder.time]}`
+              }
+              
+              `);
 
       doMaterialOrder({ material: dataMaterial });
     },
-    [dataSupplier, urlIdPdf, dataUser],
+    [dataSupplier, urlIdPdf, dataUser, stores],
   );
 
   return (
