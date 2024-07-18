@@ -118,7 +118,7 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
     if (isFront) {
       setIndexLineSelectedFront(newIndex);
     } else {
-      if (newIndex >= maxIndex) {
+      if (newIndex > maxIndex) {
         dispatch(
           flashingActions.changeStep({
             step: getIndexOfStepForName('save_tapered'),
@@ -147,7 +147,10 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
       ? indexLineSelectedFront
       : indexLineSelectedBack;
 
+    console.log('==>newIndexSelected', newIndexSelected);
     const newIndexPreview = _validateIndexLine(newIndexSelected + 1);
+    console.log('==>newIndexPreview', newIndexPreview);
+
     handleMoveLine(newIndexPreview);
     onChangeIndexSelected(newIndexPreview);
   };

@@ -200,7 +200,7 @@ const BoardContainer = () => {
   const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
     if (stepBoard === getIndexOfStepForName('tapered')) {
       const sideTapered =
-        newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
+        newSettings[TYPE_ACTIONS_STEP.SIDE_TAPERED].toLowerCase();
       dispatch(
         flashingActions.changeSideTapered({
           isFront: sideTapered === 'front',
