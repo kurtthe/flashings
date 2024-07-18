@@ -241,6 +241,8 @@ const Board: React.FC<Props> = ({
           tapered: {
             front: flashingDataDraft.dataLines,
             back: flashingDataDraft.dataLines,
+            frontImagePreview: undefined,
+            backImagePreview: undefined,
           },
         },
       }),

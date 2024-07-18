@@ -24,7 +24,10 @@ export type FLASHINGS_DATA = {
   tapered?:
     | {
         front: LINE_TYPE[];
+        frontImagePreview: string | undefined;
+
         back: LINE_TYPE[];
+        backImagePreview: string | undefined;
       }
     | undefined;
 };
