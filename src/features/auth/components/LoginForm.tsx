@@ -34,7 +34,6 @@ const LoginFormComponent: React.FC<Props> = ({ isLoading }) => {
     <Box px="m" backgroundColor="white">
       <FieldInput
         name="email"
-        placeholder="Email"
         autoCapitalize="none"
         returnKeyType="next"
         keyboardType="email-address"
@@ -48,7 +47,6 @@ const LoginFormComponent: React.FC<Props> = ({ isLoading }) => {
       <FieldInput
         ref={passwordInputRef}
         name="password"
-        placeholder="Password"
         mt="m"
         autoCapitalize="none"
         textContentType="password"

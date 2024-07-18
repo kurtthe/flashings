@@ -54,7 +54,7 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
   const newPoints = calculatePointHalf(coordinates);
 
   const shouldRenderTextSvg =
-    (isMeasurement || isPreview || isTapered) && !isScreenShot;
+    isMeasurement || isPreview || isTapered || isScreenShot;
 
   if (shouldRenderTextSvg) {
     return (
