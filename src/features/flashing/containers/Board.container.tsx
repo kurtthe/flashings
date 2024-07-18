@@ -51,6 +51,10 @@ const BoardContainer = () => {
   const refViewShot = React.createRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
 
+  const isSaveTapered = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('save_tapered');
+  }, [stepBoard]);
+
   React.useEffect(() => {
     if (!templateChose) return;
     setLoading(true);
@@ -234,6 +238,67 @@ const BoardContainer = () => {
         },
       }),
     );
+  };
+
+  const onCapturedScreenshot = async () => {
+    if (!refViewShot.current || !flashingDataDraft) return;
+
+    if (isSaveTapered) {
+      if (!flashingDataDraft.tapered)
+        return alert.show('Error', 'Snapshot failed');
+      dispatch(flashingActions.changeSideTapered({ isFront: true }));
+
+      //@ts-ignore
+      refViewShot.current
+        .capture()
+        .then(async uriScreen => {
+          const dataB64Preview = await imageToBase64(uriScreen);
+          dispatch(flashingActions.changeSideTapered({ isFront: false }));
+
+          dispatch(
+            flashingActions.updateFlashingDraft({
+              dataFlashing: {
+                ...flashingDataDraft,
+                tapered: {
+                  ...flashingDataDraft.tapered,
+                  frontImagePreview: `data:image/png;base64,${dataB64Preview}`,
+                },
+              },
+            }),
+          );
+
+          setTimeout(() => {
+            //@ts-ignore
+            refViewShot.current
+              .capture()
+              .then(async uriScreen => {
+                const dataB64Preview = await imageToBase64(uriScreen);
+
+                dispatch(
+                  flashingActions.updateFlashingDraft({
+                    dataFlashing: {
+                      ...flashingDataDraft,
+                      tapered: {
+                        ...flashingDataDraft.tapered,
+                        backImagePreview: `data:image/png;base64,${dataB64Preview}`,
+                      },
+                    },
+                  }),
+                );
+
+                setTimeout(() => handleSave(), 500);
+              })
+              .catch(error => {
+                console.log('error: screenshot', error);
+                alert.show('Error', 'Snapshot failed');
+              });
+          }, 800);
+        })
+        .catch(error => {
+          console.log('error: screenshot', error);
+          alert.show('Error', 'Snapshot failed');
+        });
+    }
   };
 
   const handleSave = () => {
