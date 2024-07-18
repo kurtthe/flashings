@@ -25,36 +25,30 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
   );
   const isFront = useSelector(getSideTapered);
 
-  const isMeasurement = React.useMemo(() => {
-    return step === getIndexOfStepForName('measurements');
-  }, [step]);
+  const indexMeasurement = getIndexOfStepForName('measurements');
   const isTapered = React.useMemo(() => {
     return step === getIndexOfStepForName('tapered');
   }, [step]);
-  const isPreview = React.useMemo(() => {
-    return step === getIndexOfStepForName('preview');
-  }, [step]);
-  const isScreenShot = React.useMemo(() => {
-    return step === getIndexOfStepForName('screen_shot');
-  }, [step]);
 
   const label = React.useMemo(() => {
-    if (!flashingDataDraft) return '0';
-    if (isMeasurement) {
+    if (!flashingDataDraft) return '';
+
+    if (indexMeasurement >= step) {
+      if (isTapered && flashingDataDraft.tapered) {
+        return flashingDataDraft.tapered[isFront ? 'front' : 'back'][
+          index
+        ].distance.toString();
+      }
       return flashingDataDraft.dataLines[index].distance.toString();
     }
-    if (isTapered && flashingDataDraft.tapered) {
-      return flashingDataDraft.tapered[isFront ? 'front' : 'back'][
-        index
-      ].distance.toString();
-    }
-    return '0';
-  }, [flashingDataDraft, isMeasurement, isTapered, isFront, index]);
+    return '';
+  }, [flashingDataDraft, indexMeasurement, isTapered, isFront, index]);
 
   const newPoints = calculatePointHalf(coordinates);
 
-  const shouldRenderTextSvg =
-    isMeasurement || isPreview || isTapered || isScreenShot;
+  const shouldRenderTextSvg = step >= getIndexOfStepForName('measurements');
+
+  console.log('=?>', !!flashingDataDraft);
 
   if (shouldRenderTextSvg) {
     return (
