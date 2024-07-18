@@ -1,4 +1,5 @@
 import { FLASHINGS_DATA, RAIN_HEAD, SUMB } from '@models/flashings';
+import { formKeys } from '@features/jobs/constants';
 
 export type JOB_GUTTER = {
   id: number;
@@ -151,6 +152,15 @@ export type DATA_MATERIAL_ORDER = {
   tax_exclusive: boolean;
   attachments: ATTACHMENTS_MATERIAL_ORDER[];
   sections: Array<{ items: SECTIONS_MATERIAL_ORDER[] }>;
+  burdens_data: Array<{ index: number; value: string }>;
+  delivery_instructions: {
+    delivery: string;
+    location: string;
+    contact_name: string;
+    contact_number: string;
+    date: string;
+    time: string;
+  };
 };
 
 export type SHARED_DATA_MATERIAL_ORDER = {

@@ -21,6 +21,7 @@ import { JobStackProps } from '@features/jobs/navigation/Stack.types';
 import { buildDataMaterialOrder } from '@features/jobs/utils/orders';
 import { dataUserSelector } from '@store/auth/selectors';
 import { config } from '@env/config';
+import dayjs from 'dayjs';
 
 type Props = {
   jobName: string;
@@ -44,6 +45,7 @@ const OrderForm: React.FC<Props> = ({
 
   const [storeSelected, setStoreSelected] = React.useState<STORE | undefined>();
   const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
+  const [messageEmail, setMessageEmail] = React.useState<string>('');
 
   const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
     useCreateMaterial({
@@ -63,7 +65,7 @@ const OrderForm: React.FC<Props> = ({
                 `${dataUser.email}`,
                 ...config.emailsToShared,
               ],
-              message: config.messageToShared,
+              message: messageEmail,
               idOrder: orderId,
             },
           });
@@ -98,12 +100,14 @@ const OrderForm: React.FC<Props> = ({
       );
       if (!dataStoreSelected) return;
       setStoreSelected(dataStoreSelected);
+      // @ts-ignore
+      const [day, month, year] = values[formKeys.createOrder.date].split('/');
+      const formattedDateString = `${year}-${month}-${day}`;
 
       const dataMaterial = buildDataMaterialOrder({
         name: jobName,
         supplier: dataSupplier.id,
-        // @ts-ignore
-        issued_on: values[formKeys.createOrder.date],
+        issued_on: formattedDateString,
         // @ts-ignore
         notes: values[formKeys.createOrder.comments],
         description: `Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
@@ -121,17 +125,30 @@ const OrderForm: React.FC<Props> = ({
           contact_name: `${dataUser.first_name} ${dataUser.last_name}`,
           // @ts-ignore
           contact_number: dataUser.phone_number,
-          // @ts-ignore
-          date: values[formKeys.createOrder.date],
+          date: formattedDateString,
           // @ts-ignore
           time: values[formKeys.createOrder.time],
         },
         burdens_data: values[formKeys.createOrder.burdens_data],
       });
 
+      setMessageEmail(`${config.messageToShared} 
+              Store: ${dataStoreSelected.name}
+              Date: ${formattedDateString}
+              Delivery or pickup: ${
+                values[formKeys.createOrder.deliveryOrPickUp]
+              }
+              ${
+                values[formKeys.createOrder.deliveryOrPickUp] === 'delivery'
+                  ? `Address: ${values[formKeys.createOrder.address]}`
+                  : `Time: ${values[formKeys.createOrder.time]}`
+              }
+              
+              `);
+
       doMaterialOrder({ material: dataMaterial });
     },
-    [dataSupplier, urlIdPdf, dataUser],
+    [dataSupplier, urlIdPdf, dataUser, stores],
   );
 
   return (

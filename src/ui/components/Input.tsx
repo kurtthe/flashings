@@ -144,7 +144,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
 
     const [isFocused, setIsFocused] = useState(false);
     const labelAnimationRef = useRef(
-      new Animated.Value(!!value || isFocused ? 1 : 0),
+      new Animated.Value(!!value || !!placeholder || isFocused ? 1 : 0),
     ).current;
     let _inputVariant = inputVariant;
     if (isFocused) {
@@ -249,7 +249,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 }),
                 textTransform: 'capitalize',
               }}>
-              {label ?? placeholder}
+              {label}
               {isRequired && <Text color="error500">*</Text>}
             </Text>
 
@@ -260,8 +260,8 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 inputStyle,
                 fontStyle,
                 {
-                  paddingTop: value || isFocused ? 17 : 0,
-                  fontWeight: value || isFocused ? '700' : '500',
+                  paddingTop: value || placeholder || isFocused ? 17 : 0,
+                  fontWeight: value || placeholder || isFocused ? '700' : '500',
                   paddingHorizontal: 0,
                 },
                 styleContent,
@@ -273,14 +273,14 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               textAlignVertical="center" // make align consistent across platforms
               {...props}
               value={value}
-              placeholder={''}
+              placeholder={placeholder}
               onBlur={handleBlur}
               onFocus={handleFocus}
               onEndEditing={handleEndEditing}
             />
           </Box>
           {suffix && (
-            <Box top={value || isFocused ? 3 : 8} right={5}>
+            <Box top={value || placeholder || isFocused ? 3 : 8} right={5}>
               <Text
                 mt={label ? 's' : 'unset'}
                 variant="bodyRegular"
@@ -290,7 +290,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
             </Box>
           )}
           {rightIcon && (
-            <Box top={value || isFocused ? 7 : 12} right={5}>
+            <Box top={value || placeholder || isFocused ? 7 : 12} right={5}>
               {rightIcon}
             </Box>
           )}

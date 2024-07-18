@@ -7,7 +7,7 @@ import utc from 'dayjs-plugin-utc';
 dayjs.extend(utc);
 
 export const formatDate = (
-	value: dayjs.ConfigType | undefined,
-	format = 'YYYY-MM-DD',
-	inputFormat: string | undefined = undefined,
-): string => dayjs(value, inputFormat ?? undefined).format(format);
+  value: dayjs.ConfigType | undefined,
+  format = 'YYYY-MM-DD',
+  inputFormat: string | undefined = undefined,
+): string => dayjs(value, inputFormat).format(format);

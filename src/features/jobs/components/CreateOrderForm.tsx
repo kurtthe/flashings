@@ -34,7 +34,7 @@ type Props = {
 const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const { data: stores, refetch } = useGetStores();
-  const { data: dataFields } = useGetOrderValidations();
+  const { data: dataFieldsOrderValidations } = useGetOrderValidations();
 
   const { isValid, handleSubmit, values, setFieldValue } =
     useFormikContext<CreateOrderFormValues>();
@@ -50,12 +50,16 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
   }, [stores]);
 
   React.useEffect(() => {
-    if (!dataFields || !dataFields.length) return;
+    if (!dataFieldsOrderValidations || !dataFieldsOrderValidations.length)
+      return;
     setFieldValue(
       formKeys.createOrder.burdens_data,
-      dataFields.map(item => ({ index: item.index, values: item.default })),
+      dataFieldsOrderValidations.map(item => ({
+        index: item.index,
+        value: item.default,
+      })),
     ).catch(err => console.log('error::', err));
-  }, [dataFields]);
+  }, [dataFieldsOrderValidations]);
 
   if (!optionsStore.length) return null;
 
@@ -73,11 +77,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           isRequired
           name={formKeys.createOrder.date}
           typeFormat="date"
-          placeholder={
-            forms.createOrder.placeholders[formKeys.createOrder.date]
-          }
           label={forms.createOrder.labels[formKeys.createOrder.date]}
-          returnKeyType="next"
         />
 
         <FieldSelect
@@ -95,9 +95,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
             isRequired
             typeFormat="time"
             name={formKeys.createOrder.time}
-            placeholder={
-              forms.createOrder.placeholders[formKeys.createOrder.time]
-            }
             label={forms.createOrder.labels[formKeys.createOrder.time]}
             returnKeyType="next"
           />
@@ -105,15 +102,12 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           <FieldInput
             isRequired
             name={formKeys.createOrder.address}
-            placeholder={
-              forms.createOrder.placeholders[formKeys.createOrder.address]
-            }
             label={forms.createOrder.labels[formKeys.createOrder.address]}
             returnKeyType="next"
             my="s"
           />
         )}
-        {dataFields && (
+        {dataFieldsOrderValidations && (
           <FieldArray
             name={formKeys.createOrder.burdens_data}
             render={() => (
@@ -123,8 +117,8 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
                   <FieldInput
                     isRequired
                     name={`${formKeys.createOrder.burdens_data}.${index}.value`}
-                    placeholder={dataFields[index].prompt}
-                    label={dataFields[index].prompt}
+                    label={dataFieldsOrderValidations[index].prompt}
+                    placeholder={dataFieldsOrderValidations[index].mask}
                     my="s"
                   />
                 ))}
@@ -135,9 +129,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
 
         <FieldInput
           name={formKeys.createOrder.comments}
-          placeholder={
-            forms.createOrder.placeholders[formKeys.createOrder.comments]
-          }
           label={forms.createOrder.labels[formKeys.createOrder.comments]}
           multiline
         />
