@@ -84,9 +84,9 @@ export const createOrEditJobProperties = {
     [formKeysJobs.contactEmail]: 'Contact Email',
   },
   placeholders: {
-    [formKeysJobs.jobName]: 'Job Name',
-    [formKeysJobs.jobNumber]: 'Job Number',
-    [formKeysJobs.siteAddress]: 'Site Address',
+    [formKeysJobs.jobName]: null,
+    [formKeysJobs.jobNumber]: null,
+    [formKeysJobs.siteAddress]: null,
     [formKeysJobs.contactName]: 'Contact Name',
     [formKeysJobs.contactNumber]: 'Contact Number',
     [formKeysJobs.contactEmail]: 'Contact Email',

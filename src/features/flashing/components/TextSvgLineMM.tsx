@@ -23,53 +23,37 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
-  const isFront = useSelector(getSideTapered);
+  const isFront = useAppSelector(state => getSideTapered(state));
+  const indexMeasurement = getIndexOfStepForName('measurements');
 
-  const isMeasurement = React.useMemo(() => {
-    return step === getIndexOfStepForName('measurements');
-  }, [step]);
-  const isTapered = React.useMemo(() => {
-    return step === getIndexOfStepForName('tapered');
-  }, [step]);
-  const isPreview = React.useMemo(() => {
-    return step === getIndexOfStepForName('preview');
-  }, [step]);
-  const isScreenShot = React.useMemo(() => {
-    return step === getIndexOfStepForName('screen_shot');
-  }, [step]);
+  const getLabel = () => {
+    if (step < indexMeasurement || !flashingDataDraft) return '';
 
-  const label = React.useMemo(() => {
-    if (!flashingDataDraft) return '0';
-    if (isMeasurement) {
-      return flashingDataDraft.dataLines[index].distance.toString();
-    }
-    if (isTapered && flashingDataDraft.tapered) {
+    if (flashingDataDraft.tapered) {
       return flashingDataDraft.tapered[isFront ? 'front' : 'back'][
         index
       ].distance.toString();
     }
-    return '0';
-  }, [flashingDataDraft, isMeasurement, isTapered, isFront, index]);
+
+    return flashingDataDraft?.dataLines[index].distance.toString();
+  };
 
   const newPoints = calculatePointHalf(coordinates);
+  const shouldRenderTextSvg = step >= getIndexOfStepForName('measurements');
 
-  const shouldRenderTextSvg =
-    (isMeasurement || isPreview || isTapered) && !isScreenShot;
+  if (!shouldRenderTextSvg) return null;
 
-  if (shouldRenderTextSvg) {
-    return (
-      <TextSvg
-        id={Math.random()}
-        positionTextX={newPoints[0]}
-        positionTextY={newPoints[1] + 10}
-        positionTextXRect={newPoints[0] - label.length * 5}
-        positionTextYRect={newPoints[1] - 5}
-        textValue={label}
-      />
-    );
-  }
-
-  return null;
+  const label = getLabel();
+  return (
+    <TextSvg
+      id={Math.random()}
+      positionTextX={newPoints[0]}
+      positionTextY={newPoints[1] + 10}
+      positionTextXRect={newPoints[0] - label.length * 5}
+      positionTextYRect={newPoints[1] - 5}
+      textValue={label}
+    />
+  );
 };
 
 export default TextSvgLineMM;

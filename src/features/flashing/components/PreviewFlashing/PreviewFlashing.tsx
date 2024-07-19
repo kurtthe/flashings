@@ -18,11 +18,13 @@ type Props = {
   imgPreview: string | undefined;
   dataFlashing: FLASHINGS_DATA;
   jobId: number;
+  isFront?: boolean;
 };
 const PreviewFlashing: React.FC<Props> = ({
   imgPreview,
   jobId,
   dataFlashing,
+  isFront = true,
 }) => {
   const dispatch = useAppDispatch();
   const flashingDataPreview = useAppSelector(state =>
@@ -33,6 +35,10 @@ const PreviewFlashing: React.FC<Props> = ({
 
   const _setStoreDataFlashing = () => {
     if (!dataFlashing) return;
+
+    if (dataFlashing.tapered) {
+      dispatch(flashingActions.changeSideTapered({ isFront }));
+    }
 
     dispatch(
       flashingActions.addFlashingDraft({

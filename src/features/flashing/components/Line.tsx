@@ -22,27 +22,19 @@ const LineMadeComponent: React.FC<Props> = ({
   const step = useAppSelector(state => getStep(state));
   const colorSelected = '#DEA000';
 
+  const indexMeasurement = getIndexOfStepForName('measurements');
+
   const isMeasurements = useMemo(
-    () => step === getIndexOfStepForName('measurements'),
-    [],
-  );
-  const isTapered = useMemo(
-    () => step === getIndexOfStepForName('tapered'),
-    [],
-  );
-  const previewIndex = useMemo(() => getIndexOfStepForName('preview'), []);
-  const screenShotIndex = useMemo(
-    () => getIndexOfStepForName('screen_shot'),
-    [],
+    () => step === indexMeasurement,
+    [step, indexMeasurement],
   );
 
-  const _showAngleText = useMemo(() => {
-    return (
-      (isMeasurements || previewIndex === step) &&
-      screenShotIndex !== step &&
-      !isTapered
-    );
-  }, [step]);
+  const isTapered = useMemo(
+    () => step === getIndexOfStepForName('tapered'),
+    [step],
+  );
+
+  const _showAngleText = step >= indexMeasurement;
 
   const _lineSelected = React.useMemo(() => {
     const isLineSelected = lineSelected === id && typeSelected === 'line';

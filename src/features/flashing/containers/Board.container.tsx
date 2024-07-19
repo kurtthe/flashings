@@ -48,8 +48,12 @@ const BoardContainer = () => {
   const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const [loading, setLoading] = React.useState(false);
-  const refViewShot = React.createRef<ViewShot>();
+  const refViewShot = React.useRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
+
+  const isSaveTapered = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('save_tapered');
+  }, [stepBoard]);
 
   React.useEffect(() => {
     if (!templateChose) return;
@@ -200,7 +204,7 @@ const BoardContainer = () => {
   const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
     if (stepBoard === getIndexOfStepForName('tapered')) {
       const sideTapered =
-        newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
+        newSettings[TYPE_ACTIONS_STEP.SIDE_TAPERED].toLowerCase();
       dispatch(
         flashingActions.changeSideTapered({
           isFront: sideTapered === 'front',
@@ -236,6 +240,76 @@ const BoardContainer = () => {
     );
   };
 
+  const onCapturedScreenshot = () => {
+    const idJob = route.params?.jobId;
+
+    if (
+      !refViewShot.current ||
+      !flashingDataDraft ||
+      !flashingDataDraft.tapered
+    )
+      return alert.show('Error', 'Snapshot failed');
+    dispatch(flashingActions.changeSideTapered({ isFront: true }));
+    let dataFlashingTapered = flashingDataDraft;
+
+    //@ts-ignore
+    refViewShot.current
+      .capture()
+      .then(async uriScreen => {
+        const dataB64PreviewFront = await imageToBase64(uriScreen);
+
+        dataFlashingTapered = {
+          ...dataFlashingTapered,
+          //@ts-ignore
+          tapered: {
+            ...dataFlashingTapered.tapered,
+            frontImagePreview: `data:image/png;base64,${dataB64PreviewFront}`,
+          },
+        };
+
+        dispatch(flashingActions.changeSideTapered({ isFront: false }));
+        //@ts-ignore
+        refViewShot.current
+          .capture()
+          .then(async uriScreen => {
+            const dataB64PreviewBack = await imageToBase64(uriScreen);
+            dataFlashingTapered = {
+              ...dataFlashingTapered,
+              //@ts-ignore
+              tapered: {
+                ...dataFlashingTapered.tapered,
+                backImagePreview: `data:image/png;base64,${dataB64PreviewBack}`,
+              },
+            };
+
+            dispatch(
+              jobActions.addEditFlashing({
+                idJob,
+                flashing: dataFlashingTapered,
+              }),
+            );
+
+            dispatch(flashingActions.clear());
+
+            navigation.navigate(StackPrivateDefinitions.JOBS, {
+              screen: RoutesJobs.JOB_DETAILS,
+              params: {
+                jobId: idJob,
+                jobName: dataJob?.name,
+              },
+            });
+          })
+          .catch(error => {
+            console.log('error: screenshot', error);
+            alert.show('Error', 'Snapshot failed');
+          });
+      })
+      .catch(error => {
+        console.log('error: screenshot', error);
+        alert.show('Error', 'Snapshot failed');
+      });
+  };
+
   const handleSave = () => {
     (async () => {
       if (!refViewShot.current || !flashingDataDraft) return;
@@ -252,11 +326,6 @@ const BoardContainer = () => {
               idJob,
               flashing: {
                 ...flashingDataDraft,
-                dataLines: flashingDataDraft.dataLines,
-                parallelRight: flashingDataDraft.parallelRight,
-                angles: flashingDataDraft.angles,
-                endType: flashingDataDraft.endType,
-                startType: flashingDataDraft.startType,
                 imgPreview: `data:image/png;base64,${dataB64Preview}`,
               },
             }),
@@ -300,7 +369,7 @@ const BoardContainer = () => {
         <Board
           onAddPoint={handleAddPoint}
           onUpdatePoint={handleUpdatePoint}
-          onSave={handleSave}
+          onSave={() => (isSaveTapered ? onCapturedScreenshot() : handleSave())}
           updateAngle={handleUpdateAngle}
         />
       </ViewShot>

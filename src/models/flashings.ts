@@ -21,10 +21,13 @@ export type FLASHINGS_DATA = {
   endType: TYPE_END_LINES;
   startType: TYPE_END_LINES;
   imgPreview: string | undefined;
-  tapered?:
+  tapered:
     | {
         front: LINE_TYPE[];
+        frontImagePreview: string | undefined;
+
         back: LINE_TYPE[];
+        backImagePreview: string | undefined;
       }
     | undefined;
 };
