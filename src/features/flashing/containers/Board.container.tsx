@@ -250,45 +250,59 @@ const BoardContainer = () => {
     )
       return alert.show('Error', 'Snapshot failed');
     dispatch(flashingActions.changeSideTapered({ isFront: true }));
+    let dataFlashingTapered = flashingDataDraft;
 
     //@ts-ignore
     refViewShot.current
       .capture()
       .then(async uriScreen => {
-        const dataB64Preview = await imageToBase64(uriScreen);
-        dispatch(
-          flashingActions.updateFlashingDraft({
-            dataFlashing: {
-              ...flashingDataDraft,
+        const dataB64PreviewFront = await imageToBase64(uriScreen);
+
+        dataFlashingTapered = {
+          ...dataFlashingTapered,
+          //@ts-ignore
+          tapered: {
+            ...dataFlashingTapered.tapered,
+            frontImagePreview: `data:image/png;base64,${dataB64PreviewFront}`,
+          },
+        };
+
+        dispatch(flashingActions.changeSideTapered({ isFront: false }));
+        //@ts-ignore
+        refViewShot.current
+          .capture()
+          .then(async uriScreen => {
+            const dataB64PreviewBack = await imageToBase64(uriScreen);
+            dataFlashingTapered = {
+              ...dataFlashingTapered,
               //@ts-ignore
               tapered: {
-                ...flashingDataDraft.tapered,
-                frontImagePreview: `data:image/png;base64,${dataB64Preview}`,
+                ...dataFlashingTapered.tapered,
+                backImagePreview: `data:image/png;base64,${dataB64PreviewBack}`,
               },
-            },
-          }),
-        );
-        dispatch(flashingActions.changeSideTapered({ isFront: false }));
+            };
 
-        // dispatch(
-        //   jobActions.addEditFlashing({
-        //     idJob,
-        //     flashing: {
-        //       ...flashingDataDraft,
-        //       imgPreview: `data:image/png;base64,${dataB64Preview}`,
-        //     },
-        //   }),
-        // );
-        //
-        // dispatch(flashingActions.clear());
-        //
-        // navigation.navigate(StackPrivateDefinitions.JOBS, {
-        //   screen: RoutesJobs.JOB_DETAILS,
-        //   params: {
-        //     jobId: idJob,
-        //     jobName: dataJob?.name,
-        //   },
-        // });
+            dispatch(
+              jobActions.addEditFlashing({
+                idJob,
+                flashing: dataFlashingTapered,
+              }),
+            );
+
+            dispatch(flashingActions.clear());
+
+            navigation.navigate(StackPrivateDefinitions.JOBS, {
+              screen: RoutesJobs.JOB_DETAILS,
+              params: {
+                jobId: idJob,
+                jobName: dataJob?.name,
+              },
+            });
+          })
+          .catch(error => {
+            console.log('error: screenshot', error);
+            alert.show('Error', 'Snapshot failed');
+          });
       })
       .catch(error => {
         console.log('error: screenshot', error);
