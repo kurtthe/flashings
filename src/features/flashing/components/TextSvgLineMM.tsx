@@ -27,10 +27,11 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
 
   const indexMeasurement = getIndexOfStepForName('measurements');
 
-  console.log('isFront===>', isFront);
-
   const isTapered = React.useMemo(() => {
-    return step === getIndexOfStepForName('tapered');
+    return (
+      step === getIndexOfStepForName('tapered') ||
+      step === getIndexOfStepForName('save_tapered')
+    );
   }, [step]);
 
   const getLabel = () => {

@@ -240,65 +240,61 @@ const BoardContainer = () => {
     );
   };
 
-  const onCapturedScreenshot = async () => {
-    if (!refViewShot.current || !flashingDataDraft) return;
+  const onCapturedScreenshot = () => {
+    const idJob = route.params?.jobId;
 
-    if (isSaveTapered) {
-      if (!flashingDataDraft.tapered)
-        return alert.show('Error', 'Snapshot failed');
-      dispatch(flashingActions.changeSideTapered({ isFront: true }));
+    if (
+      !refViewShot.current ||
+      !flashingDataDraft ||
+      !flashingDataDraft.tapered
+    )
+      return alert.show('Error', 'Snapshot failed');
+    dispatch(flashingActions.changeSideTapered({ isFront: true }));
 
-      //@ts-ignore
-      refViewShot.current
-        .capture()
-        .then(async uriScreen => {
-          const dataB64Preview = await imageToBase64(uriScreen);
-          dispatch(flashingActions.changeSideTapered({ isFront: false }));
-
-          dispatch(
-            flashingActions.updateFlashingDraft({
-              dataFlashing: {
-                ...flashingDataDraft,
-                tapered: {
-                  ...flashingDataDraft.tapered,
-                  frontImagePreview: `data:image/png;base64,${dataB64Preview}`,
-                },
+    //@ts-ignore
+    refViewShot.current
+      .capture()
+      .then(async uriScreen => {
+        const dataB64Preview = await imageToBase64(uriScreen);
+        dispatch(
+          flashingActions.updateFlashingDraft({
+            dataFlashing: {
+              ...flashingDataDraft,
+              //@ts-ignore
+              tapered: {
+                ...flashingDataDraft.tapered,
+                frontImagePreview: `data:image/png;base64,${dataB64Preview}`,
               },
-            }),
-          );
+            },
+          }),
+        );
 
-          setTimeout(() => {
-            //@ts-ignore
-            refViewShot.current
-              .capture()
-              .then(async uriScreen => {
-                const dataB64Preview = await imageToBase64(uriScreen);
+        dispatch(
+          jobActions.addEditFlashing({
+            idJob,
+            flashing: {
+              ...flashingDataDraft,
+              imgPreview: `data:image/png;base64,${dataB64Preview}`,
+            },
+          }),
+        );
 
-                dispatch(
-                  flashingActions.updateFlashingDraft({
-                    dataFlashing: {
-                      ...flashingDataDraft,
-                      tapered: {
-                        ...flashingDataDraft.tapered,
-                        backImagePreview: `data:image/png;base64,${dataB64Preview}`,
-                      },
-                    },
-                  }),
-                );
+        dispatch(flashingActions.clear());
 
-                setTimeout(() => handleSave(), 500);
-              })
-              .catch(error => {
-                console.log('error: screenshot', error);
-                alert.show('Error', 'Snapshot failed');
-              });
-          }, 800);
-        })
-        .catch(error => {
-          console.log('error: screenshot', error);
-          alert.show('Error', 'Snapshot failed');
+        navigation.navigate(StackPrivateDefinitions.JOBS, {
+          screen: RoutesJobs.JOB_DETAILS,
+          params: {
+            jobId: idJob,
+            jobName: dataJob?.name,
+          },
         });
-    }
+
+        dispatch(flashingActions.changeSideTapered({ isFront: false }));
+      })
+      .catch(error => {
+        console.log('error: screenshot', error);
+        alert.show('Error', 'Snapshot failed');
+      });
   };
 
   const handleSave = () => {
@@ -317,11 +313,6 @@ const BoardContainer = () => {
               idJob,
               flashing: {
                 ...flashingDataDraft,
-                dataLines: flashingDataDraft.dataLines,
-                parallelRight: flashingDataDraft.parallelRight,
-                angles: flashingDataDraft.angles,
-                endType: flashingDataDraft.endType,
-                startType: flashingDataDraft.startType,
                 imgPreview: `data:image/png;base64,${dataB64Preview}`,
               },
             }),
@@ -365,7 +356,7 @@ const BoardContainer = () => {
         <Board
           onAddPoint={handleAddPoint}
           onUpdatePoint={handleUpdatePoint}
-          onSave={handleSave}
+          onSave={() => (isSaveTapered ? onCapturedScreenshot() : handleSave())}
           updateAngle={handleUpdateAngle}
         />
       </ViewShot>
