@@ -52,13 +52,13 @@ const CardGutterComponent: React.FC<Props> = ({
           {data.tapered ? (
             <>
               <PreviewFlashing
-                imgPreview={data.imgPreview}
-                dataFlashing={{ ...data, dataLines: data.tapered.back }}
+                imgPreview={data.tapered.frontImagePreview}
+                dataFlashing={{ ...data, dataLines: data.tapered.front }}
                 jobId={jobId}
               />
               <PreviewFlashing
-                imgPreview={data.imgPreview}
-                dataFlashing={{ ...data, dataLines: data.tapered.front }}
+                imgPreview={data.tapered.backImagePreview}
+                dataFlashing={{ ...data, dataLines: data.tapered.back }}
                 jobId={jobId}
               />
             </>

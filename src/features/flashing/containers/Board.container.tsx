@@ -48,7 +48,7 @@ const BoardContainer = () => {
   const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const [loading, setLoading] = React.useState(false);
-  const refViewShot = React.createRef<ViewShot>();
+  const refViewShot = React.useRef<ViewShot>();
   const showKeyboard = useKeyboardVisibility({});
 
   const isSaveTapered = React.useMemo(() => {
