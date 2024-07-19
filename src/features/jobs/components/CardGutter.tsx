@@ -53,13 +53,15 @@ const CardGutterComponent: React.FC<Props> = ({
             <>
               <PreviewFlashing
                 imgPreview={data.tapered.frontImagePreview}
-                dataFlashing={{ ...data, dataLines: data.tapered.front }}
+                dataFlashing={data}
                 jobId={jobId}
+                isFront={true}
               />
               <PreviewFlashing
                 imgPreview={data.tapered.backImagePreview}
-                dataFlashing={{ ...data, dataLines: data.tapered.back }}
+                dataFlashing={data}
                 jobId={jobId}
+                isFront={false}
               />
             </>
           ) : (
