@@ -93,19 +93,36 @@ const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
     dataMapped[`material_${index + 1}`] = `0.55 Colorbond ${
       getMaterial(dataFlashing.colourMaterial).value
     }`;
-    // @ts-ignore
-    dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
-    // @ts-ignore
-    dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
+
     // @ts-ignore
     if (dataFlashing.tapered) {
       // @ts-ignore
+      dataMapped[`girth_${index + 1}`] = `${getGirth(
+        flashings[index],
+        'front',
+      )} mm`;
+      // @ts-ignore
+      dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
+      // @ts-ignore
       dataMapped[`flash_${index + 1}_image`] =
         dataFlashing.tapered.frontImagePreview;
+
+      // @ts-ignore
+      dataMapped[`girth_${index + 2}`] = `${getGirth(
+        flashings[index],
+        'back',
+      )} mm`;
+      // @ts-ignore
+      dataMapped[`folds_${index + 2}`] = getBends(flashings[index]);
+
       // @ts-ignore
       dataMapped[`flash_${index + 2}_image`] =
         dataFlashing.tapered.backImagePreview;
     } else {
+      // @ts-ignore
+      dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
+      // @ts-ignore
+      dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
     }
