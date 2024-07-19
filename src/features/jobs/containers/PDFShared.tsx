@@ -61,11 +61,7 @@ const PDFShared: React.FC<Props> = ({ namePdf, urlIdPdf, shareSmall }) => {
         }}
       />
       {!shareSmall && (
-        <Button
-          onPress={handleShare}
-          variant="outlineWhite"
-          borderRadius="unset"
-          mb="m">
+        <Button onPress={handleShare} borderRadius="unset" mb="m">
           Share
         </Button>
       )}
