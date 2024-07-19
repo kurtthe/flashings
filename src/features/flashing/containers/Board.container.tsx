@@ -268,28 +268,27 @@ const BoardContainer = () => {
             },
           }),
         );
-
-        dispatch(
-          jobActions.addEditFlashing({
-            idJob,
-            flashing: {
-              ...flashingDataDraft,
-              imgPreview: `data:image/png;base64,${dataB64Preview}`,
-            },
-          }),
-        );
-
-        dispatch(flashingActions.clear());
-
-        navigation.navigate(StackPrivateDefinitions.JOBS, {
-          screen: RoutesJobs.JOB_DETAILS,
-          params: {
-            jobId: idJob,
-            jobName: dataJob?.name,
-          },
-        });
-
         dispatch(flashingActions.changeSideTapered({ isFront: false }));
+
+        // dispatch(
+        //   jobActions.addEditFlashing({
+        //     idJob,
+        //     flashing: {
+        //       ...flashingDataDraft,
+        //       imgPreview: `data:image/png;base64,${dataB64Preview}`,
+        //     },
+        //   }),
+        // );
+        //
+        // dispatch(flashingActions.clear());
+        //
+        // navigation.navigate(StackPrivateDefinitions.JOBS, {
+        //   screen: RoutesJobs.JOB_DETAILS,
+        //   params: {
+        //     jobId: idJob,
+        //     jobName: dataJob?.name,
+        //   },
+        // });
       })
       .catch(error => {
         console.log('error: screenshot', error);

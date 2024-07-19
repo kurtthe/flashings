@@ -24,24 +24,17 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
     getDataFlashingDraft(state),
   );
   const isFront = useAppSelector(state => getSideTapered(state));
-
   const indexMeasurement = getIndexOfStepForName('measurements');
-
-  const isTapered = React.useMemo(() => {
-    return (
-      step === getIndexOfStepForName('tapered') ||
-      step === getIndexOfStepForName('save_tapered')
-    );
-  }, [step]);
 
   const getLabel = () => {
     if (step < indexMeasurement || !flashingDataDraft) return '';
 
-    if (isTapered && flashingDataDraft.tapered) {
+    if (flashingDataDraft.tapered) {
       return flashingDataDraft.tapered[isFront ? 'front' : 'back'][
         index
       ].distance.toString();
     }
+
     return flashingDataDraft?.dataLines[index].distance.toString();
   };
 
