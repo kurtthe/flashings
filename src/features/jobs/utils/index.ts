@@ -98,7 +98,18 @@ const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
     // @ts-ignore
     dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
     // @ts-ignore
-    dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
+    if (dataFlashing.tapered) {
+      // @ts-ignore
+      dataMapped[`flash_${index + 1}_image`] =
+        dataFlashing.tapered.frontImagePreview;
+      // @ts-ignore
+      dataMapped[`flash_${index + 2}_image`] =
+        dataFlashing.tapered.backImagePreview;
+    } else {
+      // @ts-ignore
+      dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
+    }
+    // @ts-ignore
     dataMapped = {
       ...dataMapped,
       ...mapLengthsInputs(dataFlashing.flashingLengths, index + 1),
