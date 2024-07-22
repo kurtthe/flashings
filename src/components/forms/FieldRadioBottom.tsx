@@ -1,7 +1,6 @@
 import React from 'react';
 import { FieldConfig, useField } from 'formik';
 import { RadioBottom } from '@components/RadioBottom';
-import { Text } from '@ui/components';
 
 export type Option = {
   value: string;
@@ -21,23 +20,14 @@ const FieldRadioBottom: React.FC<Props> = ({
   label,
   required,
 }) => {
-  //@ts-ignore
-  const [_, _, helpers] = useField(name);
+  const [field, meta, helpers] = useField(name);
 
   const handleOnChange = (newValues: string) => {
     helpers.setValue(newValues);
     console.log('===> handleOnChange', newValues);
   };
 
-  return (
-    <>
-      <Text>
-        {label}
-        {required && <Text color="error500">*</Text>}
-      </Text>
-      <RadioBottom onChange={handleOnChange} options={options} />
-    </>
-  );
+  return <RadioBottom onChange={handleOnChange} options={options} />;
 };
 
 export default FieldRadioBottom;

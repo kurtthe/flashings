@@ -26,6 +26,7 @@ const RadioBottom: React.FC<Props> = ({
       radioButtons={radioButtonsOptions}
       onPress={onChange}
       selectedId={optionsSelected}
+      layout="row"
     />
   );
 };
