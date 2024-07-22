@@ -8,7 +8,7 @@ import { useGetOrderValidations, useGetStores } from '@hooks/jobs';
 import { storesToOption } from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 import { optionsDelivery } from '@features/jobs/constants/order';
-import FieldRadioBottom from '@components/forms/FieldRadioBottom';
+import FieldCheckbox from '@components/forms/FieldCheckbox';
 
 const optionsDeliveryOrPickUp: OptionsType[] = [
   {
@@ -90,15 +90,10 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           }
         />
 
-        <FieldRadioBottom
+        <FieldCheckbox
           name={formKeys.createOrder.quote_only}
-          options={[
-            {
-              id: 'quote_only',
-              label: 'Quote Only',
-              value: 'quote_only',
-            },
-          ]}
+          title={forms.createOrder.labels[formKeys.createOrder.quote_only]}
+          options={[{ label: '1', checked: true }]}
         />
 
         {values[formKeys.createOrder.deliveryOrPickUp] ===
