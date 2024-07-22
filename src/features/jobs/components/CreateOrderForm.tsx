@@ -8,6 +8,7 @@ import { useGetOrderValidations, useGetStores } from '@hooks/jobs';
 import { storesToOption } from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 import { optionsDelivery } from '@features/jobs/constants/order';
+import FieldRadioBottom from '@components/forms/FieldRadioBottom';
 
 const optionsDeliveryOrPickUp: OptionsType[] = [
   {
@@ -87,6 +88,18 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           label={
             forms.createOrder.labels[formKeys.createOrder.deliveryOrPickUp]
           }
+        />
+
+        <FieldRadioBottom
+          name={formKeys.createOrder.quote_only}
+          label={forms.createOrder.labels[formKeys.createOrder.quote_only]}
+          options={[
+            {
+              id: 'quote_only',
+              label: 'Quote Only',
+              value: 'quote_only',
+            },
+          ]}
         />
 
         {values[formKeys.createOrder.deliveryOrPickUp] ===

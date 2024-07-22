@@ -11,7 +11,6 @@ import {
 } from '@ui/components';
 import ErrorMessage from './ErrorMessage';
 import { isAndroid } from '@shared/platform';
-import { palette } from '@theme';
 
 type Props = Omit<SelectInputProps, 'onChange'> &
   Pick<FieldConfig, 'name' | 'value'> & {
