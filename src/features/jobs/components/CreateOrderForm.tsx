@@ -92,13 +92,11 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
 
         <FieldRadioBottom
           name={formKeys.createOrder.quote_only}
-          label={forms.createOrder.labels[formKeys.createOrder.quote_only]}
           options={[
             {
               id: 'quote_only',
               label: 'Quote Only',
               value: 'quote_only',
-              selected: true,
             },
           ]}
         />

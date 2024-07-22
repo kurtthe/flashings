@@ -11,8 +11,8 @@ const FieldRadioBottom: React.FC<Props> = ({ name, options }) => {
   const [field, meta, helpers] = useField(name);
 
   const handleOnChange = (newValues: string) => {
+    console.log('==>newValues', newValues);
     helpers.setValue(newValues);
-    console.log('===> handleOnChange', newValues);
   };
 
   return <RadioBottom onChange={handleOnChange} options={options} />;

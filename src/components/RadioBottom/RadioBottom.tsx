@@ -36,7 +36,6 @@ const RadioBottom: React.FC<Props> = ({
   if (!optionsButton) return null;
 
   const handleChange = (newValue: string) => {
-    console.log('==>newValue', newValue);
     onChange(newValue);
   };
 
