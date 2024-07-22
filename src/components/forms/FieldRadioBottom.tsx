@@ -1,25 +1,13 @@
 import React from 'react';
 import { FieldConfig, useField } from 'formik';
 import { RadioBottom } from '@components/RadioBottom';
-
-export type Option = {
-  value: string;
-  id: string;
-  label: string;
-};
+import { Option } from '@components/RadioBottom/RadioBottom';
 
 type Props = Pick<FieldConfig, 'name' | 'value'> & {
   options: Option[];
-  label: string;
-  required?: boolean;
 };
 
-const FieldRadioBottom: React.FC<Props> = ({
-  name,
-  options,
-  label,
-  required,
-}) => {
+const FieldRadioBottom: React.FC<Props> = ({ name, options }) => {
   const [field, meta, helpers] = useField(name);
 
   const handleOnChange = (newValues: string) => {

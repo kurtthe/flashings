@@ -98,6 +98,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
               id: 'quote_only',
               label: 'Quote Only',
               value: 'quote_only',
+              selected: true,
             },
           ]}
         />

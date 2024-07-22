@@ -5,27 +5,45 @@ import { palette } from '@theme';
 type Props = {
   options: RadioButtonProps[];
   onChange: (newValues: string) => void;
-  optionsSelected?: string;
+  optionSelected?: string;
   color?: string;
+};
+
+export type Option = {
+  value: string;
+  id: string;
+  label: string;
+  selected?: boolean;
 };
 
 const RadioBottom: React.FC<Props> = ({
   options,
   onChange,
-  optionsSelected,
+  optionSelected,
   color = palette.primary500,
 }) => {
-  const radioButtonsOptions = React.useMemo(() => {
-    return options.map(dataOption => ({ ...dataOption, color }));
-  }, [options, color]);
+  const [optionsButton, setOptionsButton] = React.useState<Option[]>([]);
 
-  if (!radioButtonsOptions) return null;
+  React.useEffect(() => {
+    const dataOptions: Option[] = options.map(dataOption => ({
+      ...dataOption,
+      color,
+      selected: dataOption.selected === optionSelected,
+    })) as any as Option[];
+    setOptionsButton(dataOptions);
+  }, [options, color, optionSelected]);
+
+  if (!optionsButton) return null;
+
+  const handleChange = (newValue: string) => {
+    console.log('==>newValue', newValue);
+    onChange(newValue);
+  };
 
   return (
     <RadioGroup
-      radioButtons={radioButtonsOptions}
-      onPress={onChange}
-      selectedId={optionsSelected}
+      radioButtons={optionsButton}
+      onPress={handleChange}
       layout="row"
     />
   );
