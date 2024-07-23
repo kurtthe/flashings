@@ -83,7 +83,7 @@ const SvgBoard: React.FC<Props> = ({
         <View
           style={{
             position: 'absolute',
-            top: 20,
+            top: 25,
             left: '30%',
             paddingHorizontal: 20,
             backgroundColor: 'white',
