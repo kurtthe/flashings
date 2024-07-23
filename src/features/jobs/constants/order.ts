@@ -8,6 +8,7 @@ export const formKeysOrders = {
   comments: 'comments',
   address: 'address',
   burdens_data: 'burdens_data',
+  quote_only: 'quote_only',
 };
 
 export const optionsDelivery = ['delivery', 'pickup'];
@@ -20,6 +21,7 @@ export const createOrderProperties = {
     [formKeysOrders.time]: '',
     [formKeysOrders.comments]: '',
     [formKeysOrders.address]: '',
+    [formKeysOrders.quote_only]: '',
     [formKeysOrders.burdens_data]: [],
   },
   initialErrors: {
@@ -29,11 +31,13 @@ export const createOrderProperties = {
     [formKeysOrders.time]: '',
     [formKeysOrders.comments]: '',
     [formKeysOrders.address]: '',
+    [formKeysOrders.quote_only]: '',
   },
   labels: {
     [formKeysOrders.store]: 'Store',
     [formKeysOrders.date]: 'Date',
     [formKeysOrders.deliveryOrPickUp]: 'Delivery or Pickup',
+    [formKeysOrders.quote_only]: 'Quote only',
     [formKeysOrders.time]: 'Time',
     [formKeysOrders.comments]: 'Comments',
     [formKeysOrders.address]: 'Address',
@@ -43,6 +47,7 @@ export const createOrderProperties = {
     [formKeysOrders.store]: Yup.string().required('Store is required.'),
     [formKeysOrders.date]: Yup.string().required('Date is required.'),
     [formKeysOrders.comments]: Yup.string(),
+    [formKeysOrders.quote_only]: Yup.string(),
     [formKeysOrders.deliveryOrPickUp]: Yup.mixed()
       .oneOf(optionsDelivery)
       .required('Delivery or Pickup is required.'),

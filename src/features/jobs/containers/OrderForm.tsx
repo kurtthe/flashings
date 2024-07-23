@@ -21,7 +21,6 @@ import { JobStackProps } from '@features/jobs/navigation/Stack.types';
 import { buildDataMaterialOrder } from '@features/jobs/utils/orders';
 import { dataUserSelector } from '@store/auth/selectors';
 import { config } from '@env/config';
-import dayjs from 'dayjs';
 
 type Props = {
   jobName: string;
@@ -103,6 +102,7 @@ const OrderForm: React.FC<Props> = ({
       // @ts-ignore
       const [day, month, year] = values[formKeys.createOrder.date].split('/');
       const formattedDateString = `${year}-${month}-${day}`;
+      const isQuoteOnly = !!values[formKeys.createOrder.quote_only];
 
       const dataMaterial = buildDataMaterialOrder({
         name: jobName,
@@ -110,7 +110,9 @@ const OrderForm: React.FC<Props> = ({
         issued_on: formattedDateString,
         // @ts-ignore
         notes: values[formKeys.createOrder.comments],
-        description: `Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
+        description: `${
+          isQuoteOnly ? 'Quote Only-' : ''
+        } Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
         attachments: [
           {
             name: `${jobName}.pdf`,
@@ -133,6 +135,7 @@ const OrderForm: React.FC<Props> = ({
       });
 
       setMessageEmail(`${config.messageToShared} 
+              ${isQuoteOnly ? '-Quote Only-' : ''}
               Store: ${dataStoreSelected.name}
               Date: ${formattedDateString}
               Delivery or pickup: ${
@@ -142,9 +145,7 @@ const OrderForm: React.FC<Props> = ({
                 values[formKeys.createOrder.deliveryOrPickUp] === 'delivery'
                   ? `Address: ${values[formKeys.createOrder.address]}`
                   : `Time: ${values[formKeys.createOrder.time]}`
-              }
-              
-              `);
+              }`);
 
       doMaterialOrder({ material: dataMaterial });
     },

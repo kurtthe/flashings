@@ -14,7 +14,14 @@ import {
 import GridComponent from '@features/flashing/components/Grid/Grid';
 import TextSvgLineMM from '../TextSvgLineMM';
 import { useAppSelector } from '@hooks/useStore';
-import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
+import { Text } from '@ui/components';
+import { useSelector } from 'react-redux';
+import { View } from 'react-native';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -35,6 +42,16 @@ const SvgBoard: React.FC<Props> = ({
     getDataFlashingDraft(state),
   );
   const stepBoard = useAppSelector(state => getStep(state));
+
+  const isPreview = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('preview');
+  }, [stepBoard]);
+
+  const isFront = useSelector(getSideTapered);
+
+  const isScreenShot = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('screen_shot');
+  }, [stepBoard]);
 
   const colorPointer = '#8F94AE';
   const colorBorderPointer = '#000000';
@@ -61,57 +78,79 @@ const SvgBoard: React.FC<Props> = ({
   };
 
   return (
-    <Svg width={width} height={height}>
-      {!_removeGrid && <GridComponent />}
-      {renderTypeEndStartLines()}
-      {graphs.map(({ points, path: LineComponent, isLine }, index) => (
-        <React.Fragment key={`graphs-${index}-${Math.random()}`}>
-          {pathParallel && (
-            <PathComponent
-              d={serialize(pathParallel)}
-              stroke={'#0056FF'}
-              strokeDasharray={10}
-              strokeWidth={1}
-              fill="transparent"
-            />
-          )}
-          {LineComponent}
-          {pointsForLabel && (
-            <>
-              <TextSvgLineMM
-                coordinates={pointsForLabel[index]}
-                index={index}
+    <>
+      {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 25,
+            left: '30%',
+            paddingHorizontal: 20,
+            backgroundColor: 'white',
+            zIndex: 1,
+          }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 26,
+              fontWeight: 'bold',
+            }}>
+            {isFront ? 'Front' : 'Back'}
+          </Text>
+        </View>
+      )}
+      <Svg width={width} height={height}>
+        {!_removeGrid && <GridComponent />}
+        {renderTypeEndStartLines()}
+        {graphs.map(({ points, path: LineComponent, isLine }, index) => (
+          <React.Fragment key={`graphs-${index}-${Math.random()}`}>
+            {pathParallel && (
+              <PathComponent
+                d={serialize(pathParallel)}
+                stroke={'#0056FF'}
+                strokeDasharray={10}
+                strokeWidth={1}
+                fill="transparent"
               />
-            </>
-          )}
-
-          {_isDraw && (
-            <PointerComponent
-              cx={points[0][0]}
-              cy={points[0][1]}
-              r={SIZE_POINTER}
-              fill={colorPointer}
-              strokeWidth={borderWidth}
-              stroke={colorBorderPointer}
-            />
-          )}
-          {isLine && (
-            <>
-              {graphs.length - 1 === index && !_isDraw ? null : (
-                <PointerComponent
-                  cx={points[1][0]}
-                  cy={points[1][1]}
-                  r={_isDraw ? SIZE_POINTER : 0}
-                  fill={colorPointer}
-                  strokeWidth={borderWidth}
-                  stroke={colorBorderPointer}
+            )}
+            {LineComponent}
+            {pointsForLabel && (
+              <>
+                <TextSvgLineMM
+                  coordinates={pointsForLabel[index]}
+                  index={index}
                 />
-              )}
-            </>
-          )}
-        </React.Fragment>
-      ))}
-    </Svg>
+              </>
+            )}
+
+            {_isDraw && (
+              <PointerComponent
+                cx={points[0][0]}
+                cy={points[0][1]}
+                r={SIZE_POINTER}
+                fill={colorPointer}
+                strokeWidth={borderWidth}
+                stroke={colorBorderPointer}
+              />
+            )}
+            {isLine && (
+              <>
+                {graphs.length - 1 === index && !_isDraw ? null : (
+                  <PointerComponent
+                    cx={points[1][0]}
+                    cy={points[1][1]}
+                    r={_isDraw ? SIZE_POINTER : 0}
+                    fill={colorPointer}
+                    strokeWidth={borderWidth}
+                    stroke={colorBorderPointer}
+                  />
+                )}
+              </>
+            )}
+          </React.Fragment>
+        ))}
+      </Svg>
+    </>
   );
 };
 export default React.memo(SvgBoard);

@@ -147,9 +147,7 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
       ? indexLineSelectedFront
       : indexLineSelectedBack;
 
-    console.log('==>newIndexSelected', newIndexSelected);
     const newIndexPreview = _validateIndexLine(newIndexSelected + 1);
-    console.log('==>newIndexPreview', newIndexPreview);
 
     handleMoveLine(newIndexPreview);
     onChangeIndexSelected(newIndexPreview);

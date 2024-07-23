@@ -8,6 +8,7 @@ import { useGetOrderValidations, useGetStores } from '@hooks/jobs';
 import { storesToOption } from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 import { optionsDelivery } from '@features/jobs/constants/order';
+import FieldCheckbox from '@components/forms/FieldCheckbox';
 
 const optionsDeliveryOrPickUp: OptionsType[] = [
   {
@@ -56,7 +57,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
       formKeys.createOrder.burdens_data,
       dataFieldsOrderValidations.map(item => ({
         index: item.index,
-        value: item.default,
+        value: item.default ?? '',
       })),
     ).catch(err => console.log('error::', err));
   }, [dataFieldsOrderValidations]);
@@ -67,6 +68,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
     <>
       <Box>
         <FieldSelect
+          key={`field-select-store${Math.random()}`}
           isRequired
           name={formKeys.createOrder.store}
           options={optionsStore}
@@ -81,6 +83,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
         />
 
         <FieldSelect
+          key={`field-select-delivery${Math.random()}`}
           isRequired
           name={formKeys.createOrder.deliveryOrPickUp}
           options={optionsDeliveryOrPickUp}
@@ -89,9 +92,16 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           }
         />
 
+        <FieldCheckbox
+          name={formKeys.createOrder.quote_only}
+          title={forms.createOrder.labels[formKeys.createOrder.quote_only]}
+          options={[{ label: '1', checked: true }]}
+        />
+
         {values[formKeys.createOrder.deliveryOrPickUp] ===
         optionsDelivery[1] ? (
           <FieldInputDateTime
+            key={`field-input-time${Math.random()}`}
             isRequired
             typeFormat="time"
             name={formKeys.createOrder.time}
@@ -100,6 +110,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           />
         ) : (
           <FieldInput
+            key={`field-input-address${Math.random()}`}
             isRequired
             name={formKeys.createOrder.address}
             label={forms.createOrder.labels[formKeys.createOrder.address]}
@@ -115,7 +126,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
                 {/*@ts-ignore*/}
                 {values[formKeys.createOrder.burdens_data].map((_, index) => (
                   <FieldInput
-                    isRequired
+                    key={`input-burdens-data${index}`}
                     name={`${formKeys.createOrder.burdens_data}.${index}.value`}
                     label={dataFieldsOrderValidations[index].prompt}
                     placeholder={dataFieldsOrderValidations[index].mask}

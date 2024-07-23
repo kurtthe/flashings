@@ -30,11 +30,17 @@ import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import { templateSelected } from '@store/templates/selectors';
-import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import { actions as templateActions } from '@store/templates/actions';
 import { actions as flashingActions } from '@store/flashings/actions';
 import { MenuEditorComponent } from '@features/flashing/components';
+import { Text } from '@ui/components';
+import { useSelector } from 'react-redux';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -53,6 +59,10 @@ const BoardContainer = () => {
 
   const isSaveTapered = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('save_tapered');
+  }, [stepBoard]);
+
+  const isScreenShot = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('screen_shot');
   }, [stepBoard]);
 
   React.useEffect(() => {
@@ -202,7 +212,10 @@ const BoardContainer = () => {
   };
 
   const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
-    if (stepBoard === getIndexOfStepForName('tapered')) {
+    if (
+      stepBoard === getIndexOfStepForName('tapered') ||
+      stepBoard === getIndexOfStepForName('save_tapered')
+    ) {
       const sideTapered =
         newSettings[TYPE_ACTIONS_STEP.SIDE_TAPERED].toLowerCase();
       dispatch(
@@ -352,12 +365,13 @@ const BoardContainer = () => {
 
   return (
     <>
-      {stepBoard !== getIndexOfStepForName('screen_shot') && (
+      {!isScreenShot && (
         <GuideStepperBoardComponent
           onFinish={finishSteps}
           onChangeOption={changeSettingsBoard}
         />
       )}
+
       <ViewShot
         ref={refViewShot}
         onCapture={() => null}
@@ -373,6 +387,7 @@ const BoardContainer = () => {
           updateAngle={handleUpdateAngle}
         />
       </ViewShot>
+
       {isAndroid &&
       showKeyboard &&
       stepBoard === getIndexOfStepForName('measurements') ? null : (

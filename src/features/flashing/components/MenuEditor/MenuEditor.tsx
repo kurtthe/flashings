@@ -31,7 +31,7 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
     getDataFlashingDraft(state),
   );
   const stepBoard = useAppSelector(state => getStep(state));
-  // states of buttons
+
   const _disabledBack = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('draw');
   }, [stepBoard]);

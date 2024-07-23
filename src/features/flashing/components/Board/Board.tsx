@@ -24,6 +24,7 @@ import {
   Icon,
   KeyboardAvoidingBox,
   ScrollBox,
+  Text,
 } from '@ui/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getIndexOfStepForName } from '@features/flashing/utils';
@@ -270,6 +271,7 @@ const Board: React.FC<Props> = ({
           </TouchableOpacity>
         </KeyboardAvoidingBox>
       </ScrollBox>
+
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton
           onTapered={handleOnTapered}
@@ -278,6 +280,7 @@ const Board: React.FC<Props> = ({
           onEditEndType={handleOnEditEndType}
         />
       )}
+
       {stepBoard === getIndexOfStepForName('measurements') && (
         <Box
           height={heightMeasurement}

@@ -8,7 +8,11 @@ import {
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
 import { useAppSelector } from '@hooks/useStore';
-import { getSideTapered, getStep } from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import { getIndexOfStepForName } from '@features/flashing/utils';
 import { useSelector } from 'react-redux';
 
@@ -18,10 +22,7 @@ type Props = {
 };
 
 const heightScreen = Dimensions.get('screen').height;
-const GuideStepperBoardComponent: React.FC<Props> = ({
-  onFinish,
-  onChangeOption,
-}) => {
+const GuideStepperBoardComponent: React.FC<Props> = ({ onChangeOption }) => {
   const stepBoard = useAppSelector(state => getStep(state));
   const isFront = useSelector(getSideTapered);
 
@@ -81,7 +82,8 @@ const GuideStepperBoardComponent: React.FC<Props> = ({
       {dataStep.action && (
         <Box
           top={
-            stepBoard === getIndexOfStepForName('tapered')
+            stepBoard === getIndexOfStepForName('tapered') ||
+            stepBoard === getIndexOfStepForName('save_tapered')
               ? 0
               : heightScreen - 370
           }>
