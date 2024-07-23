@@ -62,6 +62,10 @@ const BoardContainer = () => {
     return stepBoard === getIndexOfStepForName('save_tapered');
   }, [stepBoard]);
 
+  const isPreview = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('preview');
+  }, [stepBoard]);
+
   const isScreenShot = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('screen_shot');
   }, [stepBoard]);
@@ -373,7 +377,7 @@ const BoardContainer = () => {
         />
       )}
 
-      {isScreenShot && flashingDataDraft?.tapered && (
+      {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
         <Text
           style={{
             textAlign: 'center',
