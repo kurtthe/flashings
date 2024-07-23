@@ -202,7 +202,10 @@ const BoardContainer = () => {
   };
 
   const changeSettingsBoard = (newSettings: VALUE_ACTIONS) => {
-    if (stepBoard === getIndexOfStepForName('tapered')) {
+    if (
+      stepBoard === getIndexOfStepForName('tapered') ||
+      stepBoard === getIndexOfStepForName('save_tapered')
+    ) {
       const sideTapered =
         newSettings[TYPE_ACTIONS_STEP.SIDE_TAPERED].toLowerCase();
       dispatch(

@@ -78,7 +78,8 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onChangeOption }) => {
       {dataStep.action && (
         <Box
           top={
-            stepBoard === getIndexOfStepForName('tapered')
+            stepBoard === getIndexOfStepForName('tapered') ||
+            stepBoard === getIndexOfStepForName('save_tapered')
               ? 0
               : heightScreen - 370
           }>

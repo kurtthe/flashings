@@ -61,7 +61,7 @@ export const guideSteps: GUIDE_STEP[] = [
   },
   {
     step: getIndexOfStepForName('save_tapered'),
-    title: '',
+    title: 'Show Tapered',
     description: '',
     action: {
       title: '',
