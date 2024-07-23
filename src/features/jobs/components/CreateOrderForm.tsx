@@ -57,7 +57,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
       formKeys.createOrder.burdens_data,
       dataFieldsOrderValidations.map(item => ({
         index: item.index,
-        value: item.default,
+        value: item.default ?? '',
       })),
     ).catch(err => console.log('error::', err));
   }, [dataFieldsOrderValidations]);
