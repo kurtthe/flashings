@@ -126,8 +126,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
                 {/*@ts-ignore*/}
                 {values[formKeys.createOrder.burdens_data].map((_, index) => (
                   <FieldInput
-                    key={`input-burdens-data-${index}`}
-                    isRequired
+                    key={`input-burdens-data${index}`}
                     name={`${formKeys.createOrder.burdens_data}.${index}.value`}
                     label={dataFieldsOrderValidations[index].prompt}
                     placeholder={dataFieldsOrderValidations[index].mask}
