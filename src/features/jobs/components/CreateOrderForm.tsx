@@ -93,7 +93,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
         <FieldCheckbox
           name={formKeys.createOrder.quote_only}
           title={forms.createOrder.labels[formKeys.createOrder.quote_only]}
-          options={[{ label: '1', checked: true }]}
+          options={[{ label: '', checked: true }]}
         />
 
         {values[formKeys.createOrder.deliveryOrPickUp] ===

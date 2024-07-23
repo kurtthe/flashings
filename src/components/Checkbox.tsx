@@ -1,6 +1,7 @@
 import React from 'react';
 import { FlatList, Text, View, TextStyle, ViewStyle } from 'react-native';
 import Checkbox from 'react-native-check-box';
+import { palette } from '@theme';
 
 export type OptionCheckbox = {
   label: string;
@@ -26,8 +27,8 @@ const CheckboxComponent: React.FC<PropsCheckbox> = ({
   isRequired,
   title,
   onChange,
-  colorChecked = '#1F3552',
-  colorUnchecked = '#1F3552',
+  colorChecked = palette.primary900,
+  colorUnchecked = palette.primary900,
 }) => {
   const [optionSelected, setOptionSelected] = React.useState<string[]>([]);
 
@@ -74,8 +75,8 @@ const CheckboxComponent: React.FC<PropsCheckbox> = ({
   );
 
   return (
-    <View>
-      <Text style={{}}>
+    <View style={{ marginVertical: 10, paddingHorizontal: 5 }}>
+      <Text style={{ marginVertical: 2, fontSize: 14 }}>
         {title}
         {isRequired && <Text style={{ color: 'red' }}>*</Text>}
       </Text>
