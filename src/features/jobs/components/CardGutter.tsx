@@ -57,6 +57,7 @@ const CardGutterComponent: React.FC<Props> = ({
                 jobId={jobId}
                 isFront={true}
               />
+
               <PreviewFlashing
                 imgPreview={data.tapered.backImagePreview}
                 dataFlashing={data}

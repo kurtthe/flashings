@@ -51,7 +51,6 @@ const BoardContainer = () => {
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
-  const isFront = useSelector(getSideTapered);
   const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const [loading, setLoading] = React.useState(false);
@@ -60,10 +59,6 @@ const BoardContainer = () => {
 
   const isSaveTapered = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('save_tapered');
-  }, [stepBoard]);
-
-  const isPreview = React.useMemo(() => {
-    return stepBoard === getIndexOfStepForName('preview');
   }, [stepBoard]);
 
   const isScreenShot = React.useMemo(() => {
@@ -375,17 +370,6 @@ const BoardContainer = () => {
           onFinish={finishSteps}
           onChangeOption={changeSettingsBoard}
         />
-      )}
-
-      {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
-        <Text
-          style={{
-            textAlign: 'center',
-            fontSize: 24,
-            fontWeight: 'bold',
-          }}>
-          {isFront ? 'Front' : 'Back'}
-        </Text>
       )}
 
       <ViewShot

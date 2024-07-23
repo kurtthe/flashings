@@ -24,6 +24,7 @@ import {
   Icon,
   KeyboardAvoidingBox,
   ScrollBox,
+  Text,
 } from '@ui/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getIndexOfStepForName } from '@features/flashing/utils';
