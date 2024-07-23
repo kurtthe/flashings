@@ -111,7 +111,7 @@ const OrderForm: React.FC<Props> = ({
         // @ts-ignore
         notes: values[formKeys.createOrder.comments],
         description: `${
-          isQuoteOnly ? 'Quote Only' : ''
+          isQuoteOnly ? 'Quote Only-' : ''
         } Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
         attachments: [
           {
@@ -135,7 +135,7 @@ const OrderForm: React.FC<Props> = ({
       });
 
       setMessageEmail(`${config.messageToShared} 
-              ${isQuoteOnly ? 'Quote Only' : ''}
+              ${isQuoteOnly ? '-Quote Only-' : ''}
               Store: ${dataStoreSelected.name}
               Date: ${formattedDateString}
               Delivery or pickup: ${
