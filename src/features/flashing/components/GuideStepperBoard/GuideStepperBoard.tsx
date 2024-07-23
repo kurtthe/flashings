@@ -8,7 +8,11 @@ import {
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
 import { useAppSelector } from '@hooks/useStore';
-import { getSideTapered, getStep } from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import { getIndexOfStepForName } from '@features/flashing/utils';
 import { useSelector } from 'react-redux';
 

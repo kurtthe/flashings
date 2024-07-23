@@ -270,6 +270,7 @@ const Board: React.FC<Props> = ({
           </TouchableOpacity>
         </KeyboardAvoidingBox>
       </ScrollBox>
+
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton
           onTapered={handleOnTapered}
@@ -278,6 +279,7 @@ const Board: React.FC<Props> = ({
           onEditEndType={handleOnEditEndType}
         />
       )}
+
       {stepBoard === getIndexOfStepForName('measurements') && (
         <Box
           height={heightMeasurement}

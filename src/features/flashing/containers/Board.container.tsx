@@ -30,11 +30,17 @@ import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import { templateSelected } from '@store/templates/selectors';
-import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import { actions as templateActions } from '@store/templates/actions';
 import { actions as flashingActions } from '@store/flashings/actions';
 import { MenuEditorComponent } from '@features/flashing/components';
+import { Text } from '@ui/components';
+import { useSelector } from 'react-redux';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -45,6 +51,7 @@ const BoardContainer = () => {
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
+  const isFront = useSelector(getSideTapered);
   const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const [loading, setLoading] = React.useState(false);
@@ -366,6 +373,17 @@ const BoardContainer = () => {
         />
       )}
 
+      {isScreenShot && flashingDataDraft?.tapered && (
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: 24,
+            fontWeight: 'bold',
+          }}>
+          {isFront ? 'Front' : 'Back'}
+        </Text>
+      )}
+
       <ViewShot
         ref={refViewShot}
         onCapture={() => null}
@@ -381,6 +399,7 @@ const BoardContainer = () => {
           updateAngle={handleUpdateAngle}
         />
       </ViewShot>
+
       {isAndroid &&
       showKeyboard &&
       stepBoard === getIndexOfStepForName('measurements') ? null : (
