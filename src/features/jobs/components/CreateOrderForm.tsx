@@ -68,6 +68,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
     <>
       <Box>
         <FieldSelect
+          key={`field-select-store${Math.random()}`}
           isRequired
           name={formKeys.createOrder.store}
           options={optionsStore}
@@ -75,6 +76,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
         />
 
         <FieldInputDateTime
+          key={`field-input-date${Math.random()}`}
           isRequired
           name={formKeys.createOrder.date}
           typeFormat="date"
@@ -82,6 +84,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
         />
 
         <FieldSelect
+          key={`field-select-delivery${Math.random()}`}
           isRequired
           name={formKeys.createOrder.deliveryOrPickUp}
           options={optionsDeliveryOrPickUp}
@@ -99,6 +102,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
         {values[formKeys.createOrder.deliveryOrPickUp] ===
         optionsDelivery[1] ? (
           <FieldInputDateTime
+            key={`field-input-time${Math.random()}`}
             isRequired
             typeFormat="time"
             name={formKeys.createOrder.time}
@@ -107,6 +111,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           />
         ) : (
           <FieldInput
+            key={`field-input-address${Math.random()}`}
             isRequired
             name={formKeys.createOrder.address}
             label={forms.createOrder.labels[formKeys.createOrder.address]}
@@ -122,6 +127,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
                 {/*@ts-ignore*/}
                 {values[formKeys.createOrder.burdens_data].map((_, index) => (
                   <FieldInput
+                    key={`input-burdens-data-${index}`}
                     isRequired
                     name={`${formKeys.createOrder.burdens_data}.${index}.value`}
                     label={dataFieldsOrderValidations[index].prompt}
