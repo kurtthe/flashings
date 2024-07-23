@@ -102,7 +102,6 @@ const OrderForm: React.FC<Props> = ({
       // @ts-ignore
       const [day, month, year] = values[formKeys.createOrder.date].split('/');
       const formattedDateString = `${year}-${month}-${day}`;
-
       const isQuoteOnly = !!values[formKeys.createOrder.quote_only];
 
       const dataMaterial = buildDataMaterialOrder({
