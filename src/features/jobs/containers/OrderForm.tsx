@@ -104,13 +104,17 @@ const OrderForm: React.FC<Props> = ({
       const [day, month, year] = values[formKeys.createOrder.date].split('/');
       const formattedDateString = `${year}-${month}-${day}`;
 
+      const isQuoteOnly = !!values[formKeys.createOrder.quote_only];
+
       const dataMaterial = buildDataMaterialOrder({
         name: jobName,
         supplier: dataSupplier.id,
         issued_on: formattedDateString,
         // @ts-ignore
         notes: values[formKeys.createOrder.comments],
-        description: `Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
+        description: `${
+          isQuoteOnly ? 'Quote Only' : ''
+        } Job Name: ${jobName} - Job Number: ${jobId} - Job Address: ${jobAddress}`,
         attachments: [
           {
             name: `${jobName}.pdf`,
@@ -142,9 +146,7 @@ const OrderForm: React.FC<Props> = ({
                 values[formKeys.createOrder.deliveryOrPickUp] === 'delivery'
                   ? `Address: ${values[formKeys.createOrder.address]}`
                   : `Time: ${values[formKeys.createOrder.time]}`
-              }
-              
-              `);
+              }`);
 
       doMaterialOrder({ material: dataMaterial });
     },
