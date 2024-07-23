@@ -62,7 +62,6 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
     ).catch(err => console.log('error::', err));
   }, [dataFieldsOrderValidations]);
 
-  console.log('==>values', JSON.stringify(values));
   if (!optionsStore.length) return null;
 
   return (
