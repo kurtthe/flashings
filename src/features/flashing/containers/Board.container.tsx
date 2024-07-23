@@ -55,6 +55,10 @@ const BoardContainer = () => {
     return stepBoard === getIndexOfStepForName('save_tapered');
   }, [stepBoard]);
 
+  const isScreenShot = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('screen_shot');
+  }, [stepBoard]);
+
   React.useEffect(() => {
     if (!templateChose) return;
     setLoading(true);
@@ -351,16 +355,26 @@ const BoardContainer = () => {
     })();
   };
 
-  if (loading || !dataJob || !flashingDataDraft) return <Loading />;
+  const _renderGuideStepperBoardComponent = React.useMemo(() => {
+    if (!isScreenShot) return null;
 
-  return (
-    <>
-      {stepBoard !== getIndexOfStepForName('screen_shot') && (
+    if (isSaveTapered) {
+      return (
         <GuideStepperBoardComponent
           onFinish={finishSteps}
           onChangeOption={changeSettingsBoard}
         />
-      )}
+      );
+    }
+    return null;
+  }, [isScreenShot, isSaveTapered, finishSteps, changeSettingsBoard]);
+
+  if (loading || !dataJob || !flashingDataDraft) return <Loading />;
+
+  return (
+    <>
+      {_renderGuideStepperBoardComponent}
+
       <ViewShot
         ref={refViewShot}
         onCapture={() => null}
