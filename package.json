@@ -31,6 +31,7 @@
     "d3-shape": "^3.2.0",
     "dayjs": "^1.11.10",
     "dayjs-plugin-utc": "^0.1.2",
+    "deprecated-react-native-prop-types": "^5.0.0",
     "formik": "^2.4.2",
     "libphonenumber-js": "^1.10.39",
     "lodash": "^4.17.21",
