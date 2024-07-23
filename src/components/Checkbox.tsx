@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, Text, View, TextStyle, ViewStyle } from 'react-native';
 import Checkbox from 'react-native-check-box';
 import { palette } from '@theme';
+import { isNumber } from '@components/forms/utils';
 
 export type OptionCheckbox = {
   label: string;
@@ -60,7 +61,7 @@ const CheckboxComponent: React.FC<PropsCheckbox> = ({
     return (
       <Checkbox
         onClick={() => changeSelected(item.label)}
-        rightText={item.label}
+        rightText={isNumber(item.label) ? '' : item.label}
         isChecked={optionSelected.includes(item.label)}
         disabled={item.disabled}
         checkBoxColor={colorChecked}
