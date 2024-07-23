@@ -18,10 +18,7 @@ type Props = {
 };
 
 const heightScreen = Dimensions.get('screen').height;
-const GuideStepperBoardComponent: React.FC<Props> = ({
-  onFinish,
-  onChangeOption,
-}) => {
+const GuideStepperBoardComponent: React.FC<Props> = ({ onChangeOption }) => {
   const stepBoard = useAppSelector(state => getStep(state));
   const isFront = useSelector(getSideTapered);
 

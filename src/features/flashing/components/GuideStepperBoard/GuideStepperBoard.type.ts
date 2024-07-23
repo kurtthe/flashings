@@ -59,4 +59,15 @@ export const guideSteps: GUIDE_STEP[] = [
       defaultOption: 'Front',
     },
   },
+  {
+    step: getIndexOfStepForName('save_tapered'),
+    title: '',
+    description: '',
+    action: {
+      title: '',
+      options: ['Front', 'Back'],
+      key: TYPE_ACTIONS_STEP.SIDE_TAPERED,
+      defaultOption: 'Front',
+    },
+  },
 ];
