@@ -137,6 +137,7 @@ const OrderForm: React.FC<Props> = ({
       });
 
       setMessageEmail(`${config.messageToShared} 
+              ${isQuoteOnly ? 'Quote Only' : ''}
               Store: ${dataStoreSelected.name}
               Date: ${formattedDateString}
               Delivery or pickup: ${
