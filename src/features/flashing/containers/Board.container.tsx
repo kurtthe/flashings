@@ -355,25 +355,16 @@ const BoardContainer = () => {
     })();
   };
 
-  const _renderGuideStepperBoardComponent = React.useMemo(() => {
-    if (!isScreenShot) return null;
-
-    if (isSaveTapered) {
-      return (
-        <GuideStepperBoardComponent
-          onFinish={finishSteps}
-          onChangeOption={changeSettingsBoard}
-        />
-      );
-    }
-    return null;
-  }, [isScreenShot, isSaveTapered, finishSteps, changeSettingsBoard]);
-
   if (loading || !dataJob || !flashingDataDraft) return <Loading />;
 
   return (
     <>
-      {_renderGuideStepperBoardComponent}
+      {!isScreenShot && (
+        <GuideStepperBoardComponent
+          onFinish={finishSteps}
+          onChangeOption={changeSettingsBoard}
+        />
+      )}
 
       <ViewShot
         ref={refViewShot}
