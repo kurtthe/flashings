@@ -77,7 +77,7 @@ const CheckboxComponent: React.FC<PropsCheckbox> = ({
 
   return (
     <View style={{ marginVertical: 10, paddingHorizontal: 5 }}>
-      <Text style={{ marginVertical: 2, fontSize: 14 }}>
+      <Text style={{ marginVertical: 2, fontSize: 15 }}>
         {title}
         {isRequired && <Text style={{ color: 'red' }}>*</Text>}
       </Text>
