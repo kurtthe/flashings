@@ -21,7 +21,6 @@ import { JobStackProps } from '@features/jobs/navigation/Stack.types';
 import { buildDataMaterialOrder } from '@features/jobs/utils/orders';
 import { dataUserSelector } from '@store/auth/selectors';
 import { config } from '@env/config';
-import dayjs from 'dayjs';
 
 type Props = {
   jobName: string;
