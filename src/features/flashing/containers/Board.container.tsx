@@ -257,6 +257,7 @@ const BoardContainer = () => {
       !flashingDataDraft.tapered
     )
       return alert.show('Error', 'Snapshot failed');
+
     dispatch(flashingActions.changeSideTapered({ isFront: true }));
     let dataFlashingTapered = flashingDataDraft;
 
@@ -282,7 +283,6 @@ const BoardContainer = () => {
         refViewShot.current
           .capture()
           .then(async uriPreviewBack => {
-            console.log('=>uriPreviewBack', uriPreviewBack);
             const dataB64PreviewBack = await imageToBase64(uriPreviewBack);
             dataFlashingTapered = {
               ...dataFlashingTapered,
