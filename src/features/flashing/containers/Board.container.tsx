@@ -276,6 +276,8 @@ const BoardContainer = () => {
         };
 
         dispatch(flashingActions.changeSideTapered({ isFront: false }));
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
         //@ts-ignore
         refViewShot.current
           .capture()
