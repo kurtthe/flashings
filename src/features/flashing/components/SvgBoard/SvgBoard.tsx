@@ -22,6 +22,7 @@ import {
 import { Text } from '@ui/components';
 import { useSelector } from 'react-redux';
 import { View } from 'react-native';
+import { palette } from '@theme';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -35,7 +36,6 @@ const SvgBoard: React.FC<Props> = ({
   pathParallel,
   width = widthScreen,
   height = heightScreen,
-
   pointsForLabel,
 }) => {
   const flashingDataDraft = useAppSelector(state =>
@@ -52,13 +52,7 @@ const SvgBoard: React.FC<Props> = ({
     return stepBoard === getIndexOfStepForName('preview');
   }, [stepBoard]);
 
-  const colorPointer = '#8F94AE';
-  const colorBorderPointer = '#000000';
   const borderWidth = 1;
-
-  const _removeGrid = React.useMemo(() => {
-    return stepBoard === getIndexOfStepForName('screen_shot');
-  }, [stepBoard]);
 
   const _isDraw = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('draw');
@@ -79,7 +73,7 @@ const SvgBoard: React.FC<Props> = ({
   return (
     <>
       <Svg width={width} height={height}>
-        {!_removeGrid && <GridComponent />}
+        {!isScreenShot && <GridComponent />}
         {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
           <View
             style={{
@@ -128,9 +122,9 @@ const SvgBoard: React.FC<Props> = ({
                 cx={points[0][0]}
                 cy={points[0][1]}
                 r={SIZE_POINTER}
-                fill={colorPointer}
+                fill={palette.pointer}
                 strokeWidth={borderWidth}
-                stroke={colorBorderPointer}
+                stroke={palette.borderPointer}
               />
             )}
             {isLine && (
@@ -140,9 +134,9 @@ const SvgBoard: React.FC<Props> = ({
                     cx={points[1][0]}
                     cy={points[1][1]}
                     r={_isDraw ? SIZE_POINTER : 0}
-                    fill={colorPointer}
+                    fill={palette.pointer}
                     strokeWidth={borderWidth}
-                    stroke={colorBorderPointer}
+                    stroke={palette.borderPointer}
                   />
                 )}
               </>

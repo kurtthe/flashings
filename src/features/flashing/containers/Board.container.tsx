@@ -274,9 +274,8 @@ const BoardContainer = () => {
             frontImagePreview: `data:image/png;base64,${dataB64PreviewFront}`,
           },
         };
-
         dispatch(flashingActions.changeSideTapered({ isFront: false }));
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 500));
 
         //@ts-ignore
         refViewShot.current
