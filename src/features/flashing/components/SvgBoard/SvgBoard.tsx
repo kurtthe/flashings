@@ -42,15 +42,14 @@ const SvgBoard: React.FC<Props> = ({
     getDataFlashingDraft(state),
   );
   const stepBoard = useAppSelector(state => getStep(state));
-
-  const isPreview = React.useMemo(() => {
-    return stepBoard === getIndexOfStepForName('preview');
-  }, [stepBoard]);
-
   const isFront = useSelector(getSideTapered);
 
   const isScreenShot = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('screen_shot');
+  }, [stepBoard]);
+
+  const isPreview = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('preview');
   }, [stepBoard]);
 
   const colorPointer = '#8F94AE';
@@ -79,28 +78,29 @@ const SvgBoard: React.FC<Props> = ({
 
   return (
     <>
-      {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
-        <View
-          style={{
-            position: 'absolute',
-            top: 25,
-            left: '30%',
-            paddingHorizontal: 20,
-            backgroundColor: 'white',
-            zIndex: 1,
-          }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 26,
-              fontWeight: 'bold',
-            }}>
-            {isFront ? 'Front' : 'Back'}
-          </Text>
-        </View>
-      )}
       <Svg width={width} height={height}>
         {!_removeGrid && <GridComponent />}
+        {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 15,
+              width: '70%',
+              left: '15%',
+              padding: 15,
+              backgroundColor: 'white',
+              zIndex: 1,
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 26,
+                fontWeight: 'bold',
+              }}>
+              {isFront ? 'Front' : 'Back'}
+            </Text>
+          </View>
+        )}
         {renderTypeEndStartLines()}
         {graphs.map(({ points, path: LineComponent, isLine }, index) => (
           <React.Fragment key={`graphs-${index}-${Math.random()}`}>
