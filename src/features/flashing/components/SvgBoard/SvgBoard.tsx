@@ -22,6 +22,7 @@ import {
 import { Text } from '@ui/components';
 import { useSelector } from 'react-redux';
 import { View } from 'react-native';
+import { palette } from '@theme';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -35,31 +36,23 @@ const SvgBoard: React.FC<Props> = ({
   pathParallel,
   width = widthScreen,
   height = heightScreen,
-
   pointsForLabel,
 }) => {
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
   const stepBoard = useAppSelector(state => getStep(state));
-
-  const isPreview = React.useMemo(() => {
-    return stepBoard === getIndexOfStepForName('preview');
-  }, [stepBoard]);
-
   const isFront = useSelector(getSideTapered);
 
   const isScreenShot = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('screen_shot');
   }, [stepBoard]);
 
-  const colorPointer = '#8F94AE';
-  const colorBorderPointer = '#000000';
-  const borderWidth = 1;
-
-  const _removeGrid = React.useMemo(() => {
-    return stepBoard === getIndexOfStepForName('screen_shot');
+  const isPreview = React.useMemo(() => {
+    return stepBoard === getIndexOfStepForName('preview');
   }, [stepBoard]);
+
+  const borderWidth = 1;
 
   const _isDraw = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('draw');
@@ -79,28 +72,29 @@ const SvgBoard: React.FC<Props> = ({
 
   return (
     <>
-      {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
-        <View
-          style={{
-            position: 'absolute',
-            top: 25,
-            left: '30%',
-            paddingHorizontal: 20,
-            backgroundColor: 'white',
-            zIndex: 1,
-          }}>
-          <Text
-            style={{
-              textAlign: 'center',
-              fontSize: 26,
-              fontWeight: 'bold',
-            }}>
-            {isFront ? 'Front' : 'Back'}
-          </Text>
-        </View>
-      )}
       <Svg width={width} height={height}>
-        {!_removeGrid && <GridComponent />}
+        {!isScreenShot && <GridComponent />}
+        {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 15,
+              width: '70%',
+              left: '15%',
+              padding: 15,
+              backgroundColor: 'white',
+              zIndex: 1,
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 26,
+                fontWeight: 'bold',
+              }}>
+              {isFront ? 'Front' : 'Back'}
+            </Text>
+          </View>
+        )}
         {renderTypeEndStartLines()}
         {graphs.map(({ points, path: LineComponent, isLine }, index) => (
           <React.Fragment key={`graphs-${index}-${Math.random()}`}>
@@ -128,9 +122,9 @@ const SvgBoard: React.FC<Props> = ({
                 cx={points[0][0]}
                 cy={points[0][1]}
                 r={SIZE_POINTER}
-                fill={colorPointer}
+                fill={palette.pointer}
                 strokeWidth={borderWidth}
-                stroke={colorBorderPointer}
+                stroke={palette.borderPointer}
               />
             )}
             {isLine && (
@@ -140,9 +134,9 @@ const SvgBoard: React.FC<Props> = ({
                     cx={points[1][0]}
                     cy={points[1][1]}
                     r={_isDraw ? SIZE_POINTER : 0}
-                    fill={colorPointer}
+                    fill={palette.pointer}
                     strokeWidth={borderWidth}
-                    stroke={colorBorderPointer}
+                    stroke={palette.borderPointer}
                   />
                 )}
               </>
