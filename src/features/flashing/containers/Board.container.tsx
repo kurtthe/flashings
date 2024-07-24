@@ -264,6 +264,7 @@ const BoardContainer = () => {
     refViewShot.current
       .capture()
       .then(async uriPreviewFront => {
+        console.log('=>uriPreviewFront', uriPreviewFront);
         const dataB64PreviewFront = await imageToBase64(uriPreviewFront);
 
         dataFlashingTapered = {
@@ -281,6 +282,7 @@ const BoardContainer = () => {
         refViewShot.current
           .capture()
           .then(async uriPreviewBack => {
+            console.log('=>uriPreviewBack', uriPreviewBack);
             const dataB64PreviewBack = await imageToBase64(uriPreviewBack);
             dataFlashingTapered = {
               ...dataFlashingTapered,
