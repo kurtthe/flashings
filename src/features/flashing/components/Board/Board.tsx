@@ -42,6 +42,7 @@ import {
 } from '@store/flashings/selectors';
 import { actions as flashingActions } from '@store/flashings/actions';
 import { useSelector } from 'react-redux';
+import CompleteMeasurements from '@features/flashing/components/CompleteMeasurements';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -312,35 +313,16 @@ const Board: React.FC<Props> = ({
       )}
 
       {stepBoard === getIndexOfStepForName('end_type') && (
-        <Box height={380} position="absolute" width="100%" bottom={0}>
-          <Box
-            as={BaseTouchable}
-            onPress={() => {
-              dispatch(
-                flashingActions.changeStep({
-                  step: getIndexOfStepForName('finish'),
-                }),
-              );
-            }}
-            position="absolute"
-            bottom="100%"
-            right="0%"
-            backgroundColor="white"
-            p="xs"
-            style={{
-              zIndex: 1,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 0.5,
-              shadowRadius: 5,
-              shadowColor: 'lightGray',
-              borderTopLeftRadius: 5,
-              borderBottomLeftRadius: 5,
-            }}>
-            <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
-          </Box>
-
+        <CompleteMeasurements
+          onPress={() => {
+            dispatch(
+              flashingActions.changeStep({
+                step: getIndexOfStepForName('finish'),
+              }),
+            );
+          }}>
           <EndTypesLineComponent />
-        </Box>
+        </CompleteMeasurements>
       )}
     </>
   );

@@ -194,6 +194,10 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
           <Icon as={NextArrowIcon} size={22} color="black" />
         </Box>
       </Box>
+
+      <Box as={BaseTouchable} onPress={handleNext}>
+        <Icon as={NextArrowIcon} size={22} color="black" />
+      </Box>
       <Divider my="s" />
     </Box>
   );
