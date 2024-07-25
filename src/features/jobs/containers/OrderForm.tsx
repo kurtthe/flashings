@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, FormikProps } from 'formik';
+import { Formik } from 'formik';
 import { formKeys, forms } from '../constants';
 import CreateOrderForm from '@features/jobs/components/CreateOrderForm';
 import { CreateOrderFormValues } from '@features/jobs/containers/types';
@@ -143,8 +143,8 @@ const OrderForm: React.FC<Props> = ({
               }
               ${
                 values[formKeys.createOrder.deliveryOrPickUp] === 'delivery'
-                  ? `Address: ${values[formKeys.createOrder.address]}`
-                  : `Time: ${values[formKeys.createOrder.time]}`
+                  ? `Delivery Address: ${values[formKeys.createOrder.address]}`
+                  : ''
               }`);
 
       doMaterialOrder({ material: dataMaterial });

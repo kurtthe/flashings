@@ -32,11 +32,11 @@ export const createOrderProperties = {
   },
   labels: {
     [formKeysOrders.store]: 'Store',
-    [formKeysOrders.date]: 'Date',
+    [formKeysOrders.date]: 'Required Date',
     [formKeysOrders.deliveryOrPickUp]: 'Delivery or Pickup',
     [formKeysOrders.quote_only]: 'Quote only',
     [formKeysOrders.comments]: 'Comments',
-    [formKeysOrders.address]: 'Address',
+    [formKeysOrders.address]: 'Delivery Address',
   },
   placeholders: {},
   schema: Yup.object({
