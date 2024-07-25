@@ -110,11 +110,15 @@ const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
         flashings[index],
         'back',
       )} mm`;
+      // @ts-ignore
+      dataMapped[`tapered_${index + 1}`] = 'Tapered';
     } else {
       // @ts-ignore
       dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
+      // @ts-ignore
+      dataMapped[`tapered_${index + 1}`] = '';
     }
     // @ts-ignore
     dataMapped = {
