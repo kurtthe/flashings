@@ -3,7 +3,11 @@ import { TextInput } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { BaseTouchable, Box, Divider, Icon, Text } from '@ui/components';
 import { isNaN } from 'lodash';
-import { BackArrowIcon, NextArrowIcon } from '@assets/icons';
+import {
+  BackArrowIcon,
+  CompleteEditMeasurementsIcon,
+  NextArrowIcon,
+} from '@assets/icons';
 import { isAndroid } from '@shared/platform';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import {
@@ -156,50 +160,76 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
   if (!pointSelected) return null;
 
   return (
-    <Box p="s" backgroundColor="white">
+    <>
       <Box
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-around">
-        <Box as={BaseTouchable} onPress={handlePrevious}>
-          <Icon color="black" as={BackArrowIcon} size={22} />
-        </Box>
-
-        <Text variant="subheadSecondary">Length</Text>
-        <Box flexDirection="row" alignItems="center">
-          <TextInput
-            ref={inputRef}
-            inputMode="numeric"
-            keyboardType="numeric"
-            style={[
-              {
-                textAlign: 'center',
-                height: 30,
-                width: 80,
-                backgroundColor: 'white',
-                color: '#000',
-              },
-              isAndroid && { padding: 10, height: 40 },
-            ]}
-            value={`${isNaN(measurement) ? '0' : measurement}`}
-            onChangeText={(newText: string) => {
-              const size = parseInt(newText, 10);
-              setMeasurement(size);
-            }}
-          />
-          <Text variant="bodyBold">mm</Text>
-        </Box>
-
-        <Box as={BaseTouchable} onPress={handleNext}>
-          <Icon as={NextArrowIcon} size={22} color="black" />
-        </Box>
+        as={BaseTouchable}
+        onPress={() => {
+          handleDone(`${measurement}`);
+          dispatch(
+            flashingActions.changeStep({
+              step: getIndexOfStepForName('save_tapered'),
+            }),
+          );
+        }}
+        position="absolute"
+        bottom="105%"
+        right="0%"
+        backgroundColor="white"
+        p="xs"
+        style={{
+          zIndex: 1,
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.5,
+          shadowRadius: 5,
+          shadowColor: 'lightGray',
+          borderTopLeftRadius: 5,
+          borderBottomLeftRadius: 5,
+        }}>
+        <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
       </Box>
 
-      <Box as={BaseTouchable} onPress={handleNext}>
-        <Icon as={NextArrowIcon} size={22} color="black" />
+      <Box p="s" backgroundColor="white">
+        <Box
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-around">
+          <Box as={BaseTouchable} onPress={handlePrevious}>
+            <Icon color="black" as={BackArrowIcon} size={22} />
+          </Box>
+
+          <Text variant="subheadSecondary">Length</Text>
+          <Box flexDirection="row" alignItems="center">
+            <TextInput
+              ref={inputRef}
+              inputMode="numeric"
+              keyboardType="numeric"
+              style={[
+                {
+                  textAlign: 'center',
+                  height: 30,
+                  width: 80,
+                  backgroundColor: 'white',
+                  color: '#000',
+                },
+                isAndroid && { padding: 10, height: 40 },
+              ]}
+              value={`${isNaN(measurement) ? '0' : measurement}`}
+              onChangeText={(newText: string) => {
+                const size = parseInt(newText, 10);
+                setMeasurement(size);
+              }}
+            />
+            <Text variant="bodyBold">mm</Text>
+          </Box>
+
+          <Box as={BaseTouchable} onPress={handleNext}>
+            <Icon as={NextArrowIcon} size={22} color="black" />
+          </Box>
+        </Box>
+
+        <Divider my="s" />
       </Box>
-      <Divider my="s" />
-    </Box>
+    </>
   );
 };
 

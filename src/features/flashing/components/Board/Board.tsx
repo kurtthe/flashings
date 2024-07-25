@@ -18,17 +18,9 @@ import { Path } from 'react-native-redash';
 import SectionsButton from '@features/flashing/components/SectionsButton';
 import { POINT_TYPE } from '@models';
 import { isNaN } from 'lodash';
-import {
-  BaseTouchable,
-  Box,
-  Icon,
-  KeyboardAvoidingBox,
-  ScrollBox,
-  Text,
-} from '@ui/components';
+import { Box, KeyboardAvoidingBox, ScrollBox } from '@ui/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getIndexOfStepForName } from '@features/flashing/utils';
-import { CompleteEditMeasurementsIcon } from '@assets/icons';
 import { isAndroid } from '@shared/platform';
 import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
