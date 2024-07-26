@@ -60,11 +60,11 @@ const SectionsButton: React.FC<Props> = ({
           flexDirection="row-reverse"
           p="m"
           borderRadius="s"
-          backgroundColor="primary"
+          backgroundColor="white"
           justifyContent="center"
           alignItems="center"
           style={styles.shadow}>
-          <Text color="white" variant="subheadMedium" mx="s">
+          <Text variant="subheadMedium" mx="s">
             Set Tapered
           </Text>
         </BaseTouchable>

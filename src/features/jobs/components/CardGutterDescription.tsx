@@ -6,17 +6,11 @@ import { FLASHINGS_DATA } from '@models';
 import ModalAddLengths from '@features/jobs/components/ModalAddLengths';
 
 type Props = {
-  title: string;
   data: FLASHINGS_DATA;
   jobId: number;
-  sideTapered?: 'front' | 'back';
+  title: string;
 };
-const CardGutterDescription: React.FC<Props> = ({
-  data,
-  jobId,
-  title,
-  sideTapered,
-}) => {
+const CardGutterDescription: React.FC<Props> = ({ data, jobId, title }) => {
   const [visibleModalLength, setVisibleModalLength] = React.useState(false);
 
   const renderFlashingLengths = () => {
@@ -33,7 +27,7 @@ const CardGutterDescription: React.FC<Props> = ({
               <Text variant="bodySmallRegular">
                 {item.length}mm x {item.qty}
               </Text>
-              {data.flashingLengths.length === index + 1 && !sideTapered && (
+              {data.flashingLengths.length === index + 1 && !data.tapered && (
                 <Button
                   isDisabled={data.flashingLengths.length > 7}
                   variant="textSmall"
@@ -54,7 +48,7 @@ const CardGutterDescription: React.FC<Props> = ({
 
   return (
     <>
-      <Box>
+      <Box mt="m">
         <Text variant="bodyLabelTextfield" fontWeight="bold" color="black">
           {title}
         </Text>
@@ -69,9 +63,26 @@ const CardGutterDescription: React.FC<Props> = ({
           justifyContent="flex-start">
           {renderFlashingLengths()}
         </Box>
-        <Text variant="bodySmallRegular">
-          {getBends(data)} Bend Girth - {`${getGirth(data, sideTapered)}mm`}
-        </Text>
+        {!data.tapered ? (
+          <Text variant="bodySmallRegular">
+            {getBends(data)} Bend Girth - {`${getGirth(data)}mm`}
+          </Text>
+        ) : (
+          <Box mt="s">
+            <Text variant="bodyLabelTextfield" fontWeight="bold" color="black">
+              Front End
+            </Text>
+            <Text variant="bodySmallRegular">
+              {getBends(data)} Bend Girth - {`${getGirth(data, 'front')}mm`}
+            </Text>
+            <Text variant="bodyLabelTextfield" fontWeight="bold" color="black">
+              Back End
+            </Text>
+            <Text variant="bodySmallRegular">
+              {getBends(data)} Bend Girth - {`${getGirth(data, 'back')}mm`}
+            </Text>
+          </Box>
+        )}
       </Box>
 
       <ModalAddLengths

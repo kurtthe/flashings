@@ -98,17 +98,8 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           options={[{ label: '1', checked: true }]}
         />
 
-        {values[formKeys.createOrder.deliveryOrPickUp] ===
-        optionsDelivery[1] ? (
-          <FieldInputDateTime
-            key={`field-input-time${Math.random()}`}
-            isRequired
-            typeFormat="time"
-            name={formKeys.createOrder.time}
-            label={forms.createOrder.labels[formKeys.createOrder.time]}
-            returnKeyType="next"
-          />
-        ) : (
+        {values[formKeys.createOrder.deliveryOrPickUp] !==
+          optionsDelivery[1] && (
           <FieldInput
             key={`field-input-address${Math.random()}`}
             isRequired

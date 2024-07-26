@@ -89,35 +89,12 @@ const CardGutterComponent: React.FC<Props> = ({
               Save as Template
             </Text>
           </Box>
-          {data.tapered ? (
-            <Box
-              style={{
-                paddingVertical: 20,
-                flex: 0.8,
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-              }}>
-              <CardGutterDescription
-                data={data}
-                jobId={jobId}
-                title="Front End"
-                sideTapered="front"
-              />
-              <CardGutterDescription
-                data={data}
-                jobId={jobId}
-                title="Back End"
-                sideTapered="back"
-              />
-            </Box>
-          ) : (
-            <CardGutterDescription
-              data={data}
-              jobId={jobId}
-              title="Description"
-            />
-          )}
+
+          <CardGutterDescription
+            data={data}
+            jobId={jobId}
+            title="Description"
+          />
         </Box>
       </Card>
 

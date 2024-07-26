@@ -25,4 +25,5 @@ export const buildDataMaterialOrder = (
       ],
     },
   ],
+  burdens_data: [],
 });

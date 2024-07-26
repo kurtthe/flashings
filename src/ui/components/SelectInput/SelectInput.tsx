@@ -190,7 +190,7 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
             <View
               style={[
                 styles.dropdownItem,
-                { backgroundColor: item?.bgColor ?? 'white' },
+                { backgroundColor: item?.bgColor ?? 'red' },
               ]}>
               <Text
                 style={[
@@ -368,7 +368,11 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
 
     return (
       <View
-        style={StyleSheet.flatten([styles.mainWrap, style])}
+        style={StyleSheet.flatten([
+          styles.mainWrap,
+          style,
+          { backgroundColor: 'transparent' },
+        ])}
         ref={ref}
         onLayout={_measure}>
         <Pressable style={styles.contentInput} onPress={() => showOrClose()}>
@@ -377,7 +381,10 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
               styles.input,
               inputStyles,
               {
-                backgroundColor: currentValue?.bgColor && currentValue?.bgColor,
+                backgroundColor:
+                  currentValue && currentValue?.bgColor
+                    ? currentValue?.bgColor
+                    : 'white',
                 color: currentValue?.textColor
                   ? currentValue?.textColor
                   : '#8F94AE',

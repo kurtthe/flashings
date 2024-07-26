@@ -74,7 +74,7 @@ const SvgBoard: React.FC<Props> = ({
     <>
       <Svg width={width} height={height}>
         {!isScreenShot && <GridComponent />}
-        {(isScreenShot || isPreview) && flashingDataDraft?.tapered && (
+        {isPreview && flashingDataDraft?.tapered && (
           <View
             style={{
               position: 'absolute',
