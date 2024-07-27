@@ -81,12 +81,12 @@ const PreviewFlashing: React.FC<Props> = ({
         }}>
         {imgPreview && (
           <Image
-            resizeMode="contain"
+            resizeMode="stretch"
             source={{ uri: imgPreview }}
             width={90}
             height={100}
             style={{
-              transform: [{ scale: 2 }],
+              transform: [{ scale: 1 }],
               top: 15,
               left: 25,
             }}
