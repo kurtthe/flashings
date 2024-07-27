@@ -7,6 +7,7 @@ type initialStateType = {
   stepIndex: number;
   flashingDraft: FLASHINGS_DATA | undefined;
   jobId: number | undefined;
+  isEdit: boolean;
 };
 
 const INITIAL_STATE: initialStateType = {
@@ -14,6 +15,7 @@ const INITIAL_STATE: initialStateType = {
   stepIndex: 0,
   flashingDraft: undefined,
   jobId: undefined,
+  isEdit: false,
 };
 
 const flashingsReducer = createReducer(INITIAL_STATE, builder => {
@@ -27,9 +29,10 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
   });
 
   builder.addCase(actions.addFlashingDraft, (state, action) => {
-    const { dataFlashing, jobId, step } = action.payload;
+    const { dataFlashing, jobId, step, isEdit } = action.payload;
     state.flashingDraft = dataFlashing;
     state.jobId = jobId;
+    state.isEdit = isEdit ?? false;
     if (step) {
       state.stepIndex = step;
     }
@@ -58,6 +61,7 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
     state.flashingDraft = undefined;
     state.stepIndex = 0;
     state.sideTaperedFront = false;
+    state.isEdit = false;
   });
 });
 

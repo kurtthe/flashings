@@ -11,12 +11,17 @@ import { Box } from '@ui/components';
 import { getIndexOfStepForName } from '@features/flashing/utils';
 import Alert from '@services/general-request/alert';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getIsEdit,
+  getStep,
+} from '@store/flashings/selectors';
 import { actions as flashingActions } from '@store/flashings/actions';
 import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { StackPrivateProps } from '@models/navigation';
 import IconMenuEditor from '@features/flashing/components/MenuEditor/IconMenuEditor';
+import { useSelector } from 'react-redux';
 
 type Props = {
   onUndo?: () => void;
@@ -26,6 +31,7 @@ type Props = {
 const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<StackPrivateProps>();
+  const isEdit = useSelector(getIsEdit);
 
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
@@ -78,6 +84,14 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
 
   const handleNext = () => {
     if (!flashingDataDraft) return;
+
+    if (stepBoard === getIndexOfStepForName('end_type')) {
+      if (isEdit && !!flashingDataDraft?.tapered) {
+        _changeStep(getIndexOfStepForName('tapered'));
+        return;
+      }
+    }
+
     if (stepBoard === getIndexOfStepForName('tapered')) {
       _changeStep(getIndexOfStepForName('save_tapered'));
       return;

@@ -29,6 +29,7 @@ import TaperedLines from '@features/flashing/components/TaperedLines';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import {
   getDataFlashingDraft,
+  getIsEdit,
   getSideTapered,
   getStep,
 } from '@store/flashings/selectors';
@@ -55,6 +56,7 @@ const Board: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const isFront = useSelector(getSideTapered);
+  const isEdit = useSelector(getIsEdit);
   const stepBoard = useAppSelector(state => getStep(state));
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
@@ -307,11 +309,19 @@ const Board: React.FC<Props> = ({
       {stepBoard === getIndexOfStepForName('end_type') && (
         <CompleteMeasurements
           onPress={() => {
-            dispatch(
-              flashingActions.changeStep({
-                step: getIndexOfStepForName('finish'),
-              }),
-            );
+            if (isEdit && !!flashingDataDraft?.tapered) {
+              dispatch(
+                flashingActions.changeStep({
+                  step: getIndexOfStepForName('tapered'),
+                }),
+              );
+            } else {
+              dispatch(
+                flashingActions.changeStep({
+                  step: getIndexOfStepForName('finish'),
+                }),
+              );
+            }
           }}>
           <EndTypesLineComponent />
         </CompleteMeasurements>
