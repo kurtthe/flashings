@@ -10,6 +10,7 @@ export const actions = {
     dataFlashing: FLASHINGS_DATA;
     jobId: number;
     step?: number;
+    isEdit?: boolean;
   }>('addDraft/flashing'),
   updateFlashingDraft: createAction<{
     dataFlashing: Partial<FLASHINGS_DATA>;

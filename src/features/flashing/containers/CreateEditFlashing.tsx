@@ -47,9 +47,13 @@ const CreateFlashingContainer = () => {
             endType: dataFlashing ? dataFlashing.endType : 'none',
             startType: dataFlashing ? dataFlashing.startType : 'none',
             imgPreview: undefined,
-            tapered: undefined,
+            tapered:
+              dataFlashing && dataFlashing.tapered
+                ? dataFlashing.tapered
+                : undefined,
           },
           jobId: route.params.jobId,
+          isEdit: !!dataFlashing,
         }),
       );
       navigation.navigate(Routes.BOARD_FLASHING, { jobId: route.params.jobId });

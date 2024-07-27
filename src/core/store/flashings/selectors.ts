@@ -14,3 +14,7 @@ export const getStep = createSelector(flashingSelector, state => {
 export const getSideTapered = createSelector(flashingSelector, state => {
   return state.sideTaperedFront;
 });
+
+export const getIsEdit = createSelector(flashingSelector, state => {
+  return state.isEdit;
+});
