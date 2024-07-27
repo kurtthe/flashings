@@ -10,7 +10,7 @@ type initialStateType = {
 };
 
 const INITIAL_STATE: initialStateType = {
-  sideTaperedFront: true,
+  sideTaperedFront: false,
   stepIndex: 0,
   flashingDraft: undefined,
   jobId: undefined,
@@ -57,7 +57,7 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
     state.jobId = undefined;
     state.flashingDraft = undefined;
     state.stepIndex = 0;
-    state.sideTaperedFront = true;
+    state.sideTaperedFront = false;
   });
 });
 

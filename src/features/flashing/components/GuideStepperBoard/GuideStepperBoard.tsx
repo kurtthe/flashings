@@ -26,8 +26,7 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onChangeOption }) => {
   const [optionSelected, setOptionSelected] = React.useState<VALUE_ACTIONS>({
     [TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE]:
       dataStep?.action?.defaultOption ?? 'right',
-    [TYPE_ACTIONS_STEP.SIDE_TAPERED]:
-      dataStep?.action?.defaultOption ?? 'front',
+    [TYPE_ACTIONS_STEP.SIDE_TAPERED]: dataStep?.action?.defaultOption ?? 'back',
   });
 
   React.useEffect(() => {
