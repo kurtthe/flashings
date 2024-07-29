@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@shared/queryClient';
