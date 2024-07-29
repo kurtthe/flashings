@@ -10,4 +10,8 @@ export const config = {
     'jeff@digitalbasis.com',
   ],
   messageToShared: 'Thanks for your Flashings order',
+  urlStoreIOS:
+    'https://apps.apple.com/co/app/burdens-flashing-designer/id6449658670',
+  urlStoreAndroid:
+    'https://play.google.com/store/apps/details?id=com.flashings',
 };

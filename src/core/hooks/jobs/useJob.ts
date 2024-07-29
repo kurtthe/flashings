@@ -6,7 +6,6 @@ import {
   getFieldOrdersValidation,
   getStores,
   getSupplier,
-  jobService,
   queryKey,
   sendToStore,
 } from './service';

@@ -6,7 +6,7 @@ import axios, {
 import { GeneralRequestInterface } from './general-request.type';
 import handleErrors from './handleErrors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { baseURL } from "@shared/endPoints";
+import { baseURL } from '@shared/endPoints';
 
 class GeneralRequestService implements GeneralRequestInterface {
   static instance: GeneralRequestService;
@@ -18,7 +18,7 @@ class GeneralRequestService implements GeneralRequestInterface {
     });
 
     this.getToken().then(data => {
-      this.httpService.defaults.headers.common['ttrak-key'] = data
+      this.httpService.defaults.headers.common['ttrak-key'] = data;
     });
   }
   static getInstance() {
@@ -28,7 +28,11 @@ class GeneralRequestService implements GeneralRequestInterface {
     return GeneralRequestService.instance;
   }
 
-  get<TypeResult>(endpoint: string, options: AxiosRequestConfig<any> = {}) {
+  get<TypeResult>(
+    endpoint: string,
+    options: AxiosRequestConfig<any> = {},
+    showAlertError = true,
+  ) {
     return new Promise<{
       body: TypeResult;
       headers: Partial<AxiosResponseHeaders>;
@@ -45,6 +49,7 @@ class GeneralRequestService implements GeneralRequestInterface {
           headers: response.headers,
         });
       } catch (err) {
+        if (!showAlertError) return;
         handleErrors.manage(err);
         return reject(err);
       }
@@ -131,7 +136,7 @@ class GeneralRequestService implements GeneralRequestInterface {
   }
 
   private async saverToken<TypeData>(
-    data: TypeData & {api_key: string; companyName: string},
+    data: TypeData & { api_key: string; companyName: string },
   ) {
     if (data) {
       this.httpService.defaults.headers.common['ttrak-key'] = data.api_key;
