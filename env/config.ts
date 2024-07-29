@@ -10,4 +10,6 @@ export const config = {
     'jeff@digitalbasis.com',
   ],
   messageToShared: 'Thanks for your Flashings order',
+  packageNameIOS: '',
+  packageNameAndroid: '',
 };
