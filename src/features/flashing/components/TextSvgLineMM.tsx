@@ -24,26 +24,37 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
     getDataFlashingDraft(state),
   );
   const isFront = useAppSelector(state => getSideTapered(state));
-  const indexMeasurement = getIndexOfStepForName('measurements');
+  const minorMeasurement = React.useMemo(() => {
+    return step < getIndexOfStepForName('measurements');
+  }, [step]);
 
-  const getLabel = () => {
-    if (step < indexMeasurement || !flashingDataDraft) return '';
+  const isTapered = React.useMemo(() => {
+    return (
+      step === getIndexOfStepForName('tapered') ||
+      step === getIndexOfStepForName('save_tapered') ||
+      step === getIndexOfStepForName('preview')
+    );
+  }, [step]);
 
-    if (flashingDataDraft.tapered) {
-      return flashingDataDraft.tapered[isFront ? 'front' : 'back'][
-        index
-      ].distance.toString();
+  const label = React.useMemo(() => {
+    if (minorMeasurement || !flashingDataDraft) return '';
+
+    if (flashingDataDraft.tapered && isTapered) {
+      const valueTapered =
+        flashingDataDraft.tapered[isFront ? 'front' : 'back'][index];
+
+      if (!valueTapered) return undefined;
+      return valueTapered.distance?.toString();
     }
 
-    return flashingDataDraft?.dataLines[index].distance.toString();
-  };
+    return flashingDataDraft?.dataLines[index].distance?.toString();
+  }, []);
 
   const newPoints = calculatePointHalf(coordinates);
   const shouldRenderTextSvg = step >= getIndexOfStepForName('measurements');
 
-  if (!shouldRenderTextSvg) return null;
+  if (!shouldRenderTextSvg || !label) return null;
 
-  const label = getLabel();
   return (
     <TextSvg
       id={Math.random()}
