@@ -9,6 +9,7 @@ import DeviceInfo from 'react-native-device-info';
 import { Linking } from 'react-native';
 import alert from '@services/general-request/alert';
 import { isAndroid } from '@shared/platform';
+import { config } from '@env/config';
 
 const PublicNavigator = React.lazy(() => import('./PublicNavigator'));
 const PrivateNavigator = React.lazy(() => import('./PrivateNavigator'));
@@ -19,7 +20,7 @@ export const RootNavigator = () => {
   const buildNumber = DeviceInfo.getVersion();
 
   React.useEffect(() => {
-    if (buildNumber === versionApp) {
+    if (buildNumber !== versionApp) {
       Toast.show({
         position: 'bottom',
         type: 'success',
@@ -27,15 +28,16 @@ export const RootNavigator = () => {
         text2:
           'Please update to continue using the app, we have launched new and faster app.',
         onPress: openStore,
+        autoHide: false,
       });
     }
   }, [buildNumber, versionApp]);
 
   const url = React.useMemo(() => {
     if (isAndroid) {
-      return 'https://play.google.com/store/apps/details?id=com.flashings';
+      return config.urlStoreAndroid;
     }
-    return 'https://apps.apple.com/app/6449658670';
+    return config.urlStoreIOS;
   }, [isAndroid]);
 
   const openStore = React.useCallback(() => {
