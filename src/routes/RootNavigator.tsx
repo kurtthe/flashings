@@ -13,18 +13,17 @@ const PrivateNavigator = React.lazy(() => import('./PrivateNavigator'));
 export const RootNavigator = () => {
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
   const { data: versionApp } = useGetVersionApp();
-  const buildNumber = DeviceInfo.getBuildNumber();
+  const buildNumber = DeviceInfo.getVersion();
 
   React.useEffect(() => {
-    console.log('=>versionApp[]', versionApp);
-    console.log('=>buildNumber[]', buildNumber);
-
     if (buildNumber !== versionApp) {
       Toast.show({
+        position: 'bottom',
         type: 'success',
         text1: 'Please update',
         text2:
           'Please update to continue using the app, we have launched new and faster app.',
+        onPress: () => null,
       });
     }
   }, [buildNumber, versionApp]);

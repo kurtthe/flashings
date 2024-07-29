@@ -12,6 +12,7 @@ import ThemeProvider from '@theme/ThemeProvider';
 import { Host as PortalProvider } from 'react-native-paper-portal';
 import { Provider as StoreProvider, ProviderProps } from 'react-redux';
 import { PersistGate, PersistGateProps } from 'redux-persist/integration/react';
+import Toast from 'react-native-toast-message';
 
 type Props = Pick<PersistGateProps, 'persistor'> & ProviderProps;
 
@@ -25,6 +26,7 @@ export const Application: React.FC<Props> = ({ persistor, store }) => {
               <NavigationContainer>
                 <PortalProvider>
                   <RootNavigator />
+                  <Toast />
                 </PortalProvider>
               </NavigationContainer>
             </QueryClientProvider>
