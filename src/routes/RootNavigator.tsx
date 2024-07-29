@@ -20,6 +20,8 @@ export const RootNavigator = () => {
   const buildNumber = DeviceInfo.getVersion();
 
   React.useEffect(() => {
+    if (!versionApp) return;
+
     if (buildNumber !== versionApp) {
       Toast.show({
         position: 'bottom',
