@@ -19,7 +19,7 @@ import {
 import { actions as flashingActions } from '@store/flashings/actions';
 import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
 import { useNavigation } from '@react-navigation/native';
-import { StackPrivateProps } from '@models/navigation';
+import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import IconMenuEditor from '@features/flashing/components/MenuEditor/IconMenuEditor';
 import { useSelector } from 'react-redux';
 
@@ -108,8 +108,9 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
   };
 
   const handleLibrary = () => {
-    // @ts-ignore
-    navigation.navigate(RoutesFlashing.LIST_TEMPLATES);
+    navigation.navigate(StackPrivateDefinitions.FLASHING, {
+      screen: RoutesFlashing.LIST_TEMPLATES,
+    });
   };
 
   const handleBack = () => {
@@ -154,6 +155,7 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
           size={22}
         />
         <IconMenuEditor
+          disabled={false}
           onPress={handleLibrary}
           nameIcon={LibraryIcon}
           title="Library"
