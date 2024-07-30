@@ -40,13 +40,20 @@ const ModalNameTemplate: React.FC<Props> = ({
         templateActions.addTemplate({
           template: {
             id: getRandomInt(100, 200),
-            dataLines: data.dataLines,
+            // @ts-ignore
+            dataLines: data.tapered ? data.tapered.front : data.dataLines,
             angles: data.angles,
             parallelRight: data.parallelRight,
             name: nameTemplate,
             endType: data.endType,
             startType: data.startType,
-            imgPreview: data.imgPreview,
+            // @ts-ignore
+            imgPreview: data.tapered
+              ? // @ts-ignore
+                data.tapered.frontImagePreview
+              : data.imgPreview,
+            isHide: false,
+            availableDelete: true,
           },
         }),
       );
