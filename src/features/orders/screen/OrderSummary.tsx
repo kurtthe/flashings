@@ -1,18 +1,18 @@
 import React from 'react';
 import { Box, ScrollBox } from '@ui/components';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import { JobsStackParamsList } from '@features/jobs/navigation/Stack.types';
-import { Routes as RoutesJob } from '@features/jobs/navigation/routes';
 import Loading from '@components/Loading';
 import PDFShared from '@features/jobs/containers/PDFShared';
 import OrderForm from '@features/jobs/containers/OrderForm';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RESPONSE_CREATE_AND_FLASHING } from '@models';
 import { baseUrlPDF } from '@shared/endPoints';
+import { RoutesOrders } from '@features/orders/navigation/routes';
+import { OrdersStackParamsList } from '@features/orders/navigation/Stack.types';
 
 const OrderSummaryScreen: React.FC = () => {
   const route =
-    useRoute<RouteProp<JobsStackParamsList, RoutesJob.ORDER_SUMMARY>>();
+    useRoute<RouteProp<OrdersStackParamsList, RoutesOrders.ORDER_SUMMARY>>();
   const [isLoading, setIsLoading] = React.useState(true);
   const [urlIdPdf, setUrlIdPdf] = React.useState<string>();
 

@@ -111,6 +111,20 @@ const Stack = () => {
           ),
         }}
       />
+      <Screen
+        key={Routes.ORDER_DETAILS_FORM}
+        name={Routes.ORDER_DETAILS_FORM}
+        component={OrderSummaryScreen}
+        options={{
+          header: () => (
+            <HeaderBox
+              mb="s"
+              leftIcon={<HeaderBackButton />}
+              title="Order Summary"
+            />
+          ),
+        }}
+      />
     </Navigator>
   );
 };
