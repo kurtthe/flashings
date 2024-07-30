@@ -1,9 +1,9 @@
 import React from 'react';
 import { Box, Button, Text } from '@ui/components';
-import { getBends, getGirth, getMaterial } from '@features/jobs/utils';
 import { FlatList } from 'react-native';
 import { FLASHINGS_DATA } from '@models';
 import ModalAddLengths from '@features/jobs/components/ModalAddLengths';
+import { getBends, getGirth, getMaterial } from '@shared/utils/JobOrders';
 
 type Props = {
   data: FLASHINGS_DATA;

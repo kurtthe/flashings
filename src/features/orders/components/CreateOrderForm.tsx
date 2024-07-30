@@ -86,11 +86,9 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
 
         {showAddressDelivery && (
           <FieldInput
-            key={`field-input-address${Math.random()}`}
             isRequired
             name={formKeys.createOrder.address}
             label={forms.createOrder.labels[formKeys.createOrder.address]}
-            returnKeyType="next"
             my="s"
           />
         )}
@@ -127,7 +125,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
         isDisabled={!isValid || isLoading}
         isLoading={isLoading}
         onPress={handleSubmit.bind(null, undefined)}>
-        Send to store
+        Preview
       </Button>
     </>
   );
