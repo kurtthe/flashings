@@ -3,7 +3,6 @@ import { Box, ScrollBox } from '@ui/components';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import Loading from '@components/Loading';
 import PDFShared from '@features/jobs/containers/PDFShared';
-import OrderForm from '@features/jobs/containers/OrderForm';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { RESPONSE_CREATE_AND_FLASHING } from '@models';
 import { baseUrlPDF } from '@shared/endPoints';
@@ -43,13 +42,7 @@ const OrderSummaryScreen: React.FC = () => {
       enableOnAndroid
       showsVerticalScrollIndicator={false}>
       <Box p="m" flex={1}>
-        <PDFShared urlIdPdf={urlIdPdf} namePdf={route.params.jobName} />
-        <OrderForm
-          urlIdPdf={urlIdPdf}
-          jobId={route.params.jobId}
-          jobName={route.params.jobName}
-          jobAddress={route.params.jobAddress}
-        />
+        <PDFShared urlIdPdf={urlIdPdf} namePdf={''} />
       </Box>
     </ScrollBox>
   );

@@ -5,8 +5,6 @@ import {
   AllJobsScreen,
   JobDetailsScreen,
   CreateEditJobScreen,
-  OrderSubmittedScreen,
-  OrderSummaryScreen,
 } from '../screens';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
 import { EditIcon, ProfileIcon } from '@assets/icons';
@@ -85,42 +83,6 @@ const Stack = () => {
                 // @ts-ignore
                 route.params?.jobId ? 'Edit Job' : 'New Job'
               }
-            />
-          ),
-        }}
-      />
-      <Screen
-        key={Routes.ORDER_SUBMITTED}
-        name={Routes.ORDER_SUBMITTED}
-        component={OrderSubmittedScreen}
-        options={{
-          header: () => null,
-        }}
-      />
-      <Screen
-        key={Routes.ORDER_SUMMARY}
-        name={Routes.ORDER_SUMMARY}
-        component={OrderSummaryScreen}
-        options={{
-          header: () => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton />}
-              title="Order Summary"
-            />
-          ),
-        }}
-      />
-      <Screen
-        key={Routes.ORDER_DETAILS_FORM}
-        name={Routes.ORDER_DETAILS_FORM}
-        component={OrderSummaryScreen}
-        options={{
-          header: () => (
-            <HeaderBox
-              mb="s"
-              leftIcon={<HeaderBackButton />}
-              title="Order Summary"
             />
           ),
         }}

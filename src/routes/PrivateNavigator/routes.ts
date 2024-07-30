@@ -1,5 +1,6 @@
 import { FlashingStack } from '@features/flashing';
 import { JobStack } from '@features/jobs';
+import { OrdersStack } from '@features/orders';
 import { ProfileStack } from '@features/profile';
 import { StackPrivateDefinitions } from '@models/navigation';
 
@@ -15,5 +16,9 @@ export const routes = {
   [StackPrivateDefinitions.PROFILE]: {
     name: StackPrivateDefinitions.PROFILE,
     component: ProfileStack,
+  },
+  [StackPrivateDefinitions.ORDERS]: {
+    name: StackPrivateDefinitions.ORDERS,
+    component: OrdersStack,
   },
 };

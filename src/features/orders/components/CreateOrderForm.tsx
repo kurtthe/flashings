@@ -2,32 +2,14 @@ import React from 'react';
 import { Box, Button, OptionsType } from '@ui/components';
 import { FieldArray, useFormikContext } from 'formik';
 import { CreateOrderFormValues } from '@features/jobs/containers/types';
-import { formKeys, forms } from '@features/jobs/constants';
+import { formKeys, forms } from '@features/orders/constants';
 import { FieldInput, FieldSelect } from '@components/forms';
 import { useGetOrderValidations, useGetStores } from '@hooks/jobs';
 import { storesToOption } from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
-import { optionsDelivery } from '@features/jobs/constants/order';
+import { optionsDelivery } from '@features/orders/constants/order';
 import FieldCheckbox from '@components/forms/FieldCheckbox';
-
-const optionsDeliveryOrPickUp: OptionsType[] = [
-  {
-    value: optionsDelivery[0],
-    label: 'Delivery',
-    bgColor: '#ffffff',
-    textColor: 'black',
-    bold: false,
-    disabled: false,
-  },
-  {
-    value: optionsDelivery[1],
-    label: 'Pick up',
-    bgColor: '#ffffff',
-    textColor: 'black',
-    bold: false,
-    disabled: false,
-  },
-];
+import { optionsDeliveryOrPickUp } from '@features/orders/type';
 
 type Props = {
   isLoading: boolean;
@@ -39,6 +21,10 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
 
   const { isValid, handleSubmit, values, setFieldValue } =
     useFormikContext<CreateOrderFormValues>();
+
+  const showAddressDelivery = React.useMemo(() => {
+    return values[formKeys.createOrder.deliveryOrPickUp] !== optionsDelivery[1];
+  }, [values[formKeys.createOrder.deliveryOrPickUp]]);
 
   React.useEffect(() => {
     if (!stores) {
@@ -98,8 +84,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
           options={[{ label: '1', checked: true }]}
         />
 
-        {values[formKeys.createOrder.deliveryOrPickUp] !==
-          optionsDelivery[1] && (
+        {showAddressDelivery && (
           <FieldInput
             key={`field-input-address${Math.random()}`}
             isRequired
@@ -109,6 +94,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
             my="s"
           />
         )}
+
         {dataFieldsOrderValidations && (
           <FieldArray
             name={formKeys.createOrder.burdens_data}
