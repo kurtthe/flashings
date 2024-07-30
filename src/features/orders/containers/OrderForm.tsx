@@ -1,6 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
-import { forms } from '../constants';
+import { formKeys, forms } from '../constants';
 import CreateOrderForm from '@features/orders/components/CreateOrderForm';
 import { KeyboardAvoidingBox } from '@ui/components';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
@@ -41,18 +41,23 @@ const OrderForm = () => {
     (values: CreateOrderFormValues) => {
       if (!jobOrder || !values || !dataUser || !dataAccountCompany) return;
 
-      console.log('===<values', JSON.stringify(values));
+      const dataStoreSelected = stores?.find(
+        itemStore =>
+          values[formKeys.createOrder.store] === itemStore.id.toString(),
+      );
+      if (!dataStoreSelected) return;
 
       createJob({
         dataJobAndFlashing: mapDataJobToDataPetition(
           jobOrder,
           dataAccountCompany,
           values,
+          dataStoreSelected,
         ),
         howManyFlashings: jobOrder.flashings.length,
       });
     },
-    [dataSupplier, dataUser, stores],
+    [dataSupplier, dataUser],
   );
 
   return (

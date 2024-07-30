@@ -2,6 +2,7 @@ import {
   DATA_MATERIAL_ORDER,
   JOB_DATA,
   RESPONSE_COMPANY_ACCOUNT,
+  STORE,
 } from '@models';
 import { formatDate } from '@shared/utils/formatDate';
 import { mapDataFlashing } from '@shared/utils/JobOrders';
@@ -16,8 +17,19 @@ export const mapDataJobToDataPetition = (
   dataJob: JOB_DATA,
   dataAccountCompany: RESPONSE_COMPANY_ACCOUNT,
   dataOrder: CreateOrderFormValues,
+  dataStoreSelected: STORE,
 ) => {
   const restData = mapDataFlashing(dataJob.flashings);
+  const valueQuoteONly =
+    dataOrder[formKeysOrders.quote_only] !== ''
+      ? // @ts-ignore
+        JSON.parse(dataOrder[formKeysOrders.quote_only])[0]
+      : undefined;
+
+  const addressOrder =
+    dataOrder[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
+      ? dataOrder[formKeysOrders.address]
+      : `${dataStoreSelected.name} (${dataStoreSelected.address})`;
 
   return {
     company_name: dataAccountCompany.company,
@@ -30,12 +42,9 @@ export const mapDataJobToDataPetition = (
     phone: dataJob.contact.number,
     order_date: formatDate(new Date(), 'YYYY-MM-DD'),
     required_date: dataOrder[formKeysOrders.date],
-    quote_only: dataOrder[formKeysOrders.quote_only] ?? '',
+    quote_only: valueQuoteONly ? 'Quote Only' : '',
     delivery_method: dataOrder[formKeysOrders.deliveryOrPickUp],
-    delivery_address:
-      dataOrder[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
-        ? dataOrder[formKeysOrders.address]
-        : dataOrder[formKeysOrders.store],
+    delivery_address: addressOrder,
     comments: dataOrder[formKeysOrders.comments],
     ...restData,
   };

@@ -14,7 +14,7 @@ const ordersReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.jobOrder, (state, action) => {
     state.job = action.payload.job;
   });
-  builder.addCase(actions.clear, (state, action) => {
+  builder.addCase(actions.clear, state => {
     state.job = undefined;
   });
 });

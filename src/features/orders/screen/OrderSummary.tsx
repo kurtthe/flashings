@@ -39,7 +39,7 @@ const OrderSummaryScreen: React.FC = () => {
 
   return (
     <Box p="m" flex={1}>
-      <PDFShared urlIdPdf={urlIdPdf} namePdf={jobNameOrder} />
+      <PDFShared urlIdPdf={urlIdPdf} namePdf={jobNameOrder} height={450} />
     </Box>
   );
 };
