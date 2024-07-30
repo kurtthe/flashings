@@ -20,9 +20,7 @@ import { OrdersStackProps } from '@features/orders/navigation/Stack.types';
 import { mapDataJobToDataPetition } from '@features/orders/utils';
 import { CreateOrderFormValues } from '@features/orders/type';
 
-type Props = {};
-
-const OrderForm: React.FC<Props> = () => {
+const OrderForm = () => {
   const navigation = useNavigation<OrdersStackProps>();
   const jobOrder = useAppSelector(getJobOrder);
   const dataUser = useAppSelector(dataUserSelector);
@@ -42,6 +40,8 @@ const OrderForm: React.FC<Props> = () => {
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
       if (!jobOrder || !values || !dataUser || !dataAccountCompany) return;
+
+      console.log('===<values', JSON.stringify(values));
 
       createJob({
         dataJobAndFlashing: mapDataJobToDataPetition(

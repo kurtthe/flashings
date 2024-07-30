@@ -15,6 +15,7 @@ export const config = {
   urlStoreAndroid:
     'https://play.google.com/store/apps/details?id=com.flashings',
   credentialsMO: '53eAdpfCR3ZPfHJthoUxWNA7:',
+  // template for generate pdf file
   templateIdDefault: 'BLAN309970',
   templateId4_6: 'BLAN321701',
   templateId7_9: 'BLAN935154',

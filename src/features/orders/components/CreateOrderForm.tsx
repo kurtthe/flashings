@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Button, OptionsType } from '@ui/components';
 import { FieldArray, useFormikContext } from 'formik';
-import { CreateOrderFormValues } from '@features/jobs/containers/types';
 import { formKeys, forms } from '@features/orders/constants';
 import { FieldInput, FieldSelect } from '@components/forms';
 import { useGetOrderValidations, useGetStores } from '@hooks/jobs';
@@ -9,7 +8,10 @@ import { storesToOption } from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 import { optionsDelivery } from '@features/orders/constants/order';
 import FieldCheckbox from '@components/forms/FieldCheckbox';
-import { optionsDeliveryOrPickUp } from '@features/orders/type';
+import {
+  CreateOrderFormValues,
+  optionsDeliveryOrPickUp,
+} from '@features/orders/type';
 
 type Props = {
   isLoading: boolean;

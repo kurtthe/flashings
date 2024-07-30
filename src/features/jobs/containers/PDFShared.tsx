@@ -9,8 +9,14 @@ type Props = {
   urlIdPdf: string;
   namePdf: string;
   shareSmall?: boolean;
+  height?: number;
 };
-const PDFShared: React.FC<Props> = ({ namePdf, urlIdPdf, shareSmall }) => {
+const PDFShared: React.FC<Props> = ({
+  namePdf,
+  urlIdPdf,
+  shareSmall,
+  height = 300,
+}) => {
   const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>();
 
   const handleShare = () => {
@@ -47,7 +53,7 @@ const PDFShared: React.FC<Props> = ({ namePdf, urlIdPdf, shareSmall }) => {
           cache: true,
         }}
         style={{
-          height: 300,
+          height: height,
         }}
         onLoadComplete={(numberOfPages, filePath) => {
           console.log(`Number of pages: ${numberOfPages}`);

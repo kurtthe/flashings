@@ -7,6 +7,10 @@ import { formatDate } from '@shared/utils/formatDate';
 import { mapDataFlashing } from '@shared/utils/JobOrders';
 import { DATA_BUILD_MATERIAL_ORDER } from '@features/jobs/types';
 import { CreateOrderFormValues } from '@features/orders/type';
+import {
+  formKeysOrders,
+  optionsDelivery,
+} from '@features/orders/constants/order';
 
 export const mapDataJobToDataPetition = (
   dataJob: JOB_DATA,
@@ -25,6 +29,14 @@ export const mapDataJobToDataPetition = (
     email: dataJob.contact.email,
     phone: dataJob.contact.number,
     order_date: formatDate(new Date(), 'YYYY-MM-DD'),
+    required_date: dataOrder[formKeysOrders.date],
+    quote_only: dataOrder[formKeysOrders.quote_only] ?? '',
+    delivery_method: dataOrder[formKeysOrders.deliveryOrPickUp],
+    delivery_address:
+      dataOrder[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
+        ? dataOrder[formKeysOrders.address]
+        : dataOrder[formKeysOrders.store],
+    comments: dataOrder[formKeysOrders.comments],
     ...restData,
   };
 };
