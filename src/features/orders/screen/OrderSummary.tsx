@@ -16,6 +16,7 @@ import {
 } from '@features/orders/navigation/Stack.types';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import {
+  getDataMaterialOrderForSendToStore,
   getJobIdOrder,
   getJobNameOrder,
   getStoreSelectedOrder,
@@ -34,11 +35,11 @@ const OrderSummaryScreen: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState(true);
   const [urlIdPdf, setUrlIdPdf] = React.useState<string>();
   const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
-  const [messageEmail, setMessageEmail] = React.useState<string>('');
   const jobNameOrder = useAppSelector(getJobNameOrder);
   const dataUser = useAppSelector(dataUserSelector);
   const jobIdOrder = useAppSelector(getJobIdOrder);
   const storeSelected = useAppSelector(getStoreSelectedOrder);
+  const dataMaterial = useAppSelector(getDataMaterialOrderForSendToStore);
 
   const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
     useCreateMaterial({
@@ -58,7 +59,7 @@ const OrderSummaryScreen: React.FC = () => {
                 `${dataUser.email}`,
                 ...config.emailsToShared,
               ],
-              message: messageEmail,
+              message: '',
               idOrder: orderId,
             },
           });
@@ -103,7 +104,10 @@ const OrderSummaryScreen: React.FC = () => {
     return <Loading title="Creating your Flashing Drawing" />;
   }
 
-  const handleSendToStore = () => {};
+  const handleSendToStore = () => {
+    if (!dataMaterial) return;
+    doMaterialOrder({ material: dataMaterial });
+  };
 
   return (
     <ScrollBox enableOnAndroid>
