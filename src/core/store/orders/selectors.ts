@@ -10,3 +10,7 @@ export const getJobOrder = createSelector(ordersSelector, state => {
 export const getJobNameOrder = createSelector(ordersSelector, state => {
   return state.job?.name;
 });
+
+export const getJobIdOrder = createSelector(ordersSelector, state => {
+  return state.job?.id;
+});

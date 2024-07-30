@@ -3,22 +3,17 @@ import { Box, Icon, Text, Button } from '@ui/components';
 import { OrderSubmittedIcon } from '@assets/icons';
 import { Image, StyleSheet } from 'react-native';
 import { images } from '@assets/images';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useAppSelector } from '@hooks/useStore';
 import { getOrderNumber } from '@store/jobs/selectors';
-import { RoutesOrders } from '@features/orders/navigation/routes';
-import {
-  OrdersStackParamsList,
-  OrdersStackProps,
-} from '@features/orders/navigation/Stack.types';
+import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
+import { Routes as RoutesJob } from '@features/jobs/navigation/routes';
 
 const OrderSubmittedScreen = () => {
-  const navigation = useNavigation<OrdersStackProps>();
-  const route =
-    useRoute<RouteProp<OrdersStackParamsList, RoutesOrders.ORDER_SUBMITTED>>();
+  const navigation = useNavigation<StackPrivateProps>();
 
   const orderNumber = useAppSelector(state =>
-    getOrderNumber(state, route.params.jobId),
+    getOrderNumber(state, state.orders.job?.id),
   );
   return (
     <Box style={styles.container}>
@@ -51,9 +46,9 @@ const OrderSubmittedScreen = () => {
         </Box>
         <Button
           onPress={() => {
-            //@ts-ignore
-            // TODO:FIX THE NAVIGATION
-            navigation.navigate(RoutesJobs.ALL_JOBS);
+            navigation.navigate(StackPrivateDefinitions.JOBS, {
+              screen: RoutesJob.ALL_JOBS,
+            });
           }}
           variant="outline"
           borderWidth={0}

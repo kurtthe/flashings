@@ -1,21 +1,86 @@
 import React from 'react';
-import { Box } from '@ui/components';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { Box, Button, ScrollBox } from '@ui/components';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import Loading from '@components/Loading';
 import PDFShared from '@features/jobs/containers/PDFShared';
-import { RESPONSE_CREATE_AND_FLASHING } from '@models';
+import {
+  ORDER_TYPE_STORE,
+  RESPONSE_CREATE_AND_FLASHING,
+  RESPONSE_MATERIAL_ORDER,
+} from '@models';
 import { baseUrlPDF } from '@shared/endPoints';
 import { RoutesOrders } from '@features/orders/navigation/routes';
-import { OrdersStackParamsList } from '@features/orders/navigation/Stack.types';
-import { useAppSelector } from '@hooks/useStore';
-import { getJobNameOrder } from '@store/orders/selectors';
+import {
+  OrdersStackParamsList,
+  OrdersStackProps,
+} from '@features/orders/navigation/Stack.types';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import { getJobIdOrder, getJobNameOrder } from '@store/orders/selectors';
+import { useCreateMaterial, useSendToStore } from '@hooks/jobs';
+import { dataUserSelector } from '@store/auth/selectors';
+import { config } from '@env/config';
+import { formatDate } from '@shared/utils/formatDate';
+import { actions as jobActions } from '@store/jobs/actions';
 
 const OrderSummaryScreen: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigation = useNavigation<OrdersStackProps>();
   const route =
     useRoute<RouteProp<OrdersStackParamsList, RoutesOrders.ORDER_SUMMARY>>();
   const [isLoading, setIsLoading] = React.useState(true);
   const [urlIdPdf, setUrlIdPdf] = React.useState<string>();
+  const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
+  const [messageEmail, setMessageEmail] = React.useState<string>('');
   const jobNameOrder = useAppSelector(getJobNameOrder);
+  const dataUser = useAppSelector(dataUserSelector);
+  const jobIdOrder = useAppSelector(getJobIdOrder);
+
+  const storeSelected = React.useMemo(() => {
+    return route.params.dataStore;
+  }, [route.params.dataStore]);
+
+  const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
+    useCreateMaterial({
+      onSuccess: data => {
+        const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order
+          .order_number;
+        const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id;
+        setOrderNumber(orderNumber);
+
+        if (!storeSelected) return;
+
+        setTimeout(() => {
+          sharedMaterialOrder({
+            dataShared: {
+              emails: [
+                storeSelected.email,
+                `${dataUser.email}`,
+                ...config.emailsToShared,
+              ],
+              message: messageEmail,
+              idOrder: orderId,
+            },
+          });
+        }, 500);
+      },
+    });
+
+  const { mutate: sharedMaterialOrder, isLoading: isLoadingHandleShare } =
+    useSendToStore({
+      onSuccess: () => {
+        if (!storeSelected || !jobIdOrder) return;
+
+        const dataOrder: ORDER_TYPE_STORE = {
+          orderNumber: `${orderNumber}`.trim(),
+          urlPdf: urlIdPdf ?? '',
+          store: storeSelected.name,
+          date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+        };
+
+        dispatch(jobActions.orderSent({ idJob: jobIdOrder, dataOrder }));
+        navigation.navigate(RoutesOrders.ORDER_SUBMITTED);
+      },
+    });
 
   React.useEffect(() => {
     const timeout = setTimeout(() => setIsLoading(false), 20000);
@@ -37,10 +102,22 @@ const OrderSummaryScreen: React.FC = () => {
     return <Loading title="Creating your Flashing Drawing" />;
   }
 
+  const handleSendToStore = () => {};
+
   return (
-    <Box p="m" flex={1}>
-      <PDFShared urlIdPdf={urlIdPdf} namePdf={jobNameOrder} height={450} />
-    </Box>
+    <ScrollBox enableOnAndroid>
+      <Box p="m" flex={1}>
+        <PDFShared urlIdPdf={urlIdPdf} namePdf={jobNameOrder} height={500} />
+        <Button
+          my="s"
+          variant="solid"
+          borderRadius="unset"
+          isLoading={isLoadingHandleShare || isLoading || loadingMaterialOrder}
+          onPress={handleSendToStore}>
+          Send to store
+        </Button>
+      </Box>
+    </ScrollBox>
   );
 };
 

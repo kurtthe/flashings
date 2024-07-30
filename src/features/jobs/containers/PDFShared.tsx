@@ -46,7 +46,8 @@ const PDFShared: React.FC<Props> = ({
       )}
       <Pdf
         trustAllCerts={false}
-        minScale={1.5}
+        scale={1.7}
+        minScale={1}
         maxScale={3}
         source={{
           uri: urlIdPdf,
@@ -67,7 +68,10 @@ const PDFShared: React.FC<Props> = ({
         }}
       />
       {!shareSmall && (
-        <Button onPress={handleShare} borderRadius="unset" mb="m">
+        <Button
+          variant="outlineWhite"
+          onPress={handleShare}
+          borderRadius="unset">
           Share
         </Button>
       )}
