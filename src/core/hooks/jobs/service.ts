@@ -1,6 +1,5 @@
 import {
   DATA_MATERIAL_ORDER,
-  JOB_DATA,
   ORDER_VALIDATIONS_TYPES,
   RESPONSE_BALANCE,
   RESPONSE_COMPANY_ACCOUNT,
@@ -16,10 +15,7 @@ import { endPoints } from '@shared/endPoints';
 import { RequestService } from '@services/index';
 import axios from 'axios';
 import { Buffer } from 'buffer';
-
-export const jobService = (dataJob: JOB_DATA): Promise<JOB_DATA> => {
-  return Promise.resolve(dataJob);
-};
+import { config } from '@env/config';
 
 export const getStores = async (): Promise<STORE[]> => {
   const response = await RequestService.get<STORE_RESPONSE>(
@@ -35,22 +31,22 @@ export const createJobAndFlashings = async ({
   dataJobAndFlashing: any;
   howManyFlashings?: number;
 }): Promise<RESPONSE_CREATE_AND_FLASHING> => {
-  let template_id = 'BLAN309970';
-
+  let template_id = config.templateIdDefault;
   console.log('howManyFlashings::', howManyFlashings);
 
   if (howManyFlashings >= 4 && howManyFlashings <= 6) {
-    template_id = 'BLAN321701';
+    template_id = config.templateId4_6;
   } else if (howManyFlashings >= 7 && howManyFlashings <= 9) {
-    template_id = 'BLAN935154';
+    template_id = config.templateId7_9;
   } else if (howManyFlashings >= 10 && howManyFlashings <= 12) {
-    template_id = 'BLAN823895';
+    template_id = config.templateId10_12;
   } else if (howManyFlashings >= 13 && howManyFlashings <= 15) {
-    template_id = 'BLAN384760';
+    template_id = config.templateId13_15;
   }
 
-  const credentials = '53eAdpfCR3ZPfHJthoUxWNA7:';
-  const base64Credentials = Buffer.from(credentials).toString('base64');
+  const base64Credentials = Buffer.from(config.credentialsMO).toString(
+    'base64',
+  );
   const response = await axios.post(
     endPoints.createJobAndFlashing,
     {

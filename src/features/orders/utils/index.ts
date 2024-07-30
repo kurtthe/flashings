@@ -6,11 +6,12 @@ import {
 import { formatDate } from '@shared/utils/formatDate';
 import { mapDataFlashing } from '@shared/utils/JobOrders';
 import { DATA_BUILD_MATERIAL_ORDER } from '@features/jobs/types';
+import { CreateOrderFormValues } from '@features/orders/type';
 
 export const mapDataJobToDataPetition = (
   dataJob: JOB_DATA,
   dataAccountCompany: RESPONSE_COMPANY_ACCOUNT,
-  dataOrder: any,
+  dataOrder: CreateOrderFormValues,
 ) => {
   const restData = mapDataFlashing(dataJob.flashings);
 

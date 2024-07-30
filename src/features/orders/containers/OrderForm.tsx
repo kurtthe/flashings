@@ -2,7 +2,6 @@ import React from 'react';
 import { Formik } from 'formik';
 import { forms } from '../constants';
 import CreateOrderForm from '@features/orders/components/CreateOrderForm';
-import { CreateOrderFormValues } from '@features/jobs/containers/types';
 import { KeyboardAvoidingBox } from '@ui/components';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
 import {
@@ -19,6 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getJobOrder } from '@store/orders/selectors';
 import { OrdersStackProps } from '@features/orders/navigation/Stack.types';
 import { mapDataJobToDataPetition } from '@features/orders/utils';
+import { CreateOrderFormValues } from '@features/orders/type';
 
 type Props = {};
 
@@ -47,7 +47,7 @@ const OrderForm: React.FC<Props> = () => {
         dataJobAndFlashing: mapDataJobToDataPetition(
           jobOrder,
           dataAccountCompany,
-          {},
+          values,
         ),
         howManyFlashings: jobOrder.flashings.length,
       });
