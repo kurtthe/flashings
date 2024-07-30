@@ -4,12 +4,15 @@ import { OrderSubmittedIcon } from '@assets/icons';
 import { Image, StyleSheet } from 'react-native';
 import { images } from '@assets/images';
 import { useNavigation } from '@react-navigation/native';
-import { useAppSelector } from '@hooks/useStore';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { getOrderNumber } from '@store/jobs/selectors';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import { Routes as RoutesJob } from '@features/jobs/navigation/routes';
+import { actions as ordersActions } from '@store/orders/actions';
 
 const OrderSubmittedScreen = () => {
+  const dispatch = useAppDispatch();
+
   const navigation = useNavigation<StackPrivateProps>();
 
   const orderNumber = useAppSelector(state =>
@@ -46,6 +49,8 @@ const OrderSubmittedScreen = () => {
         </Box>
         <Button
           onPress={() => {
+            dispatch(ordersActions.clear());
+
             navigation.navigate(StackPrivateDefinitions.JOBS, {
               screen: RoutesJob.ALL_JOBS,
             });

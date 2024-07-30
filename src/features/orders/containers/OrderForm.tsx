@@ -11,31 +11,86 @@ import {
   useGetSupplier,
 } from '@hooks/jobs';
 
-import { useAppSelector } from '@hooks/useStore';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { dataUserSelector } from '@store/auth/selectors';
 import { RoutesOrders } from '@features/orders/navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 import { getJobOrder } from '@store/orders/selectors';
 import { OrdersStackProps } from '@features/orders/navigation/Stack.types';
-import { mapDataJobToDataPetition } from '@features/orders/utils';
+import {
+  buildDataMaterialOrder,
+  mapDataJobToDataPetition,
+} from '@features/orders/utils';
 import { CreateOrderFormValues } from '@features/orders/type';
+import { actions as orderActions } from '@store/orders/actions';
+import {
+  formKeysOrders,
+  optionsDelivery,
+} from '@features/orders/constants/order';
 
 const OrderForm = () => {
+  const dispatch = useAppDispatch();
+
   const navigation = useNavigation<OrdersStackProps>();
   const jobOrder = useAppSelector(getJobOrder);
   const dataUser = useAppSelector(dataUserSelector);
+
+  const [dateFormated, setDateFormated] = React.useState<string>();
+  const [notes, setNotes] = React.useState<string>();
+  const [isQuoteOnly, setIsQuoteOnly] = React.useState<boolean>(false);
+  const [burdensData, setBurdensData] = React.useState<
+    Array<{ index: number; value: string }>
+  >([]);
+  const [addressDelivery, setAddressDelivery] = React.useState<string>('');
+  const [deliveryOrPickUp, setDeliveryOrPickUp] =
+    React.useState<string>('delivery');
+
   const { data: dataAccountCompany } = useGetAccountAndCompany();
+  const { data: dataSupplier } = useGetSupplier();
+  const { data: stores } = useGetStores();
 
   const { mutate: createJob, isLoading } = useAddDataJob({
     onSuccess: data => {
+      if (!jobOrder || !dataSupplier) return;
+
+      const dataMaterial = buildDataMaterialOrder({
+        // @ts-ignore
+        name: jobOrder.name,
+        supplier: dataSupplier.id,
+        // @ts-ignore
+        issued_on: dateFormated,
+        // @ts-ignore
+        notes: notes,
+        description: `${isQuoteOnly ? 'Quote Only-' : ''} Job Name: ${
+          jobOrder.name
+        } - Job Number: ${jobOrder.id} - Job Address: ${jobOrder.address}`,
+        attachments: [
+          {
+            name: `${jobOrder.name}.pdf`,
+            link: JSON.stringify(data),
+          },
+        ],
+        delivery_instructions: {
+          // @ts-ignore
+          delivery: deliveryOrPickUp,
+          // @ts-ignore
+          location: addressDelivery,
+          contact_name: `${dataUser.first_name} ${dataUser.last_name}`,
+          // @ts-ignore
+          contact_number: dataUser.phone_number,
+          // @ts-ignore
+          date: dateFormated,
+        },
+        burdens_data: burdensData,
+      });
+
+      dispatch(orderActions.setDataMaterialOrder({ data: dataMaterial }));
+
       navigation.navigate(RoutesOrders.ORDER_SUMMARY, {
         responseApi: JSON.stringify(data),
       });
     },
   });
-
-  const { data: stores } = useGetStores();
-  const { data: dataSupplier } = useGetSupplier();
 
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
@@ -46,6 +101,30 @@ const OrderForm = () => {
           values[formKeys.createOrder.store] === itemStore.id.toString(),
       );
       if (!dataStoreSelected) return;
+      dispatch(orderActions.setStoreSelected({ dataStore: dataStoreSelected }));
+      //@ts-ignore
+      const [day, month, year] = values[formKeys.createOrder.date]?.split('/');
+      setDateFormated(`${year}-${month}-${day}`);
+      //@ts-ignore
+      setNotes(values[formKeys.createOrder.comments]);
+
+      const valueQuoteONly =
+        values[formKeysOrders.quote_only] !== ''
+          ? // @ts-ignore
+            JSON.parse(dataOrder[formKeysOrders.quote_only])[0]
+          : undefined;
+
+      setIsQuoteOnly(!!valueQuoteONly);
+      //@ts-ignore
+      setBurdensData(values[formKeysOrders.burdens_data]);
+
+      const addressOrder =
+        values[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
+          ? values[formKeysOrders.address]
+          : `${dataStoreSelected.name} (${dataStoreSelected.address})`;
+
+      setAddressDelivery(addressOrder as string);
+      setDeliveryOrPickUp(values[formKeysOrders.deliveryOrPickUp] as string);
 
       createJob({
         dataJobAndFlashing: mapDataJobToDataPetition(

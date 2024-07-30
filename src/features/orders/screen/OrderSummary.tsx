@@ -15,7 +15,11 @@ import {
   OrdersStackProps,
 } from '@features/orders/navigation/Stack.types';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getJobIdOrder, getJobNameOrder } from '@store/orders/selectors';
+import {
+  getJobIdOrder,
+  getJobNameOrder,
+  getStoreSelectedOrder,
+} from '@store/orders/selectors';
 import { useCreateMaterial, useSendToStore } from '@hooks/jobs';
 import { dataUserSelector } from '@store/auth/selectors';
 import { config } from '@env/config';
@@ -34,10 +38,7 @@ const OrderSummaryScreen: React.FC = () => {
   const jobNameOrder = useAppSelector(getJobNameOrder);
   const dataUser = useAppSelector(dataUserSelector);
   const jobIdOrder = useAppSelector(getJobIdOrder);
-
-  const storeSelected = React.useMemo(() => {
-    return route.params.dataStore;
-  }, [route.params.dataStore]);
+  const storeSelected = useAppSelector(getStoreSelectedOrder);
 
   const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
     useCreateMaterial({

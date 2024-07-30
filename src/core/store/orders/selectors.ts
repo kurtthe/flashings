@@ -14,3 +14,21 @@ export const getJobNameOrder = createSelector(ordersSelector, state => {
 export const getJobIdOrder = createSelector(ordersSelector, state => {
   return state.job?.id;
 });
+
+export const getStoreSelectedOrder = createSelector(ordersSelector, state => {
+  return state.dataStore;
+});
+
+export const getMessageEmailSendToOrder = createSelector(
+  ordersSelector,
+  state => {
+    return state.messageEmail;
+  },
+);
+
+export const getDataMaterialOrderForSendToStore = createSelector(
+  ordersSelector,
+  state => {
+    return state.dataMaterialOrder;
+  },
+);
