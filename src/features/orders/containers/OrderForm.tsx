@@ -27,6 +27,8 @@ import {
   formKeysOrders,
   optionsDelivery,
 } from '@features/orders/constants/order';
+import { RESPONSE_CREATE_AND_FLASHING } from '@models';
+import { baseUrlPDF } from '@shared/endPoints';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -50,7 +52,7 @@ const OrderForm = () => {
   const { data: stores } = useGetStores();
 
   const { mutate: createJob, isLoading } = useAddDataJob({
-    onSuccess: data => {
+    onSuccess: (data: any) => {
       if (!jobOrder || !dataSupplier) return;
 
       const dataMaterial = buildDataMaterialOrder({
@@ -83,12 +85,12 @@ const OrderForm = () => {
         },
         burdens_data: burdensData,
       });
+      const fileName = data.response.file_name;
 
       dispatch(orderActions.setDataMaterialOrder({ data: dataMaterial }));
+      dispatch(orderActions.setUrlPDF({ url: `${baseUrlPDF}${fileName}` }));
 
-      navigation.navigate(RoutesOrders.ORDER_SUMMARY, {
-        responseApi: JSON.stringify(data),
-      });
+      navigation.navigate(RoutesOrders.ORDER_SUMMARY);
     },
   });
 
@@ -111,7 +113,7 @@ const OrderForm = () => {
       const valueQuoteONly =
         values[formKeysOrders.quote_only] !== ''
           ? // @ts-ignore
-            JSON.parse(dataOrder[formKeysOrders.quote_only])[0]
+            JSON.parse(values[formKeysOrders.quote_only])[0]
           : undefined;
 
       setIsQuoteOnly(!!valueQuoteONly);

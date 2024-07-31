@@ -1,25 +1,18 @@
 import React from 'react';
 import { Box, Button, ScrollBox } from '@ui/components';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import Loading from '@components/Loading';
 import PDFShared from '@features/jobs/containers/PDFShared';
-import {
-  ORDER_TYPE_STORE,
-  RESPONSE_CREATE_AND_FLASHING,
-  RESPONSE_MATERIAL_ORDER,
-} from '@models';
-import { baseUrlPDF } from '@shared/endPoints';
+import { ORDER_TYPE_STORE, RESPONSE_MATERIAL_ORDER } from '@models';
 import { RoutesOrders } from '@features/orders/navigation/routes';
-import {
-  OrdersStackParamsList,
-  OrdersStackProps,
-} from '@features/orders/navigation/Stack.types';
+import { OrdersStackProps } from '@features/orders/navigation/Stack.types';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import {
   getDataMaterialOrderForSendToStore,
   getJobIdOrder,
   getJobNameOrder,
   getStoreSelectedOrder,
+  getUrlPDF,
 } from '@store/orders/selectors';
 import { useCreateMaterial, useSendToStore } from '@hooks/jobs';
 import { dataUserSelector } from '@store/auth/selectors';
@@ -30,16 +23,15 @@ import { actions as jobActions } from '@store/jobs/actions';
 const OrderSummaryScreen: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<OrdersStackProps>();
-  const route =
-    useRoute<RouteProp<OrdersStackParamsList, RoutesOrders.ORDER_SUMMARY>>();
+
   const [isLoading, setIsLoading] = React.useState(true);
-  const [urlIdPdf, setUrlIdPdf] = React.useState<string>();
   const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
   const jobNameOrder = useAppSelector(getJobNameOrder);
   const dataUser = useAppSelector(dataUserSelector);
   const jobIdOrder = useAppSelector(getJobIdOrder);
   const storeSelected = useAppSelector(getStoreSelectedOrder);
   const dataMaterial = useAppSelector(getDataMaterialOrderForSendToStore);
+  const urlIdPdf = useAppSelector(getUrlPDF);
 
   const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
     useCreateMaterial({
@@ -90,15 +82,6 @@ const OrderSummaryScreen: React.FC = () => {
       clearTimeout(timeout);
     };
   }, [isLoading]);
-
-  React.useEffect(() => {
-    if (isLoading) return;
-    const parseJSON: RESPONSE_CREATE_AND_FLASHING = JSON.parse(
-      route.params.responseApi,
-    );
-    const fileName = parseJSON.response.file_name;
-    setUrlIdPdf(`${baseUrlPDF}${fileName}`);
-  }, [route.params.responseApi, isLoading]);
 
   if (!urlIdPdf || isLoading || !jobNameOrder) {
     return <Loading title="Creating your Flashing Drawing" />;

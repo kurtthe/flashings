@@ -32,3 +32,7 @@ export const getDataMaterialOrderForSendToStore = createSelector(
     return state.dataMaterialOrder;
   },
 );
+
+export const getUrlPDF = createSelector(ordersSelector, state => {
+  return state.urlPdf;
+});

@@ -7,6 +7,7 @@ type initialStateType = {
   messageEmail: string | undefined;
   dataMaterialOrder: DATA_MATERIAL_ORDER | undefined;
   dataStore: STORE | undefined;
+  urlPdf: string | undefined;
 };
 
 const INITIAL_STATE: initialStateType = {
@@ -14,11 +15,15 @@ const INITIAL_STATE: initialStateType = {
   messageEmail: undefined,
   dataMaterialOrder: undefined,
   dataStore: undefined,
+  urlPdf: undefined,
 };
 
 const ordersReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.jobOrder, (state, action) => {
     state.job = action.payload.job;
+  });
+  builder.addCase(actions.setUrlPDF, (state, action) => {
+    state.urlPdf = action.payload.url;
   });
   builder.addCase(actions.setMessageEmail, (state, action) => {
     state.messageEmail = action.payload.message;
@@ -34,6 +39,7 @@ const ordersReducer = createReducer(INITIAL_STATE, builder => {
     state.messageEmail = undefined;
     state.dataMaterialOrder = undefined;
     state.dataStore = undefined;
+    state.urlPdf = undefined;
   });
 });
 
