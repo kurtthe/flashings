@@ -71,8 +71,6 @@ const OrderSummaryScreen: React.FC = () => {
           date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
         };
 
-        console.log('Json dataOrder', JSON.stringify(dataOrder));
-
         dispatch(jobActions.orderSent({ idJob: jobIdOrder, dataOrder }));
         navigation.navigate(RoutesOrders.ORDER_SUBMITTED);
       },
