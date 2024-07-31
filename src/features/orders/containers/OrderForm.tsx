@@ -61,7 +61,6 @@ const OrderForm = () => {
       const dataMaterial = buildDataMaterialOrder({
         // @ts-ignore
         name: jobOrder.name,
-        job: jobOrder.name,
         supplier: dataSupplier.id,
         issued_on: formatDate(new Date(), 'YYYY-MM-DD'),
         // @ts-ignore
@@ -88,6 +87,8 @@ const OrderForm = () => {
         },
         burdens_data: burdensData,
       });
+
+      console.log('[dataMaterial]==>', JSON.stringify(dataMaterial));
 
       dispatch(orderActions.setDataMaterialOrder({ data: dataMaterial }));
       dispatch(orderActions.setUrlPDF({ url: `${baseUrlPDF}${fileName}` }));
