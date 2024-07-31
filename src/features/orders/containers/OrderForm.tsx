@@ -29,6 +29,7 @@ import {
 } from '@features/orders/constants/order';
 import { baseUrlPDF } from '@shared/endPoints';
 import { config } from '@env/config';
+import { formatDate } from '@shared/utils/formatDate';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -60,12 +61,12 @@ const OrderForm = () => {
       const dataMaterial = buildDataMaterialOrder({
         // @ts-ignore
         name: jobOrder.name,
+        job: jobOrder.name,
         supplier: dataSupplier.id,
-        // @ts-ignore
-        issued_on: dateFormated,
+        issued_on: formatDate(new Date(), 'YYYY-MM-DD'),
         // @ts-ignore
         notes: notes,
-        description: `${isQuoteOnly ? 'Quote Only-' : ''} Job Name: ${
+        description: `${isQuoteOnly ? '*** QUOTE ONLY ***' : ''} Job Name: ${
           jobOrder.name
         } - Job Number: ${jobOrder.id} - Job Address: ${jobOrder.address}`,
         attachments: [

@@ -53,6 +53,7 @@ export const mapDataJobToDataPetition = (
 export const buildDataMaterialOrder = (
   data: DATA_BUILD_MATERIAL_ORDER,
 ): DATA_MATERIAL_ORDER => ({
+  burdens_data: [],
   ...data,
   status: 'Draft',
   tax_exclusive: true,
@@ -61,9 +62,9 @@ export const buildDataMaterialOrder = (
       items: [
         {
           description: 'Flashing Order Per Attached Drawing Price TBD',
-          quantity: '0.01',
+          quantity: '1',
           units: 'ea',
-          cost: '0.01',
+          cost: '1',
           tax: [
             {
               name: 'GST',
@@ -74,5 +75,4 @@ export const buildDataMaterialOrder = (
       ],
     },
   ],
-  burdens_data: [],
 });
