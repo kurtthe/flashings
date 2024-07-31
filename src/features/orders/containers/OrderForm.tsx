@@ -88,8 +88,6 @@ const OrderForm = () => {
         burdens_data: burdensData,
       });
 
-      console.log('[dataMaterial]==>', JSON.stringify(dataMaterial));
-
       dispatch(orderActions.setDataMaterialOrder({ data: dataMaterial }));
       dispatch(orderActions.setUrlPDF({ url: `${baseUrlPDF}${fileName}` }));
       dispatch(
@@ -99,7 +97,7 @@ const OrderForm = () => {
               Store: ${storeSelected.name}
               Date: ${dateFormated}
               Delivery or pickup: ${deliveryOrPickUp}
-              ${addressDelivery}`,
+              Address ${deliveryOrPickUp}: ${addressDelivery}`,
         }),
       );
 

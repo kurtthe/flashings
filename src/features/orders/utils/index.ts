@@ -12,6 +12,7 @@ import {
   formKeysOrders,
   optionsDelivery,
 } from '@features/orders/constants/order';
+import { formKeys } from '@features/orders/constants';
 
 export const mapDataJobToDataPetition = (
   dataJob: JOB_DATA,
@@ -30,6 +31,8 @@ export const mapDataJobToDataPetition = (
     dataOrder[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
       ? dataOrder[formKeysOrders.address]
       : `${dataStoreSelected.name} (${dataStoreSelected.address})`;
+  //@ts-ignore
+  const [day, month, year] = dataOrder[formKeys.createOrder.date]?.split('/');
 
   return {
     company_name: dataAccountCompany.company,
@@ -41,9 +44,10 @@ export const mapDataJobToDataPetition = (
     email: dataJob.contact.email,
     phone: dataJob.contact.number,
     order_date: formatDate(new Date(), 'YYYY-MM-DD'),
-    required_date: dataOrder[formKeysOrders.date],
+    required_date: `${year}-${month}-${day}`,
     quote_only: valueQuoteONly ? 'Quote Only' : '',
-    delivery_method: dataOrder[formKeysOrders.deliveryOrPickUp],
+    //@ts-ignore
+    delivery_method: dataOrder[formKeysOrders.deliveryOrPickUp]?.toUpperCase(),
     delivery_address: addressOrder,
     comments: dataOrder[formKeysOrders.comments],
     ...restData,
