@@ -9,38 +9,28 @@ import {
   CardGutter,
   SectionsButtonsJobsDetails,
 } from '@features/jobs/components';
-import { useAppSelector } from '@hooks/useStore';
+import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { jobData } from '@store/jobs/selectors';
-import { useAddDataJob, useGetAccountAndCompany } from '@hooks/jobs';
-import { mapDataJobToDataPetition } from '@features/jobs/utils';
+import { useGetAccountAndCompany } from '@hooks/jobs';
 import { ModalBottom, ModalBottomRef } from '@components';
 import PDFShared from '@features/jobs/containers/PDFShared';
 import { CloseIcon } from '@assets/icons';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
+import { RoutesOrders } from '@features/orders/navigation/routes';
+import { actions as orderActions } from '@store/orders/actions';
 
 const JobDetailsScreen = () => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
   const navigation = useNavigation<StackPrivateProps>();
+  const dispatch = useAppDispatch();
+
   const route =
     useRoute<RouteProp<JobsStackParamsList, RoutesJobs.JOB_DETAILS>>();
   const [modalVisible, setModalVisible] = useState(false);
   const { jobId } = route.params;
   const item = useAppSelector(state => jobData(state, jobId));
   const { data: dataAccountCompany } = useGetAccountAndCompany();
-  const { mutate: createJob, isLoading } = useAddDataJob({
-    onSuccess: data => {
-      if (!item) return;
-      navigation.navigate(StackPrivateDefinitions.JOBS, {
-        screen: RoutesJobs.ORDER_SUMMARY,
-        params: {
-          responseApi: JSON.stringify(data),
-          jobName: item.name,
-          jobId: item.id,
-          jobAddress: item.address,
-        },
-      });
-    },
-  });
+
   const getCommonMaterial = (): number | null => {
     if (!item || item.flashings.length < 1) return null;
 
@@ -168,16 +158,12 @@ const JobDetailsScreen = () => {
           )}
           ListFooterComponent={
             <SectionsButtonsJobsDetails
-              loadingPreview={isLoading}
               showPreview={item.flashings.length > 0}
               disabledAddFlashing={item.flashings.length === 15}
               onPreview={() => {
-                createJob({
-                  dataJobAndFlashing: mapDataJobToDataPetition(
-                    item,
-                    dataAccountCompany,
-                  ),
-                  howManyFlashings: item.flashings.length,
+                dispatch(orderActions.jobOrder({ job: item }));
+                navigation.navigate(StackPrivateDefinitions.ORDERS, {
+                  screen: RoutesOrders.ORDER_DETAILS_FORM,
                 });
               }}
               onAddFlashing={() =>

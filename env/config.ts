@@ -14,4 +14,11 @@ export const config = {
     'https://apps.apple.com/co/app/burdens-flashing-designer/id6449658670',
   urlStoreAndroid:
     'https://play.google.com/store/apps/details?id=com.flashings',
+  credentialsMO: '53eAdpfCR3ZPfHJthoUxWNA7:',
+  // template for generate pdf file
+  templateIdDefault: 'BLAN309970',
+  templateId4_6: 'BLAN321701',
+  templateId7_9: 'BLAN935154',
+  templateId10_12: 'BLAN823895',
+  templateId13_15: 'BLAN384760',
 };

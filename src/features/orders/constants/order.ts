@@ -48,16 +48,7 @@ export const createOrderProperties = {
       .oneOf(optionsDelivery)
       .required('Delivery or Pickup is required.'),
 
-    [formKeysOrders.address]: Yup.string().when(
-      formKeysOrders.deliveryOrPickUp,
-      (values, schemaTime) => {
-        // @ts-ignore
-        if (values[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]) {
-          return schemaTime.required('Address is required.');
-        }
-        return schemaTime.notRequired();
-      },
-    ),
+    [formKeysOrders.address]: Yup.string(),
     [formKeysOrders.burdens_data]: Yup.array().of(
       Yup.object().shape({
         index: Yup.number(),

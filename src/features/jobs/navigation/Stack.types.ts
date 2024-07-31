@@ -3,18 +3,9 @@ import { Routes } from './routes';
 
 export type JobsStackParamsList = {
   [Routes.CREATE_EDIT_JOB]: {
-    jobId?: number
+    jobId?: number;
   };
   [Routes.ALL_JOBS]: undefined;
-  [Routes.ORDER_SUBMITTED]: {
-    jobId: number
-  };
-  [Routes.ORDER_SUMMARY]: {
-    responseApi: string;
-    jobName: string;
-    jobId: number;
-    jobAddress: string;
-  };
   [Routes.JOB_DETAILS]: {
     jobId: number;
     jobName?: string;
@@ -22,4 +13,3 @@ export type JobsStackParamsList = {
 };
 
 export type JobStackProps = StackNavigationProp<JobsStackParamsList>;
-

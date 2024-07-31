@@ -5,6 +5,7 @@ export enum StackPrivateDefinitions {
   FLASHING = 'FLASHING',
   JOBS = 'JOBS',
   PROFILE = 'PROFILE',
+  ORDERS = 'ORDERS',
 }
 
 export type StackPrivateProps = StackNavigationProp<StackPrivateParamsList>;
