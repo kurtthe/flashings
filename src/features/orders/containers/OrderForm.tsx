@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { dataUserSelector } from '@store/auth/selectors';
 import { RoutesOrders } from '@features/orders/navigation/routes';
 import { useNavigation } from '@react-navigation/native';
-import { getJobOrder } from '@store/orders/selectors';
+import { getJobOrder, getStoreSelectedOrder } from '@store/orders/selectors';
 import { OrdersStackProps } from '@features/orders/navigation/Stack.types';
 import {
   buildDataMaterialOrder,
@@ -28,6 +28,7 @@ import {
   optionsDelivery,
 } from '@features/orders/constants/order';
 import { baseUrlPDF } from '@shared/endPoints';
+import { config } from '@env/config';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -49,10 +50,11 @@ const OrderForm = () => {
   const { data: dataAccountCompany } = useGetAccountAndCompany();
   const { data: dataSupplier } = useGetSupplier();
   const { data: stores } = useGetStores();
+  const storeSelected = useAppSelector(getStoreSelectedOrder);
 
   const { mutate: createJob, isLoading } = useAddDataJob({
     onSuccess: (data: any) => {
-      if (!jobOrder || !dataSupplier) return;
+      if (!jobOrder || !dataSupplier || !storeSelected) return;
       const fileName = data.response.file_name;
 
       const dataMaterial = buildDataMaterialOrder({
@@ -88,6 +90,16 @@ const OrderForm = () => {
 
       dispatch(orderActions.setDataMaterialOrder({ data: dataMaterial }));
       dispatch(orderActions.setUrlPDF({ url: `${baseUrlPDF}${fileName}` }));
+      dispatch(
+        orderActions.setMessageEmail({
+          message: `${config.messageToShared} 
+              ${isQuoteOnly ? '-Quote Only-' : ''}
+              Store: ${storeSelected.name}
+              Date: ${dateFormated}
+              Delivery or pickup: ${deliveryOrPickUp}
+              ${addressDelivery}`,
+        }),
+      );
 
       navigation.navigate(RoutesOrders.ORDER_SUMMARY);
     },

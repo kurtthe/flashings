@@ -11,6 +11,7 @@ import {
   getDataMaterialOrderForSendToStore,
   getJobIdOrder,
   getJobNameOrder,
+  getMessageEmailSendToOrder,
   getStoreSelectedOrder,
   getUrlPDF,
 } from '@store/orders/selectors';
@@ -32,6 +33,7 @@ const OrderSummaryScreen: React.FC = () => {
   const storeSelected = useAppSelector(getStoreSelectedOrder);
   const dataMaterial = useAppSelector(getDataMaterialOrderForSendToStore);
   const urlIdPdf = useAppSelector(getUrlPDF);
+  const messageEmail = useAppSelector(getMessageEmailSendToOrder);
 
   const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
     useCreateMaterial({
@@ -51,7 +53,7 @@ const OrderSummaryScreen: React.FC = () => {
                 `${dataUser.email}`,
                 ...config.emailsToShared,
               ],
-              message: '',
+              message: messageEmail ?? config.messageToShared,
               idOrder: orderId,
             },
           });
@@ -89,7 +91,6 @@ const OrderSummaryScreen: React.FC = () => {
 
   const handleSendToStore = () => {
     if (!dataMaterial) return;
-    console.log('==>');
     doMaterialOrder({ material: dataMaterial });
   };
 
