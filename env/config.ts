@@ -8,6 +8,7 @@ export const config = {
     'markm@trak.co',
     'mat@digitalbasis.com.au',
     'jeff@digitalbasis.com',
+    'steveb@trak.co',
   ],
   messageToShared: 'Thanks for your Flashings order',
   urlStoreIOS:
