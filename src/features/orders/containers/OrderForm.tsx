@@ -27,7 +27,6 @@ import {
   formKeysOrders,
   optionsDelivery,
 } from '@features/orders/constants/order';
-import { RESPONSE_CREATE_AND_FLASHING } from '@models';
 import { baseUrlPDF } from '@shared/endPoints';
 
 const OrderForm = () => {
@@ -54,6 +53,7 @@ const OrderForm = () => {
   const { mutate: createJob, isLoading } = useAddDataJob({
     onSuccess: (data: any) => {
       if (!jobOrder || !dataSupplier) return;
+      const fileName = data.response.file_name;
 
       const dataMaterial = buildDataMaterialOrder({
         // @ts-ignore
@@ -69,7 +69,7 @@ const OrderForm = () => {
         attachments: [
           {
             name: `${jobOrder.name}.pdf`,
-            link: JSON.stringify(data),
+            link: `${baseUrlPDF}${fileName}`,
           },
         ],
         delivery_instructions: {
@@ -85,7 +85,6 @@ const OrderForm = () => {
         },
         burdens_data: burdensData,
       });
-      const fileName = data.response.file_name;
 
       dispatch(orderActions.setDataMaterialOrder({ data: dataMaterial }));
       dispatch(orderActions.setUrlPDF({ url: `${baseUrlPDF}${fileName}` }));

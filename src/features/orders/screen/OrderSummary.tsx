@@ -62,14 +62,16 @@ const OrderSummaryScreen: React.FC = () => {
   const { mutate: sharedMaterialOrder, isLoading: isLoadingHandleShare } =
     useSendToStore({
       onSuccess: () => {
-        if (!storeSelected || !jobIdOrder) return;
+        if (!storeSelected || !jobIdOrder || !urlIdPdf) return;
 
         const dataOrder: ORDER_TYPE_STORE = {
           orderNumber: `${orderNumber}`.trim(),
-          urlPdf: urlIdPdf ?? '',
+          urlPdf: urlIdPdf,
           store: storeSelected.name,
           date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
         };
+
+        console.log('Json dataOrder', JSON.stringify(dataOrder));
 
         dispatch(jobActions.orderSent({ idJob: jobIdOrder, dataOrder }));
         navigation.navigate(RoutesOrders.ORDER_SUBMITTED);
@@ -89,6 +91,7 @@ const OrderSummaryScreen: React.FC = () => {
 
   const handleSendToStore = () => {
     if (!dataMaterial) return;
+    console.log('==>');
     doMaterialOrder({ material: dataMaterial });
   };
 
