@@ -49,7 +49,7 @@ const BoardContainer = () => {
   const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
   const [loading, setLoading] = React.useState(false);
-  const refViewShot = React.useRef<ViewShot>();
+  const refViewShot = React.useRef<ViewShot>(null);
   const showKeyboard = useKeyboardVisibility({});
 
   const isSaveTapered = React.useMemo(() => {
@@ -156,6 +156,23 @@ const BoardContainer = () => {
       );
       return;
     }
+
+    if (flashingDataDraft.tapered) {
+      dispatch(
+        flashingActions.updateFlashingDraft({
+          dataFlashing: {
+            dataLines: [...flashingDataDraft.dataLines, dataLine],
+            tapered: {
+              ...flashingDataDraft.tapered,
+              front: [...flashingDataDraft.tapered.front, dataLine],
+              back: [...flashingDataDraft.tapered.back, dataLine],
+            },
+          },
+        }),
+      );
+      return;
+    }
+
     dispatch(
       flashingActions.updateFlashingDraft({
         dataFlashing: {
