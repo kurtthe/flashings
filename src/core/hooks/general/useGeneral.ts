@@ -5,6 +5,5 @@ export const useGetVersionApp = (): UseQueryResult<string, any> =>
   useQuery({
     queryFn: () => getVersionApp(),
     queryKey: ['get_version_app'],
-    refetchInterval: 10000,
-    refetchOnMount: 'always',
+    refetchInterval: 2000,
   });
