@@ -1,4 +1,5 @@
-import {CustomFonts} from '@theme/constants';
+import { CustomFonts } from '@theme/constants';
+import { isTablet } from '@shared/platform';
 
 const textVariants = {
   defaults: {
@@ -160,8 +161,15 @@ const textVariants = {
   // ALREADY MODIFIED AND IN USE
   subheadSmall: {
     fontWeight: '600',
-    fontSize: 16,
+    fontSize: isTablet ? 22 : 16,
+    marginVertical: isTablet ? 'xs' : 'unset',
     lineHeight: 20,
+  },
+  subheadSmallTablet: {
+    fontWeight: '600',
+    fontSize: 26,
+    lineHeight: 30,
+    marginVertical: 'xs',
   },
   subheadSmallBold: {
     fontWeight: 'bold',
@@ -172,22 +180,27 @@ const textVariants = {
     fontWeight: '500',
     fontSize: 13,
     lineHeight: 16,
-    color: 'lightGray'
+    color: 'lightGray',
   },
   menuEditor: {
     color: 'textGray',
     fontFamily: CustomFonts.LibreFranklin,
     letterSpacing: 0.049, // 0.049 (fontSize 14) = 0.0035em
-    fontSize: 12,
+    fontSize: isTablet ? 16 : 12,
+  },
+  menuEditorTablet: {
+    color: 'textGray',
+    fontFamily: CustomFonts.LibreFranklin,
+    fontSize: 18,
   },
   typeJobActive: {
-    color:"mustard",
-    textDecorationLine:"underline",
-    textDecorationColor:"mustard",
+    color: 'mustard',
+    textDecorationLine: 'underline',
+    textDecorationColor: 'mustard',
   },
   typeJob: {
-    color:"textGray"
-  }
+    color: 'textGray',
+  },
 };
 
 export default textVariants;

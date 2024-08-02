@@ -11,6 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { FlashingStackProps } from '@features/flashing/navigation/Stack.types';
 import { dataMaterials } from '@store/jobs/mocks';
 import { Alert } from 'react-native';
+import { isTablet } from '@shared/platform';
 
 type Props = {
   labelButton: string;
@@ -64,6 +65,8 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
     );
     navigation.goBack();
   };
+
+  console.log('==>isTablet', isTablet);
 
   return (
     <Box px="m" flex={1}>
