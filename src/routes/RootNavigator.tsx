@@ -20,26 +20,19 @@ export const RootNavigator = () => {
   const buildNumber = DeviceInfo.getVersion();
 
   React.useEffect(() => {
-    Toast.show({
-      position: 'bottom',
-      type: 'updateToast',
-      onPress: openStore,
-      autoHide: false,
-    });
+    if (!versionApp) {
+      refetch().catch(() => console.log('error=>'));
+      return;
+    }
 
-    // if (!versionApp) {
-    //   refetch().catch(() => console.log('error=>'));
-    //   return;
-    // }
-    //
-    // if (buildNumber !== versionApp) {
-    //   Toast.show({
-    //     position: 'bottom',
-    //     type: 'updateToast',
-    //     onPress: openStore,
-    //     autoHide: false,
-    //   });
-    // }
+    if (buildNumber !== versionApp) {
+      Toast.show({
+        position: 'bottom',
+        type: 'updateToast',
+        onPress: openStore,
+        autoHide: false,
+      });
+    }
   }, [buildNumber, versionApp]);
 
   const url = React.useMemo(() => {
