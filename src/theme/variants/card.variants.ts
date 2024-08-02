@@ -27,6 +27,13 @@ const cardVariants = {
     borderWidth: 0.2,
     borderColor: 'black',
   },
+  updates: {
+    padding: isTablet ? 'xl' : 'm',
+    backgroundColor: 'base25',
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    shadowColor: 'black',
+  },
 };
 
 export default cardVariants;
