@@ -1,6 +1,8 @@
+import { isTablet } from '@shared/platform';
+
 const cardVariants = {
   defaults: {
-    padding: 'm',
+    padding: isTablet ? 'l' : 'm',
     marginBottom: 'm',
     marginHorizontal: 'm',
     backgroundColor: 'white',
@@ -23,8 +25,8 @@ const cardVariants = {
     shadowOpacity: 0.5,
     shadowRadius: 4,
     borderWidth: 0.2,
-    borderColor: 'black'
-  }
+    borderColor: 'black',
+  },
 };
 
 export default cardVariants;
