@@ -11,6 +11,7 @@ import Board from '@features/flashing/components/Board/Board';
 import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { getDataFlashingDraft } from '@store/flashings/selectors';
 import { actions as flashingActions } from '@store/flashings/actions';
+import { isTablet } from '@shared/platform';
 
 type Props = {
   width?: number;
@@ -81,10 +82,10 @@ const PreviewFlashing: React.FC<Props> = ({
         }}>
         {imgPreview && (
           <Image
-            resizeMode="stretch"
+            resizeMode={isTablet ? 'cover' : 'stretch'}
             source={{ uri: imgPreview }}
-            width={90}
-            height={100}
+            width={isTablet ? 400 : 90}
+            height={isTablet ? 250 : 100}
             style={{
               transform: [{ scale: 1 }],
               top: 15,
@@ -97,7 +98,7 @@ const PreviewFlashing: React.FC<Props> = ({
       <ModalBottom
         backdropClosesSheet
         ref={modalBottomRef}
-        height={500}
+        height={isTablet ? 900 : 500}
         draggable={false}
         onCloseFinish={() => {
           dispatch(flashingActions.clear());
