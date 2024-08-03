@@ -48,6 +48,7 @@ import { useCombinedRefs } from '@hooks/useCombinedRefs';
 import { useIsDarkMode } from '@theme/hooks';
 import Box from '@ui/components/Box';
 import Text from '@ui/components/Text';
+import { isTablet } from '@shared/platform';
 
 export type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
   VariantProps<Theme, 'colors', 'placeholderTextColor'> &
@@ -227,7 +228,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
           style,
           { ...containerStyle },
           rest.multiline && {
-            height: 200,
+            height: isTablet ? 300 : 200,
           },
         ])}
         onPress={handleExternalFocus}
@@ -241,11 +242,11 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               style={{
                 top: labelAnimationRef.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [18, 7],
+                  outputRange: [isTablet ? 25 : 18, isTablet ? 10 : 12],
                 }),
                 fontSize: labelAnimationRef.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [16, 14],
+                  outputRange: [isTablet ? 18 : 16, isTablet ? 18 : 14],
                 }),
                 textTransform: 'capitalize',
               }}>
@@ -260,7 +261,13 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                 inputStyle,
                 fontStyle,
                 {
-                  paddingTop: value || placeholder || isFocused ? 17 : 0,
+                  paddingTop:
+                    value || placeholder || isFocused
+                      ? isTablet
+                        ? 28
+                        : 18
+                      : 0,
+                  marginTop: isTablet ? 12 : 0,
                   fontWeight: value || placeholder || isFocused ? '700' : '500',
                   paddingHorizontal: 0,
                 },
@@ -311,9 +318,8 @@ const styles = StyleSheet.create({
     height: 60,
   },
   text: {
-    fontSize: 16,
     lineHeight: 20,
-    marginTop: 8,
+    marginTop: isTablet ? 10 : 8,
   },
   inputLabel: {
     marginTop: 8,

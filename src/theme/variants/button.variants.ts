@@ -13,7 +13,7 @@ const buttonVariants = {
     minHeight: 50,
     fontFamily: CustomFonts.LibreFranklin,
     fontWeight: '600',
-    fontSize: isTablet ? 20 : 17,
+    fontSize: isTablet ? 22 : 17,
     letterSpacing: 0.049, // 0.049 => 0.0035em (fontSize 14)
   },
   solid: {

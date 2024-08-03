@@ -45,7 +45,7 @@ const textVariants = {
   },
   subheadLargeBold: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: isTablet ? 32 : 24,
     lineHeight: 32,
   },
   subheadMediumLink: {
@@ -62,7 +62,7 @@ const textVariants = {
   },
   bodyRegular: {
     fontWeight: 'normal',
-    fontSize: 14,
+    fontSize: isTablet ? 17 : 14,
     lineHeight: 18,
   },
   bodyRegularLabel: {
@@ -72,7 +72,7 @@ const textVariants = {
     color: 'textPrimary',
   },
   bodySmallRegular: {
-    fontSize: 11,
+    fontSize: isTablet ? 13 : 11,
     lineHeight: 18,
     color: 'lightGray',
   },
@@ -113,13 +113,13 @@ const textVariants = {
   },
   bodyFooter: {
     fontWeight: '500',
-    fontSize: 8,
+    fontSize: isTablet ? 12 : 8,
     lineHeight: 14,
     textTransform: 'uppercase',
   },
   bodyFooterBold: {
     fontWeight: 'bold',
-    fontSize: 8,
+    fontSize: isTablet ? 12 : 8,
     lineHeight: 18,
     textTransform: 'uppercase',
   },

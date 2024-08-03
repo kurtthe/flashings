@@ -11,6 +11,7 @@ import { EditIcon, ProfileIcon } from '@assets/icons';
 import IconButton from '@ui/components/IconButton';
 import { JobsStackParamsList } from '@features/jobs/navigation/Stack.types';
 import { StackPrivateDefinitions } from '@models/navigation';
+import { isTablet } from '@shared/platform';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<JobsStackParamsList>();
@@ -29,7 +30,13 @@ const Stack = () => {
                   onPress={() =>
                     navigation.navigate(StackPrivateDefinitions.PROFILE)
                   }
-                  icon={<Icon as={ProfileIcon} color="black" />}
+                  icon={
+                    <Icon
+                      as={ProfileIcon}
+                      color="black"
+                      size={isTablet ? 32 : 25}
+                    />
+                  }
                 />
               }
               title="Jobs"

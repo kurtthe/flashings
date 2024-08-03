@@ -4,12 +4,12 @@ import { Routes } from './routes';
 import { ProfileParamsList } from '@features/profile/navigation/Stack.types';
 import ProfileScreen from '@features/profile/screens/Profile';
 import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
-import { Logout, ProfileIcon } from '@assets/icons';
+import { Logout } from '@assets/icons';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as authActions } from '@store/auth/actions';
 import ManageTemplateScreen from '@features/profile/screens/ManageTemplate';
-import IconButton from '../../../ui/components/IconButton';
-import { StackPrivateDefinitions } from '@models/navigation';
+import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<ProfileParamsList>();
@@ -26,7 +26,12 @@ const Stack = () => {
             <HeaderBox
               leftIcon={<HeaderBackButton />}
               rightIcon={
-                <Icon as={Logout} onPress={handleLogout} color="grayIcon" />
+                <Icon
+                  as={Logout}
+                  onPress={handleLogout}
+                  color="grayIcon"
+                  size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+                />
               }
               title="Your Profile"
             />
