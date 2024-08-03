@@ -1,5 +1,7 @@
 import { BaseTouchable, Box, Icon, IconProps, Text } from '@ui/components';
 import React from 'react';
+import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 type IconMenuEditorProps = IconProps & {
   nameIcon: any;
@@ -21,7 +23,12 @@ const IconMenuEditor: React.FC<IconMenuEditorProps> = ({
     alignItems="center"
     justifyContent="center"
     onPress={() => onPress && !disabled && onPress()}>
-    <Icon as={nameIcon} {...rest} color={disabled ? 'grayIcon' : 'black'} />
+    <Icon
+      as={nameIcon}
+      {...rest}
+      color={disabled ? 'grayIcon' : 'black'}
+      size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+    />
     {title && (
       <Text mt="xs" variant="menuEditor">
         {title}

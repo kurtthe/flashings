@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { isTablet } from '@shared/platform';
 
 export const makeStyles = (isAndroid: boolean) =>
   StyleSheet.create({
@@ -25,7 +26,7 @@ export const makeStyles = (isAndroid: boolean) =>
       flex: 1,
     },
     flexShrink: {
-      height: 300,
+      height: isTablet ? 500 : 300,
       backgroundColor: 'white',
       paddingHorizontal: 6,
     },
@@ -58,7 +59,7 @@ export const makeStyles = (isAndroid: boolean) =>
     input: {
       paddingTop: isAndroid ? 10 : 0,
       marginTop: 5,
-      fontSize: 16,
+      fontSize: isTablet ? 22 : 16,
       textAlign: 'left',
       width: '100%',
       paddingHorizontal: 8,
@@ -66,16 +67,16 @@ export const makeStyles = (isAndroid: boolean) =>
       borderRadius: 4,
       borderColor: '#8F94AE',
       backgroundColor: 'white',
-      height: 60,
+      height: isTablet ? 80 : 60,
     },
     dropdownTextStyles: {
-      fontSize: 20,
+      fontSize: isTablet ? 26 : 20,
       textAlign: 'left',
       paddingLeft: 20,
     },
     dropdownItem: {
       justifyContent: 'center',
-      height: 60,
+      height: isTablet ? 80 : 60,
       marginBottom: 8,
       width: '100%',
     },

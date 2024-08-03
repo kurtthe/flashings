@@ -170,7 +170,6 @@ const DropdownComponent = React.forwardRef<any, SelectInputProps>(
             <Pressable
               onPress={() => {
                 if (item.disabled) return;
-
                 onSelect(item);
                 setLabelColor(undefined);
               }}>
