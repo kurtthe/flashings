@@ -67,8 +67,6 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
     navigation.goBack();
   };
 
-  console.log('==>isTablet', isTablet);
-
   return (
     <Box px="m" flex={1}>
       <Box my="m" flex={1}>

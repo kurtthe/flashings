@@ -20,6 +20,7 @@ import { dataUserSelector } from '@store/auth/selectors';
 import { config } from '@env/config';
 import { formatDate } from '@shared/utils/formatDate';
 import { actions as jobActions } from '@store/jobs/actions';
+import { isTablet } from '@shared/platform';
 
 const OrderSummaryScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -97,7 +98,7 @@ const OrderSummaryScreen: React.FC = () => {
   return (
     <ScrollBox enableOnAndroid>
       <Box p="m" flex={1}>
-        <PDFShared urlIdPdf={urlIdPdf} namePdf={jobNameOrder} height={500} />
+        <PDFShared urlIdPdf={urlIdPdf} namePdf={jobNameOrder} height={'80%'} />
         <Button
           my="s"
           variant="solid"
