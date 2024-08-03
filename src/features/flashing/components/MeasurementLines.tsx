@@ -73,7 +73,7 @@ const MeasurementLines: React.FC<Props> = ({
         bottom="105%"
         right="0%"
         backgroundColor="white"
-        p="xs"
+        p={isTablet ? 's' : 'xs'}
         style={{
           zIndex: 1,
           shadowOffset: { width: 0, height: 0 },
@@ -83,7 +83,11 @@ const MeasurementLines: React.FC<Props> = ({
           borderTopLeftRadius: 5,
           borderBottomLeftRadius: 5,
         }}>
-        <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
+        <Icon
+          as={CompleteEditMeasurementsIcon}
+          color="black"
+          size={isTablet ? SIZE_ICON_TABLET + 15 : SIZE_ICON_PHONE}
+        />
       </Box>
 
       <Box p="s" backgroundColor="white">
@@ -110,7 +114,7 @@ const MeasurementLines: React.FC<Props> = ({
             <TextInput
               ref={inputRef}
               inputMode="numeric"
-              keyboardType="numeric"
+              keyboardType="number-pad"
               style={[
                 {
                   textAlign: 'center',
