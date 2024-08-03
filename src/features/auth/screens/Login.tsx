@@ -3,6 +3,7 @@ import { StyleSheet, Image } from 'react-native';
 import { Text, Box, KeyboardAvoidingBox, HeaderBox } from '@ui/components';
 import LoginForm from '@features/auth/container/LoginForm';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
+import { isTablet } from '@shared/platform';
 
 const LoginScreen = () => {
   return (
@@ -32,11 +33,11 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'left',
     color: '#2E2F33',
-    fontSize: 20,
+    fontSize: isTablet ? 24 : 20,
   },
   mainLogo: {
-    width: 142,
-    height: 74,
+    width: isTablet ? 200 : 142,
+    height: isTablet ? 100 : 74,
     resizeMode: 'contain',
   },
 });
