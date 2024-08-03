@@ -1,5 +1,6 @@
 import React from 'react';
 import { Rect, Text } from 'react-native-svg';
+import { isTablet } from '@shared/platform';
 
 type Props = {
   positionTextX: number;
@@ -13,7 +14,7 @@ type Props = {
 };
 
 const TextSvg: React.FC<Props> = ({
-  fontSize = 14,
+  fontSize = isTablet ? 17 : 14,
   colorLabel = '#000',
   positionTextX,
   positionTextY,

@@ -1,6 +1,7 @@
 import { Dimensions } from 'react-native';
 import { ReactElement } from 'react';
 import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from '@models';
+import { isTablet } from '@shared/platform';
 export const STEPS_BOARD: MODES_BOARD[] = [
   'draw',
   'side',
@@ -25,7 +26,7 @@ export type BUILD_LINE = {
   rightLinePaint?: boolean;
   nextLine?: LINE_TYPE;
 };
-export const SIZE_POINTER = 4;
+export const SIZE_POINTER = isTablet ? 6 : 4;
 export const widthScreen = Dimensions.get('screen').width;
 export const heightScreen = Dimensions.get('screen').height * 2;
 

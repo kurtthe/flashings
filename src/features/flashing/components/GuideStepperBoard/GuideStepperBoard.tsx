@@ -11,6 +11,7 @@ import { useAppSelector } from '@hooks/useStore';
 import { getSideTapered, getStep } from '@store/flashings/selectors';
 import { getIndexOfStepForName } from '@features/flashing/utils';
 import { useSelector } from 'react-redux';
+import { isTablet } from '@shared/platform';
 
 type Props = {
   onFinish: () => void;
@@ -90,7 +91,10 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onChangeOption }) => {
                   <Divider my="s" />
                 </>
               )}
-              <Box flexDirection="row" justifyContent="space-around">
+              <Box
+                flexDirection="row"
+                justifyContent="space-around"
+                px={isTablet ? 's' : 'unset'}>
                 {dataStep.action.options.map((option, index) => (
                   <Button
                     key={`button-option-action-${index}`}
