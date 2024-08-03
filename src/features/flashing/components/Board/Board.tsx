@@ -21,7 +21,7 @@ import { isNaN } from 'lodash';
 import { Box, KeyboardAvoidingBox, ScrollBox } from '@ui/components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { getIndexOfStepForName } from '@features/flashing/utils';
-import { isAndroid } from '@shared/platform';
+import { isAndroid, isTablet } from '@shared/platform';
 import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
@@ -78,7 +78,17 @@ const Board: React.FC<Props> = ({
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
 
   useKeyboardVisibility({
-    onKeyboardDidShow: () => setHeightMeasurement(isAndroid ? 70 : 350),
+    onKeyboardDidShow: () => {
+      let heightForKeyboard = 350;
+      if (isAndroid) {
+        heightForKeyboard = isTablet ? 80 : 70;
+      }
+      if (isTablet) {
+        heightForKeyboard = 470;
+      }
+
+      setHeightMeasurement(heightForKeyboard);
+    },
     onKeyboardDidHide: () => setHeightMeasurement(200),
   });
 
