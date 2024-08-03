@@ -287,7 +287,9 @@ const Input = forwardRef<InputProps, typeof TextInput>(
             />
           </Box>
           {suffix && (
-            <Box top={value || placeholder || isFocused ? 3 : 8} right={5}>
+            <Box
+              top={value || placeholder || isFocused ? 3 : isTablet ? 14 : 8}
+              right={5}>
               <Text
                 mt={label ? 's' : 'unset'}
                 variant="bodyRegular"
