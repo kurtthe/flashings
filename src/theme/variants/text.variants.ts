@@ -6,41 +6,41 @@ const textVariants = {
     color: 'textPrimary',
     fontFamily: CustomFonts.LibreFranklin,
     letterSpacing: 0.049, // 0.049 (fontSize 14) = 0.0035em
-    fontSize: 14,
+    fontSize: isTablet ? 17 : 14,
   },
   headerRegular: {
     fontWeight: '300',
-    fontSize: 32,
+    fontSize: isTablet ? 35 : 32,
     lineHeight: 40,
   },
   headerBold: {
     fontWeight: 'bold',
-    fontSize: 32,
+    fontSize: isTablet ? 35 : 32,
     lineHeight: 40,
   },
   headerExtraBold: {
     fontWeight: '800',
-    fontSize: 32,
+    fontSize: isTablet ? 35 : 32,
     lineHeight: 40,
   },
   subheadLargeLight: {
     fontWeight: '300',
-    fontSize: 24,
+    fontSize: isTablet ? 27 : 24,
     lineHeight: 32,
   },
   subheadLight: {
     fontWeight: '300',
-    fontSize: 16,
+    fontSize: isTablet ? 19 : 16,
     lineHeight: 20,
   },
   subheadSecondary: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: isTablet ? 17 : 14,
     lineHeight: 16,
   },
   subheadMedium: {
     fontWeight: '500',
-    fontSize: 16,
+    fontSize: isTablet ? 19 : 16,
     lineHeight: 20,
   },
   subheadLargeBold: {
@@ -50,14 +50,14 @@ const textVariants = {
   },
   subheadMediumLink: {
     fontWeight: '500',
-    fontSize: 16,
+    fontSize: isTablet ? 19 : 16,
     lineHeight: 20,
     textDecorationLine: 'underline',
     color: 'primary',
   },
   subheadBold: {
     fontWeight: '800',
-    fontSize: 20,
+    fontSize: isTablet ? 23 : 20,
     lineHeight: 20,
   },
   bodyRegular: {
@@ -67,7 +67,7 @@ const textVariants = {
   },
   bodyRegularLabel: {
     fontWeight: 'normal',
-    fontSize: 10,
+    fontSize: isTablet ? 13 : 10,
     lineHeight: 18,
     color: 'textPrimary',
   },
@@ -78,17 +78,17 @@ const textVariants = {
   },
   bodyLabelTextfield: {
     fontWeight: 'normal',
-    fontSize: 12,
+    fontSize: isTablet ? 15 : 12,
     lineHeight: 18,
     color: 'textSecondary',
   },
   bodyBold: {
     fontWeight: '600',
-    fontSize: 14,
+    fontSize: isTablet ? 17 : 14,
     lineHeight: 18,
   },
   bodyMediumLink: {
-    fontSize: 14,
+    fontSize: isTablet ? 17 : 14,
     lineHeight: 18,
     textDecorationLine: 'underline',
     fontWeight: 'bold',
@@ -96,19 +96,19 @@ const textVariants = {
   },
   bodyNumberBlack: {
     fontWeight: '900',
-    fontSize: 14,
+    fontSize: isTablet ? 17 : 14,
     lineHeight: 18,
     color: 'secondary',
   },
   linkTextSmall: {
-    fontSize: 10,
+    fontSize: isTablet ? 13 : 10,
     color: 'primary',
     fontWeight: '500',
     textDecorationLine: 'underline',
   },
   bodyButtonBold: {
     fontWeight: '600',
-    fontSize: 17,
+    fontSize: isTablet ? 20 : 17,
     lineHeight: 21,
   },
   bodyFooter: {
@@ -125,7 +125,7 @@ const textVariants = {
   },
   numeralBig: {
     fontWeight: '900',
-    fontSize: 48,
+    fontSize: isTablet ? 51 : 48,
     // !NOTE: not add lineHeight
     // lineHeight: 57,
     textTransform: 'uppercase',
@@ -133,7 +133,7 @@ const textVariants = {
   },
   numeralSmall: {
     fontWeight: '900',
-    fontSize: 24,
+    fontSize: isTablet ? 27 : 24,
     // !NOTE: not add lineHeight
     //lineHeight: 28,
     textTransform: 'uppercase',
@@ -141,20 +141,20 @@ const textVariants = {
   },
   signature: {
     fontFamily: 'Hellodilo',
-    fontSize: 28,
+    fontSize: isTablet ? 31 : 28,
     fontWeight: '400',
     lineHeight: 32,
     color: 'secondary',
   },
   inputLabel: {
     fontWeight: '400',
-    fontSize: 14,
+    fontSize: isTablet ? 17 : 14,
     lineHeight: 14,
     color: 'textSecondary',
   },
   inputError: {
     fontWeight: '400',
-    fontSize: 12,
+    fontSize: isTablet ? 15 : 12,
     lineHeight: 15,
     color: 'errorAlert',
   },
@@ -167,18 +167,18 @@ const textVariants = {
   },
   subheadSmallTablet: {
     fontWeight: '600',
-    fontSize: 26,
+    fontSize: isTablet ? 29 : 26,
     lineHeight: 30,
     marginVertical: 'xs',
   },
   subheadSmallBold: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: isTablet ? 19 : 16,
     lineHeight: 20,
   },
   lightGraySmallText: {
     fontWeight: '500',
-    fontSize: 13,
+    fontSize: isTablet ? 16 : 13,
     lineHeight: 16,
     color: 'lightGray',
   },
@@ -191,7 +191,7 @@ const textVariants = {
   menuEditorTablet: {
     color: 'textGray',
     fontFamily: CustomFonts.LibreFranklin,
-    fontSize: 18,
+    fontSize: isTablet ? 21 : 18,
   },
   typeJobActive: {
     color: 'mustard',

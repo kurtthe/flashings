@@ -12,6 +12,7 @@ import IconButton from '@ui/components/IconButton';
 import { JobsStackParamsList } from '@features/jobs/navigation/Stack.types';
 import { StackPrivateDefinitions } from '@models/navigation';
 import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<JobsStackParamsList>();
@@ -34,7 +35,7 @@ const Stack = () => {
                     <Icon
                       as={ProfileIcon}
                       color="black"
-                      size={isTablet ? 32 : 25}
+                      size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
                     />
                   }
                 />
@@ -60,7 +61,13 @@ const Stack = () => {
               }
               rightIcon={
                 <IconButton
-                  icon={<Icon as={EditIcon} color="black" />}
+                  icon={
+                    <Icon
+                      as={EditIcon}
+                      color="black"
+                      size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+                    />
+                  }
                   onPress={() =>
                     navigation.navigate(Routes.CREATE_EDIT_JOB, {
                       // @ts-ignore

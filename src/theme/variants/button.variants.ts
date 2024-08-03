@@ -46,7 +46,7 @@ const buttonVariants = {
   },
   textSmall: {
     backgroundColor: 'white',
-    fontSize: 10,
+    fontSize: isTablet ? 13 : 11,
     color: 'primaryBlue',
     minHeight: 'auto',
     px: 'xs',
