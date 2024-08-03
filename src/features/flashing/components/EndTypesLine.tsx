@@ -14,6 +14,8 @@ import { useAppDispatch, useAppSelector } from '@hooks/useStore';
 import { getDataFlashingDraft } from '@store/flashings/selectors';
 import { actions as flashingActions } from '@store/flashings/actions';
 import { getIndexOfStepForName } from '@features/flashing/utils';
+import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 const ButtonEndType = ({
   title,
@@ -36,11 +38,21 @@ const ButtonEndType = ({
       my="xxs"
       mx="s"
       backgroundColor={active ? 'lightBlue' : 'transparent'}
-      style={[styles.button, fullWidth && { width: '95%' }, style]}>
+      style={[
+        styles.button,
+        fullWidth && { width: isTablet ? '92%' : '95%' },
+        style,
+      ]}>
       <Text textAlign={!icon ? 'center' : 'left'} variant="bodyRegular" mx="s">
         {title}
       </Text>
-      {icon && <Icon as={icon} size={30} color="grayIcon" />}
+      {icon && (
+        <Icon
+          as={icon}
+          size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+          color="grayIcon"
+        />
+      )}
     </BaseTouchable>
   );
 };
@@ -142,7 +154,7 @@ const EndTypesLineComponent = ({}) => {
         <ButtonEndType
           title="None"
           fullWidth
-          style={{ height: 40 }}
+          style={{ height: isTablet ? 50 : 40 }}
           active={validateTypeLine('none')}
           onPress={() => handleClearLineType()}
         />
@@ -200,6 +212,7 @@ const EndTypesLineComponent = ({}) => {
 const styles = StyleSheet.create({
   button: {
     width: '45%',
+    marginVertical: isTablet ? 5 : 0,
     flexDirection: 'row',
     padding: 10,
     borderRadius: 5,
