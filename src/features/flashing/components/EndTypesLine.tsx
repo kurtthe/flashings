@@ -212,7 +212,7 @@ const EndTypesLineComponent = ({}) => {
 const styles = StyleSheet.create({
   button: {
     width: '45%',
-    marginVertical: isTablet ? 5 : 0,
+    marginVertical: isTablet ? 5 : 2,
     flexDirection: 'row',
     padding: 10,
     borderRadius: 5,

@@ -161,7 +161,7 @@ const OrderForm = () => {
           initialValues={forms.createOrder.initialValues}
           validationSchema={forms.createOrder.schema}
           onSubmit={handleSubmit}>
-          <CreateOrderForm isLoading={false} />
+          <CreateOrderForm isLoading={isLoading} />
         </Formik>
       </DismissKeyboardPressable>
     </KeyboardAvoidingBox>

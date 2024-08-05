@@ -242,7 +242,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               style={{
                 top: labelAnimationRef.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [isTablet ? 25 : 18, isTablet ? 10 : 12],
+                  outputRange: [isTablet ? 25 : 18, isTablet ? 10 : 5],
                 }),
                 fontSize: labelAnimationRef.interpolate({
                   inputRange: [0, 1],
@@ -265,7 +265,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
                     value || placeholder || isFocused
                       ? isTablet
                         ? 28
-                        : 18
+                        : 20
                       : 0,
                   marginTop: isTablet ? 12 : 0,
                   fontWeight: value || placeholder || isFocused ? '700' : '500',
