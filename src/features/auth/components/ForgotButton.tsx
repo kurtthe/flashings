@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { isTablet } from '@shared/platform';
 
 type Props = {
-  onPress?: ()=>void;
-  children?: string
-}
+  onPress?: () => void;
+  children?: string;
+};
 const ForgotButton: React.FC<Props> = props => {
   return (
     <TouchableWithoutFeedback onPress={props.onPress}>
@@ -17,15 +18,15 @@ const ForgotButton: React.FC<Props> = props => {
 
 const styles_btn_link = StyleSheet.create({
   button: {
-    top:0,
-    paddingTop:10,
+    top: 0,
+    paddingTop: isTablet ? 12 : 10,
   },
   buttonText: {
     color: '#8F94AE',
     fontFamily: 'montserrat-regular',
-    fontSize: 15,
+    fontSize: isTablet ? 18 : 15,
     textAlign: 'center',
-  }
+  },
 });
 
 export default ForgotButton;

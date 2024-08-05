@@ -10,7 +10,7 @@ import {
   Text,
 } from '@ui/components';
 import ErrorMessage from './ErrorMessage';
-import { isAndroid } from '@shared/platform';
+import { isAndroid, isTablet } from '@shared/platform';
 
 type Props = Omit<SelectInputProps, 'onChange'> &
   Pick<FieldConfig, 'name' | 'value'> & {
@@ -52,7 +52,7 @@ const FieldSelect = ({
         style={{ backgroundColor: 'white' }}
       />
       <Box style={styles.labelContainer}>
-        <Text variant="subheadLight" fontSize={14}>
+        <Text variant="subheadLight" fontSize={isTablet ? 18 : 14}>
           {options.length !== 0 && field.value ? label : ''}
           {field.value && isRequired ? <Text color="error500">*</Text> : null}
         </Text>

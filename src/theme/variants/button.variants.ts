@@ -1,4 +1,5 @@
 import { CustomFonts } from '@theme/constants';
+import { isTablet } from '@shared/platform';
 
 const buttonVariants = {
   defaults: {
@@ -8,11 +9,11 @@ const buttonVariants = {
     justifyContent: 'center',
     textAlign: 'center',
     px: 'm',
-    py: 's',
+    py: isTablet ? 'm' : 's',
     minHeight: 50,
     fontFamily: CustomFonts.LibreFranklin,
     fontWeight: '600',
-    fontSize: 17,
+    fontSize: isTablet ? 22 : 17,
     letterSpacing: 0.049, // 0.049 => 0.0035em (fontSize 14)
   },
   solid: {
@@ -45,7 +46,7 @@ const buttonVariants = {
   },
   textSmall: {
     backgroundColor: 'white',
-    fontSize: 10,
+    fontSize: isTablet ? 13 : 11,
     color: 'primaryBlue',
     minHeight: 'auto',
     px: 'xs',
@@ -54,7 +55,7 @@ const buttonVariants = {
   small: {
     backgroundColor: 'primaryBlue',
     minHeight: 30,
-    fontSize: 14,
+    fontSize: isTablet ? 18 : 14,
     color: 'white',
   },
   smallDelete: {
@@ -66,7 +67,7 @@ const buttonVariants = {
   smallWhite: {
     px: 'unset',
     backgroundColor: 'white',
-    fontSize: 14,
+    fontSize: isTablet ? 18 : 14,
     textDecorationLine: 'underline',
     fontWeight: 'bold',
     color: 'black',

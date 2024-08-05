@@ -3,19 +3,20 @@ import Pdf from 'react-native-pdf';
 import { Button, Icon, IconButton } from '@ui/components';
 import Share from 'react-native-share';
 import { ShareIcon } from '@assets/icons';
-import { isAndroid } from '@shared/platform';
+import { isAndroid, isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 type Props = {
   urlIdPdf: string;
   namePdf: string;
   shareSmall?: boolean;
-  height?: number;
+  height?: any;
 };
 const PDFShared: React.FC<Props> = ({
   namePdf,
   urlIdPdf,
   shareSmall,
-  height = 300,
+  height = 500,
 }) => {
   const [urlPdfLocal, setUrlPdfLocal] = React.useState<string>();
 
@@ -41,7 +42,13 @@ const PDFShared: React.FC<Props> = ({
         <IconButton
           style={{ marginBottom: 20 }}
           onPress={handleShare}
-          icon={<Icon as={ShareIcon} color="black" size={35} />}
+          icon={
+            <Icon
+              as={ShareIcon}
+              color="black"
+              size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+            />
+          }
         />
       )}
       <Pdf

@@ -28,10 +28,7 @@ export const RootNavigator = () => {
     if (buildNumber !== versionApp) {
       Toast.show({
         position: 'bottom',
-        type: 'success',
-        text1: 'Please update',
-        text2:
-          'Please update to continue using the app, we have launched new and faster app.',
+        type: 'updateToast',
         onPress: openStore,
         autoHide: false,
       });

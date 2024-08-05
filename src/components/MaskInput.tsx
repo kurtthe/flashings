@@ -12,7 +12,8 @@ import { useCombinedRefs } from '@hooks/useCombinedRefs';
 import { Box, Icon, IconButton } from '@ui/components';
 import Text from '@ui/components/Text';
 import { RestyleInputProps } from '@ui/components/Input';
-import { palette } from '@theme';
+import { palette, SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
+import { isTablet } from '@shared/platform';
 
 type Props = RestyleInputProps &
   MaskInputProps & {
@@ -78,7 +79,7 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
               color="grey400"
               style={{
                 top: 10,
-                fontSize: 14,
+                fontSize: isTablet ? 16 : 14,
               }}>
               {label ?? placeholder}
               {isRequired && <Text color="error500">*</Text>}
@@ -102,7 +103,12 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
           </Box>
           {icon && (
             <IconButton
-              icon={<Icon as={icon} size={32} />}
+              icon={
+                <Icon
+                  as={icon}
+                  size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+                />
+              }
               onPress={() => onIcon?.()}
             />
           )}
@@ -120,15 +126,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: palette.base100,
     borderWidth: 1,
-    height: 60,
+    height: isTablet ? 80 : 60,
   },
   text: {
-    fontSize: 16,
+    fontSize: isTablet ? 18 : 16,
     lineHeight: 20,
     height: '100%',
   },
   inputLabel: {
-    marginTop: 8,
+    marginTop: isTablet ? 10 : 8,
   },
 });
 

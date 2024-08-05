@@ -6,6 +6,7 @@ import {
 } from 'react-native-safe-area-context';
 import Box, { BoxProps } from '@ui/components/Box';
 import Text from '@ui/components/Text';
+import { isTablet } from '@shared/platform';
 
 export type ScreenHeaderBoxProps = BoxProps & {
   leftIcon?: React.ReactElement;
@@ -13,6 +14,7 @@ export type ScreenHeaderBoxProps = BoxProps & {
   title?: string;
   maxLength?: number;
 };
+const marginTopIos = isTablet ? 20 : -20;
 
 const HeaderBox = ({
   leftIcon,
@@ -39,7 +41,8 @@ const HeaderBox = ({
             styles.container,
             {
               marginTop:
-                (insets?.top ?? 0) + Platform.select({ ios: -20, default: 24 }),
+                (insets?.top ?? 0) +
+                Platform.select({ ios: marginTopIos, default: 24 }),
               paddingVertical: Platform.select({ android: 15, ios: 0 }),
             },
             style,

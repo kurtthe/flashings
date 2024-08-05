@@ -13,6 +13,8 @@ import { FlashingParamsList } from '@features/flashing/navigation/Stack.types';
 import { Alert } from 'react-native';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as flashingActions } from '@store/flashings/actions';
+import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 const Stack = () => {
   const { Navigator, Screen } = createStackNavigator<FlashingParamsList>();
@@ -62,7 +64,13 @@ const Stack = () => {
             return (
               <HeaderBox
                 leftIcon={<HeaderBackButton customPressEvent={alertDelete} />}
-                rightIcon={<Icon as={CartIcon} color="grayIcon" />}
+                rightIcon={
+                  <Icon
+                    as={CartIcon}
+                    color="grayIcon"
+                    size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+                  />
+                }
                 title="Draw Flashing"
               />
             );

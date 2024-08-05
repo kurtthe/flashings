@@ -10,6 +10,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@features/auth/navigation/routes';
 import { AuthStackProps } from '@features/auth/navigation/Stack.types';
 import ForgotButton from '@features/auth/components/ForgotButton';
+import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 type Props = {
   isLoading?: boolean;
 };
@@ -60,7 +62,12 @@ const LoginFormComponent: React.FC<Props> = ({ isLoading }) => {
             ml="s"
             p="xs"
             isDisabled={isSubmitting}
-            icon={<Icon as={secureTextEntry ? EyeOffIcon : EyeIcon} />}
+            icon={
+              <Icon
+                as={secureTextEntry ? EyeOffIcon : EyeIcon}
+                size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+              />
+            }
           />
         }
         label="Password"

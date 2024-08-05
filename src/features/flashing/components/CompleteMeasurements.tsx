@@ -1,6 +1,8 @@
 import React from 'react';
 import { BaseTouchable, Box, Icon } from '@ui/components';
 import { CompleteEditMeasurementsIcon } from '@assets/icons';
+import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 type Props = {
   onPress: () => void;
@@ -9,7 +11,11 @@ type Props = {
 
 const CompleteMeasurements: React.FC<Props> = ({ onPress, children }) => {
   return (
-    <Box height={380} position="absolute" width="100%" bottom={0}>
+    <Box
+      height={isTablet ? 480 : 380}
+      position="absolute"
+      width="100%"
+      bottom={0}>
       <Box
         as={BaseTouchable}
         onPress={onPress}
@@ -17,7 +23,7 @@ const CompleteMeasurements: React.FC<Props> = ({ onPress, children }) => {
         bottom="100%"
         right="0%"
         backgroundColor="white"
-        p="xs"
+        p={isTablet ? 's' : 'xs'}
         style={{
           zIndex: 1,
           shadowOffset: { width: 0, height: 0 },
@@ -27,7 +33,11 @@ const CompleteMeasurements: React.FC<Props> = ({ onPress, children }) => {
           borderTopLeftRadius: 5,
           borderBottomLeftRadius: 5,
         }}>
-        <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
+        <Icon
+          as={CompleteEditMeasurementsIcon}
+          color="black"
+          size={isTablet ? SIZE_ICON_TABLET + 15 : SIZE_ICON_PHONE}
+        />
       </Box>
       {children}
     </Box>

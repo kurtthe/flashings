@@ -6,6 +6,7 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from 'react-native';
+import { isTablet } from '@shared/platform';
 
 type Props = {
   onPress: () => void;
@@ -38,7 +39,7 @@ const styles_btn_link = StyleSheet.create({
   buttonText: {
     color: '#0E3A90',
     fontFamily: 'montserrat-bold',
-    fontSize: 15,
+    fontSize: isTablet ? 18 : 15,
     textAlign: 'center',
     fontWeight: 'bold',
   },

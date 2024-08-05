@@ -1,14 +1,15 @@
-import {CustomFonts} from '@theme/constants';
+import { CustomFonts } from '@theme/constants';
+import { isTablet } from '@shared/platform';
 
 const inputVariants = {
   defaults: {
     fontFamily: CustomFonts.LibreFranklin,
     fontWeight: '300',
-    fontSize: 16,
+    fontSize: isTablet ? 20 : 16,
     color: 'textPrimary',
     backgroundColor: 'input',
     paddingHorizontal: 'm',
-    height: 60,
+    height: isTablet ? 80 : 60,
     borderRadius: 's',
     borderWidth: 1,
     borderColor: 'inputBorder',

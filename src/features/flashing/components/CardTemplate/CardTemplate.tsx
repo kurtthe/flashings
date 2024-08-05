@@ -14,6 +14,8 @@ import { actions as templateActions } from '@store/templates/actions';
 import { useNavigation } from '@react-navigation/native';
 import { EditIcon, EyeIcon, EyeOffIcon, TrashIcon } from '@assets/icons';
 import ModalNameTemplate from '@features/jobs/components/ModalNameTemplate';
+import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 type Props = {
   template: TemplateType;
@@ -54,15 +56,15 @@ const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
 
   return (
     <>
-      <Card borderWidth={1} width="46%" mx="s">
+      <Card borderWidth={1} width={isTablet ? '48%' : '46%'} mx="s">
         <>
           <BaseTouchable onPress={onCardTemplate}>
             <Image
-              resizeMode="contain"
+              resizeMode={'contain'}
               source={{
                 uri: template.imgPreview,
               }}
-              width={110}
+              width={isTablet ? 240 : 110}
               height={180}
               style={{
                 transform: [{ scale: 1.8 }],
@@ -81,14 +83,20 @@ const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
               justifyContent="space-between"
               pt="s">
               <IconButton
-                icon={<Icon as={EditIcon} size={20} color="black" />}
+                icon={
+                  <Icon
+                    as={EditIcon}
+                    size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+                    color="black"
+                  />
+                }
                 onPress={() => setVisibleModalNameTemplate(true)}
               />
               <IconButton
                 icon={
                   <Icon
                     as={template.isHide ? EyeIcon : EyeOffIcon}
-                    size={25}
+                    size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
                     color="black"
                   />
                 }
@@ -99,7 +107,7 @@ const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
                   icon={
                     <Icon
                       as={TrashIcon}
-                      size={28}
+                      size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
                       stroke="error500"
                       color="error500"
                     />

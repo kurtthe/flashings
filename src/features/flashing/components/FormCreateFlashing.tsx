@@ -11,6 +11,8 @@ import { useNavigation } from '@react-navigation/native';
 import { FlashingStackProps } from '@features/flashing/navigation/Stack.types';
 import { dataMaterials } from '@store/jobs/mocks';
 import { Alert } from 'react-native';
+import { isTablet } from '@shared/platform';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 type Props = {
   labelButton: string;
@@ -96,25 +98,55 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
                       justifyContent="space-between"
                       mb="unset">
                       {arrayLengths.length > 1 && (
-                        <Text variant="bodyFooterBold">{index + 1}</Text>
+                        <Text
+                          variant="lightGraySmallText"
+                          fontWeight="bold"
+                          color="black">
+                          {index + 1}
+                        </Text>
                       )}
                       <FieldInput
                         name={`flashingLengths.${index}.qty`}
                         label="Qty"
-                        style={{ width: arrayLengths.length > 1 ? 150 : 170 }}
+                        style={{
+                          width:
+                            arrayLengths.length > 1
+                              ? isTablet
+                                ? 300
+                                : 150
+                              : isTablet
+                              ? 340
+                              : 170,
+                        }}
                         keyboardType="numeric"
                       />
                       <FieldInput
                         name={`flashingLengths.${index}.length`}
                         label="Length"
-                        style={{ width: arrayLengths.length > 1 ? 150 : 170 }}
+                        style={{
+                          width:
+                            arrayLengths.length > 1
+                              ? isTablet
+                                ? 300
+                                : 150
+                              : isTablet
+                              ? 340
+                              : 170,
+                        }}
                         suffix="mm"
                         keyboardType="numeric"
                       />
                       {arrayLengths.length > 1 && (
                         <IconButton
                           mt="unset"
-                          icon={<Icon as={TrashIcon} />}
+                          icon={
+                            <Icon
+                              as={TrashIcon}
+                              size={
+                                isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE
+                              }
+                            />
+                          }
                           onPress={() => arrayHelpers.remove(index)}
                         />
                       )}

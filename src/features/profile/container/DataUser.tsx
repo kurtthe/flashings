@@ -6,6 +6,7 @@ import { useAppDispatch } from '@hooks/useStore';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '@features/profile/navigation/routes';
 import { ProfileStackProps } from '@features/profile/navigation/Stack.types';
+import { isTablet } from '@shared/platform';
 
 const DataUser = () => {
   const navigation = useNavigation<ProfileStackProps>();
@@ -26,7 +27,7 @@ const DataUser = () => {
         Manage templates
       </Button>
       <Card p="s" alignItems="center">
-        <Text variant="bodySmallRegular" fontSize={13}>
+        <Text variant="bodySmallRegular" fontSize={isTablet ? 15 : 13}>
           Version 1.0.0
         </Text>
       </Card>

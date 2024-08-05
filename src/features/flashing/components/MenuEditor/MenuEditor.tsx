@@ -22,6 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
 import IconMenuEditor from '@features/flashing/components/MenuEditor/IconMenuEditor';
 import { useSelector } from 'react-redux';
+import { isTablet } from '@shared/platform';
 
 type Props = {
   onUndo?: () => void;
@@ -125,12 +126,13 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
 
   return (
     <Box
-      py="s"
+      py={isTablet ? 'm' : 's'}
       mb="xl"
+      px={isTablet ? 's' : 'unset'}
       backgroundColor="white"
       position="absolute"
       width="100%"
-      bottom="-4%"
+      bottom={isTablet ? '-2%' : '-4%'}
       style={styles.shadow}>
       <Box px="m" style={styles.content}>
         <IconMenuEditor
@@ -139,7 +141,6 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
           nameIcon={BackIcon}
           title="Back"
           color="black"
-          size={20}
         />
         <IconMenuEditor
           disabled={_disabledUndo}
@@ -152,7 +153,6 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
           disabled={_disabledEraser}
           nameIcon={ClearIcon}
           title="Clear"
-          size={22}
         />
         <IconMenuEditor
           disabled={false}
@@ -165,7 +165,6 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
           onPress={handleNext}
           nameIcon={NextIcon}
           title="Next"
-          size={22}
         />
       </Box>
     </Box>

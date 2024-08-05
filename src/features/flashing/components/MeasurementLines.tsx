@@ -8,10 +8,11 @@ import {
 } from '@assets/icons';
 import { TextInput } from 'react-native';
 import { getIndexOfStepForName } from '@features/flashing/utils';
-import { isAndroid } from '@shared/platform';
+import { isAndroid, isTablet } from '@shared/platform';
 import { LINE_SELECTED } from '@features/flashing/components/Board/types';
 import { useAppDispatch } from '@hooks/useStore';
 import { actions as flashingActions } from '@store/flashings/actions';
+import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -30,7 +31,6 @@ const MeasurementLines: React.FC<Props> = ({
   disabledPrevious = false,
 }) => {
   const dispatch = useAppDispatch();
-
   const [measurement, setMeasurement] = React.useState(0);
   const inputRef = React.useRef<TextInput>(null);
 
@@ -73,7 +73,7 @@ const MeasurementLines: React.FC<Props> = ({
         bottom="105%"
         right="0%"
         backgroundColor="white"
-        p="xs"
+        p={isTablet ? 's' : 'xs'}
         style={{
           zIndex: 1,
           shadowOffset: { width: 0, height: 0 },
@@ -83,7 +83,11 @@ const MeasurementLines: React.FC<Props> = ({
           borderTopLeftRadius: 5,
           borderBottomLeftRadius: 5,
         }}>
-        <Icon as={CompleteEditMeasurementsIcon} color="black" size={35} />
+        <Icon
+          as={CompleteEditMeasurementsIcon}
+          color="black"
+          size={isTablet ? SIZE_ICON_TABLET + 15 : SIZE_ICON_PHONE}
+        />
       </Box>
 
       <Box p="s" backgroundColor="white">
@@ -99,7 +103,7 @@ const MeasurementLines: React.FC<Props> = ({
               opacity={disabledPrevious ? 0.3 : 1}
               color="black"
               as={BackArrowIcon}
-              size={22}
+              size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
             />
           </Box>
 
@@ -110,7 +114,7 @@ const MeasurementLines: React.FC<Props> = ({
             <TextInput
               ref={inputRef}
               inputMode="numeric"
-              keyboardType="numeric"
+              keyboardType="number-pad"
               style={[
                 {
                   textAlign: 'center',
@@ -142,7 +146,11 @@ const MeasurementLines: React.FC<Props> = ({
           </Box>
 
           <Box as={BaseTouchable} onPress={handleNext}>
-            <Icon as={NextArrowIcon} size={22} color="black" />
+            <Icon
+              as={NextArrowIcon}
+              color="black"
+              size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+            />
           </Box>
         </Box>
         <Divider my="s" />
