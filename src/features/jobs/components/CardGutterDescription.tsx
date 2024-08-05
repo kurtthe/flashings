@@ -55,7 +55,7 @@ const CardGutterDescription: React.FC<Props> = ({ data, jobId, title }) => {
         <Text
           variant="bodySmallRegular"
           style={{ textTransform: 'capitalize' }}>
-          0.55 Colorbond {getMaterial(data.colourMaterial).label}
+          0.55 {getMaterial(data.colourMaterial).label}
         </Text>
         <Box
           flexDirection="row"

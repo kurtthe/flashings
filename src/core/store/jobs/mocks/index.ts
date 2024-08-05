@@ -282,7 +282,7 @@ export const dataMaterials: MATERIALS[] = [
   },
   {
     id: 32,
-    value: 'Surfmist',
+    value: 'Surfmist (Matt Finish)',
     label: 'Surfmist® (Matt Finish)',
     bgColor: '#eae9e0',
     textColor: 'black',
