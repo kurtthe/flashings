@@ -6,7 +6,9 @@ export const getMaterial = (
   idMaterial: number,
   showAlert = false,
 ): MATERIALS => {
-  const material = dataMaterials.find(item => item.id === idMaterial);
+  const material = dataMaterials.find(
+    item => item.id.toString() === idMaterial.toString(),
+  );
   if (!material) {
     if (showAlert) {
       alert.show('Error loading material of order');
@@ -78,7 +80,7 @@ export const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
       dataFlashing.name === '' ? `Flashing ${index + 1}` : dataFlashing.name;
     // @ts-ignore
     dataMapped[`material_${index + 1}`] = `0.55 ${
-      getMaterial(dataFlashing.colourMaterial).value
+      getMaterial(dataFlashing.colourMaterial, true).value
     }`;
     // @ts-ignore
     dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
