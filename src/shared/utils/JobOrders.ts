@@ -1,9 +1,16 @@
 import { FLASHINGS_DATA, MATERIALS } from '@models';
 import { dataMaterials } from '@store/jobs/mocks';
+import alert from '@services/general-request/alert';
 
-export const getMaterial = (idMaterial: number): MATERIALS => {
+export const getMaterial = (
+  idMaterial: number,
+  showAlert = false,
+): MATERIALS => {
   const material = dataMaterials.find(item => item.id === idMaterial);
   if (!material) {
+    if (showAlert) {
+      alert.show('Error loading material of order');
+    }
     return {
       id: 1,
       value: 'galvanised',
@@ -14,6 +21,15 @@ export const getMaterial = (idMaterial: number): MATERIALS => {
       disabled: false,
     };
   }
+
+  if (material.id > 3 && material.id < 26) {
+    return {
+      ...material,
+      label: `Colorbond ${material.label}`,
+      value: `Colorbond ${material.value}`,
+    };
+  }
+
   return material;
 };
 
@@ -61,7 +77,7 @@ export const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
     dataMapped[`flashing_name_${index + 1}`] =
       dataFlashing.name === '' ? `Flashing ${index + 1}` : dataFlashing.name;
     // @ts-ignore
-    dataMapped[`material_${index + 1}`] = `0.55 Colorbond ${
+    dataMapped[`material_${index + 1}`] = `0.55 ${
       getMaterial(dataFlashing.colourMaterial).value
     }`;
     // @ts-ignore
