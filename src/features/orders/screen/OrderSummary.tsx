@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box, Button, ScrollBox } from '@ui/components';
-import { useNavigation } from '@react-navigation/native';
+import {Box, Button, ScrollBox} from '@ui/components';
+import {useNavigation} from '@react-navigation/native';
 import Loading from '@components/Loading';
 import PDFShared from '@features/jobs/containers/PDFShared';
-import { ORDER_TYPE_STORE, RESPONSE_MATERIAL_ORDER } from '@models';
-import { RoutesOrders } from '@features/orders/navigation/routes';
-import { OrdersStackProps } from '@features/orders/navigation/Stack.types';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import {ORDER_TYPE_STORE, RESPONSE_MATERIAL_ORDER} from '@models';
+import {RoutesOrders} from '@features/orders/navigation/routes';
+import {OrdersStackProps} from '@features/orders/navigation/Stack.types';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {
   getDataMaterialOrderForSendToStore,
   getJobIdOrder,
@@ -15,12 +15,11 @@ import {
   getStoreSelectedOrder,
   getUrlPDF,
 } from '@store/orders/selectors';
-import { useCreateMaterial, useSendToStore } from '@hooks/jobs';
-import { dataUserSelector } from '@store/auth/selectors';
-import { config } from '@env/config';
-import { formatDate } from '@shared/utils/formatDate';
-import { actions as jobActions } from '@store/jobs/actions';
-import { isTablet } from '@shared/platform';
+import {useCreateMaterial, useSendToStore} from '@hooks/jobs';
+import {dataUserSelector} from '@store/auth/selectors';
+import {config} from '@env/config';
+import {formatDate} from '@shared/utils/formatDate';
+import {actions as jobActions} from '@store/jobs/actions';
 
 const OrderSummaryScreen: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +35,7 @@ const OrderSummaryScreen: React.FC = () => {
   const urlIdPdf = useAppSelector(getUrlPDF);
   const messageEmail = useAppSelector(getMessageEmailSendToOrder);
 
-  const { mutate: doMaterialOrder, isLoading: loadingMaterialOrder } =
+  const {mutate: doMaterialOrder, isLoading: loadingMaterialOrder} =
     useCreateMaterial({
       onSuccess: data => {
         const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order
@@ -62,7 +61,7 @@ const OrderSummaryScreen: React.FC = () => {
       },
     });
 
-  const { mutate: sharedMaterialOrder, isLoading: isLoadingHandleShare } =
+  const {mutate: sharedMaterialOrder, isLoading: isLoadingHandleShare} =
     useSendToStore({
       onSuccess: () => {
         if (!storeSelected || !jobIdOrder || !urlIdPdf) return;
@@ -74,7 +73,7 @@ const OrderSummaryScreen: React.FC = () => {
           date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
         };
 
-        dispatch(jobActions.orderSent({ idJob: jobIdOrder, dataOrder }));
+        dispatch(jobActions.orderSent({idJob: jobIdOrder, dataOrder}));
         navigation.navigate(RoutesOrders.ORDER_SUBMITTED);
       },
     });
@@ -92,7 +91,7 @@ const OrderSummaryScreen: React.FC = () => {
 
   const handleSendToStore = () => {
     if (!dataMaterial) return;
-    doMaterialOrder({ material: dataMaterial });
+    doMaterialOrder({material: dataMaterial});
   };
 
   return (
