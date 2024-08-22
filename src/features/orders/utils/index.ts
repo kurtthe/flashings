@@ -62,8 +62,6 @@ export const mapDataJobToDataPetition = (
 export const buildDataMaterialOrder = (
   data: DATA_BUILD_MATERIAL_ORDER,
 ): DATA_MATERIAL_ORDER => {
-  console.log('buildDataMaterialOrder==', JSON.stringify(data));
-
   return {
     burdens_data: [],
     ...data,

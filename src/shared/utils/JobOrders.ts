@@ -95,9 +95,10 @@ export const mapDataFlashing = (
     dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
 
     if (dataFlashing.tapered) {
+      console.log('===>Tapered::');
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image_back`] =
-        dataFlashing.tapered.frontImagePreview;
+        dataFlashing.tapered.backImagePreview;
       // @ts-ignore
       dataMapped[`girth_${index + 1}`] = `${getGirth(
         flashings[index],
