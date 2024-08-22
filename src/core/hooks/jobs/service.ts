@@ -11,11 +11,11 @@ import {
   STORE_RESPONSE,
   SUPPLIER,
 } from '@models';
-import { endPoints } from '@shared/endPoints';
-import { RequestService } from '@services/index';
+import {endPoints} from '@shared/endPoints';
+import {RequestService} from '@services/index';
 import axios from 'axios';
-import { Buffer } from 'buffer';
-import { config } from '@env/config';
+import {Buffer} from 'buffer';
+import {config} from '@env/config';
 
 export const getStores = async (): Promise<STORE[]> => {
   const response = await RequestService.get<STORE_RESPONSE>(
@@ -32,7 +32,6 @@ export const createJobAndFlashings = async ({
   howManyFlashings?: number;
 }): Promise<RESPONSE_CREATE_AND_FLASHING> => {
   let template_id = config.templateIdDefault;
-  console.log('howManyFlashings::', howManyFlashings);
 
   if (howManyFlashings >= 4 && howManyFlashings <= 6) {
     template_id = config.templateId4_6;
@@ -88,15 +87,15 @@ export const createMaterialOrder = async ({
 }): Promise<RESPONSE_MATERIAL_ORDER> => {
   const response = await RequestService.put<
     RESPONSE_MATERIAL_ORDER,
-    { data: DATA_MATERIAL_ORDER }
-  >(endPoints.createMaterialOrder, { data: material });
+    {data: DATA_MATERIAL_ORDER}
+  >(endPoints.createMaterialOrder, {data: material});
   return Promise.resolve(response.body);
 };
 
 export const sendToStore = async ({
   dataShared,
 }: {
-  dataShared: { idOrder: number } & SHARED_DATA_MATERIAL_ORDER;
+  dataShared: {idOrder: number} & SHARED_DATA_MATERIAL_ORDER;
 }): Promise<RESPONSE_SHARED_DATA_MATERIAL_ORDER> => {
   const url = endPoints.shareMaterialOrder.replace(
     ':id',
@@ -105,7 +104,7 @@ export const sendToStore = async ({
   const response = await RequestService.post<
     RESPONSE_SHARED_DATA_MATERIAL_ORDER,
     SHARED_DATA_MATERIAL_ORDER
-  >(url, { emails: dataShared.emails, message: dataShared.message });
+  >(url, {emails: dataShared.emails, message: dataShared.message});
   return Promise.resolve(response.body);
 };
 

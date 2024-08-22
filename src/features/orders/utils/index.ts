@@ -21,10 +21,18 @@ export const mapDataJobToDataPetition = (
   dataStoreSelected: STORE,
   versionApp: string = '1.0.0',
 ) => {
+  const addressOrder =
+    dataOrder[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
+      ? dataOrder[formKeysOrders.address]
+      : `${dataStoreSelected.name} (${dataStoreSelected.address})`;
+
   const restData = mapDataFlashing(
     dataJob.flashings,
     dataStoreSelected.name,
     versionApp,
+    //@ts-ignore
+    dataOrder[formKeysOrders.deliveryOrPickUp]?.toUpperCase(),
+    addressOrder as string,
   );
   const valueQuoteONly =
     dataOrder[formKeysOrders.quote_only] !== ''
@@ -32,10 +40,6 @@ export const mapDataJobToDataPetition = (
         JSON.parse(dataOrder[formKeysOrders.quote_only])[0]
       : undefined;
 
-  const addressOrder =
-    dataOrder[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
-      ? dataOrder[formKeysOrders.address]
-      : `${dataStoreSelected.name} (${dataStoreSelected.address})`;
   //@ts-ignore
   const [day, month, year] = dataOrder[formKeys.createOrder.date]?.split('/');
 

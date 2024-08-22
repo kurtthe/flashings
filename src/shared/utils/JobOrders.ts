@@ -1,4 +1,4 @@
-import {FLASHINGS_DATA, MATERIALS} from '@models';
+import {FLASHINGS_DATA, MATERIALS, STORE} from '@models';
 import {dataMaterials} from '@store/jobs/mocks';
 import alert from '@services/general-request/alert';
 
@@ -75,6 +75,8 @@ export const mapDataFlashing = (
   flashings: FLASHINGS_DATA[],
   storeName: string,
   versionApp: string,
+  delivery: string,
+  address: string,
 ) => {
   let dataMapped = {};
 
@@ -82,6 +84,10 @@ export const mapDataFlashing = (
   dataMapped[`store`] = storeName;
   // @ts-ignore
   dataMapped[`app_version`] = versionApp;
+  // @ts-ignore
+  dataMapped[`delivery_method`] = delivery;
+  // @ts-ignore
+  dataMapped[`delivery_address`] = address;
 
   for (const [index, dataFlashing] of flashings.entries()) {
     // @ts-ignore
@@ -95,7 +101,6 @@ export const mapDataFlashing = (
     dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
 
     if (dataFlashing.tapered) {
-      console.log('===>Tapered::');
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image_back`] =
         dataFlashing.tapered.backImagePreview;
