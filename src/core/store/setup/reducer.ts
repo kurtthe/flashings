@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {actions} from './actions';
+import {actionsSetup as actions} from './actions';
 
 type initialStateType = {
   versionApp: string;
