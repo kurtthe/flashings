@@ -99,9 +99,11 @@ export const mapDataFlashing = (
     }`;
     // @ts-ignore
     dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
-    // @ts-ignore
-    dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
+
     if (dataFlashing.tapered) {
+      // @ts-ignore
+      dataMapped[`flash_${index + 1}_image`] =
+        dataFlashing.tapered.frontImagePreview;
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image_back`] =
         dataFlashing.tapered.backImagePreview;
@@ -110,6 +112,7 @@ export const mapDataFlashing = (
         flashings[index],
         'front',
       )} mm`;
+
       // @ts-ignore
       dataMapped[`girth_${index + 1}_back`] = `${getGirth(
         flashings[index],
@@ -118,6 +121,8 @@ export const mapDataFlashing = (
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = 'Tapered';
     } else {
+      // @ts-ignore
+      dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
       // @ts-ignore
       dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
       // @ts-ignore

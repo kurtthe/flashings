@@ -46,6 +46,7 @@ export const createJobAndFlashings = async ({
   const base64Credentials = Buffer.from(config.credentialsMO).toString(
     'base64',
   );
+
   const response = await axios.post(
     endPoints.createJobAndFlashing,
     {
