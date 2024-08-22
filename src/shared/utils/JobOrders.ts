@@ -1,5 +1,5 @@
-import { FLASHINGS_DATA, MATERIALS } from '@models';
-import { dataMaterials } from '@store/jobs/mocks';
+import {FLASHINGS_DATA, MATERIALS, STORE} from '@models';
+import {dataMaterials} from '@store/jobs/mocks';
 import alert from '@services/general-request/alert';
 
 export const getMaterial = (
@@ -71,8 +71,23 @@ export const getBends = (data: FLASHINGS_DATA) => {
   return lengthPoint ?? 0;
 };
 
-export const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
+export const mapDataFlashing = (
+  flashings: FLASHINGS_DATA[],
+  storeName: string,
+  versionApp: string,
+  delivery: string,
+  address: string,
+) => {
   let dataMapped = {};
+
+  // @ts-ignore
+  dataMapped[`store`] = storeName;
+  // @ts-ignore
+  dataMapped[`app_version`] = versionApp;
+  // @ts-ignore
+  dataMapped[`delivery_method`] = delivery;
+  // @ts-ignore
+  dataMapped[`delivery_address`] = address;
 
   for (const [index, dataFlashing] of flashings.entries()) {
     // @ts-ignore
@@ -90,10 +105,14 @@ export const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
       dataMapped[`flash_${index + 1}_image`] =
         dataFlashing.tapered.frontImagePreview;
       // @ts-ignore
+      dataMapped[`flash_${index + 1}_image_back`] =
+        dataFlashing.tapered.backImagePreview;
+      // @ts-ignore
       dataMapped[`girth_${index + 1}`] = `${getGirth(
         flashings[index],
         'front',
       )} mm`;
+
       // @ts-ignore
       dataMapped[`girth_${index + 1}_back`] = `${getGirth(
         flashings[index],
@@ -103,9 +122,9 @@ export const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
       dataMapped[`tapered_${index + 1}`] = 'Tapered';
     } else {
       // @ts-ignore
-      dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
-      // @ts-ignore
       dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
+      // @ts-ignore
+      dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = '';
     }
@@ -127,9 +146,8 @@ const mapLengthsInputs = (
     // @ts-ignore
     dataMapped[`flash_${numberFlashing}_${index + 1}_qty`] = dataLengths.qty;
     // @ts-ignore
-    dataMapped[
-      `flash_${numberFlashing}_${index + 1}_length`
-    ] = `${dataLengths.length} mm`;
+    dataMapped[`flash_${numberFlashing}_${index + 1}_length`] =
+      `${dataLengths.length} mm`;
   });
 
   return dataMapped;

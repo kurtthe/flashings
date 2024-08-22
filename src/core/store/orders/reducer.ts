@@ -1,6 +1,6 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { actions } from './actions';
-import { DATA_MATERIAL_ORDER, JOB_DATA, STORE } from '@models';
+import {createReducer} from '@reduxjs/toolkit';
+import {actions} from './actions';
+import {DATA_MATERIAL_ORDER, JOB_DATA, STORE} from '@models';
 
 type initialStateType = {
   job: JOB_DATA | undefined;

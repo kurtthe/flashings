@@ -1,8 +1,8 @@
 import React from 'react';
-import { Formik } from 'formik';
-import { formKeys, forms } from '../constants';
+import {Formik} from 'formik';
+import {formKeys, forms} from '../constants';
 import CreateOrderForm from '@features/orders/components/CreateOrderForm';
-import { KeyboardAvoidingBox } from '@ui/components';
+import {KeyboardAvoidingBox} from '@ui/components';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
 import {
   useAddDataJob,
@@ -11,25 +11,26 @@ import {
   useGetSupplier,
 } from '@hooks/jobs';
 
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { dataUserSelector } from '@store/auth/selectors';
-import { RoutesOrders } from '@features/orders/navigation/routes';
-import { useNavigation } from '@react-navigation/native';
-import { getJobOrder, getStoreSelectedOrder } from '@store/orders/selectors';
-import { OrdersStackProps } from '@features/orders/navigation/Stack.types';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
+import {dataUserSelector} from '@store/auth/selectors';
+import {RoutesOrders} from '@features/orders/navigation/routes';
+import {useNavigation} from '@react-navigation/native';
+import {getJobOrder, getStoreSelectedOrder} from '@store/orders/selectors';
+import {OrdersStackProps} from '@features/orders/navigation/Stack.types';
 import {
   buildDataMaterialOrder,
   mapDataJobToDataPetition,
 } from '@features/orders/utils';
-import { CreateOrderFormValues } from '@features/orders/type';
-import { actions as orderActions } from '@store/orders/actions';
+import {CreateOrderFormValues} from '@features/orders/type';
+import {actions as orderActions} from '@store/orders/actions';
 import {
   formKeysOrders,
   optionsDelivery,
 } from '@features/orders/constants/order';
-import { baseUrlPDF } from '@shared/endPoints';
-import { config } from '@env/config';
-import { formatDate } from '@shared/utils/formatDate';
+import {baseUrlPDF} from '@shared/endPoints';
+import {config} from '@env/config';
+import {formatDate} from '@shared/utils/formatDate';
+import {useGetVersionApp} from '@hooks/general/useGeneral';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -42,18 +43,19 @@ const OrderForm = () => {
   const [notes, setNotes] = React.useState<string>();
   const [isQuoteOnly, setIsQuoteOnly] = React.useState<boolean>(false);
   const [burdensData, setBurdensData] = React.useState<
-    Array<{ index: number; value: string }>
+    Array<{index: number; value: string}>
   >([]);
   const [addressDelivery, setAddressDelivery] = React.useState<string>('');
   const [deliveryOrPickUp, setDeliveryOrPickUp] =
     React.useState<string>('delivery');
 
-  const { data: dataAccountCompany } = useGetAccountAndCompany();
-  const { data: dataSupplier } = useGetSupplier();
-  const { data: stores } = useGetStores();
+  const {data: dataAccountCompany} = useGetAccountAndCompany();
+  const {data: dataSupplier} = useGetSupplier();
+  const {data: stores} = useGetStores();
+  const {data: versionApp} = useGetVersionApp();
   const storeSelected = useAppSelector(getStoreSelectedOrder);
 
-  const { mutate: createJob, isLoading } = useAddDataJob({
+  const {mutate: createJob, isLoading} = useAddDataJob({
     onSuccess: (data: any) => {
       if (!jobOrder || !dataSupplier || !storeSelected) return;
       const fileName = data.response.file_name;
@@ -88,8 +90,8 @@ const OrderForm = () => {
         burdens_data: burdensData,
       });
 
-      dispatch(orderActions.setDataMaterialOrder({ data: dataMaterial }));
-      dispatch(orderActions.setUrlPDF({ url: `${baseUrlPDF}${fileName}` }));
+      dispatch(orderActions.setDataMaterialOrder({data: dataMaterial}));
+      dispatch(orderActions.setUrlPDF({url: `${baseUrlPDF}${fileName}`}));
       dispatch(
         orderActions.setMessageEmail({
           message: `${config.messageToShared} 
@@ -114,7 +116,7 @@ const OrderForm = () => {
           values[formKeys.createOrder.store] === itemStore.id.toString(),
       );
       if (!dataStoreSelected) return;
-      dispatch(orderActions.setStoreSelected({ dataStore: dataStoreSelected }));
+      dispatch(orderActions.setStoreSelected({dataStore: dataStoreSelected}));
       //@ts-ignore
       const [day, month, year] = values[formKeys.createOrder.date]?.split('/');
       setDateFormated(`${year}-${month}-${day}`);
@@ -145,6 +147,7 @@ const OrderForm = () => {
           dataAccountCompany,
           values,
           dataStoreSelected,
+          versionApp,
         ),
         howManyFlashings: jobOrder.flashings.length,
       });
