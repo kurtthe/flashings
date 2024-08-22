@@ -29,7 +29,6 @@ const ordersReducer = createReducer(INITIAL_STATE, builder => {
     state.messageEmail = action.payload.message;
   });
   builder.addCase(actions.setDataMaterialOrder, (state, action) => {
-    console.log('=>dataMaterial::', JSON.stringify(action.payload.data));
     state.dataMaterialOrder = action.payload.data;
   });
   builder.addCase(actions.setStoreSelected, (state, action) => {
