@@ -30,6 +30,7 @@ import {
 import {baseUrlPDF} from '@shared/endPoints';
 import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
+import {useGetVersionApp} from '@hooks/general/useGeneral';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -51,6 +52,7 @@ const OrderForm = () => {
   const {data: dataAccountCompany} = useGetAccountAndCompany();
   const {data: dataSupplier} = useGetSupplier();
   const {data: stores} = useGetStores();
+  const {data: versionApp} = useGetVersionApp();
   const storeSelected = useAppSelector(getStoreSelectedOrder);
 
   const {mutate: createJob, isLoading} = useAddDataJob({
@@ -145,6 +147,7 @@ const OrderForm = () => {
           dataAccountCompany,
           values,
           dataStoreSelected,
+          versionApp,
         ),
         howManyFlashings: jobOrder.flashings.length,
       });

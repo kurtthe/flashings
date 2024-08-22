@@ -1,5 +1,5 @@
-import { FLASHINGS_DATA, MATERIALS } from '@models';
-import { dataMaterials } from '@store/jobs/mocks';
+import {FLASHINGS_DATA, MATERIALS} from '@models';
+import {dataMaterials} from '@store/jobs/mocks';
 import alert from '@services/general-request/alert';
 
 export const getMaterial = (
@@ -71,8 +71,17 @@ export const getBends = (data: FLASHINGS_DATA) => {
   return lengthPoint ?? 0;
 };
 
-export const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
+export const mapDataFlashing = (
+  flashings: FLASHINGS_DATA[],
+  storeName: string,
+  versionApp: string,
+) => {
   let dataMapped = {};
+
+  // @ts-ignore
+  dataMapped[`store`] = storeName;
+  // @ts-ignore
+  dataMapped[`app_version`] = versionApp;
 
   for (const [index, dataFlashing] of flashings.entries()) {
     // @ts-ignore
@@ -87,7 +96,7 @@ export const mapDataFlashing = (flashings: FLASHINGS_DATA[]) => {
 
     if (dataFlashing.tapered) {
       // @ts-ignore
-      dataMapped[`flash_${index + 1}_image`] =
+      dataMapped[`flash_${index + 1}_image_back`] =
         dataFlashing.tapered.frontImagePreview;
       // @ts-ignore
       dataMapped[`girth_${index + 1}`] = `${getGirth(
@@ -127,9 +136,8 @@ const mapLengthsInputs = (
     // @ts-ignore
     dataMapped[`flash_${numberFlashing}_${index + 1}_qty`] = dataLengths.qty;
     // @ts-ignore
-    dataMapped[
-      `flash_${numberFlashing}_${index + 1}_length`
-    ] = `${dataLengths.length} mm`;
+    dataMapped[`flash_${numberFlashing}_${index + 1}_length`] =
+      `${dataLengths.length} mm`;
   });
 
   return dataMapped;

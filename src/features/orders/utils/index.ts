@@ -19,8 +19,13 @@ export const mapDataJobToDataPetition = (
   dataAccountCompany: RESPONSE_COMPANY_ACCOUNT,
   dataOrder: CreateOrderFormValues,
   dataStoreSelected: STORE,
+  versionApp: string = '1.0.0',
 ) => {
-  const restData = mapDataFlashing(dataJob.flashings);
+  const restData = mapDataFlashing(
+    dataJob.flashings,
+    dataStoreSelected.name,
+    versionApp,
+  );
   const valueQuoteONly =
     dataOrder[formKeysOrders.quote_only] !== ''
       ? // @ts-ignore
@@ -56,27 +61,31 @@ export const mapDataJobToDataPetition = (
 
 export const buildDataMaterialOrder = (
   data: DATA_BUILD_MATERIAL_ORDER,
-): DATA_MATERIAL_ORDER => ({
-  burdens_data: [],
-  ...data,
-  status: 'Draft',
-  tax_exclusive: true,
-  sections: [
-    {
-      items: [
-        {
-          description: 'Flashing Order Per Attached Drawing Price TBD',
-          quantity: '1',
-          units: 'ea',
-          cost: '1',
-          tax: [
-            {
-              name: 'GST',
-              rate: 10,
-            },
-          ],
-        },
-      ],
-    },
-  ],
-});
+): DATA_MATERIAL_ORDER => {
+  console.log('buildDataMaterialOrder==', JSON.stringify(data));
+
+  return {
+    burdens_data: [],
+    ...data,
+    status: 'Draft',
+    tax_exclusive: true,
+    sections: [
+      {
+        items: [
+          {
+            description: 'Flashing Order Per Attached Drawing Price TBD',
+            quantity: '1',
+            units: 'ea',
+            cost: '1',
+            tax: [
+              {
+                name: 'GST',
+                rate: 10,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  };
+};
