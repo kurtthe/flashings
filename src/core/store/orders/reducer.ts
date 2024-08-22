@@ -1,6 +1,6 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { actions } from './actions';
-import { DATA_MATERIAL_ORDER, JOB_DATA, STORE } from '@models';
+import {createReducer} from '@reduxjs/toolkit';
+import {actions} from './actions';
+import {DATA_MATERIAL_ORDER, JOB_DATA, STORE} from '@models';
 
 type initialStateType = {
   job: JOB_DATA | undefined;
@@ -29,6 +29,7 @@ const ordersReducer = createReducer(INITIAL_STATE, builder => {
     state.messageEmail = action.payload.message;
   });
   builder.addCase(actions.setDataMaterialOrder, (state, action) => {
+    console.log('=>dataMaterial::', JSON.stringify(action.payload.data));
     state.dataMaterialOrder = action.payload.data;
   });
   builder.addCase(actions.setStoreSelected, (state, action) => {

@@ -4,15 +4,15 @@ import {
   RESPONSE_COMPANY_ACCOUNT,
   STORE,
 } from '@models';
-import { formatDate } from '@shared/utils/formatDate';
-import { mapDataFlashing } from '@shared/utils/JobOrders';
-import { DATA_BUILD_MATERIAL_ORDER } from '@features/jobs/types';
-import { CreateOrderFormValues } from '@features/orders/type';
+import {formatDate} from '@shared/utils/formatDate';
+import {mapDataFlashing} from '@shared/utils/JobOrders';
+import {DATA_BUILD_MATERIAL_ORDER} from '@features/jobs/types';
+import {CreateOrderFormValues} from '@features/orders/type';
 import {
   formKeysOrders,
   optionsDelivery,
 } from '@features/orders/constants/order';
-import { formKeys } from '@features/orders/constants';
+import {formKeys} from '@features/orders/constants';
 
 export const mapDataJobToDataPetition = (
   dataJob: JOB_DATA,

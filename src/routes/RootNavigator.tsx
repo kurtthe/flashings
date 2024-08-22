@@ -1,22 +1,22 @@
 import React from 'react';
-import { useAppSelector } from '@hooks/useStore';
-import { isAuthenticatedSelector } from '@store/auth/selectors';
-import { useGetVersionApp } from '@hooks/general/useGeneral';
+import {useAppSelector} from '@hooks/useStore';
+import {isAuthenticatedSelector} from '@store/auth/selectors';
+import {useGetVersionApp} from '@hooks/general/useGeneral';
 
 import BaseSpinner from '@ui/components/BaseSpinner';
 import Toast from 'react-native-toast-message';
 import DeviceInfo from 'react-native-device-info';
-import { Linking } from 'react-native';
+import {Linking} from 'react-native';
 import alert from '@services/general-request/alert';
-import { isAndroid } from '@shared/platform';
-import { config } from '@env/config';
+import {isAndroid} from '@shared/platform';
+import {config} from '@env/config';
 
 const PublicNavigator = React.lazy(() => import('./PublicNavigator'));
 const PrivateNavigator = React.lazy(() => import('./PrivateNavigator'));
 
 export const RootNavigator = () => {
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
-  const { data: versionApp, refetch } = useGetVersionApp();
+  const {data: versionApp, refetch} = useGetVersionApp();
   const buildNumber = DeviceInfo.getVersion();
 
   React.useEffect(() => {
