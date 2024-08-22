@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
-import { ActivityIndicator, FlatList } from 'react-native';
-import { Box, Icon, IconButton, ScrollBox, Text } from '@ui/components';
-import { Routes } from '@features/flashing/navigation/routes';
-import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { JobsStackParamsList } from '@features/jobs/navigation/Stack.types';
+import React, {useState} from 'react';
+import {ActivityIndicator, FlatList} from 'react-native';
+import {Box, Icon, IconButton, ScrollBox, Text} from '@ui/components';
+import {Routes} from '@features/flashing/navigation/routes';
+import {Routes as RoutesJobs} from '@features/jobs/navigation/routes';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {JobsStackParamsList} from '@features/jobs/navigation/Stack.types';
 import {
   CardGutter,
   SectionsButtonsJobsDetails,
 } from '@features/jobs/components';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { jobData } from '@store/jobs/selectors';
-import { useGetAccountAndCompany } from '@hooks/jobs';
-import { ModalBottom, ModalBottomRef } from '@components';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
+import {jobData} from '@store/jobs/selectors';
+import {useGetAccountAndCompany} from '@hooks/jobs';
+import {ModalBottom, ModalBottomRef} from '@components';
 import PDFShared from '@features/jobs/containers/PDFShared';
-import { CloseIcon } from '@assets/icons';
-import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
-import { RoutesOrders } from '@features/orders/navigation/routes';
-import { actions as orderActions } from '@store/orders/actions';
+import {CloseIcon} from '@assets/icons';
+import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
+import {RoutesOrders} from '@features/orders/navigation/routes';
+import {actions as orderActions} from '@store/orders/actions';
 
 const JobDetailsScreen = () => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
@@ -27,9 +27,9 @@ const JobDetailsScreen = () => {
   const route =
     useRoute<RouteProp<JobsStackParamsList, RoutesJobs.JOB_DETAILS>>();
   const [modalVisible, setModalVisible] = useState(false);
-  const { jobId } = route.params;
+  const {jobId} = route.params;
   const item = useAppSelector(state => jobData(state, jobId));
-  const { data: dataAccountCompany } = useGetAccountAndCompany();
+  const {data: dataAccountCompany} = useGetAccountAndCompany();
 
   const getCommonMaterial = (): number | null => {
     if (!item || item.flashings.length < 1) return null;
@@ -45,10 +45,9 @@ const JobDetailsScreen = () => {
       }
     });
 
-    let mostFrequentElement = flashingsMaterial[0]; // Default to the first element
-    let maxCount = 1; // Default count is 1
+    let mostFrequentElement = flashingsMaterial[0];
+    let maxCount = 1;
 
-    // Find the element with the highest occurrence
     for (const [element, count] of elementCountMap.entries()) {
       if (count > maxCount) {
         mostFrequentElement = element;
@@ -142,10 +141,10 @@ const JobDetailsScreen = () => {
         </Box>
         <FlatList
           scrollEnabled={false}
-          contentContainerStyle={{ paddingVertical: 10 }}
+          contentContainerStyle={{paddingVertical: 10}}
           data={item.flashings}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item, index }) => (
+          renderItem={({item, index}) => (
             <CardGutter
               key={`${item.id}-${index}`}
               jobId={jobId}
@@ -161,7 +160,7 @@ const JobDetailsScreen = () => {
               showPreview={item.flashings.length > 0}
               disabledAddFlashing={item.flashings.length === 15}
               onPreview={() => {
-                dispatch(orderActions.jobOrder({ job: item }));
+                dispatch(orderActions.jobOrder({job: item}));
                 navigation.navigate(StackPrivateDefinitions.ORDERS, {
                   screen: RoutesOrders.ORDER_DETAILS_FORM,
                 });

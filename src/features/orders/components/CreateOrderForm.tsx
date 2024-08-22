@@ -1,12 +1,12 @@
 import React from 'react';
-import { Box, Button, OptionsType } from '@ui/components';
-import { FieldArray, useFormikContext } from 'formik';
-import { formKeys, forms } from '@features/orders/constants';
-import { FieldInput, FieldSelect } from '@components/forms';
-import { useGetOrderValidations, useGetStores } from '@hooks/jobs';
-import { storesToOption } from '@features/jobs/utils';
+import {Box, Button, OptionsType} from '@ui/components';
+import {FieldArray, useFormikContext} from 'formik';
+import {formKeys, forms} from '@features/orders/constants';
+import {FieldInput, FieldSelect} from '@components/forms';
+import {useGetOrderValidations, useGetStores} from '@hooks/jobs';
+import {storesToOption} from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
-import { optionsDelivery } from '@features/orders/constants/order';
+import {optionsDelivery} from '@features/orders/constants/order';
 import FieldCheckbox from '@components/forms/FieldCheckbox';
 import {
   CreateOrderFormValues,
@@ -16,12 +16,12 @@ import {
 type Props = {
   isLoading: boolean;
 };
-const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
+const CreateOrderForm: React.FC<Props> = ({isLoading}) => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
-  const { data: stores, refetch } = useGetStores();
-  const { data: dataFieldsOrderValidations } = useGetOrderValidations();
+  const {data: stores, refetch} = useGetStores();
+  const {data: dataFieldsOrderValidations} = useGetOrderValidations();
 
-  const { isValid, handleSubmit, values, setFieldValue } =
+  const {isValid, handleSubmit, values, setFieldValue} =
     useFormikContext<CreateOrderFormValues>();
 
   const showAddressDelivery = React.useMemo(() => {
@@ -83,7 +83,7 @@ const CreateOrderForm: React.FC<Props> = ({ isLoading }) => {
         <FieldCheckbox
           name={formKeys.createOrder.quote_only}
           title={forms.createOrder.labels[formKeys.createOrder.quote_only]}
-          options={[{ label: '1', checked: true }]}
+          options={[{label: '1', checked: true}]}
         />
 
         {showAddressDelivery && (
