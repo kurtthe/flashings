@@ -89,10 +89,10 @@ const OrderSummaryScreen: React.FC = () => {
     return <Loading title="Creating your Flashing Drawing" />;
   }
 
-  const handleSendToStore = () => {
+  const handleSendToStore = React.useCallback(() => {
     if (!dataMaterial) return;
     doMaterialOrder({material: dataMaterial});
-  };
+  }, [dataMaterial]);
 
   return (
     <ScrollBox enableOnAndroid>
