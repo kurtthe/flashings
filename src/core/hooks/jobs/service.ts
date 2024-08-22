@@ -89,6 +89,7 @@ export const createMaterialOrder = async ({
     RESPONSE_MATERIAL_ORDER,
     {data: DATA_MATERIAL_ORDER}
   >(endPoints.createMaterialOrder, {data: material});
+
   return Promise.resolve(response.body);
 };
 

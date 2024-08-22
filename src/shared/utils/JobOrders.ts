@@ -99,7 +99,8 @@ export const mapDataFlashing = (
     }`;
     // @ts-ignore
     dataMapped[`folds_${index + 1}`] = getBends(flashings[index]);
-
+    // @ts-ignore
+    dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
     if (dataFlashing.tapered) {
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image_back`] =
@@ -119,8 +120,6 @@ export const mapDataFlashing = (
     } else {
       // @ts-ignore
       dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
-      // @ts-ignore
-      dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = '';
     }
