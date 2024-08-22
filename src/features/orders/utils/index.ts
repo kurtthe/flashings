@@ -19,7 +19,7 @@ export const mapDataJobToDataPetition = (
   dataAccountCompany: RESPONSE_COMPANY_ACCOUNT,
   dataOrder: CreateOrderFormValues,
   dataStoreSelected: STORE,
-  versionApp: string = '1.0.0',
+  versionApp: string,
 ) => {
   const addressOrder =
     dataOrder[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
