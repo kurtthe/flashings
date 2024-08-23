@@ -1,24 +1,23 @@
 import React from 'react';
-import { POINT_TYPE } from '@models';
+import {POINT_TYPE} from '@models';
 import {
   calculatePointHalf,
   getIndexOfStepForName,
 } from '@features/flashing/utils';
 import TextSvg from '@features/flashing/components/TextSvg';
-import { useAppSelector } from '@hooks/useStore';
+import {useAppSelector} from '@hooks/useStore';
 import {
   getDataFlashingDraft,
   getSideTapered,
   getStep,
 } from '@store/flashings/selectors';
-import { useSelector } from 'react-redux';
 
 type Props = {
   coordinates: POINT_TYPE[];
   index: number;
 };
 
-const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
+const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
   const step = useAppSelector(state => getStep(state));
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
@@ -32,7 +31,8 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
     return (
       step === getIndexOfStepForName('tapered') ||
       step === getIndexOfStepForName('save_tapered') ||
-      step === getIndexOfStepForName('preview')
+      step === getIndexOfStepForName('preview') ||
+      step === getIndexOfStepForName('screen_shot')
     );
   }, [step]);
 
@@ -42,13 +42,12 @@ const TextSvgLineMM: React.FC<Props> = ({ coordinates, index }) => {
     if (flashingDataDraft.tapered && isTapered) {
       const valueTapered =
         flashingDataDraft.tapered[isFront ? 'front' : 'back'][index];
-
       if (!valueTapered) return undefined;
       return valueTapered.distance?.toString();
     }
 
     return flashingDataDraft?.dataLines[index].distance?.toString();
-  }, []);
+  }, [isFront, flashingDataDraft, index]);
 
   const newPoints = calculatePointHalf(coordinates);
   const shouldRenderTextSvg = step >= getIndexOfStepForName('measurements');

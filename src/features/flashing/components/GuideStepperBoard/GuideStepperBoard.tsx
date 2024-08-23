@@ -1,17 +1,16 @@
 import React from 'react';
-import { Box, Button, Card, Divider, Text } from '@ui/components';
-import { Dimensions, StyleSheet } from 'react-native';
+import {Box, Button, Card, Divider, Text} from '@ui/components';
+import {Dimensions, StyleSheet} from 'react-native';
 import {
   GUIDE_STEP,
   guideSteps,
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
-import { useAppSelector } from '@hooks/useStore';
-import { getSideTapered, getStep } from '@store/flashings/selectors';
-import { getIndexOfStepForName } from '@features/flashing/utils';
-import { useSelector } from 'react-redux';
-import { isTablet } from '@shared/platform';
+import {useAppSelector} from '@hooks/useStore';
+import {getSideTapered, getStep} from '@store/flashings/selectors';
+import {getIndexOfStepForName} from '@features/flashing/utils';
+import {isTablet} from '@shared/platform';
 
 type Props = {
   onFinish: () => void;
@@ -19,9 +18,9 @@ type Props = {
 };
 
 const heightScreen = Dimensions.get('screen').height;
-const GuideStepperBoardComponent: React.FC<Props> = ({ onChangeOption }) => {
+const GuideStepperBoardComponent: React.FC<Props> = ({onChangeOption}) => {
   const stepBoard = useAppSelector(state => getStep(state));
-  const isFront = useSelector(getSideTapered);
+  const isFront = useAppSelector(getSideTapered);
 
   const [dataStep, setDataStep] = React.useState<GUIDE_STEP>();
   const [optionSelected, setOptionSelected] = React.useState<VALUE_ACTIONS>({
@@ -50,9 +49,8 @@ const GuideStepperBoardComponent: React.FC<Props> = ({ onChangeOption }) => {
     const keyValue = dataStep?.action?.key;
     if (!keyValue) return false;
 
-    setOptionSelected({ ...optionSelected, [keyValue]: newValue });
-    onChangeOption &&
-      onChangeOption({ ...optionSelected, [keyValue]: newValue });
+    setOptionSelected({...optionSelected, [keyValue]: newValue});
+    onChangeOption && onChangeOption({...optionSelected, [keyValue]: newValue});
   };
 
   const isOptionSelected = (option: string) => {

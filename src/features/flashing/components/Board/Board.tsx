@@ -1,40 +1,39 @@
 import React from 'react';
-import { TouchableOpacity, GestureResponderEvent } from 'react-native';
+import {TouchableOpacity, GestureResponderEvent} from 'react-native';
 import {
   DREW_LINE_TYPE,
   heightScreen,
   LINE_SELECTED,
   widthScreen,
 } from './types';
-import { findCoordsNearest } from '@features/flashing/components/Grid/Grid.utils';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import {
   drawLines,
   drawParallelLines,
   positionTextLabels,
 } from '@features/flashing/components/Board/utils';
-import { Path } from 'react-native-redash';
+import {Path} from 'react-native-redash';
 import SectionsButton from '@features/flashing/components/SectionsButton';
-import { POINT_TYPE } from '@models';
-import { isNaN } from 'lodash';
-import { Box, KeyboardAvoidingBox, ScrollBox } from '@ui/components';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { getIndexOfStepForName } from '@features/flashing/utils';
-import { isAndroid, isTablet } from '@shared/platform';
-import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
+import {POINT_TYPE} from '@models';
+import {isNaN} from 'lodash';
+import {Box, KeyboardAvoidingBox, ScrollBox} from '@ui/components';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {getIndexOfStepForName} from '@features/flashing/utils';
+import {isAndroid, isTablet} from '@shared/platform';
+import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import TaperedLines from '@features/flashing/components/TaperedLines';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {
   getDataFlashingDraft,
   getIsEdit,
   getSideTapered,
   getStep,
 } from '@store/flashings/selectors';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { useSelector } from 'react-redux';
+import {actions as flashingActions} from '@store/flashings/actions';
 import CompleteMeasurements from '@features/flashing/components/CompleteMeasurements';
 
 type Props = {
@@ -55,8 +54,8 @@ const Board: React.FC<Props> = ({
   updateAngle,
 }) => {
   const dispatch = useAppDispatch();
-  const isFront = useSelector(getSideTapered);
-  const isEdit = useSelector(getIsEdit);
+  const isFront = useAppSelector(getSideTapered);
+  const isEdit = useAppSelector(getIsEdit);
   const stepBoard = useAppSelector(state => getStep(state));
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
@@ -151,7 +150,7 @@ const Board: React.FC<Props> = ({
       updateAngle && updateAngle(newSize, indexLineSelected);
       return;
     }
-    onUpdatePoint && onUpdatePoint({ ...pointSelected, sizeLine: newSize });
+    onUpdatePoint && onUpdatePoint({...pointSelected, sizeLine: newSize});
   };
 
   const handlePointer = (event: GestureResponderEvent) => {
@@ -172,7 +171,7 @@ const Board: React.FC<Props> = ({
 
     if (newIndex > lengthLine) {
       dispatch(
-        flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
+        flashingActions.changeStep({step: getIndexOfStepForName('end_type')}),
       );
     }
 
@@ -192,7 +191,7 @@ const Board: React.FC<Props> = ({
   const handleBackLineSelected = () => {
     if (indexLineSelected === 0 && typeSelected === 'line') {
       return dispatch(
-        flashingActions.changeStep({ step: getIndexOfStepForName('side') }),
+        flashingActions.changeStep({step: getIndexOfStepForName('side')}),
       );
     }
 
@@ -232,7 +231,7 @@ const Board: React.FC<Props> = ({
 
   const handleOnEditEndType = () => {
     dispatch(
-      flashingActions.changeStep({ step: getIndexOfStepForName('end_type') }),
+      flashingActions.changeStep({step: getIndexOfStepForName('end_type')}),
     );
   };
 
@@ -254,7 +253,7 @@ const Board: React.FC<Props> = ({
       }),
     );
     dispatch(
-      flashingActions.changeStep({ step: getIndexOfStepForName('tapered') }),
+      flashingActions.changeStep({step: getIndexOfStepForName('tapered')}),
     );
   };
 

@@ -1,17 +1,14 @@
 import React from 'react';
-import { FLASHINGS_DATA } from '@models';
-import { Box } from '@ui/components';
-import { Image, TouchableOpacity } from 'react-native';
-import { ModalBottom, ModalBottomRef } from '@components';
-import {
-  calculateAngle,
-  getIndexOfStepForName,
-} from '@features/flashing/utils';
+import {FLASHINGS_DATA} from '@models';
+import {Box} from '@ui/components';
+import {Image, TouchableOpacity} from 'react-native';
+import {ModalBottom, ModalBottomRef} from '@components';
+import {calculateAngle, getIndexOfStepForName} from '@features/flashing/utils';
 import Board from '@features/flashing/components/Board/Board';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getDataFlashingDraft } from '@store/flashings/selectors';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { isTablet } from '@shared/platform';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
+import {getDataFlashingDraft} from '@store/flashings/selectors';
+import {actions as flashingActions} from '@store/flashings/actions';
+import {isTablet} from '@shared/platform';
 
 type Props = {
   width?: number;
@@ -38,7 +35,7 @@ const PreviewFlashing: React.FC<Props> = ({
     if (!dataFlashing) return;
 
     if (dataFlashing.tapered) {
-      dispatch(flashingActions.changeSideTapered({ isFront }));
+      dispatch(flashingActions.changeSideTapered({isFront}));
     }
 
     dispatch(
@@ -83,11 +80,11 @@ const PreviewFlashing: React.FC<Props> = ({
         {imgPreview && (
           <Image
             resizeMode={isTablet ? 'cover' : 'stretch'}
-            source={{ uri: imgPreview }}
+            source={{uri: imgPreview}}
             width={isTablet ? 400 : 90}
             height={isTablet ? 250 : 100}
             style={{
-              transform: [{ scale: 1 }],
+              transform: [{scale: 1}],
               top: 15,
               left: 25,
             }}

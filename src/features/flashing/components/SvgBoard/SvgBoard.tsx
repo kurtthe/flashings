@@ -1,10 +1,10 @@
 import React from 'react';
 import PointerComponent from '@features/flashing/components/Pointer';
-import Svg, { Path as PathComponent } from 'react-native-svg';
-import { Path, serialize } from 'react-native-redash';
-import { getIndexOfStepForName } from '@features/flashing/utils';
-import { POINT_TYPE } from '@models';
-import { getEndStartTypeLine } from '@features/flashing/components/SvgBoard/utils';
+import Svg, {Path as PathComponent} from 'react-native-svg';
+import {Path, serialize} from 'react-native-redash';
+import {getIndexOfStepForName} from '@features/flashing/utils';
+import {POINT_TYPE} from '@models';
+import {getEndStartTypeLine} from '@features/flashing/components/SvgBoard/utils';
 import {
   DREW_LINE_TYPE,
   heightScreen,
@@ -13,16 +13,16 @@ import {
 } from '@features/flashing/components/Board/types';
 import GridComponent from '@features/flashing/components/Grid/Grid';
 import TextSvgLineMM from '../TextSvgLineMM';
-import { useAppSelector } from '@hooks/useStore';
+import {useAppSelector} from '@hooks/useStore';
 import {
   getDataFlashingDraft,
   getSideTapered,
   getStep,
 } from '@store/flashings/selectors';
-import { Text } from '@ui/components';
-import { useSelector } from 'react-redux';
-import { View } from 'react-native';
-import { palette } from '@theme';
+import {Text} from '@ui/components';
+import {useSelector} from 'react-redux';
+import {View} from 'react-native';
+import {palette} from '@theme';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -42,7 +42,7 @@ const SvgBoard: React.FC<Props> = ({
     getDataFlashingDraft(state),
   );
   const stepBoard = useAppSelector(state => getStep(state));
-  const isFront = useSelector(getSideTapered);
+  const isFront = useAppSelector(getSideTapered);
 
   const isScreenShot = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('screen_shot');
@@ -96,7 +96,7 @@ const SvgBoard: React.FC<Props> = ({
           </View>
         )}
         {renderTypeEndStartLines()}
-        {graphs.map(({ points, path: LineComponent, isLine }, index) => (
+        {graphs.map(({points, path: LineComponent, isLine}, index) => (
           <React.Fragment key={`graphs-${index}-${Math.random()}`}>
             {pathParallel && (
               <PathComponent

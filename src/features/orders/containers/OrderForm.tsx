@@ -30,7 +30,7 @@ import {
 import {baseUrlPDF} from '@shared/endPoints';
 import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
-import {useGetVersionApp} from '@hooks/general/useGeneral';
+import {getVersionApp} from '@store/setup/selectors';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -52,8 +52,8 @@ const OrderForm = () => {
   const {data: dataAccountCompany} = useGetAccountAndCompany();
   const {data: dataSupplier} = useGetSupplier();
   const {data: stores} = useGetStores();
-  const {data: versionApp} = useGetVersionApp();
   const storeSelected = useAppSelector(getStoreSelectedOrder);
+  const versionApp = useAppSelector(getVersionApp);
 
   const {mutate: createJob, isLoading} = useAddDataJob({
     onSuccess: (data: any) => {
@@ -110,12 +110,16 @@ const OrderForm = () => {
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
       if (!jobOrder || !values || !dataUser || !dataAccountCompany) return;
+      console.log('first condition pass=>');
 
       const dataStoreSelected = stores?.find(
         itemStore =>
           values[formKeys.createOrder.store] === itemStore.id.toString(),
       );
-      if (!dataStoreSelected) return;
+      console.log('dataStoreSelected::', !dataStoreSelected);
+      console.log('versionApp::', !versionApp);
+      if (!dataStoreSelected || !versionApp) return;
+
       dispatch(orderActions.setStoreSelected({dataStore: dataStoreSelected}));
       //@ts-ignore
       const [day, month, year] = values[formKeys.createOrder.date]?.split('/');
@@ -136,7 +140,7 @@ const OrderForm = () => {
       const addressOrder =
         values[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
           ? values[formKeysOrders.address]
-          : `${dataStoreSelected.name} (${dataStoreSelected.address})`;
+          : `${dataStoreSelected.name} (${dataStoreSelected.address}) STORE`;
 
       setAddressDelivery(addressOrder as string);
       setDeliveryOrPickUp(values[formKeysOrders.deliveryOrPickUp] as string);
@@ -152,11 +156,11 @@ const OrderForm = () => {
         howManyFlashings: jobOrder.flashings.length,
       });
     },
-    [dataSupplier, dataUser],
+    [dataSupplier, dataUser, versionApp],
   );
 
   return (
-    <KeyboardAvoidingBox flex={1}>
+    <KeyboardAvoidingBox>
       <DismissKeyboardPressable>
         <Formik
           enableReinitialize

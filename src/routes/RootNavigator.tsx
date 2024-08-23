@@ -1,5 +1,5 @@
 import React from 'react';
-import {useAppSelector} from '@hooks/useStore';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {isAuthenticatedSelector} from '@store/auth/selectors';
 import {useGetVersionApp} from '@hooks/general/useGeneral';
 
@@ -10,11 +10,13 @@ import {Linking} from 'react-native';
 import alert from '@services/general-request/alert';
 import {isAndroid} from '@shared/platform';
 import {config} from '@env/config';
+import {actionsSetup} from '@store/setup/actions';
 
 const PublicNavigator = React.lazy(() => import('./PublicNavigator'));
 const PrivateNavigator = React.lazy(() => import('./PrivateNavigator'));
 
 export const RootNavigator = () => {
+  const dispatch = useAppDispatch();
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
   const {data: versionApp, refetch} = useGetVersionApp();
   const buildNumber = DeviceInfo.getVersion();
@@ -24,6 +26,8 @@ export const RootNavigator = () => {
       refetch().catch(() => console.log('error=>'));
       return;
     }
+
+    dispatch(actionsSetup.versionApp({newVersion: versionApp}));
 
     if (buildNumber !== versionApp) {
       Toast.show({

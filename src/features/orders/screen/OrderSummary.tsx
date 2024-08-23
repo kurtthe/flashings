@@ -85,14 +85,14 @@ const OrderSummaryScreen: React.FC = () => {
     };
   }, [isLoading]);
 
-  if (!urlIdPdf || isLoading || !jobNameOrder) {
-    return <Loading title="Creating your Flashing Drawing" />;
-  }
-
   const handleSendToStore = React.useCallback(() => {
     if (!dataMaterial) return;
     doMaterialOrder({material: dataMaterial});
   }, [dataMaterial]);
+
+  if (!urlIdPdf || isLoading || !jobNameOrder) {
+    return <Loading title="Creating your Flashing Drawing" />;
+  }
 
   return (
     <ScrollBox enableOnAndroid>
