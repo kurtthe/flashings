@@ -22,12 +22,12 @@ export const RootNavigator = () => {
   const buildNumber = DeviceInfo.getVersion();
 
   React.useEffect(() => {
+    dispatch(actionsSetup.versionApp({newVersion: buildNumber}));
+
     if (!versionApp) {
       refetch().catch(() => console.log('error=>'));
       return;
     }
-
-    dispatch(actionsSetup.versionApp({newVersion: buildNumber}));
 
     if (buildNumber !== versionApp) {
       Toast.show({

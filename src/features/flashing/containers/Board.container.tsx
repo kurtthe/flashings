@@ -360,7 +360,6 @@ const BoardContainer = () => {
   };
 
   const onScreenShot = () => {
-    console.log('==>isFront', isFront);
     if (isSaveTapered) {
       onCapturedScreenshot();
     } else handleSave();
