@@ -111,7 +111,6 @@ const OrderForm = () => {
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
       if (!jobOrder || !values || !dataUser || !dataAccountCompany) return;
-      console.log('first condition pass=>');
 
       const dataStoreSelected = stores?.find(
         itemStore =>
