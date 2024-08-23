@@ -47,15 +47,6 @@ export const createJobAndFlashings = async ({
     'base64',
   );
 
-  console.log(
-    '==>data pdf',
-    JSON.stringify({
-      template_id: template_id,
-      landscape: true,
-      data: dataJobAndFlashing,
-    }),
-  );
-
   const response = await axios.post(
     endPoints.createJobAndFlashing,
     {

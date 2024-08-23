@@ -142,8 +142,6 @@ const OrderForm = () => {
           ? values[formKeysOrders.address]
           : `${dataStoreSelected.name} (${dataStoreSelected.address}) STORE`;
 
-      console.log('==>addressOrder::', addressOrder);
-
       setAddressDelivery(addressOrder as string);
       setDeliveryOrPickUp(values[formKeysOrders.deliveryOrPickUp] as string);
 
