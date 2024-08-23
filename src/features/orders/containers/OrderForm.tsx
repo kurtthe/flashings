@@ -31,6 +31,7 @@ import {baseUrlPDF} from '@shared/endPoints';
 import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
 import {getVersionApp} from '@store/setup/selectors';
+import Toast from "react-native-toast-message";
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -116,9 +117,14 @@ const OrderForm = () => {
         itemStore =>
           values[formKeys.createOrder.store] === itemStore.id.toString(),
       );
-      console.log('dataStoreSelected::', !dataStoreSelected);
-      console.log('versionApp::', !versionApp);
-      if (!dataStoreSelected || !versionApp) return;
+      if (!dataStoreSelected || !versionApp) {
+        Toast.show({
+          position: 'bottom',
+          text1: 'Please try again',
+          type: 'info',
+        });
+        return;
+      }
 
       dispatch(orderActions.setStoreSelected({dataStore: dataStoreSelected}));
       //@ts-ignore

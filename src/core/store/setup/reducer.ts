@@ -2,11 +2,11 @@ import {createReducer} from '@reduxjs/toolkit';
 import {actionsSetup as actions} from './actions';
 
 type initialStateType = {
-  versionApp: string;
+  versionApp: string | undefined;
 };
 
 const INITIAL_STATE: initialStateType = {
-  versionApp: '1.0',
+  versionApp: undefined,
 };
 
 const setupReducer = createReducer(INITIAL_STATE, builder => {

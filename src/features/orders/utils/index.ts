@@ -24,7 +24,7 @@ export const mapDataJobToDataPetition = (
   const addressOrder =
     dataOrder[formKeysOrders.deliveryOrPickUp] === optionsDelivery[0]
       ? dataOrder[formKeysOrders.address]
-      : `${dataStoreSelected.name} (Store)`;
+      : `${dataStoreSelected.name} Store`;
 
   const restData = mapDataFlashing(
     dataJob.flashings,
