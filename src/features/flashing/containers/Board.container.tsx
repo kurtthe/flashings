@@ -14,27 +14,31 @@ import {
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
-import { LINE_TYPE, POINT_TYPE } from '@models';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { actions as jobActions } from '@store/jobs/actions';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
-import { Routes as RoutesJobs } from '@features/jobs/navigation/routes';
-import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
-import { FlashingParamsList } from '@features/flashing/navigation/Stack.types';
-import { jobData } from '@store/jobs/selectors';
-import { isAndroid } from '@shared/platform';
-import { useKeyboardVisibility } from '@hooks/useKeyboardVisibility';
+import {LINE_TYPE, POINT_TYPE} from '@models';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
+import {actions as jobActions} from '@store/jobs/actions';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {Routes as RoutesJobs} from '@features/jobs/navigation/routes';
+import {Routes as RoutesFlashing} from '@features/flashing/navigation/routes';
+import {FlashingParamsList} from '@features/flashing/navigation/Stack.types';
+import {jobData} from '@store/jobs/selectors';
+import {isAndroid} from '@shared/platform';
+import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import alert from '@services/general-request/alert';
-import { imageToBase64 } from '@shared/utils';
-import { LINE_SELECTED } from '@features/flashing/components/Board/types';
+import {imageToBase64, sleep} from '@shared/utils';
+import {LINE_SELECTED} from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
-import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
-import { templateSelected } from '@store/templates/selectors';
-import { getDataFlashingDraft, getStep } from '@store/flashings/selectors';
+import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
+import {templateSelected} from '@store/templates/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import Loading from '@components/Loading';
-import { actions as templateActions } from '@store/templates/actions';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { MenuEditorComponent } from '@features/flashing/components';
+import {actions as templateActions} from '@store/templates/actions';
+import {actions as flashingActions} from '@store/flashings/actions';
+import {MenuEditorComponent} from '@features/flashing/components';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -51,6 +55,7 @@ const BoardContainer = () => {
   const [loading, setLoading] = React.useState(false);
   const refViewShot = React.useRef<ViewShot>(null);
   const showKeyboard = useKeyboardVisibility({});
+  const isFront = useAppSelector(state => getSideTapered(state));
 
   const isSaveTapered = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('save_tapered');
@@ -76,7 +81,7 @@ const BoardContainer = () => {
     );
 
     const delay = setTimeout(() => {
-      dispatch(templateActions.templateSelected({ idTemplate: null }));
+      dispatch(templateActions.templateSelected({idTemplate: null}));
       setLoading(false);
     }, 2000);
 
@@ -108,7 +113,7 @@ const BoardContainer = () => {
   }, [flashingDataDraft?.dataLines]);
 
   const _changeStep = React.useCallback((newIndexStep: number) => {
-    dispatch(flashingActions.changeStep({ step: newIndexStep }));
+    dispatch(flashingActions.changeStep({step: newIndexStep}));
   }, []);
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
@@ -266,22 +271,28 @@ const BoardContainer = () => {
   };
 
   const onCapturedScreenshot = () => {
-    const idJob = route.params?.jobId;
+    (async () => {
+      try {
+        const idJob = route.params?.jobId;
 
-    if (
-      !refViewShot.current ||
-      !flashingDataDraft ||
-      !flashingDataDraft.tapered
-    )
-      return alert.show('Error', 'Snapshot failed');
+        if (
+          !refViewShot.current ||
+          !flashingDataDraft ||
+          !flashingDataDraft.tapered
+        )
+          throw new Error('Snapshot failed');
 
-    dispatch(flashingActions.changeSideTapered({ isFront: true }));
-    let dataFlashingTapered = flashingDataDraft;
+        let dataFlashingTapered = flashingDataDraft;
 
-    //@ts-ignore
-    refViewShot.current
-      .capture()
-      .then(async uriPreviewFront => {
+        //@ts-ignore
+        const uriPreviewBack = await refViewShot.current.capture();
+        const dataB64PreviewBack = await imageToBase64(uriPreviewBack);
+
+        dispatch(flashingActions.changeSideTapered({isFront: true}));
+        await sleep(2000);
+
+        //@ts-ignore
+        const uriPreviewFront = await refViewShot.current.capture();
         const dataB64PreviewFront = await imageToBase64(uriPreviewFront);
 
         dataFlashingTapered = {
@@ -289,90 +300,70 @@ const BoardContainer = () => {
           //@ts-ignore
           tapered: {
             ...dataFlashingTapered.tapered,
+            backImagePreview: `data:image/png;base64,${dataB64PreviewBack}`,
             frontImagePreview: `data:image/png;base64,${dataB64PreviewFront}`,
           },
         };
-        dispatch(flashingActions.changeSideTapered({ isFront: false }));
-        await new Promise(resolve => setTimeout(resolve, 500));
 
-        //@ts-ignore
-        refViewShot.current
-          .capture()
-          .then(async uriPreviewBack => {
-            const dataB64PreviewBack = await imageToBase64(uriPreviewBack);
-            dataFlashingTapered = {
-              ...dataFlashingTapered,
-              //@ts-ignore
-              tapered: {
-                ...dataFlashingTapered.tapered,
-                backImagePreview: `data:image/png;base64,${dataB64PreviewBack}`,
-              },
-            };
+        dispatch(
+          jobActions.addEditFlashing({
+            idJob,
+            flashing: dataFlashingTapered,
+          }),
+        );
 
-            dispatch(
-              jobActions.addEditFlashing({
-                idJob,
-                flashing: dataFlashingTapered,
-              }),
-            );
+        dispatch(flashingActions.clear());
 
-            dispatch(flashingActions.clear());
-
-            navigation.navigate(StackPrivateDefinitions.JOBS, {
-              screen: RoutesJobs.JOB_DETAILS,
-              params: {
-                jobId: idJob,
-                jobName: dataJob?.name,
-              },
-            });
-          })
-          .catch(error => {
-            console.log('error: screenshot', error);
-            alert.show('Error', 'Snapshot failed');
-          });
-      })
-      .catch(error => {
-        console.log('error: screenshot', error);
+        navigation.navigate(StackPrivateDefinitions.JOBS, {
+          screen: RoutesJobs.JOB_DETAILS,
+          params: {
+            jobId: idJob,
+            jobName: dataJob?.name,
+          },
+        });
+      } catch (err) {
+        console.log('error: screenshot', err);
         alert.show('Error', 'Snapshot failed');
-      });
+      }
+    })();
   };
 
   const handleSave = () => {
     (async () => {
       if (!refViewShot.current || !flashingDataDraft) return;
 
-      const idJob = route.params?.jobId;
       // @ts-ignore
-      refViewShot.current
-        .capture()
-        .then(async uriScreen => {
-          const dataB64Preview = await imageToBase64(uriScreen);
+      const uriScreen = await refViewShot.current.capture();
+      const dataB64Preview = await imageToBase64(uriScreen);
+      const idJob = route.params?.jobId;
 
-          dispatch(
-            jobActions.addEditFlashing({
-              idJob,
-              flashing: {
-                ...flashingDataDraft,
-                imgPreview: `data:image/png;base64,${dataB64Preview}`,
-              },
-            }),
-          );
+      dispatch(
+        jobActions.addEditFlashing({
+          idJob,
+          flashing: {
+            ...flashingDataDraft,
+            imgPreview: `data:image/png;base64,${dataB64Preview}`,
+          },
+        }),
+      );
 
-          dispatch(flashingActions.clear());
+      dispatch(flashingActions.clear());
 
-          navigation.navigate(StackPrivateDefinitions.JOBS, {
-            screen: RoutesJobs.JOB_DETAILS,
-            params: {
-              jobId: idJob,
-              jobName: dataJob?.name,
-            },
-          });
-        })
-        .catch(error => {
-          console.log('error: screenshot', error);
-          alert.show('Error', 'Snapshot failed');
-        });
+      navigation.navigate(StackPrivateDefinitions.JOBS, {
+        screen: RoutesJobs.JOB_DETAILS,
+        params: {
+          jobId: idJob,
+          jobName: dataJob?.name,
+        },
+      });
     })();
+  };
+
+  const onScreenShot = () => {
+    console.log('==>isFront', isFront);
+    if (isSaveTapered) {
+      onCapturedScreenshot();
+    } else handleSave();
   };
 
   if (loading || !dataJob || !flashingDataDraft) return <Loading />;
@@ -389,7 +380,7 @@ const BoardContainer = () => {
       <ViewShot
         ref={refViewShot}
         onCapture={() => null}
-        options={{ fileName: `flashing-shot${Math.random()}`, quality: 0.9 }}
+        options={{fileName: `flashing-shot${Math.random()}`, quality: 0.9}}
         captureMode="mount"
         onCaptureFailure={error =>
           Alert.show('Error for preview', error.message)
@@ -397,7 +388,7 @@ const BoardContainer = () => {
         <Board
           onAddPoint={handleAddPoint}
           onUpdatePoint={handleUpdatePoint}
-          onSave={() => (isSaveTapered ? onCapturedScreenshot() : handleSave())}
+          onSave={onScreenShot}
           updateAngle={handleUpdateAngle}
         />
       </ViewShot>
