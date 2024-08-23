@@ -27,7 +27,7 @@ export const RootNavigator = () => {
       return;
     }
 
-    dispatch(actionsSetup.versionApp({newVersion: versionApp}));
+    dispatch(actionsSetup.versionApp({newVersion: buildNumber}));
 
     if (buildNumber !== versionApp) {
       Toast.show({
