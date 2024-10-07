@@ -1,13 +1,14 @@
 import React from 'react';
-import { Box, Button, Card, CardProps, Text } from '@ui/components';
-import { FLASHINGS_DATA } from '@models';
+import {Box, Card, CardProps, Text} from '@ui/components';
+import {FLASHINGS_DATA} from '@models';
 
-import { useNavigation } from '@react-navigation/native';
-import { Routes } from '@features/flashing/navigation/routes';
+import {useNavigation} from '@react-navigation/native';
+import {Routes} from '@features/flashing/navigation/routes';
 import PreviewFlashing from '@features/flashing/components/PreviewFlashing/PreviewFlashing';
-import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
+import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import ModalNameTemplate from '@features/jobs/components/ModalNameTemplate';
 import CardGutterDescription from '@features/jobs/components/CardGutterDescription';
+import {StyleSheet} from 'react-native';
 
 type Props = CardProps & {
   data: FLASHINGS_DATA;
@@ -27,7 +28,7 @@ const CardGutterComponent: React.FC<Props> = ({
   const handleEditFlashing = () => {
     navigation.navigate(StackPrivateDefinitions.FLASHING, {
       screen: Routes.CREATE_EDIT_FLASHING,
-      params: { jobId: jobId, idFlashing: data.id },
+      params: {jobId: jobId, idFlashing: data.id},
     });
   };
 
@@ -56,6 +57,10 @@ const CardGutterComponent: React.FC<Props> = ({
                 dataFlashing={data}
                 jobId={jobId}
                 isFront={true}
+                style={StyleSheet.flatten([
+                  styles.styleContainerPreviewTapered,
+                  styles.styleFrontTapered,
+                ])}
               />
 
               <PreviewFlashing
@@ -63,6 +68,10 @@ const CardGutterComponent: React.FC<Props> = ({
                 dataFlashing={data}
                 jobId={jobId}
                 isFront={false}
+                style={StyleSheet.flatten([
+                  styles.styleContainerPreviewTapered,
+                  styles.styleBackTapered,
+                ])}
               />
             </>
           ) : (
@@ -106,5 +115,22 @@ const CardGutterComponent: React.FC<Props> = ({
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  styleContainerPreviewTapered: {
+    marginVertical: 0,
+    borderRadius: 0,
+  },
+  styleBackTapered: {
+    borderTopWidth: 0,
+    borderBottomLeftRadius: 5,
+    borderBottomRightRadius: 5,
+  },
+  styleFrontTapered: {
+    borderBottomWidth: 0,
+    borderTopRightRadius: 5,
+    borderTopLeftRadius: 5,
+  },
+});
 
 export default CardGutterComponent;
