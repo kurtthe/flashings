@@ -1,7 +1,7 @@
 import React from 'react';
 import {FLASHINGS_DATA} from '@models';
 import {Box} from '@ui/components';
-import {Image, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, ViewStyle} from 'react-native';
 import {ModalBottom, ModalBottomRef} from '@components';
 import {calculateAngle, getIndexOfStepForName} from '@features/flashing/utils';
 import Board from '@features/flashing/components/Board/Board';
@@ -17,12 +17,14 @@ type Props = {
   dataFlashing: FLASHINGS_DATA;
   jobId: number;
   isFront?: boolean;
+  style?: ViewStyle;
 };
 const PreviewFlashing: React.FC<Props> = ({
   imgPreview,
   jobId,
   dataFlashing,
   isFront = true,
+  style: styleContainer,
 }) => {
   const dispatch = useAppDispatch();
   const flashingDataPreview = useAppSelector(state =>
@@ -71,12 +73,15 @@ const PreviewFlashing: React.FC<Props> = ({
     <>
       <TouchableOpacity
         onPress={handleShowPreview}
-        style={{
-          borderWidth: 1,
-          borderColor: 'lightgray',
-          marginVertical: 5,
-          borderRadius: 5,
-        }}>
+        style={StyleSheet.flatten([
+          {
+            borderWidth: 1,
+            borderColor: 'lightgray',
+            marginVertical: 5,
+            borderRadius: 5,
+          },
+          styleContainer,
+        ])}>
         {imgPreview && (
           <Image
             resizeMode={isTablet ? 'cover' : 'stretch'}
