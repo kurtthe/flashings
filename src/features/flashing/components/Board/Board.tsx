@@ -18,10 +18,10 @@ import {Path} from 'react-native-redash';
 import SectionsButton from '@features/flashing/components/SectionsButton';
 import {POINT_TYPE} from '@models';
 import {isNaN} from 'lodash';
-import {Box, KeyboardAvoidingBox, ScrollBox} from '@ui/components';
+import {Box, ScrollBox} from '@ui/components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {getIndexOfStepForName} from '@features/flashing/utils';
-import {isAndroid, isTablet} from '@shared/platform';
+import {checkIsLandscape, isAndroid, isTablet} from '@shared/platform';
 import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
@@ -60,6 +60,7 @@ const Board: React.FC<Props> = ({
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
+  const isLandscape = checkIsLandscape();
 
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
@@ -84,6 +85,10 @@ const Board: React.FC<Props> = ({
       }
       if (isTablet) {
         heightForKeyboard = 470;
+      }
+
+      if (isLandscape) {
+        heightForKeyboard = 565;
       }
 
       setHeightMeasurement(heightForKeyboard);
@@ -262,18 +267,16 @@ const Board: React.FC<Props> = ({
       <ScrollBox
         as={KeyboardAwareScrollView}
         showsVerticalScrollIndicator={false}>
-        <KeyboardAvoidingBox>
-          <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
-            <GestureHandlerRootView>
-              <SvgBoard
-                height={heightScreen}
-                graphs={graphs}
-                pathParallel={pathParallel}
-                pointsForLabel={pointsForLabel}
-              />
-            </GestureHandlerRootView>
-          </TouchableOpacity>
-        </KeyboardAvoidingBox>
+        <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
+          <GestureHandlerRootView>
+            <SvgBoard
+              height={heightScreen}
+              graphs={graphs}
+              pathParallel={pathParallel}
+              pointsForLabel={pointsForLabel}
+            />
+          </GestureHandlerRootView>
+        </TouchableOpacity>
       </ScrollBox>
 
       {stepBoard === getIndexOfStepForName('finish') && (

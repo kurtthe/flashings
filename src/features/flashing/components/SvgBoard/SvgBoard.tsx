@@ -20,7 +20,6 @@ import {
   getStep,
 } from '@store/flashings/selectors';
 import {Text} from '@ui/components';
-import {useSelector} from 'react-redux';
 import {View} from 'react-native';
 import {palette} from '@theme';
 

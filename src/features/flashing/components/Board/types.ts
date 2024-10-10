@@ -1,7 +1,7 @@
-import { Dimensions } from 'react-native';
-import { ReactElement } from 'react';
-import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from '@models';
-import { isTablet } from '@shared/platform';
+import {Dimensions} from 'react-native';
+import {ReactElement} from 'react';
+import {LINE_TYPE, MODES_BOARD, POINT_TYPE} from '@models';
+import {isTablet} from '@shared/platform';
 export const STEPS_BOARD: MODES_BOARD[] = [
   'draw',
   'side',

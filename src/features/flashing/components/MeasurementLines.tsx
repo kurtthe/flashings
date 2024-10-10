@@ -1,18 +1,18 @@
 import React from 'react';
-import { BaseTouchable, Box, Divider, Icon, Text } from '@ui/components';
-import { isNaN } from 'lodash';
+import {BaseTouchable, Box, Divider, Icon, Text} from '@ui/components';
+import {isNaN} from 'lodash';
 import {
   BackArrowIcon,
   CompleteEditMeasurementsIcon,
   NextArrowIcon,
 } from '@assets/icons';
-import { TextInput } from 'react-native';
-import { getIndexOfStepForName } from '@features/flashing/utils';
-import { isAndroid, isTablet } from '@shared/platform';
-import { LINE_SELECTED } from '@features/flashing/components/Board/types';
-import { useAppDispatch } from '@hooks/useStore';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
+import {TextInput} from 'react-native';
+import {getIndexOfStepForName} from '@features/flashing/utils';
+import {isAndroid, isTablet} from '@shared/platform';
+import {LINE_SELECTED} from '@features/flashing/components/Board/types';
+import {useAppDispatch} from '@hooks/useStore';
+import {actions as flashingActions} from '@store/flashings/actions';
+import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -71,12 +71,11 @@ const MeasurementLines: React.FC<Props> = ({
         }}
         position="absolute"
         bottom="105%"
-        right="0%"
         backgroundColor="white"
         p={isTablet ? 's' : 'xs'}
         style={{
           zIndex: 1,
-          shadowOffset: { width: 0, height: 0 },
+          shadowOffset: {width: 0, height: 0},
           shadowOpacity: 0.5,
           shadowRadius: 5,
           shadowColor: 'lightGray',
@@ -123,7 +122,7 @@ const MeasurementLines: React.FC<Props> = ({
                   backgroundColor: 'white',
                   color: '#000',
                 },
-                isAndroid && { padding: 10, height: 40 },
+                isAndroid && {padding: 10, height: 40},
               ]}
               value={`${isNaN(measurement) ? '0' : measurement}`}
               onChangeText={(newText: string) => {
