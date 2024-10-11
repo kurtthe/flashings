@@ -57,6 +57,20 @@ const MeasurementLines: React.FC<Props> = ({
     handleDone(`${measurement}`);
     onNext && onNext();
   };
+
+  const onChangeValue = (newText: string) => {
+    const baseValue =
+      typeSelected === 'line' ? dataLine?.sizeLine : dataLine?.angle;
+    if (baseValue?.toString() === newText) {
+      return setMeasurement(parseInt(newText, 10));
+    }
+    const newCharacters = newText.split(baseValue?.toString() ?? '');
+    if (newCharacters.length > 1) {
+      return setMeasurement(parseInt(newCharacters[1], 10));
+    }
+    setMeasurement(parseInt(newText, 10));
+  };
+
   return (
     <>
       <Box
@@ -71,6 +85,7 @@ const MeasurementLines: React.FC<Props> = ({
         }}
         position="absolute"
         bottom="105%"
+        right="0%"
         backgroundColor="white"
         p={isTablet ? 's' : 'xs'}
         style={{
@@ -125,19 +140,7 @@ const MeasurementLines: React.FC<Props> = ({
                 isAndroid && {padding: 10, height: 40},
               ]}
               value={`${isNaN(measurement) ? '0' : measurement}`}
-              onChangeText={(newText: string) => {
-                const baseValue =
-                  typeSelected === 'line'
-                    ? dataLine?.sizeLine
-                    : dataLine?.angle;
-                const newCharacters = newText.split(
-                  baseValue?.toString() ?? '',
-                );
-                if (newCharacters.length > 1) {
-                  return setMeasurement(parseInt(newCharacters[1], 10));
-                }
-                setMeasurement(parseInt(newText, 10));
-              }}
+              onChangeText={onChangeValue}
             />
             <Text variant="bodyBold">
               {typeSelected === 'line' ? 'mm' : '°'}

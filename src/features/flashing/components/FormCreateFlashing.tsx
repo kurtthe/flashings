@@ -1,18 +1,18 @@
 import React from 'react';
-import { FieldInput, FieldSelect } from '@components/forms';
-import { Button, Box, ScrollBox, IconButton, Icon, Text } from '@ui/components';
-import { FieldArray, useFormikContext } from 'formik';
-import { AddFlashingFormValues } from '@features/flashing/constants';
-import { TrashIcon } from '@assets/icons';
-import { actions as flashingActions } from '@store/jobs/actions';
-import { useAppDispatch } from '@hooks/useStore';
-import { FLASHINGS_DATA } from '@models';
-import { useNavigation } from '@react-navigation/native';
-import { FlashingStackProps } from '@features/flashing/navigation/Stack.types';
-import { dataMaterials } from '@store/jobs/mocks';
-import { Alert } from 'react-native';
-import { isTablet } from '@shared/platform';
-import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
+import {FieldInput, FieldSelect} from '@components/forms';
+import {Button, Box, ScrollBox, IconButton, Icon, Text} from '@ui/components';
+import {FieldArray, useFormikContext} from 'formik';
+import {AddFlashingFormValues} from '@features/flashing/constants';
+import {TrashIcon} from '@assets/icons';
+import {actions as flashingActions} from '@store/jobs/actions';
+import {useAppDispatch} from '@hooks/useStore';
+import {FLASHINGS_DATA} from '@models';
+import {useNavigation} from '@react-navigation/native';
+import {FlashingStackProps} from '@features/flashing/navigation/Stack.types';
+import {dataMaterials} from '@store/jobs/mocks';
+import {Alert} from 'react-native';
+import {isTablet} from '@shared/platform';
+import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
 
 type Props = {
   labelButton: string;
@@ -29,7 +29,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
   const dispatch = useAppDispatch();
   const navigation = useNavigation<FlashingStackProps>();
   const formik = useFormikContext<AddFlashingFormValues>();
-  const { values, handleSubmit, isValid, isSubmitting } = formik;
+  const {values, handleSubmit, isValid, isSubmitting} = formik;
 
   const alertDelete = () =>
     Alert.alert('Are you sure delete this Flashing?', '', [
@@ -50,7 +50,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
 
     if (deleteFlashing) {
       dispatch(
-        flashingActions.deleteFlashing({ idJob, idFlashing: dataFlashing.id }),
+        flashingActions.deleteFlashing({idJob, idFlashing: dataFlashing.id}),
       );
       return navigation.goBack();
     }
@@ -62,7 +62,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
       flashingLengths: values.flashingLengths ?? [],
     };
     dispatch(
-      flashingActions.addEditFlashing({ idJob, flashing: newDataFlashing }),
+      flashingActions.addEditFlashing({idJob, flashing: newDataFlashing}),
     );
     navigation.goBack();
   };
@@ -88,114 +88,111 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
           name="flashingLengths"
           render={arrayHelpers => (
             <>
-              <ScrollBox height="30%" showsVerticalScrollIndicator={false}>
-                {values.flashingLengths?.map((_, index, arrayLengths) => (
-                  <React.Fragment key={`row-length-${index}`}>
-                    <Box
-                      flexDirection="row"
-                      alignItems="center"
-                      mt="l"
-                      justifyContent="space-between"
-                      mb="unset">
-                      {arrayLengths.length > 1 && (
-                        <Text
-                          variant="lightGraySmallText"
-                          fontWeight="bold"
-                          color="black">
-                          {index + 1}
-                        </Text>
-                      )}
-                      <FieldInput
-                        name={`flashingLengths.${index}.qty`}
-                        label="Qty"
-                        style={{
-                          width:
-                            arrayLengths.length > 1
-                              ? isTablet
-                                ? 300
-                                : 150
-                              : isTablet
+              {values.flashingLengths?.map((_, index, arrayLengths) => (
+                <React.Fragment key={`row-length-${index}`}>
+                  <Box
+                    flexDirection="row"
+                    alignItems="center"
+                    mt="l"
+                    justifyContent="space-between"
+                    mb="unset">
+                    {arrayLengths.length > 1 && (
+                      <Text
+                        variant="lightGraySmallText"
+                        fontWeight="bold"
+                        color="black">
+                        {index + 1}
+                      </Text>
+                    )}
+                    <FieldInput
+                      name={`flashingLengths.${index}.qty`}
+                      label="Qty"
+                      style={{
+                        width:
+                          arrayLengths.length > 1
+                            ? isTablet
+                              ? 300
+                              : 150
+                            : isTablet
                               ? 340
                               : 170,
-                        }}
-                        keyboardType="numeric"
-                      />
-                      <FieldInput
-                        name={`flashingLengths.${index}.length`}
-                        label="Length"
-                        style={{
-                          width:
-                            arrayLengths.length > 1
-                              ? isTablet
-                                ? 300
-                                : 150
-                              : isTablet
+                      }}
+                      keyboardType="number-pad"
+                    />
+                    <FieldInput
+                      name={`flashingLengths.${index}.length`}
+                      label="Length"
+                      style={{
+                        width:
+                          arrayLengths.length > 1
+                            ? isTablet
+                              ? 300
+                              : 150
+                            : isTablet
                               ? 340
                               : 170,
-                        }}
-                        suffix="mm"
-                        keyboardType="numeric"
+                      }}
+                      suffix="mm"
+                      returnKeyType="next"
+                      keyboardType="number-pad"
+                    />
+                    {arrayLengths.length > 1 && (
+                      <IconButton
+                        mt="unset"
+                        icon={
+                          <Icon
+                            as={TrashIcon}
+                            size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+                          />
+                        }
+                        onPress={() => arrayHelpers.remove(index)}
                       />
-                      {arrayLengths.length > 1 && (
-                        <IconButton
-                          mt="unset"
-                          icon={
-                            <Icon
-                              as={TrashIcon}
-                              size={
-                                isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE
-                              }
-                            />
-                          }
-                          onPress={() => arrayHelpers.remove(index)}
-                        />
-                      )}
-                    </Box>
-                  </React.Fragment>
-                ))}
-              </ScrollBox>
-              <Button
-                isDisabled={values.flashingLengths?.length === 8}
-                variant="outlineWhite"
-                mt="2xl"
-                onPress={() =>
-                  arrayHelpers.push({
-                    qty: NaN,
-                    length: NaN,
-                  })
-                }>
-                + Add Length
-              </Button>
+                    )}
+                  </Box>
+                </React.Fragment>
+              ))}
+              <Box mt="xl">
+                <Button
+                  my="s"
+                  isDisabled={values.flashingLengths?.length === 8}
+                  variant="outlineWhite"
+                  onPress={() =>
+                    arrayHelpers.push({
+                      qty: NaN,
+                      length: NaN,
+                    })
+                  }>
+                  + Add Length
+                </Button>
+                <Button
+                  isDisabled={!isValid || !values.material}
+                  onPress={handleSubmit.bind(null, undefined)}
+                  isLoading={isSubmitting}>
+                  {labelButton}
+                </Button>
+
+                {showButtonUpdate && (
+                  <>
+                    <Button
+                      mt="s"
+                      isDisabled={!isValid || !values.material}
+                      isLoading={isSubmitting}
+                      onPress={() => handleUpdateDeleteFlashing()}>
+                      Update Flashing
+                    </Button>
+                    <Button
+                      variant="delete"
+                      mt="s"
+                      isLoading={isSubmitting}
+                      onPress={() => alertDelete()}>
+                      Delete Flashing
+                    </Button>
+                  </>
+                )}
+              </Box>
             </>
           )}
         />
-      </Box>
-      <Box mb="m">
-        <Button
-          isDisabled={!isValid || !values.material}
-          onPress={handleSubmit.bind(null, undefined)}
-          isLoading={isSubmitting}>
-          {labelButton}
-        </Button>
-
-        {showButtonUpdate && (
-          <>
-            <Button
-              mt="s"
-              isDisabled={!isValid || !values.material}
-              isLoading={isSubmitting}
-              onPress={() => handleUpdateDeleteFlashing()}>
-              Update Flashing
-            </Button>
-            <Button
-              variant="delete"
-              mt="s"
-              isLoading={isSubmitting}
-              onPress={() => alertDelete()}>
-              Delete Flashing
-            </Button>
-          </>
-        )}
       </Box>
     </Box>
   );
