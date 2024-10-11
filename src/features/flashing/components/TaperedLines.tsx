@@ -1,27 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { TextInput } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { BaseTouchable, Box, Divider, Icon, Text } from '@ui/components';
-import { isNaN } from 'lodash';
+import React, {useEffect, useRef, useState} from 'react';
+import {TextInput} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import {BaseTouchable, Box, Divider, Icon, Text} from '@ui/components';
+import {isNaN} from 'lodash';
 import {
   BackArrowIcon,
   CompleteEditMeasurementsIcon,
   NextArrowIcon,
 } from '@assets/icons';
-import { isAndroid } from '@shared/platform';
-import { LINE_SELECTED } from '@features/flashing/components/Board/types';
-import {
-  getDataFlashingDraft,
-  getSideTapered,
-} from '@store/flashings/selectors';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { getIndexOfStepForName } from '@features/flashing/utils';
+import {isAndroid} from '@shared/platform';
+import {LINE_SELECTED} from '@features/flashing/components/Board/types';
+import {getDataFlashingDraft, getSideTapered} from '@store/flashings/selectors';
+import {actions as flashingActions} from '@store/flashings/actions';
+import {getIndexOfStepForName} from '@features/flashing/utils';
 
 type Props = {
   onChangeIndexSelected: (newIndexSelected: number) => void;
 };
 
-const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
+const TaperedLines: React.FC<Props> = ({onChangeIndexSelected}) => {
   const dispatch = useDispatch();
   const flashingDataDraft = useSelector(getDataFlashingDraft);
   const isFront = useSelector(getSideTapered);
@@ -84,7 +81,7 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
         isFront ? 'front' : 'back'
       ].map((item, index) =>
         index === (isFront ? indexLineSelectedFront : indexLineSelectedBack)
-          ? { ...item, distance: size }
+          ? {...item, distance: size}
           : item,
       ),
     };
@@ -157,6 +154,18 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
     onChangeIndexSelected(newIndexPreview);
   };
 
+  const onChangeValue = (newText: string) => {
+    const baseValue = pointSelected?.sizeLine;
+    if (baseValue?.toString() === newText) {
+      return setMeasurement(parseInt(newText, 10));
+    }
+    const newCharacters = newText.split(baseValue?.toString() ?? '');
+    if (newCharacters.length > 1) {
+      return setMeasurement(parseInt(newCharacters[1], 10));
+    }
+    setMeasurement(parseInt(newText, 10));
+  };
+
   if (!pointSelected) return null;
 
   return (
@@ -178,7 +187,7 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
         p="xs"
         style={{
           zIndex: 1,
-          shadowOffset: { width: 0, height: 0 },
+          shadowOffset: {width: 0, height: 0},
           shadowOpacity: 0.5,
           shadowRadius: 5,
           shadowColor: 'lightGray',
@@ -211,13 +220,10 @@ const TaperedLines: React.FC<Props> = ({ onChangeIndexSelected }) => {
                   backgroundColor: 'white',
                   color: '#000',
                 },
-                isAndroid && { padding: 10, height: 40 },
+                isAndroid && {padding: 10, height: 40},
               ]}
               value={`${isNaN(measurement) ? '0' : measurement}`}
-              onChangeText={(newText: string) => {
-                const size = parseInt(newText, 10);
-                setMeasurement(size);
-              }}
+              onChangeText={onChangeValue}
             />
             <Text variant="bodyBold">mm</Text>
           </Box>
