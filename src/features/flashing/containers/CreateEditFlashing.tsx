@@ -1,19 +1,20 @@
 import React from 'react';
-import { KeyboardAvoidingBox } from '@ui/components';
-import { Routes as RoutesFlashing, Routes } from '../navigation/routes';
-import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import {KeyboardAvoidingBox} from '@ui/components';
+import {Routes as RoutesFlashing, Routes} from '../navigation/routes';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
   FlashingParamsList,
   FlashingStackProps,
 } from '@features/flashing/navigation/Stack.types';
-import { AddFlashingFormValues, forms } from '@features/flashing/constants';
-import { FormCreateFlashingComponent } from '@features/flashing/components';
-import { Formik, FormikProps } from 'formik';
-import { getRandomInt } from '@shared/utils';
+import {AddFlashingFormValues, forms} from '@features/flashing/constants';
+import {FormCreateFlashingComponent} from '@features/flashing/components';
+import {Formik, FormikProps} from 'formik';
+import {getRandomInt} from '@shared/utils';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getDataFlashing } from '@store/jobs/selectors';
-import { actions as flashingActions } from '@store/flashings/actions';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
+import {getDataFlashing} from '@store/jobs/selectors';
+import {actions as flashingActions} from '@store/flashings/actions';
+import {isIOS} from '@shared/platform';
 
 const CreateFlashingContainer = () => {
   const dispatch = useAppDispatch();
@@ -32,7 +33,7 @@ const CreateFlashingContainer = () => {
 
   const handleSubmit = React.useCallback(
     async (values: AddFlashingFormValues) => {
-      const { name, material, flashingLengths } = values;
+      const {name, material, flashingLengths} = values;
       if (!flashingLengths) return;
       dispatch(
         flashingActions.addFlashingDraft({
@@ -56,7 +57,7 @@ const CreateFlashingContainer = () => {
           isEdit: !!dataFlashing,
         }),
       );
-      navigation.navigate(Routes.BOARD_FLASHING, { jobId: route.params.jobId });
+      navigation.navigate(Routes.BOARD_FLASHING, {jobId: route.params.jobId});
     },
     [],
   );
@@ -79,11 +80,14 @@ const CreateFlashingContainer = () => {
   };
 
   return (
-    <KeyboardAvoidingBox flex={1}>
+    <KeyboardAvoidingBox
+      flex={1}
+      keyboardVerticalOffset={100}
+      behavior={isIOS ? 'padding' : 'height'}>
       <DismissKeyboardPressable>
         <Formik
           innerRef={formikRef}
-          initialValues={{ ...loadInitialData() }}
+          initialValues={{...loadInitialData()}}
           validationSchema={forms.createFlashing.schema}
           onSubmit={handleSubmit}>
           <FormCreateFlashingComponent
