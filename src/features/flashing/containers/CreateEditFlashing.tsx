@@ -80,27 +80,22 @@ const CreateFlashingContainer = () => {
   };
 
   return (
-    <KeyboardAvoidingBox
-      flex={1}
-      keyboardVerticalOffset={100}
-      behavior={isIOS ? 'padding' : 'height'}>
-      <DismissKeyboardPressable>
-        <Formik
-          innerRef={formikRef}
-          initialValues={{...loadInitialData()}}
-          validationSchema={forms.createFlashing.schema}
-          onSubmit={handleSubmit}>
-          <FormCreateFlashingComponent
-            dataFlashing={dataFlashing}
-            idJob={route.params.jobId}
-            showButtonUpdate={!!route.params.idFlashing}
-            labelButton={
-              route.params.idFlashing ? 'Edit Drawing' : 'Start Drawing'
-            }
-          />
-        </Formik>
-      </DismissKeyboardPressable>
-    </KeyboardAvoidingBox>
+    <DismissKeyboardPressable>
+      <Formik
+        innerRef={formikRef}
+        initialValues={{...loadInitialData()}}
+        validationSchema={forms.createFlashing.schema}
+        onSubmit={handleSubmit}>
+        <FormCreateFlashingComponent
+          dataFlashing={dataFlashing}
+          idJob={route.params.jobId}
+          showButtonUpdate={!!route.params.idFlashing}
+          labelButton={
+            route.params.idFlashing ? 'Edit Drawing' : 'Start Drawing'
+          }
+        />
+      </Formik>
+    </DismissKeyboardPressable>
   );
 };
 export default CreateFlashingContainer;

@@ -53,7 +53,7 @@ const CreateOrderForm: React.FC<Props> = ({isLoading}) => {
   if (!optionsStore.length) return null;
 
   return (
-    <>
+    <Box p="m">
       <Box>
         <FieldSelect
           key={`field-select-store${Math.random()}`}
@@ -129,7 +129,7 @@ const CreateOrderForm: React.FC<Props> = ({isLoading}) => {
         onPress={handleSubmit.bind(null, undefined)}>
         Preview
       </Button>
-    </>
+    </Box>
   );
 };
 

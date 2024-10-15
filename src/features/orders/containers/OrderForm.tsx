@@ -31,7 +31,8 @@ import {baseUrlPDF} from '@shared/endPoints';
 import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
 import {getVersionApp} from '@store/setup/selectors';
-import Toast from "react-native-toast-message";
+import Toast from 'react-native-toast-message';
+import {isIOS} from '@shared/platform';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -165,18 +166,16 @@ const OrderForm = () => {
   );
 
   return (
-    <KeyboardAvoidingBox>
-      <DismissKeyboardPressable>
-        <Formik
-          enableReinitialize
-          initialErrors={forms.createOrder.initialErrors}
-          initialValues={forms.createOrder.initialValues}
-          validationSchema={forms.createOrder.schema}
-          onSubmit={handleSubmit}>
-          <CreateOrderForm isLoading={isLoading} />
-        </Formik>
-      </DismissKeyboardPressable>
-    </KeyboardAvoidingBox>
+    <DismissKeyboardPressable>
+      <Formik
+        enableReinitialize
+        initialErrors={forms.createOrder.initialErrors}
+        initialValues={forms.createOrder.initialValues}
+        validationSchema={forms.createOrder.schema}
+        onSubmit={handleSubmit}>
+        <CreateOrderForm isLoading={isLoading} />
+      </Formik>
+    </DismissKeyboardPressable>
   );
 };
 export default OrderForm;
