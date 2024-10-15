@@ -1,21 +1,15 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {actions} from './actions';
-import {DATA_MATERIAL_ORDER, JOB_DATA, STORE} from '@models';
+import {STATE_ORDER_STORE} from '@models';
+import {stat} from 'react-native-fs';
 
-type initialStateType = {
-  job: JOB_DATA | undefined;
-  messageEmail: string | undefined;
-  dataMaterialOrder: DATA_MATERIAL_ORDER | undefined;
-  dataStore: STORE | undefined;
-  urlPdf: string | undefined;
-};
-
-const INITIAL_STATE: initialStateType = {
+const INITIAL_STATE: STATE_ORDER_STORE = {
   job: undefined,
   messageEmail: undefined,
   dataMaterialOrder: undefined,
   dataStore: undefined,
   urlPdf: undefined,
+  fillOrder: undefined,
 };
 
 const ordersReducer = createReducer(INITIAL_STATE, builder => {
@@ -34,12 +28,16 @@ const ordersReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.setStoreSelected, (state, action) => {
     state.dataStore = action.payload.dataStore;
   });
+  builder.addCase(actions.fillOrder, (state, action) => {
+    state.fillOrder = action.payload.data;
+  });
   builder.addCase(actions.clear, state => {
     state.job = undefined;
     state.messageEmail = undefined;
     state.dataMaterialOrder = undefined;
     state.dataStore = undefined;
     state.urlPdf = undefined;
+    state.fillOrder = undefined;
   });
 });
 

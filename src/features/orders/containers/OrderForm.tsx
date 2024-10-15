@@ -2,7 +2,6 @@ import React from 'react';
 import {Formik} from 'formik';
 import {formKeys, forms} from '../constants';
 import CreateOrderForm from '@features/orders/components/CreateOrderForm';
-import {KeyboardAvoidingBox} from '@ui/components';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
 import {
   useAddDataJob,
@@ -22,7 +21,7 @@ import {
   mapDataJobToDataPetition,
 } from '@features/orders/utils';
 import {CreateOrderFormValues} from '@features/orders/type';
-import {actions as orderActions} from '@store/orders/actions';
+import {orderActions} from '@store/orders';
 import {
   formKeysOrders,
   optionsDelivery,
@@ -32,7 +31,6 @@ import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
 import {getVersionApp} from '@store/setup/selectors';
 import Toast from 'react-native-toast-message';
-import {isIOS} from '@shared/platform';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
