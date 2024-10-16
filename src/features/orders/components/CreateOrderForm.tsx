@@ -14,6 +14,7 @@ import {CreateOrderFormValues} from '@models/order';
 type Props = {
   isLoading: boolean;
 };
+
 const CreateOrderForm: React.FC<Props> = ({isLoading}) => {
   const [optionsStore, setOptionsStore] = React.useState<OptionsType[]>([]);
   const {data: stores, refetch} = useGetStores();
@@ -28,97 +29,35 @@ const CreateOrderForm: React.FC<Props> = ({isLoading}) => {
 
   React.useEffect(() => {
     if (!stores) {
-      refetch().catch(error => console.log('error::', error));
+      refetch().catch(error => console.error('Error fetching stores:', error));
       return;
     }
-
-    const storesAsRadioButton = storesToOption(stores);
-    setOptionsStore(storesAsRadioButton);
-  }, [stores]);
+    setOptionsStore(storesToOption(stores));
+  }, [stores, refetch]);
 
   React.useEffect(() => {
     if (!dataFieldsOrderValidations || !dataFieldsOrderValidations.length)
       return;
+
     setFieldValue(
       formKeys.createOrder.burdens_data,
       dataFieldsOrderValidations.map(item => ({
         index: item.index,
         value: item.default ?? '',
       })),
-    ).catch(err => console.log('error::', err));
-  }, [dataFieldsOrderValidations]);
+    ).catch(err => console.error('Error setting burdens data:', err));
+  }, [dataFieldsOrderValidations, setFieldValue]);
 
   if (!optionsStore.length) return null;
 
   return (
     <Box p="m">
-      <Box>
-        <FieldSelect
-          key={`field-select-store${Math.random()}`}
-          isRequired
-          name={formKeys.createOrder.store}
-          options={optionsStore}
-          label={forms.createOrder.labels[formKeys.createOrder.store]}
-        />
-
-        <FieldInputDateTime
-          isRequired
-          name={formKeys.createOrder.date}
-          typeFormat="date"
-          label={forms.createOrder.labels[formKeys.createOrder.date]}
-        />
-
-        <FieldSelect
-          key={`field-select-delivery${Math.random()}`}
-          isRequired
-          name={formKeys.createOrder.deliveryOrPickUp}
-          options={optionsDeliveryOrPickUp}
-          label={
-            forms.createOrder.labels[formKeys.createOrder.deliveryOrPickUp]
-          }
-        />
-
-        <FieldCheckbox
-          name={formKeys.createOrder.quote_only}
-          title={forms.createOrder.labels[formKeys.createOrder.quote_only]}
-          options={[{label: '1', checked: true}]}
-        />
-
-        {showAddressDelivery && (
-          <FieldInput
-            isRequired
-            name={formKeys.createOrder.address}
-            label={forms.createOrder.labels[formKeys.createOrder.address]}
-            my="s"
-          />
-        )}
-
-        {dataFieldsOrderValidations && (
-          <FieldArray
-            name={formKeys.createOrder.burdens_data}
-            render={() => (
-              <>
-                {/*@ts-ignore*/}
-                {values[formKeys.createOrder.burdens_data].map((_, index) => (
-                  <FieldInput
-                    key={`input-burdens-data${index}`}
-                    name={`${formKeys.createOrder.burdens_data}.${index}.value`}
-                    label={dataFieldsOrderValidations[index].prompt}
-                    placeholder={dataFieldsOrderValidations[index].mask}
-                    my="s"
-                  />
-                ))}
-              </>
-            )}
-          />
-        )}
-
-        <FieldInput
-          name={formKeys.createOrder.comments}
-          label={forms.createOrder.labels[formKeys.createOrder.comments]}
-          multiline
-        />
-      </Box>
+      <OrderFormFields
+        optionsStore={optionsStore}
+        showAddressDelivery={showAddressDelivery}
+        dataFieldsOrderValidations={dataFieldsOrderValidations}
+        values={values}
+      />
       <Button
         my="m"
         variant="solid"
@@ -130,5 +69,67 @@ const CreateOrderForm: React.FC<Props> = ({isLoading}) => {
     </Box>
   );
 };
+
+const OrderFormFields: React.FC<any> = ({
+  optionsStore,
+  showAddressDelivery,
+  dataFieldsOrderValidations,
+  values,
+}) => (
+  <Box>
+    <FieldSelect
+      isRequired
+      name={formKeys.createOrder.store}
+      options={optionsStore}
+      label={forms.createOrder.labels[formKeys.createOrder.store]}
+    />
+    <FieldInputDateTime
+      isRequired
+      name={formKeys.createOrder.date}
+      typeFormat="date"
+      label={forms.createOrder.labels[formKeys.createOrder.date]}
+    />
+    <FieldSelect
+      isRequired
+      name={formKeys.createOrder.deliveryOrPickUp}
+      options={optionsDeliveryOrPickUp}
+      label={forms.createOrder.labels[formKeys.createOrder.deliveryOrPickUp]}
+    />
+    <FieldCheckbox
+      name={formKeys.createOrder.quote_only}
+      title={forms.createOrder.labels[formKeys.createOrder.quote_only]}
+      options={[{label: '1', checked: true}]}
+    />
+    {showAddressDelivery && (
+      <FieldInput
+        isRequired
+        name={formKeys.createOrder.address}
+        label={forms.createOrder.labels[formKeys.createOrder.address]}
+        my="s"
+      />
+    )}
+    {dataFieldsOrderValidations && (
+      <FieldArray
+        name={formKeys.createOrder.burdens_data}
+        render={() =>
+          values[formKeys.createOrder.burdens_data].map((_, index) => (
+            <FieldInput
+              key={`input-burdens-data${index}`}
+              name={`${formKeys.createOrder.burdens_data}.${index}.value`}
+              label={dataFieldsOrderValidations[index].prompt}
+              placeholder={dataFieldsOrderValidations[index].mask}
+              my="s"
+            />
+          ))
+        }
+      />
+    )}
+    <FieldInput
+      name={formKeys.createOrder.comments}
+      label={forms.createOrder.labels[formKeys.createOrder.comments]}
+      multiline
+    />
+  </Box>
+);
 
 export default CreateOrderForm;
