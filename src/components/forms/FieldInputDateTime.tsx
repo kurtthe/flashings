@@ -1,6 +1,6 @@
 import React from 'react';
-import { FieldConfig, useField } from 'formik';
-import { Box, type InputProps } from '@ui/components';
+import {FieldConfig, useField} from 'formik';
+import {Box, type InputProps} from '@ui/components';
 import InputDate from '@components/InputDate';
 import InputTime from '@components/InputTime';
 import ErrorMessage from '@components/forms/ErrorMessage';
@@ -21,7 +21,7 @@ const FieldInputDateTime: React.FC<Props> = ({
   isRequired = false,
   ...rest
 }) => {
-  const [field, meta] = useField({ name, value, defaultValue });
+  const [field, meta] = useField({name, value, defaultValue});
   const isInvalid = Boolean(meta.touched && meta.error);
 
   const handleChangeText = (text: string) => {
@@ -36,12 +36,14 @@ const FieldInputDateTime: React.FC<Props> = ({
           label={label}
           isRequired={isRequired}
           onChangeText={handleChangeText}
+          value={field.value}
           {...rest}
         />
       ) : (
         <InputTime
           label={label}
           isRequired={isRequired}
+          value={field.value}
           onChangeText={handleChangeText}
           {...rest}
         />

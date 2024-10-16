@@ -14,13 +14,16 @@ import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {dataUserSelector} from '@store/auth/selectors';
 import {RoutesOrders} from '@features/orders/navigation/routes';
 import {useNavigation} from '@react-navigation/native';
-import {getJobOrder, getStoreSelectedOrder} from '@store/orders/selectors';
+import {
+  getFillOrder,
+  getJobOrder,
+  getStoreSelectedOrder,
+} from '@store/orders/selectors';
 import {OrdersStackProps} from '@features/orders/navigation/Stack.types';
 import {
   buildDataMaterialOrder,
   mapDataJobToDataPetition,
 } from '@features/orders/utils';
-import {CreateOrderFormValues} from '@features/orders/type';
 import {orderActions} from '@store/orders';
 import {
   formKeysOrders,
@@ -31,16 +34,21 @@ import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
 import {getVersionApp} from '@store/setup/selectors';
 import Toast from 'react-native-toast-message';
+import {CreateOrderFormValues, FILL_ORDER} from '@models/order';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
 
   const navigation = useNavigation<OrdersStackProps>();
   const jobOrder = useAppSelector(getJobOrder);
+  const fillOrderData = useAppSelector(getFillOrder);
   const dataUser = useAppSelector(dataUserSelector);
 
   const [dateFormated, setDateFormated] = React.useState<string>();
   const [notes, setNotes] = React.useState<string>();
+  const [initialValueForm, setInitialValueForm] = React.useState(
+    forms.createOrder.initialValues,
+  );
   const [isQuoteOnly, setIsQuoteOnly] = React.useState<boolean>(false);
   const [burdensData, setBurdensData] = React.useState<
     Array<{index: number; value: string}>
@@ -107,6 +115,12 @@ const OrderForm = () => {
     },
   });
 
+  React.useEffect(() => {
+    if (!fillOrderData) return;
+    //@ts-ignore
+    setInitialValueForm({...fillOrderData});
+  }, [fillOrderData]);
+
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
       if (!jobOrder || !values || !dataUser || !dataAccountCompany) return;
@@ -159,6 +173,7 @@ const OrderForm = () => {
         ),
         howManyFlashings: jobOrder.flashings.length,
       });
+      dispatch(orderActions.fillOrder({data: values}));
     },
     [dataSupplier, dataUser, versionApp],
   );
@@ -168,7 +183,7 @@ const OrderForm = () => {
       <Formik
         enableReinitialize
         initialErrors={forms.createOrder.initialErrors}
-        initialValues={forms.createOrder.initialValues}
+        initialValues={initialValueForm}
         validationSchema={forms.createOrder.schema}
         onSubmit={handleSubmit}>
         <CreateOrderForm isLoading={isLoading} />

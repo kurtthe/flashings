@@ -8,10 +8,8 @@ import {storesToOption} from '@features/jobs/utils';
 import FieldInputDateTime from '@components/forms/FieldInputDateTime';
 import {optionsDelivery} from '@features/orders/constants/order';
 import FieldCheckbox from '@components/forms/FieldCheckbox';
-import {
-  CreateOrderFormValues,
-  optionsDeliveryOrPickUp,
-} from '@features/orders/type';
+import {optionsDeliveryOrPickUp} from '@features/orders/type';
+import {CreateOrderFormValues} from '@models/order';
 
 type Props = {
   isLoading: boolean;

@@ -1,7 +1,6 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {actions} from './actions';
 import {STATE_ORDER_STORE} from '@models';
-import {stat} from 'react-native-fs';
 
 const INITIAL_STATE: STATE_ORDER_STORE = {
   job: undefined,

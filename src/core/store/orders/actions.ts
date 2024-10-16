@@ -1,5 +1,10 @@
 import {createAction} from '@reduxjs/toolkit';
-import {DATA_MATERIAL_ORDER, FILL_ORDER, JOB_DATA, STORE} from '@models';
+import {
+  CreateOrderFormValues,
+  DATA_MATERIAL_ORDER,
+  JOB_DATA,
+  STORE,
+} from '@models';
 
 export const actions = {
   jobOrder: createAction<{job: JOB_DATA}>('orders/jobOrder'),
@@ -10,5 +15,5 @@ export const actions = {
     'orders/dataMaterialOrder',
   ),
   clear: createAction('orders/clear'),
-  fillOrder: createAction<{data: FILL_ORDER}>('orders/fillOrder'),
+  fillOrder: createAction<{data: CreateOrderFormValues}>('orders/fillOrder'),
 };
