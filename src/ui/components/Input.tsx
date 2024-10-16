@@ -1,10 +1,15 @@
-import React, { ReactElement, useCallback, useRef, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import {
   Animated,
   Easing,
   NativeSyntheticEvent,
   Pressable,
-  StyleProp,
   StyleSheet,
   TextInput,
   TextInputEndEditingEventData,
@@ -14,7 +19,6 @@ import {
 } from 'react-native';
 import {
   backgroundColor,
-  backgroundColorShorthand,
   border,
   color,
   composeRestyleFunctions,
@@ -23,41 +27,34 @@ import {
   layout,
   opacity,
   spacing,
-  spacingShorthand,
   typography,
 } from '@shopify/restyle';
-import { useAppRestyle } from '@theme';
-
-import { useAsProp, useFontStyle } from '@ui/hooks';
-import { forwardRef, getKeys } from '@ui/utils';
+import {useAppRestyle} from '@theme';
+import {useAsProp, useFontStyle} from '@ui/hooks';
+import {forwardRef} from '@ui/utils';
+import {useCombinedRefs} from '@hooks/useCombinedRefs';
+import {useIsDarkMode} from '@theme/hooks';
+import Box from '@ui/components/Box';
+import Text from '@ui/components/Text';
+import {isTablet} from '@shared/platform';
 
 import type {
   BackgroundColorProps,
-  BackgroundColorShorthandProps,
   BorderProps,
   ColorProps,
   LayoutProps,
   OpacityProps,
   SpacingProps,
-  SpacingShorthandProps,
   TypographyProps,
   VariantProps,
 } from '@shopify/restyle';
-import type { Theme } from '@theme';
-import { useCombinedRefs } from '@hooks/useCombinedRefs';
-import { useIsDarkMode } from '@theme/hooks';
-import Box from '@ui/components/Box';
-import Text from '@ui/components/Text';
-import { isTablet } from '@shared/platform';
+import type {Theme} from '@theme';
 
 export type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
-  VariantProps<Theme, 'colors', 'placeholderTextColor'> &
   TypographyProps<Theme> &
   ColorProps<Theme> &
   BackgroundColorProps<Theme> &
-  BackgroundColorShorthandProps<Theme> &
   SpacingProps<Theme> &
-  SpacingShorthandProps<Theme> &
   LayoutProps<Theme> &
   BorderProps<Theme> &
   OpacityProps<Theme> &
@@ -75,17 +72,17 @@ export type RestyleInputProps = VariantProps<Theme, 'inputVariants'> &
       | 'cc-csc'
       | 'tel';
     label?: string | null;
-    styleContent?: StyleProp<TextStyle>;
+    styleContent?: TextStyle;
     isRequired?: boolean;
     suffix?: string;
   };
+
 export type InputProps = RestyleInputProps & {
   _dark?: RestyleInputProps;
   _light?: RestyleInputProps;
 };
-const variant = createVariant({
-  themeKey: 'inputVariants',
-});
+
+const variant = createVariant({themeKey: 'inputVariants'});
 const inputPlaceholderTextColor = createRestyleFunction({
   themeKey: 'colors',
   property: 'placeholderTextColor',
@@ -94,26 +91,20 @@ const inputSelectionColor = createRestyleFunction({
   themeKey: 'colors',
   property: 'selectionColor',
 });
-export const restyleFunctions = composeRestyleFunctions([
+
+const restyleFunctions = composeRestyleFunctions([
   color,
   opacity,
   backgroundColor,
-  backgroundColorShorthand,
   spacing,
-  spacingShorthand,
   layout,
   border,
   typography,
-  //@ts-ignore temporaly fix ignore bad type issue
   inputSelectionColor,
-  //@ts-ignore temporaly fix ignore bad type issue
   inputPlaceholderTextColor,
-  //@ts-ignore temporaly fix ignore bad type issue
   variant,
 ]);
-const inputStyleProperties = [...typography, ...color].map(
-  ({ property }) => property as string,
-);
+
 const Input = forwardRef<InputProps, typeof TextInput>(
   (
     {
@@ -142,24 +133,23 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     const BaseInputComponent = useAsProp(TextInput, as);
     const isDarkMode = useIsDarkMode();
     const internalRef = useRef<TextInput>(null);
-
     const [isFocused, setIsFocused] = useState(false);
-    const labelAnimationRef = useRef(
-      new Animated.Value(!!value || !!placeholder || isFocused ? 1 : 0),
-    ).current;
-    let _inputVariant = inputVariant;
-    if (isFocused) {
-      _inputVariant = 'focused';
-    }
-    if (isDisabled) {
-      _inputVariant = 'disabled';
-    }
-    if (isInvalid) {
-      _inputVariant = 'error';
-    }
+    const labelAnimation = useMemo(
+      () => new Animated.Value(!!value || !!placeholder || isFocused ? 1 : 0),
+      [value, placeholder, isFocused],
+    );
+
     const refs = useCombinedRefs(internalRef, ref);
+
+    let _inputVariant = useMemo(() => {
+      if (isFocused) return 'focused';
+      if (isDisabled) return 'disabled';
+      if (isInvalid) return 'error';
+      return inputVariant;
+    }, [isFocused, isDisabled, isInvalid, inputVariant]);
+
     const {
-      style: [{ selectionColor, ...containerStyle }],
+      style: [{selectionColor, ...containerStyle}],
       ...props
     } = useAppRestyle<
       InputProps,
@@ -169,67 +159,50 @@ const Input = forwardRef<InputProps, typeof TextInput>(
       ...rest,
       ...(isDarkMode ? _dark : _light),
     });
+
     const fontStyle = useFontStyle(containerStyle as TextStyle);
     const isFocusable = !!editable || !isDisabled;
-    const inputStyle = getKeys(containerStyle).reduce(
-      (styleAcc, styleProperty) => {
-        if (inputStyleProperties.indexOf(styleProperty) !== -1) {
-          styleAcc[styleProperty] = containerStyle[styleProperty];
-          delete containerStyle[styleProperty];
-        }
-        return styleAcc;
-      },
-      {} as Record<string, any>,
-    );
-    const handleExternalFocus = useCallback(() => {
-      if (isFocusable) {
-        //@ts-ignore ignore bad type related to input mask
-        internalRef.current?.focus();
-      }
-    }, [isFocusable]);
-    const handleBlur = useCallback(
-      (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
-        onBlur?.(ev);
-        setIsFocused(false);
-      },
-      [],
-    );
+
     const handleFocus = useCallback(
       (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
         onFocus?.(ev);
         setIsFocused(true);
-        Animated.timing(labelAnimationRef, {
+        Animated.timing(labelAnimation, {
           toValue: 1,
           duration: 200,
           easing: Easing.linear,
           useNativeDriver: false,
         }).start();
       },
-      [labelAnimationRef],
+      [onFocus, labelAnimation],
     );
-    const handleEndEditing = useCallback(
-      (ev: NativeSyntheticEvent<TextInputEndEditingEventData>) => {
-        onEndEditing?.(ev);
-        if (ev.nativeEvent.text) return;
-        Animated.timing(labelAnimationRef, {
-          toValue: 0,
+
+    const handleBlur = useCallback(
+      (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
+        onBlur?.(ev);
+        setIsFocused(false);
+        Animated.timing(labelAnimation, {
+          toValue: value || placeholder ? 1 : 0,
           duration: 200,
           easing: Easing.linear,
           useNativeDriver: false,
         }).start();
       },
-      [],
+      [onBlur, labelAnimation, value, placeholder],
     );
+
+    const handleExternalFocus = useCallback(() => {
+      if (isFocusable) {
+        internalRef.current?.focus();
+      }
+    }, [isFocusable]);
 
     return (
       <Pressable
         style={StyleSheet.flatten([
           styles.inputContainer,
           style,
-          { ...containerStyle },
-          rest.multiline && {
-            height: isTablet ? 300 : 200,
-          },
+          containerStyle,
         ])}
         onPress={handleExternalFocus}
         accessible={false}>
@@ -240,11 +213,11 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               position="absolute"
               color="grey400"
               style={{
-                top: labelAnimationRef.interpolate({
+                top: labelAnimation.interpolate({
                   inputRange: [0, 1],
                   outputRange: [isTablet ? 25 : 18, isTablet ? 10 : 5],
                 }),
-                fontSize: labelAnimationRef.interpolate({
+                fontSize: labelAnimation.interpolate({
                   inputRange: [0, 1],
                   outputRange: [isTablet ? 18 : 16, isTablet ? 18 : 14],
                 }),
@@ -258,7 +231,6 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               ref={refs}
               style={[
                 styles.text,
-                inputStyle,
                 fontStyle,
                 {
                   paddingTop:
@@ -275,15 +247,11 @@ const Input = forwardRef<InputProps, typeof TextInput>(
               ]}
               selectionColor={selectionColor}
               editable={!isDisabled}
-              clearButtonMode="never"
-              selectTextOnFocus={true}
-              textAlignVertical="center" // make align consistent across platforms
               {...props}
               value={value}
               placeholder={placeholder}
               onBlur={handleBlur}
               onFocus={handleFocus}
-              onEndEditing={handleEndEditing}
             />
           </Box>
           {suffix && (
@@ -308,12 +276,15 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     );
   },
 );
+
 Input.defaultProps = {
   placeholderTextColor: 'textPlaceholder',
   caretHidden: false,
   maxFontSizeMultiplier: 1.3,
 };
+
 export default Input;
+
 const styles = StyleSheet.create({
   inputContainer: {
     width: '100%',
@@ -322,8 +293,5 @@ const styles = StyleSheet.create({
   text: {
     lineHeight: 20,
     marginTop: isTablet ? 10 : 8,
-  },
-  inputLabel: {
-    marginTop: 8,
   },
 });

@@ -2,7 +2,6 @@ import React from 'react';
 import {Formik} from 'formik';
 import {formKeys, forms} from '../constants';
 import CreateOrderForm from '@features/orders/components/CreateOrderForm';
-import {KeyboardAvoidingBox} from '@ui/components';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
 import {
   useAddDataJob,
@@ -15,14 +14,17 @@ import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {dataUserSelector} from '@store/auth/selectors';
 import {RoutesOrders} from '@features/orders/navigation/routes';
 import {useNavigation} from '@react-navigation/native';
-import {getJobOrder, getStoreSelectedOrder} from '@store/orders/selectors';
+import {
+  getFillOrder,
+  getJobOrder,
+  getStoreSelectedOrder,
+} from '@store/orders/selectors';
 import {OrdersStackProps} from '@features/orders/navigation/Stack.types';
 import {
   buildDataMaterialOrder,
   mapDataJobToDataPetition,
 } from '@features/orders/utils';
-import {CreateOrderFormValues} from '@features/orders/type';
-import {actions as orderActions} from '@store/orders/actions';
+import {orderActions} from '@store/orders';
 import {
   formKeysOrders,
   optionsDelivery,
@@ -31,17 +33,22 @@ import {baseUrlPDF} from '@shared/endPoints';
 import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
 import {getVersionApp} from '@store/setup/selectors';
-import Toast from "react-native-toast-message";
+import Toast from 'react-native-toast-message';
+import {CreateOrderFormValues, FILL_ORDER} from '@models/order';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
 
   const navigation = useNavigation<OrdersStackProps>();
   const jobOrder = useAppSelector(getJobOrder);
+  const fillOrderData = useAppSelector(getFillOrder);
   const dataUser = useAppSelector(dataUserSelector);
 
   const [dateFormated, setDateFormated] = React.useState<string>();
   const [notes, setNotes] = React.useState<string>();
+  const [initialValueForm, setInitialValueForm] = React.useState(
+    forms.createOrder.initialValues,
+  );
   const [isQuoteOnly, setIsQuoteOnly] = React.useState<boolean>(false);
   const [burdensData, setBurdensData] = React.useState<
     Array<{index: number; value: string}>
@@ -108,6 +115,12 @@ const OrderForm = () => {
     },
   });
 
+  React.useEffect(() => {
+    if (!fillOrderData) return;
+    //@ts-ignore
+    setInitialValueForm({...fillOrderData});
+  }, [fillOrderData]);
+
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
       if (!jobOrder || !values || !dataUser || !dataAccountCompany) return;
@@ -160,23 +173,22 @@ const OrderForm = () => {
         ),
         howManyFlashings: jobOrder.flashings.length,
       });
+      dispatch(orderActions.fillOrder({data: values}));
     },
     [dataSupplier, dataUser, versionApp],
   );
 
   return (
-    <KeyboardAvoidingBox>
-      <DismissKeyboardPressable>
-        <Formik
-          enableReinitialize
-          initialErrors={forms.createOrder.initialErrors}
-          initialValues={forms.createOrder.initialValues}
-          validationSchema={forms.createOrder.schema}
-          onSubmit={handleSubmit}>
-          <CreateOrderForm isLoading={isLoading} />
-        </Formik>
-      </DismissKeyboardPressable>
-    </KeyboardAvoidingBox>
+    <DismissKeyboardPressable>
+      <Formik
+        enableReinitialize
+        initialErrors={forms.createOrder.initialErrors}
+        initialValues={initialValueForm}
+        validationSchema={forms.createOrder.schema}
+        onSubmit={handleSubmit}>
+        <CreateOrderForm isLoading={isLoading} />
+      </Formik>
+    </DismissKeyboardPressable>
   );
 };
 export default OrderForm;

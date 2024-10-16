@@ -87,6 +87,7 @@ const OrderSummaryScreen: React.FC = () => {
 
   const handleSendToStore = React.useCallback(() => {
     if (!dataMaterial) return;
+    console.log('==>dataMaterial::', JSON.stringify(dataMaterial));
     doMaterialOrder({material: dataMaterial});
   }, [dataMaterial]);
 

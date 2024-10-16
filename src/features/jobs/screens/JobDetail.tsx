@@ -17,7 +17,7 @@ import PDFShared from '@features/jobs/containers/PDFShared';
 import {CloseIcon} from '@assets/icons';
 import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import {RoutesOrders} from '@features/orders/navigation/routes';
-import {actions as orderActions} from '@store/orders/actions';
+import {orderActions} from '@store/orders';
 
 const JobDetailsScreen = () => {
   const modalBottomRef = React.useRef<ModalBottomRef>();

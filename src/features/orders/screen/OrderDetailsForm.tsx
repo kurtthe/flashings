@@ -18,8 +18,8 @@ const OrderDetailsFormScreen: React.FC = () => {
       as={KeyboardAwareScrollView}
       keyboardShouldPersistTaps="handled"
       enableOnAndroid
-      showsVerticalScrollIndicator={true}>
-      <Box p="m">
+      showsVerticalScrollIndicator={false}>
+      <Box flex={1}>
         <OrderForm />
       </Box>
     </ScrollBox>

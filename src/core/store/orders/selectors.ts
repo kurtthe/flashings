@@ -1,5 +1,5 @@
-import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '@store';
+import {createSelector} from '@reduxjs/toolkit';
+import {RootState} from '@store';
 
 const ordersSelector = (state: RootState) => state.orders;
 
@@ -32,6 +32,10 @@ export const getDataMaterialOrderForSendToStore = createSelector(
     return state.dataMaterialOrder;
   },
 );
+
+export const getFillOrder = createSelector(ordersSelector, state => {
+  return state.fillOrder;
+});
 
 export const getUrlPDF = createSelector(ordersSelector, state => {
   return state.urlPdf;
