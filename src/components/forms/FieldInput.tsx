@@ -41,7 +41,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
     },
     ref,
   ) => {
-    const [field, {error, initialValue}] = useField({
+    const [field, {error, initialValue, touched}] = useField({
       name,
       value,
       defaultValue,
@@ -50,7 +50,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
       restyleFunctionsField,
       rest,
     );
-    const isInvalid = Boolean(error);
+    const isInvalid = Boolean(error && touched);
 
     const handleBlur = useCallback(
       (ev: NativeSyntheticEvent<TextInputFocusEventData>) => {
@@ -71,6 +71,7 @@ const FieldInput = forwardRef<typeof Input, Props>(
     return (
       <Box style={[containerStyle]}>
         <Input
+          variant={rest.multiline ? 'area' : undefined}
           ref={ref}
           style={styleInput}
           name={name}

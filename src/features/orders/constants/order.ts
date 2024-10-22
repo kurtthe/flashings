@@ -50,10 +50,12 @@ export const createOrderProperties = {
 
     [formKeysOrders.address]: Yup.string(),
     [formKeysOrders.burdens_data]: Yup.array().of(
-      Yup.object().shape({
-        index: Yup.number(),
-        value: Yup.string(),
-      }),
+      Yup.object()
+        .shape({
+          index: Yup.number(),
+          value: Yup.string().required('This field is required.'),
+        })
+        .required(),
     ),
   }),
 };
