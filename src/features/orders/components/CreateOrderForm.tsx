@@ -119,6 +119,7 @@ const OrderFormFields: React.FC<any> = ({
               label={dataFieldsOrderValidations[index].prompt}
               placeholder={dataFieldsOrderValidations[index].mask}
               my="s"
+              isRequired
             />
           ))
         }

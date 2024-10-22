@@ -142,7 +142,7 @@ const Input = forwardRef<InputProps, typeof TextInput>(
     const refs = useCombinedRefs(internalRef, ref);
 
     let _inputVariant = useMemo(() => {
-      if (isFocused) return 'focused';
+      if (isFocused && inputVariant !== 'area') return 'focused';
       if (isDisabled) return 'disabled';
       if (isInvalid) return 'error';
       return inputVariant;

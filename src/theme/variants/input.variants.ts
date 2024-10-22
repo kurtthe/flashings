@@ -1,5 +1,5 @@
-import { CustomFonts } from '@theme/constants';
-import { isTablet } from '@shared/platform';
+import {CustomFonts} from '@theme/constants';
+import {isTablet} from '@shared/platform';
 
 const inputVariants = {
   defaults: {
@@ -29,6 +29,9 @@ const inputVariants = {
   focused: {
     borderColor: 'inputBorderFocused',
     fontWeight: '700',
+  },
+  area: {
+    height: 150,
   },
 };
 
