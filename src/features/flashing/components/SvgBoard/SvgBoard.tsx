@@ -22,6 +22,7 @@ import {
 import {Text} from '@ui/components';
 import {View} from 'react-native';
 import {palette} from '@theme';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -70,7 +71,7 @@ const SvgBoard: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <GestureHandlerRootView>
       <Svg width={width} height={height}>
         {!isScreenShot && <GridComponent />}
         {isPreview && flashingDataDraft?.tapered && (
@@ -143,7 +144,7 @@ const SvgBoard: React.FC<Props> = ({
           </React.Fragment>
         ))}
       </Svg>
-    </>
+    </GestureHandlerRootView>
   );
 };
 export default React.memo(SvgBoard);

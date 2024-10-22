@@ -7,7 +7,6 @@ import {
   widthScreen,
 } from './types';
 import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
-import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MeasurementLines from '@features/flashing/components/MeasurementLines';
 import {
   drawLines,
@@ -264,20 +263,14 @@ const Board: React.FC<Props> = ({
 
   return (
     <>
-      <ScrollBox
-        as={KeyboardAwareScrollView}
-        showsVerticalScrollIndicator={false}>
-        <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
-          <GestureHandlerRootView>
-            <SvgBoard
-              height={heightScreen}
-              graphs={graphs}
-              pathParallel={pathParallel}
-              pointsForLabel={pointsForLabel}
-            />
-          </GestureHandlerRootView>
-        </TouchableOpacity>
-      </ScrollBox>
+      <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
+        <SvgBoard
+          height={heightScreen}
+          graphs={graphs}
+          pathParallel={pathParallel}
+          pointsForLabel={pointsForLabel}
+        />
+      </TouchableOpacity>
 
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton

@@ -156,83 +156,66 @@ export const calculateParallelLines = (
   isRight: boolean = true,
 ): POINT_TYPE[][] => {
   const offset = 10;
-
   return lines.map((line, index, arrayLines): POINT_TYPE[] => {
     const currentLineParallel = getPointParallel({line, isRight, offset});
     const previousLine = arrayLines[index - 1];
     const nextLine = arrayLines[index + 1];
 
-    let pointIntersectionPrevious = null;
-    let pointIntersectionNext = null;
-
-    // Check if the current line is "double rect" (vertical or horizontal)
-    const isDoubleRect = (points: POINT_TYPE[]): boolean => {
-      const [p1, p2] = points;
-      return p1[0] === p2[0] || p1[1] === p2[1]; // True if the line is perfectly vertical or horizontal
-    };
-
-    // If current line is "double rect", we need to handle it differently
-    if (isDoubleRect(line.points)) {
-      // Handle malformed data by returning the parallel points directly or applying a fallback
-      console.warn(
-        'Malformed data: double rect line detected. Handling gracefully.',
-      );
-      return currentLineParallel; // Returning parallel points directly for "double rect"
-    }
-
-    // Handle previous line intersection
-    if (previousLine) {
+    if (previousLine && !nextLine) {
       const previousLineParallel = getPointParallel({
         line: previousLine,
         isRight,
         offset,
       });
-
-      pointIntersectionPrevious = calculatePointsIntersectionBetweenLines(
+      const pointIntersection = calculatePointsIntersectionBetweenLines(
         {...previousLine, points: previousLineParallel},
         {...line, points: currentLineParallel},
       );
 
-      // If intersection is null, use the first point of the current parallel line as a fallback
-      if (!pointIntersectionPrevious) {
-        pointIntersectionPrevious = currentLineParallel[0];
-      }
+      if (!pointIntersection) return currentLineParallel;
+      return [pointIntersection, currentLineParallel[1]];
     }
 
-    // Handle next line intersection
-    if (nextLine) {
+    if (!previousLine && nextLine) {
+      const nextLineParallel = getPointParallel({
+        line: nextLine,
+        isRight,
+        offset,
+      });
+      const pointIntersectionNext = calculatePointsIntersectionBetweenLines(
+        {...line, points: currentLineParallel},
+        {...nextLine, points: nextLineParallel},
+      );
+
+      if (!pointIntersectionNext) return currentLineParallel;
+      return [currentLineParallel[0], pointIntersectionNext];
+    }
+
+    if (previousLine && nextLine) {
+      const previousLineParallel = getPointParallel({
+        line: previousLine,
+        isRight,
+        offset,
+      });
       const nextLineParallel = getPointParallel({
         line: nextLine,
         isRight,
         offset,
       });
 
-      pointIntersectionNext = calculatePointsIntersectionBetweenLines(
+      const pointIntersectionPrevious = calculatePointsIntersectionBetweenLines(
+        {...previousLine, points: previousLineParallel},
+        {...line, points: currentLineParallel},
+      );
+      const pointIntersectionNext = calculatePointsIntersectionBetweenLines(
         {...line, points: currentLineParallel},
         {...nextLine, points: nextLineParallel},
       );
 
-      // If intersection is null, use the second point of the current parallel line as a fallback
-      if (!pointIntersectionNext) {
-        pointIntersectionNext = currentLineParallel[1];
-      }
-    }
-
-    // If both previous and next intersections exist, return those points
-    if (pointIntersectionPrevious && pointIntersectionNext) {
+      if (!pointIntersectionPrevious || !pointIntersectionNext)
+        return currentLineParallel;
       return [pointIntersectionPrevious, pointIntersectionNext];
     }
-
-    // If only one intersection exists, return the valid intersection with the other parallel point
-    if (pointIntersectionPrevious) {
-      return [pointIntersectionPrevious, currentLineParallel[1]];
-    }
-
-    if (pointIntersectionNext) {
-      return [currentLineParallel[0], pointIntersectionNext];
-    }
-
-    // If no intersections were found, return the original parallel line points
     return currentLineParallel;
   });
 };
