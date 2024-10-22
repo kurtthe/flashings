@@ -1,36 +1,37 @@
+import {AxiosError, AxiosResponse} from 'axios';
 import alertService from './alert';
 
 class HandleErrors {
-  //@ts-ignore
-  manage(error) {
-    if (error.response?.status === 0) {
-      this.showAlertOffline();
-      return;
-    }
+  manage(error: AxiosError) {
+    const status = error.response?.status;
+    const messageError = error.response?.data?.message || 'An error occurred.';
 
-    if (
-      error.response?.status === 403 &&
-      error.response.data.name == 'Forbidden'
-    ) {
-      console.log('RESTRICTED', error.response.request._url);
-      return;
+    switch (status) {
+      case 0:
+        this.showAlertOffline();
+        break;
+      case 403:
+        this.showError(error.response, 'Alert!', 'Not Authenticated.');
+        break;
+      case 500:
+        this.showError(error.response, 'Server Error', messageError);
+        break;
+      default:
+        this.showError(error.response, 'Alert!', messageError);
     }
-
-    if (error.response?.status === 403) {
-      this.showError(error, 'Alert!', 'Not Authenticated.');
-      return;
-    }
-
-    this.showError(error.response);
   }
 
-  showError(appError: any, title = 'Alert!', message?: string) {
-    const description = message ? message : appError.data.message;
+  showError(
+    appError: AxiosResponse | undefined,
+    title = 'Alert!',
+    message = 'Something went wrong.',
+  ) {
+    const description = message || appError?.data?.message || 'Unknown error';
     alertService.show(title, description);
   }
 
   showAlertOffline() {
-    alertService.show('Alert!', 'No connection internet.');
+    alertService.show('Alert!', 'No internet connection.');
   }
 }
 
