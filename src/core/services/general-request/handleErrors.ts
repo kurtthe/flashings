@@ -10,9 +10,6 @@ class HandleErrors {
       case 0:
         this.showAlertOffline();
         break;
-      case 403:
-        this.showError(error.response, 'Alert!', 'Not Authenticated.');
-        break;
       case 500:
         this.showError(error.response, 'Server Error', messageError);
         break;
