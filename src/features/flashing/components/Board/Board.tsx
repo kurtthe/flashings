@@ -20,8 +20,6 @@ import {POINT_TYPE} from '@models';
 import {ScrollBox} from '@ui/components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {getIndexOfStepForName} from '@features/flashing/utils';
-import {checkIsLandscape, isAndroid, isTablet} from '@shared/platform';
-import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
@@ -60,7 +58,6 @@ const Board: React.FC<Props> = ({
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
-  const isLandscape = checkIsLandscape();
 
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
@@ -75,26 +72,6 @@ const Board: React.FC<Props> = ({
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
     'line',
   );
-  const [heightMeasurement, setHeightMeasurement] = React.useState(350);
-
-  useKeyboardVisibility({
-    onKeyboardDidShow: () => {
-      let heightForKeyboard = 350;
-      if (isAndroid) {
-        heightForKeyboard = isTablet ? 80 : 70;
-      }
-      if (isTablet) {
-        heightForKeyboard = 470;
-      }
-
-      if (isLandscape) {
-        heightForKeyboard = 565;
-      }
-
-      setHeightMeasurement(heightForKeyboard);
-    },
-    onKeyboardDidHide: () => setHeightMeasurement(200),
-  });
 
   const isDrawing = stepBoard === getIndexOfStepForName('draw');
 

@@ -1,6 +1,10 @@
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
-import {getDataFlashingDraft, getStep} from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import {Box} from '@ui/components';
 import React from 'react';
 import MeasurementLines from './MeasurementLines';
@@ -16,6 +20,7 @@ type Props = {
 
 const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
   const dispatch = useAppDispatch();
+  const isFront = useAppSelector(getSideTapered);
 
   const stepBoard = useAppSelector(state => getStep(state));
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
@@ -30,6 +35,28 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
   const [pointSelected, setPointSelected] = React.useState<
     LINE_SELECTED | undefined
   >();
+
+  React.useEffect(() => {
+    if (!flashingDataDraft) return;
+
+    if (flashingDataDraft.tapered) {
+      setPointSelected({
+        numberLine: indexLineSelected,
+        sizeLine:
+          flashingDataDraft.tapered[isFront ? 'front' : 'back'][
+            indexLineSelected
+          ]?.distance,
+        angle: flashingDataDraft.angles[indexLineSelected],
+      });
+      return;
+    }
+
+    setPointSelected({
+      numberLine: indexLineSelected,
+      sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
+      angle: flashingDataDraft.angles[indexLineSelected],
+    });
+  }, [stepBoard, indexLineSelected, isFront]);
 
   useKeyboardVisibility({
     onKeyboardDidShow: () => {
