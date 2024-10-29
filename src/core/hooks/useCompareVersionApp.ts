@@ -8,7 +8,8 @@ import {config} from '@env/config';
 import alert from '@services/general-request/alert';
 
 export const useCompareVersionApp = () => {
-  const {data: versionApp, refetch, isRefetching} = useGetVersionApp();
+  const {data: versionApp, refetch} = useGetVersionApp();
+
   const buildNumber = DeviceInfo.getVersion();
 
   const url = React.useMemo(() => {
@@ -17,6 +18,12 @@ export const useCompareVersionApp = () => {
     }
     return config.urlStoreIOS;
   }, [isAndroid]);
+
+  React.useEffect(() => {
+    if (!versionApp) {
+      refetch();
+    }
+  }, [versionApp]);
 
   React.useEffect(() => {
     if (buildNumber !== versionApp) {
@@ -42,11 +49,8 @@ export const useCompareVersionApp = () => {
       })
       .catch(err => console.error('An error occurred', err));
   }, [url]);
-
-  console.log('0=>isRefetching::', isRefetching);
   return {
     versionApp: buildNumber,
-    validateVersionApp: refetch,
-    isLoading: isRefetching,
+    onCheckVersion: refetch,
   };
 };

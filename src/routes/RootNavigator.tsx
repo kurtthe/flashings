@@ -11,11 +11,7 @@ const PrivateNavigator = React.lazy(() => import('./PrivateNavigator'));
 
 export const RootNavigator = () => {
   const isAuthenticated = useAppSelector(isAuthenticatedSelector);
-  const {validateVersionApp} = useCompareVersionApp();
-
-  React.useEffect(() => {
-    validateVersionApp();
-  }, []);
+  useCompareVersionApp();
 
   return (
     <React.Suspense fallback={<BaseSpinner />}>

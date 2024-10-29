@@ -11,14 +11,15 @@ import {useCompareVersionApp} from '@hooks/useCompareVersionApp';
 const DataUser = () => {
   const navigation = useNavigation<ProfileStackProps>();
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = React.useState(false);
   const handleLogout = () => dispatch(authActions.logOut());
-  const {versionApp, validateVersionApp, isLoading} = useCompareVersionApp();
+  const {versionApp, onCheckVersion} = useCompareVersionApp();
 
-  React.useEffect(() => {
-    if (!versionApp) {
-      validateVersionApp();
-    }
-  }, [versionApp]);
+  const onCheckNewVersions = () => {
+    setIsLoading(true);
+    onCheckVersion();
+    setTimeout(() => setIsLoading(false), 2000);
+  };
 
   return (
     <>
@@ -33,10 +34,7 @@ const DataUser = () => {
         onPress={() => navigation.navigate(Routes.MANAGE_TEMPLATE)}>
         Manage templates
       </Button>
-      <Button
-        mx="m"
-        variant="outlineWhiteSmall"
-        onPress={() => validateVersionApp()}>
+      <Button mx="m" variant="outlineWhiteSmall" onPress={onCheckNewVersions}>
         {isLoading ? 'Getting the version app...' : `Version ${versionApp}`}
       </Button>
     </>
