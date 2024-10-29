@@ -15,17 +15,15 @@ import {
   positionTextLabels,
 } from '@features/flashing/components/Board/utils';
 import {Path} from 'react-native-redash';
-import SectionsButton from '@features/flashing/components/SectionsButton';
+import {SectionsButton} from '@features/flashing/components/SectionsButton';
 import {POINT_TYPE} from '@models';
-import {isNaN} from 'lodash';
-import {Box, ScrollBox} from '@ui/components';
+import {ScrollBox} from '@ui/components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import {checkIsLandscape, isAndroid, isTablet} from '@shared/platform';
 import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
-import TaperedLines from '@features/flashing/components/TaperedLines';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {
   getDataFlashingDraft,
@@ -36,6 +34,7 @@ import {
 import {actions as flashingActions} from '@store/flashings/actions';
 import CompleteMeasurements from '@features/flashing/components/Measurement/CompleteMeasurements';
 import Measurement from '../Measurement/Measurement';
+import {Tapered} from '../Tapered';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -147,18 +146,6 @@ const Board: React.FC<Props> = ({
     });
   }, [stepBoard, indexLineSelected, graphs, isFront]);
 
-  const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
-    if (!pointSelected) return;
-
-    if (isNaN(newSize)) return;
-
-    if (sizeType === 'angle') {
-      updateAngle && updateAngle(newSize, indexLineSelected);
-      return;
-    }
-    onUpdatePoint && onUpdatePoint({...pointSelected, sizeLine: newSize});
-  };
-
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
 
@@ -168,52 +155,6 @@ const Board: React.FC<Props> = ({
     ]);
 
     onAddPoint && onAddPoint([newPosition.x, newPosition.y]);
-  };
-
-  const handleOnSave = () => {
-    dispatch(
-      flashingActions.changeStep({
-        step: getIndexOfStepForName('screen_shot'),
-      }),
-    );
-    onSave && onSave();
-  };
-
-  const handleOnEdit = () => {
-    dispatch(
-      flashingActions.changeStep({
-        step: getIndexOfStepForName('measurements'),
-      }),
-    );
-    setIndexLineSelected(0);
-  };
-
-  const handleOnEditEndType = () => {
-    dispatch(
-      flashingActions.changeStep({step: getIndexOfStepForName('end_type')}),
-    );
-  };
-
-  const handleOnTapered = () => {
-    if (!flashingDataDraft) return;
-    setIndexLineSelected(0);
-    setTypeSelected('line');
-
-    dispatch(
-      flashingActions.updateFlashingDraft({
-        dataFlashing: {
-          tapered: {
-            front: flashingDataDraft.dataLines,
-            back: flashingDataDraft.dataLines,
-            frontImagePreview: undefined,
-            backImagePreview: undefined,
-          },
-        },
-      }),
-    );
-    dispatch(
-      flashingActions.changeStep({step: getIndexOfStepForName('tapered')}),
-    );
   };
 
   return (
@@ -234,29 +175,8 @@ const Board: React.FC<Props> = ({
       </ScrollBox>
 
       <Measurement />
-
-      {stepBoard === getIndexOfStepForName('finish') && (
-        <SectionsButton
-          onTapered={handleOnTapered}
-          onSave={handleOnSave}
-          onEdit={handleOnEdit}
-          onEditEndType={handleOnEditEndType}
-        />
-      )}
-
-      {stepBoard === getIndexOfStepForName('tapered') && (
-        <Box
-          height={heightMeasurement}
-          position="absolute"
-          width="100%"
-          bottom={0}>
-          <TaperedLines onChangeIndexSelected={setIndexLineSelected} />
-        </Box>
-      )}
-
-      {stepBoard === getIndexOfStepForName('save_tapered') && (
-        <SectionsButton onSave={handleOnSave} />
-      )}
+      <SectionsButton onSave={onSave} />
+      <Tapered setIndexLineSelected={setIndexLineSelected} />
 
       {stepBoard === getIndexOfStepForName('end_type') && (
         <CompleteMeasurements
