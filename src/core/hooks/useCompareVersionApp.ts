@@ -1,8 +1,6 @@
 import React from 'react';
 import {useGetVersionApp} from '@hooks/general/useGeneral';
 import DeviceInfo from 'react-native-device-info';
-import {actionsSetup} from '@store/setup/actions';
-import {useAppDispatch} from './useStore';
 import Toast from 'react-native-toast-message';
 import {Linking} from 'react-native';
 import {isAndroid} from '@shared/platform';
@@ -10,9 +8,8 @@ import {config} from '@env/config';
 import alert from '@services/general-request/alert';
 
 export const useCompareVersionApp = () => {
-  const {data: versionApp, refetch, isFetching} = useGetVersionApp();
+  const {data: versionApp, refetch, isRefetching} = useGetVersionApp();
   const buildNumber = DeviceInfo.getVersion();
-  const dispatch = useAppDispatch();
 
   const url = React.useMemo(() => {
     if (isAndroid) {
@@ -22,13 +19,6 @@ export const useCompareVersionApp = () => {
   }, [isAndroid]);
 
   React.useEffect(() => {
-    dispatch(actionsSetup.versionApp({newVersion: buildNumber}));
-
-    if (!versionApp) {
-      refetch().catch(() => console.log('error=>'));
-      return;
-    }
-
     if (buildNumber !== versionApp) {
       Toast.show({
         position: 'bottom',
@@ -53,9 +43,10 @@ export const useCompareVersionApp = () => {
       .catch(err => console.error('An error occurred', err));
   }, [url]);
 
+  console.log('0=>isRefetching::', isRefetching);
   return {
     versionApp: buildNumber,
     validateVersionApp: refetch,
-    isLoading: isFetching,
+    isLoading: isRefetching,
   };
 };
