@@ -8,7 +8,7 @@ import {
 } from './types';
 import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
-import MeasurementLines from '@features/flashing/components/MeasurementLines';
+
 import {
   drawLines,
   drawParallelLines,
@@ -34,7 +34,8 @@ import {
   getStep,
 } from '@store/flashings/selectors';
 import {actions as flashingActions} from '@store/flashings/actions';
-import CompleteMeasurements from '@features/flashing/components/CompleteMeasurements';
+import CompleteMeasurements from '@features/flashing/components/Measurement/CompleteMeasurements';
+import Measurement from '../Measurement/Measurement';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -169,53 +170,6 @@ const Board: React.FC<Props> = ({
     onAddPoint && onAddPoint([newPosition.x, newPosition.y]);
   };
 
-  const handleNextLineSelected = () => {
-    if (!flashingDataDraft) return;
-    const newIndex = indexLineSelected + 1;
-    const lengthLine = flashingDataDraft.dataLines.length - 1;
-
-    if (newIndex > lengthLine) {
-      dispatch(
-        flashingActions.changeStep({step: getIndexOfStepForName('end_type')}),
-      );
-    }
-
-    if (newIndex > lengthLine) {
-      setIndexLineSelected(lengthLine);
-      setTypeSelected('line');
-      return;
-    }
-    if (typeSelected === 'angle') {
-      setIndexLineSelected(newIndex);
-      setTypeSelected('line');
-      return;
-    }
-    setTypeSelected('angle');
-  };
-
-  const handleBackLineSelected = () => {
-    if (indexLineSelected === 0 && typeSelected === 'line') {
-      return dispatch(
-        flashingActions.changeStep({step: getIndexOfStepForName('side')}),
-      );
-    }
-
-    const newIndex = indexLineSelected - 1;
-    if (newIndex < 0) {
-      setIndexLineSelected(0);
-    }
-
-    if (typeSelected === 'angle') {
-      setTypeSelected('line');
-      return;
-    }
-
-    if (typeSelected === 'line') {
-      setTypeSelected('angle');
-      setIndexLineSelected(newIndex);
-    }
-  };
-
   const handleOnSave = () => {
     dispatch(
       flashingActions.changeStep({
@@ -279,6 +233,8 @@ const Board: React.FC<Props> = ({
         </TouchableOpacity>
       </ScrollBox>
 
+      <Measurement />
+
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton
           onTapered={handleOnTapered}
@@ -286,22 +242,6 @@ const Board: React.FC<Props> = ({
           onEdit={handleOnEdit}
           onEditEndType={handleOnEditEndType}
         />
-      )}
-
-      {stepBoard === getIndexOfStepForName('measurements') && (
-        <Box
-          height={heightMeasurement}
-          position="absolute"
-          width="100%"
-          bottom={0}>
-          <MeasurementLines
-            onNext={handleNextLineSelected}
-            onPrevious={handleBackLineSelected}
-            typeSelected={typeSelected}
-            onDone={handleDoneSize}
-            dataLine={pointSelected}
-          />
-        </Box>
       )}
 
       {stepBoard === getIndexOfStepForName('tapered') && (
