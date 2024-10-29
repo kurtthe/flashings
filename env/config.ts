@@ -22,4 +22,5 @@ export const config = {
   templateId7_9: 'BLAN935154',
   templateId10_12: 'BLAN823895',
   templateId13_15: 'BLAN384760',
+  intervalForGettingVersionApp: 7200,
 };

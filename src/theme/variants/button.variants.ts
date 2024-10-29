@@ -1,5 +1,5 @@
-import { CustomFonts } from '@theme/constants';
-import { isTablet } from '@shared/platform';
+import {CustomFonts} from '@theme/constants';
+import {isTablet} from '@shared/platform';
 
 const buttonVariants = {
   defaults: {
@@ -36,6 +36,14 @@ const buttonVariants = {
     borderWidth: 1,
     borderColor: 'buttonBorder',
   },
+  outlineWhiteSmall: {
+    backgroundColor: 'input',
+    color: 'black',
+    borderWidth: 1,
+    borderColor: 'buttonBorder',
+    fontSize: 14,
+  },
+
   outline: {
     backgroundColor: 'lightBlue',
     color: 'primaryBlue',
