@@ -14,7 +14,6 @@ import {
   TYPE_ACTIONS_STEP,
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
-import {LINE_TYPE, POINT_TYPE} from '@models';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {actions as jobActions} from '@store/jobs/actions';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
@@ -30,15 +29,18 @@ import {LINE_SELECTED} from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
 import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import {templateSelected} from '@store/templates/selectors';
-import {
-  getDataFlashingDraft,
-  getSideTapered,
-  getStep,
-} from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import {actions as templateActions} from '@store/templates/actions';
 import {actions as flashingActions} from '@store/flashings/actions';
 import {MenuEditorComponent} from '@features/flashing/components';
+import {boardActions} from '@store/board';
+import {LINE_TYPE, POINT_TYPE} from '@models/board';
+import {
+  getBoardFlashingData,
+  getSideTapered,
+  getStep,
+} from '@store/board/selectors';
+import {getDataFlashingInformation} from '@store/flashings/selectors';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -46,8 +48,11 @@ const BoardContainer = () => {
   const route =
     useRoute<RouteProp<FlashingParamsList, RoutesFlashing.BOARD_FLASHING>>();
   const templateChose = useAppSelector(state => templateSelected(state));
-  const flashingDataDraft = useAppSelector(state =>
-    getDataFlashingDraft(state),
+  const flashingDataBoard = useAppSelector(state =>
+    getBoardFlashingData(state),
+  );
+  const flashingInformation = useAppSelector(state =>
+    getDataFlashingInformation(state),
   );
 
   const stepBoard = useAppSelector(state => getStep(state));
@@ -69,7 +74,7 @@ const BoardContainer = () => {
     if (!templateChose) return;
     setLoading(true);
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           dataLines: templateChose.dataLines,
           parallelRight: templateChose.parallelRight,
@@ -91,34 +96,34 @@ const BoardContainer = () => {
   }, [templateChose, dispatch]);
 
   React.useEffect(() => {
-    if (!flashingDataDraft) return;
-    if (flashingDataDraft.dataLines.length < 2) return;
+    if (!flashingDataBoard) return;
+    if (flashingDataBoard.dataLines.length < 2) return;
 
-    const newAngles = flashingDataDraft.dataLines.map(
+    const newAngles = flashingDataBoard.dataLines.map(
       (line, index, arrayLines) => {
-        if (!flashingDataDraft.angles[index]) {
+        if (!flashingDataBoard.angles[index]) {
           return calculateAngle(line, arrayLines[index + 1]) ?? 0;
         }
-        return flashingDataDraft.angles[index];
+        return flashingDataBoard.angles[index];
       },
     );
 
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           angles: newAngles,
         },
       }),
     );
-  }, [flashingDataDraft?.dataLines]);
+  }, [flashingDataBoard?.dataLines]);
 
   const _changeStep = React.useCallback((newIndexStep: number) => {
-    dispatch(flashingActions.changeStep({step: newIndexStep}));
+    dispatch(boardActions.changeStep({step: newIndexStep}));
   }, []);
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
-    if (!flashingDataDraft) return;
-    if (flashingDataDraft.dataLines.length < 1) {
+    if (!flashingDataBoard) return;
+    if (flashingDataBoard.dataLines.length < 1) {
       const dataLine: LINE_TYPE = {
         points: [newPoint],
         pending: 0,
@@ -127,7 +132,7 @@ const BoardContainer = () => {
       };
 
       dispatch(
-        flashingActions.updateFlashingDraft({
+        boardActions.updateDataFlashing({
           dataFlashing: {
             dataLines: [dataLine],
           },
@@ -136,10 +141,10 @@ const BoardContainer = () => {
       return;
     }
 
-    const lineComplete = validateLineComplete(flashingDataDraft.dataLines);
-    const lastPoint = getLastPoint(flashingDataDraft.dataLines);
+    const lineComplete = validateLineComplete(flashingDataBoard.dataLines);
+    const lastPoint = getLastPoint(flashingDataBoard.dataLines);
 
-    const validAddNewPoint = flashingDataDraft.dataLines.find(line => {
+    const validAddNewPoint = flashingDataBoard.dataLines.find(line => {
       return JSON.stringify(line.points[0]) === JSON.stringify(newPoint);
     });
     if (validAddNewPoint) return;
@@ -153,7 +158,7 @@ const BoardContainer = () => {
 
     if (!lineComplete) {
       dispatch(
-        flashingActions.updateFlashingDraft({
+        boardActions.updateDataFlashing({
           dataFlashing: {
             dataLines: [dataLine],
           },
@@ -162,15 +167,15 @@ const BoardContainer = () => {
       return;
     }
 
-    if (flashingDataDraft.tapered) {
+    if (flashingDataBoard.tapered) {
       dispatch(
-        flashingActions.updateFlashingDraft({
+        boardActions.updateDataFlashing({
           dataFlashing: {
-            dataLines: [...flashingDataDraft.dataLines, dataLine],
+            dataLines: [...flashingDataBoard.dataLines, dataLine],
             tapered: {
-              ...flashingDataDraft.tapered,
-              front: [...flashingDataDraft.tapered.front, dataLine],
-              back: [...flashingDataDraft.tapered.back, dataLine],
+              ...flashingDataBoard.tapered,
+              front: [...flashingDataBoard.tapered.front, dataLine],
+              back: [...flashingDataBoard.tapered.back, dataLine],
             },
           },
         }),
@@ -179,23 +184,23 @@ const BoardContainer = () => {
     }
 
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
-          dataLines: [...flashingDataDraft.dataLines, dataLine],
+          dataLines: [...flashingDataBoard.dataLines, dataLine],
         },
       }),
     );
   };
 
   const handleUndo = () => {
-    if (!flashingDataDraft) return;
-    const newPointCoordinates = flashingDataDraft.dataLines.slice(0, -1);
-    const newAngles = flashingDataDraft.angles.slice(0, -1);
+    if (!flashingDataBoard) return;
+    const newPointCoordinates = flashingDataBoard.dataLines.slice(0, -1);
+    const newAngles = flashingDataBoard.angles.slice(0, -1);
     if (newPointCoordinates.length === 0 || !newPointCoordinates[0].isLine) {
       _changeStep(getIndexOfStepForName('draw'));
     }
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           dataLines: newPointCoordinates,
           angles: newAngles,
@@ -205,8 +210,8 @@ const BoardContainer = () => {
   };
 
   const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
-    if (!flashingDataDraft) return;
-    const linesUpdated = flashingDataDraft.dataLines.map((line, index) => {
+    if (!flashingDataBoard) return;
+    const linesUpdated = flashingDataBoard.dataLines.map((line, index) => {
       if (dataLine.numberLine === index) {
         return {
           ...line,
@@ -216,7 +221,7 @@ const BoardContainer = () => {
       return line;
     });
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           dataLines: linesUpdated,
         },
@@ -236,7 +241,7 @@ const BoardContainer = () => {
       const sideTapered =
         newSettings[TYPE_ACTIONS_STEP.SIDE_TAPERED].toLowerCase();
       dispatch(
-        flashingActions.changeSideTapered({
+        boardActions.changeSideTapered({
           isFront: sideTapered === 'front',
         }),
       );
@@ -246,7 +251,7 @@ const BoardContainer = () => {
     const sideBlueLine =
       newSettings[TYPE_ACTIONS_STEP.SIDE_PAINT_EDGE].toLowerCase();
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           parallelRight: sideBlueLine === 'right',
         },
@@ -255,14 +260,14 @@ const BoardContainer = () => {
   };
 
   const handleUpdateAngle = (newAngle: number, positionAngle: number) => {
-    const anglesUpdated = flashingDataDraft?.angles.map((angle, index) => {
+    const anglesUpdated = flashingDataBoard?.angles.map((angle, index) => {
       if (index === positionAngle) {
         return newAngle;
       }
       return angle;
     });
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           angles: anglesUpdated,
         },
@@ -277,18 +282,21 @@ const BoardContainer = () => {
 
         if (
           !refViewShot.current ||
-          !flashingDataDraft ||
-          !flashingDataDraft.tapered
+          !flashingDataBoard ||
+          !flashingDataBoard.tapered
         )
           throw new Error('Snapshot failed');
 
-        let dataFlashingTapered = flashingDataDraft;
+        let dataFlashingTapered = {
+          ...getDataFlashingInformation,
+          ...flashingDataBoard,
+        };
 
         //@ts-ignore
         const uriPreviewBack = await refViewShot.current.capture();
         const dataB64PreviewBack = await imageToBase64(uriPreviewBack);
 
-        dispatch(flashingActions.changeSideTapered({isFront: true}));
+        dispatch(boardActions.changeSideTapered({isFront: true}));
         await sleep(2000);
 
         //@ts-ignore
@@ -330,7 +338,8 @@ const BoardContainer = () => {
 
   const handleSave = () => {
     (async () => {
-      if (!refViewShot.current || !flashingDataDraft) return;
+      if (!refViewShot.current || !flashingDataBoard || !flashingInformation)
+        return;
 
       // @ts-ignore
       const uriScreen = await refViewShot.current.capture();
@@ -341,7 +350,8 @@ const BoardContainer = () => {
         jobActions.addEditFlashing({
           idJob,
           flashing: {
-            ...flashingDataDraft,
+            ...flashingInformation,
+            ...flashingDataBoard,
             imgPreview: `data:image/png;base64,${dataB64Preview}`,
           },
         }),
@@ -365,7 +375,7 @@ const BoardContainer = () => {
     } else handleSave();
   };
 
-  if (loading || !dataJob || !flashingDataDraft) return <Loading />;
+  if (loading || !dataJob || !flashingDataBoard) return <Loading />;
 
   return (
     <>

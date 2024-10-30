@@ -3,65 +3,21 @@ import {actions} from '@store/flashings/actions';
 import {FLASHINGS_DATA} from '@models';
 
 type initialStateType = {
-  sideTaperedFront: boolean;
-  stepIndex: number;
-  flashingDraft: FLASHINGS_DATA | undefined;
-  jobId: number | undefined;
-  isEdit: boolean;
+  flashingData: FLASHINGS_DATA | undefined;
 };
 
 const INITIAL_STATE: initialStateType = {
-  sideTaperedFront: false,
-  stepIndex: 0,
-  flashingDraft: undefined,
-  jobId: undefined,
-  isEdit: false,
+  flashingData: undefined,
 };
 
 const flashingsReducer = createReducer(INITIAL_STATE, builder => {
-  builder.addCase(actions.changeSideTapered, (state, action) => {
-    const {isFront} = action.payload;
-    state.sideTaperedFront = isFront;
-  });
-  builder.addCase(actions.changeStep, (state, action) => {
-    const {step} = action.payload;
-    state.stepIndex = step;
-  });
-
   builder.addCase(actions.addFlashingDraft, (state, action) => {
-    const {dataFlashing, jobId, step, isEdit} = action.payload;
-    state.flashingDraft = dataFlashing;
-    state.jobId = jobId;
-    state.isEdit = isEdit ?? false;
-    if (step) {
-      state.stepIndex = step;
-    }
+    const {dataFlashing} = action.payload;
+    state.flashingData = dataFlashing;
   });
 
-  builder.addCase(actions.updateFlashingDraft, (state, action) => {
-    const {dataFlashing} = action.payload;
-    const previousState = state.flashingDraft;
-    if (!previousState) return;
-    state.flashingDraft = {...previousState, ...dataFlashing};
-  });
-  builder.addCase(actions.changeEndTypeLine, (state, action) => {
-    const {newType} = action.payload;
-    const previousState = state.flashingDraft;
-    if (!previousState) return;
-    state.flashingDraft = {...previousState, endType: newType};
-  });
-  builder.addCase(actions.changeStartTypeLine, (state, action) => {
-    const {newType} = action.payload;
-    const previousState = state.flashingDraft;
-    if (!previousState) return;
-    state.flashingDraft = {...previousState, startType: newType};
-  });
-  builder.addCase(actions.clear, (state, action) => {
-    state.jobId = undefined;
-    state.flashingDraft = undefined;
-    state.stepIndex = 0;
-    state.sideTaperedFront = false;
-    state.isEdit = false;
+  builder.addCase(actions.clear, state => {
+    state.flashingData = undefined;
   });
 });
 

@@ -7,6 +7,7 @@ import templateReducer from './templates';
 import flashingReducer from './flashings';
 import ordersReducer from './orders';
 import setupReducer from './setup';
+import boardReducer from './board';
 
 const combinedRootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const combinedRootReducer = combineReducers({
   orders: ordersReducer,
   flashing: flashingReducer,
   config: setupReducer,
+  board: boardReducer,
 });
 
 function rootReducer(state: any, action: PayloadAction) {
