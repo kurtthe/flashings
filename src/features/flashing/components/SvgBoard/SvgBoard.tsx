@@ -3,7 +3,6 @@ import PointerComponent from '@features/flashing/components/Pointer';
 import Svg, {Path as PathComponent} from 'react-native-svg';
 import {Path, serialize} from 'react-native-redash';
 import {getIndexOfStepForName} from '@features/flashing/utils';
-import {POINT_TYPE} from '@models';
 import {getEndStartTypeLine} from '@features/flashing/components/SvgBoard/utils';
 import {
   DREW_LINE_TYPE,
@@ -14,14 +13,16 @@ import {
 import GridComponent from '@features/flashing/components/Grid/Grid';
 import TextSvgLineMM from '../TextSvgLineMM';
 import {useAppSelector} from '@hooks/useStore';
-import {
-  getDataFlashingDraft,
-  getSideTapered,
-  getStep,
-} from '@store/flashings/selectors';
+
 import {Text} from '@ui/components';
 import {View} from 'react-native';
 import {palette} from '@theme';
+import {POINT_TYPE} from '@models/board';
+import {
+  getBoardFlashingData,
+  getSideTapered,
+  getStep,
+} from '@store/board/selectors';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];
@@ -38,7 +39,7 @@ const SvgBoard: React.FC<Props> = ({
   pointsForLabel,
 }) => {
   const flashingDataDraft = useAppSelector(state =>
-    getDataFlashingDraft(state),
+    getBoardFlashingData(state),
   );
   const stepBoard = useAppSelector(state => getStep(state));
   const isFront = useAppSelector(getSideTapered);

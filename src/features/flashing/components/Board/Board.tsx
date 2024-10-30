@@ -1,39 +1,23 @@
 import React from 'react';
 import {TouchableOpacity, GestureResponderEvent} from 'react-native';
-import {
-  DREW_LINE_TYPE,
-  heightScreen,
-  LINE_SELECTED,
-  widthScreen,
-} from './types';
+import {heightScreen, LINE_SELECTED, widthScreen} from './types';
 import {findCoordsNearest} from '@features/flashing/components/Grid/Grid.utils';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
-import {
-  drawLines,
-  drawParallelLines,
-  positionTextLabels,
-} from '@features/flashing/components/Board/utils';
-import {Path} from 'react-native-redash';
 import {SectionsButton} from '@features/flashing/components/SectionsButton';
-import {POINT_TYPE} from '@models';
 import {ScrollBox} from '@ui/components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
-import {
-  getDataFlashingDraft,
-  getIsEdit,
-  getSideTapered,
-  getStep,
-} from '@store/flashings/selectors';
-import {actions as flashingActions} from '@store/flashings/actions';
 import CompleteMeasurements from '@features/flashing/components/Measurement/CompleteMeasurements';
 import Measurement from '../Measurement/Measurement';
 import {Tapered} from '../Tapered';
 import {useBoard} from '@hooks/board/useBoard';
+import {POINT_TYPE} from '@models/board';
+import {boardActions} from '@store/board';
+import {getBoardFlashingData, getIsEdit, getStep} from '@store/board/selectors';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -54,7 +38,7 @@ const Board: React.FC<Props> = ({
   const isEdit = useAppSelector(getIsEdit);
   const stepBoard = useAppSelector(state => getStep(state));
   const flashingDataDraft = useAppSelector(state =>
-    getDataFlashingDraft(state),
+    getBoardFlashingData(state),
   );
   const {pathParallel, graphs, pointsForLabel} = useBoard({
     width,
@@ -105,13 +89,13 @@ const Board: React.FC<Props> = ({
           onPress={() => {
             if (isEdit && !!flashingDataDraft?.tapered) {
               dispatch(
-                flashingActions.changeStep({
+                boardActions.changeStep({
                   step: getIndexOfStepForName('tapered'),
                 }),
               );
             } else {
               dispatch(
-                flashingActions.changeStep({
+                boardActions.changeStep({
                   step: getIndexOfStepForName('finish'),
                 }),
               );

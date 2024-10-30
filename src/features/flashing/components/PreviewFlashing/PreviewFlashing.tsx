@@ -6,9 +6,10 @@ import {ModalBottom, ModalBottomRef} from '@components';
 import {calculateAngle, getIndexOfStepForName} from '@features/flashing/utils';
 import Board from '@features/flashing/components/Board/Board';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
-import {getDataFlashingDraft} from '@store/flashings/selectors';
 import {actions as flashingActions} from '@store/flashings/actions';
 import {isTablet} from '@shared/platform';
+import {getBoardFlashingData} from '@store/board/selectors';
+import {boardActions} from '@store/board';
 
 type Props = {
   width?: number;
@@ -28,7 +29,7 @@ const PreviewFlashing: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const flashingDataPreview = useAppSelector(state =>
-    getDataFlashingDraft(state),
+    getBoardFlashingData(state),
   );
   const [anglesLines, setAnglesLines] = React.useState<number[]>([]);
   const modalBottomRef = React.useRef<ModalBottomRef>();
@@ -37,7 +38,7 @@ const PreviewFlashing: React.FC<Props> = ({
     if (!dataFlashing) return;
 
     if (dataFlashing.tapered) {
-      dispatch(flashingActions.changeSideTapered({isFront}));
+      dispatch(boardActions.changeSideTapered({isFront}));
     }
 
     dispatch(

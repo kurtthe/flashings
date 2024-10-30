@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseTouchable, Box, Icon, Text } from '@ui/components';
+import {BaseTouchable, Box, Icon, Text} from '@ui/components';
 import {
   EndBreakLeft2Icon,
   EndBreakLeftIcon,
@@ -8,14 +8,13 @@ import {
   EndCurveLeftIcon,
   EndCurveRightIcon,
 } from '@assets/icons';
-import { StyleSheet, ViewStyle } from 'react-native';
-import { TYPE_END_LINES } from '@models';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getDataFlashingDraft } from '@store/flashings/selectors';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { getIndexOfStepForName } from '@features/flashing/utils';
-import { isTablet } from '@shared/platform';
-import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
+import {StyleSheet, ViewStyle} from 'react-native';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
+import {isTablet} from '@shared/platform';
+import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
+import {TYPE_END_LINES} from '@models/board';
+import {getBoardFlashingData} from '@store/board/selectors';
+import {boardActions} from '@store/board';
 
 const ButtonEndType = ({
   title,
@@ -40,7 +39,7 @@ const ButtonEndType = ({
       backgroundColor={active ? 'lightBlue' : 'transparent'}
       style={[
         styles.button,
-        fullWidth && { width: isTablet ? '92%' : '95%' },
+        fullWidth && {width: isTablet ? '92%' : '95%'},
         style,
       ]}>
       <Text textAlign={!icon ? 'center' : 'left'} variant="bodyRegular" mx="s">
@@ -59,7 +58,7 @@ const ButtonEndType = ({
 const EndTypesLineComponent = ({}) => {
   const dispatch = useAppDispatch();
   const flashingDataDraft = useAppSelector(state =>
-    getDataFlashingDraft(state),
+    getBoardFlashingData(state),
   );
 
   const [currentValueStartSelected, setCurrentValueStartSelected] =
@@ -77,7 +76,7 @@ const EndTypesLineComponent = ({}) => {
   const handlePressButton = (label: TYPE_END_LINES = 'none') => {
     if (typeLine === 'start') {
       dispatch(
-        flashingActions.updateFlashingDraft({
+        boardActions.updateDataFlashing({
           dataFlashing: {
             startType: label,
           },
@@ -87,7 +86,7 @@ const EndTypesLineComponent = ({}) => {
       return;
     }
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           endType: label,
         },
@@ -99,7 +98,7 @@ const EndTypesLineComponent = ({}) => {
     if (typeLine === 'start') {
       setCurrentValueStartSelected('none');
       dispatch(
-        flashingActions.updateFlashingDraft({
+        boardActions.updateDataFlashing({
           dataFlashing: {
             startType: 'none',
           },
@@ -109,7 +108,7 @@ const EndTypesLineComponent = ({}) => {
     }
     setCurrentValueEndSelected('none');
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           endType: 'none',
         },
@@ -154,7 +153,7 @@ const EndTypesLineComponent = ({}) => {
         <ButtonEndType
           title="None"
           fullWidth
-          style={{ height: isTablet ? 50 : 40 }}
+          style={{height: isTablet ? 50 : 40}}
           active={validateTypeLine('none')}
           onPress={() => handleClearLineType()}
         />

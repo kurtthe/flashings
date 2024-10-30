@@ -1,10 +1,6 @@
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
-import {
-  getDataFlashingDraft,
-  getSideTapered,
-  getStep,
-} from '@store/flashings/selectors';
+
 import {Box} from '@ui/components';
 import React from 'react';
 import MeasurementLines from './MeasurementLines';
@@ -12,6 +8,12 @@ import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import {checkIsLandscape, isAndroid, isTablet} from '@shared/platform';
 import {actions as flashingActions} from '@store/flashings/actions';
 import {LINE_SELECTED} from '../Board/types';
+import {
+  getBoardFlashingData,
+  getSideTapered,
+  getStep,
+} from '@store/board/selectors';
+import {boardActions} from '@store/board';
 
 type Props = {
   onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
@@ -28,7 +30,7 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
   );
   const isLandscape = checkIsLandscape();
   const flashingDataDraft = useAppSelector(state =>
-    getDataFlashingDraft(state),
+    getBoardFlashingData(state),
   );
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
   const [indexLineSelected, setIndexLineSelected] = React.useState(0);
@@ -84,7 +86,7 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
 
     if (newIndex > lengthLine) {
       dispatch(
-        flashingActions.changeStep({step: getIndexOfStepForName('end_type')}),
+        boardActions.changeStep({step: getIndexOfStepForName('end_type')}),
       );
     }
 
@@ -104,7 +106,7 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
   const handleBackLineSelected = () => {
     if (indexLineSelected === 0 && typeSelected === 'line') {
       return dispatch(
-        flashingActions.changeStep({step: getIndexOfStepForName('side')}),
+        boardActions.changeStep({step: getIndexOfStepForName('side')}),
       );
     }
 

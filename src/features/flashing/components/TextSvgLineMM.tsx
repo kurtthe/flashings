@@ -1,16 +1,17 @@
 import React from 'react';
-import {POINT_TYPE} from '@models';
+
 import {
   calculatePointHalf,
   getIndexOfStepForName,
 } from '@features/flashing/utils';
 import TextSvg from '@features/flashing/components/TextSvg';
 import {useAppSelector} from '@hooks/useStore';
+import {POINT_TYPE} from '@models/board';
 import {
-  getDataFlashingDraft,
+  getBoardFlashingData,
   getSideTapered,
   getStep,
-} from '@store/flashings/selectors';
+} from '@store/board/selectors';
 
 type Props = {
   coordinates: POINT_TYPE[];
@@ -20,7 +21,7 @@ type Props = {
 const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
   const step = useAppSelector(state => getStep(state));
   const flashingDataDraft = useAppSelector(state =>
-    getDataFlashingDraft(state),
+    getBoardFlashingData(state),
   );
   const isFront = useAppSelector(state => getSideTapered(state));
   const minorMeasurement = React.useMemo(() => {

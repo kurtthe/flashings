@@ -1,9 +1,11 @@
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
-import {getDataFlashingDraft, getStep} from '@store/flashings/selectors';
+
 import React from 'react';
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import SectionsButtons from './SectionsButtons';
 import {actions as flashingActions} from '@store/flashings/actions';
+import {getBoardFlashingData, getStep} from '@store/board/selectors';
+import {boardActions} from '@store/board';
 type Props = {
   onSave?: () => void;
 };
@@ -11,14 +13,14 @@ const SectionButton: React.FC<Props> = ({onSave}) => {
   const dispatch = useAppDispatch();
   const stepBoard = useAppSelector(state => getStep(state));
   const flashingDataDraft = useAppSelector(state =>
-    getDataFlashingDraft(state),
+    getBoardFlashingData(state),
   );
 
   const handleOnTapered = () => {
     if (!flashingDataDraft) return;
 
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           tapered: {
             front: flashingDataDraft.dataLines,
@@ -29,14 +31,12 @@ const SectionButton: React.FC<Props> = ({onSave}) => {
         },
       }),
     );
-    dispatch(
-      flashingActions.changeStep({step: getIndexOfStepForName('tapered')}),
-    );
+    dispatch(boardActions.changeStep({step: getIndexOfStepForName('tapered')}));
   };
 
   const handleOnSave = () => {
     dispatch(
-      flashingActions.changeStep({
+      boardActions.changeStep({
         step: getIndexOfStepForName('screen_shot'),
       }),
     );
@@ -45,7 +45,7 @@ const SectionButton: React.FC<Props> = ({onSave}) => {
 
   const handleOnEdit = () => {
     dispatch(
-      flashingActions.changeStep({
+      boardActions.changeStep({
         step: getIndexOfStepForName('measurements'),
       }),
     );
@@ -53,7 +53,7 @@ const SectionButton: React.FC<Props> = ({onSave}) => {
 
   const handleOnEditEndType = () => {
     dispatch(
-      flashingActions.changeStep({step: getIndexOfStepForName('end_type')}),
+      boardActions.changeStep({step: getIndexOfStepForName('end_type')}),
     );
   };
 

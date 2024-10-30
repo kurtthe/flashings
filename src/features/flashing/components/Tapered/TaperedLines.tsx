@@ -10,9 +10,10 @@ import {
 } from '@assets/icons';
 import {isAndroid} from '@shared/platform';
 import {LINE_SELECTED} from '@features/flashing/components/Board/types';
-import {getDataFlashingDraft, getSideTapered} from '@store/flashings/selectors';
-import {actions as flashingActions} from '@store/flashings/actions';
+
 import {getIndexOfStepForName} from '@features/flashing/utils';
+import {getBoardFlashingData, getSideTapered} from '@store/board/selectors';
+import {boardActions} from '@store/board';
 
 type Props = {
   onChangeIndexSelected: (newIndexSelected: number) => void;
@@ -20,7 +21,7 @@ type Props = {
 
 const TaperedLines: React.FC<Props> = ({onChangeIndexSelected}) => {
   const dispatch = useDispatch();
-  const flashingDataDraft = useSelector(getDataFlashingDraft);
+  const flashingDataDraft = useSelector(getBoardFlashingData);
   const isFront = useSelector(getSideTapered);
 
   const [pointSelected, setPointSelected] = useState<
@@ -87,7 +88,7 @@ const TaperedLines: React.FC<Props> = ({onChangeIndexSelected}) => {
     };
 
     dispatch(
-      flashingActions.updateFlashingDraft({
+      boardActions.updateDataFlashing({
         dataFlashing: {
           ...flashingDataDraft,
           tapered: updatedTapered,
@@ -121,7 +122,7 @@ const TaperedLines: React.FC<Props> = ({onChangeIndexSelected}) => {
     } else {
       if (newIndex > maxIndex) {
         dispatch(
-          flashingActions.changeStep({
+          boardActions.changeStep({
             step: getIndexOfStepForName('save_tapered'),
           }),
         );
@@ -175,7 +176,7 @@ const TaperedLines: React.FC<Props> = ({onChangeIndexSelected}) => {
         onPress={() => {
           handleDone(`${measurement}`);
           dispatch(
-            flashingActions.changeStep({
+            boardActions.changeStep({
               step: getIndexOfStepForName('save_tapered'),
             }),
           );

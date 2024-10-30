@@ -1,5 +1,4 @@
 import {useAppSelector} from '@hooks/useStore';
-import {getDataFlashingDraft} from '@store/flashings/selectors';
 import React from 'react';
 import {
   drawLines,
@@ -12,7 +11,8 @@ import {
   widthScreen,
 } from '@features/flashing/components/Board/types';
 import {Path} from 'react-native-redash';
-import {POINT_TYPE} from '@models/flashings';
+import {getBoardFlashingData} from '@store/board/selectors';
+import {POINT_TYPE} from '@models/board';
 
 type ParamsBoardHook = {
   width?: number;
@@ -31,7 +31,7 @@ export const useBoard = ({
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
 
   const flashingDataDraft = useAppSelector(state =>
-    getDataFlashingDraft(state),
+    getBoardFlashingData(state),
   );
 
   const [pathParallel, setPathParallel] = React.useState<Path | null>(null);
