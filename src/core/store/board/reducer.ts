@@ -17,6 +17,14 @@ const INITIAL_STATE: initialStateType = {
 };
 
 const boardReducer = createReducer(INITIAL_STATE, builder => {
+  builder.addCase(actions.addDataFlashing, (state, action) => {
+    const {dataFlashing, step, isEdit} = action.payload;
+    state.flashingData = dataFlashing;
+    state.isEdit = isEdit ?? false;
+    if (step) {
+      state.stepIndex = step;
+    }
+  });
   builder.addCase(actions.clear, state => {
     state.flashingData = undefined;
     state.isEdit = false;

@@ -6,7 +6,6 @@ import React from 'react';
 import MeasurementLines from './MeasurementLines';
 import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import {checkIsLandscape, isAndroid, isTablet} from '@shared/platform';
-import {actions as flashingActions} from '@store/flashings/actions';
 import {LINE_SELECTED} from '../Board/types';
 import {
   getBoardFlashingData,

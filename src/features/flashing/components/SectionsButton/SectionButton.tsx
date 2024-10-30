@@ -3,7 +3,6 @@ import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import React from 'react';
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import SectionsButtons from './SectionsButtons';
-import {actions as flashingActions} from '@store/flashings/actions';
 import {getBoardFlashingData, getStep} from '@store/board/selectors';
 import {boardActions} from '@store/board';
 type Props = {

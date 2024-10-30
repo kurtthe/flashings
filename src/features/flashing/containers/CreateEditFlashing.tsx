@@ -1,5 +1,4 @@
 import React from 'react';
-import {KeyboardAvoidingBox} from '@ui/components';
 import {Routes as RoutesFlashing, Routes} from '../navigation/routes';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {
@@ -14,7 +13,7 @@ import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {getDataFlashing} from '@store/jobs/selectors';
 import {actions as flashingActions} from '@store/flashings/actions';
-import {isIOS} from '@shared/platform';
+import {boardActions} from '@store/board';
 
 const CreateFlashingContainer = () => {
   const dispatch = useAppDispatch();
@@ -33,33 +32,44 @@ const CreateFlashingContainer = () => {
 
   const handleSubmit = React.useCallback(
     async (values: AddFlashingFormValues) => {
-      const {name, material, flashingLengths} = values;
-      if (!flashingLengths) return;
-      dispatch(
-        flashingActions.addFlashingDraft({
-          dataFlashing: {
-            id: dataFlashing ? dataFlashing.id : getRandomInt(1, 500),
-            name,
-            flashingLengths,
-            colourMaterial: material,
-            dataLines: dataFlashing ? dataFlashing.dataLines : [],
-            parallelRight: dataFlashing ? dataFlashing.parallelRight : true,
-            angles: dataFlashing ? dataFlashing.angles : [],
-            endType: dataFlashing ? dataFlashing.endType : 'none',
-            startType: dataFlashing ? dataFlashing.startType : 'none',
-            imgPreview: undefined,
-            tapered:
-              dataFlashing && dataFlashing.tapered
-                ? dataFlashing.tapered
-                : undefined,
-          },
-          jobId: route.params.jobId,
-          isEdit: !!dataFlashing,
-        }),
-      );
-      navigation.navigate(Routes.BOARD_FLASHING, {jobId: route.params.jobId});
+      try {
+        const {name, material, flashingLengths} = values;
+        if (!flashingLengths) return;
+
+        const dataFlashingBase = {
+          id: dataFlashing?.id || getRandomInt(1, 500),
+          name,
+          flashingLengths,
+          colourMaterial: material,
+          dataLines: dataFlashing?.dataLines || [],
+          parallelRight: dataFlashing?.parallelRight ?? true,
+          angles: dataFlashing?.angles || [],
+          endType: dataFlashing?.endType || 'none',
+          startType: dataFlashing?.startType || 'none',
+          imgPreview: undefined,
+          tapered: dataFlashing?.tapered,
+        };
+
+        dispatch(
+          flashingActions.addFlashingDraft({
+            dataFlashing: dataFlashingBase,
+            jobId: route.params.jobId,
+          }),
+        );
+
+        dispatch(
+          boardActions.addDataFlashing({
+            dataFlashing: dataFlashingBase,
+            isEdit: Boolean(dataFlashing),
+          }),
+        );
+
+        navigation.navigate(Routes.BOARD_FLASHING, {jobId: route.params.jobId});
+      } catch (error) {
+        console.error('Error submitting flashing data:', error);
+      }
     },
-    [],
+    [dataFlashing, route.params.jobId],
   );
 
   const loadInitialData = () => {

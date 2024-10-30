@@ -1,11 +1,11 @@
 import React from 'react';
-import { LINE_TYPE } from '@models';
 import AngleRect from '@features/flashing/components/AngleRect';
 import TextSvg from '@features/flashing/components/TextSvg';
 import {
   getPositionRectAngle,
   getPositionTextAngle,
 } from '@features/flashing/components/Angle/utils';
+import {LINE_TYPE} from '@models/board';
 
 type Props = {
   id: any;

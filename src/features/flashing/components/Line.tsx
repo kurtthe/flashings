@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
-import { buildPathLine, getIndexOfStepForName } from '@features/flashing/utils';
-import { G, Path as PathComponent } from 'react-native-svg';
+import React, {useMemo} from 'react';
+import {buildPathLine, getIndexOfStepForName} from '@features/flashing/utils';
+import {G, Path as PathComponent} from 'react-native-svg';
 import AngleComponent from '@features/flashing/components/Angle/Angle';
-import { BUILD_LINE } from '@features/flashing/components/Board/types';
-import { useAppSelector } from '@hooks/useStore';
-import { getStep } from '@store/flashings/selectors';
+import {BUILD_LINE} from '@features/flashing/components/Board/types';
+import {useAppSelector} from '@hooks/useStore';
+import {getStep} from '@store/board/selectors';
 
 type Props = BUILD_LINE & {
   angle: number;

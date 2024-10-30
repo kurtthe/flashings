@@ -5,7 +5,7 @@ import {getIndexOfStepForName} from '@features/flashing/utils';
 import {useAppSelector} from '@hooks/useStore';
 import {Box} from '@ui/components';
 import TaperedLines from './TaperedLines';
-import {getStep} from '@store/flashings/selectors';
+import {getStep} from '@store/board/selectors';
 
 type Props = {
   setIndexLineSelected: (newValue: number) => void;

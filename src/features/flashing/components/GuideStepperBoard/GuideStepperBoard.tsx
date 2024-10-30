@@ -8,9 +8,9 @@ import {
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
 import {useAppSelector} from '@hooks/useStore';
-import {getSideTapered, getStep} from '@store/flashings/selectors';
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import {isTablet} from '@shared/platform';
+import {getSideTapered, getStep} from '@store/board/selectors';
 
 type Props = {
   onFinish: () => void;
