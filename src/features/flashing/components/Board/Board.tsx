@@ -33,6 +33,7 @@ import {actions as flashingActions} from '@store/flashings/actions';
 import CompleteMeasurements from '@features/flashing/components/Measurement/CompleteMeasurements';
 import Measurement from '../Measurement/Measurement';
 import {Tapered} from '../Tapered';
+import {useBoard} from '@hooks/board/useBoard';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -44,84 +45,28 @@ type Props = {
 };
 
 const Board: React.FC<Props> = ({
-  onUpdatePoint,
   onAddPoint,
   width = widthScreen,
   height = heightScreen,
   onSave,
-  updateAngle,
 }) => {
   const dispatch = useAppDispatch();
-  const isFront = useAppSelector(getSideTapered);
   const isEdit = useAppSelector(getIsEdit);
   const stepBoard = useAppSelector(state => getStep(state));
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
-
-  const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
-  const [pointSelected, setPointSelected] = React.useState<
-    LINE_SELECTED | undefined
-  >();
-  const [pathParallel, setPathParallel] = React.useState<Path | null>(null);
-  const [pointsForLabel, setPointsForLabel] = React.useState<
-    null | POINT_TYPE[][]
-  >(null);
+  const {pathParallel, graphs, pointsForLabel} = useBoard({
+    width,
+    height,
+  });
 
   const [indexLineSelected, setIndexLineSelected] = React.useState(0);
-  const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
-    'line',
-  );
-
   const isDrawing = stepBoard === getIndexOfStepForName('draw');
 
   React.useEffect(() => {
     if (!flashingDataDraft) return;
-    const makingLines = drawLines({
-      lines: flashingDataDraft.dataLines,
-      widthGraph: width,
-      heightGraph: height,
-      rightLinePaint: flashingDataDraft.parallelRight,
-      lineSelected: indexLineSelected,
-      typeSelected,
-      anglesLines: flashingDataDraft.angles,
-    });
-    setPathParallel(
-      drawParallelLines(
-        flashingDataDraft.dataLines,
-        flashingDataDraft.parallelRight,
-      ),
-    );
-    setPointsForLabel(
-      positionTextLabels(
-        flashingDataDraft.dataLines,
-        !flashingDataDraft.parallelRight,
-      ),
-    );
-    setGraphs(makingLines);
   }, [flashingDataDraft, indexLineSelected]);
-
-  React.useEffect(() => {
-    if (!flashingDataDraft) return;
-
-    if (flashingDataDraft.tapered) {
-      setPointSelected({
-        numberLine: indexLineSelected,
-        sizeLine:
-          flashingDataDraft.tapered[isFront ? 'front' : 'back'][
-            indexLineSelected
-          ]?.distance,
-        angle: flashingDataDraft.angles[indexLineSelected],
-      });
-      return;
-    }
-
-    setPointSelected({
-      numberLine: indexLineSelected,
-      sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
-      angle: flashingDataDraft.angles[indexLineSelected],
-    });
-  }, [stepBoard, indexLineSelected, graphs, isFront]);
 
   const handlePointer = (event: GestureResponderEvent) => {
     if (!isDrawing) return;
