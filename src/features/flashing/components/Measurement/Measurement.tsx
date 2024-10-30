@@ -9,6 +9,7 @@ import {checkIsLandscape, isAndroid, isTablet} from '@shared/platform';
 import {LINE_SELECTED} from '../Board/types';
 import {
   getBoardFlashingData,
+  getIndexLineSelected,
   getSideTapered,
   getStep,
 } from '@store/board/selectors';
@@ -23,6 +24,7 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
   const dispatch = useAppDispatch();
   const isFront = useAppSelector(getSideTapered);
 
+  const indexLineSelected = useAppSelector(getIndexLineSelected);
   const stepBoard = useAppSelector(state => getStep(state));
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
     'line',
@@ -32,7 +34,7 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
     getBoardFlashingData(state),
   );
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
-  const [indexLineSelected, setIndexLineSelected] = React.useState(0);
+
   const [pointSelected, setPointSelected] = React.useState<
     LINE_SELECTED | undefined
   >();
@@ -90,12 +92,12 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
     }
 
     if (newIndex > lengthLine) {
-      setIndexLineSelected(lengthLine);
+      dispatch(boardActions.changeIndexLineSelected({newIndex: lengthLine}));
       setTypeSelected('line');
       return;
     }
     if (typeSelected === 'angle') {
-      setIndexLineSelected(newIndex);
+      dispatch(boardActions.changeIndexLineSelected({newIndex: lengthLine}));
       setTypeSelected('line');
       return;
     }
@@ -111,7 +113,7 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
 
     const newIndex = indexLineSelected - 1;
     if (newIndex < 0) {
-      setIndexLineSelected(0);
+      dispatch(boardActions.changeIndexLineSelected({newIndex}));
     }
 
     if (typeSelected === 'angle') {
@@ -121,7 +123,7 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
 
     if (typeSelected === 'line') {
       setTypeSelected('angle');
-      setIndexLineSelected(newIndex);
+      dispatch(boardActions.changeIndexLineSelected({newIndex}));
     }
   };
 

@@ -24,4 +24,7 @@ export const actions = {
     'changeSideTapered/board',
   ),
   clear: createAction('clear/board'),
+  changeIndexLineSelected: createAction<{newIndex: number}>(
+    'changeIndexLineSelected/board',
+  ),
 };

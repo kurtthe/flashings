@@ -11,7 +11,10 @@ import {
   widthScreen,
 } from '@features/flashing/components/Board/types';
 import {Path} from 'react-native-redash';
-import {getBoardFlashingData} from '@store/board/selectors';
+import {
+  getBoardFlashingData,
+  getIndexLineSelected,
+} from '@store/board/selectors';
 import {POINT_TYPE} from '@models/board';
 
 type ParamsBoardHook = {
@@ -19,17 +22,13 @@ type ParamsBoardHook = {
   height?: number;
 };
 
-type ParamsMakeLines = {
-  indexLineSelected: number;
-  typeSelected: 'line' | 'angle';
-};
-
 export const useBoard = ({
   width = widthScreen,
   height = heightScreen,
 }: ParamsBoardHook) => {
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
-
+  const indexLineSelected = useAppSelector(getIndexLineSelected);
+  const typeSelected = 'line';
   const flashingDataDraft = useAppSelector(state =>
     getBoardFlashingData(state),
   );
@@ -40,38 +39,35 @@ export const useBoard = ({
   >(null);
 
   React.useEffect(() => {
-    makeLines({indexLineSelected: 0, typeSelected: 'line'});
+    makeLines();
   }, [flashingDataDraft]);
 
-  const makeLines = React.useCallback(
-    ({indexLineSelected = 0, typeSelected = 'line'}: ParamsMakeLines) => {
-      if (!flashingDataDraft) return;
+  const makeLines = React.useCallback(() => {
+    if (!flashingDataDraft) return;
 
-      const makingLines = drawLines({
-        lines: flashingDataDraft.dataLines,
-        widthGraph: width,
-        heightGraph: height,
-        rightLinePaint: flashingDataDraft.parallelRight,
-        lineSelected: indexLineSelected,
-        typeSelected,
-        anglesLines: flashingDataDraft.angles,
-      });
-      setPathParallel(
-        drawParallelLines(
-          flashingDataDraft.dataLines,
-          flashingDataDraft.parallelRight,
-        ),
-      );
-      setPointsForLabel(
-        positionTextLabels(
-          flashingDataDraft.dataLines,
-          !flashingDataDraft.parallelRight,
-        ),
-      );
-      setGraphs(makingLines);
-    },
-    [flashingDataDraft],
-  );
+    const makingLines = drawLines({
+      lines: flashingDataDraft.dataLines,
+      widthGraph: width,
+      heightGraph: height,
+      rightLinePaint: flashingDataDraft.parallelRight,
+      lineSelected: indexLineSelected,
+      typeSelected,
+      anglesLines: flashingDataDraft.angles,
+    });
+    setPathParallel(
+      drawParallelLines(
+        flashingDataDraft.dataLines,
+        flashingDataDraft.parallelRight,
+      ),
+    );
+    setPointsForLabel(
+      positionTextLabels(
+        flashingDataDraft.dataLines,
+        !flashingDataDraft.parallelRight,
+      ),
+    );
+    setGraphs(makingLines);
+  }, [flashingDataDraft]);
 
   return {
     reMakeLines: makeLines,

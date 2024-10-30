@@ -7,6 +7,7 @@ type initialStateType = {
   stepIndex: number;
   isEdit: boolean;
   sideTaperedFront: boolean;
+  indexLineSelected: number;
 };
 
 const INITIAL_STATE: initialStateType = {
@@ -14,6 +15,7 @@ const INITIAL_STATE: initialStateType = {
   sideTaperedFront: false,
   stepIndex: 0,
   isEdit: false,
+  indexLineSelected: 0,
 };
 
 const boardReducer = createReducer(INITIAL_STATE, builder => {
@@ -55,6 +57,10 @@ const boardReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.changeSideTapered, (state, action) => {
     const {isFront} = action.payload;
     state.sideTaperedFront = isFront;
+  });
+  builder.addCase(actions.changeIndexLineSelected, (state, action) => {
+    const {newIndex} = action.payload;
+    state.indexLineSelected = newIndex;
   });
 });
 
