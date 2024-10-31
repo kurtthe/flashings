@@ -209,26 +209,6 @@ const BoardContainer = () => {
     );
   };
 
-  const handleUpdatePoint = (dataLine: LINE_SELECTED) => {
-    if (!flashingDataBoard) return;
-    const linesUpdated = flashingDataBoard.dataLines.map((line, index) => {
-      if (dataLine.numberLine === index) {
-        return {
-          ...line,
-          distance: dataLine.sizeLine,
-        };
-      }
-      return line;
-    });
-    dispatch(
-      boardActions.updateDataFlashing({
-        dataFlashing: {
-          dataLines: linesUpdated,
-        },
-      }),
-    );
-  };
-
   const finishSteps = () => {
     console.log('on finish steps::');
   };
@@ -254,22 +234,6 @@ const BoardContainer = () => {
       boardActions.updateDataFlashing({
         dataFlashing: {
           parallelRight: sideBlueLine === 'right',
-        },
-      }),
-    );
-  };
-
-  const handleUpdateAngle = (newAngle: number, positionAngle: number) => {
-    const anglesUpdated = flashingDataBoard?.angles.map((angle, index) => {
-      if (index === positionAngle) {
-        return newAngle;
-      }
-      return angle;
-    });
-    dispatch(
-      boardActions.updateDataFlashing({
-        dataFlashing: {
-          angles: anglesUpdated,
         },
       }),
     );
@@ -396,12 +360,7 @@ const BoardContainer = () => {
         onCaptureFailure={error =>
           Alert.show('Error for preview', error.message)
         }>
-        <Board
-          onAddPoint={handleAddPoint}
-          onUpdatePoint={handleUpdatePoint}
-          onSave={onScreenShot}
-          updateAngle={handleUpdateAngle}
-        />
+        <Board onAddPoint={handleAddPoint} onSave={onScreenShot} />
       </ViewShot>
 
       {isAndroid &&

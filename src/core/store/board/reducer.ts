@@ -70,6 +70,43 @@ const boardReducer = createReducer(INITIAL_STATE, builder => {
     const {newTypeSelected} = action.payload;
     state.typeSelected = newTypeSelected;
   });
+  builder.addCase(actions.updateAngles, (state, action) => {
+    const {newAngle, positionAngle} = action.payload;
+    const flashingDataBoard = state.flashingData;
+    if (!flashingDataBoard) return;
+
+    const anglesUpdated = flashingDataBoard?.angles.map((angle, index) => {
+      if (index === positionAngle) {
+        return newAngle;
+      }
+      return angle;
+    });
+
+    state.flashingData = {
+      ...flashingDataBoard,
+      angles: anglesUpdated,
+    };
+  });
+  builder.addCase(actions.updatePoint, (state, action) => {
+    const {dataLine} = action.payload;
+    const flashingDataBoard = state.flashingData;
+    if (!flashingDataBoard) return;
+
+    const linesUpdated = flashingDataBoard.dataLines.map((line, index) => {
+      if (dataLine.numberLine === index) {
+        return {
+          ...line,
+          distance: dataLine.sizeLine,
+        };
+      }
+      return line;
+    });
+
+    state.flashingData = {
+      ...flashingDataBoard,
+      dataLines: linesUpdated,
+    };
+  });
 });
 
 export default boardReducer;

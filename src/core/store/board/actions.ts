@@ -1,3 +1,4 @@
+import {LINE_SELECTED} from '@features/flashing/components/Board/types';
 import {BOARD_FLASHINGS_DATA, TYPE_END_LINES} from '@models/board';
 import {createAction} from '@reduxjs/toolkit';
 
@@ -29,5 +30,9 @@ export const actions = {
   ),
   changeIndexLineSelected: createAction<{newIndex: number}>(
     'changeIndexLineSelected/board',
+  ),
+  updatePoint: createAction<{dataLine: LINE_SELECTED}>('updatePoint/board'),
+  updateAngles: createAction<{newAngle: number; positionAngle: number}>(
+    'updateAngles/board',
   ),
 };

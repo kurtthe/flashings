@@ -16,12 +16,7 @@ import {
 } from '@store/board/selectors';
 import {boardActions} from '@store/board';
 
-type Props = {
-  onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
-  updateAngle?: (newAngle: number, positionAngle: number) => void;
-};
-
-const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
+const Measurement = () => {
   const dispatch = useAppDispatch();
   const isFront = useAppSelector(getSideTapered);
 
@@ -78,7 +73,6 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
       if (isLandscape) {
         heightForKeyboard = 565;
       }
-
       setHeightMeasurement(heightForKeyboard);
     },
     onKeyboardDidHide: () => setHeightMeasurement(200),
@@ -135,10 +129,20 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
     if (isNaN(newSize)) return;
 
     if (!isLine) {
-      updateAngle?.(newSize, indexLineSelected);
+      dispatch(
+        boardActions.updateAngles({
+          newAngle: newSize,
+          positionAngle: indexLineSelected,
+        }),
+      );
       return;
     }
-    onUpdatePoint?.({...pointSelected, sizeLine: newSize});
+
+    dispatch(
+      boardActions.updatePoint({
+        dataLine: {...pointSelected, sizeLine: newSize},
+      }),
+    );
   };
 
   if (stepBoard !== getIndexOfStepForName('measurements')) {

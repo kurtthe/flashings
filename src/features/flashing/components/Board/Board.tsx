@@ -21,19 +21,15 @@ import {getBoardFlashingData, getIsEdit, getStep} from '@store/board/selectors';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
-  onUpdatePoint?: (dataLine: LINE_SELECTED) => void;
   onSave?: () => void;
   width?: number;
   height?: number;
-  updateAngle?: (newAngle: number, positionAngle: number) => void;
 };
 
 const Board: React.FC<Props> = ({
   onAddPoint,
-  onUpdatePoint,
   width = widthScreen,
   height = heightScreen,
-  updateAngle,
   onSave,
 }) => {
   const dispatch = useAppDispatch();
@@ -82,7 +78,7 @@ const Board: React.FC<Props> = ({
         </TouchableOpacity>
       </ScrollBox>
 
-      <Measurement onUpdatePoint={onUpdatePoint} updateAngle={updateAngle} />
+      <Measurement />
       <SectionsButton onSave={onSave} />
       <Tapered setIndexLineSelected={setIndexLineSelected} />
 
