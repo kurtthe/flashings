@@ -93,11 +93,8 @@ const boardReducer = createReducer(INITIAL_STATE, builder => {
     if (!flashingDataBoard) return;
 
     const linesUpdated = flashingDataBoard.dataLines.map((line, index) => {
-      if (dataLine.numberLine === index) {
-        return {
-          ...line,
-          distance: dataLine.sizeLine,
-        };
+      if (state.indexLineSelected === index) {
+        return dataLine;
       }
       return line;
     });

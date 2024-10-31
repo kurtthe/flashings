@@ -3,13 +3,14 @@ import {
   LINE_OFFSET,
   PADDING_BARS,
 } from '@features/flashing/components/Grid/Grid.types';
-import { scaleBand } from 'd3-scale';
-import { parse, round, serialize } from 'react-native-redash';
+import {scaleBand} from 'd3-scale';
+import {parse, round, serialize} from 'react-native-redash';
 import * as shape from 'd3-shape';
-import { isNaN } from 'lodash';
-import { LINE_TYPE, MODES_BOARD, POINT_TYPE } from '@models';
+import {isNaN} from 'lodash';
+import {LINE_TYPE, MODES_BOARD, POINT_TYPE} from '@models/board';
 import {
   casesLineParallel,
+  LINE_SELECTED,
   STEPS_BOARD,
 } from '@features/flashing/components/Board/types';
 
@@ -107,7 +108,7 @@ const getPointParallel = ({
   offset: number;
   isRight: boolean;
 }) => {
-  const { points, pending } = line;
+  const {points, pending} = line;
   const pointX1 = points[0][0];
   const pointX2 = points[1][0];
 
@@ -157,7 +158,7 @@ export const calculateParallelLines = (
 ): POINT_TYPE[][] => {
   const offset = 10;
   return lines.map((line, index, arrayLines): POINT_TYPE[] => {
-    const currentLineParallel = getPointParallel({ line, isRight, offset });
+    const currentLineParallel = getPointParallel({line, isRight, offset});
     const previousLine = arrayLines[index - 1];
     const nextLine = arrayLines[index + 1];
 
@@ -168,8 +169,8 @@ export const calculateParallelLines = (
         offset,
       });
       const pointIntersection = calculatePointsIntersectionBetweenLines(
-        { ...previousLine, points: previousLineParallel },
-        { ...line, points: currentLineParallel },
+        {...previousLine, points: previousLineParallel},
+        {...line, points: currentLineParallel},
       );
 
       if (!pointIntersection) return currentLineParallel;
@@ -183,8 +184,8 @@ export const calculateParallelLines = (
         offset,
       });
       const pointIntersectionNext = calculatePointsIntersectionBetweenLines(
-        { ...line, points: currentLineParallel },
-        { ...nextLine, points: nextLineParallel },
+        {...line, points: currentLineParallel},
+        {...nextLine, points: nextLineParallel},
       );
 
       if (!pointIntersectionNext) return currentLineParallel;
@@ -204,12 +205,12 @@ export const calculateParallelLines = (
       });
 
       const pointIntersectionPrevious = calculatePointsIntersectionBetweenLines(
-        { ...previousLine, points: previousLineParallel },
-        { ...line, points: currentLineParallel },
+        {...previousLine, points: previousLineParallel},
+        {...line, points: currentLineParallel},
       );
       const pointIntersectionNext = calculatePointsIntersectionBetweenLines(
-        { ...line, points: currentLineParallel },
-        { ...nextLine, points: nextLineParallel },
+        {...line, points: currentLineParallel},
+        {...nextLine, points: nextLineParallel},
       );
 
       if (!pointIntersectionPrevious || !pointIntersectionNext)
@@ -370,4 +371,31 @@ const calculatePointsIntersectionBetweenLines = (
 export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
   if (nameStep === 'screen_shot') return 333;
   return STEPS_BOARD.findIndex(stepName => stepName === nameStep);
+};
+
+// {"points":[[102,340],[68,238]],"pending":3,"distance":108,"isLine":true}
+export const calculatingPointWithNewSize = (
+  newSize: number,
+  dataPoint: LINE_TYPE,
+): LINE_TYPE => {
+  console.log('newSize::', newSize);
+  console.log('==>dataPoint::', JSON.stringify(dataPoint));
+
+  const points2 = dataPoint.points[1];
+  const X2 = points2[0];
+  const Y2 = points2[1];
+  //convert the pending to angle
+  const arctanPending = Math.atan(dataPoint.pending);
+  //getting direction of the line
+  const dx = Math.cos(arctanPending);
+  const dy = Math.sin(arctanPending);
+
+  const newPoint1x = X2 + newSize * dx;
+  const newPoint1y = Y2 + newSize * dy;
+
+  return {
+    ...dataPoint,
+    points: [[newPoint1x, newPoint1y], points2],
+    distance: newSize,
+  };
 };

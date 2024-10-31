@@ -1,4 +1,7 @@
-import {getIndexOfStepForName} from '@features/flashing/utils';
+import {
+  calculatingPointWithNewSize,
+  getIndexOfStepForName,
+} from '@features/flashing/utils';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 
 import {Box} from '@ui/components';
@@ -124,7 +127,7 @@ const Measurement = () => {
   }, [indexLineSelected, typeSelected]);
 
   const handleDoneSize = (newSize: number) => {
-    if (!pointSelected) return;
+    if (!pointSelected || !flashingDataDraft) return;
 
     if (isNaN(newSize)) return;
 
@@ -138,9 +141,14 @@ const Measurement = () => {
       return;
     }
 
+    const newPointData = calculatingPointWithNewSize(
+      newSize,
+      flashingDataDraft.dataLines[indexLineSelected],
+    );
+
     dispatch(
       boardActions.updatePoint({
-        dataLine: {...pointSelected, sizeLine: newSize},
+        dataLine: newPointData,
       }),
     );
   };
