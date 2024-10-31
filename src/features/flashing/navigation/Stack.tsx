@@ -1,23 +1,24 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Routes } from './routes';
+import {createStackNavigator} from '@react-navigation/stack';
+import {Routes} from './routes';
 import {
   BoardFlashingScreen,
   CreateEditFlashingScreen,
   CreateRainheadScreen,
   TemplatesScreen,
 } from '../screens';
-import { HeaderBackButton, HeaderBox, Icon } from '@ui/components';
-import { CartIcon } from '@assets/icons';
-import { FlashingParamsList } from '@features/flashing/navigation/Stack.types';
-import { Alert } from 'react-native';
-import { useAppDispatch } from '@hooks/useStore';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { isTablet } from '@shared/platform';
-import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
+import {HeaderBackButton, HeaderBox, Icon} from '@ui/components';
+import {CartIcon} from '@assets/icons';
+import {FlashingParamsList} from '@features/flashing/navigation/Stack.types';
+import {Alert} from 'react-native';
+import {useAppDispatch} from '@hooks/useStore';
+import {actions as flashingActions} from '@store/flashings/actions';
+import {isTablet} from '@shared/platform';
+import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
+import {boardActions} from '@store/board';
 
 const Stack = () => {
-  const { Navigator, Screen } = createStackNavigator<FlashingParamsList>();
+  const {Navigator, Screen} = createStackNavigator<FlashingParamsList>();
   const dispatch = useAppDispatch();
 
   return (
@@ -26,7 +27,7 @@ const Stack = () => {
         name={Routes.CREATE_EDIT_FLASHING}
         component={CreateEditFlashingScreen}
         options={{
-          header: ({ navigation, route }) => (
+          header: ({navigation, route}) => (
             <HeaderBox
               leftIcon={<HeaderBackButton />}
               title={
@@ -41,7 +42,7 @@ const Stack = () => {
         name={Routes.BOARD_FLASHING}
         component={BoardFlashingScreen}
         options={{
-          header: ({ navigation }) => {
+          header: ({navigation}) => {
             const alertDelete = () =>
               Alert.alert(
                 'Are you sure you want to continue? ',
@@ -55,6 +56,7 @@ const Stack = () => {
                     text: 'Yes',
                     onPress: () => {
                       navigation.goBack();
+                      dispatch(boardActions.clear());
                       dispatch(flashingActions.clear());
                     },
                   },
@@ -81,7 +83,7 @@ const Stack = () => {
         name={Routes.CREATE_RAINHEAD}
         component={CreateRainheadScreen}
         options={{
-          header: ({ navigation }) => (
+          header: ({navigation}) => (
             <HeaderBox
               mb="s"
               leftIcon={
@@ -98,7 +100,7 @@ const Stack = () => {
         name={Routes.LIST_TEMPLATES}
         component={TemplatesScreen}
         options={{
-          header: ({ navigation }) => (
+          header: ({navigation}) => (
             <HeaderBox
               mb="s"
               leftIcon={

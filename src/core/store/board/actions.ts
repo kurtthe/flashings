@@ -24,6 +24,9 @@ export const actions = {
     'changeSideTapered/board',
   ),
   clear: createAction('clear/board'),
+  changeTypeSelected: createAction<{newTypeSelected: 'line' | 'angle'}>(
+    'changeTypeSelected/board',
+  ),
   changeIndexLineSelected: createAction<{newIndex: number}>(
     'changeIndexLineSelected/board',
   ),

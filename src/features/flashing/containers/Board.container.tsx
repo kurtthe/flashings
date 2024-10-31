@@ -283,7 +283,8 @@ const BoardContainer = () => {
         if (
           !refViewShot.current ||
           !flashingDataBoard ||
-          !flashingDataBoard.tapered
+          !flashingDataBoard.tapered ||
+          !getDataFlashingInformation
         )
           throw new Error('Snapshot failed');
 
@@ -358,6 +359,7 @@ const BoardContainer = () => {
       );
 
       dispatch(flashingActions.clear());
+      dispatch(boardActions.clear());
 
       navigation.navigate(StackPrivateDefinitions.JOBS, {
         screen: RoutesJobs.JOB_DETAILS,

@@ -14,6 +14,7 @@ import {Path} from 'react-native-redash';
 import {
   getBoardFlashingData,
   getIndexLineSelected,
+  getTypeSelected,
 } from '@store/board/selectors';
 import {POINT_TYPE} from '@models/board';
 
@@ -28,7 +29,7 @@ export const useBoard = ({
 }: ParamsBoardHook) => {
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const indexLineSelected = useAppSelector(getIndexLineSelected);
-  const typeSelected = 'line';
+  const typeSelected = useAppSelector(getTypeSelected);
   const flashingDataDraft = useAppSelector(state =>
     getBoardFlashingData(state),
   );
@@ -40,7 +41,7 @@ export const useBoard = ({
 
   React.useEffect(() => {
     makeLines();
-  }, [flashingDataDraft]);
+  }, [flashingDataDraft, typeSelected, indexLineSelected]);
 
   const makeLines = React.useCallback(() => {
     if (!flashingDataDraft) return;

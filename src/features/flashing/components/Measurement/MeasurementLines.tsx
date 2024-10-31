@@ -10,9 +10,11 @@ import {TextInput} from 'react-native';
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import {isAndroid, isTablet} from '@shared/platform';
 import {LINE_SELECTED} from '@features/flashing/components/Board/types';
-import {useAppDispatch} from '@hooks/useStore';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
 import {boardActions} from '@store/board';
+import {getTypeSelected} from '@store/board/selectors';
+import IconButtonComplete from './IconButtonComplete';
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -20,17 +22,17 @@ type Props = {
   onNext?: () => void;
   onPrevious?: () => void;
   disabledPrevious?: boolean;
-  typeSelected: 'line' | 'angle';
 };
 const MeasurementLines: React.FC<Props> = ({
   onDone,
   dataLine,
-  typeSelected,
   onNext,
   onPrevious,
   disabledPrevious = false,
 }) => {
   const dispatch = useAppDispatch();
+  const typeSelected = useAppSelector(getTypeSelected);
+
   const [measurement, setMeasurement] = React.useState(0);
   const inputRef = React.useRef<TextInput>(null);
 
@@ -73,36 +75,7 @@ const MeasurementLines: React.FC<Props> = ({
 
   return (
     <>
-      <Box
-        as={BaseTouchable}
-        onPress={() => {
-          handleDone(`${measurement}`);
-          dispatch(
-            boardActions.changeStep({
-              step: getIndexOfStepForName('end_type'),
-            }),
-          );
-        }}
-        position="absolute"
-        bottom="105%"
-        right="0%"
-        backgroundColor="white"
-        p={isTablet ? 's' : 'xs'}
-        style={{
-          zIndex: 1,
-          shadowOffset: {width: 0, height: 0},
-          shadowOpacity: 0.5,
-          shadowRadius: 5,
-          shadowColor: 'lightGray',
-          borderTopLeftRadius: 5,
-          borderBottomLeftRadius: 5,
-        }}>
-        <Icon
-          as={CompleteEditMeasurementsIcon}
-          color="black"
-          size={isTablet ? SIZE_ICON_TABLET + 15 : SIZE_ICON_PHONE}
-        />
-      </Box>
+      <IconButtonComplete onDone={() => handleDone(`${measurement}`)} />
 
       <Box p="s" backgroundColor="white">
         <Box

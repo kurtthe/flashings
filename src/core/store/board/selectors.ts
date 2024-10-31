@@ -22,3 +22,7 @@ export const getIsEdit = createSelector(boardSelector, state => {
 export const getIndexLineSelected = createSelector(boardSelector, state => {
   return state.indexLineSelected;
 });
+
+export const getTypeSelected = createSelector(boardSelector, state => {
+  return state.typeSelected;
+});

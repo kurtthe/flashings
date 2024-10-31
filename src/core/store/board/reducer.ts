@@ -8,6 +8,7 @@ type initialStateType = {
   isEdit: boolean;
   sideTaperedFront: boolean;
   indexLineSelected: number;
+  typeSelected: 'line' | 'angle';
 };
 
 const INITIAL_STATE: initialStateType = {
@@ -16,6 +17,7 @@ const INITIAL_STATE: initialStateType = {
   stepIndex: 0,
   isEdit: false,
   indexLineSelected: 0,
+  typeSelected: 'line',
 };
 
 const boardReducer = createReducer(INITIAL_STATE, builder => {
@@ -31,6 +33,8 @@ const boardReducer = createReducer(INITIAL_STATE, builder => {
     state.flashingData = undefined;
     state.isEdit = false;
     state.stepIndex = 0;
+    state.typeSelected = 'line';
+    state.indexLineSelected = 0;
   });
   builder.addCase(actions.updateDataFlashing, (state, action) => {
     const {dataFlashing} = action.payload;
@@ -61,6 +65,10 @@ const boardReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.changeIndexLineSelected, (state, action) => {
     const {newIndex} = action.payload;
     state.indexLineSelected = newIndex;
+  });
+  builder.addCase(actions.changeTypeSelected, (state, action) => {
+    const {newTypeSelected} = action.payload;
+    state.typeSelected = newTypeSelected;
   });
 });
 

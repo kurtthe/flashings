@@ -30,8 +30,10 @@ type Props = {
 
 const Board: React.FC<Props> = ({
   onAddPoint,
+  onUpdatePoint,
   width = widthScreen,
   height = heightScreen,
+  updateAngle,
   onSave,
 }) => {
   const dispatch = useAppDispatch();
@@ -80,7 +82,7 @@ const Board: React.FC<Props> = ({
         </TouchableOpacity>
       </ScrollBox>
 
-      <Measurement />
+      <Measurement onUpdatePoint={onUpdatePoint} updateAngle={updateAngle} />
       <SectionsButton onSave={onSave} />
       <Tapered setIndexLineSelected={setIndexLineSelected} />
 

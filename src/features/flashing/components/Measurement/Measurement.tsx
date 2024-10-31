@@ -12,6 +12,7 @@ import {
   getIndexLineSelected,
   getSideTapered,
   getStep,
+  getTypeSelected,
 } from '@store/board/selectors';
 import {boardActions} from '@store/board';
 
@@ -25,10 +26,9 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
   const isFront = useAppSelector(getSideTapered);
 
   const indexLineSelected = useAppSelector(getIndexLineSelected);
-  const stepBoard = useAppSelector(state => getStep(state));
-  const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
-    'line',
-  );
+  const stepBoard = useAppSelector(getStep);
+  const typeSelected = useAppSelector(getTypeSelected);
+
   const isLandscape = checkIsLandscape();
   const flashingDataDraft = useAppSelector(state =>
     getBoardFlashingData(state),
@@ -38,6 +38,10 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
   const [pointSelected, setPointSelected] = React.useState<
     LINE_SELECTED | undefined
   >();
+
+  const isLine = React.useMemo(() => {
+    return typeSelected === 'line';
+  }, [typeSelected]);
 
   React.useEffect(() => {
     if (!flashingDataDraft) return;
@@ -93,19 +97,19 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
 
     if (newIndex > lengthLine) {
       dispatch(boardActions.changeIndexLineSelected({newIndex: lengthLine}));
-      setTypeSelected('line');
+      dispatch(boardActions.changeTypeSelected({newTypeSelected: 'line'}));
       return;
     }
-    if (typeSelected === 'angle') {
+    if (!isLine) {
       dispatch(boardActions.changeIndexLineSelected({newIndex: lengthLine}));
-      setTypeSelected('line');
+      dispatch(boardActions.changeTypeSelected({newTypeSelected: 'line'}));
       return;
     }
-    setTypeSelected('angle');
+    dispatch(boardActions.changeTypeSelected({newTypeSelected: 'angle'}));
   };
 
-  const handleBackLineSelected = () => {
-    if (indexLineSelected === 0 && typeSelected === 'line') {
+  const handleBackLineSelected = React.useCallback(() => {
+    if (indexLineSelected === 0 && isLine) {
       return dispatch(
         boardActions.changeStep({step: getIndexOfStepForName('side')}),
       );
@@ -116,27 +120,25 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
       dispatch(boardActions.changeIndexLineSelected({newIndex}));
     }
 
-    if (typeSelected === 'angle') {
-      setTypeSelected('line');
+    if (!isLine) {
+      dispatch(boardActions.changeTypeSelected({newTypeSelected: 'line'}));
       return;
     }
 
-    if (typeSelected === 'line') {
-      setTypeSelected('angle');
-      dispatch(boardActions.changeIndexLineSelected({newIndex}));
-    }
-  };
+    dispatch(boardActions.changeTypeSelected({newTypeSelected: 'angle'}));
+    dispatch(boardActions.changeIndexLineSelected({newIndex}));
+  }, [indexLineSelected, typeSelected]);
 
-  const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
+  const handleDoneSize = (newSize: number) => {
     if (!pointSelected) return;
 
     if (isNaN(newSize)) return;
 
-    if (sizeType === 'angle') {
-      updateAngle && updateAngle(newSize, indexLineSelected);
+    if (!isLine) {
+      updateAngle?.(newSize, indexLineSelected);
       return;
     }
-    onUpdatePoint && onUpdatePoint({...pointSelected, sizeLine: newSize});
+    onUpdatePoint?.({...pointSelected, sizeLine: newSize});
   };
 
   if (stepBoard !== getIndexOfStepForName('measurements')) {
@@ -148,7 +150,6 @@ const Measurement: React.FC<Props> = ({onUpdatePoint, updateAngle}) => {
       <MeasurementLines
         onNext={handleNextLineSelected}
         onPrevious={handleBackLineSelected}
-        typeSelected={typeSelected}
         onDone={handleDoneSize}
         dataLine={pointSelected}
       />
