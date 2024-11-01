@@ -392,9 +392,10 @@ const BoardContainer = () => {
         />
       </ViewShot>
 
-      {isAndroid &&
-      showKeyboard &&
-      stepBoard === getIndexOfStepForName('measurements') ? null : (
+      {(isAndroid &&
+        showKeyboard &&
+        stepBoard === getIndexOfStepForName('measurements')) ||
+      stepBoard === getIndexOfStepForName('tapered') ? null : (
         <MenuEditorComponent onUndo={handleUndo} onSave={handleSave} />
       )}
     </>
