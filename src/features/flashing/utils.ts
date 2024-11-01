@@ -377,11 +377,12 @@ export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
 export const calculatingPointWithNewSize = (
   newSize: number,
   dataPoint: LINE_TYPE,
+  indexLineSelected: number,
 ): LINE_TYPE => {
   console.log('newSize::', newSize);
   console.log('==>dataPoint::', JSON.stringify(dataPoint));
-
-  const points2 = dataPoint.points[1];
+  const indexPoints = indexLineSelected === 0 ? 1 : 0;
+  const points2 = dataPoint.points[indexPoints];
   const X2 = points2[0];
   const Y2 = points2[1];
   //convert the pending to angle
@@ -393,9 +394,14 @@ export const calculatingPointWithNewSize = (
   const newPoint1x = X2 + newSize * dx;
   const newPoint1y = Y2 + newSize * dy;
 
+  const newPoints: POINT_TYPE[] =
+    indexLineSelected === 0
+      ? [[newPoint1x, newPoint1y], points2]
+      : [points2, [newPoint1x, newPoint1y]];
+
   return {
     ...dataPoint,
-    points: [[newPoint1x, newPoint1y], points2],
+    points: newPoints,
     distance: newSize,
   };
 };

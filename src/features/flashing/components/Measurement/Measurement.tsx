@@ -144,6 +144,7 @@ const Measurement = () => {
     const newPointData = calculatingPointWithNewSize(
       newSize,
       flashingDataDraft.dataLines[indexLineSelected],
+      indexLineSelected,
     );
 
     dispatch(
