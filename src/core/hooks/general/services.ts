@@ -8,5 +8,6 @@ export const getVersionApp = async (): Promise<string> => {
     {},
     false,
   );
+  console.log('=>response.body.latestVersion:', response.body.latestVersion);
   return Promise.resolve(response.body.latestVersion);
 };

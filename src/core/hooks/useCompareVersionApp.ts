@@ -19,6 +19,8 @@ export const useCompareVersionApp = () => {
   }, [isAndroid]);
 
   React.useEffect(() => {
+    if (!versionApp) return;
+
     if (buildNumber !== versionApp) {
       Toast.show({
         position: 'bottom',
@@ -43,7 +45,7 @@ export const useCompareVersionApp = () => {
       .catch(err => console.error('An error occurred', err));
   }, [url]);
 
-  console.log('0=>isRefetching::', isRefetching);
+  console.log('0=>versionApp::', versionApp);
   return {
     versionApp: buildNumber,
     validateVersionApp: refetch,
