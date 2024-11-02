@@ -12,13 +12,7 @@ const DataUser = () => {
   const navigation = useNavigation<ProfileStackProps>();
   const dispatch = useAppDispatch();
   const handleLogout = () => dispatch(authActions.logOut());
-  const {versionApp, validateVersionApp, isLoading} = useCompareVersionApp();
-
-  React.useEffect(() => {
-    if (!versionApp) {
-      validateVersionApp();
-    }
-  }, [versionApp]);
+  const {versionApp} = useCompareVersionApp();
 
   return (
     <>
@@ -33,11 +27,8 @@ const DataUser = () => {
         onPress={() => navigation.navigate(Routes.MANAGE_TEMPLATE)}>
         Manage templates
       </Button>
-      <Button
-        mx="m"
-        variant="outlineWhiteSmall"
-        onPress={() => validateVersionApp()}>
-        {isLoading ? 'Getting the version app...' : `Version ${versionApp}`}
+      <Button mx="m" variant="outlineWhiteSmall" onPress={() => null}>
+        {`Version ${versionApp}`}
       </Button>
     </>
   );

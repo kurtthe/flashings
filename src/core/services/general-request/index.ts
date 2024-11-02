@@ -3,10 +3,10 @@ import axios, {
   AxiosResponse,
   AxiosResponseHeaders,
 } from 'axios';
-import { GeneralRequestInterface } from './general-request.type';
+import {GeneralRequestInterface} from './general-request.type';
 import handleErrors from './handleErrors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { baseURL } from '@shared/endPoints';
+import {baseURL} from '@shared/endPoints';
 
 class GeneralRequestService implements GeneralRequestInterface {
   static instance: GeneralRequestService;
@@ -115,7 +115,7 @@ class GeneralRequestService implements GeneralRequestInterface {
       try {
         const response = await this.httpService.post<
           TypeData,
-          AxiosResponse<TypeResult & { api_key: string }>
+          AxiosResponse<TypeResult & {api_key: string}>
         >(endpoint, data);
 
         await this.saverToken<TypeResult>({
@@ -136,7 +136,7 @@ class GeneralRequestService implements GeneralRequestInterface {
   }
 
   private async saverToken<TypeData>(
-    data: TypeData & { api_key: string; companyName: string },
+    data: TypeData & {api_key: string; companyName: string},
   ) {
     if (data) {
       this.httpService.defaults.headers.common['ttrak-key'] = data.api_key;

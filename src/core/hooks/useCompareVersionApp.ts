@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useCallback, useMemo} from 'react';
 import {useGetVersionApp} from '@hooks/general/useGeneral';
 import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-toast-message';
@@ -8,47 +8,51 @@ import {config} from '@env/config';
 import alert from '@services/general-request/alert';
 
 export const useCompareVersionApp = () => {
-  const {data: versionApp, refetch, isRefetching} = useGetVersionApp();
-  const buildNumber = DeviceInfo.getVersion();
+  const {
+    data: remoteVersion,
+    refetch: validateVersionApp,
+    isRefetching: isLoading,
+    isError,
+  } = useGetVersionApp();
+  const localVersion = DeviceInfo.getVersion();
 
-  const url = React.useMemo(() => {
-    if (isAndroid) {
-      return config.urlStoreAndroid;
-    }
-    return config.urlStoreIOS;
-  }, [isAndroid]);
+  const storeUrl = useMemo(
+    () => (isAndroid ? config.urlStoreAndroid : config.urlStoreIOS),
+    [],
+  );
 
-  React.useEffect(() => {
-    if (!versionApp) return;
-
-    if (buildNumber !== versionApp) {
-      Toast.show({
-        position: 'bottom',
-        type: 'updateToast',
-        onPress: openStore,
-        autoHide: false,
-      });
-    }
-  }, [buildNumber, versionApp]);
-
-  const openStore = React.useCallback(() => {
-    Linking.canOpenURL(url)
+  const openStore = useCallback(() => {
+    Linking.canOpenURL(storeUrl)
       .then(supported => {
         if (supported) {
-          Linking.openURL(url).catch(() =>
-            alert.show('Error', "Don't know how to open this URL."),
+          Linking.openURL(storeUrl).catch(() =>
+            alert.show('Error', 'Unable to open the app store.'),
           );
         } else {
-          alert.show('Error', "Don't know how to open this URL.");
+          alert.show('Error', 'Unable to open the app store.');
         }
       })
-      .catch(err => console.error('An error occurred', err));
-  }, [url]);
+      .catch(err => console.error('Error opening store URL:', err));
+  }, [storeUrl]);
 
-  console.log('0=>versionApp::', versionApp);
+  useEffect(() => {
+    if (!remoteVersion || localVersion === remoteVersion) return;
+    Toast.show({
+      position: 'bottom',
+      type: 'updateToast',
+      onPress: openStore,
+      autoHide: false,
+    });
+  }, [localVersion, remoteVersion, openStore]);
+
+  if (isError) {
+    console.error('Failed to fetch remote version');
+  }
+
   return {
-    versionApp: buildNumber,
-    validateVersionApp: refetch,
-    isLoading: isRefetching,
+    versionApp: localVersion,
+    validateVersionApp,
+    isLoading,
+    isError,
   };
 };
