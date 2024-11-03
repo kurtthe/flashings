@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useMemo} from 'react';
+import {useEffect, useCallback, useMemo} from 'react';
 import {useGetVersionApp} from '@hooks/general/useGeneral';
 import DeviceInfo from 'react-native-device-info';
 import Toast from 'react-native-toast-message';
@@ -12,13 +12,12 @@ export const useCompareVersionApp = () => {
     data: remoteVersion,
     refetch: validateVersionApp,
     isRefetching: isLoading,
-    isError,
   } = useGetVersionApp();
   const localVersion = DeviceInfo.getVersion();
 
   const storeUrl = useMemo(
     () => (isAndroid ? config.urlStoreAndroid : config.urlStoreIOS),
-    [],
+    [isAndroid, localVersion],
   );
 
   const openStore = useCallback(() => {
@@ -37,22 +36,18 @@ export const useCompareVersionApp = () => {
 
   useEffect(() => {
     if (!remoteVersion || localVersion === remoteVersion) return;
+
     Toast.show({
       position: 'bottom',
       type: 'updateToast',
       onPress: openStore,
       autoHide: false,
     });
-  }, [localVersion, remoteVersion, openStore]);
-
-  if (isError) {
-    console.error('Failed to fetch remote version');
-  }
+  }, [localVersion, remoteVersion]);
 
   return {
     versionApp: localVersion,
     validateVersionApp,
     isLoading,
-    isError,
   };
 };
