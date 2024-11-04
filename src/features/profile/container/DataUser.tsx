@@ -13,13 +13,7 @@ const DataUser = () => {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = React.useState(false);
   const handleLogout = () => dispatch(authActions.logOut());
-  const {versionApp, onCheckVersion} = useCompareVersionApp();
-
-  const onCheckNewVersions = () => {
-    setIsLoading(true);
-    onCheckVersion();
-    setTimeout(() => setIsLoading(false), 2000);
-  };
+  const {versionApp} = useCompareVersionApp();
 
   return (
     <>
@@ -34,8 +28,8 @@ const DataUser = () => {
         onPress={() => navigation.navigate(Routes.MANAGE_TEMPLATE)}>
         Manage templates
       </Button>
-      <Button mx="m" variant="outlineWhiteSmall" onPress={onCheckNewVersions}>
-        {isLoading ? 'Getting the version app...' : `Version ${versionApp}`}
+      <Button mx="m" variant="outlineWhiteSmall" onPress={() => null}>
+        {`Version ${versionApp}`}
       </Button>
     </>
   );

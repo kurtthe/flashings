@@ -293,5 +293,6 @@ const styles = StyleSheet.create({
   text: {
     lineHeight: 20,
     marginTop: isTablet ? 10 : 8,
+    color: 'black',
   },
 });
