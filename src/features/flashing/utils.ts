@@ -379,8 +379,6 @@ export const calculatingPointWithNewSize = (
   dataPoint: LINE_TYPE,
   indexLineSelected: number,
 ): LINE_TYPE => {
-  console.log('newSize::', newSize);
-  console.log('==>dataPoint::', JSON.stringify(dataPoint));
   const indexPoints = indexLineSelected === 0 ? 1 : 0;
   const points2 = dataPoint.points[indexPoints];
   const X2 = points2[0];

@@ -18,6 +18,7 @@ import {
   getTypeSelected,
 } from '@store/board/selectors';
 import {boardActions} from '@store/board';
+import useCalculatePointWithNewSize from '@hooks/board/useCalculatePointWithNewSize';
 
 const Measurement = () => {
   const dispatch = useAppDispatch();
@@ -32,6 +33,8 @@ const Measurement = () => {
     getBoardFlashingData(state),
   );
   const [heightMeasurement, setHeightMeasurement] = React.useState(350);
+
+  const {changeMeasurement} = useCalculatePointWithNewSize();
 
   const [pointSelected, setPointSelected] = React.useState<
     LINE_SELECTED | undefined
@@ -141,17 +144,7 @@ const Measurement = () => {
       return;
     }
 
-    const newPointData = calculatingPointWithNewSize(
-      newSize,
-      flashingDataDraft.dataLines[indexLineSelected],
-      indexLineSelected,
-    );
-
-    dispatch(
-      boardActions.updatePoint({
-        dataLine: newPointData,
-      }),
-    );
+    changeMeasurement(newSize);
   };
 
   if (stepBoard !== getIndexOfStepForName('measurements')) {
