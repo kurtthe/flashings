@@ -58,7 +58,6 @@ const useCalculatePointWithNewSize = () => {
           [0, 0],
         ];
 
-      console.log('=>dataFlashing::', JSON.stringify(dataFlashing));
       const dataLineSelected = dataFlashing.dataLines[indexLine];
       const increasing = dataLineSelected.distance < newSize;
 

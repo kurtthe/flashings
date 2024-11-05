@@ -30,7 +30,6 @@ const MeasurementLines: React.FC<Props> = ({
   onPrevious,
   disabledPrevious = false,
 }) => {
-  const dispatch = useAppDispatch();
   const typeSelected = useAppSelector(getTypeSelected);
 
   const [measurement, setMeasurement] = React.useState(0);

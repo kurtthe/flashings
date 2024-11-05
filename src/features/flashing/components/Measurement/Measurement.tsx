@@ -64,7 +64,7 @@ const Measurement = () => {
       sizeLine: flashingDataDraft.dataLines[indexLineSelected]?.distance ?? 0,
       angle: flashingDataDraft.angles[indexLineSelected],
     });
-  }, [stepBoard, indexLineSelected, isFront]);
+  }, [flashingDataDraft, stepBoard, indexLineSelected, isFront]);
 
   useKeyboardVisibility({
     onKeyboardDidShow: () => {
@@ -116,7 +116,7 @@ const Measurement = () => {
     }
 
     const newIndex = indexLineSelected - 1;
-    if (newIndex < 0) {
+    if (newIndex >= 0) {
       dispatch(boardActions.changeIndexLineSelected({newIndex}));
     }
 
@@ -126,7 +126,6 @@ const Measurement = () => {
     }
 
     dispatch(boardActions.changeTypeSelected({newTypeSelected: 'angle'}));
-    dispatch(boardActions.changeIndexLineSelected({newIndex}));
   }, [indexLineSelected, typeSelected]);
 
   const handleDoneSize = (newSize: number) => {
