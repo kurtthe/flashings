@@ -57,7 +57,10 @@ const useCalculatePointWithNewSize = () => {
           [0, 0],
           [0, 0],
         ];
+
+      console.log('=>dataFlashing::', JSON.stringify(dataFlashing));
       const dataLineSelected = dataFlashing.dataLines[indexLine];
+      const increasing = dataLineSelected.distance < newSize;
 
       if (!dataLineSelected)
         return [
@@ -76,8 +79,13 @@ const useCalculatePointWithNewSize = () => {
       const dx = Math.cos(arctanPending);
       const dy = Math.sin(arctanPending);
 
-      const newPoint1x = baseX + newSize * dx;
-      const newPoint1y = baseY + newSize * dy;
+      const newPoint1x = increasing
+        ? baseX + newSize * dx
+        : baseX - newSize * dx;
+
+      const newPoint1y = increasing
+        ? baseY + newSize * dy
+        : baseY - newSize * dy;
 
       const newPoints: POINT_TYPE[] =
         positionLine === 'first'
