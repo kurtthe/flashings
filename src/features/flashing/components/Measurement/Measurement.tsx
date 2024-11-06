@@ -84,8 +84,9 @@ const Measurement = () => {
     onKeyboardDidHide: () => setHeightMeasurement(200),
   });
 
-  const handleNextLineSelected = () => {
+  const handleNextLineSelected = React.useCallback(() => {
     if (!flashingDataDraft) return;
+
     const newIndex = indexLineSelected + 1;
     const lengthLine = flashingDataDraft.dataLines.length - 1;
 
@@ -93,20 +94,18 @@ const Measurement = () => {
       dispatch(
         boardActions.changeStep({step: getIndexOfStepForName('end_type')}),
       );
-    }
-
-    if (newIndex > lengthLine) {
       dispatch(boardActions.changeIndexLineSelected({newIndex: lengthLine}));
       dispatch(boardActions.changeTypeSelected({newTypeSelected: 'line'}));
       return;
     }
+
     if (!isLine) {
-      dispatch(boardActions.changeIndexLineSelected({newIndex: lengthLine}));
+      dispatch(boardActions.changeIndexLineSelected({newIndex: newIndex}));
       dispatch(boardActions.changeTypeSelected({newTypeSelected: 'line'}));
       return;
     }
     dispatch(boardActions.changeTypeSelected({newTypeSelected: 'angle'}));
-  };
+  }, [flashingDataDraft, indexLineSelected]);
 
   const handleBackLineSelected = React.useCallback(() => {
     if (indexLineSelected === 0 && isLine) {
@@ -129,6 +128,7 @@ const Measurement = () => {
   }, [indexLineSelected, typeSelected]);
 
   const handleDoneSize = (newSize: number) => {
+    console.log('=>handleDoneSize::');
     if (!pointSelected || !flashingDataDraft) return;
 
     if (isNaN(newSize)) return;
@@ -143,6 +143,7 @@ const Measurement = () => {
       return;
     }
 
+    if (newSize === pointSelected.sizeLine) return;
     changeMeasurement(newSize);
   };
 

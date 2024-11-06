@@ -59,7 +59,9 @@ const useCalculatePointWithNewSize = () => {
         ];
 
       const dataLineSelected = dataFlashing.dataLines[indexLine];
-      const increasing = dataLineSelected.distance < newSize;
+      const increasing = dataLineSelected.distance === newSize;
+
+      console.log('==<increasing::', increasing);
 
       if (!dataLineSelected)
         return [

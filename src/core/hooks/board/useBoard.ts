@@ -68,7 +68,7 @@ export const useBoard = ({
       ),
     );
     setGraphs(makingLines);
-  }, [flashingDataDraft]);
+  }, [flashingDataDraft, indexLineSelected]);
 
   return {
     reMakeLines: makeLines,

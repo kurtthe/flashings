@@ -62,7 +62,7 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
       positionTextY={newPoints[1] + 10}
       positionTextXRect={newPoints[0] - label.length * 5}
       positionTextYRect={newPoints[1] - 5}
-      textValue={label}
+      textValue={label ?? 'test'}
     />
   );
 };
