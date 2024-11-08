@@ -73,7 +73,7 @@ const useCalculatePointWithNewSize = () => {
 
       if (dataLineSelected.pending === 0) {
         const increasingX = dataLineSelected.distance > newSize;
-        newPoint1x = increasingX ? baseX + newSize : newSize - baseX;
+        newPoint1x = increasingX ? baseX + newSize : Math.abs(newSize - baseX);
 
         return positionLine === 'first'
           ? [[newPoint1x, baseY], dataPointStatic]
@@ -98,8 +98,10 @@ const useCalculatePointWithNewSize = () => {
   const calculateCoordinatesMiddleLines = (newSize: number) => {
     if (!dataFlashing) return;
 
+    let savePrevValue = dataFlashing.dataLines[indexLineSelected].points[1];
+
     const updatedDataLines: LINE_TYPE[] = dataFlashing.dataLines.map(
-      (currentLine, lineIndex, allLines) => {
+      (currentLine, lineIndex) => {
         if (lineIndex < indexLineSelected) {
           return currentLine;
         }
@@ -110,22 +112,20 @@ const useCalculatePointWithNewSize = () => {
           currentLine.distance,
           lineIndex,
         );
-        console.log('==================');
+        console.log('==================', lineIndex, '==================');
 
+        console.log('===<currentLine::', JSON.stringify(currentLine));
         console.log('==>newPoints::', JSON.stringify(newPoints));
+        console.log('==>savePrevValue::', JSON.stringify(savePrevValue));
 
         const previousPoint =
-          lineIndex > indexLineSelected
-            ? allLines[lineIndex - 1].points[1]
-            : currentLine.points[0];
+          lineIndex > indexLineSelected ? savePrevValue : currentLine.points[0];
 
         const updatedPoints = isCurrentLineSelected
           ? newPoints
           : [previousPoint, newPoints[1]];
-
-        console.log('===<llLines::', JSON.stringify(allLines[lineIndex - 1]));
-        console.log('===<currentLine::', JSON.stringify(currentLine));
         console.log('===<updatedPoints::', JSON.stringify(updatedPoints));
+        savePrevValue = newPoints[1];
 
         return {
           ...currentLine,
