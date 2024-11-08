@@ -40,7 +40,7 @@ const useCalculatePointWithNewSize = () => {
         return;
       }
 
-      calculateCoordinatesMiddleLines();
+      calculateCoordinatesMiddleLines(newSize);
     },
     [dataFlashing, indexLineSelected],
   );
@@ -61,11 +61,7 @@ const useCalculatePointWithNewSize = () => {
       const dataLineSelected = dataFlashing.dataLines[indexLine];
       const increasing = dataLineSelected.distance === newSize;
 
-      if (!dataLineSelected)
-        return [
-          [0, 0],
-          [0, 0],
-        ];
+      if (!dataLineSelected) return dataLineSelected;
 
       const indexDataPointStatic = positionLine === 'first' ? 1 : 0;
       const dataPointStatic = dataLineSelected.points[indexDataPointStatic];
@@ -73,69 +69,76 @@ const useCalculatePointWithNewSize = () => {
       const baseX = dataPointStatic[0];
       const baseY = dataPointStatic[1];
 
-      //convert the pending to angle
+      let newPoint1x, newPoint1y;
+
+      if (dataLineSelected.pending === 0) {
+        const increasingX = dataLineSelected.distance > newSize;
+        newPoint1x = increasingX ? baseX + newSize : newSize - baseX;
+
+        return positionLine === 'first'
+          ? [[newPoint1x, baseY], dataPointStatic]
+          : [dataPointStatic, [newPoint1x, baseY]];
+      }
+
       const arctanPending = Math.atan(dataLineSelected.pending);
-      //getting direction of the line
       const dx = Math.cos(arctanPending);
       const dy = Math.sin(arctanPending);
 
-      const newPoint1x = increasing
-        ? baseX + newSize * dx
-        : baseX - newSize * dx;
+      newPoint1x = increasing ? baseX + newSize * dx : baseX - newSize * dx;
+      newPoint1y = increasing ? baseY + newSize * dy : baseY - newSize * dy;
 
-      const newPoint1y = increasing
-        ? baseY + newSize * dy
-        : baseY - newSize * dy;
-
-      const newPoints: POINT_TYPE[] =
-        positionLine === 'first'
-          ? [[newPoint1x, newPoint1y], dataPointStatic]
-          : [dataPointStatic, [newPoint1x, newPoint1y]];
-
-      return newPoints;
+      return positionLine === 'first'
+        ? [[newPoint1x, newPoint1y], dataPointStatic]
+        : [dataPointStatic, [newPoint1x, newPoint1y]];
     },
 
     [dataFlashing],
   );
 
-  const calculateCoordinatesMiddleLines = () => {
+  const calculateCoordinatesMiddleLines = (newSize: number) => {
     if (!dataFlashing) return;
 
-    const newDataLines: LINE_TYPE[] = dataFlashing.dataLines.map(
-      (dataLineItem, indexDataLineItem, arrayItems) => {
-        if (indexDataLineItem >= indexLineSelected) {
-          const newPoints = calculateNewCoordinatesForTheLine(
-            'last',
-            dataLineItem.distance,
-            indexDataLineItem,
-          );
-
-          const getDataPrevious = indexDataLineItem > indexLineSelected;
-          const previousData = getDataPrevious
-            ? arrayItems[indexDataLineItem - 1].points[1]
-            : dataLineItem.points[0];
-
-          const newPointWithBeforeLine =
-            indexLineSelected === indexDataLineItem
-              ? newPoints
-              : [previousData, newPoints[1]];
-
-          return {
-            ...dataLineItem,
-            points: newPointWithBeforeLine,
-          };
+    const updatedDataLines: LINE_TYPE[] = dataFlashing.dataLines.map(
+      (currentLine, lineIndex, allLines) => {
+        if (lineIndex < indexLineSelected) {
+          return currentLine;
         }
 
-        return dataLineItem;
+        const isCurrentLineSelected = lineIndex === indexLineSelected;
+        const newPoints = calculateNewCoordinatesForTheLine(
+          'last',
+          currentLine.distance,
+          lineIndex,
+        );
+        console.log('==================');
+
+        console.log('==>newPoints::', JSON.stringify(newPoints));
+
+        const previousPoint =
+          lineIndex > indexLineSelected
+            ? allLines[lineIndex - 1].points[1]
+            : currentLine.points[0];
+
+        const updatedPoints = isCurrentLineSelected
+          ? newPoints
+          : [previousPoint, newPoints[1]];
+
+        console.log('===<llLines::', JSON.stringify(allLines[lineIndex - 1]));
+        console.log('===<currentLine::', JSON.stringify(currentLine));
+        console.log('===<updatedPoints::', JSON.stringify(updatedPoints));
+
+        return {
+          ...currentLine,
+          points: updatedPoints,
+          distance: isCurrentLineSelected ? newSize : currentLine.distance,
+        };
       },
     );
-
-    console.log('==>newDataLines::', JSON.stringify(newDataLines));
 
     dispatch(
       boardActions.updateDataFlashing({
         dataFlashing: {
-          dataLines: newDataLines,
+          dataLines: updatedDataLines,
         },
       }),
     );
