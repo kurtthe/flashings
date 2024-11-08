@@ -61,13 +61,12 @@ const useCalculatePointWithNewSize = () => {
       const dataLineSelected = dataFlashing.dataLines[indexLine];
       const increasing = dataLineSelected.distance === newSize;
 
-      console.log('==<increasing::', increasing);
-
       if (!dataLineSelected)
         return [
           [0, 0],
           [0, 0],
         ];
+
       const indexDataPointStatic = positionLine === 'first' ? 1 : 0;
       const dataPointStatic = dataLineSelected.points[indexDataPointStatic];
 
@@ -102,10 +101,8 @@ const useCalculatePointWithNewSize = () => {
   const calculateCoordinatesMiddleLines = () => {
     if (!dataFlashing) return;
 
-    let initialPointForNextLine: POINT_TYPE = [0, 0];
-
     const newDataLines: LINE_TYPE[] = dataFlashing.dataLines.map(
-      (dataLineItem, indexDataLineItem) => {
+      (dataLineItem, indexDataLineItem, arrayItems) => {
         if (indexDataLineItem >= indexLineSelected) {
           const newPoints = calculateNewCoordinatesForTheLine(
             'last',
@@ -113,10 +110,16 @@ const useCalculatePointWithNewSize = () => {
             indexDataLineItem,
           );
 
+          const getDataPrevious = indexDataLineItem > indexLineSelected;
+          const previousData = getDataPrevious
+            ? arrayItems[indexDataLineItem - 1].points[1]
+            : dataLineItem.points[0];
+
           const newPointWithBeforeLine =
             indexLineSelected === indexDataLineItem
               ? newPoints
-              : [initialPointForNextLine, newPoints[1]];
+              : [previousData, newPoints[1]];
+
           return {
             ...dataLineItem,
             points: newPointWithBeforeLine,
@@ -126,6 +129,8 @@ const useCalculatePointWithNewSize = () => {
         return dataLineItem;
       },
     );
+
+    console.log('==>newDataLines::', JSON.stringify(newDataLines));
 
     dispatch(
       boardActions.updateDataFlashing({

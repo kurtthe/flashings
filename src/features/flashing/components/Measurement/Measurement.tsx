@@ -22,9 +22,10 @@ import useCalculatePointWithNewSize from '@hooks/board/useCalculatePointWithNewS
 
 const Measurement = () => {
   const dispatch = useAppDispatch();
+  const indexLineSelected = useAppSelector(getIndexLineSelected);
+
   const isFront = useAppSelector(getSideTapered);
 
-  const indexLineSelected = useAppSelector(getIndexLineSelected);
   const stepBoard = useAppSelector(getStep);
   const typeSelected = useAppSelector(getTypeSelected);
 
@@ -42,7 +43,7 @@ const Measurement = () => {
 
   const isLine = React.useMemo(() => {
     return typeSelected === 'line';
-  }, [typeSelected]);
+  }, [typeSelected, indexLineSelected]);
 
   React.useEffect(() => {
     if (!flashingDataDraft) return;
@@ -88,24 +89,33 @@ const Measurement = () => {
     if (!flashingDataDraft) return;
 
     const newIndex = indexLineSelected + 1;
-    const lengthLine = flashingDataDraft.dataLines.length - 1;
 
+    const lengthLine = flashingDataDraft.dataLines.length - 1;
     if (newIndex > lengthLine) {
       dispatch(
         boardActions.changeStep({step: getIndexOfStepForName('end_type')}),
       );
-      dispatch(boardActions.changeIndexLineSelected({newIndex: lengthLine}));
       dispatch(boardActions.changeTypeSelected({newTypeSelected: 'line'}));
+      dispatch(
+        boardActions.changeIndexLineSelected({
+          newIndex: lengthLine,
+        }),
+      );
       return;
     }
 
     if (!isLine) {
-      dispatch(boardActions.changeIndexLineSelected({newIndex: newIndex}));
       dispatch(boardActions.changeTypeSelected({newTypeSelected: 'line'}));
+      dispatch(
+        boardActions.changeIndexLineSelected({
+          newIndex,
+        }),
+      );
       return;
     }
+
     dispatch(boardActions.changeTypeSelected({newTypeSelected: 'angle'}));
-  }, [flashingDataDraft, indexLineSelected]);
+  }, [flashingDataDraft, indexLineSelected, isLine]);
 
   const handleBackLineSelected = React.useCallback(() => {
     if (indexLineSelected === 0 && isLine) {
@@ -128,7 +138,6 @@ const Measurement = () => {
   }, [indexLineSelected, typeSelected]);
 
   const handleDoneSize = (newSize: number) => {
-    console.log('=>handleDoneSize::');
     if (!pointSelected || !flashingDataDraft) return;
 
     if (isNaN(newSize)) return;
