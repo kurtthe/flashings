@@ -1,5 +1,5 @@
-import { FLASHINGS_DATA, RAIN_HEAD, SUMB } from '@models/flashings';
-import { formKeys } from '@features/jobs/constants';
+import {FLASHINGS_DATA, RAIN_HEAD, SUMB} from '@models/flashings';
+import {formKeys} from '@features/jobs/constants';
 
 export type JOB_GUTTER = {
   id: number;
@@ -50,6 +50,8 @@ export type JOB_DATA = JOB_DATA_COMMON & {
   flashings: FLASHINGS_DATA[];
   rain_heads: RAIN_HEAD[];
   sumbs: SUMB[];
+  date_created: string;
+  date_updated: string;
 };
 
 export type JOB_EDIT = JOB_DATA_COMMON;
@@ -151,8 +153,8 @@ export type DATA_MATERIAL_ORDER = {
   status: string;
   tax_exclusive: boolean;
   attachments: ATTACHMENTS_MATERIAL_ORDER[];
-  sections: Array<{ items: SECTIONS_MATERIAL_ORDER[] }>;
-  burdens_data: Array<{ index: number; value: string }>;
+  sections: Array<{items: SECTIONS_MATERIAL_ORDER[]}>;
+  burdens_data: Array<{index: number; value: string}>;
   delivery_instructions: {
     delivery: string;
     location: string;
