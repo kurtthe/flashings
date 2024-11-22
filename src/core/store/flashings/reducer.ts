@@ -1,6 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {actions} from '@store/flashings/actions';
 import {FLASHINGS_DATA} from '@models';
+import {formatDate} from '@shared/utils/formatDate';
 
 type initialStateType = {
   sideTaperedFront: boolean;
@@ -30,7 +31,11 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
 
   builder.addCase(actions.addFlashingDraft, (state, action) => {
     const {dataFlashing, jobId, step, isEdit} = action.payload;
-    state.flashingDraft = dataFlashing;
+    state.flashingDraft = {
+      ...dataFlashing,
+      date_created: formatDate(new Date(), 'YYYY-MM-DD'),
+      date_updated: formatDate(new Date(), 'YYYY-MM-DD'),
+    };
     state.jobId = jobId;
     state.isEdit = isEdit ?? false;
     if (step) {
@@ -42,7 +47,11 @@ const flashingsReducer = createReducer(INITIAL_STATE, builder => {
     const {dataFlashing} = action.payload;
     const previousState = state.flashingDraft;
     if (!previousState) return;
-    state.flashingDraft = {...previousState, ...dataFlashing};
+    state.flashingDraft = {
+      ...previousState,
+      ...dataFlashing,
+      date_updated: formatDate(new Date(), 'YYYY-MM-DD'),
+    };
   });
   builder.addCase(actions.changeEndTypeLine, (state, action) => {
     const {newType} = action.payload;

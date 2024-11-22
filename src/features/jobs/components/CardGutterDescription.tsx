@@ -1,16 +1,16 @@
 import React from 'react';
-import { Box, Button, Text } from '@ui/components';
-import { FlatList } from 'react-native';
-import { FLASHINGS_DATA } from '@models';
+import {Box, Button, Text} from '@ui/components';
+import {FlatList} from 'react-native';
+import {FLASHINGS_DATA} from '@models';
 import ModalAddLengths from '@features/jobs/components/ModalAddLengths';
-import { getBends, getGirth, getMaterial } from '@shared/utils/JobOrders';
+import {getBends, getGirth, getMaterial} from '@shared/utils/JobOrders';
 
 type Props = {
   data: FLASHINGS_DATA;
   jobId: number;
   title: string;
 };
-const CardGutterDescription: React.FC<Props> = ({ data, jobId, title }) => {
+const CardGutterDescription: React.FC<Props> = ({data, jobId, title}) => {
   const [visibleModalLength, setVisibleModalLength] = React.useState(false);
 
   const renderFlashingLengths = () => {
@@ -22,7 +22,7 @@ const CardGutterDescription: React.FC<Props> = ({ data, jobId, title }) => {
           scrollEnabled={false}
           keyExtractor={(item, index) => `textLength-${index}${item.qty}`}
           data={data.flashingLengths}
-          renderItem={({ item, index }) => (
+          renderItem={({item, index}) => (
             <Box flexDirection="row" flexWrap="wrap">
               <Text variant="bodySmallRegular">
                 {item.length}mm x {item.qty}
@@ -52,9 +52,8 @@ const CardGutterDescription: React.FC<Props> = ({ data, jobId, title }) => {
         <Text variant="bodyLabelTextfield" fontWeight="bold" color="black">
           {title}
         </Text>
-        <Text
-          variant="bodySmallRegular"
-          style={{ textTransform: 'capitalize' }}>
+
+        <Text variant="bodySmallRegular" style={{textTransform: 'capitalize'}}>
           0.55 {getMaterial(data.colourMaterial).label}
         </Text>
         <Box
@@ -83,6 +82,10 @@ const CardGutterDescription: React.FC<Props> = ({ data, jobId, title }) => {
             </Text>
           </Box>
         )}
+        <Text variant="bodyLabelTextfield" mt="s">
+          created {data.date_created}
+        </Text>
+        <Text variant="bodyLabelTextfield">updated {data.date_updated}</Text>
       </Box>
 
       <ModalAddLengths

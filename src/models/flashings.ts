@@ -8,7 +8,7 @@ export type LINE_TYPE = {
   letterLine?: string;
 };
 
-export type FLASHING_LENGTHS = { qty: number; length: number };
+export type FLASHING_LENGTHS = {qty: number; length: number};
 
 export type FLASHINGS_DATA = {
   id: number;
@@ -21,6 +21,8 @@ export type FLASHINGS_DATA = {
   endType: TYPE_END_LINES;
   startType: TYPE_END_LINES;
   imgPreview: string | undefined;
+  date_created: string;
+  date_updated: string;
   tapered:
     | {
         front: LINE_TYPE[];
