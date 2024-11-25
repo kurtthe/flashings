@@ -10,8 +10,10 @@ export const useLogin = ({onSuccess, onSettled, onError}: DATA_HOOK) => {
   });
 };
 
-export const useLoginDashboard = (): UseQueryResult<{url: string}, any> =>
+export const useLoginDashboard = (
+  orderId?: string,
+): UseQueryResult<{url: string}, any> =>
   useQuery({
-    queryFn: () => loginDashboardService(),
+    queryFn: () => loginDashboardService(orderId),
     queryKey: ['login_dashboard'],
   });

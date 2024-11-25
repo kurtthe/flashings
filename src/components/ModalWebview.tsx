@@ -8,9 +8,10 @@ import {CloseIcon} from '@assets/icons';
 type Props = {
   visible: boolean;
   url: string;
+  onClose?: () => void;
 };
 
-const ModalWebview: React.FC<Props> = ({visible, url}) => {
+const ModalWebview: React.FC<Props> = ({visible, url, onClose}) => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
 
   React.useEffect(() => {
@@ -27,7 +28,10 @@ const ModalWebview: React.FC<Props> = ({visible, url}) => {
         <Box width="100%" alignItems="flex-end">
           <IconButton
             icon={<Icon as={CloseIcon} color="base300" />}
-            onPress={() => modalBottomRef.current?.hide()}
+            onPress={() => {
+              modalBottomRef.current?.hide();
+              onClose?.();
+            }}
           />
         </Box>
         <WebView source={{uri: url}} />

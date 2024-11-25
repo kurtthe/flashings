@@ -33,7 +33,7 @@ const JobDetailsScreen = () => {
   const {jobId} = route.params;
   const item = useAppSelector(state => jobData(state, jobId));
   const {data: dataAccountCompany} = useGetAccountAndCompany();
-  const {data: urlDashboardLogin} = useLoginDashboard();
+  const {data: urlDashboardLogin} = useLoginDashboard(item?.orderData?.id);
 
   const getCommonMaterial = (): number | null => {
     if (!item || item.flashings.length < 1) return null;
@@ -118,7 +118,11 @@ const JobDetailsScreen = () => {
             {item.orderData && (
               <Text variant="bodyBold" my="xxs">
                 Order Number:{' '}
-                <Text variant="bodyRegular">{item.orderData.orderNumber}</Text>
+                <Text
+                  variant="subheadMediumLink"
+                  onPress={() => setModalPage(true)}>
+                  {item.orderData.orderNumber}
+                </Text>
               </Text>
             )}
             {item.orderData && (
@@ -132,27 +136,14 @@ const JobDetailsScreen = () => {
               </Text>
             )}
             {item.orderData && urlDashboardLogin && (
-              <>
-                <Box>
-                  <Text variant="bodyBold" my="xs">
-                    Trak order:{' '}
-                    <Text
-                      onPress={() => setModalPage(true)}
-                      variant="subheadMediumLink">
-                      View site
-                    </Text>
-                  </Text>
-                </Box>
-
-                <Text variant="bodyBold" my="xxs">
-                  PDF:{' '}
-                  <Text
-                    onPress={() => modalBottomRef.current?.show()}
-                    variant="subheadMediumLink">
-                    View PDF
-                  </Text>
+              <Text variant="bodyBold" my="xxs">
+                PDF:{' '}
+                <Text
+                  onPress={() => modalBottomRef.current?.show()}
+                  variant="subheadMediumLink">
+                  View PDF
                 </Text>
-              </>
+              </Text>
             )}
           </Box>
         </Box>
@@ -198,6 +189,7 @@ const JobDetailsScreen = () => {
         visible={modalPage}
         // url={`https://app.trak.co/material-order/${item.orderData?.id}`}
         url={urlDashboardLogin?.url ?? ''}
+        onClose={() => setModalPage(false)}
       />
 
       <ModalBottom

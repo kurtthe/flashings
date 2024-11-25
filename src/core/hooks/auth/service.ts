@@ -40,10 +40,14 @@ export const forgotPasswordService = async (email: string) => {
   return Promise.resolve(response?.body);
 };
 
-export const loginDashboardService = async () => {
+export const loginDashboardService = async (idOrder?: string) => {
+  let urlMaterialOrder = '/material-order';
+  if (idOrder) {
+    urlMaterialOrder = `${urlMaterialOrder}/${idOrder}`;
+  }
   const result = await RequestService.get(endPoints.loginDashboard, {
     params: {
-      url: 'material-order/7011',
+      url: urlMaterialOrder,
     },
   });
   return Promise.resolve(result?.body);
