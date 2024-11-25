@@ -269,6 +269,7 @@ export type ORDER_TYPE_STORE = {
   urlPdf: string;
   store: string;
   date: string;
+  id: string;
 };
 
 export type ORDER_VALIDATIONS_TYPES = {

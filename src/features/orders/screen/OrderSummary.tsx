@@ -27,6 +27,7 @@ const OrderSummaryScreen: React.FC = () => {
 
   const [isLoading, setIsLoading] = React.useState(true);
   const [orderNumber, setOrderNumber] = React.useState<string | undefined>();
+  const [orderId, setOrderId] = React.useState<string>('0');
   const jobNameOrder = useAppSelector(getJobNameOrder);
   const dataUser = useAppSelector(dataUserSelector);
   const jobIdOrder = useAppSelector(getJobIdOrder);
@@ -40,8 +41,10 @@ const OrderSummaryScreen: React.FC = () => {
       onSuccess: data => {
         const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order
           .order_number;
+
         const orderId = (data as RESPONSE_MATERIAL_ORDER).order.id;
         setOrderNumber(orderNumber);
+        setOrderId(orderId.toString());
 
         if (!storeSelected) return;
 
@@ -68,6 +71,7 @@ const OrderSummaryScreen: React.FC = () => {
 
         const dataOrder: ORDER_TYPE_STORE = {
           orderNumber: `${orderNumber}`.trim(),
+          id: orderId,
           urlPdf: urlIdPdf,
           store: storeSelected.name,
           date: formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),

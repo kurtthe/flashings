@@ -1,6 +1,6 @@
-import { RequestService } from '@services/index';
-import { LOGIN_REQUEST, LOGIN_RESPONSE } from '@models';
-import { endPoints } from '@shared/endPoints';
+import {RequestService} from '@services/index';
+import {LOGIN_REQUEST, LOGIN_RESPONSE} from '@models';
+import {endPoints} from '@shared/endPoints';
 
 export const loginService = async ({
   username,
@@ -14,11 +14,19 @@ export const loginService = async ({
     password,
   });
 
-  const urlUserView = endPoints.getDataUser.replace(':id', loginResponse.body.user.id.toString())
-  const getDataCompany = await RequestService.get(urlUserView, { headers: {
-      'ttrak-key': loginResponse.body.api_key
-    }})
-  return Promise.resolve({...loginResponse.body, company: getDataCompany.headers['tradetrak-company']});
+  const urlUserView = endPoints.getDataUser.replace(
+    ':id',
+    loginResponse.body.user.id.toString(),
+  );
+  const getDataCompany = await RequestService.get(urlUserView, {
+    headers: {
+      'ttrak-key': loginResponse.body.api_key,
+    },
+  });
+  return Promise.resolve({
+    ...loginResponse.body,
+    company: getDataCompany.headers['tradetrak-company'],
+  });
 };
 
 export const forgotPasswordService = async (email: string) => {
@@ -30,4 +38,13 @@ export const forgotPasswordService = async (email: string) => {
   });
 
   return Promise.resolve(response?.body);
+};
+
+export const loginDashboardService = async () => {
+  const result = await RequestService.get(endPoints.loginDashboard, {
+    params: {
+      url: 'material-order/7011',
+    },
+  });
+  return Promise.resolve(result?.body);
 };

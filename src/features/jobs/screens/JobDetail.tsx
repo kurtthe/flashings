@@ -18,6 +18,8 @@ import {CloseIcon} from '@assets/icons';
 import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import {RoutesOrders} from '@features/orders/navigation/routes';
 import {orderActions} from '@store/orders';
+import ModalWebview from '@components/ModalWebview';
+import {useLoginDashboard} from '@hooks/auth';
 
 const JobDetailsScreen = () => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
@@ -27,9 +29,11 @@ const JobDetailsScreen = () => {
   const route =
     useRoute<RouteProp<JobsStackParamsList, RoutesJobs.JOB_DETAILS>>();
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalPage, setModalPage] = useState(false);
   const {jobId} = route.params;
   const item = useAppSelector(state => jobData(state, jobId));
   const {data: dataAccountCompany} = useGetAccountAndCompany();
+  const {data: urlDashboardLogin} = useLoginDashboard();
 
   const getCommonMaterial = (): number | null => {
     if (!item || item.flashings.length < 1) return null;
@@ -127,15 +131,28 @@ const JobDetailsScreen = () => {
                 Sent: <Text variant="bodyRegular">{item.orderData.date}</Text>
               </Text>
             )}
-            {item.orderData && (
-              <Text variant="bodyBold" my="xxs">
-                PDF:{' '}
-                <Text
-                  onPress={() => modalBottomRef.current?.show()}
-                  variant="subheadMediumLink">
-                  View PDF
+            {item.orderData && urlDashboardLogin && (
+              <>
+                <Box>
+                  <Text variant="bodyBold" my="xs">
+                    Trak order:{' '}
+                    <Text
+                      onPress={() => setModalPage(true)}
+                      variant="subheadMediumLink">
+                      View site
+                    </Text>
+                  </Text>
+                </Box>
+
+                <Text variant="bodyBold" my="xxs">
+                  PDF:{' '}
+                  <Text
+                    onPress={() => modalBottomRef.current?.show()}
+                    variant="subheadMediumLink">
+                    View PDF
+                  </Text>
                 </Text>
-              </Text>
+              </>
             )}
           </Box>
         </Box>
@@ -176,6 +193,12 @@ const JobDetailsScreen = () => {
           }
         />
       </ScrollBox>
+
+      <ModalWebview
+        visible={modalPage}
+        // url={`https://app.trak.co/material-order/${item.orderData?.id}`}
+        url={urlDashboardLogin?.url ?? ''}
+      />
 
       <ModalBottom
         backdropClosesSheet={true}

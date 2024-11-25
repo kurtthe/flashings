@@ -6,7 +6,7 @@ import type {WebViewProps} from 'react-native-webview';
 import Loading from './Loading';
 
 type Props = WebViewProps & {
-  handlePostMessage: () => void;
+  handlePostMessage?: () => void;
 };
 
 const renderErrorWebView = () => (
