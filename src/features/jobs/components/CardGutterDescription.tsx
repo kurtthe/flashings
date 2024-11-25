@@ -82,10 +82,6 @@ const CardGutterDescription: React.FC<Props> = ({data, jobId, title}) => {
             </Text>
           </Box>
         )}
-        <Text variant="bodyLabelTextfield" mt="s">
-          created {data.date_created}
-        </Text>
-        <Text variant="bodyLabelTextfield">updated {data.date_updated}</Text>
       </Box>
 
       <ModalAddLengths
