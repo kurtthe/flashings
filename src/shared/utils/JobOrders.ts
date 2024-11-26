@@ -21,6 +21,7 @@ export const getMaterial = (
       textColor: 'black',
       bold: false,
       disabled: false,
+      material: 'Galvanised',
     };
   }
 

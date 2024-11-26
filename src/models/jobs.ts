@@ -30,6 +30,7 @@ export type MATERIALS = {
   textColor: string;
   bold: boolean;
   disabled: boolean;
+  material: string | undefined;
 };
 
 export type JOB_STATE = {

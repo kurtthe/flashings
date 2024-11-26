@@ -74,18 +74,20 @@ export const mapDataJobToDataPetition = (
 const getSKU = (data: FLASHINGS_DATA) => {
   const girthFlashing = getGirth(data);
   const foldsFlashing = getBends(data);
+  const materialFlashing = getMaterial(data.colourMaterial).material;
 
-  console.log('==<foldsFlashing', foldsFlashing);
-  console.log('==<girthFlashing', girthFlashing);
-
-  const gettingSKU = SKU_RULES.find(({max_girth, min_girth, fold}) => {
-    const reallyMax = max_girth + 1;
-    return (
-      girthFlashing >= min_girth &&
-      girthFlashing <= reallyMax &&
-      foldsFlashing === fold
-    );
-  });
+  const gettingSKU = SKU_RULES.find(
+    ({max_girth, min_girth, fold, material}) => {
+      const reallyMax = max_girth + 1;
+      const removeSpace = material.trim();
+      return (
+        girthFlashing >= min_girth &&
+        girthFlashing <= reallyMax &&
+        foldsFlashing === fold &&
+        removeSpace === materialFlashing
+      );
+    },
+  );
 
   if (!gettingSKU) {
     return 'MFLC10100218';
