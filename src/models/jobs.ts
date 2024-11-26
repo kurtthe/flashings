@@ -145,6 +145,15 @@ type SECTIONS_MATERIAL_ORDER = {
   ];
 };
 
+export type NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
+  sku: string;
+  colour: string;
+  cut_tally: Array<{
+    qty: number;
+    length: number;
+  }>;
+};
+
 export type DATA_MATERIAL_ORDER = {
   name: string;
   supplier: number;
@@ -153,7 +162,7 @@ export type DATA_MATERIAL_ORDER = {
   status: string;
   tax_exclusive: boolean;
   attachments: ATTACHMENTS_MATERIAL_ORDER[];
-  sections: Array<{items: SECTIONS_MATERIAL_ORDER[]}>;
+  sections: Array<{items: NEW_TYPE_SECTIONS_MATERIAL_ORDER[]}>;
   burdens_data: Array<{index: number; value: string}>;
   delivery_instructions: {
     delivery: string;

@@ -187,7 +187,6 @@ const JobDetailsScreen = () => {
 
       <ModalWebview
         visible={modalPage}
-        // url={`https://app.trak.co/material-order/${item.orderData?.id}`}
         url={urlDashboardLogin?.url ?? ''}
         onClose={() => setModalPage(false)}
       />

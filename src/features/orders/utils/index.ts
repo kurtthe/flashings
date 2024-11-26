@@ -1,13 +1,14 @@
 import {
+  CreateOrderFormValues,
   DATA_MATERIAL_ORDER,
   JOB_DATA,
+  NEW_TYPE_SECTIONS_MATERIAL_ORDER,
   RESPONSE_COMPANY_ACCOUNT,
   STORE,
 } from '@models';
 import {formatDate} from '@shared/utils/formatDate';
 import {mapDataFlashing} from '@shared/utils/JobOrders';
 import {DATA_BUILD_MATERIAL_ORDER} from '@features/jobs/types';
-import {CreateOrderFormValues} from '@features/orders/type';
 import {
   formKeysOrders,
   optionsDelivery,
@@ -66,6 +67,19 @@ export const mapDataJobToDataPetition = (
 export const buildDataMaterialOrder = (
   data: DATA_BUILD_MATERIAL_ORDER,
 ): DATA_MATERIAL_ORDER => {
+  const dataItems: NEW_TYPE_SECTIONS_MATERIAL_ORDER[] = [
+    {
+      sku: 'test',
+      colour: 'test',
+      cut_tally: [
+        {
+          qty: 1,
+          length: 2,
+        },
+      ],
+    },
+  ];
+
   return {
     burdens_data: [],
     ...data,
@@ -73,20 +87,7 @@ export const buildDataMaterialOrder = (
     tax_exclusive: true,
     sections: [
       {
-        items: [
-          {
-            description: 'Flashing Order Per Attached Drawing Price TBD',
-            quantity: '1',
-            units: 'ea',
-            cost: '1',
-            tax: [
-              {
-                name: 'GST',
-                rate: 10,
-              },
-            ],
-          },
-        ],
+        items: dataItems,
       },
     ],
   };
