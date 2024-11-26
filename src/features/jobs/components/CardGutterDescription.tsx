@@ -66,8 +66,7 @@ const CardGutterDescription: React.FC<Props> = ({data, jobId, title}) => {
         </Box>
         {!data.tapered ? (
           <Text variant="bodySmallRegular">
-            {getBends(data)} Bend Girth -{' '}
-            {`${getGirth(data)}${config.unitMeasurement}`}
+            {getBends(data)} Bend Girth - {`0.${getGirth(data)}m`}
           </Text>
         ) : (
           <Box mt="s">

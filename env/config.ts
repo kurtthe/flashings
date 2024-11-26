@@ -24,5 +24,5 @@ export const config = {
   templateId13_15: 'BLAN384760',
   intervalForGettingVersionApp: 7200,
   nameJobMaximum: 40,
-  unitMeasurement: 'm',
+  unitMeasurement: 'mm',
 };
