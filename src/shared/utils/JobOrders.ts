@@ -1,6 +1,7 @@
 import {FLASHINGS_DATA, MATERIALS, STORE} from '@models';
 import {dataMaterials} from '@store/jobs/mocks';
 import alert from '@services/general-request/alert';
+import {config} from '@env/config';
 
 export const getMaterial = (
   idMaterial: number,
@@ -112,20 +113,21 @@ export const mapDataFlashing = (
       dataMapped[`girth_${index + 1}`] = `${getGirth(
         flashings[index],
         'front',
-      )} mm`;
+      )} ${config.unitMeasurement}`;
 
       // @ts-ignore
       dataMapped[`girth_${index + 1}_back`] = `${getGirth(
         flashings[index],
         'back',
-      )} mm`;
+      )} ${config.unitMeasurement}`;
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = 'Tapered';
     } else {
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
       // @ts-ignore
-      dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
+      dataMapped[`girth_${index + 1}`] =
+        `${getGirth(flashings[index])} ${config.unitMeasurement}`;
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = '';
     }
@@ -148,7 +150,7 @@ const mapLengthsInputs = (
     dataMapped[`flash_${numberFlashing}_${index + 1}_qty`] = dataLengths.qty;
     // @ts-ignore
     dataMapped[`flash_${numberFlashing}_${index + 1}_length`] =
-      `${dataLengths.length} mm`;
+      `${dataLengths.length} ${config.unitMeasurement}`;
   });
 
   return dataMapped;

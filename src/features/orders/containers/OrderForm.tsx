@@ -101,8 +101,6 @@ const OrderForm = () => {
         jobOrder.flashings,
       );
 
-      console.log('==>dataMaterial', JSON.stringify(dataMaterial));
-
       dispatch(orderActions.setDataMaterialOrder({data: dataMaterial}));
       dispatch(orderActions.setUrlPDF({url: `${baseUrlPDF}${fileName}`}));
       dispatch(

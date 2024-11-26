@@ -132,7 +132,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
                               ? 340
                               : 170,
                       }}
-                      suffix="mm"
+                      suffix="m"
                       returnKeyType="next"
                       keyboardType="number-pad"
                     />

@@ -13,6 +13,7 @@ import {LINE_SELECTED} from '@features/flashing/components/Board/types';
 import {useAppDispatch} from '@hooks/useStore';
 import {actions as flashingActions} from '@store/flashings/actions';
 import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
+import {config} from '@env/config';
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -143,7 +144,7 @@ const MeasurementLines: React.FC<Props> = ({
               onChangeText={onChangeValue}
             />
             <Text variant="bodyBold">
-              {typeSelected === 'line' ? 'mm' : '°'}
+              {typeSelected === 'line' ? config.unitMeasurement : '°'}
             </Text>
           </Box>
 
