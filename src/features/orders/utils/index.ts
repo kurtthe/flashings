@@ -1,19 +1,26 @@
 import {
   CreateOrderFormValues,
   DATA_MATERIAL_ORDER,
+  FLASHINGS_DATA,
   JOB_DATA,
   NEW_TYPE_SECTIONS_MATERIAL_ORDER,
   RESPONSE_COMPANY_ACCOUNT,
   STORE,
 } from '@models';
 import {formatDate} from '@shared/utils/formatDate';
-import {mapDataFlashing} from '@shared/utils/JobOrders';
+import {
+  getBends,
+  getGirth,
+  getMaterial,
+  mapDataFlashing,
+} from '@shared/utils/JobOrders';
 import {DATA_BUILD_MATERIAL_ORDER} from '@features/jobs/types';
 import {
   formKeysOrders,
   optionsDelivery,
 } from '@features/orders/constants/order';
 import {formKeys} from '@features/orders/constants';
+import {SKU_RULES} from '@shared/constants';
 
 export const mapDataJobToDataPetition = (
   dataJob: JOB_DATA,
@@ -64,21 +71,45 @@ export const mapDataJobToDataPetition = (
   };
 };
 
+const getSKU = (data: FLASHINGS_DATA) => {
+  const girthFlashing = getGirth(data);
+  const foldsFlashing = getBends(data);
+
+  console.log('==<foldsFlashing', foldsFlashing);
+  console.log('==<girthFlashing', girthFlashing);
+
+  const gettingSKU = SKU_RULES.find(({max_girth, min_girth, fold}) => {
+    const reallyMax = max_girth + 1;
+    return (
+      girthFlashing >= min_girth &&
+      girthFlashing <= reallyMax &&
+      foldsFlashing === fold
+    );
+  });
+
+  if (!gettingSKU) {
+    return 'MFLC10100218';
+  }
+  return gettingSKU.sku;
+};
+
+export const buildItemsData = (
+  dataFlashing: FLASHINGS_DATA[],
+): NEW_TYPE_SECTIONS_MATERIAL_ORDER[] => {
+  return dataFlashing.map(dataItemFlashing => {
+    return {
+      sku: getSKU(dataItemFlashing),
+      colour: getMaterial(dataItemFlashing.colourMaterial).value,
+      cut_tally: dataItemFlashing.flashingLengths,
+    };
+  });
+};
+
 export const buildDataMaterialOrder = (
   data: DATA_BUILD_MATERIAL_ORDER,
+  dataFlashing: FLASHINGS_DATA[],
 ): DATA_MATERIAL_ORDER => {
-  const dataItems: NEW_TYPE_SECTIONS_MATERIAL_ORDER[] = [
-    {
-      sku: 'test',
-      colour: 'test',
-      cut_tally: [
-        {
-          qty: 1,
-          length: 2,
-        },
-      ],
-    },
-  ];
+  const dataItems = buildItemsData(dataFlashing);
 
   return {
     burdens_data: [],

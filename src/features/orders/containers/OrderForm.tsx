@@ -34,7 +34,7 @@ import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
 import {getVersionApp} from '@store/setup/selectors';
 import Toast from 'react-native-toast-message';
-import {CreateOrderFormValues, FILL_ORDER} from '@models/order';
+import {CreateOrderFormValues} from '@models/order';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -68,35 +68,40 @@ const OrderForm = () => {
       if (!jobOrder || !dataSupplier || !storeSelected) return;
       const fileName = data.response.file_name;
 
-      const dataMaterial = buildDataMaterialOrder({
-        // @ts-ignore
-        name: jobOrder.name,
-        supplier: dataSupplier.id,
-        issued_on: formatDate(new Date(), 'YYYY-MM-DD'),
-        // @ts-ignore
-        notes: notes,
-        description: `${isQuoteOnly ? '*** QUOTE ONLY ***' : ''} Job Name: ${
-          jobOrder.name
-        } - Job Number: ${jobOrder.id} - Job Address: ${jobOrder.address}`,
-        attachments: [
-          {
-            name: `${jobOrder.name}.pdf`,
-            link: `${baseUrlPDF}${fileName}`,
+      const dataMaterial = buildDataMaterialOrder(
+        {
+          // @ts-ignore
+          name: jobOrder.name,
+          supplier: dataSupplier.id,
+          issued_on: formatDate(new Date(), 'YYYY-MM-DD'),
+          // @ts-ignore
+          notes: notes,
+          description: `${isQuoteOnly ? '*** QUOTE ONLY ***' : ''} Job Name: ${
+            jobOrder.name
+          } - Job Number: ${jobOrder.id} - Job Address: ${jobOrder.address}`,
+          attachments: [
+            {
+              name: `${jobOrder.name}.pdf`,
+              link: `${baseUrlPDF}${fileName}`,
+            },
+          ],
+          delivery_instructions: {
+            // @ts-ignore
+            delivery: deliveryOrPickUp,
+            // @ts-ignore
+            location: addressDelivery,
+            contact_name: `${dataUser.first_name} ${dataUser.last_name}`,
+            // @ts-ignore
+            contact_number: dataUser.phone_number,
+            // @ts-ignore
+            date: dateFormated,
           },
-        ],
-        delivery_instructions: {
-          // @ts-ignore
-          delivery: deliveryOrPickUp,
-          // @ts-ignore
-          location: addressDelivery,
-          contact_name: `${dataUser.first_name} ${dataUser.last_name}`,
-          // @ts-ignore
-          contact_number: dataUser.phone_number,
-          // @ts-ignore
-          date: dateFormated,
+          burdens_data: burdensData,
         },
-        burdens_data: burdensData,
-      });
+        jobOrder.flashings,
+      );
+
+      console.log('==>dataMaterial', JSON.stringify(dataMaterial));
 
       dispatch(orderActions.setDataMaterialOrder({data: dataMaterial}));
       dispatch(orderActions.setUrlPDF({url: `${baseUrlPDF}${fileName}`}));

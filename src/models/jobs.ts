@@ -1,4 +1,9 @@
-import {FLASHINGS_DATA, RAIN_HEAD, SUMB} from '@models/flashings';
+import {
+  FLASHING_LENGTHS,
+  FLASHINGS_DATA,
+  RAIN_HEAD,
+  SUMB,
+} from '@models/flashings';
 import {formKeys} from '@features/jobs/constants';
 
 export type JOB_GUTTER = {
@@ -148,10 +153,7 @@ type SECTIONS_MATERIAL_ORDER = {
 export type NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
   sku: string;
   colour: string;
-  cut_tally: Array<{
-    qty: number;
-    length: number;
-  }>;
+  cut_tally: FLASHING_LENGTHS[];
 };
 
 export type DATA_MATERIAL_ORDER = {
