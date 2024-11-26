@@ -102,7 +102,10 @@ export const buildItemsData = (
     return {
       sku: getSKU(dataItemFlashing),
       colour: getMaterial(dataItemFlashing.colourMaterial).value,
-      cut_tally: dataItemFlashing.flashingLengths,
+      cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
+        ...itemLengths,
+        length: `0.${itemLengths}` as any as number,
+      })),
     };
   });
 };
