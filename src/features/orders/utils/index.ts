@@ -1,18 +1,26 @@
 import {
+  CreateOrderFormValues,
   DATA_MATERIAL_ORDER,
+  FLASHINGS_DATA,
   JOB_DATA,
+  NEW_TYPE_SECTIONS_MATERIAL_ORDER,
   RESPONSE_COMPANY_ACCOUNT,
   STORE,
 } from '@models';
 import {formatDate} from '@shared/utils/formatDate';
-import {mapDataFlashing} from '@shared/utils/JobOrders';
+import {
+  getBends,
+  getGirth,
+  getMaterial,
+  mapDataFlashing,
+} from '@shared/utils/JobOrders';
 import {DATA_BUILD_MATERIAL_ORDER} from '@features/jobs/types';
-import {CreateOrderFormValues} from '@features/orders/type';
 import {
   formKeysOrders,
   optionsDelivery,
 } from '@features/orders/constants/order';
 import {formKeys} from '@features/orders/constants';
+import {SKU_RULES} from '@shared/constants';
 
 export const mapDataJobToDataPetition = (
   dataJob: JOB_DATA,
@@ -63,9 +71,51 @@ export const mapDataJobToDataPetition = (
   };
 };
 
+const getSKU = (data: FLASHINGS_DATA) => {
+  const girthFlashing = getGirth(data);
+  const foldsFlashing = getBends(data);
+  const materialFlashing = getMaterial(data.colourMaterial).material;
+
+  const gettingSKU = SKU_RULES.find(
+    ({max_girth, min_girth, fold, material}) => {
+      const reallyMax = max_girth + 1;
+      const removeSpace = material.trim();
+      return (
+        girthFlashing >= min_girth &&
+        girthFlashing <= reallyMax &&
+        foldsFlashing === fold &&
+        removeSpace === materialFlashing
+      );
+    },
+  );
+
+  if (!gettingSKU) {
+    return 'MFLC10100218';
+  }
+  return gettingSKU.sku;
+};
+
+export const buildItemsData = (
+  dataFlashing: FLASHINGS_DATA[],
+): NEW_TYPE_SECTIONS_MATERIAL_ORDER[] => {
+  return dataFlashing.map(dataItemFlashing => {
+    return {
+      sku: getSKU(dataItemFlashing),
+      colour: getMaterial(dataItemFlashing.colourMaterial).value,
+      cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
+        ...itemLengths,
+        length: `0.${itemLengths}` as any as number,
+      })),
+    };
+  });
+};
+
 export const buildDataMaterialOrder = (
   data: DATA_BUILD_MATERIAL_ORDER,
+  dataFlashing: FLASHINGS_DATA[],
 ): DATA_MATERIAL_ORDER => {
+  const dataItems = buildItemsData(dataFlashing);
+
   return {
     burdens_data: [],
     ...data,
@@ -73,20 +123,7 @@ export const buildDataMaterialOrder = (
     tax_exclusive: true,
     sections: [
       {
-        items: [
-          {
-            description: 'Flashing Order Per Attached Drawing Price TBD',
-            quantity: '1',
-            units: 'ea',
-            cost: '1',
-            tax: [
-              {
-                name: 'GST',
-                rate: 10,
-              },
-            ],
-          },
-        ],
+        items: dataItems,
       },
     ],
   };

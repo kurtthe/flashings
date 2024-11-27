@@ -13,6 +13,7 @@ import {LINE_SELECTED} from '@features/flashing/components/Board/types';
 import {getDataFlashingDraft, getSideTapered} from '@store/flashings/selectors';
 import {actions as flashingActions} from '@store/flashings/actions';
 import {getIndexOfStepForName} from '@features/flashing/utils';
+import {config} from '@env/config';
 
 type Props = {
   onChangeIndexSelected: (newIndexSelected: number) => void;
@@ -225,7 +226,7 @@ const TaperedLines: React.FC<Props> = ({onChangeIndexSelected}) => {
               value={`${isNaN(measurement) ? '0' : measurement}`}
               onChangeText={onChangeValue}
             />
-            <Text variant="bodyBold">mm</Text>
+            <Text variant="bodyBold">{config.unitMeasurement}</Text>
           </Box>
 
           <Box as={BaseTouchable} onPress={handleNext}>

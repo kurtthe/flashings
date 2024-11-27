@@ -1,4 +1,9 @@
-import {FLASHINGS_DATA, RAIN_HEAD, SUMB} from '@models/flashings';
+import {
+  FLASHING_LENGTHS,
+  FLASHINGS_DATA,
+  RAIN_HEAD,
+  SUMB,
+} from '@models/flashings';
 import {formKeys} from '@features/jobs/constants';
 
 export type JOB_GUTTER = {
@@ -25,6 +30,7 @@ export type MATERIALS = {
   textColor: string;
   bold: boolean;
   disabled: boolean;
+  material: string | undefined;
 };
 
 export type JOB_STATE = {
@@ -145,6 +151,12 @@ type SECTIONS_MATERIAL_ORDER = {
   ];
 };
 
+export type NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
+  sku: string;
+  colour: string;
+  cut_tally: FLASHING_LENGTHS[];
+};
+
 export type DATA_MATERIAL_ORDER = {
   name: string;
   supplier: number;
@@ -153,7 +165,7 @@ export type DATA_MATERIAL_ORDER = {
   status: string;
   tax_exclusive: boolean;
   attachments: ATTACHMENTS_MATERIAL_ORDER[];
-  sections: Array<{items: SECTIONS_MATERIAL_ORDER[]}>;
+  sections: Array<{items: NEW_TYPE_SECTIONS_MATERIAL_ORDER[]}>;
   burdens_data: Array<{index: number; value: string}>;
   delivery_instructions: {
     delivery: string;

@@ -39,6 +39,9 @@ import Loading from '@components/Loading';
 import {actions as templateActions} from '@store/templates/actions';
 import {actions as flashingActions} from '@store/flashings/actions';
 import {MenuEditorComponent} from '@features/flashing/components';
+import {getBends, getGirth} from '@shared/utils/JobOrders';
+import Toast from 'react-native-toast-message';
+import {config} from '@env/config';
 
 const BoardContainer = () => {
   const dispatch = useAppDispatch();
@@ -118,6 +121,27 @@ const BoardContainer = () => {
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (!flashingDataDraft) return;
+
+    const getHowManyFolds = getBends(flashingDataDraft);
+    const getHowManyGirth = getGirth(flashingDataDraft);
+    if (getHowManyFolds > 7) {
+      Toast.show({
+        position: 'bottom',
+        text1: `You can't add more than 7 folds.`,
+        type: 'info',
+      });
+      return;
+    }
+
+    if (getHowManyGirth > 1300) {
+      Toast.show({
+        position: 'bottom',
+        text1: `Girth must not exceed 1300 ${config.unitMeasurement}`,
+        type: 'info',
+      });
+      return;
+    }
+
     if (flashingDataDraft.dataLines.length < 1) {
       const dataLine: LINE_TYPE = {
         points: [newPoint],

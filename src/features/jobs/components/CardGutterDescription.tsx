@@ -4,6 +4,7 @@ import {FlatList} from 'react-native';
 import {FLASHINGS_DATA} from '@models';
 import ModalAddLengths from '@features/jobs/components/ModalAddLengths';
 import {getBends, getGirth, getMaterial} from '@shared/utils/JobOrders';
+import {config} from '@env/config';
 
 type Props = {
   data: FLASHINGS_DATA;
@@ -25,7 +26,8 @@ const CardGutterDescription: React.FC<Props> = ({data, jobId, title}) => {
           renderItem={({item, index}) => (
             <Box flexDirection="row" flexWrap="wrap">
               <Text variant="bodySmallRegular">
-                {item.length}mm x {item.qty}
+                {item.length}
+                {config.unitMeasurement} x {item.qty}
               </Text>
               {data.flashingLengths.length === index + 1 && !data.tapered && (
                 <Button
@@ -64,7 +66,7 @@ const CardGutterDescription: React.FC<Props> = ({data, jobId, title}) => {
         </Box>
         {!data.tapered ? (
           <Text variant="bodySmallRegular">
-            {getBends(data)} Bend Girth - {`${getGirth(data)}mm`}
+            {getBends(data)} Bend Girth - {`0.${getGirth(data)}m`}
           </Text>
         ) : (
           <Box mt="s">
@@ -72,13 +74,15 @@ const CardGutterDescription: React.FC<Props> = ({data, jobId, title}) => {
               Front End
             </Text>
             <Text variant="bodySmallRegular">
-              {getBends(data)} Bend Girth - {`${getGirth(data, 'front')}mm`}
+              {getBends(data)} Bend Girth -{' '}
+              {`${getGirth(data, 'front')}${config.unitMeasurement}`}
             </Text>
             <Text variant="bodyLabelTextfield" fontWeight="bold" color="black">
               Back End
             </Text>
             <Text variant="bodySmallRegular">
-              {getBends(data)} Bend Girth - {`${getGirth(data, 'back')}mm`}
+              {getBends(data)} Bend Girth -{' '}
+              {`${getGirth(data, 'back')}${config.unitMeasurement}`}
             </Text>
           </Box>
         )}
