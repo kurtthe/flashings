@@ -5439,14 +5439,4 @@ export const SKU_RULES = [
     fold: 7,
     material: 'Zinc ',
   },
-  // {
-  //   sku: 'MFLTAPER',
-  //   name: 'BURDENS FLASHING .55BMT TAPER CUTTING CHARGE PER METRE',
-  //   category: '0,55',
-  //   girth: null,
-  //   min_girth: null,
-  //   max_girth: null,
-  //   fold: null,
-  //   material: '',
-  // },
 ];
