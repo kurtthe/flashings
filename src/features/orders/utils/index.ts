@@ -89,6 +89,10 @@ const getSKU = (data: FLASHINGS_DATA) => {
     },
   );
 
+  if (data.tapered) {
+    return 'MFLTAPER';
+  }
+
   if (!gettingSKU) {
     return 'MFLC10100218';
   }
@@ -102,10 +106,21 @@ export const buildItemsData = (
     return {
       sku: getSKU(dataItemFlashing),
       colour: getMaterial(dataItemFlashing.colourMaterial).value,
-      cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
-        ...itemLengths,
-        length: `0.${itemLengths}` as any as number,
-      })),
+      cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => {
+        if (dataItemFlashing.tapered) {
+          const foldsResultDivider = itemLengths.qty / 1000;
+          const foldMultiplication = itemLengths.qty * foldsResultDivider;
+
+          return {
+            ...itemLengths,
+            length: foldMultiplication,
+          };
+        }
+        return {
+          ...itemLengths,
+          length: `0.${itemLengths}` as any as number,
+        };
+      }),
     };
   });
 };
