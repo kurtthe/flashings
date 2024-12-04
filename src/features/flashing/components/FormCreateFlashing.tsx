@@ -13,6 +13,7 @@ import {dataMaterials} from '@store/jobs/mocks';
 import {Alert} from 'react-native';
 import {isTablet} from '@shared/platform';
 import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
+import {config} from '@env/config';
 
 type Props = {
   labelButton: string;
@@ -132,7 +133,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
                               ? 340
                               : 170,
                       }}
-                      suffix="m"
+                      suffix={config.unitMeasurement}
                       returnKeyType="next"
                       keyboardType="number-pad"
                     />

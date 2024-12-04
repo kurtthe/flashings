@@ -35,7 +35,11 @@ export const useCompareVersionApp = () => {
   }, [storeUrl]);
 
   useEffect(() => {
-    if (!remoteVersion || localVersion === remoteVersion) return;
+    if (!remoteVersion) return;
+
+    const localVersionConvertNumber = parseFloat(localVersion);
+    const remoteVersionConvertNumber = parseFloat(remoteVersion);
+    if (localVersionConvertNumber >= remoteVersionConvertNumber) return;
 
     Toast.show({
       position: 'bottom',

@@ -28,8 +28,12 @@ const CardJobComponent: React.FC<Props> = ({job, isArchived}) => {
     <Card>
       <Text variant="subheadSmall">{job.name}</Text>
       <Text variant="menuEditor">Status: {job.contact.name}</Text>
-      <Text variant="menuEditor">Date Created: {`${job.date_created}`}</Text>
-      <Text variant="menuEditor">Date Updated: {`${job.date_updated}`}</Text>
+      {job.date_created && (
+        <Text variant="menuEditor">Date Created: {`${job.date_created}`}</Text>
+      )}
+      {job.date_updated && (
+        <Text variant="menuEditor">Date Updated: {`${job.date_updated}`}</Text>
+      )}
       <Text variant="menuEditor">Job Number: {job.number}</Text>
       <Text variant="menuEditor">Job Address: {job.address}</Text>
       <Box

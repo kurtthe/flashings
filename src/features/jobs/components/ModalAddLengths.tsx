@@ -63,7 +63,7 @@ const ModalAddLengths: React.FC<Props> = ({
               value={qty}
               style={{width: 150}}
               keyboardType="numeric"
-              mr="s"
+              marginRight="s"
               isRequired
             />
             <Input
