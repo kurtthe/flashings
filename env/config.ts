@@ -25,4 +25,6 @@ export const config = {
   intervalForGettingVersionApp: 7200,
   nameJobMaximum: 40,
   unitMeasurement: 'mm',
+  maxFolds: 7,
+  maxGirth: 1300,
 };

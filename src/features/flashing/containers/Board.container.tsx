@@ -58,7 +58,6 @@ const BoardContainer = () => {
   const [loading, setLoading] = React.useState(false);
   const refViewShot = React.useRef<ViewShot>(null);
   const showKeyboard = useKeyboardVisibility({});
-  const isFront = useAppSelector(state => getSideTapered(state));
 
   const isSaveTapered = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('save_tapered');
@@ -124,19 +123,19 @@ const BoardContainer = () => {
 
     const getHowManyFolds = getBends(flashingDataDraft);
     const getHowManyGirth = getGirth(flashingDataDraft);
-    if (getHowManyFolds > 7) {
+    if (getHowManyFolds >= config.maxFolds) {
       Toast.show({
         position: 'bottom',
-        text1: `You can't add more than 7 folds.`,
+        text1: `You can't add more than ${config.maxFolds} bends.`,
         type: 'info',
       });
       return;
     }
 
-    if (getHowManyGirth > 1300) {
+    if (getHowManyGirth >= config.maxGirth) {
       Toast.show({
         position: 'bottom',
-        text1: `Girth must not exceed 1300 ${config.unitMeasurement}`,
+        text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,
         type: 'info',
       });
       return;

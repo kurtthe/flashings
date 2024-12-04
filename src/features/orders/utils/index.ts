@@ -119,7 +119,7 @@ export const buildItemsData = (
         }
         return {
           ...itemLengths,
-          length: `0.${itemLengths.length}` as any as number,
+          length: getGirth(dataItemFlashing) / 1000,
         };
       }),
     };

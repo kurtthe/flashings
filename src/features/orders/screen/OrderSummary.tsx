@@ -39,10 +39,6 @@ const OrderSummaryScreen: React.FC = () => {
   const {mutate: doMaterialOrder, isLoading: loadingMaterialOrder} =
     useCreateMaterial({
       onSuccess: data => {
-        console.log(
-          'useCreateMaterial response==>data::',
-          JSON.stringify(data),
-        );
         const orderNumber = (data as RESPONSE_MATERIAL_ORDER).order
           .order_number;
 

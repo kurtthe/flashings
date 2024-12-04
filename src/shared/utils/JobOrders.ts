@@ -57,20 +57,27 @@ export const getGirth = (
 };
 
 export const getBends = (data: FLASHINGS_DATA) => {
+  const isStart = data.startType !== 'none';
+  const isEnd = data.endType !== 'none';
+
   const pointers = data.dataLines.map(lineInfo => lineInfo.points);
+  const lengthPointer =
+    isStart || isEnd ? pointers.length : pointers.length + 1;
 
   let addTo = 0;
-  if (data.startType !== 'none') {
-    const valueToAdd = data.startType.includes('safety') ? 2 : 1;
-    addTo += valueToAdd;
-  }
-  if (data.endType !== 'none') {
-    const valueToAdd = data.endType.includes('safety') ? 2 : 1;
+
+  if (isStart) {
+    const valueToAdd = !isEnd ? 2 : 1;
     addTo += valueToAdd;
   }
 
-  const lengthPoint = pointers.length - 1 + addTo;
-  return lengthPoint ?? 0;
+  if (isEnd) {
+    const valueToAdd = !isStart ? 2 : 1;
+    addTo += valueToAdd;
+  }
+
+  const lengthPoint = lengthPointer + addTo;
+  return lengthPoint ? lengthPoint - 2 : 0;
 };
 
 export const mapDataFlashing = (
