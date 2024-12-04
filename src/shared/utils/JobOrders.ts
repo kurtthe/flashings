@@ -1,4 +1,4 @@
-import {FLASHINGS_DATA, MATERIALS, STORE} from '@models';
+import {FLASHING_LENGTHS, FLASHINGS_DATA, MATERIALS, STORE} from '@models';
 import {dataMaterials} from '@store/jobs/mocks';
 import alert from '@services/general-request/alert';
 import {config} from '@env/config';
@@ -153,4 +153,8 @@ const mapLengthsInputs = (
   });
 
   return dataMapped;
+};
+
+export const getValueLengthsTapered = (data: FLASHING_LENGTHS[]): number => {
+  return data.reduce((total, {length, qty}) => total + length * qty, 0);
 };

@@ -12,6 +12,7 @@ import {
   getBends,
   getGirth,
   getMaterial,
+  getValueLengthsTapered,
   mapDataFlashing,
 } from '@shared/utils/JobOrders';
 import {DATA_BUILD_MATERIAL_ORDER} from '@features/jobs/types';
@@ -103,25 +104,30 @@ export const buildItemsData = (
   dataFlashing: FLASHINGS_DATA[],
 ): NEW_TYPE_SECTIONS_MATERIAL_ORDER[] => {
   return dataFlashing.map(dataItemFlashing => {
-    return {
+    const data: NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
       sku: getSKU(dataItemFlashing),
-      colour: getMaterial(dataItemFlashing.colourMaterial).value,
       cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => {
         if (dataItemFlashing.tapered) {
-          const foldsResultDivider = itemLengths.qty / 1000;
-          const foldMultiplication = itemLengths.qty * foldsResultDivider;
+          const valueLengthsTapered = getValueLengthsTapered(
+            dataItemFlashing.flashingLengths,
+          );
 
           return {
             ...itemLengths,
-            length: foldMultiplication,
+            length: valueLengthsTapered,
           };
         }
         return {
           ...itemLengths,
-          length: `0.${itemLengths}` as any as number,
+          length: `0.${itemLengths.length}` as any as number,
         };
       }),
     };
+    if (!dataItemFlashing.tapered) {
+      data['colour'] = getMaterial(dataItemFlashing.colourMaterial).value;
+    }
+
+    return data;
   });
 };
 
@@ -134,6 +140,7 @@ export const buildDataMaterialOrder = (
   return {
     burdens_data: [],
     ...data,
+
     status: 'Draft',
     tax_exclusive: true,
     sections: [
