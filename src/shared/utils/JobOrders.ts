@@ -56,28 +56,20 @@ export const getGirth = (
   return sizeLines.reduce((a, b) => a + b, 0) + breaksAdd;
 };
 
-export const getBends = (data: FLASHINGS_DATA) => {
+export const getBends = (data: FLASHINGS_DATA): number => {
   const isStart = data.startType !== 'none';
   const isEnd = data.endType !== 'none';
 
-  const pointers = data.dataLines.map(lineInfo => lineInfo.points);
-  const lengthPointer =
-    isStart || isEnd ? pointers.length : pointers.length + 1;
+  const numberOfPoints = data.dataLines.length;
 
-  let addTo = 0;
-
-  if (isStart) {
-    const valueToAdd = !isEnd ? 2 : 1;
-    addTo += valueToAdd;
+  let baseLength = numberOfPoints + 1;
+  if (isStart && isEnd) {
+    baseLength += 2;
+  } else if (isStart || isEnd) {
+    baseLength += 1;
   }
 
-  if (isEnd) {
-    const valueToAdd = !isStart ? 2 : 1;
-    addTo += valueToAdd;
-  }
-
-  const lengthPoint = lengthPointer + addTo;
-  return lengthPoint ? lengthPoint - 2 : 0;
+  return baseLength - 2;
 };
 
 export const mapDataFlashing = (
