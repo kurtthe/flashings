@@ -35,6 +35,9 @@ import {
 } from '@store/flashings/selectors';
 import {actions as flashingActions} from '@store/flashings/actions';
 import CompleteMeasurements from '@features/flashing/components/CompleteMeasurements';
+import {getGirth} from '@shared/utils/JobOrders';
+import {config} from '@env/config';
+import Toast from 'react-native-toast-message';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -147,7 +150,17 @@ const Board: React.FC<Props> = ({
   }, [stepBoard, indexLineSelected, graphs, isFront]);
 
   const handleDoneSize = (newSize: number, sizeType: 'line' | 'angle') => {
-    if (!pointSelected) return;
+    if (!pointSelected || !flashingDataDraft) return;
+
+    const getHowManyGirth = getGirth(flashingDataDraft);
+    if (getHowManyGirth >= config.maxGirth) {
+      Toast.show({
+        position: 'bottom',
+        text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,
+        type: 'info',
+      });
+      return;
+    }
 
     if (isNaN(newSize)) return;
 

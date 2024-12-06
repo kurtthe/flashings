@@ -30,11 +30,7 @@ import {LINE_SELECTED} from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
 import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import {templateSelected} from '@store/templates/selectors';
-import {
-  getDataFlashingDraft,
-  getSideTapered,
-  getStep,
-} from '@store/flashings/selectors';
+import {getDataFlashingDraft, getStep} from '@store/flashings/selectors';
 import Loading from '@components/Loading';
 import {actions as templateActions} from '@store/templates/actions';
 import {actions as flashingActions} from '@store/flashings/actions';
@@ -118,9 +114,8 @@ const BoardContainer = () => {
     dispatch(flashingActions.changeStep({step: newIndexStep}));
   }, []);
 
-  const handleAddPoint = (newPoint: POINT_TYPE) => {
+  const _validationFoldsAndGirths = React.useCallback(() => {
     if (!flashingDataDraft) return;
-
     const getHowManyFolds = getBends(flashingDataDraft);
     const getHowManyGirth = getGirth(flashingDataDraft);
     if (getHowManyFolds >= config.maxFolds) {
@@ -140,7 +135,11 @@ const BoardContainer = () => {
       });
       return;
     }
+  }, [flashingDataDraft]);
 
+  const handleAddPoint = (newPoint: POINT_TYPE) => {
+    if (!flashingDataDraft) return;
+    _validationFoldsAndGirths();
     if (flashingDataDraft.dataLines.length < 1) {
       const dataLine: LINE_TYPE = {
         points: [newPoint],

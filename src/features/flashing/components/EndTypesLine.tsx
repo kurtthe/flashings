@@ -1,5 +1,5 @@
 import React from 'react';
-import { BaseTouchable, Box, Icon, Text } from '@ui/components';
+import {BaseTouchable, Box, Icon, Text} from '@ui/components';
 import {
   EndBreakLeft2Icon,
   EndBreakLeftIcon,
@@ -8,14 +8,17 @@ import {
   EndCurveLeftIcon,
   EndCurveRightIcon,
 } from '@assets/icons';
-import { StyleSheet, ViewStyle } from 'react-native';
-import { TYPE_END_LINES } from '@models';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
-import { getDataFlashingDraft } from '@store/flashings/selectors';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { getIndexOfStepForName } from '@features/flashing/utils';
-import { isTablet } from '@shared/platform';
-import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
+import {StyleSheet, ViewStyle} from 'react-native';
+import {TYPE_END_LINES} from '@models';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
+import {getDataFlashingDraft} from '@store/flashings/selectors';
+import {actions as flashingActions} from '@store/flashings/actions';
+import {getIndexOfStepForName} from '@features/flashing/utils';
+import {isTablet} from '@shared/platform';
+import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
+import {getBends} from '@shared/utils/JobOrders';
+import {config} from '@env/config';
+import Toast from 'react-native-toast-message';
 
 const ButtonEndType = ({
   title,
@@ -40,7 +43,7 @@ const ButtonEndType = ({
       backgroundColor={active ? 'lightBlue' : 'transparent'}
       style={[
         styles.button,
-        fullWidth && { width: isTablet ? '92%' : '95%' },
+        fullWidth && {width: isTablet ? '92%' : '95%'},
         style,
       ]}>
       <Text textAlign={!icon ? 'center' : 'left'} variant="bodyRegular" mx="s">
@@ -75,6 +78,18 @@ const EndTypesLineComponent = ({}) => {
   }, [flashingDataDraft?.endType, flashingDataDraft?.startType]);
 
   const handlePressButton = (label: TYPE_END_LINES = 'none') => {
+    if (!flashingDataDraft) return;
+    const getHowManyFolds = getBends(flashingDataDraft);
+
+    if (getHowManyFolds >= config.maxFolds) {
+      Toast.show({
+        position: 'bottom',
+        text1: `You can't add more than ${config.maxFolds} bends.`,
+        type: 'info',
+      });
+      return;
+    }
+
     if (typeLine === 'start') {
       dispatch(
         flashingActions.updateFlashingDraft({
@@ -154,7 +169,7 @@ const EndTypesLineComponent = ({}) => {
         <ButtonEndType
           title="None"
           fullWidth
-          style={{ height: isTablet ? 50 : 40 }}
+          style={{height: isTablet ? 50 : 40}}
           active={validateTypeLine('none')}
           onPress={() => handleClearLineType()}
         />
