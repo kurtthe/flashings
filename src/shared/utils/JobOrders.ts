@@ -155,5 +155,10 @@ const mapLengthsInputs = (
 };
 
 export const getValueLengthsTapered = (data: FLASHING_LENGTHS[]): number => {
-  return data.reduce((total, {length, qty}) => total + length * qty, 0);
+  const totalSum = data.reduce(
+    (total, {length, qty}) => total + length * qty,
+    0,
+  );
+  const convertToM = totalSum / 1000;
+  return convertToM.toFixed(2) as any as number;
 };

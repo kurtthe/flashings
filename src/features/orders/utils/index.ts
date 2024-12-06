@@ -79,7 +79,7 @@ const getSKU = (data: FLASHINGS_DATA) => {
 
   const gettingSKU = SKU_RULES.find(
     ({max_girth, min_girth, fold, material}) => {
-      const reallyMax = max_girth + 1;
+      const reallyMax = max_girth;
       const removeSpace = material.trim();
       return (
         girthFlashing >= min_girth &&
