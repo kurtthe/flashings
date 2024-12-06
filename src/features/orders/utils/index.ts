@@ -82,7 +82,7 @@ export const buildItemsData = (
     .filter(itemFlashing => !itemFlashing.tapered)
     .map(dataItemFlashing => ({
       sku: getSKU(dataItemFlashing),
-      colour: getMaterial(dataItemFlashing.colourMaterial).value,
+      colour: getMaterial(dataItemFlashing.colourMaterial).id,
       cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
         ...itemLengths,
         length: getGirth(dataItemFlashing) / 1000,

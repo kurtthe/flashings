@@ -153,7 +153,7 @@ type SECTIONS_MATERIAL_ORDER = {
 
 export type NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
   sku: string;
-  colour?: string;
+  colour?: number;
   cut_tally: FLASHING_LENGTHS[];
 };
 
