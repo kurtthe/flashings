@@ -206,7 +206,10 @@ export const buildDataTapered = (
     .map(dataItemFlashing => {
       itemTapered['cut_tally'] = [
         ...itemTapered.cut_tally,
-        ...dataItemFlashing.flashingLengths,
+        ...dataItemFlashing.flashingLengths.map(({qty, length}) => ({
+          qty,
+          length: length / 1000,
+        })),
       ];
 
       return {
