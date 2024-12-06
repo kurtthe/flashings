@@ -9,10 +9,11 @@ import {
 } from '@models';
 import {formatDate} from '@shared/utils/formatDate';
 import {
+  buildDataTapered,
   getBends,
   getGirth,
   getMaterial,
-  getValueLengthsTapered,
+  getSKU,
   mapDataFlashing,
 } from '@shared/utils/JobOrders';
 import {DATA_BUILD_MATERIAL_ORDER} from '@features/jobs/types';
@@ -21,7 +22,6 @@ import {
   optionsDelivery,
 } from '@features/orders/constants/order';
 import {formKeys} from '@features/orders/constants';
-import {SKU_RULES} from '@shared/constants';
 
 export const mapDataJobToDataPetition = (
   dataJob: JOB_DATA,
@@ -72,63 +72,28 @@ export const mapDataJobToDataPetition = (
   };
 };
 
-const getSKU = (data: FLASHINGS_DATA) => {
-  const girthFlashing = getGirth(data);
-  const foldsFlashing = getBends(data);
-  const materialFlashing = getMaterial(data.colourMaterial).material;
-
-  const gettingSKU = SKU_RULES.find(
-    ({max_girth, min_girth, fold, material}) => {
-      const reallyMax = max_girth;
-      const removeSpace = material.trim();
-      return (
-        girthFlashing >= min_girth &&
-        girthFlashing <= reallyMax &&
-        foldsFlashing === fold &&
-        removeSpace === materialFlashing
-      );
-    },
-  );
-
-  if (data.tapered) {
-    return 'MFLTAPER';
-  }
-
-  if (!gettingSKU) {
-    return 'MFLC10100218';
-  }
-  return gettingSKU.sku;
-};
-
 export const buildItemsData = (
   dataFlashing: FLASHINGS_DATA[],
 ): NEW_TYPE_SECTIONS_MATERIAL_ORDER[] => {
-  return dataFlashing.map(dataItemFlashing => {
-    const data: NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
+  const getTaperedInfo: NEW_TYPE_SECTIONS_MATERIAL_ORDER[] =
+    buildDataTapered(dataFlashing);
+
+  const dataItemsFlashing = dataFlashing
+    .filter(itemFlashing => !itemFlashing.tapered)
+    .map(dataItemFlashing => ({
       sku: getSKU(dataItemFlashing),
-      cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => {
-        if (dataItemFlashing.tapered) {
-          const valueLengthsTapered = getValueLengthsTapered(
-            dataItemFlashing.flashingLengths,
-          );
+      colour: getMaterial(dataItemFlashing.colourMaterial).value,
+      cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
+        ...itemLengths,
+        length: getGirth(dataItemFlashing) / 1000,
+      })),
+    }));
 
-          return {
-            ...itemLengths,
-            length: valueLengthsTapered,
-          };
-        }
-        return {
-          ...itemLengths,
-          length: getGirth(dataItemFlashing) / 1000,
-        };
-      }),
-    };
-    if (!dataItemFlashing.tapered) {
-      data['colour'] = getMaterial(dataItemFlashing.colourMaterial).value;
-    }
-
-    return data;
-  });
+  console.log(
+    '=> buildItemsData::',
+    JSON.stringify([...dataItemsFlashing, ...getTaperedInfo]),
+  );
+  return [...dataItemsFlashing, ...getTaperedInfo];
 };
 
 export const buildDataMaterialOrder = (

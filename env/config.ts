@@ -27,4 +27,6 @@ export const config = {
   unitMeasurement: 'mm',
   maxFolds: 7,
   maxGirth: 1300,
+  SKU_TAPERED: 'MFLTAPER',
+  SKU_DEFAULT: 'MFLC10100218',
 };

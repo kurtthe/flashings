@@ -1,7 +1,13 @@
-import {FLASHING_LENGTHS, FLASHINGS_DATA, MATERIALS, STORE} from '@models';
+import {
+  FLASHING_LENGTHS,
+  FLASHINGS_DATA,
+  MATERIALS,
+  NEW_TYPE_SECTIONS_MATERIAL_ORDER,
+} from '@models';
 import {dataMaterials} from '@store/jobs/mocks';
 import alert from '@services/general-request/alert';
 import {config} from '@env/config';
+import {SKU_RULES} from '@shared/constants';
 
 export const getMaterial = (
   idMaterial: number,
@@ -161,4 +167,57 @@ export const getValueLengthsTapered = (data: FLASHING_LENGTHS[]): number => {
   );
   const convertToM = totalSum / 1000;
   return convertToM.toFixed(2) as any as number;
+};
+
+export const getSKU = (data: FLASHINGS_DATA) => {
+  const girthFlashing = getGirth(data);
+  const foldsFlashing = getBends(data);
+  const materialFlashing = getMaterial(data.colourMaterial).material;
+
+  const gettingSKU = SKU_RULES.find(
+    ({max_girth, min_girth, fold, material}) => {
+      const reallyMax = max_girth;
+      const removeSpace = material.trim();
+      return (
+        girthFlashing >= min_girth &&
+        girthFlashing <= reallyMax &&
+        foldsFlashing === fold &&
+        removeSpace === materialFlashing
+      );
+    },
+  );
+
+  if (!gettingSKU) {
+    return config.SKU_DEFAULT;
+  }
+  return gettingSKU.sku;
+};
+
+export const buildDataTapered = (
+  dataFlashing: FLASHINGS_DATA[],
+): NEW_TYPE_SECTIONS_MATERIAL_ORDER[] => {
+  const itemTapered: NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
+    sku: config.SKU_TAPERED,
+    cut_tally: [],
+  };
+
+  const dataTapered = dataFlashing
+    .filter(itemFlashing => itemFlashing.tapered)
+    .map(dataItemFlashing => {
+      itemTapered['cut_tally'] = [
+        ...itemTapered.cut_tally,
+        ...dataItemFlashing.flashingLengths,
+      ];
+
+      return {
+        sku: getSKU(dataItemFlashing),
+        colour: getMaterial(dataItemFlashing.colourMaterial).value,
+        cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
+          ...itemLengths,
+          length: getGirth(dataItemFlashing) / 1000,
+        })),
+      };
+    });
+
+  return [...dataTapered, itemTapered];
 };
