@@ -115,23 +115,24 @@ export const mapDataFlashing = (
       dataMapped[`flash_${index + 1}_image_back`] =
         dataFlashing.tapered.backImagePreview;
       // @ts-ignore
-      dataMapped[`girth_${index + 1}`] = `0.${getGirth(
+      dataMapped[`girth_${index + 1}`] = `${getGirth(
         flashings[index],
         'front',
-      )} m`;
+      )} ${config.unitMeasurementPdf}`;
 
       // @ts-ignore
-      dataMapped[`girth_${index + 1}_back`] = `0.${getGirth(
+      dataMapped[`girth_${index + 1}_back`] = `${getGirth(
         flashings[index],
         'back',
-      )} m`;
+      )} ${config.unitMeasurementPdf}`;
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = 'Tapered';
     } else {
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
       // @ts-ignore
-      dataMapped[`girth_${index + 1}`] = `0.${getGirth(flashings[index])} m`;
+      dataMapped[`girth_${index + 1}`] =
+        `${getGirth(flashings[index])} ${config.unitMeasurementPdf}`;
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = '';
     }
