@@ -85,7 +85,7 @@ export const buildItemsData = (
       colour: getMaterial(dataItemFlashing.colourMaterial).id,
       cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
         ...itemLengths,
-        length: getGirth(dataItemFlashing) / 1000,
+        length: itemLengths.length / 1000,
       })),
     }));
 
