@@ -20,24 +20,7 @@ export const getMaterial = (
     if (showAlert) {
       alert.show('Error loading material of order');
     }
-    return {
-      id: 1,
-      value: 'galvanised',
-      label: 'Galvanised',
-      bgColor: '#a7aaaf',
-      textColor: 'black',
-      bold: false,
-      disabled: false,
-      material: 'Galvanised',
-    };
-  }
-
-  if (material.id > 3 && material.id < 26) {
-    return {
-      ...material,
-      label: `Colorbond ${material.label}`,
-      value: `Colorbond ${material.value}`,
-    };
+    return dataMaterials[3];
   }
 
   return material;
@@ -222,6 +205,10 @@ export const buildDataTapered = (
         })),
       };
     });
+
+  if (dataTapered.length === 0) {
+    return [];
+  }
 
   return [...dataTapered, itemTapered];
 };

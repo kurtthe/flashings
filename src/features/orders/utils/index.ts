@@ -10,8 +10,6 @@ import {
 import {formatDate} from '@shared/utils/formatDate';
 import {
   buildDataTapered,
-  getBends,
-  getGirth,
   getMaterial,
   getSKU,
   mapDataFlashing,
@@ -80,14 +78,27 @@ export const buildItemsData = (
 
   const dataItemsFlashing = dataFlashing
     .filter(itemFlashing => !itemFlashing.tapered)
-    .map(dataItemFlashing => ({
-      sku: getSKU(dataItemFlashing),
-      colour: getMaterial(dataItemFlashing.colourMaterial).id,
-      cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
-        ...itemLengths,
-        length: itemLengths.length / 1000,
-      })),
-    }));
+    .map(dataItemFlashing => {
+      const itemFlashingData: NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
+        sku: getSKU(dataItemFlashing),
+        cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
+          ...itemLengths,
+          length: itemLengths.length / 1000,
+        })),
+      };
+
+      if (
+        dataItemFlashing.colourMaterial == 111 ||
+        dataItemFlashing.colourMaterial == 222
+      ) {
+        return itemFlashingData;
+      }
+
+      return {
+        ...itemFlashingData,
+        colour: getMaterial(dataItemFlashing.colourMaterial).id,
+      };
+    });
 
   console.log(
     '=> buildItemsData::',

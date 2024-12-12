@@ -86,7 +86,6 @@ export const createMaterialOrder = async ({
 }: {
   material: DATA_MATERIAL_ORDER;
 }): Promise<RESPONSE_MATERIAL_ORDER> => {
-  console.log('==> body', JSON.stringify(material));
   const response = await RequestService.put<
     RESPONSE_MATERIAL_ORDER,
     {data: DATA_MATERIAL_ORDER}
