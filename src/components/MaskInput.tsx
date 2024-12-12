@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import {
   TextInput,
   NativeSyntheticEvent,
@@ -7,13 +7,13 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import MaskInput, { MaskInputProps } from 'react-native-mask-input';
-import { useCombinedRefs } from '@hooks/useCombinedRefs';
-import { Box, Icon, IconButton } from '@ui/components';
+import MaskInput, {MaskInputProps} from 'react-native-mask-input';
+import {useCombinedRefs} from '@hooks/useCombinedRefs';
+import {Box, Icon, IconButton} from '@ui/components';
 import Text from '@ui/components/Text';
-import { RestyleInputProps } from '@ui/components/Input';
-import { palette, SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
-import { isTablet } from '@shared/platform';
+import {RestyleInputProps} from '@ui/components/Input';
+import {palette, SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
+import {isAndroid, isTablet} from '@shared/platform';
 
 type Props = RestyleInputProps &
   MaskInputProps & {
@@ -78,7 +78,7 @@ const MaskInputComponent = React.forwardRef<typeof TextInput, Props>(
               position="absolute"
               color="grey400"
               style={{
-                top: 10,
+                top: isAndroid ? 5 : 10,
                 fontSize: isTablet ? 16 : 14,
               }}>
               {label ?? placeholder}
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
     height: isTablet ? 80 : 60,
   },
   text: {
+    color: 'black',
     fontSize: isTablet ? 18 : 16,
     lineHeight: 20,
     height: '100%',
