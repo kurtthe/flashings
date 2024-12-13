@@ -144,6 +144,7 @@ const FormCreateFlashingComponent: React.FC<Props> = ({
                           <Icon
                             as={TrashIcon}
                             size={isTablet ? SIZE_ICON_TABLET : SIZE_ICON_PHONE}
+                            color="errorAlert"
                           />
                         }
                         onPress={() => arrayHelpers.remove(index)}
