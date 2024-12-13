@@ -196,14 +196,22 @@ export const buildDataTapered = (
         })),
       ];
 
-      return {
+      const data = {
         sku: getSKU(dataItemFlashing),
-        colour: getMaterial(dataItemFlashing.colourMaterial).id,
         cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
           ...itemLengths,
           length: itemLengths.length / 1000,
         })),
       };
+
+      if (
+        dataItemFlashing.colourMaterial == 111 ||
+        dataItemFlashing.colourMaterial == 222
+      ) {
+        return data;
+      }
+
+      return {...data, colour: getMaterial(dataItemFlashing.colourMaterial).id};
     });
 
   if (dataTapered.length === 0) {
