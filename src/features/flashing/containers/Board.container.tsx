@@ -119,28 +119,28 @@ const BoardContainer = () => {
     dispatch(boardActions.changeStep({step: newIndexStep}));
   }, []);
 
-  const _validationFoldsAndGirths = React.useCallback(() => {
-    if (!flashingDataDraft) return;
-    const getHowManyFolds = getBends(flashingDataDraft);
-    const getHowManyGirth = getGirth(flashingDataDraft);
-    if (getHowManyFolds >= config.maxFolds) {
-      Toast.show({
-        position: 'bottom',
-        text1: `You can't add more than ${config.maxFolds} bends.`,
-        type: 'info',
-      });
-      return;
-    }
+  // const _validationFoldsAndGirths = React.useCallback(() => {
+  //   if (!flashingDataDraft) return;
+  //   const getHowManyFolds = getBends(flashingDataDraft);
+  //   const getHowManyGirth = getGirth(flashingDataDraft);
+  //   if (getHowManyFolds >= config.maxFolds) {
+  //     Toast.show({
+  //       position: 'bottom',
+  //       text1: `You can't add more than ${config.maxFolds} bends.`,
+  //       type: 'info',
+  //     });
+  //     return;
+  //   }
 
-    if (getHowManyGirth >= config.maxGirth) {
-      Toast.show({
-        position: 'bottom',
-        text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,
-        type: 'info',
-      });
-      return;
-    }
-  }, [flashingDataDraft]);
+  //   if (getHowManyGirth >= config.maxGirth) {
+  //     Toast.show({
+  //       position: 'bottom',
+  //       text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,
+  //       type: 'info',
+  //     });
+  //     return;
+  //   }
+  // }, [flashingDataDraft]);
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (!flashingDataBoard) return;
