@@ -1,8 +1,9 @@
-import { createReducer } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import { JOB_STATE } from '@models';
-import { actions } from './actions';
-import { persistConfigFlashings } from '@store/config';
+import {createReducer} from '@reduxjs/toolkit';
+import {persistReducer} from 'redux-persist';
+import {JOB_STATE} from '@models';
+import {actions} from './actions';
+import {persistConfigFlashings} from '@store/config';
+import {formatDate} from '@shared/utils/formatDate';
 
 const INITIAL_STATE: JOB_STATE = {
   jobs: [],
@@ -11,11 +12,18 @@ const INITIAL_STATE: JOB_STATE = {
 
 const jobsReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.addJob, (state, action) => {
-    const { job } = action.payload;
-    state.jobs = [...state.jobs, job];
+    const {job} = action.payload;
+    state.jobs = [
+      ...state.jobs,
+      {
+        ...job,
+        date_created: formatDate(new Date(), 'YYYY-MM-DD'),
+        date_updated: formatDate(new Date(), 'YYYY-MM-DD'),
+      },
+    ];
   });
   builder.addCase(actions.editJob, (state, action) => {
-    const { idJob, newDataJob } = action.payload;
+    const {idJob, newDataJob} = action.payload;
     state.jobs = state.jobs.map(job => {
       if (job.id === idJob) {
         return {
@@ -33,7 +41,7 @@ const jobsReducer = createReducer(INITIAL_STATE, builder => {
     state.jobsArchive = action.payload.jobs;
   });
   builder.addCase(actions.deleteFlashing, (state, action) => {
-    const { idFlashing, idJob } = action.payload;
+    const {idFlashing, idJob} = action.payload;
     state.jobs = state.jobs.map(job => {
       return {
         ...job,
@@ -94,20 +102,21 @@ const jobsReducer = createReducer(INITIAL_STATE, builder => {
   });
 
   builder.addCase(actions.orderSent, (state, action) => {
-    const { idJob: jobId, dataOrder: data } = action.payload;
+    const {idJob: jobId, dataOrder: data} = action.payload;
     state.jobs = state.jobs.map(job => ({
       ...job,
       orderData: job.id === jobId ? data : job.orderData,
+      date_updated: formatDate(new Date(), 'YYYY-MM-DD'),
     }));
   });
 
   builder.addCase(actions.deleteJob, (state, action) => {
-    const { idJob } = action.payload;
+    const {idJob} = action.payload;
     state.jobs = state.jobs.filter(job => job.id !== idJob);
   });
 
   builder.addCase(actions.addLengthJob, (state, action) => {
-    const { idFlashing, dataLength, idJob } = action.payload;
+    const {idFlashing, dataLength, idJob} = action.payload;
 
     state.jobs = state.jobs.map(job => {
       if (job.id === idJob) {

@@ -25,7 +25,6 @@ import {isAndroid} from '@shared/platform';
 import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import alert from '@services/general-request/alert';
 import {imageToBase64, sleep} from '@shared/utils';
-import {LINE_SELECTED} from '@features/flashing/components/Board/types';
 import Board from '@features/flashing/components/Board/Board';
 import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import {templateSelected} from '@store/templates/selectors';
@@ -60,7 +59,6 @@ const BoardContainer = () => {
   const [loading, setLoading] = React.useState(false);
   const refViewShot = React.useRef<ViewShot>(null);
   const showKeyboard = useKeyboardVisibility({});
-  const isFront = useAppSelector(state => getSideTapered(state));
 
   const isSaveTapered = React.useMemo(() => {
     return stepBoard === getIndexOfStepForName('save_tapered');
@@ -120,6 +118,29 @@ const BoardContainer = () => {
   const _changeStep = React.useCallback((newIndexStep: number) => {
     dispatch(boardActions.changeStep({step: newIndexStep}));
   }, []);
+
+  const _validationFoldsAndGirths = React.useCallback(() => {
+    if (!flashingDataDraft) return;
+    const getHowManyFolds = getBends(flashingDataDraft);
+    const getHowManyGirth = getGirth(flashingDataDraft);
+    if (getHowManyFolds >= config.maxFolds) {
+      Toast.show({
+        position: 'bottom',
+        text1: `You can't add more than ${config.maxFolds} bends.`,
+        type: 'info',
+      });
+      return;
+    }
+
+    if (getHowManyGirth >= config.maxGirth) {
+      Toast.show({
+        position: 'bottom',
+        text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,
+        type: 'info',
+      });
+      return;
+    }
+  }, [flashingDataDraft]);
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
     if (!flashingDataBoard) return;

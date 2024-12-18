@@ -115,7 +115,7 @@ const MeasurementLines: React.FC<Props> = ({
               onChangeText={onChangeValue}
             />
             <Text variant="bodyBold">
-              {typeSelected === 'line' ? 'mm' : '°'}
+              {typeSelected === 'line' ? config.unitMeasurement : '°'}
             </Text>
           </Box>
 

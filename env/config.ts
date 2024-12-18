@@ -23,4 +23,11 @@ export const config = {
   templateId10_12: 'BLAN823895',
   templateId13_15: 'BLAN384760',
   intervalForGettingVersionApp: 7200,
+  nameJobMaximum: 40,
+  unitMeasurement: 'mm',
+  unitMeasurementPdf: 'mm',
+  maxFolds: 7,
+  maxGirth: 1300,
+  SKU_TAPERED: 'MFLTAPER',
+  SKU_DEFAULT: 'MFLC10100218',
 };

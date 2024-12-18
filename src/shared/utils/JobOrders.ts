@@ -1,6 +1,13 @@
-import {FLASHINGS_DATA, MATERIALS, STORE} from '@models';
+import {
+  FLASHING_LENGTHS,
+  FLASHINGS_DATA,
+  MATERIALS,
+  NEW_TYPE_SECTIONS_MATERIAL_ORDER,
+} from '@models';
 import {dataMaterials} from '@store/jobs/mocks';
 import alert from '@services/general-request/alert';
+import {config} from '@env/config';
+import {SKU_RULES} from '@shared/constants';
 
 export const getMaterial = (
   idMaterial: number,
@@ -13,23 +20,7 @@ export const getMaterial = (
     if (showAlert) {
       alert.show('Error loading material of order');
     }
-    return {
-      id: 1,
-      value: 'galvanised',
-      label: 'Galvanised',
-      bgColor: '#a7aaaf',
-      textColor: 'black',
-      bold: false,
-      disabled: false,
-    };
-  }
-
-  if (material.id > 3 && material.id < 26) {
-    return {
-      ...material,
-      label: `Colorbond ${material.label}`,
-      value: `Colorbond ${material.value}`,
-    };
+    return dataMaterials[3];
   }
 
   return material;
@@ -54,21 +45,20 @@ export const getGirth = (
   return sizeLines.reduce((a, b) => a + b, 0) + breaksAdd;
 };
 
-export const getBends = (data: FLASHINGS_DATA) => {
-  const pointers = data.dataLines.map(lineInfo => lineInfo.points);
+export const getBends = (data: FLASHINGS_DATA): number => {
+  const isStart = data.startType !== 'none';
+  const isEnd = data.endType !== 'none';
 
-  let addTo = 0;
-  if (data.startType !== 'none') {
-    const valueToAdd = data.startType.includes('safety') ? 2 : 1;
-    addTo += valueToAdd;
-  }
-  if (data.endType !== 'none') {
-    const valueToAdd = data.endType.includes('safety') ? 2 : 1;
-    addTo += valueToAdd;
+  const numberOfPoints = data.dataLines.length;
+
+  let baseLength = numberOfPoints + 1;
+  if (isStart && isEnd) {
+    baseLength += 2;
+  } else if (isStart || isEnd) {
+    baseLength += 1;
   }
 
-  const lengthPoint = pointers.length - 1 + addTo;
-  return lengthPoint ?? 0;
+  return baseLength - 2;
 };
 
 export const mapDataFlashing = (
@@ -111,20 +101,21 @@ export const mapDataFlashing = (
       dataMapped[`girth_${index + 1}`] = `${getGirth(
         flashings[index],
         'front',
-      )} mm`;
+      )} ${config.unitMeasurementPdf}`;
 
       // @ts-ignore
       dataMapped[`girth_${index + 1}_back`] = `${getGirth(
         flashings[index],
         'back',
-      )} mm`;
+      )} ${config.unitMeasurementPdf}`;
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = 'Tapered';
     } else {
       // @ts-ignore
       dataMapped[`flash_${index + 1}_image`] = dataFlashing.imgPreview;
       // @ts-ignore
-      dataMapped[`girth_${index + 1}`] = `${getGirth(flashings[index])} mm`;
+      dataMapped[`girth_${index + 1}`] =
+        `${getGirth(flashings[index])} ${config.unitMeasurementPdf}`;
       // @ts-ignore
       dataMapped[`tapered_${index + 1}`] = '';
     }
@@ -147,8 +138,85 @@ const mapLengthsInputs = (
     dataMapped[`flash_${numberFlashing}_${index + 1}_qty`] = dataLengths.qty;
     // @ts-ignore
     dataMapped[`flash_${numberFlashing}_${index + 1}_length`] =
-      `${dataLengths.length} mm`;
+      `${dataLengths.length} ${config.unitMeasurement}`;
   });
 
   return dataMapped;
+};
+
+export const getValueLengthsTapered = (data: FLASHING_LENGTHS[]): number => {
+  const totalSum = data.reduce(
+    (total, {length, qty}) => total + length * qty,
+    0,
+  );
+  const convertToM = totalSum / 1000;
+  return convertToM.toFixed(2) as any as number;
+};
+
+export const getSKU = (data: FLASHINGS_DATA) => {
+  const girthFlashing = getGirth(data);
+  const foldsFlashing = getBends(data);
+  const materialFlashing = getMaterial(data.colourMaterial).material;
+
+  const gettingSKU = SKU_RULES.find(
+    ({max_girth, min_girth, fold, material}) => {
+      const reallyMax = max_girth;
+      const removeSpace = material.trim();
+      return (
+        girthFlashing >= min_girth &&
+        girthFlashing <= reallyMax &&
+        foldsFlashing === fold &&
+        removeSpace === materialFlashing
+      );
+    },
+  );
+
+  if (!gettingSKU) {
+    return config.SKU_DEFAULT;
+  }
+  return gettingSKU.sku;
+};
+
+export const buildDataTapered = (
+  dataFlashing: FLASHINGS_DATA[],
+): NEW_TYPE_SECTIONS_MATERIAL_ORDER[] => {
+  const itemTapered: NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
+    sku: config.SKU_TAPERED,
+    cut_tally: [],
+  };
+
+  const dataTapered = dataFlashing
+    .filter(itemFlashing => itemFlashing.tapered)
+    .map(dataItemFlashing => {
+      itemTapered['cut_tally'] = [
+        ...itemTapered.cut_tally,
+        ...dataItemFlashing.flashingLengths.map(({qty, length}) => ({
+          qty,
+          length: length / 1000,
+        })),
+      ];
+
+      const data = {
+        sku: getSKU(dataItemFlashing),
+        cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
+          ...itemLengths,
+          length: itemLengths.length / 1000,
+        })),
+      };
+
+      if (
+        dataItemFlashing.colourMaterial == 111 ||
+        dataItemFlashing.colourMaterial == 222
+      ) {
+        return data;
+      }
+
+      return {...data, colour: getMaterial(dataItemFlashing.colourMaterial).id};
+    });
+
+  if (dataTapered.length === 0) {
+    return [];
+  }
+
+  return [...dataTapered, itemTapered];
 };

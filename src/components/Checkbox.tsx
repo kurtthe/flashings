@@ -1,9 +1,9 @@
 import React from 'react';
-import { FlatList, Text, View, TextStyle, ViewStyle } from 'react-native';
+import {FlatList, Text, View, TextStyle, ViewStyle} from 'react-native';
 import Checkbox from 'react-native-check-box';
-import { palette } from '@theme';
-import { isNumber } from '@components/forms/utils';
-import { isTablet } from '@shared/platform';
+import {palette} from '@theme';
+import {isNumber} from '@components/forms/utils';
+import {isTablet} from '@shared/platform';
 
 export type OptionCheckbox = {
   label: string;
@@ -58,7 +58,7 @@ const CheckboxComponent: React.FC<PropsCheckbox> = ({
     onChange?.(dataOptionsChanged);
   };
 
-  const renderItem = ({ item }: { item: OptionCheckbox }) => {
+  const renderItem = ({item}: {item: OptionCheckbox}) => {
     return (
       <Checkbox
         onClick={() => changeSelected(item.label)}
@@ -77,10 +77,15 @@ const CheckboxComponent: React.FC<PropsCheckbox> = ({
   );
 
   return (
-    <View style={{ marginVertical: 10, paddingHorizontal: 5 }}>
-      <Text style={{ marginVertical: 5, fontSize: isTablet ? 18 : 15 }}>
+    <View style={{marginVertical: 10, paddingHorizontal: 5}}>
+      <Text
+        style={{
+          marginVertical: 5,
+          color: 'black',
+          fontSize: isTablet ? 18 : 15,
+        }}>
         {title}
-        {isRequired && <Text style={{ color: 'red' }}>*</Text>}
+        {isRequired && <Text style={{color: 'red'}}>*</Text>}
       </Text>
       <FlatList
         data={options}

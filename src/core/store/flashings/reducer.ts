@@ -1,6 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
 import {actions} from '@store/flashings/actions';
 import {FLASHINGS_DATA} from '@models';
+import {formatDate} from '@shared/utils/formatDate';
 
 type initialStateType = {
   flashingData: FLASHINGS_DATA | undefined;

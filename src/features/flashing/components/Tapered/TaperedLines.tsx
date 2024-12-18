@@ -226,7 +226,7 @@ const TaperedLines: React.FC<Props> = ({onChangeIndexSelected}) => {
               value={`${isNaN(measurement) ? '0' : measurement}`}
               onChangeText={onChangeValue}
             />
-            <Text variant="bodyBold">mm</Text>
+            <Text variant="bodyBold">{config.unitMeasurement}</Text>
           </Box>
 
           <Box as={BaseTouchable} onPress={handleNext}>

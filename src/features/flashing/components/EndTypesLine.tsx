@@ -74,6 +74,18 @@ const EndTypesLineComponent = ({}) => {
   }, [flashingDataDraft?.endType, flashingDataDraft?.startType]);
 
   const handlePressButton = (label: TYPE_END_LINES = 'none') => {
+    if (!flashingDataDraft) return;
+    const getHowManyFolds = getBends(flashingDataDraft);
+
+    if (getHowManyFolds >= config.maxFolds) {
+      Toast.show({
+        position: 'bottom',
+        text1: `You can't add more than ${config.maxFolds} bends.`,
+        type: 'info',
+      });
+      return;
+    }
+
     if (typeLine === 'start') {
       dispatch(
         boardActions.updateDataFlashing({

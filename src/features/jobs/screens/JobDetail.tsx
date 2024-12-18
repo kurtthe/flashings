@@ -18,6 +18,8 @@ import {CloseIcon} from '@assets/icons';
 import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import {RoutesOrders} from '@features/orders/navigation/routes';
 import {orderActions} from '@store/orders';
+import ModalWebview from '@components/ModalWebview';
+import {useLoginDashboard} from '@hooks/auth';
 
 const JobDetailsScreen = () => {
   const modalBottomRef = React.useRef<ModalBottomRef>();
@@ -27,9 +29,11 @@ const JobDetailsScreen = () => {
   const route =
     useRoute<RouteProp<JobsStackParamsList, RoutesJobs.JOB_DETAILS>>();
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalPage, setModalPage] = useState(false);
   const {jobId} = route.params;
   const item = useAppSelector(state => jobData(state, jobId));
   const {data: dataAccountCompany} = useGetAccountAndCompany();
+  const {data: urlDashboardLogin} = useLoginDashboard(item?.orderData?.id);
 
   const getCommonMaterial = (): number | null => {
     if (!item || item.flashings.length < 1) return null;
@@ -114,7 +118,11 @@ const JobDetailsScreen = () => {
             {item.orderData && (
               <Text variant="bodyBold" my="xxs">
                 Order Number:{' '}
-                <Text variant="bodyRegular">{item.orderData.orderNumber}</Text>
+                <Text
+                  variant="subheadMediumLink"
+                  onPress={() => setModalPage(true)}>
+                  {item.orderData.orderNumber}
+                </Text>
               </Text>
             )}
             {item.orderData && (
@@ -127,7 +135,7 @@ const JobDetailsScreen = () => {
                 Sent: <Text variant="bodyRegular">{item.orderData.date}</Text>
               </Text>
             )}
-            {item.orderData && (
+            {item.orderData && urlDashboardLogin && (
               <Text variant="bodyBold" my="xxs">
                 PDF:{' '}
                 <Text
@@ -176,6 +184,12 @@ const JobDetailsScreen = () => {
           }
         />
       </ScrollBox>
+
+      <ModalWebview
+        visible={modalPage}
+        url={urlDashboardLogin?.url ?? ''}
+        onClose={() => setModalPage(false)}
+      />
 
       <ModalBottom
         backdropClosesSheet={true}

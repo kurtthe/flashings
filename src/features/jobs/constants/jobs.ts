@@ -1,7 +1,8 @@
-import { isInteger } from 'lodash';
-import { formatPhone } from '@shared/helpers';
-import { NumberFormat } from 'libphonenumber-js';
+import {isInteger} from 'lodash';
+import {formatPhone} from '@shared/helpers';
+import {NumberFormat} from 'libphonenumber-js';
 import * as Yup from 'yup';
+import {config} from '@env/config';
 
 export const customValidationMessages = {
   createEditJob: {
@@ -36,12 +37,12 @@ export const validatePhone = (
         numberFormat === 'NATIONAL' ? lengthNationalFormat : 15;
 
       if (isInteger(Number(clearValue)) && clearValue.length === lengthNumber) {
-        const formatedPhone = formatPhone(clearValue, { format: numberFormat });
+        const formatedPhone = formatPhone(clearValue, {format: numberFormat});
         if (formatedPhone.length === lengthFormatNumber) return true;
       }
 
       if (value.length === lengthNumber) {
-        const formatedPhone = formatPhone(value, { format: numberFormat });
+        const formatedPhone = formatPhone(value, {format: numberFormat});
         if (formatedPhone.length === lengthFormatNumber) return true;
       }
 
@@ -92,7 +93,12 @@ export const createOrEditJobProperties = {
     [formKeysJobs.contactEmail]: 'Contact Email',
   },
   schema: Yup.object({
-    [formKeysJobs.jobName]: Yup.string().required('Job Name is required.'),
+    [formKeysJobs.jobName]: Yup.string()
+      .required('Job Name is required.')
+      .max(
+        config.nameJobMaximum,
+        `The name should be ${config.nameJobMaximum} characters`,
+      ),
     [formKeysJobs.jobNumber]: Yup.string(),
     [formKeysJobs.siteAddress]: Yup.string(),
     [formKeysJobs.contactName]: Yup.string(),

@@ -1,4 +1,4 @@
-import { config } from '@env/config';
+import {config} from '@env/config';
 
 export const baseURL = config.baseUrl;
 export const baseUrlPDF = config.baseUrlPdf;
@@ -15,4 +15,5 @@ export const endPoints = {
   shareMaterialOrder: `/material-orders/:id/share`,
   orderValidations: `/burdens/validation-rules`,
   getVersionApp: `/app-version/burdens-flashings-app`,
+  loginDashboard: `/dashboard`,
 };

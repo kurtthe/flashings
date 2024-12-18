@@ -1,13 +1,20 @@
 import {
+  CreateOrderFormValues,
   DATA_MATERIAL_ORDER,
+  FLASHINGS_DATA,
   JOB_DATA,
+  NEW_TYPE_SECTIONS_MATERIAL_ORDER,
   RESPONSE_COMPANY_ACCOUNT,
   STORE,
 } from '@models';
 import {formatDate} from '@shared/utils/formatDate';
-import {mapDataFlashing} from '@shared/utils/JobOrders';
+import {
+  buildDataTapered,
+  getMaterial,
+  getSKU,
+  mapDataFlashing,
+} from '@shared/utils/JobOrders';
 import {DATA_BUILD_MATERIAL_ORDER} from '@features/jobs/types';
-import {CreateOrderFormValues} from '@features/orders/type';
 import {
   formKeysOrders,
   optionsDelivery,
@@ -63,30 +70,58 @@ export const mapDataJobToDataPetition = (
   };
 };
 
+export const buildItemsData = (
+  dataFlashing: FLASHINGS_DATA[],
+): NEW_TYPE_SECTIONS_MATERIAL_ORDER[] => {
+  const getTaperedInfo: NEW_TYPE_SECTIONS_MATERIAL_ORDER[] =
+    buildDataTapered(dataFlashing);
+
+  const dataItemsFlashing = dataFlashing
+    .filter(itemFlashing => !itemFlashing.tapered)
+    .map(dataItemFlashing => {
+      const itemFlashingData: NEW_TYPE_SECTIONS_MATERIAL_ORDER = {
+        sku: getSKU(dataItemFlashing),
+        cut_tally: dataItemFlashing.flashingLengths.map(itemLengths => ({
+          ...itemLengths,
+          length: itemLengths.length / 1000,
+        })),
+      };
+
+      if (
+        dataItemFlashing.colourMaterial == 111 ||
+        dataItemFlashing.colourMaterial == 222
+      ) {
+        return itemFlashingData;
+      }
+
+      return {
+        ...itemFlashingData,
+        colour: getMaterial(dataItemFlashing.colourMaterial).id,
+      };
+    });
+
+  console.log(
+    '=> buildItemsData::',
+    JSON.stringify([...dataItemsFlashing, ...getTaperedInfo]),
+  );
+  return [...dataItemsFlashing, ...getTaperedInfo];
+};
+
 export const buildDataMaterialOrder = (
   data: DATA_BUILD_MATERIAL_ORDER,
+  dataFlashing: FLASHINGS_DATA[],
 ): DATA_MATERIAL_ORDER => {
+  const dataItems = buildItemsData(dataFlashing);
+
   return {
     burdens_data: [],
     ...data,
+
     status: 'Draft',
     tax_exclusive: true,
     sections: [
       {
-        items: [
-          {
-            description: 'Flashing Order Per Attached Drawing Price TBD',
-            quantity: '1',
-            units: 'ea',
-            cost: '1',
-            tax: [
-              {
-                name: 'GST',
-                rate: 10,
-              },
-            ],
-          },
-        ],
+        items: dataItems,
       },
     ],
   };
