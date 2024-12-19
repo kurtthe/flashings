@@ -5,6 +5,7 @@ export const actions = {
   addFlashingDraft: createAction<{
     dataFlashing: FLASHINGS_DATA;
     jobId: number;
+    step?: number;
   }>('addDraft/flashing'),
 
   clear: createAction('clear/flashing'),
