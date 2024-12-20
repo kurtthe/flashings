@@ -1,7 +1,6 @@
 import React from 'react';
-import {StyleSheet, Image, KeyboardAvoidingView, Platform} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Text, Box, HeaderBox} from '@ui/components';
+import {StyleSheet, Image} from 'react-native';
+import {Text, Box, KeyboardAvoidingBox, HeaderBox} from '@ui/components';
 import LoginForm from '@features/auth/container/LoginForm';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
 import {checkIsLandscape, isTablet} from '@shared/platform';
@@ -12,25 +11,21 @@ const LoginScreen = () => {
   return (
     <>
       <HeaderBox />
-      <DismissKeyboardPressable>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{flex: 1}}>
-          <ScrollView contentContainerStyle={{flexGrow: 1}}>
-            <Box px="m" flex={isLandscape ? 1.8 : 1} backgroundColor="white">
-              <Image
-                style={styles.mainLogo}
-                source={require('@assets/logo/MainLogo.png')}
-              />
-              <Text style={styles.mainTextStyle}>
-                Welcome back,{'\n'}
-                Please sign in with your account
-              </Text>
-            </Box>
-            <LoginForm />
-          </ScrollView>
-        </KeyboardAvoidingView>
-      </DismissKeyboardPressable>
+      <KeyboardAvoidingBox flex={1}>
+        <DismissKeyboardPressable>
+          <Box px="m" flex={isLandscape ? 1.5 : 1} backgroundColor="white">
+            <Image
+              style={styles.mainLogo}
+              source={require('@assets/logo/MainLogo.png')}
+            />
+            <Text style={styles.mainTextStyle}>
+              Welcome back,{'\n'}
+              Please sign in with your account
+            </Text>
+          </Box>
+          <LoginForm />
+        </DismissKeyboardPressable>
+      </KeyboardAvoidingBox>
     </>
   );
 };
