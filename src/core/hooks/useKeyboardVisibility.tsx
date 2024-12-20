@@ -16,7 +16,8 @@ export const useKeyboardVisibility = ({
   useEffect(() => {
     const susbcriptionKeyboardDidShow = Keyboard.addListener(
       'keyboardDidShow',
-      () => {
+      ev => {
+        if (ev.endCoordinates.height < 100) return;
         setKeyboardVisible(true);
         onKeyboardDidShow && onKeyboardDidShow();
       },

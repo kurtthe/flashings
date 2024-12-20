@@ -403,7 +403,6 @@ const BoardContainer = () => {
           girthLeft={girthLeft}
         />
       )}
-
       <ViewShot
         ref={refViewShot}
         onCapture={() => null}

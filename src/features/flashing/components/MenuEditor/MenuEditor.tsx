@@ -22,7 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import IconMenuEditor from '@features/flashing/components/MenuEditor/IconMenuEditor';
 import {useSelector} from 'react-redux';
-import {isTablet} from '@shared/platform';
+import {checkIsLandscape, isTablet} from '@shared/platform';
 
 type Props = {
   onUndo?: () => void;
@@ -38,6 +38,7 @@ const MenuEditorComponent: React.FC<Props> = ({
   const dispatch = useAppDispatch();
   const navigation = useNavigation<StackPrivateProps>();
   const isEdit = useSelector(getIsEdit);
+  const isLandscape = checkIsLandscape();
 
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
@@ -130,6 +131,14 @@ const MenuEditorComponent: React.FC<Props> = ({
     _changeStep(newStep);
   };
 
+  const _getPositionBottom = React.useMemo(() => {
+    if (isLandscape) {
+      return '-5%';
+    }
+
+    return isTablet ? '-2%' : '-4%';
+  }, [isTablet, isLandscape]);
+
   return (
     <Box
       py={isTablet ? 'm' : 's'}
@@ -138,7 +147,7 @@ const MenuEditorComponent: React.FC<Props> = ({
       backgroundColor="white"
       position="absolute"
       width="100%"
-      bottom={isTablet ? '-2%' : '-4%'}
+      bottom={_getPositionBottom}
       style={styles.shadow}>
       <Box px="m" style={styles.content}>
         <IconMenuEditor

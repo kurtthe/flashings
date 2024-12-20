@@ -91,7 +91,7 @@ const Board: React.FC<Props> = ({
       }
 
       if (isLandscape) {
-        heightForKeyboard = 565;
+        heightForKeyboard = 500;
       }
 
       setHeightMeasurement(heightForKeyboard);
@@ -305,6 +305,7 @@ const Board: React.FC<Props> = ({
         <Box
           height={heightMeasurement}
           position="absolute"
+          backgroundColor="white"
           width="100%"
           bottom={0}>
           <MeasurementLines
@@ -320,6 +321,7 @@ const Board: React.FC<Props> = ({
       {stepBoard === getIndexOfStepForName('tapered') && (
         <Box
           height={heightMeasurement}
+          backgroundColor="white"
           position="absolute"
           width="100%"
           bottom={0}>
