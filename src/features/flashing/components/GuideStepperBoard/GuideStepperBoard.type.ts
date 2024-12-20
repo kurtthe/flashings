@@ -1,4 +1,4 @@
-import { getIndexOfStepForName } from '@features/flashing/utils';
+import {getIndexOfStepForName} from '@features/flashing/utils';
 
 export type GUIDE_STEP = {
   title: string;
@@ -28,7 +28,7 @@ export const guideSteps: GUIDE_STEP[] = [
   {
     step: getIndexOfStepForName('draw'),
     title: 'Draw Points',
-    description: `Don’t draw safety folds or breaks.${'\n'}When finished press Next`,
+    description: `Don’t draw safety folds or breaks.${'\n'}When finished press Next${'\n'}Max girth::max_girth`,
     action: undefined,
   },
   {

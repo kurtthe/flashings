@@ -8,17 +8,28 @@ import {
   VALUE_ACTIONS,
 } from '@features/flashing/components/GuideStepperBoard/GuideStepperBoard.type';
 import {useAppSelector} from '@hooks/useStore';
-import {getSideTapered, getStep} from '@store/flashings/selectors';
+import {
+  getDataFlashingDraft,
+  getSideTapered,
+  getStep,
+} from '@store/flashings/selectors';
 import {getIndexOfStepForName} from '@features/flashing/utils';
 import {isTablet} from '@shared/platform';
+import {getGirth} from '@shared/utils/JobOrders';
+import {config} from '@env/config';
+import Toast from 'react-native-toast-message';
 
 type Props = {
   onFinish: () => void;
   onChangeOption?: (newValue: VALUE_ACTIONS) => void;
+  girthLeft?: number;
 };
 
 const heightScreen = Dimensions.get('screen').height;
-const GuideStepperBoardComponent: React.FC<Props> = ({onChangeOption}) => {
+const GuideStepperBoardComponent: React.FC<Props> = ({
+  onChangeOption,
+  girthLeft = 0,
+}) => {
   const stepBoard = useAppSelector(state => getStep(state));
   const isFront = useAppSelector(getSideTapered);
 
@@ -69,7 +80,7 @@ const GuideStepperBoardComponent: React.FC<Props> = ({onChangeOption}) => {
         </Text>
         {dataStep.description && (
           <Text variant="bodyRegular" textAlign="center">
-            {dataStep.description}
+            {dataStep.description.replace(':max_girth', girthLeft.toString())}
           </Text>
         )}
       </Card>

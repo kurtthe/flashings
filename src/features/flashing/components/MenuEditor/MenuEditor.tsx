@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import {
   BackIcon,
   ClearIcon,
@@ -7,29 +7,34 @@ import {
   NextIcon,
   UndoIcon,
 } from '@assets/icons';
-import { Box } from '@ui/components';
-import { getIndexOfStepForName } from '@features/flashing/utils';
+import {Box} from '@ui/components';
+import {getIndexOfStepForName} from '@features/flashing/utils';
 import Alert from '@services/general-request/alert';
-import { useAppDispatch, useAppSelector } from '@hooks/useStore';
+import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {
   getDataFlashingDraft,
   getIsEdit,
   getStep,
 } from '@store/flashings/selectors';
-import { actions as flashingActions } from '@store/flashings/actions';
-import { Routes as RoutesFlashing } from '@features/flashing/navigation/routes';
-import { useNavigation } from '@react-navigation/native';
-import { StackPrivateDefinitions, StackPrivateProps } from '@models/navigation';
+import {actions as flashingActions} from '@store/flashings/actions';
+import {Routes as RoutesFlashing} from '@features/flashing/navigation/routes';
+import {useNavigation} from '@react-navigation/native';
+import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import IconMenuEditor from '@features/flashing/components/MenuEditor/IconMenuEditor';
-import { useSelector } from 'react-redux';
-import { isTablet } from '@shared/platform';
+import {useSelector} from 'react-redux';
+import {isTablet} from '@shared/platform';
 
 type Props = {
   onUndo?: () => void;
   onSave: () => void;
+  disabledNext?: boolean;
 };
 
-const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
+const MenuEditorComponent: React.FC<Props> = ({
+  onSave,
+  onUndo,
+  disabledNext = false,
+}) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation<StackPrivateProps>();
   const isEdit = useSelector(getIsEdit);
@@ -46,9 +51,10 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
   const _disabledNext = React.useMemo(() => {
     return (
       stepBoard === getIndexOfStepForName('finish') ||
-      stepBoard === getIndexOfStepForName('save_tapered')
+      stepBoard === getIndexOfStepForName('save_tapered') ||
+      disabledNext
     );
-  }, [stepBoard]);
+  }, [stepBoard, disabledNext]);
 
   const _disabledUndo = React.useMemo(() => {
     if (!flashingDataDraft) return true;
@@ -65,7 +71,7 @@ const MenuEditorComponent: React.FC<Props> = ({ onSave, onUndo }) => {
   }, [flashingDataDraft?.dataLines]);
 
   const _changeStep = React.useCallback((newIndexStep: number) => {
-    dispatch(flashingActions.changeStep({ step: newIndexStep }));
+    dispatch(flashingActions.changeStep({step: newIndexStep}));
   }, []);
 
   const handleClear = () => {

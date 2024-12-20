@@ -27,7 +27,7 @@ export const config = {
   unitMeasurement: 'mm',
   unitMeasurementPdf: 'mm',
   maxFolds: 7,
-  maxGirth: 1300,
+  maxGirth: 1200,
   SKU_TAPERED: 'MFLTAPER',
   SKU_DEFAULT: 'MFLC10100218',
 };

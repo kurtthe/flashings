@@ -51,6 +51,7 @@ const BoardContainer = () => {
 
   const stepBoard = useAppSelector(state => getStep(state));
   const dataJob = useAppSelector(state => jobData(state, route.params?.jobId));
+  const [girthLeft, setGirthLeft] = React.useState(config.maxGirth);
   const [loading, setLoading] = React.useState(false);
   const refViewShot = React.useRef<ViewShot>(null);
   const showKeyboard = useKeyboardVisibility({});
@@ -92,6 +93,17 @@ const BoardContainer = () => {
     if (!flashingDataDraft) return;
     if (flashingDataDraft.dataLines.length < 2) return;
 
+    const getHowManyGirth = getGirth(flashingDataDraft);
+
+    if (getHowManyGirth >= config.maxGirth) {
+      Toast.show({
+        position: 'bottom',
+        text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,
+        type: 'info',
+      });
+    }
+    setGirthLeft(config.maxGirth - getHowManyGirth);
+
     const newAngles = flashingDataDraft.dataLines.map(
       (line, index, arrayLines) => {
         if (!flashingDataDraft.angles[index]) {
@@ -115,31 +127,25 @@ const BoardContainer = () => {
   }, []);
 
   const _validationFoldsAndGirths = React.useCallback(() => {
-    if (!flashingDataDraft) return;
+    if (!flashingDataDraft) return false;
+
     const getHowManyFolds = getBends(flashingDataDraft);
-    const getHowManyGirth = getGirth(flashingDataDraft);
+
     if (getHowManyFolds >= config.maxFolds) {
       Toast.show({
         position: 'bottom',
         text1: `You can't add more than ${config.maxFolds} bends.`,
         type: 'info',
       });
-      return;
+      return false;
     }
 
-    if (getHowManyGirth >= config.maxGirth) {
-      Toast.show({
-        position: 'bottom',
-        text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,
-        type: 'info',
-      });
-      return;
-    }
-  }, [flashingDataDraft]);
+    return girthLeft > 0;
+  }, [flashingDataDraft, girthLeft]);
 
   const handleAddPoint = (newPoint: POINT_TYPE) => {
-    if (!flashingDataDraft) return;
-    _validationFoldsAndGirths();
+    if (!_validationFoldsAndGirths() || !flashingDataDraft) return;
+
     if (flashingDataDraft.dataLines.length < 1) {
       const dataLine: LINE_TYPE = {
         points: [newPoint],
@@ -395,6 +401,7 @@ const BoardContainer = () => {
         <GuideStepperBoardComponent
           onFinish={finishSteps}
           onChangeOption={changeSettingsBoard}
+          girthLeft={girthLeft}
         />
       )}
 
@@ -418,7 +425,11 @@ const BoardContainer = () => {
         showKeyboard &&
         stepBoard === getIndexOfStepForName('measurements')) ||
       stepBoard === getIndexOfStepForName('tapered') ? null : (
-        <MenuEditorComponent onUndo={handleUndo} onSave={handleSave} />
+        <MenuEditorComponent
+          onUndo={handleUndo}
+          onSave={handleSave}
+          disabledNext={girthLeft < 0}
+        />
       )}
     </>
   );
