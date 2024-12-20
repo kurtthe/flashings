@@ -91,10 +91,7 @@ const BoardContainer = () => {
 
   React.useEffect(() => {
     if (!flashingDataDraft) return;
-    if (flashingDataDraft.dataLines.length < 2) return;
-
     const getHowManyGirth = getGirth(flashingDataDraft);
-
     if (getHowManyGirth >= config.maxGirth) {
       Toast.show({
         position: 'bottom',
@@ -103,6 +100,8 @@ const BoardContainer = () => {
       });
     }
     setGirthLeft(config.maxGirth - getHowManyGirth);
+
+    if (flashingDataDraft.dataLines.length < 2) return;
 
     const newAngles = flashingDataDraft.dataLines.map(
       (line, index, arrayLines) => {
