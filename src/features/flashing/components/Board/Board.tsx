@@ -78,23 +78,11 @@ const Board: React.FC<Props> = ({
   const [typeSelected, setTypeSelected] = React.useState<'line' | 'angle'>(
     'line',
   );
-  const [heightMeasurement, setHeightMeasurement] = React.useState(350);
+  const [heightMeasurement, setHeightMeasurement] = React.useState(200);
 
   useKeyboardVisibility({
-    onKeyboardDidShow: () => {
-      let heightForKeyboard = 350;
-      if (isAndroid) {
-        heightForKeyboard = isTablet ? 80 : 70;
-      }
-      if (isTablet) {
-        heightForKeyboard = 470;
-      }
-
-      if (isLandscape) {
-        heightForKeyboard = 500;
-      }
-
-      setHeightMeasurement(heightForKeyboard);
+    onKeyboardDidShow: (heightKeyboard: number = 357) => {
+      setHeightMeasurement(heightKeyboard);
     },
     onKeyboardDidHide: () => setHeightMeasurement(200),
   });
