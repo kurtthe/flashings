@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, type InputProps } from '@ui/components';
+import {Box, type InputProps} from '@ui/components';
 import MaskInput from '@components/MaskInput';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { formatDate } from '@shared/utils/formatDate';
-import { TimeIcon } from '@assets/icons';
+import {formatDate} from '@shared/utils/formatDate';
+import {TimeIcon} from '@assets/icons';
 
 type Props = InputProps & {
   label: string;
@@ -11,7 +11,7 @@ type Props = InputProps & {
 
 const TIME_MASK = [/[0-2]/, /\d/, ':', /[0-5]/, /\d/];
 
-const InputTime: React.FC<Props> = ({ onChangeText, ...rest }) => {
+const InputTime: React.FC<Props> = ({onChangeText, ...rest}) => {
   const [isTimePickerVisible, setIsTimePickerVisible] = React.useState(false);
   const [selectedTime, setSelectedTime] = React.useState<Date | undefined>(
     undefined,

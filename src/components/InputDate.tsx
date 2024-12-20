@@ -1,16 +1,16 @@
 import React from 'react';
-import { Box, type InputProps } from '@ui/components';
+import {Box, type InputProps} from '@ui/components';
 import MaskInput from '@components/MaskInput';
-import { Masks } from 'react-native-mask-input';
+import {Masks} from 'react-native-mask-input';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { formatDate } from '@shared/utils/formatDate';
-import { CalendarIcon } from '@assets/icons';
+import {formatDate} from '@shared/utils/formatDate';
+import {CalendarIcon} from '@assets/icons';
 
 type Props = InputProps & {
   label: string;
 };
 
-const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
+const InputDate: React.FC<Props> = ({onChangeText, ...rest}) => {
   const [isDatePickerVisible, setIsDatePickerVisible] = React.useState(false);
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(
     undefined,
@@ -54,6 +54,7 @@ const InputDate: React.FC<Props> = ({ onChangeText, ...rest }) => {
         mode="date"
         onConfirm={handleConfirm}
         onCancel={() => showOrHideDatePicker(false)}
+        minimumDate={new Date()}
       />
     </>
   );

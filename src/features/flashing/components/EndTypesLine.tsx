@@ -62,8 +62,8 @@ const ButtonEndType = ({
 const EndTypesLineComponent = ({}) => {
   const dispatch = useAppDispatch();
 
-  const fullWeight = '97%';
-  const middleWeight = '47.7%';
+  const fullWeight = isTablet ? '97%' : '95%';
+  const middleWeight = isTablet ? '47.7%' : '45%';
 
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
