@@ -61,6 +61,10 @@ const ButtonEndType = ({
 };
 const EndTypesLineComponent = ({}) => {
   const dispatch = useAppDispatch();
+
+  const fullWeight = '97%';
+  const middleWeight = '47.7%';
+
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
@@ -169,7 +173,7 @@ const EndTypesLineComponent = ({}) => {
         <ButtonEndType
           title="None"
           fullWidth
-          style={{height: isTablet ? 50 : 40}}
+          style={{height: isTablet ? 50 : 40, width: fullWeight}}
           active={validateTypeLine('none')}
           onPress={() => handleClearLineType()}
         />
@@ -182,6 +186,7 @@ const EndTypesLineComponent = ({}) => {
             handlePressButton(`safety${typeLine === 'end' ? '2' : '1'}Left`)
           }
           icon={EndCurveLeftIcon}
+          style={{width: middleWeight}}
         />
         <ButtonEndType
           title="Safety"
@@ -192,6 +197,7 @@ const EndTypesLineComponent = ({}) => {
             handlePressButton(`safety${typeLine === 'end' ? '2' : '1'}Right`)
           }
           icon={EndCurveRightIcon}
+          style={{width: middleWeight}}
         />
 
         <ButtonEndType
@@ -199,12 +205,14 @@ const EndTypesLineComponent = ({}) => {
           active={validateTypeLine('break2Start')}
           onPress={() => handlePressButton('break2Start')}
           icon={EndBreakLeft2Icon}
+          style={{width: middleWeight}}
         />
         <ButtonEndType
           title="Break"
           active={validateTypeLine('break2End')}
           onPress={() => handlePressButton('break2End')}
           icon={EndBreakRight2Icon}
+          style={{width: middleWeight}}
         />
 
         <ButtonEndType
@@ -212,12 +220,14 @@ const EndTypesLineComponent = ({}) => {
           active={validateTypeLine('break1Start')}
           onPress={() => handlePressButton('break1Start')}
           icon={EndBreakLeftIcon}
+          style={{width: middleWeight}}
         />
         <ButtonEndType
           title="Break"
           active={validateTypeLine('break1End')}
           onPress={() => handlePressButton('break1End')}
           icon={EndBreakRightIcon}
+          style={{width: middleWeight}}
         />
       </Box>
     </Box>

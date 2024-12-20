@@ -1,7 +1,7 @@
 import React from 'react';
-import { BaseTouchable, Box, Icon, Text } from '@ui/components';
-import { EditIcon, SaveIcon } from '@assets/icons';
-import { StyleSheet } from 'react-native';
+import {BaseTouchable, Box, Icon, Text} from '@ui/components';
+import {EditIcon, SaveIcon} from '@assets/icons';
+import {StyleSheet} from 'react-native';
 
 type Props = {
   onSave: () => void;
@@ -27,7 +27,7 @@ const SectionsButton: React.FC<Props> = ({
       p="m"
       my="s"
       position="absolute"
-      bottom="11%"
+      bottom="16%"
       width="100%"
       flexDirection="row"
       flexWrap="wrap"
@@ -109,7 +109,7 @@ const SectionsButton: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   shadow: {
-    shadowOffset: { width: 0, height: 0 },
+    shadowOffset: {width: 0, height: 0},
     shadowOpacity: 0.5,
     shadowRadius: 5,
     shadowColor: 'lightGray',
