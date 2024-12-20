@@ -1,24 +1,24 @@
 import * as React from 'react';
-import { TextInput } from 'react-native';
-import { useFormikContext } from 'formik';
-import { EyeIcon, EyeOffIcon } from '@assets/icons';
+import {TextInput} from 'react-native';
+import {useFormikContext} from 'formik';
+import {EyeIcon, EyeOffIcon} from '@assets/icons';
 
-import { ErrorMessage, FieldInput } from '@components/forms';
-import { Box, Button, Icon, IconButton } from '@ui/components';
-import { LoginFormValues } from '@features/auth/container/types';
-import { useNavigation } from '@react-navigation/native';
-import { Routes } from '@features/auth/navigation/routes';
-import { AuthStackProps } from '@features/auth/navigation/Stack.types';
+import {ErrorMessage, FieldInput} from '@components/forms';
+import {Box, Button, Icon, IconButton} from '@ui/components';
+import {LoginFormValues} from '@features/auth/container/types';
+import {useNavigation} from '@react-navigation/native';
+import {Routes} from '@features/auth/navigation/routes';
+import {AuthStackProps} from '@features/auth/navigation/Stack.types';
 import ForgotButton from '@features/auth/components/ForgotButton';
-import { isTablet } from '@shared/platform';
-import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
+import {isTablet} from '@shared/platform';
+import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
 type Props = {
   isLoading?: boolean;
 };
-const LoginFormComponent: React.FC<Props> = ({ isLoading }) => {
+const LoginFormComponent: React.FC<Props> = ({isLoading}) => {
   const navigation = useNavigation<AuthStackProps>();
   const formik = useFormikContext<LoginFormValues>();
-  const { errors, isValid, isSubmitting, handleSubmit } = formik;
+  const {errors, isValid, isSubmitting, handleSubmit} = formik;
   const passwordInputRef = React.useRef<TextInput>(null);
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const loading = isSubmitting || isLoading;
