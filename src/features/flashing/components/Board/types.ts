@@ -27,8 +27,8 @@ export type BUILD_LINE = {
   nextLine?: LINE_TYPE;
 };
 export const SIZE_POINTER = isTablet ? 6 : 4;
-export const widthScreen = Dimensions.get('screen').width;
-export const heightScreen = Dimensions.get('screen').height * 2;
+export const widthScreen = Dimensions.get('window').width;
+export const heightScreen = Dimensions.get('window').height * 2;
 
 export const CIRCLE_RADIUS = 15;
 
