@@ -1,5 +1,6 @@
 import {useEffect, useState} from 'react';
 import {Keyboard} from 'react-native';
+import {isAndroid} from '@shared/platform';
 
 type onCallBack = (event?: number) => void;
 export type KeyboardVisibilityType = {
@@ -17,9 +18,13 @@ export const useKeyboardVisibility = ({
     const susbcriptionKeyboardDidShow = Keyboard.addListener(
       'keyboardDidShow',
       ev => {
-        if (ev.endCoordinates.height < 100) return;
+        const heightKeyBoardDefault = ev.endCoordinates.height;
+        const height = isAndroid ? 70 : heightKeyBoardDefault + 70;
+
+        if (heightKeyBoardDefault < 100) return;
+
         setKeyboardVisible(true);
-        onKeyboardDidShow?.(ev.endCoordinates.height + 70);
+        onKeyboardDidShow?.(height);
       },
     );
     const susbcriptionKeyboardDidHide = Keyboard.addListener(

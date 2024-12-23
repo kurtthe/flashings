@@ -22,7 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackPrivateDefinitions, StackPrivateProps} from '@models/navigation';
 import IconMenuEditor from '@features/flashing/components/MenuEditor/IconMenuEditor';
 import {useSelector} from 'react-redux';
-import {checkIsLandscape, isTablet} from '@shared/platform';
+import {checkIsLandscape, isAndroid, isTablet} from '@shared/platform';
 
 type Props = {
   onUndo?: () => void;
@@ -133,7 +133,7 @@ const MenuEditorComponent: React.FC<Props> = ({
 
   const _getPositionBottom = React.useMemo(() => {
     if (isLandscape) {
-      return '-5%';
+      return isAndroid ? '-12%' : '-5%';
     }
 
     return isTablet ? '-2%' : '-4%';

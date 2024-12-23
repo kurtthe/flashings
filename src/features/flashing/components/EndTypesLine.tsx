@@ -13,7 +13,6 @@ import {TYPE_END_LINES} from '@models';
 import {useAppDispatch, useAppSelector} from '@hooks/useStore';
 import {getDataFlashingDraft} from '@store/flashings/selectors';
 import {actions as flashingActions} from '@store/flashings/actions';
-import {getIndexOfStepForName} from '@features/flashing/utils';
 import {isTablet} from '@shared/platform';
 import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
 import {getBends} from '@shared/utils/JobOrders';
@@ -39,7 +38,7 @@ const ButtonEndType = ({
     <BaseTouchable
       onPress={() => onPress && onPress()}
       my="xxs"
-      mx="s"
+      mr="s"
       backgroundColor={active ? 'lightBlue' : 'transparent'}
       style={[
         styles.button,
@@ -63,7 +62,7 @@ const EndTypesLineComponent = ({}) => {
   const dispatch = useAppDispatch();
 
   const fullWeight = isTablet ? '97%' : '95%';
-  const middleWeight = isTablet ? '47.7%' : '45%';
+  const middleWeight = isTablet ? '47.7%' : '46%';
 
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
@@ -169,7 +168,7 @@ const EndTypesLineComponent = ({}) => {
           </Text>
         </Box>
       </Box>
-      <Box py="m" flexDirection="row" flexWrap="wrap">
+      <Box py="m">
         <ButtonEndType
           title="None"
           fullWidth
@@ -177,58 +176,63 @@ const EndTypesLineComponent = ({}) => {
           active={validateTypeLine('none')}
           onPress={() => handleClearLineType()}
         />
-        <ButtonEndType
-          title="Safety"
-          active={validateTypeLine(
-            `safety${typeLine === 'end' ? '2' : '1'}Left`,
-          )}
-          onPress={() =>
-            handlePressButton(`safety${typeLine === 'end' ? '2' : '1'}Left`)
-          }
-          icon={EndCurveLeftIcon}
-          style={{width: middleWeight}}
-        />
-        <ButtonEndType
-          title="Safety"
-          active={validateTypeLine(
-            `safety${typeLine === 'end' ? '2' : '1'}Right`,
-          )}
-          onPress={() =>
-            handlePressButton(`safety${typeLine === 'end' ? '2' : '1'}Right`)
-          }
-          icon={EndCurveRightIcon}
-          style={{width: middleWeight}}
-        />
+        <Box flexDirection="row">
+          <ButtonEndType
+            title="Safety"
+            active={validateTypeLine(
+              `safety${typeLine === 'end' ? '2' : '1'}Left`,
+            )}
+            onPress={() =>
+              handlePressButton(`safety${typeLine === 'end' ? '2' : '1'}Left`)
+            }
+            icon={EndCurveLeftIcon}
+            style={{width: middleWeight}}
+          />
+          <ButtonEndType
+            title="Safety"
+            active={validateTypeLine(
+              `safety${typeLine === 'end' ? '2' : '1'}Right`,
+            )}
+            onPress={() =>
+              handlePressButton(`safety${typeLine === 'end' ? '2' : '1'}Right`)
+            }
+            icon={EndCurveRightIcon}
+            style={{width: middleWeight}}
+          />
+        </Box>
+        <Box flexDirection="row">
+          <ButtonEndType
+            title="Break"
+            active={validateTypeLine('break2Start')}
+            onPress={() => handlePressButton('break2Start')}
+            icon={EndBreakLeft2Icon}
+            style={{width: middleWeight}}
+          />
+          <ButtonEndType
+            title="Break"
+            active={validateTypeLine('break2End')}
+            onPress={() => handlePressButton('break2End')}
+            icon={EndBreakRight2Icon}
+            style={{width: middleWeight}}
+          />
+        </Box>
 
-        <ButtonEndType
-          title="Break"
-          active={validateTypeLine('break2Start')}
-          onPress={() => handlePressButton('break2Start')}
-          icon={EndBreakLeft2Icon}
-          style={{width: middleWeight}}
-        />
-        <ButtonEndType
-          title="Break"
-          active={validateTypeLine('break2End')}
-          onPress={() => handlePressButton('break2End')}
-          icon={EndBreakRight2Icon}
-          style={{width: middleWeight}}
-        />
-
-        <ButtonEndType
-          title="Break"
-          active={validateTypeLine('break1Start')}
-          onPress={() => handlePressButton('break1Start')}
-          icon={EndBreakLeftIcon}
-          style={{width: middleWeight}}
-        />
-        <ButtonEndType
-          title="Break"
-          active={validateTypeLine('break1End')}
-          onPress={() => handlePressButton('break1End')}
-          icon={EndBreakRightIcon}
-          style={{width: middleWeight}}
-        />
+        <Box flexDirection="row">
+          <ButtonEndType
+            title="Break"
+            active={validateTypeLine('break1Start')}
+            onPress={() => handlePressButton('break1Start')}
+            icon={EndBreakLeftIcon}
+            style={{width: middleWeight}}
+          />
+          <ButtonEndType
+            title="Break"
+            active={validateTypeLine('break1End')}
+            onPress={() => handlePressButton('break1End')}
+            icon={EndBreakRightIcon}
+            style={{width: middleWeight}}
+          />
+        </Box>
       </Box>
     </Box>
   );

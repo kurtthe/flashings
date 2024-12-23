@@ -63,7 +63,6 @@ const Board: React.FC<Props> = ({
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
   );
-  const isLandscape = checkIsLandscape();
 
   const [graphs, setGraphs] = React.useState<DREW_LINE_TYPE[]>([]);
   const [pointSelected, setPointSelected] = React.useState<
