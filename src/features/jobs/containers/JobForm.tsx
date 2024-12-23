@@ -61,6 +61,8 @@ const JobFormContainer = () => {
               id: idJob,
               orderData: undefined,
               flashings: [],
+              date_created: '',
+              date_updated: '',
               rain_heads: [],
               sumbs: [],
             },
