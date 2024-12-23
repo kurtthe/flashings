@@ -132,12 +132,24 @@ const MenuEditorComponent: React.FC<Props> = ({
   };
 
   const _getPositionBottom = React.useMemo(() => {
-    if (isLandscape) {
-      return isAndroid ? '-12%' : '-5%';
+    if (isTablet) {
+      return isLandscape
+        ? isAndroid
+          ? '-7%'
+          : '-5%'
+        : isAndroid
+          ? '-5%'
+          : '-2%';
     }
 
-    return isTablet ? '-2%' : '-4%';
-  }, [isTablet, isLandscape]);
+    return isLandscape
+      ? isAndroid
+        ? '-12%'
+        : '-5%'
+      : isAndroid
+        ? '-2%'
+        : '-4%';
+  }, [isTablet, isLandscape, isAndroid]);
 
   return (
     <Box
