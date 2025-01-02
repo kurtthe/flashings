@@ -38,6 +38,7 @@ import CompleteMeasurements from '@features/flashing/components/CompleteMeasurem
 import {getGirth} from '@shared/utils/JobOrders';
 import {config} from '@env/config';
 import Toast from 'react-native-toast-message';
+import {useScrollView} from '@hooks/useScrollView';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -78,6 +79,8 @@ const Board: React.FC<Props> = ({
     'line',
   );
   const [heightMeasurement, setHeightMeasurement] = React.useState(200);
+
+  const {scrollRef, scrollToY} = useScrollView();
 
   useKeyboardVisibility({
     onKeyboardDidShow: (heightKeyboard: number = 357) => {
@@ -265,6 +268,7 @@ const Board: React.FC<Props> = ({
   return (
     <>
       <ScrollBox
+        ref={scrollRef}
         as={KeyboardAwareScrollView}
         showsVerticalScrollIndicator={false}>
         <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
