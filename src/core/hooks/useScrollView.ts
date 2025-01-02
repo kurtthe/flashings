@@ -8,7 +8,7 @@ export const useScrollView = () => {
     if (!scrollRef || !scrollRef.current) return;
 
     scrollRef.current.scrollTo({
-      x: 50,
+      x: 0,
       y: newCoordenateY,
       animated: true,
     });

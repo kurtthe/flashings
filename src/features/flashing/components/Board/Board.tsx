@@ -1,5 +1,9 @@
 import React from 'react';
-import {TouchableOpacity, GestureResponderEvent} from 'react-native';
+import {
+  TouchableOpacity,
+  GestureResponderEvent,
+  ScrollView,
+} from 'react-native';
 import {
   DREW_LINE_TYPE,
   heightScreen,
@@ -19,9 +23,7 @@ import SectionsButton from '@features/flashing/components/SectionsButton';
 import {POINT_TYPE} from '@models';
 import {isNaN} from 'lodash';
 import {Box, ScrollBox} from '@ui/components';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {getIndexOfStepForName} from '@features/flashing/utils';
-import {checkIsLandscape, isAndroid, isTablet} from '@shared/platform';
 import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import EndTypesLineComponent from '@features/flashing/components/EndTypesLine';
 import SvgBoard from '@features/flashing/components/SvgBoard/SvgBoard';
@@ -174,14 +176,19 @@ const Board: React.FC<Props> = ({
 
   const handleNextLineSelected = () => {
     if (!flashingDataDraft) return;
-    const newIndex = indexLineSelected + 1;
     const lengthLine = flashingDataDraft.dataLines.length - 1;
+    const newIndex = indexLineSelected + 1;
 
     if (newIndex > lengthLine) {
       dispatch(
         flashingActions.changeStep({step: getIndexOfStepForName('end_type')}),
       );
+      return;
     }
+
+    const y1 = flashingDataDraft.dataLines[newIndex].points[0][1];
+    const y2 = flashingDataDraft.dataLines[newIndex].points[1][1];
+    const coordinateScroll = y1 + y2;
 
     if (newIndex > lengthLine) {
       setIndexLineSelected(lengthLine);
@@ -191,31 +198,42 @@ const Board: React.FC<Props> = ({
     if (typeSelected === 'angle') {
       setIndexLineSelected(newIndex);
       setTypeSelected('line');
+      scrollToY(coordinateScroll / 2.5);
+
       return;
     }
+    scrollToY(y1 - 80);
     setTypeSelected('angle');
   };
 
   const handleBackLineSelected = () => {
+    if (!flashingDataDraft) return;
     if (indexLineSelected === 0 && typeSelected === 'line') {
       return dispatch(
         flashingActions.changeStep({step: getIndexOfStepForName('side')}),
       );
     }
 
-    const newIndex = indexLineSelected - 1;
-    if (newIndex < 0) {
+    const newIndex = indexLineSelected - 1 <= 0 ? 0 : indexLineSelected - 1;
+
+    if (newIndex < 0 && typeSelected === 'angle') {
       setIndexLineSelected(0);
     }
 
+    const y1 = flashingDataDraft.dataLines[newIndex].points[0][1];
+    const y2 = flashingDataDraft.dataLines[newIndex].points[1][1];
+    const coordinateScroll = y1 + y2;
+
     if (typeSelected === 'angle') {
       setTypeSelected('line');
+      scrollToY(coordinateScroll / 2.5);
       return;
     }
 
     if (typeSelected === 'line') {
       setTypeSelected('angle');
       setIndexLineSelected(newIndex);
+      scrollToY(y2 - 80);
     }
   };
 
@@ -267,10 +285,7 @@ const Board: React.FC<Props> = ({
 
   return (
     <>
-      <ScrollBox
-        ref={scrollRef}
-        as={KeyboardAwareScrollView}
-        showsVerticalScrollIndicator={false}>
+      <ScrollView ref={scrollRef} showsVerticalScrollIndicator={false}>
         <TouchableOpacity activeOpacity={1} onPress={handlePointer}>
           <GestureHandlerRootView>
             <SvgBoard
@@ -281,7 +296,7 @@ const Board: React.FC<Props> = ({
             />
           </GestureHandlerRootView>
         </TouchableOpacity>
-      </ScrollBox>
+      </ScrollView>
 
       {stepBoard === getIndexOfStepForName('finish') && (
         <SectionsButton
