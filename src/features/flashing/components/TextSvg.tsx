@@ -1,6 +1,6 @@
 import React from 'react';
-import { Rect, Text } from 'react-native-svg';
-import { isTablet } from '@shared/platform';
+import {Rect, Text} from 'react-native-svg';
+import {isTablet} from '@shared/platform';
 
 type Props = {
   positionTextX: number;
@@ -47,6 +47,7 @@ const TextSvg: React.FC<Props> = ({
         textAnchor="middle"
         fill={colorLabel}
         y={positionTextY}
+        glyphOrientationVertical={0}
         x={positionTextX}
         fontSize={fontSize}>
         {textValue}
