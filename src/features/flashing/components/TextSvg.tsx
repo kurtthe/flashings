@@ -11,6 +11,7 @@ type Props = {
   textValue: string;
   fontSize?: number;
   colorLabel?: string;
+  pending?: number;
 };
 
 const TextSvg: React.FC<Props> = ({
@@ -22,8 +23,11 @@ const TextSvg: React.FC<Props> = ({
   id,
   positionTextXRect,
   positionTextYRect,
+  pending,
 }) => {
   const [textWidth, setTextWidth] = React.useState(30);
+
+  console.log('==>pending::', pending);
 
   return (
     <>
@@ -35,6 +39,7 @@ const TextSvg: React.FC<Props> = ({
           fill="white"
           y={positionTextYRect}
           x={positionTextXRect}
+          transform={`rotate(${pending}, ${positionTextX}, ${positionTextY})`}
           rx={0}
           ry={0}
         />
@@ -47,8 +52,8 @@ const TextSvg: React.FC<Props> = ({
         textAnchor="middle"
         fill={colorLabel}
         y={positionTextY}
-        glyphOrientationVertical={0}
         x={positionTextX}
+        transform={`rotate(${pending}, ${positionTextX}, ${positionTextY})`}
         fontSize={fontSize}>
         {textValue}
       </Text>

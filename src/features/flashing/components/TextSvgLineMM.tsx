@@ -3,6 +3,7 @@ import {POINT_TYPE} from '@models';
 import {
   calculatePointHalf,
   getIndexOfStepForName,
+  setUpPendingForTheLabel,
 } from '@features/flashing/utils';
 import TextSvg from '@features/flashing/components/TextSvg';
 import {useAppSelector} from '@hooks/useStore';
@@ -36,6 +37,12 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
     );
   }, [step]);
 
+  const _getPending = React.useMemo(() => {
+    if (!flashingDataDraft) return 0;
+
+    return setUpPendingForTheLabel(flashingDataDraft.dataLines[index].pending);
+  }, [isFront, flashingDataDraft, index]);
+
   const label = React.useMemo(() => {
     if (minorMeasurement || !flashingDataDraft) return '';
 
@@ -62,6 +69,7 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
       positionTextXRect={newPoints[0] - label.length * 5}
       positionTextYRect={newPoints[1] - 5}
       textValue={label}
+      pending={_getPending}
     />
   );
 };
