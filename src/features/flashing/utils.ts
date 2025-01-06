@@ -383,5 +383,5 @@ export const setUpPendingForTheLabel = (
     return 270;
   }
 
-  return pendingPoint;
+  return pendingPoint === 0 ? 0 : pendingPoint - 60;
 };
