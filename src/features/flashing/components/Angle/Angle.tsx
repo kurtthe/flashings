@@ -1,5 +1,5 @@
 import React from 'react';
-import { LINE_TYPE } from '@models';
+import {LINE_TYPE} from '@models';
 import AngleRect from '@features/flashing/components/AngleRect';
 import TextSvg from '@features/flashing/components/TextSvg';
 import {
@@ -45,10 +45,10 @@ const AngleComponent: React.FC<Props> = ({
     <TextSvg
       id={id}
       colorLabel={isSelected ? colorSelected : '#000'}
-      positionTextYRect={positionTextAngle[1] - 3}
-      positionTextXRect={positionTextAngle[0] + 5}
-      positionTextX={positionTextAngle[0] + 20}
-      positionTextY={positionTextAngle[1] + 10}
+      positionTextYRect={positionTextAngle[1]}
+      positionTextXRect={positionTextAngle[0]}
+      positionTextX={positionTextAngle[0] + 13}
+      positionTextY={positionTextAngle[1] + 15}
       textValue={`${angle}°`}
     />
   );

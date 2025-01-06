@@ -38,9 +38,7 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
   }, [step]);
 
   const _getPending = React.useMemo(() => {
-    if (!flashingDataDraft) return 0;
-
-    return setUpPendingForTheLabel(flashingDataDraft.dataLines[index].pending);
+    return setUpPendingForTheLabel(flashingDataDraft?.dataLines[index].pending);
   }, [isFront, flashingDataDraft, index]);
 
   const label = React.useMemo(() => {
@@ -65,9 +63,9 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
     <TextSvg
       id={Math.random()}
       positionTextX={newPoints[0]}
-      positionTextY={newPoints[1] + 10}
-      positionTextXRect={newPoints[0] - label.length * 5}
-      positionTextYRect={newPoints[1] - 5}
+      positionTextY={newPoints[1] + 12}
+      positionTextXRect={newPoints[0] - label.length * 6}
+      positionTextYRect={newPoints[1]}
       textValue={label}
       pending={_getPending}
     />

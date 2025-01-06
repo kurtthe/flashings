@@ -151,6 +151,7 @@ const getPointParallel = ({
   }
   return pointsLineParallel.default;
 };
+
 export const calculateParallelLines = (
   lines: LINE_TYPE[],
   isRight: boolean = true,
@@ -372,8 +373,13 @@ export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
   return STEPS_BOARD.findIndex(stepName => stepName === nameStep);
 };
 
-export const setUpPendingForTheLabel = (pendingPoint: number) => {
-  if (pendingPoint === Infinity || pendingPoint === -Infinity) {
+export const setUpPendingForTheLabel = (
+  pendingPoint: number | undefined | null = 0,
+) => {
+  console.log('???>pendingPoint::', pendingPoint);
+  const isNull = pendingPoint === null;
+
+  if (pendingPoint === Infinity || pendingPoint === -Infinity || isNull) {
     return 270;
   }
 

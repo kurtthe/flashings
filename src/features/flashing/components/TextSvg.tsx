@@ -23,18 +23,16 @@ const TextSvg: React.FC<Props> = ({
   id,
   positionTextXRect,
   positionTextYRect,
-  pending,
+  pending = 0,
 }) => {
   const [textWidth, setTextWidth] = React.useState(30);
-
-  console.log('==>pending::', pending);
 
   return (
     <>
       {positionTextXRect && positionTextYRect && (
         <Rect
-          width={textWidth + 10}
-          height={fontSize + 3}
+          width={textWidth + 15}
+          height={fontSize + 13}
           origin={`${positionTextX}, ${positionTextY}`}
           fill="white"
           y={positionTextYRect}
@@ -50,6 +48,8 @@ const TextSvg: React.FC<Props> = ({
         }}
         key={`backgroundSizeText${id}`}
         textAnchor="middle"
+        accessibilityLabel="middle"
+        fontWeight="bold"
         fill={colorLabel}
         y={positionTextY}
         x={positionTextX}

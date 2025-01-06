@@ -97,15 +97,6 @@ const SvgBoard: React.FC<Props> = ({
         {renderTypeEndStartLines()}
         {graphs.map(({points, path: LineComponent, isLine}, index) => (
           <React.Fragment key={`graphs-${index}-${Math.random()}`}>
-            {pathParallel && (
-              <PathComponent
-                d={serialize(pathParallel)}
-                stroke={'#0056FF'}
-                strokeDasharray={10}
-                strokeWidth={1}
-                fill="transparent"
-              />
-            )}
             {LineComponent}
             {pointsForLabel && (
               <>
@@ -139,6 +130,15 @@ const SvgBoard: React.FC<Props> = ({
                   />
                 )}
               </>
+            )}
+            {pathParallel && (
+              <PathComponent
+                d={serialize(pathParallel)}
+                stroke={'#0056FF'}
+                strokeDasharray={10}
+                strokeWidth={1}
+                fill="transparent"
+              />
             )}
           </React.Fragment>
         ))}
