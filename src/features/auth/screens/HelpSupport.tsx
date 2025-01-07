@@ -7,15 +7,15 @@ import {
   Alert,
   View,
 } from 'react-native';
-import { Text, Button, Box, KeyboardAvoidingBox } from "@ui/components";
-import DismissKeyboardPressable from "@components/forms/DismissKeyboardPressable";
-import { useNavigation } from "@react-navigation/native";
-const { width } = Dimensions.get('screen');
-import { formatPhone } from "@shared/helpers";
+import {Text, Button, Box, KeyboardAvoidingBox} from '@ui/components';
+import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
+import {useNavigation} from '@react-navigation/native';
+const {width} = Dimensions.get('screen');
+import {formatPhone} from '@shared/helpers';
 const HelpSupportScreen = () => {
-  const navigation = useNavigation()
-  const numberPhone = "0397038400"
-  const emailAddress = "ar@burdens.com.au"
+  const navigation = useNavigation();
+  const numberPhone = '0397038400';
+  const emailAddress = 'ar@burdens.com.au';
 
   return (
     <KeyboardAvoidingBox flex={1}>
@@ -28,29 +28,35 @@ const HelpSupportScreen = () => {
             />
             <Text style={styles.mainTextStyle}>Help Support</Text>
           </View>
-          <View style={{ flex: 3 }}>
-            <Text style={[styles.infoTextStyle, { paddingBottom: 25 }]}>
-              This app is only for Burbend Trade Costumers.{'\n'}
+          <View style={{flex: 3}}>
+            <Text style={[styles.infoTextStyle, {paddingBottom: 25}]}>
+              This app is only for Burdens Trade Customers.{'\n'}
               {'\n'}
               If you need help to get access to your trade account or open one,
               Please contact us on:
             </Text>
-            <View style={{ paddingBottom: 32 }}>
-              <Text style={[styles.infoTextStyle, { paddingBottom: 5 }]}>
+            <View style={{paddingBottom: 32}}>
+              <Text style={[styles.infoTextStyle, {paddingBottom: 5}]}>
                 Email
               </Text>
-              <Text onPress={()=> Linking.openURL(`mailto:${emailAddress}`)}  style={styles.underlinedTextStyle}>
+              <Text
+                onPress={() => Linking.openURL(`mailto:${emailAddress}`)}
+                style={styles.underlinedTextStyle}>
                 {emailAddress}
               </Text>
             </View>
             <View>
-              <Text  style={[styles.infoTextStyle, { paddingBottom: 5 }]}>
+              <Text style={[styles.infoTextStyle, {paddingBottom: 5}]}>
                 Phone number
               </Text>
-              <Text onPress={()=> Linking.openURL(`tel:${numberPhone}`)} style={styles.underlinedTextStyle}>{formatPhone(numberPhone, {format: "NATIONAL"})}</Text>
+              <Text
+                onPress={() => Linking.openURL(`tel:${numberPhone}`)}
+                style={styles.underlinedTextStyle}>
+                {formatPhone(numberPhone, {format: 'NATIONAL'})}
+              </Text>
             </View>
           </View>
-          <Box flex={2} style={{ justifyContent: 'flex-end' }}>
+          <Box flex={2} style={{justifyContent: 'flex-end'}}>
             <Button variant="solid" onPress={() => navigation.goBack()}>
               Back
             </Button>
