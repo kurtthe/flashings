@@ -376,7 +376,6 @@ export const getIndexOfStepForName = (nameStep: MODES_BOARD) => {
 export const setUpPendingForTheLabel = (
   pendingPoint: number | undefined | null = 0,
 ) => {
-  console.log('???>pendingPoint::', pendingPoint);
   const isNull = pendingPoint === null;
 
   if (pendingPoint === Infinity || pendingPoint === -Infinity || isNull) {

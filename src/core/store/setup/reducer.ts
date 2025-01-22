@@ -6,7 +6,7 @@ type initialStateType = {
 };
 
 const INITIAL_STATE: initialStateType = {
-  versionApp: "1.5",
+  versionApp: '2.1',
 };
 
 const setupReducer = createReducer(INITIAL_STATE, builder => {

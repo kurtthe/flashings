@@ -32,9 +32,9 @@ import {
 import {baseUrlPDF} from '@shared/endPoints';
 import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
-import {getVersionApp} from '@store/setup/selectors';
 import Toast from 'react-native-toast-message';
 import {CreateOrderFormValues} from '@models/order';
+import {useCompareVersionApp} from '@hooks/useCompareVersionApp';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -61,7 +61,7 @@ const OrderForm = () => {
   const {data: dataSupplier} = useGetSupplier();
   const {data: stores} = useGetStores();
   const storeSelected = useAppSelector(getStoreSelectedOrder);
-  const versionApp = useAppSelector(getVersionApp);
+  const {versionApp} = useCompareVersionApp();
 
   const {mutate: createJob, isLoading} = useAddDataJob({
     onSuccess: (data: any) => {
