@@ -7732,10 +7732,10 @@ react-native-paper@^5.10.0:
     color "^3.1.2"
     use-latest-callback "^0.1.5"
 
-react-native-pdf@^6.7.3:
-  version "6.7.3"
-  resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-6.7.3.tgz#810ace573029de686624629ad77814cb147bab50"
-  integrity sha512-bK1fVkj18kBA5YlRFNJ3/vJ1bEX3FDHyAPY6ArtIdVs+vv0HzcK5WH9LSd2bxUsEMIyY9CSjP4j8BcxNXTiQkQ==
+react-native-pdf@^6.7.6:
+  version "6.7.6"
+  resolved "https://registry.yarnpkg.com/react-native-pdf/-/react-native-pdf-6.7.6.tgz#3bc91eeca71017138d77767aece90e59d45bf07f"
+  integrity sha512-lT6dVmF8mNRzhf09RQa4k0DZxV3ew46A8Ngvqm8nYnwHO2jFqYo37/bMN0tdVsxZ86SOnFRo9IvGMVj2OVtC1w==
   dependencies:
     crypto-js "4.2.0"
     deprecated-react-native-prop-types "^2.3.0"

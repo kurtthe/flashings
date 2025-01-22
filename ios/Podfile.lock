@@ -386,7 +386,7 @@ PODS:
   - react-native-mmkv-storage (0.9.1):
     - MMKV (= 1.2.13)
     - React-Core
-  - react-native-pdf (6.7.3):
+  - react-native-pdf (6.7.6):
     - React-Core
   - react-native-safe-area-context (4.6.4):
     - RCT-Folly
@@ -814,7 +814,7 @@ SPEC CHECKSUMS:
   React-logger: 70abe174614ac3f165e02ab8300fec50d2f9572d
   react-native-blob-util: b3ffacd7f910f88b44172fd414a4a828a9d28cfa
   react-native-mmkv-storage: 45287ac5851a967d15f6c59b4a8aee6331bec034
-  react-native-pdf: 17fde472b64d0462108a17bf8cdedd7b976a3c9f
+  react-native-pdf: 5ad328deec86764b0684cfe3d64f2a81b1b9aacb
   react-native-safe-area-context: f7b689d77c2b0dde4f9a396d554c912df72feb72
   react-native-view-shot: d1a701eb0719c6dccbd20b4bb43b1069f304cb70
   react-native-webview: b49a1aafbd34a36a38a7dee578e50de4d8da857f
