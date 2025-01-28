@@ -40,7 +40,7 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
   const _getPending = React.useMemo(() => {
     const pend = flashingDataDraft?.dataLines[index]?.pending;
     if (!pend) return 0;
-    return setUpPendingForTheLabel();
+    return setUpPendingForTheLabel(pend);
   }, [isFront, flashingDataDraft, index]);
 
   const label = React.useMemo(() => {

@@ -38,13 +38,8 @@ const ButtonEndType = ({
     <BaseTouchable
       onPress={() => onPress && onPress()}
       my="xxs"
-      mr="s"
       backgroundColor={active ? 'lightBlue' : 'transparent'}
-      style={[
-        styles.button,
-        fullWidth && {width: isTablet ? '92%' : '95%'},
-        style,
-      ]}>
+      style={[styles.button, fullWidth && {width: '100%'}, style]}>
       <Text textAlign={!icon ? 'center' : 'left'} variant="bodyRegular" mx="s">
         {title}
       </Text>
@@ -60,9 +55,6 @@ const ButtonEndType = ({
 };
 const EndTypesLineComponent = ({}) => {
   const dispatch = useAppDispatch();
-
-  const fullWeight = isTablet ? '97%' : '95%';
-  const middleWeight = isTablet ? '47.7%' : '46%';
 
   const flashingDataDraft = useAppSelector(state =>
     getDataFlashingDraft(state),
@@ -168,15 +160,16 @@ const EndTypesLineComponent = ({}) => {
           </Text>
         </Box>
       </Box>
+
       <Box py="m">
         <ButtonEndType
           title="None"
           fullWidth
-          style={{height: isTablet ? 50 : 40, width: fullWeight}}
           active={validateTypeLine('none')}
           onPress={() => handleClearLineType()}
         />
-        <Box flexDirection="row">
+
+        <Box flexDirection="row" justifyContent="space-between">
           <ButtonEndType
             title="Safety"
             active={validateTypeLine(
@@ -186,7 +179,6 @@ const EndTypesLineComponent = ({}) => {
               handlePressButton(`safety${typeLine === 'end' ? '2' : '1'}Left`)
             }
             icon={EndCurveLeftIcon}
-            style={{width: middleWeight}}
           />
           <ButtonEndType
             title="Safety"
@@ -197,40 +189,35 @@ const EndTypesLineComponent = ({}) => {
               handlePressButton(`safety${typeLine === 'end' ? '2' : '1'}Right`)
             }
             icon={EndCurveRightIcon}
-            style={{width: middleWeight}}
           />
         </Box>
-        <Box flexDirection="row">
+        <Box flexDirection="row" justifyContent="space-between">
           <ButtonEndType
             title="Break"
             active={validateTypeLine('break2Start')}
             onPress={() => handlePressButton('break2Start')}
             icon={EndBreakLeft2Icon}
-            style={{width: middleWeight}}
           />
           <ButtonEndType
             title="Break"
             active={validateTypeLine('break2End')}
             onPress={() => handlePressButton('break2End')}
             icon={EndBreakRight2Icon}
-            style={{width: middleWeight}}
           />
         </Box>
 
-        <Box flexDirection="row">
+        <Box flexDirection="row" justifyContent="space-between">
           <ButtonEndType
             title="Break"
             active={validateTypeLine('break1Start')}
             onPress={() => handlePressButton('break1Start')}
             icon={EndBreakLeftIcon}
-            style={{width: middleWeight}}
           />
           <ButtonEndType
             title="Break"
             active={validateTypeLine('break1End')}
             onPress={() => handlePressButton('break1End')}
             icon={EndBreakRightIcon}
-            style={{width: middleWeight}}
           />
         </Box>
       </Box>
@@ -240,7 +227,7 @@ const EndTypesLineComponent = ({}) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: '45%',
+    width: '48%',
     marginVertical: isTablet ? 5 : 2,
     flexDirection: 'row',
     padding: 10,
