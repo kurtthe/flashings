@@ -28,36 +28,21 @@ const TextSvg: React.FC<Props> = ({
   const [textWidth, setTextWidth] = React.useState(30);
 
   return (
-    <>
-      {positionTextXRect && positionTextYRect && (
-        <Rect
-          width={textWidth + 15}
-          height={fontSize + 13}
-          origin={`${positionTextX}, ${positionTextY}`}
-          fill="white"
-          y={positionTextYRect}
-          x={positionTextXRect}
-          transform={`rotate(${pending}, ${positionTextX}, ${positionTextY})`}
-          rx={0}
-          ry={0}
-        />
-      )}
-      <Text
-        onLayout={event => {
-          setTextWidth(event.nativeEvent.layout.width + 8);
-        }}
-        key={`backgroundSizeText${id}`}
-        textAnchor="middle"
-        accessibilityLabel="middle"
-        fontWeight="bold"
-        fill={colorLabel}
-        y={positionTextY}
-        x={positionTextX}
-        transform={`rotate(${pending}, ${positionTextX}, ${positionTextY})`}
-        fontSize={fontSize}>
-        {textValue}
-      </Text>
-    </>
+    <Text
+      onLayout={event => {
+        setTextWidth(event.nativeEvent.layout.width + 8);
+      }}
+      key={`backgroundSizeText${id}`}
+      textAnchor="middle"
+      accessibilityLabel="middle"
+      fontWeight="bold"
+      fill={colorLabel}
+      y={positionTextY}
+      x={positionTextX}
+      transform={`rotate(${Math.abs(pending)}, ${positionTextX}, ${positionTextY})`}
+      fontSize={fontSize}>
+      {textValue}
+    </Text>
   );
 };
 export default TextSvg;

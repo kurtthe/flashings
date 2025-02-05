@@ -12,6 +12,7 @@ import {
   getSideTapered,
   getStep,
 } from '@store/flashings/selectors';
+import {gettingCoordinatesForLabel} from './calculatePostionsText';
 
 type Props = {
   coordinates: POINT_TYPE[];
@@ -39,7 +40,6 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
 
   const _getPending = React.useMemo(() => {
     const pend = flashingDataDraft?.dataLines[index]?.pending;
-    if (!pend) return 0;
     return setUpPendingForTheLabel(pend);
   }, [isFront, flashingDataDraft, index]);
 
@@ -56,7 +56,17 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
     return flashingDataDraft?.dataLines[index].distance?.toString();
   }, [isFront, flashingDataDraft, index]);
 
-  const newPoints = calculatePointHalf(coordinates);
+  const {positionRect, positionText} = React.useMemo(() => {
+    const newPoints = calculatePointHalf(coordinates);
+
+    return gettingCoordinatesForLabel(
+      newPoints,
+      _getPending,
+      parseInt(label ? label : '10'),
+      flashingDataDraft?.parallelRight,
+    );
+  }, [coordinates, _getPending, label, flashingDataDraft?.parallelRight]);
+
   const shouldRenderTextSvg = step >= getIndexOfStepForName('measurements');
 
   if (!shouldRenderTextSvg || !label) return null;
@@ -64,10 +74,10 @@ const TextSvgLineMM: React.FC<Props> = ({coordinates, index}) => {
   return (
     <TextSvg
       id={Math.random()}
-      positionTextX={newPoints[0]}
-      positionTextY={newPoints[1] + 12}
-      positionTextXRect={newPoints[0] - label.length * 6}
-      positionTextYRect={newPoints[1]}
+      positionTextX={positionText[0]}
+      positionTextY={positionText[1]}
+      positionTextXRect={positionRect[0]}
+      positionTextYRect={positionRect[1]}
       textValue={label}
       pending={_getPending}
     />

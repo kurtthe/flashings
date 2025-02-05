@@ -13,6 +13,7 @@ type Props = {
   line: LINE_TYPE;
   isSelected: boolean;
   nextLine?: LINE_TYPE;
+  rightLinePaint?: boolean;
 };
 const AngleComponent: React.FC<Props> = ({
   id,
@@ -20,6 +21,7 @@ const AngleComponent: React.FC<Props> = ({
   line,
   isSelected,
   nextLine,
+  rightLinePaint = true,
 }) => {
   const colorSelected = '#DEA000';
 
@@ -45,10 +47,8 @@ const AngleComponent: React.FC<Props> = ({
     <TextSvg
       id={id}
       colorLabel={isSelected ? colorSelected : '#000'}
-      positionTextYRect={positionTextAngle[1]}
-      positionTextXRect={positionTextAngle[0]}
-      positionTextX={positionTextAngle[0] + 13}
-      positionTextY={positionTextAngle[1] + 15}
+      positionTextX={positionTextAngle[0] - 13}
+      positionTextY={positionTextAngle[1] + 10}
       textValue={`${angle}°`}
     />
   );

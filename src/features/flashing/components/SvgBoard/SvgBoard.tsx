@@ -12,7 +12,6 @@ import {
   widthScreen,
 } from '@features/flashing/components/Board/types';
 import GridComponent from '@features/flashing/components/Grid/Grid';
-import TextSvgLineMM from '../TextSvgLineMM';
 import {useAppSelector} from '@hooks/useStore';
 import {
   getDataFlashingDraft,
@@ -22,6 +21,7 @@ import {
 import {Text} from '@ui/components';
 import {View} from 'react-native';
 import {palette} from '@theme';
+import {TextSvgLineMM} from '../TextSvgLineMM';
 
 type Props = {
   graphs: DREW_LINE_TYPE[];

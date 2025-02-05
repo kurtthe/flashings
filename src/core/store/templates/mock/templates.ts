@@ -1,4 +1,4 @@
-import { TemplateType } from '@models/templates';
+import {TemplateType} from '@models/templates';
 
 export const dataTemplate: TemplateType[] = [
   {

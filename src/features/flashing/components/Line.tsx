@@ -17,6 +17,7 @@ const LineMadeComponent: React.FC<Props> = ({
   id,
   angle,
   typeSelected = 'line',
+  rightLinePaint,
   nextLine,
 }) => {
   const step = useAppSelector(state => getStep(state));
@@ -61,6 +62,7 @@ const LineMadeComponent: React.FC<Props> = ({
           line={line}
           isSelected={isAngleSelected}
           nextLine={nextLine}
+          rightLinePaint={rightLinePaint}
         />
       )}
     </G>
