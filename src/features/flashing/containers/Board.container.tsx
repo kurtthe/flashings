@@ -400,7 +400,6 @@ const BoardContainer = () => {
         <GuideStepperBoardComponent
           onFinish={finishSteps}
           onChangeOption={changeSettingsBoard}
-          girthLeft={girthLeft}
         />
       )}
       <ViewShot

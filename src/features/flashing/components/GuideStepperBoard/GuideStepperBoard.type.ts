@@ -28,7 +28,7 @@ export const guideSteps: GUIDE_STEP[] = [
   {
     step: getIndexOfStepForName('draw'),
     title: 'Draw Points',
-    description: `Don’t draw safety folds or breaks.${'\n'}When finished press Next${'\n'}Max girth::max_girth`,
+    description: `Don’t draw safety folds or breaks.${'\n'}When finished press Next.`,
     action: undefined,
   },
   {
