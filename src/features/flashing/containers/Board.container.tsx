@@ -22,7 +22,7 @@ import {Routes as RoutesJobs} from '@features/jobs/navigation/routes';
 import {Routes as RoutesFlashing} from '@features/flashing/navigation/routes';
 import {FlashingParamsList} from '@features/flashing/navigation/Stack.types';
 import {jobData} from '@store/jobs/selectors';
-import {isAndroid} from '@shared/platform';
+import {isAndroid, isTablet} from '@shared/platform';
 import {useKeyboardVisibility} from '@hooks/useKeyboardVisibility';
 import alert from '@services/general-request/alert';
 import {imageToBase64, sleep} from '@shared/utils';
@@ -92,7 +92,9 @@ const BoardContainer = () => {
   React.useEffect(() => {
     if (!flashingDataDraft) return;
     const getHowManyGirth = getGirth(flashingDataDraft);
-    if (getHowManyGirth >= config.maxGirth) {
+    const maxGirth = isTablet ? config.maxGirthTable : config.maxGirthPhone;
+
+    if (getHowManyGirth >= maxGirth) {
       Toast.show({
         position: 'bottom',
         text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,

@@ -41,6 +41,7 @@ import {getGirth} from '@shared/utils/JobOrders';
 import {config} from '@env/config';
 import Toast from 'react-native-toast-message';
 import {useScrollView} from '@hooks/useScrollView';
+import {isTablet} from '@shared/platform';
 
 type Props = {
   onAddPoint?: (newPoint: POINT_TYPE) => void;
@@ -145,7 +146,9 @@ const Board: React.FC<Props> = ({
     if (!pointSelected || !flashingDataDraft) return;
 
     const getHowManyGirth = getGirth(flashingDataDraft);
-    if (getHowManyGirth >= config.maxGirth) {
+    const maxGirth = isTablet ? config.maxGirthTable : config.maxGirthPhone;
+
+    if (getHowManyGirth >= maxGirth) {
       Toast.show({
         position: 'bottom',
         text1: `Girth must not exceed ${config.maxGirth}${config.unitMeasurement}`,
