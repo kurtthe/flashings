@@ -30,4 +30,5 @@ export const config = {
   maxGirth: 1200,
   SKU_TAPERED: 'MFLTAPER',
   SKU_DEFAULT: 'MFLC10100218',
+  minimumSizeLinesMM: 10,
 };

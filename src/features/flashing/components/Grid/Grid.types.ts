@@ -8,6 +8,9 @@ export const LINE_OFFSET = 0;
 
 export const SIZE_GRID = isTablet ? 55 : 50;
 
-export const WIDTH_SCREEN = isTablet ? width : height;
-export const HEIGHT_SCREEN = Dimensions.get('window').height;
+const standardWidth = 852;
+const standardHeight = 852;
+
+export const WIDTH_SCREEN = isTablet ? standardWidth : standardHeight;
+export const HEIGHT_SCREEN = standardHeight;
 export const COLOR_GRID = '#E1E1E1';

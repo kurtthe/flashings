@@ -14,6 +14,7 @@ import {useAppDispatch} from '@hooks/useStore';
 import {actions as flashingActions} from '@store/flashings/actions';
 import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
 import {config} from '@env/config';
+import Toast from 'react-native-toast-message';
 
 type Props = {
   onDone: (sizeLine: number, type: 'line' | 'angle') => void;
@@ -55,6 +56,14 @@ const MeasurementLines: React.FC<Props> = ({
   };
 
   const handleNext = () => {
+    if (measurement < config.minimumSizeLinesMM) {
+      Toast.show({
+        position: 'bottom',
+        text1: `The line must be at least ${config.minimumSizeLinesMM} mm.`,
+        type: 'info',
+      });
+      return;
+    }
     handleDone(`${measurement}`);
     onNext && onNext();
   };

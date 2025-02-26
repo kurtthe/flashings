@@ -1,6 +1,6 @@
 import React from 'react';
 import {FieldInput, FieldSelect} from '@components/forms';
-import {Button, Box, ScrollBox, IconButton, Icon, Text} from '@ui/components';
+import {Button, Box, IconButton, Icon, Text} from '@ui/components';
 import {FieldArray, useFormikContext} from 'formik';
 import {AddFlashingFormValues} from '@features/flashing/constants';
 import {TrashIcon} from '@assets/icons';
