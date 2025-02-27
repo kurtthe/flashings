@@ -25,7 +25,7 @@ export const forms = {
             .typeError('Qty must be a number'),
           length: Yup.number()
             .required('Length is required')
-            .integer('Length must be a whole number')
+            .integer('Length must not contain decimals')
             .typeError('Length must be a number')
             .min(
               10,
