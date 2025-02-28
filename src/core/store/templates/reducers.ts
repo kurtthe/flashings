@@ -1,29 +1,31 @@
-import { TEMPLATE_STATE_TYPE } from '@models/templates';
-import { createReducer } from '@reduxjs/toolkit';
-import { actions } from '@store/templates/actions';
-import { persistReducer } from 'redux-persist';
-import { persistConfigFlashings } from '@store/config';
-import { dataTemplate } from '@store/templates/mock/templates';
+import {TEMPLATE_STATE_TYPE} from '@models/templates';
+import {createReducer} from '@reduxjs/toolkit';
+import {actions} from '@store/templates/actions';
+import {persistReducer} from 'redux-persist';
+import {persistConfigFlashings} from '@store/config';
+import {dataTemplate} from '@store/templates/mock/templates';
+import {dataTemplateTablet} from '@store/templates/mock/templatesTablet';
+import {isTablet} from '@shared/platform';
 
 const INITIAL_STATE: TEMPLATE_STATE_TYPE = {
-  templates: [...dataTemplate],
+  templates: isTablet ? [...dataTemplateTablet] : [...dataTemplate],
   templateSelected: null,
 };
 
 const templateReducer = createReducer(INITIAL_STATE, builder => {
   builder.addCase(actions.addTemplate, (state, action) => {
-    const { template } = action.payload;
+    const {template} = action.payload;
     state.templates = [
       ...state.templates,
-      { ...template, isHide: false, availableDelete: true },
+      {...template, isHide: false, availableDelete: true},
     ];
   });
   builder.addCase(actions.templateSelected, (state, action) => {
-    const { idTemplate } = action.payload;
+    const {idTemplate} = action.payload;
     state.templateSelected = idTemplate;
   });
   builder.addCase(actions.removeTemplate, (state, action) => {
-    const { idTemplate } = action.payload;
+    const {idTemplate} = action.payload;
 
     state.templates = state.templates.filter(
       templateItem => templateItem.id !== idTemplate,
@@ -31,21 +33,21 @@ const templateReducer = createReducer(INITIAL_STATE, builder => {
   });
 
   builder.addCase(actions.renameTemplate, (state, action) => {
-    const { idTemplate, newName } = action.payload;
+    const {idTemplate, newName} = action.payload;
     state.templates = state.templates.map(templateItem => ({
       ...templateItem,
       name: templateItem.id === idTemplate ? newName : templateItem.name,
     }));
   });
   builder.addCase(actions.hideTemplate, (state, action) => {
-    const { idTemplate } = action.payload;
+    const {idTemplate} = action.payload;
     state.templates = state.templates.map(templateItem => ({
       ...templateItem,
       isHide: templateItem.id === idTemplate ? true : templateItem.isHide,
     }));
   });
   builder.addCase(actions.showTemplate, (state, action) => {
-    const { idTemplate } = action.payload;
+    const {idTemplate} = action.payload;
     state.templates = state.templates.map(templateItem => ({
       ...templateItem,
       isHide: templateItem.id === idTemplate ? false : templateItem.isHide,

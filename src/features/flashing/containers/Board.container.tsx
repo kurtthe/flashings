@@ -101,7 +101,7 @@ const BoardContainer = () => {
         type: 'info',
       });
     }
-    setGirthLeft(config.maxGirth - getHowManyGirth);
+    setGirthLeft(maxGirth - getHowManyGirth);
 
     if (flashingDataDraft.dataLines.length < 2) return;
 

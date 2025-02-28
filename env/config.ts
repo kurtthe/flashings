@@ -29,7 +29,7 @@ export const config = {
   maxFolds: 7,
   maxGirth: 1200,
   maxGirthPhone: 1200,
-  maxGirthTable: 2400,
+  maxGirthTable: 3000,
   SKU_TAPERED: 'MFLTAPER',
   SKU_DEFAULT: 'MFLC10100218',
   minimumSizeLinesMM: 10,
