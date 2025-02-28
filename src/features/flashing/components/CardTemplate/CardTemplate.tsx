@@ -1,34 +1,27 @@
 import React from 'react';
-import { TemplateType } from '@models/templates';
-import {
-  BaseTouchable,
-  Box,
-  Card,
-  Icon,
-  IconButton,
-  Text,
-} from '@ui/components';
-import { Alert, Image } from 'react-native';
-import { useAppDispatch } from '@hooks/useStore';
-import { actions as templateActions } from '@store/templates/actions';
-import { useNavigation } from '@react-navigation/native';
-import { EditIcon, EyeIcon, EyeOffIcon, TrashIcon } from '@assets/icons';
+import {TemplateType} from '@models/templates';
+import {BaseTouchable, Box, Card, Icon, IconButton, Text} from '@ui/components';
+import {Alert, Image} from 'react-native';
+import {useAppDispatch} from '@hooks/useStore';
+import {actions as templateActions} from '@store/templates/actions';
+import {useNavigation} from '@react-navigation/native';
+import {EditIcon, EyeIcon, EyeOffIcon, TrashIcon} from '@assets/icons';
 import ModalNameTemplate from '@features/jobs/components/ModalNameTemplate';
-import { isTablet } from '@shared/platform';
-import { SIZE_ICON_PHONE, SIZE_ICON_TABLET } from '@theme';
+import {isTablet} from '@shared/platform';
+import {SIZE_ICON_PHONE, SIZE_ICON_TABLET} from '@theme';
 
 type Props = {
   template: TemplateType;
   showActions?: boolean;
 };
-const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
+const CardTemplate: React.FC<Props> = ({template, showActions}) => {
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const [visibleModalNameTemplate, setVisibleModalNameTemplate] =
     React.useState(false);
 
   const onCardTemplate = () => {
-    dispatch(templateActions.templateSelected({ idTemplate: template.id }));
+    dispatch(templateActions.templateSelected({idTemplate: template.id}));
     navigation.goBack();
   };
 
@@ -41,16 +34,16 @@ const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
       {
         text: 'Yes',
         onPress: () => {
-          dispatch(templateActions.removeTemplate({ idTemplate: template.id }));
+          dispatch(templateActions.removeTemplate({idTemplate: template.id}));
         },
       },
     ]);
 
   const showOrHideTemplate = () => {
     if (template.isHide) {
-      dispatch(templateActions.showTemplate({ idTemplate: template.id }));
+      dispatch(templateActions.showTemplate({idTemplate: template.id}));
     } else {
-      dispatch(templateActions.hideTemplate({ idTemplate: template.id }));
+      dispatch(templateActions.hideTemplate({idTemplate: template.id}));
     }
   };
 
@@ -67,7 +60,7 @@ const CardTemplate: React.FC<Props> = ({ template, showActions }) => {
               width={isTablet ? 240 : 110}
               height={180}
               style={{
-                transform: [{ scale: 1.8 }],
+                transform: [{scale: isTablet ? 1.3 : 1.8}],
                 top: 15,
                 left: 15,
               }}

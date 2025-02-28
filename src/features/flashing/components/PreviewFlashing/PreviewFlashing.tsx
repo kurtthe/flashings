@@ -84,14 +84,14 @@ const PreviewFlashing: React.FC<Props> = ({
         ])}>
         {imgPreview && (
           <Image
-            resizeMode={isTablet ? 'cover' : 'stretch'}
+            resizeMode={'stretch'}
             source={{uri: imgPreview}}
             width={isTablet ? 400 : 90}
             height={isTablet ? 250 : 100}
             style={{
               transform: [{scale: 1}],
-              top: 15,
-              left: 25,
+              top: isTablet ? 15 : 15,
+              left: isTablet ? 5 : 25,
             }}
           />
         )}
