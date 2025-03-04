@@ -156,7 +156,7 @@ export const calculateParallelLines = (
   lines: LINE_TYPE[],
   isRight: boolean = true,
 ): POINT_TYPE[][] => {
-  const offset = 10;
+  const offset = 25;
   return lines.map((line, index, arrayLines): POINT_TYPE[] => {
     const currentLineParallel = getPointParallel({line, isRight, offset});
     const previousLine = arrayLines[index - 1];
