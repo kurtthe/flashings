@@ -283,6 +283,16 @@ export const dataMaterials: MATERIALS[] = [
   },
   {
     id: 26,
+    value: 'Dune',
+    material: 'Colorbond',
+    label: 'Dune®',
+    bgColor: '#B1ADA3',
+    textColor: 'white',
+    bold: false,
+    disabled: false,
+  },
+  {
+    id: 27,
     value: 'Ebony',
     material: 'Colorbond',
     label: 'Ebony®',
@@ -292,7 +302,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: false,
   },
   {
-    id: 27,
+    id: 28,
     value: 'Monolith',
     material: 'Colorbond',
     label: 'Monolith®',
@@ -302,7 +312,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: false,
   },
   {
-    id: 28,
+    id: 29,
     value: 'Off White',
     material: 'Colorbond',
     label: 'Off White®',
@@ -312,7 +322,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: false,
   },
   {
-    id: 29,
+    id: 30,
     value: 'Southerly',
     material: 'Colorbond',
     label: 'Southerly®',
@@ -332,7 +342,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: true,
   },
   {
-    id: 30,
+    id: 31,
     material: 'Colorbond Matt',
     value: 'Basalt (Matt Finish)',
     label: 'Basalt® (Matt Finish)',
@@ -342,7 +352,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: false,
   },
   {
-    id: 31,
+    id: 32,
     material: 'Colorbond Matt',
     value: 'Bluegum (Matt Finish)',
     label: 'Bluegum® (Matt Finish)',
@@ -352,7 +362,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: false,
   },
   {
-    id: 32,
+    id: 33,
     material: 'Colorbond Matt',
     value: 'Dune (Matt Finish)',
     label: 'Dune® (Matt Finish)',
@@ -362,7 +372,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: false,
   },
   {
-    id: 33,
+    id: 34,
     material: 'Colorbond Matt',
     value: 'Monument (Matt Finish)',
     label: 'Monument® (Matt Finish)',
@@ -372,7 +382,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: false,
   },
   {
-    id: 34,
+    id: 35,
     material: 'Colorbond Matt',
     value: 'Shale Grey (Matt Finish)',
     label: 'Shale Grey™ (Matt Finish)',
@@ -382,7 +392,7 @@ export const dataMaterials: MATERIALS[] = [
     disabled: false,
   },
   {
-    id: 35,
+    id: 36,
     material: 'Colorbond Matt',
     value: 'Surfmist (Matt Finish)',
     label: 'Surfmist® (Matt Finish)',
