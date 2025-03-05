@@ -1,4 +1,11 @@
 {
   "name": "flashings",
-  "displayName": "flashings"
+  "displayName": "flashings",
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "5cecc600-2306-49f6-820b-70ab66720ace"
+      }
+    }
+  }
 }
