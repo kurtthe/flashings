@@ -20,10 +20,11 @@ const CreateOrderForm: React.FC<Props> = ({isLoading}) => {
   const {data: stores, refetch} = useGetStores();
   const {data: dataFieldsOrderValidations} = useGetOrderValidations();
 
-  const {isValid, handleSubmit, values, setFieldValue} =
+  const {isValid, handleSubmit, values, setFieldValue, setErrors} =
     useFormikContext<CreateOrderFormValues>();
 
   const showAddressDelivery = React.useMemo(() => {
+    // setErrors(formKeys.createOrder.address, '');
     return values[formKeys.createOrder.deliveryOrPickUp] !== optionsDelivery[1];
   }, [values[formKeys.createOrder.deliveryOrPickUp]]);
 
@@ -100,14 +101,16 @@ const OrderFormFields: React.FC<any> = ({
       title={forms.createOrder.labels[formKeys.createOrder.quote_only]}
       options={[{label: '1', checked: true}]}
     />
+
     {showAddressDelivery && (
       <FieldInput
-        isRequired
+        isRequired={showAddressDelivery}
         name={formKeys.createOrder.address}
         label={forms.createOrder.labels[formKeys.createOrder.address]}
         my="s"
       />
     )}
+
     {dataFieldsOrderValidations && (
       <FieldArray
         name={formKeys.createOrder.burdens_data}
