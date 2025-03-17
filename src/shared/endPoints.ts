@@ -16,4 +16,5 @@ export const endPoints = {
   orderValidations: `/burdens/validation-rules`,
   getVersionApp: `/app-version/burdens-flashings-app`,
   loginDashboard: `/dashboard`,
+  addJobFile: `/jobs/25/files/upload`,
 };

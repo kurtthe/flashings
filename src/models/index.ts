@@ -2,6 +2,7 @@ export * from './auth';
 export * from './jobs';
 export * from './flashings';
 export * from './order';
+export * from './files';
 
 export type DATA_HOOK = {
   onSuccess?: (data: unknown) => void;

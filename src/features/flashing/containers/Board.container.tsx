@@ -372,6 +372,7 @@ const BoardContainer = () => {
           flashing: {
             ...flashingDataDraft,
             imgPreview: `data:image/png;base64,${dataB64Preview}`,
+            urlImage: uriScreen,
           },
         }),
       );

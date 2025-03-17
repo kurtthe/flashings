@@ -35,6 +35,8 @@ import {formatDate} from '@shared/utils/formatDate';
 import Toast from 'react-native-toast-message';
 import {CreateOrderFormValues} from '@models/order';
 import {useCompareVersionApp} from '@hooks/useCompareVersionApp';
+import {useUploadJobFiles} from '@hooks/files/useFiles';
+import {mapFilesFormData} from '@shared/utils/formData';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
@@ -63,7 +65,11 @@ const OrderForm = () => {
   const storeSelected = useAppSelector(getStoreSelectedOrder);
   const {versionApp} = useCompareVersionApp();
 
-  const {mutate: createJob, isLoading} = useAddDataJob({
+  const {mutate: uploadFile, isLoading} = useUploadJobFiles(data => {
+    console.log('==> uploaded', JSON.stringify(data));
+  });
+
+  const {mutate: createJob} = useAddDataJob({
     onSuccess: (data: any) => {
       if (!jobOrder || !dataSupplier || !storeSelected) return;
       const fileName = data.response.file_name;
@@ -177,6 +183,13 @@ const OrderForm = () => {
         howManyFlashings: jobOrder.flashings.length,
       });
       dispatch(orderActions.fillOrder({data: values}));
+
+      if (!jobOrder.flashings) return;
+      const arrayFiles = jobOrder.flashings.map(
+        flashingItem => flashingItem.urlImage || '',
+      );
+      const filesAdd = mapFilesFormData(arrayFiles);
+      uploadFile({files: filesAdd});
     },
     [dataSupplier, dataUser, versionApp],
   );

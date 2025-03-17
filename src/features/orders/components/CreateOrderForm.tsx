@@ -20,7 +20,7 @@ const CreateOrderForm: React.FC<Props> = ({isLoading}) => {
   const {data: stores, refetch} = useGetStores();
   const {data: dataFieldsOrderValidations} = useGetOrderValidations();
 
-  const {isValid, handleSubmit, values, setFieldValue, setErrors} =
+  const {isValid, handleSubmit, values, setFieldValue} =
     useFormikContext<CreateOrderFormValues>();
 
   const showAddressDelivery = React.useMemo(() => {
@@ -84,18 +84,21 @@ const OrderFormFields: React.FC<any> = ({
       options={optionsStore}
       label={forms.createOrder.labels[formKeys.createOrder.store]}
     />
+
     <FieldInputDateTime
       isRequired
       name={formKeys.createOrder.date}
       typeFormat="date"
       label={forms.createOrder.labels[formKeys.createOrder.date]}
     />
+
     <FieldSelect
       isRequired
       name={formKeys.createOrder.deliveryOrPickUp}
       options={optionsDeliveryOrPickUp}
       label={forms.createOrder.labels[formKeys.createOrder.deliveryOrPickUp]}
     />
+
     <FieldCheckbox
       name={formKeys.createOrder.quote_only}
       title={forms.createOrder.labels[formKeys.createOrder.quote_only]}
@@ -115,6 +118,7 @@ const OrderFormFields: React.FC<any> = ({
       <FieldArray
         name={formKeys.createOrder.burdens_data}
         render={() =>
+          //@ts-ignore
           values[formKeys.createOrder.burdens_data].map((_, index) => (
             <FieldInput
               key={`input-burdens-data${index}`}
@@ -128,6 +132,7 @@ const OrderFormFields: React.FC<any> = ({
         }
       />
     )}
+
     <FieldInput
       name={formKeys.createOrder.comments}
       label={forms.createOrder.labels[formKeys.createOrder.comments]}

@@ -21,6 +21,7 @@ export type FLASHINGS_DATA = {
   endType: TYPE_END_LINES;
   startType: TYPE_END_LINES;
   imgPreview: string | undefined;
+  urlImage: string | undefined;
   date_created: string;
   date_updated: string;
   tapered:
