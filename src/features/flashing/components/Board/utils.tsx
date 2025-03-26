@@ -57,11 +57,12 @@ export const drawParallelLines = (
 export const positionTextLabels = (
   lines: LINE_TYPE[],
   rightLinePaint = true,
+  isTable = false,
 ) => {
   if (!lines.length || lines[0].points.length <= 1) {
     return null;
   }
-  // const data = calculateParallelLines(lines, rightLinePaint);
+  const data = calculateParallelLines(lines, rightLinePaint, isTable);
 
   return lines.map(itemLine => itemLine.points);
 };

@@ -15,7 +15,7 @@ type Props = {
 };
 
 const TextSvg: React.FC<Props> = ({
-  fontSize = isTablet ? 17 : 14,
+  fontSize,
   colorLabel = '#000',
   positionTextX,
   positionTextY,
@@ -40,7 +40,7 @@ const TextSvg: React.FC<Props> = ({
       y={positionTextY}
       x={positionTextX}
       transform={`rotate(${Math.abs(pending)}, ${positionTextX}, ${positionTextY})`}
-      fontSize={fontSize}>
+      fontSize={isTablet ? 24 : 14}>
       {textValue}
     </Text>
   );

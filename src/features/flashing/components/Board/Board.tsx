@@ -115,6 +115,7 @@ const Board: React.FC<Props> = ({
       positionTextLabels(
         flashingDataDraft.dataLines,
         !flashingDataDraft.parallelRight,
+        isTablet,
       ),
     );
     setGraphs(makingLines);
