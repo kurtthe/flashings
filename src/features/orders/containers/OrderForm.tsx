@@ -1,5 +1,5 @@
-import React from 'react';
-import {Formik} from 'formik';
+import React, {useRef} from 'react';
+import {Formik, FormikProps} from 'formik';
 import {formKeys, forms} from '../constants';
 import CreateOrderForm from '@features/orders/components/CreateOrderForm';
 import DismissKeyboardPressable from '@components/forms/DismissKeyboardPressable';
@@ -35,10 +35,11 @@ import {formatDate} from '@shared/utils/formatDate';
 import Toast from 'react-native-toast-message';
 import {CreateOrderFormValues} from '@models/order';
 import {useCompareVersionApp} from '@hooks/useCompareVersionApp';
+import {STORE_BURNED} from '@models/index';
 
 const OrderForm = () => {
   const dispatch = useAppDispatch();
-
+  const refForm = useRef<FormikProps<CreateOrderFormValues>>(null);
   const navigation = useNavigation<OrdersStackProps>();
   const jobOrder = useAppSelector(getJobOrder);
   const fillOrderData = useAppSelector(getFillOrder);
@@ -124,24 +125,23 @@ const OrderForm = () => {
     setInitialValueForm({...fillOrderData});
   }, [fillOrderData]);
 
+  const dataStoreSelected = React.useMemo(() => {
+    const store = refForm.current?.values[formKeys.createOrder.store];
+    const storesSelected = stores?.find(
+      itemStore => store === itemStore.id.toString(),
+    );
+    if (!storesSelected) {
+      return STORE_BURNED;
+    }
+
+    dispatch(orderActions.setStoreSelected({dataStore: dataStoreSelected}));
+    return storesSelected;
+  }, [stores, refForm.current?.values]);
+
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
       if (!jobOrder || !values || !dataUser || !dataAccountCompany) return;
 
-      const dataStoreSelected = stores?.find(
-        itemStore =>
-          values[formKeys.createOrder.store] === itemStore.id.toString(),
-      );
-      if (!dataStoreSelected || !versionApp) {
-        Toast.show({
-          position: 'bottom',
-          text1: 'Please try again',
-          type: 'info',
-        });
-        return;
-      }
-
-      dispatch(orderActions.setStoreSelected({dataStore: dataStoreSelected}));
       //@ts-ignore
       const [day, month, year] = values[formKeys.createOrder.date]?.split('/');
       setDateFormated(`${year}-${month}-${day}`);
@@ -178,12 +178,14 @@ const OrderForm = () => {
       });
       dispatch(orderActions.fillOrder({data: values}));
     },
-    [dataSupplier, dataUser, versionApp],
+
+    [dataSupplier, dataUser, versionApp, dataStoreSelected],
   );
 
   return (
     <DismissKeyboardPressable>
       <Formik
+        innerRef={refForm}
         enableReinitialize
         initialErrors={forms.createOrder.initialErrors}
         initialValues={initialValueForm}

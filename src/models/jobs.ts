@@ -68,6 +68,24 @@ export type STORE_RESPONSE = {
   locations: STORE[];
 };
 
+export const STORE_BURNED = {
+  id: 10,
+  store_id: 1,
+  name: 'Dandenong South VIC 3175',
+  lat_lng: '-38.0199584,145.2130819',
+  address: '203 Frankston - Dandenong Rd Dandenong South, VIC Australia 3175',
+  phone_number: '(03) 9703 8484',
+  email: 'dandenong@burdens.com.au',
+  manager: 'Brent Murdoch',
+  manager_email: 'brent.murdoch@burdens.com.au',
+  opening_hours: [
+    {
+      title: 'Monday-Friday',
+      time: '08:00-16:30',
+    },
+  ],
+};
+
 export type STORE = {
   id: number;
   store_id: number;
