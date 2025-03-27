@@ -32,7 +32,6 @@ import {
 import {baseUrlPDF} from '@shared/endPoints';
 import {config} from '@env/config';
 import {formatDate} from '@shared/utils/formatDate';
-import Toast from 'react-native-toast-message';
 import {CreateOrderFormValues} from '@models/order';
 import {useCompareVersionApp} from '@hooks/useCompareVersionApp';
 import {STORE_BURNED} from '@models/index';
@@ -61,12 +60,25 @@ const OrderForm = () => {
   const {data: dataAccountCompany} = useGetAccountAndCompany();
   const {data: dataSupplier} = useGetSupplier();
   const {data: stores} = useGetStores();
-  const storeSelected = useAppSelector(getStoreSelectedOrder);
   const {versionApp} = useCompareVersionApp();
+
+  const dataStoreSelected = React.useMemo(() => {
+    const store = refForm.current?.values[formKeys.createOrder.store];
+    const storesSelected = stores?.find(
+      itemStore => store === itemStore.id.toString(),
+    );
+    if (!storesSelected) {
+      return STORE_BURNED;
+    }
+
+    dispatch(orderActions.setStoreSelected({dataStore: dataStoreSelected}));
+    return storesSelected;
+  }, [stores, refForm.current?.values]);
 
   const {mutate: createJob, isLoading} = useAddDataJob({
     onSuccess: (data: any) => {
-      if (!jobOrder || !dataSupplier || !storeSelected) return;
+      if (!jobOrder || !dataSupplier || !dataStoreSelected) return;
+
       const fileName = data.response.file_name;
 
       const dataMaterial = buildDataMaterialOrder(
@@ -108,7 +120,7 @@ const OrderForm = () => {
         orderActions.setMessageEmail({
           message: `${config.messageToShared} 
               ${isQuoteOnly ? '-Quote Only-' : ''}
-              Store: ${storeSelected.name}
+              Store: ${dataStoreSelected.name}
               Date: ${dateFormated}
               Delivery or pickup: ${deliveryOrPickUp}
               Address ${deliveryOrPickUp}: ${addressDelivery}`,
@@ -124,19 +136,6 @@ const OrderForm = () => {
     //@ts-ignore
     setInitialValueForm({...fillOrderData});
   }, [fillOrderData]);
-
-  const dataStoreSelected = React.useMemo(() => {
-    const store = refForm.current?.values[formKeys.createOrder.store];
-    const storesSelected = stores?.find(
-      itemStore => store === itemStore.id.toString(),
-    );
-    if (!storesSelected) {
-      return STORE_BURNED;
-    }
-
-    dispatch(orderActions.setStoreSelected({dataStore: dataStoreSelected}));
-    return storesSelected;
-  }, [stores, refForm.current?.values]);
 
   const handleSubmit = React.useCallback(
     (values: CreateOrderFormValues) => {
