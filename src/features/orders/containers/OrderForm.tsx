@@ -71,7 +71,11 @@ const OrderForm = () => {
       return STORE_BURNED;
     }
 
-    dispatch(orderActions.setStoreSelected({dataStore: dataStoreSelected}));
+    dispatch(
+      orderActions.setStoreSelected({
+        dataStore: storesSelected || STORE_BURNED,
+      }),
+    );
     return storesSelected;
   }, [stores, refForm.current?.values]);
 

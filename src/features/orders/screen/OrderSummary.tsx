@@ -46,7 +46,7 @@ const OrderSummaryScreen: React.FC = () => {
         setOrderNumber(orderNumber);
         setOrderId(orderId.toString());
 
-        if (!storeSelected) return;
+        if (!storeSelected || !dataUser) return;
 
         setTimeout(() => {
           sharedMaterialOrder({
